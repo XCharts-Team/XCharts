@@ -105,7 +105,7 @@ slug: /api
 ## AnimationStyleHelper
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |CheckDataAnimation()||public static float CheckDataAnimation(BaseChart chart, Serie serie, int dataIndex, float destProgress, float startPorgress = 0)|
 |GetAnimationPosition()||public static bool GetAnimationPosition(AnimationStyle animation, bool isY, Vector3 lp, Vector3 cp, float progress, ref Vector3 ip)|
 |UpdateAnimationType()||public static void UpdateAnimationType(AnimationStyle animation, AnimationType defaultType)|
@@ -122,7 +122,7 @@ Inherits or Implemented: [MainComponentHandler](#maincomponenthandler)
 ## AxisHelper
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |AdjustCircleLabelPos()||public static void AdjustCircleLabelPos(ChartLabel txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)|
 |AdjustMinMaxValue()||public static void AdjustMinMaxValue(Axis axis, ref double minValue, ref double maxValue, bool needFormat, double ceilRate = 0)<br/>调整最大最小值 |
 |AdjustRadiusAxisLabelPos()||public static void AdjustRadiusAxisLabelPos(ChartLabel txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)|
@@ -154,7 +154,7 @@ Inherits or Implemented: [BaseChart](#basechart)
 Inherits or Implemented: [BaseGraph](#basegraph),[ISerializationCallbackReceiver](#iserializationcallbackreceiver)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |onAxisPointerValueChanged||public Action&lt;Axis, double&gt; onAxisPointerValueChanged<br/>坐标轴变更数据索引时回调。参数：axis, dataIndex/dataValue |
 |onDraw||public Action&lt;VertexHelper&gt; onDraw<br/>自定义绘制回调。在绘制Serie前调用。 |
 |onDrawAfterSerie||public Action&lt;VertexHelper, Serie&gt; onDrawAfterSerie<br/>自定义Serie绘制回调。在每个Serie绘制完后调用。 |
@@ -342,7 +342,7 @@ Inherits or Implemented: [BaseGraph](#basegraph),[ISerializationCallbackReceiver
 Inherits or Implemented: [MaskableGraphic](#maskablegraphic),[IPointerDownHandler](#ipointerdownhandler),[IPointerUpHandler](#ipointeruphandler),[](#)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |onBeginDrag||public Action&lt;PointerEventData, BaseGraph&gt; onBeginDrag<br/>鼠标开始拖拽回调。 |
 |onDrag||public Action&lt;PointerEventData, BaseGraph&gt; onDrag<br/>鼠标拖拽回调。 |
 |onEndDrag||public Action&lt;PointerEventData, BaseGraph&gt; onEndDrag<br/>鼠标结束拖拽回调。 |
@@ -377,7 +377,7 @@ Inherits or Implemented: [BaseChart](#basechart)
 ## ChartCached
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |ColorToDotStr()||public static string ColorToDotStr(Color color)|
 |ColorToStr()||public static string ColorToStr(Color color)|
 |FloatToStr()||public static string FloatToStr(double value, string numericFormatter = "F", int precision = 0)|
@@ -392,7 +392,7 @@ Inherits or Implemented: [BaseChart](#basechart)
 ## ChartHelper
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |ActiveAllObject()||public static void ActiveAllObject(Transform parent, bool active, string match = null)|
 |AddIcon()||public static Image AddIcon(string name, Transform parent, IconStyle iconStyle)|
 |Cancat()||public static string Cancat(string str1, int i)|
@@ -459,7 +459,7 @@ Inherits or Implemented: [BaseChart](#basechart)
 Inherits or Implemented: [Image](#image)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |GetHeight()||public float GetHeight()|
 |GetPosition()||public Vector3 GetPosition()|
 |GetTextHeight()||public float GetTextHeight()|
@@ -485,20 +485,20 @@ Inherits or Implemented: [Image](#image)
 ## ChartObject
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |Destroy()||public virtual void Destroy()|
 
 ## CheckHelper
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |CheckChart()||public static string CheckChart(BaseChart chart)|
 |CheckChart()||public static string CheckChart(BaseGraph chart)|
 
 ## ColorUtil
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |GetColor()||public static Color32 GetColor(string hexColorStr)<br/>Convert the html string to color. |
 
 ## ComponentHandlerAttribute
@@ -506,14 +506,14 @@ Inherits or Implemented: [Image](#image)
 Inherits or Implemented: [Attribute](#attribute)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |ComponentHandlerAttribute()||public ComponentHandlerAttribute(Type handler)|
 |ComponentHandlerAttribute()||public ComponentHandlerAttribute(Type handler, bool allowMultiple)|
 
 ## ComponentHelper
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |GetAngleAxis()||public static AngleAxis GetAngleAxis(List&lt;MainComponent&gt; components, int polarIndex)|
 |GetRadiusAxis()||public static RadiusAxis GetRadiusAxis(List&lt;MainComponent&gt; components, int polarIndex)|
 |GetXAxisOnZeroOffset()||public static float GetXAxisOnZeroOffset(List&lt;MainComponent&gt; components, XAxis axis)|
@@ -525,7 +525,7 @@ Inherits or Implemented: [Attribute](#attribute)
 Inherits or Implemented: [Attribute](#attribute)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |Contains&lt;T&gt;()||public bool Contains&lt;T&gt;() where T : CoordSystem|
 |CoordOptionsAttribute()||public CoordOptionsAttribute(Type coord)|
 |CoordOptionsAttribute()||public CoordOptionsAttribute(Type coord, Type coord2)|
@@ -539,14 +539,14 @@ Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 ## DataZoomHelper
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |UpdateDataZoomRuntimeStartEndValue()||public static void UpdateDataZoomRuntimeStartEndValue(DataZoom dataZoom, Serie serie)|
 |UpdateDataZoomRuntimeStartEndValue&lt;T&gt;()||public static void UpdateDataZoomRuntimeStartEndValue&lt;T&gt;(BaseChart chart) where T : Serie|
 
 ## DateTimeUtil
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |GetDateTime()||public static DateTime GetDateTime(int timestamp)|
 |GetTimestamp()||public static int GetTimestamp()|
 |GetTimestamp()||public static int GetTimestamp(DateTime time)|
@@ -556,20 +556,20 @@ Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 Inherits or Implemented: [Attribute](#attribute)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |DefaultAnimationAttribute()||public DefaultAnimationAttribute(AnimationType handler)|
 
 ## DefineSymbolsUtil
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |AddGlobalDefine()||public static void AddGlobalDefine(string symbol)|
 |RemoveGlobalDefine()||public static void RemoveGlobalDefine(string symbol)|
 
 ## FormatterHelper
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |NeedFormat()||public static bool NeedFormat(string content)|
 |ReplaceAxisLabelContent()||public static void ReplaceAxisLabelContent(ref string content, string numericFormatter, double value)|
 |ReplaceAxisLabelContent()||public static void ReplaceAxisLabelContent(ref string content, string value)|
@@ -589,20 +589,20 @@ Inherits or Implemented: [BaseChart](#basechart)
 Inherits or Implemented: [Attribute](#attribute)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |IgnoreDoc()||public IgnoreDoc()|
 
 ## InputHelper
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |GetKeyDown()||public static bool GetKeyDown(KeyCode keyCode)|
 |GetTouch()||public static Touch GetTouch(int v)|
 
 ## InteractData
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |Reset()||public void Reset()|
 |SetColor()||public void SetColor(ref bool needInteract, Color32 color)|
 |SetColor()||public void SetColor(ref bool needInteract, Color32 color, Color32 toColor)|
@@ -618,7 +618,7 @@ Inherits or Implemented: [Attribute](#attribute)
 ## LayerHelper
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |IsFixedWidthHeight()||public static bool IsFixedWidthHeight(RectTransform rt)|
 |IsStretchPivot()||public static bool IsStretchPivot(RectTransform rt)|
 
@@ -629,7 +629,7 @@ Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 ## LegendHelper
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |CheckDataHighlighted()||public static bool CheckDataHighlighted(Serie serie, string legendName, bool heighlight)|
 |CheckDataShow()||public static bool CheckDataShow(Serie serie, string legendName, bool show)|
 |GetContentColor()||public static Color GetContentColor(BaseChart chart, int legendIndex, string legendName, Legend legend, ThemeStyle theme, bool active)|
@@ -640,7 +640,7 @@ Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 ## LegendItem
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |GetIconColor()||public Color GetIconColor()|
 |GetIconRect()||public Rect GetIconRect()|
 |SetActive()||public void SetActive(bool active)|
@@ -669,7 +669,7 @@ Inherits or Implemented: [BaseChart](#basechart)
 Inherits or Implemented: [Attribute](#attribute)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |ListFor()||public ListFor(Type type)|
 
 ## ListForComponent
@@ -677,7 +677,7 @@ Inherits or Implemented: [Attribute](#attribute)
 Inherits or Implemented: [ListFor](#listfor)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |ListForComponent()||public ListForComponent(Type type) : base(type)|
 
 ## ListForSerie
@@ -685,7 +685,7 @@ Inherits or Implemented: [ListFor](#listfor)
 Inherits or Implemented: [ListFor](#listfor)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |ListForSerie()||public ListForSerie(Type type) : base(type)|
 
 ## MainComponentContext
@@ -693,7 +693,7 @@ Inherits or Implemented: [ListFor](#listfor)
 ## MainComponentHandler
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |CheckComponent()||public virtual void CheckComponent(StringBuilder sb) { }|
 |DrawBase()||public virtual void DrawBase(VertexHelper vh) { }|
 |DrawTop()||public virtual void DrawTop(VertexHelper vh) { }|
@@ -719,7 +719,7 @@ Inherits or Implemented: [MainComponentHandler](#maincomponenthandler)
 ## MathUtil
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |Abs()||public static double Abs(double d)|
 |Approximately()||public static bool Approximately(double a, double b)|
 |Clamp()||public static double Clamp(double d, double min, double max)|
@@ -733,7 +733,7 @@ Inherits or Implemented: [MainComponentHandler](#maincomponenthandler)
 Inherits or Implemented: [new()](#new())
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |ClearAll()||public void ClearAll()|
 |Get()||public T Get()|
 |new()||public class ObjectPool&lt;T&gt; where T : new()|
@@ -745,7 +745,7 @@ Inherits or Implemented: [new()](#new())
 Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |onPopulateMesh||public Action&lt;VertexHelper, Painter&gt; onPopulateMesh|
 |CheckRefresh()||public void CheckRefresh()|
 |Init()||public void Init()|
@@ -775,7 +775,7 @@ Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 ## PropertyUtil
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |SetClass&lt;T&gt;()||public static bool SetClass&lt;T&gt;(ref T currentValue, T newValue, bool notNull = false) where T : class|
 |SetColor()||public static bool SetColor(ref Color currentValue, Color newValue)|
 |SetColor()||public static bool SetColor(ref Color32 currentValue, Color32 newValue)|
@@ -792,7 +792,7 @@ Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 ## ReflectionUtil
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |DeepCloneSerializeField()||public static object DeepCloneSerializeField(object obj)|
 |InvokeListAdd()||public static void InvokeListAdd(object obj, FieldInfo field, object item)|
 |InvokeListAddTo&lt;T&gt;()||public static void InvokeListAddTo&lt;T&gt;(object obj, FieldInfo field, Action&lt;T&gt; callback)|
@@ -805,7 +805,7 @@ Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 Inherits or Implemented: [Attribute](#attribute)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |RequireChartComponentAttribute()||public RequireChartComponentAttribute(Type requiredComponent)|
 |RequireChartComponentAttribute()||public RequireChartComponentAttribute(Type requiredComponent, Type requiredComponent2)|
 |RequireChartComponentAttribute()||public RequireChartComponentAttribute(Type requiredComponent, Type requiredComponent2, Type requiredComponent3)|
@@ -817,7 +817,7 @@ Inherits or Implemented: [BaseChart](#basechart)
 ## RuntimeUtil
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |GetAllAssemblyTypes()||public static IEnumerable&lt;Type&gt; GetAllAssemblyTypes()|
 |GetAllTypesDerivedFrom()||public static IEnumerable&lt;Type&gt; GetAllTypesDerivedFrom(Type type)|
 |GetAllTypesDerivedFrom&lt;T&gt;()||public static IEnumerable&lt;Type&gt; GetAllTypesDerivedFrom&lt;T&gt;()|
@@ -834,7 +834,7 @@ Inherits or Implemented: [BaseChart](#basechart)
 Inherits or Implemented: [Attribute](#attribute)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |Contains()||public bool Contains(Type type)|
 |Contains&lt;T&gt;()||public bool Contains&lt;T&gt;() where T : ISerieComponent|
 |SerieComponentAttribute()||public SerieComponentAttribute()|
@@ -853,7 +853,7 @@ Inherits or Implemented: [Attribute](#attribute)
 Inherits or Implemented: [Attribute](#attribute)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |Contains()||public bool Contains(Type type)|
 |Contains&lt;T&gt;()||public bool Contains&lt;T&gt;() where T : Serie|
 |SerieConvertAttribute()||public SerieConvertAttribute(Type serie)|
@@ -866,7 +866,7 @@ Inherits or Implemented: [Attribute](#attribute)
 Inherits or Implemented: [Attribute](#attribute)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |Contains()||public bool Contains(Type type)|
 |Contains&lt;T&gt;()||public bool Contains&lt;T&gt;() where T : ISerieComponent|
 |SerieDataComponentAttribute()||public SerieDataComponentAttribute()|
@@ -881,7 +881,7 @@ Inherits or Implemented: [Attribute](#attribute)
 ## SerieDataContext
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |Reset()||public void Reset()|
 
 ## SerieDataExtraFieldAttribute
@@ -889,7 +889,7 @@ Inherits or Implemented: [Attribute](#attribute)
 Inherits or Implemented: [Attribute](#attribute)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |Contains()||public bool Contains(string field)|
 |SerieDataExtraFieldAttribute()||public SerieDataExtraFieldAttribute()|
 |SerieDataExtraFieldAttribute()||public SerieDataExtraFieldAttribute(string field1)|
@@ -903,20 +903,20 @@ Inherits or Implemented: [Attribute](#attribute)
 ## SerieEventData
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |Reset()||public void Reset()|
 
 ## SerieEventDataPool
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |Get()||public static SerieEventData Get(Vector3 pos, int serieIndex, int dataIndex, int dimension, double value)|
 |Release()||public static void Release(SerieEventData toRelease)|
 
 ## SerieHandler
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |CheckComponent()||public virtual void CheckComponent(StringBuilder sb) { }|
 |DrawBase()||public virtual void DrawBase(VertexHelper vh) { }|
 |DrawSerie()||public virtual void DrawSerie(VertexHelper vh) { }|
@@ -946,7 +946,7 @@ Inherits or Implemented: [Attribute](#attribute)
 Inherits or Implemented: [SerieHandler where T](#seriehandler where t),[Serie](#serie)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |DrawLabelLineSymbol()||public void DrawLabelLineSymbol(VertexHelper vh, LabelLine labelLine, Vector3 startPos, Vector3 endPos, Color32 defaultColor)|
 |GetPointerItemDataDimension()||public override int GetPointerItemDataDimension()|
 |GetPointerItemDataIndex()||public override int GetPointerItemDataIndex()|
@@ -971,14 +971,14 @@ Inherits or Implemented: [SerieHandler where T](#seriehandler where t),[Serie](#
 Inherits or Implemented: [Attribute](#attribute)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |SerieHandlerAttribute()||public SerieHandlerAttribute(Type handler)|
 |SerieHandlerAttribute()||public SerieHandlerAttribute(Type handler, bool allowMultiple)|
 
 ## SerieHelper
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |CloneSerie&lt;T&gt;()||public static T CloneSerie&lt;T&gt;(Serie serie) where T : Serie|
 |CopySerie()||public static void CopySerie(Serie oldSerie, Serie newSerie)|
 |GetAllMinMaxData()||public static void GetAllMinMaxData(Serie serie, double ceilRate = 0, DataZoom dataZoom = null)|
@@ -1020,7 +1020,7 @@ Inherits or Implemented: [Attribute](#attribute)
 ## SerieLabelHelper
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |AvoidLabelOverlap()||public static void AvoidLabelOverlap(Serie serie, ComponentTheme theme)|
 |CanShowLabel()||public static bool CanShowLabel(Serie serie, SerieData serieData, LabelStyle label, int dimesion)|
 |GetLabelColor()||public static Color GetLabelColor(Serie serie, ThemeStyle theme, int index)|
@@ -1031,7 +1031,7 @@ Inherits or Implemented: [Attribute](#attribute)
 ## SerieLabelPool
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |ClearAll()||public static void ClearAll()|
 |Release()||public static void Release(GameObject element)|
 |ReleaseAll()||public static void ReleaseAll(Transform parent)|
@@ -1041,7 +1041,7 @@ Inherits or Implemented: [Attribute](#attribute)
 ## SeriesHelper
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |GetLastStackSerie()||public static Serie GetLastStackSerie(List&lt;Serie&gt; series, Serie serie)<br/>获得上一个同堆叠且显示的serie。 |
 |GetLegalSerieNameList()||public static List&lt;string&gt; GetLegalSerieNameList(List&lt;Serie&gt; series)|
 |GetMaxSerieDataCount()||public static int GetMaxSerieDataCount(List&lt;Serie&gt; series)|
@@ -1073,13 +1073,13 @@ Inherits or Implemented: [BaseChart](#basechart)
 Inherits or Implemented: [Attribute](#attribute)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |Since()||public Since(string version)|
 
 ## SVG
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |DrawPath()||public static void DrawPath(VertexHelper vh, string path)|
 |DrawPath()||public static void DrawPath(VertexHelper vh, SVGPath path)|
 |Test()||public static void Test(VertexHelper vh)|
@@ -1091,7 +1091,7 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 ## SVGPath
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |AddSegment()||public void AddSegment(SVGPathSeg seg)|
 |Draw()||public void Draw(VertexHelper vh)|
 |Parse()||public static SVGPath Parse(string path)|
@@ -1099,7 +1099,7 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 ## SVGPathSeg
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |SVGPathSeg()||public SVGPathSeg(SVGPathSegType type)|
 
 ## TooltipContext
@@ -1109,7 +1109,7 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 ## TooltipHelper
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |GetItemNumericFormatter()||public static string GetItemNumericFormatter(Tooltip tooltip, Serie serie, SerieData serieData)|
 |GetLineColor()||public static Color32 GetLineColor(Tooltip tooltip, Color32 defaultColor)|
 |IsIgnoreFormatter()||public static bool IsIgnoreFormatter(string itemFormatter)|
@@ -1118,7 +1118,7 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 ## TooltipView
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |CreateView()||public static TooltipView CreateView(Tooltip tooltip, ThemeStyle theme, Transform parent)|
 |GetCurrentPos()||public Vector3 GetCurrentPos()|
 |GetTargetPos()||public Vector3 GetTargetPos()|
@@ -1132,7 +1132,7 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 ## UGL
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |DrawDiamond()||public static void DrawDiamond(VertexHelper vh, Vector3 center, float size, Color32 color)<br/>Draw a diamond. 画菱形（钻石形状） |
 |DrawDiamond()||public static void DrawDiamond(VertexHelper vh, Vector3 center, float size, Color32 color, Color32 toColor)<br/>Draw a diamond. 画菱形（钻石形状） |
 |DrawEllipse()||public static void DrawEllipse(VertexHelper vh, Vector3 center, float w, float h, Color32 color, float smoothness = 1)|
@@ -1157,7 +1157,7 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 ## UGLHelper
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |GetAngle360()||public static float GetAngle360(Vector2 from, Vector2 to)<br/>获得0-360的角度（12点钟方向为0度） |
 |GetBezier()||public static Vector3 GetBezier(float t, Vector3 sp, Vector3 cp, Vector3 ep)|
 |GetBezier2()||public static Vector3 GetBezier2(float t, Vector3 sp, Vector3 p1, Vector3 p2, Vector3 ep)|
@@ -1188,7 +1188,7 @@ Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 ## VisualMapHelper
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |AutoSetLineMinMax()||public static void AutoSetLineMinMax(VisualMap visualMap, Serie serie, bool isY, Axis axis, Axis relativedAxis)|
 |GetDimension()||public static int GetDimension(VisualMap visualMap, int defaultDimension)|
 |IsNeedAreaGradient()||public static bool IsNeedAreaGradient(VisualMap visualMap)|
@@ -1199,7 +1199,7 @@ Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 ## XChartsMgr
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |AddChart()||public static void AddChart(BaseChart chart)|
 |ContainsChart()||public static bool ContainsChart(BaseChart chart)|
 |ContainsChart()||public static bool ContainsChart(string chartName)|
@@ -1216,13 +1216,13 @@ Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 Inherits or Implemented: [UnityEditor.EditorWindow](#unityeditor.editorwindow)
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |ShowPackageImporterWindow()||public static void ShowPackageImporterWindow()|
 
 ## XCThemeMgr
 
 |public method|since|description|
-|--|--|
+|--|--|--|
 |AddTheme()||public static void AddTheme(Theme theme)|
 |CheckReloadTheme()||public static void CheckReloadTheme()|
 |ContainsTheme()||public static bool ContainsTheme(string themeName)|

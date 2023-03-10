@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -35,6 +35,7 @@ namespace XCharts.Runtime
         protected bool m_PainerDirty = false;
         protected bool m_IsOnValidate = false;
         protected Vector3 m_LastLocalPosition;
+        protected PointerEventData m_PointerEventData;
 
         protected Action<PointerEventData, BaseGraph> m_OnPointerClick;
         protected Action<PointerEventData, BaseGraph> m_OnPointerDown;
@@ -209,7 +210,7 @@ namespace XCharts.Runtime
         {
             if (!isPointerInChart) return;
             if (canvas == null) return;
-            Vector2 mousePos = Input.mousePosition;
+            Vector2 mousePos = m_PointerEventData.position;
             Vector2 local;
             if (!ScreenPointToChartPoint(mousePos, out local))
             {
@@ -278,13 +279,13 @@ namespace XCharts.Runtime
 
         public virtual void OnPointerEnter(PointerEventData eventData)
         {
-            isPointerInChart = true;
+            m_PointerEventData = eventData;
             if (m_OnPointerEnter != null) m_OnPointerEnter(eventData, this);
         }
 
         public virtual void OnPointerExit(PointerEventData eventData)
         {
-            isPointerInChart = false;
+            m_PointerEventData = null;
             if (m_OnPointerExit != null) m_OnPointerExit(eventData, this);
         }
 

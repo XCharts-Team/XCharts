@@ -51,7 +51,8 @@ namespace XCharts.Runtime
         /// Whether the mouse pointer is in the chart.
         /// |鼠标是否在图表内。
         /// </summary>
-        public bool isPointerInChart { get; protected set; }
+        public bool isPointerInChart
+        { get { return m_PointerEventData != null; } }
         /// <summary>
         /// 警告信息。
         /// </summary>

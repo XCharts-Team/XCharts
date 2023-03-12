@@ -474,6 +474,7 @@ Inherits or Implemented: [Image](#image)
 |SetPadding()||public void SetPadding(float[] padding)|
 |SetPosition()||public void SetPosition(Vector3 position)|
 |SetRectPosition()||public void SetRectPosition(Vector3 position)|
+|SetRotate()||public void SetRotate(float rotate)|
 |SetSize()||public void SetSize(float width, float height)|
 |SetText()||public bool SetText(string text)|
 |SetTextActive()||public void SetTextActive(bool flag)|

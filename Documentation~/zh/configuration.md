@@ -771,6 +771,7 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#is
 |autoOffset|false||是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。
 |offset|||距离图形元素的偏移
 |rotate|||文本的旋转。
+|autoRotate|false|v3.6.0|是否自动旋转。
 |distance|||距离轴线的距离。
 |formatter|||标签内容字符串模版格式器。支持用 \n 换行。 模板变量有： {.}：圆点标记。 {a}：系列名。 {a}：系列名。 {b}：类目值或数据名。 {c}：数据值。 {d}：百分比。 {e}：数据名。 {f}：数据和。 示例：“{b}:{c}”
 |numericFormatter|||标准数字格式字符串。用于将数值格式化显示为字符串。 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings

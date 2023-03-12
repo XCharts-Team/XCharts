@@ -771,6 +771,7 @@ Text label of chart, to explain some data information about graphic item like va
 |autoOffset|false||是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。
 |offset|||offset to the host graphic element.
 |rotate|||Rotation of label.
+|autoRotate|false|v3.6.0|auto rotate of label.
 |distance|||距离轴线的距离。
 |formatter|||formatter of label.
 |numericFormatter|||Standard numeric format strings.

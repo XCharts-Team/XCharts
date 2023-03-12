@@ -506,9 +506,9 @@ namespace XCharts.Runtime
             if (currLabel.autoRotate && serieData.context.angle != 0)
             {
                 if (serieData.context.angle > 90 && serieData.context.angle < 270)
-                    serieData.labelObject.SetRotate(180 - serieData.context.angle);
+                    serieData.labelObject.SetRotate(180 - serieData.context.angle + currLabel.rotate);
                 else
-                    serieData.labelObject.SetRotate(-serieData.context.angle);
+                    serieData.labelObject.SetRotate(-serieData.context.angle + currLabel.rotate);
             }
         }
 

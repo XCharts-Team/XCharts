@@ -74,6 +74,7 @@ namespace XCharts.Runtime
         [SerializeField] protected bool m_AutoOffset = false;
         [SerializeField] protected Vector3 m_Offset;
         [SerializeField] protected float m_Rotate;
+        [SerializeField][Since("v3.6.0")] protected bool m_AutoRotate = false;
         [SerializeField] protected float m_Distance;
         [SerializeField] protected string m_Formatter;
         [SerializeField] protected string m_NumericFormatter = "";
@@ -153,6 +154,15 @@ namespace XCharts.Runtime
         {
             get { return m_Rotate; }
             set { if (PropertyUtil.SetStruct(ref m_Rotate, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// auto rotate of label.
+        /// |是否自动旋转。
+        /// </summary>
+        public bool autoRotate
+        {
+            get { return m_AutoRotate; }
+            set { if (PropertyUtil.SetStruct(ref m_AutoRotate, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// 距离轴线的距离。

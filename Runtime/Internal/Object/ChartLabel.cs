@@ -169,6 +169,11 @@ namespace XCharts.Runtime
             if (m_LabelText != null) m_LabelText.SetColor(color);
         }
 
+        public void SetRotate(float rotate)
+        {
+            transform.localEulerAngles = new Vector3(0, 0, rotate);
+        }
+
         public void SetTextRotate(float rotate)
         {
             if (m_LabelText != null) m_LabelText.SetLocalEulerAngles(new Vector3(0, 0, rotate));
@@ -196,16 +201,15 @@ namespace XCharts.Runtime
 
         public void SetActive(bool flag)
         {
-            if (m_Active != flag)
-            {
-                m_Active = flag;
-                ChartHelper.SetActive(gameObject, flag);
-            }
+            m_Active = flag;
+            ChartHelper.SetActive(gameObject, flag);
         }
+
         public void SetTextActive(bool flag)
         {
             if (m_LabelText != null) m_LabelText.SetActive(flag);
         }
+
         public void SetIconActive(bool flag)
         {
             isIconActive = flag;

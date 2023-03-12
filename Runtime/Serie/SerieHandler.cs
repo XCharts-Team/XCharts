@@ -503,6 +503,13 @@ namespace XCharts.Runtime
             var labelPosition = GetSerieDataLabelPosition(serieData, currLabel);
             var offset = GetSerieDataLabelOffset(serieData, currLabel);
             serieData.labelObject.SetPosition(labelPosition + offset);
+            if (currLabel.autoRotate && serieData.context.angle != 0)
+            {
+                if (serieData.context.angle > 90 && serieData.context.angle < 270)
+                    serieData.labelObject.SetRotate(180 - serieData.context.angle);
+                else
+                    serieData.labelObject.SetRotate(-serieData.context.angle);
+            }
         }
 
         public virtual Vector3 GetSerieDataLabelPosition(SerieData serieData, LabelStyle label)

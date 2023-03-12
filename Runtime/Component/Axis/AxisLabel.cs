@@ -96,10 +96,10 @@ namespace XCharts.Runtime
                 return new AxisLabel()
                 {
                     m_Show = true,
-                        m_Interval = 0,
-                        m_Inside = false,
-                        m_Distance = 8,
-                        m_TextStyle = new TextStyle(),
+                    m_Interval = 0,
+                    m_Inside = false,
+                    m_Distance = 8,
+                    m_TextStyle = new TextStyle(),
                 };
             }
         }
@@ -167,6 +167,17 @@ namespace XCharts.Runtime
                 value = Math.Abs(value);
             }
             return base.GetFormatterContent(labelIndex, value, minValue, maxValue, isLog);
+        }
+
+        public bool IsNeedShowLabel(int index, int total)
+        {
+            var labelShow = show && (interval == 0 || index % (interval + 1) == 0);
+            if (labelShow)
+            {
+                if (!showStartLabel && index == 0) labelShow = false;
+                else if (!showEndLabel && index == total - 1) labelShow = false;
+            }
+            return labelShow;
         }
     }
 }

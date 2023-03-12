@@ -65,6 +65,7 @@ slug: /changelog
 
 ## master
 
+* (2023.03.12) 增加`LabelStyle`的`autoRotate`可设置有角度的竖版文本的自动旋转
 * (2023.03.09) 增加`Chart`的`onSerieClick`，`onSerieDown`，`onSerieEnter`和`onSerieExit`回调
 * (2023.03.09) 修复`Pie`的点击选中偏移不生效的问题
 * (2023.03.04) 增加`Legend`的`Positions`可自定义图例的位置

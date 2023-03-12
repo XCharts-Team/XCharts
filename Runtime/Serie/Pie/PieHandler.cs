@@ -234,6 +234,7 @@ namespace XCharts.Runtime
                 }
                 var halfDegree = (serieData.context.toAngle - startDegree) / 2;
                 serieData.context.halfAngle = startDegree + halfDegree;
+                serieData.context.angle = startDegree + halfDegree;
                 serieData.context.offsetCenter = serie.context.center;
                 serieData.context.insideRadius = serie.context.insideRadius;
                 if (offset > 0)

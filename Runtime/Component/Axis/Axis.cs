@@ -576,13 +576,7 @@ namespace XCharts.Runtime
             {
                 total = context.labelValueList.Count;
             }
-            var labelShow = axisLabel.show && (axisLabel.interval == 0 || index % (axisLabel.interval + 1) == 0);
-            if (labelShow)
-            {
-                if (!axisLabel.showStartLabel && index == 0) labelShow = false;
-                else if (!axisLabel.showEndLabel && index == total - 1) labelShow = false;
-            }
-            return labelShow;
+            return axisLabel.IsNeedShowLabel(index, total);
         }
 
         public void SetNeedUpdateFilterData()

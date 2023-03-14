@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -259,7 +259,7 @@ namespace XCharts.Runtime
                     continue;
                 }
 
-                if (serie.show && currHig != 0 && !serie.placeHolder)
+                if (serie.show && !serie.placeHolder)
                 {
                     switch (serie.barType)
                     {

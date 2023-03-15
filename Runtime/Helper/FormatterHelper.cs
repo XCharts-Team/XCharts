@@ -72,7 +72,7 @@ namespace XCharts.Runtime
                         if (s_RegexN.IsMatch(args1Str)) bIndex = int.Parse(args1Str);
                     }
                     var color = string.IsNullOrEmpty(colorName) ?
-                        (Color) chart.GetMarkColor(serie, serie.GetSerieData(bIndex)) :
+                        (Color)chart.GetMarkColor(serie, serie.GetSerieData(bIndex)) :
                         SeriesHelper.GetNameColor(chart, bIndex, colorName);
                     if (p == '.')
                     {
@@ -99,7 +99,7 @@ namespace XCharts.Runtime
                         var args1Str = args[1].ToString();
                         if (s_RegexN.IsMatch(args1Str)) bIndex = int.Parse(args1Str);
                     }
-                    var needCategory = (p != 'e' && p != 'E') && (serie is Line || serie is Bar);
+                    var needCategory = (p != 'e' && p != 'E') && serie.defaultColorBy != SerieColorBy.Data;
                     if (needCategory)
                     {
                         var category = chart.GetTooltipCategory(dataIndex, serie);

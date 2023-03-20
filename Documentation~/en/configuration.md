@@ -41,6 +41,7 @@ slug: /configuration
 - [ThemeStyle](#themestyle)
 - [TitleTheme](#titletheme)
 - [TooltipTheme](#tooltiptheme)
+- [UIComponentTheme](#uicomponenttheme)
 - [VisualMapTheme](#visualmaptheme)
 
 
@@ -129,6 +130,7 @@ slug: /configuration
 - [TitleStyle](#titlestyle)
 - [TitleTheme](#titletheme)
 - [TooltipTheme](#tooltiptheme)
+- [UIComponentTheme](#uicomponenttheme)
 - [VisualMapRange](#visualmaprange)
 - [VisualMapTheme](#visualmaptheme)
 
@@ -1506,6 +1508,16 @@ Inherits or Implemented: [ComponentTheme](#componenttheme)
 |areaColor|||the color of line.
 |labelTextColor|||the text color of tooltip cross indicator's axis label.
 |labelBackgroundColor|||the background color of tooltip cross indicator's axis label.
+
+## UIComponentTheme
+
+Inherits or Implemented: [ChildComponent](#childcomponent)
+
+|field|default|since|comment|
+|--|--|--|--|
+|show|true||
+|sharedTheme|||the asset of theme. [Theme](#theme)|
+|transparentBackground|false||
 
 ## VisualMap
 

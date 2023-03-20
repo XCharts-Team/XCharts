@@ -95,6 +95,8 @@ slug: /api
 - [UGL](#ugl)
 - [UGLExample](#uglexample)
 - [UGLHelper](#uglhelper)
+- [UIComponent](#uicomponent)
+- [UIHelper](#uihelper)
 - [VisualMapContext](#visualmapcontext)
 - [VisualMapHelper](#visualmaphelper)
 - [XChartsMgr](#xchartsmgr)
@@ -1181,6 +1183,20 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 |IsValueEqualsVector3()||public static bool IsValueEqualsVector3(Vector3 v1, Vector3 v2)|
 |IsZeroVector()||public static bool IsZeroVector(Vector3 pos)|
 |RotateRound()||public static Vector3 RotateRound(Vector3 position, Vector3 center, Vector3 axis, float angle)|
+
+## UIComponent
+
+Inherits or Implemented: [BaseGraph](#basegraph)
+
+|public method|since|description|
+|--|--|--|
+|UpdateTheme()||public bool UpdateTheme(ThemeType theme)<br/>切换内置主题。 |
+
+## UIHelper
+
+|public method|since|description|
+|--|--|--|
+|GetBackgroundColor()||public static Color32 GetBackgroundColor(UIComponent component)|
 
 ## VisualMapContext
 

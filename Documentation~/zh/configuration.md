@@ -41,6 +41,7 @@ slug: /configuration
 - [ThemeStyle](#themestyle)
 - [TitleTheme](#titletheme)
 - [TooltipTheme](#tooltiptheme)
+- [UIComponentTheme](#uicomponenttheme)
 - [VisualMapTheme](#visualmaptheme)
 
 
@@ -129,6 +130,7 @@ slug: /configuration
 - [TitleStyle](#titlestyle)
 - [TitleTheme](#titletheme)
 - [TooltipTheme](#tooltiptheme)
+- [UIComponentTheme](#uicomponenttheme)
 - [VisualMapRange](#visualmaprange)
 - [VisualMapTheme](#visualmaptheme)
 
@@ -1506,6 +1508,16 @@ Inherits or Implemented: [ComponentTheme](#componenttheme)
 |areaColor|||区域指示的颜色。
 |labelTextColor|||十字指示器坐标轴标签的文本颜色。
 |labelBackgroundColor|||十字指示器坐标轴标签的背景颜色。
+
+## UIComponentTheme
+
+Inherits or Implemented: [ChildComponent](#childcomponent)
+
+|field|default|since|comment|
+|--|--|--|--|
+|show|true||
+|sharedTheme|||主题配置。 [Theme](#theme)|
+|transparentBackground|false||
 
 ## VisualMap
 

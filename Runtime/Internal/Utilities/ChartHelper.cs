@@ -389,7 +389,7 @@ namespace XCharts.Runtime
             var alignment = textStyle.GetAlignment(autoAlignment);
             UpdateAnchorAndPivotByTextAlignment(alignment, out anchorMin, out anchorMax, out pivot);
             var labelObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
-            ChartHelper.RemoveComponent<Text>(labelObj);
+            //ChartHelper.RemoveComponent<Text>(labelObj);
             var label = EnsureComponent<ChartLabel>(labelObj);
             label.text = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot,
                 sizeDelta, textStyle, theme, autoColor, autoAlignment, label.text);

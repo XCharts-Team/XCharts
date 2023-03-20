@@ -484,7 +484,7 @@ namespace XCharts.Runtime
             return GetCurrData(index, animationDuration, inverse, 0, 0, unscaledTime);
         }
 
-        public double GetCurrData(int index, float animationDuration, bool inverse, double min, double max, bool unscaledTime)
+        public double GetCurrData(int index, float animationDuration, bool inverse, double min, double max, bool unscaledTime, bool loop = false)
         {
             if (index < m_DataUpdateFlag.Count && m_DataUpdateFlag[index] && animationDuration > 0)
             {
@@ -496,7 +496,13 @@ namespace XCharts.Runtime
                 if (rate < 1)
                 {
                     CheckLastData(unscaledTime);
-                    var curr = MathUtil.Lerp(GetPreviousData(index), GetData(index), rate);
+                    var prev = GetPreviousData(index);
+                    var next = GetData(index);
+                    if (loop)
+                    {
+                        if (next <= min && prev != 0) next = max;
+                    }
+                    var curr = MathUtil.Lerp(prev, next, rate);
                     if (min != 0 || max != 0)
                     {
                         if (inverse)

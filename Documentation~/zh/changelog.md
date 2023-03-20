@@ -65,7 +65,10 @@ slug: /changelog
 
 ## master
 
+* (2023.03.14) 修复`Tooltip`的`titleFormater`设置`{b}`可能不生效的问题
+* (2023.03.14) 修复`BarChart`在数据为0时不绘制柱条背景的问题 (#250) (by __Ambitroc__)
 * (2023.03.12) 增加`LabelStyle`的`autoRotate`可设置有角度的竖版文本的自动旋转
+* (2023.03.10) 增加`VR`等其他非鼠标输入方式的Point位置获取 (#248) (by __Ambitroc__)
 * (2023.03.09) 增加`Chart`的`onSerieClick`，`onSerieDown`，`onSerieEnter`和`onSerieExit`回调
 * (2023.03.09) 修复`Pie`的点击选中偏移不生效的问题
 * (2023.03.04) 增加`Legend`的`Positions`可自定义图例的位置

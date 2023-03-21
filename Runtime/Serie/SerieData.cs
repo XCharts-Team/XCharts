@@ -668,6 +668,12 @@ namespace XCharts.Runtime
             if (labelObject != null) labelObject.SetActive(flag);
         }
 
+        public void SetPolygon(params Vector2[] points)
+        {
+            m_PolygonPoints.Clear();
+            m_PolygonPoints.AddRange(points);
+        }
+
         public void SetPolygon(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4)
         {
             m_PolygonPoints.Clear();
@@ -676,6 +682,7 @@ namespace XCharts.Runtime
             m_PolygonPoints.Add(p3);
             m_PolygonPoints.Add(p4);
         }
+
         public void SetPolygon(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Vector2 p5)
         {
             SetPolygon(p1, p2, p3, p4);

@@ -247,7 +247,7 @@ namespace XCharts.Runtime
         [SerializeField] private float m_SampleAverage = 0;
 
         [SerializeField] private LineType m_LineType = LineType.Normal;
-        [SerializeField][Since("v3.4.0")] private bool m_SmoothLimit = true;
+        [SerializeField][Since("v3.4.0")] private bool m_SmoothLimit = false;
         [SerializeField] private BarType m_BarType = BarType.Normal;
         [SerializeField] private bool m_BarPercentStack = false;
         [SerializeField] private float m_BarWidth = 0;

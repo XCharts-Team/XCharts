@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.6.0](#v360)  
 [v3.5.0](#v350)  
 [v3.4.0](#v340)  
 [v3.3.0](#v330)  
@@ -59,6 +60,41 @@
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.6.0
+
+* (2023.04.01) Release `v3.6.0` version
+* (2023.03.14) Fix for Tooltip's `titleFormater` setting `{b}` may not take effect
+* (2023.03.14) Fix for `BarChart` not drawing bar background when data is 0 (#250) (by __Ambitroc__)
+* (2023.03.12) Added `LabelStyle` `autoRotate` to set automatic rotation of angled vertical text
+* (2023.03.10) Added `VR` and other non-mouse input for Point location acquisition (#248) (by __Ambitroc__)
+* (2023.03.09) Adds callbacks to Chart's `onSerieClick`, `onSerieDown`, `onSerieEnter` and `onSerieExit`
+* (2023.03.09) Fixed click-check offset for `Pie` not taking effect
+* (2023.03.04) Added Positions for Legend to customize legend positions
+* (2023.03.03) Fixed `Animation` changing animation that might not work
+* (2023.02.28) Fixed issue with Serie's Label not refreshing when `Legend` is clicked
+* (2023.02.26) Adds DataZoom's `startEndFunction` delegate
+* (2023.02.12) Refactor the Component code and adjust the API
+* (2023.02.10) Fix `Axis` with incorrect minimum in `Log` axis in some cases
+* (2023.02.10) Optimizes the default display format of Axis's value Label
+* (2023.02.08) Added startLock and endLock for DataZoom
+* (2023.02.02) Fixed bug where datazoom xaxis label could be displayed off-chart when datazoom is turned on
+* (2023.02.02) Optimizes the `ignore` setting of `SerieData` to ignore data
+* (2023.02.01) Fix `XChartsMgr.ContainsChart()` interface exception
+* (2023.01.31) Added support for `InputSystem` (#242) (by __Bian-Sh__)
+* (2023.01.11) Fixed chart not refreshing after removing Component from Inspector (#241)
+* (2023.01.06) Fixed bug with `Pie` displaying abnormal Label when the last few values are 0 (#240)
+* (2023.01.03) deletes serie `MarkColor` and adds ItemStyle `MarkColor`
+* (2022.12.29) Added `+` to list editor
+* (2022.12.29) Fixed `UpdateXYData()` interface affecting data accuracy (#238)
+* (2022.12.28) Fixed abnormal display when setting `border` when `Pie` has only one data (#237)
+* (2022.12.22) Adjust `Covert` rename to `Convert`, involving interfaces such as: `ConvertXYAxis()`, `CovertSerie()`, etc
+* (2022.12.22) Fixed abnormal display of `Label` after `Convert XY Axis`
+* (2022.12.12) Fixed an issue where the `Value` Axis of `axis` calculated the value range incorrectly in some cases
+* (2022.12.12) Optimized legend's formatter to support `{h}` wildcards
+* (2022.12.12) Fixed abnormal display of Legend's formatter when set to a fixed value
+* (2022.12.08) Added `AreaStyle` `toTop` parameter to set whether the line graph gradient goes to the top or to the actual position
+* (2022.12.07) Adds text wildcard `{h}` for `Formatter` to support setting current color values
 
 ## v3.5.0
 

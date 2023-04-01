@@ -6,6 +6,7 @@ slug: /changelog
 # 更新日志
 
 [master](#master)  
+[v3.6.0](#v360)  
 [v3.5.0](#v350)  
 [v3.4.0](#v340)  
 [v3.3.0](#v330)  
@@ -65,6 +66,27 @@ slug: /changelog
 
 ## master
 
+## v3.6.0
+
+版本要点：
+
+* 增加`InputSystem`支持 (by __Bian-Sh__)
+* 增加官网[在线示例](https://xcharts-team.github.io/examples/)多版本支持 (by __SHL-COOL__)
+* 完善对`VR`的支持 (by __Ambitroc__)
+* 增加`UITable`，`UIStatistic`等[扩展UI组件](https://xcharts-team.github.io/docs/ui)
+* 增加`ItemStyle`的`MarkColor`
+* 增加通配符`{h}`的支持
+* 优化`Tooltip`，`Legend`，`DataZoom`，`Axis`等组件
+* 重构相关`API`接口，完善回调接口
+* 修复若干问题
+
+升级注意：
+
+* 部分接口有调整，可根据提示更换下接口即可。
+
+日志详情：
+
+* (2023.04.01) 发布`v3.6.0`版本
 * (2023.03.14) 修复`Tooltip`的`titleFormater`设置`{b}`可能不生效的问题
 * (2023.03.14) 修复`BarChart`在数据为0时不绘制柱条背景的问题 (#250) (by __Ambitroc__)
 * (2023.03.12) 增加`LabelStyle`的`autoRotate`可设置有角度的竖版文本的自动旋转

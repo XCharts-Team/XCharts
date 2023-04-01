@@ -2,10 +2,11 @@ using System;
 
 namespace XCharts.Runtime
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     /// <summary>
-    /// What serie can convert to me
+    /// The attribute for which serie types can be converted to.
+    /// |可转化为哪些Serie类型。
     /// </summary>
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public sealed class SerieConvertAttribute : Attribute
     {
         public readonly Type type0;

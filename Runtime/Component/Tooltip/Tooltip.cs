@@ -184,6 +184,7 @@ namespace XCharts.Runtime
         /// {c}为当前所指示或index为0的serie的y维（dimesion为1）的数值。<br/>
         /// {d}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。<br/>
         /// {e}为当前所指示或index为0的serie的数据项serieData的name。<br/>
+        /// {h}为当前所指示或index为0的serie的数据项serieData的十六进制颜色值。<br/>
         /// {f}为数据总和。<br/>
         /// {g}为数据总个数。<br/>
         /// {.1}表示指定index为1的serie对应颜色的圆点。<br/>
@@ -224,6 +225,7 @@ namespace XCharts.Runtime
         /// {e}为当前所指示的serie或数据项的数据项serieData的name。<br/>
         /// {f}为当前所指示的serie的默认维度的数据总和。<br/>
         /// {g}为当前所指示的serie的数据总个数。<br/>
+        /// {h}为当前所指示的serie的十六进制颜色值。<br/>
         /// {c0}表示当前数据项维度为0的数据。<br/>
         /// {c1}表示当前数据项维度为1的数据。<br/>
         /// {d3}表示维度3的数据的百分比。它的分母是默认维度（一般是1维度）数据。<br/>

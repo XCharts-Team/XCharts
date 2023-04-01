@@ -110,7 +110,7 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 
 ![extendchart](Documentation~/en/img/readme_extendchart.png)
 
-For more examples, see [XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo), You can also go to [Online Demo](https://xcharts-team.github.io/demo/) to see the running effect of `WebGL`.
+For more examples, see [XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo), You can also go to [Online Demo](https://xcharts-team.github.io/examples/) to see the running effect of `WebGL`.
 
 ## Use
 

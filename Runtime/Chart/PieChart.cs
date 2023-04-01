@@ -10,7 +10,7 @@ namespace XCharts.Runtime
     {
         protected override void DefaultChart()
         {
-            var legend = GetOrAddChartComponent<Legend>();
+            var legend = EnsureChartComponent<Legend>();
             legend.show = true;
 
             RemoveData();

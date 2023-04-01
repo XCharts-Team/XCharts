@@ -204,15 +204,15 @@ namespace XCharts.Editor
             }
 
             serieDataMenus.Clear();
-            if (serie.GetType().IsDefined(typeof(SerieDataExtraComponentAttribute), false))
+            if (serie.GetType().IsDefined(typeof(SerieDataComponentAttribute), false))
             {
-                var attribute = serie.GetType().GetAttribute<SerieDataExtraComponentAttribute>();
+                var attribute = serie.GetType().GetAttribute<SerieDataComponentAttribute>();
                 foreach (var type in attribute.types)
                 {
                     var size = serieData.FindPropertyRelative(SerieData.extraComponentMap[type]).arraySize;
                     serieDataMenus.Add(new HeaderMenuInfo("Add " + type.Name, () =>
                     {
-                        serie.GetSerieData(index).GetOrAddComponent(type);
+                        serie.GetSerieData(index).EnsureComponent(type);
                         EditorUtility.SetDirty(chart);
                     }, size == 0));
                 }

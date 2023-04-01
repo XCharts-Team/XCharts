@@ -13,6 +13,7 @@ namespace XCharts.Runtime
         [SerializeField] private Color32 m_Color0;
         [SerializeField] private Color32 m_ToColor;
         [SerializeField] private Color32 m_ToColor2;
+        [SerializeField][Since("v3.6.0")] private Color32 m_MarkColor;
         [SerializeField] private Color32 m_BackgroundColor;
         [SerializeField] private float m_BackgroundWidth;
         [SerializeField] private Color32 m_CenterColor;
@@ -35,6 +36,7 @@ namespace XCharts.Runtime
             m_Color0 = Color.clear;
             m_ToColor = Color.clear;
             m_ToColor2 = Color.clear;
+            m_MarkColor = Color.clear;
             m_BackgroundColor = Color.clear;
             m_BackgroundWidth = 0;
             m_CenterColor = Color.clear;
@@ -100,6 +102,15 @@ namespace XCharts.Runtime
         {
             get { return m_ToColor2; }
             set { if (PropertyUtil.SetColor(ref m_ToColor2, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Serie's mark color. It is only used to display Legend and Tooltip, and does not affect the drawing color. The default value is clear.
+        /// |Serie的标识颜色。仅用于Legend和Tooltip的展示，不影响绘制颜色，默认为clear。
+        /// </summary>
+        public Color32 markColor
+        {
+            get { return m_MarkColor; }
+            set { if (PropertyUtil.SetStruct(ref m_MarkColor, value)) { SetAllDirty(); } }
         }
         /// <summary>
         /// 数据项背景颜色。

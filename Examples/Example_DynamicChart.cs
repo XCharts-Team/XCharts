@@ -1,6 +1,8 @@
 using UnityEngine;
 using XCharts.Runtime;
-
+#if INPUT_SYSTEM_ENABLED
+using Input = XCharts.Runtime.InputHelper;
+#endif
 namespace XCharts.Example
 {
     [DisallowMultipleComponent]
@@ -43,11 +45,11 @@ namespace XCharts.Example
             chart.Init();
             chart.SetSize(580, 300);
 
-            chart.GetOrAddChartComponent<Title>().show = true;
-            chart.GetOrAddChartComponent<Title>().text = chartName;
+            chart.EnsureChartComponent<Title>().show = true;
+            chart.EnsureChartComponent<Title>().text = chartName;
 
-            chart.GetOrAddChartComponent<Tooltip>().show = true;
-            chart.GetOrAddChartComponent<Legend>().show = true;
+            chart.EnsureChartComponent<Tooltip>().show = true;
+            chart.EnsureChartComponent<Legend>().show = true;
 
             chart.RemoveData();
             chart.AddSerie<Pie>();
@@ -65,16 +67,16 @@ namespace XCharts.Example
             chart.Init();
             chart.SetSize(580, 300);
 
-            chart.GetOrAddChartComponent<Title>().show = true;
-            chart.GetOrAddChartComponent<Title>().text = chartName;
+            chart.EnsureChartComponent<Title>().show = true;
+            chart.EnsureChartComponent<Title>().text = chartName;
 
-            chart.GetOrAddChartComponent<Legend>().show = false;
+            chart.EnsureChartComponent<Legend>().show = false;
 
-            var tooltip = chart.GetOrAddChartComponent<Tooltip>();
+            var tooltip = chart.EnsureChartComponent<Tooltip>();
             tooltip.trigger = Tooltip.Trigger.Axis;
 
-            var xAxis = chart.GetOrAddChartComponent<XAxis>();
-            var yAxis = chart.GetOrAddChartComponent<YAxis>();
+            var xAxis = chart.EnsureChartComponent<XAxis>();
+            var yAxis = chart.EnsureChartComponent<YAxis>();
             xAxis.splitNumber = 10;
             xAxis.boundaryGap = true;
             xAxis.show = true;

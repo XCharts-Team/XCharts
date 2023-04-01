@@ -5,8 +5,8 @@ namespace XCharts.Runtime
     [System.Serializable]
     [SerieHandler(typeof(SimplifiedCandlestickHandler), true)]
     [DefaultAnimation(AnimationType.LeftToRight)]
-    [SerieExtraComponent()]
-    [SerieDataExtraComponent()]
+    [SerieComponent()]
+    [SerieDataComponent()]
     [SerieDataExtraField()]
     public class SimplifiedCandlestick : Serie, INeedSerieContainer, ISimplifiedSerie
     {
@@ -30,7 +30,7 @@ namespace XCharts.Runtime
             return serie;
         }
 
-        public static SimplifiedCandlestick CovertSerie(Serie serie)
+        public static SimplifiedCandlestick ConvertSerie(Serie serie)
         {
             var newSerie = serie.Clone<SimplifiedCandlestick>();
             return newSerie;

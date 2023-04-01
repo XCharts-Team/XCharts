@@ -47,7 +47,7 @@ namespace XCharts.Example
             serie.itemStyle.borderColor = Color.clear;
 
             //设置高亮样式
-            var emphasisStyle = serie.AddExtraComponent<EmphasisStyle>();
+            var emphasisStyle = serie.EnsureComponent<EmphasisStyle>();
             emphasisStyle.itemStyle.show = true;
             emphasisStyle.itemStyle.borderWidth = 1;
             emphasisStyle.itemStyle.borderColor = Color.black;

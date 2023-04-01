@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -36,6 +37,11 @@ namespace XCharts.Runtime
         /// </summary>
         public Vector3 graphPosition { get { return m_GraphPosition; } }
         public Rect graphRect { get { return m_GraphRect; } }
+        public Vector2 graphSizeDelta { get { return m_GraphSizeDelta; } }
+        public Vector2 graphPivot { get { return m_GraphPivot; } }
+        public Vector2 graphMinAnchor { get { return m_GraphMinAnchor; } }
+        public Vector2 graphMaxAnchor { get { return m_GraphMaxAnchor; } }
+        public Vector2 graphAnchoredPosition { get { return m_GraphAnchoredPosition; } }
         /// <summary>
         /// The postion of pointer.
         /// |鼠标位置。
@@ -45,7 +51,8 @@ namespace XCharts.Runtime
         /// Whether the mouse pointer is in the chart.
         /// |鼠标是否在图表内。
         /// </summary>
-        public bool isPointerInChart { get; protected set; }
+        public bool isPointerInChart
+        { get { return m_PointerEventData != null; } }
         /// <summary>
         /// 警告信息。
         /// </summary>
@@ -164,6 +171,22 @@ namespace XCharts.Runtime
                 return false;
             }
             return true;
+        }
+
+        /// <summary>
+        /// 保存图表为图片。
+        /// </summary>
+        /// <param name="imageType">type of image: png, jpg, exr</param>
+        /// <param name="savePath">save path</param>
+        public void SaveAsImage(string imageType = "png", string savePath = "")
+        {
+            StartCoroutine(SaveAsImageSync(imageType, savePath));
+        }
+
+        private IEnumerator SaveAsImageSync(string imageType, string path)
+        {
+            yield return new WaitForEndOfFrame();
+            ChartHelper.SaveAsImage(rectTransform, canvas, imageType, path);
         }
     }
 }

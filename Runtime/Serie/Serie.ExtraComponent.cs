@@ -8,7 +8,8 @@ namespace XCharts.Runtime
     public partial class Serie
     {
         public static Dictionary<Type, string> extraComponentMap = new Dictionary<Type, string>
-        { { typeof(LabelStyle), "m_Labels" },
+        {
+            { typeof(LabelStyle), "m_Labels" },
             { typeof(LabelLine), "m_LabelLines" },
             { typeof(EndLabelStyle), "m_EndLabels" },
             { typeof(LineArrow), "m_LineArrows" },
@@ -71,7 +72,11 @@ namespace XCharts.Runtime
         /// </summary>
         public SelectStyle selectStyle { get { return m_SelectStyles.Count > 0 ? m_SelectStyles[0] : null; } }
 
-        public void RemoveAllExtraComponent()
+        /// <summary>
+        /// Remove all extra components.
+        /// |移除所有额外组件。
+        /// </summary>
+        public void RemoveAllComponents()
         {
             var serieType = GetType();
             foreach (var kv in extraComponentMap)
@@ -81,16 +86,72 @@ namespace XCharts.Runtime
             SetAllDirty();
         }
 
-        public T AddExtraComponent<T>() where T : ChildComponent, ISerieExtraComponent
+        [Obsolete("Use EnsureComponent<T>() instead.")]
+        public T AddExtraComponent<T>() where T : ChildComponent, ISerieComponent
         {
-            return AddExtraComponent(typeof(T)) as T;
+            return EnsureComponent<T>();
         }
 
-        public ISerieExtraComponent AddExtraComponent(Type type)
+        public T GetComponent<T>() where T : ChildComponent, ISerieComponent
         {
-            if (GetType().IsDefined(typeof(SerieExtraComponentAttribute), false))
+            return GetComponent(typeof(T)) as T;
+        }
+
+        /// <summary>
+        /// Ensure the serie has the component. If not, add it.
+        /// |确保系列有该组件。如果没有，则添加。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns>component or null</returns>
+        public T EnsureComponent<T>() where T : ChildComponent, ISerieComponent
+        {
+            return EnsureComponent(typeof(T)) as T;
+        }
+
+        public bool CanAddComponent<T>() where T : ChildComponent, ISerieComponent
+        {
+            return CanAddComponent(typeof(T));
+        }
+
+        public bool CanAddComponent(Type type)
+        {
+            if (GetType().IsDefined(typeof(SerieComponentAttribute), false))
             {
-                var attr = GetType().GetAttribute<SerieExtraComponentAttribute>();
+                var attr = GetType().GetAttribute<SerieComponentAttribute>();
+                if (attr.Contains(type))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public ISerieComponent GetComponent(Type type)
+        {
+            if (GetType().IsDefined(typeof(SerieComponentAttribute), false))
+            {
+                var attr = GetType().GetAttribute<SerieComponentAttribute>();
+                if (attr.Contains(type))
+                {
+                    var fieldName = string.Empty;
+                    if (extraComponentMap.TryGetValue(type, out fieldName))
+                    {
+                        var field = typeof(Serie).GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic);
+                        if (ReflectionUtil.InvokeListCount(this, field) > 0)
+                        {
+                            return ReflectionUtil.InvokeListGet<ISerieComponent>(this, field, 0);
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        public ISerieComponent EnsureComponent(Type type)
+        {
+            if (GetType().IsDefined(typeof(SerieComponentAttribute), false))
+            {
+                var attr = GetType().GetAttribute<SerieComponentAttribute>();
                 if (attr.Contains(type))
                 {
                     var fieldName = string.Empty;
@@ -99,32 +160,32 @@ namespace XCharts.Runtime
                         var field = typeof(Serie).GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic);
                         if (ReflectionUtil.InvokeListCount(this, field) <= 0)
                         {
-                            var extraComponent = Activator.CreateInstance(type) as ISerieExtraComponent;
+                            var extraComponent = Activator.CreateInstance(type) as ISerieComponent;
                             ReflectionUtil.InvokeListAdd(this, field, extraComponent);
                             SetAllDirty();
                             return extraComponent;
                         }
                         else
                         {
-                            return ReflectionUtil.InvokeListGet<ISerieExtraComponent>(this, field, 0);
+                            return ReflectionUtil.InvokeListGet<ISerieComponent>(this, field, 0);
                         }
                     }
                 }
             }
-            throw new System.Exception(string.Format("Serie {0} not support extra component: {1}",
+            throw new System.Exception(string.Format("Serie {0} not support component: {1}",
                 GetType().Name, type.Name));
         }
 
-        public void RemoveExtraComponent<T>() where T : ISerieExtraComponent
+        public void RemoveComponent<T>() where T : ISerieComponent
         {
-            RemoveExtraComponent(typeof(T));
+            RemoveComponent(typeof(T));
         }
 
-        public void RemoveExtraComponent(Type type)
+        public void RemoveComponent(Type type)
         {
-            if (GetType().IsDefined(typeof(SerieExtraComponentAttribute), false))
+            if (GetType().IsDefined(typeof(SerieComponentAttribute), false))
             {
-                var attr = GetType().GetAttribute<SerieExtraComponentAttribute>();
+                var attr = GetType().GetAttribute<SerieComponentAttribute>();
                 if (attr.Contains(type))
                 {
                     var fieldName = string.Empty;
@@ -136,17 +197,6 @@ namespace XCharts.Runtime
                         return;
                     }
                 }
-            }
-            throw new System.Exception(string.Format("Serie {0} not support extra component: {1}",
-                GetType().Name, type.Name));
-        }
-
-        private void RemoveExtraComponentList<T>(List<T> list) where T : ISerieExtraComponent
-        {
-            if (list.Count > 0)
-            {
-                list.Clear();
-                SetAllDirty();
             }
         }
     }

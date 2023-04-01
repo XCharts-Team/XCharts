@@ -16,10 +16,9 @@ namespace XCharts.Runtime
         public override void Update()
         {
             base.Update();
-            UpdateSerieContext();
         }
 
-        private void UpdateSerieContext()
+        public override void UpdateSerieContext()
         {
             var needCheck = chart.isPointerInChart || m_LegendEnter;
             var needInteract = false;

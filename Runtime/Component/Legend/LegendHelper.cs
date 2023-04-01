@@ -50,11 +50,11 @@ namespace XCharts.Runtime
             var objPivot = new Vector2(0, 1);
             var btnObj = ChartHelper.AddObject(objName, parent, objAnchorMin, objAnchorMax, objPivot, sizeDelta);
             var iconObj = ChartHelper.AddObject("icon", btnObj.transform, anchorMin, anchorMax, pivot, iconSizeDelta);
-            var img = ChartHelper.GetOrAddComponent<Image>(btnObj);
+            var img = ChartHelper.EnsureComponent<Image>(btnObj);
             img.color = Color.clear;
             img.raycastTarget = true;
-            ChartHelper.GetOrAddComponent<Button>(btnObj);
-            ChartHelper.GetOrAddComponent<Image>(iconObj);
+            ChartHelper.EnsureComponent<Button>(btnObj);
+            ChartHelper.EnsureComponent<Image>(iconObj);
 
             var label = ChartHelper.AddChartLabel("content", btnObj.transform, legend.labelStyle, theme.legend,
                 content, contentColor, TextAnchor.MiddleLeft);
@@ -156,6 +156,7 @@ namespace XCharts.Runtime
             var currHeight = 0f;
             var offsetX = 0f;
             var row = 0;
+            var index = 0;
             foreach (var kv in legend.context.buttonList)
             {
                 var item = kv.Value;
@@ -165,7 +166,7 @@ namespace XCharts.Runtime
                     offsetX += legend.context.eachWidthDict[row];
                     row++;
                 }
-                item.SetPosition(new Vector3(startX + offsetX, startY - currHeight));
+                item.SetPosition(legend.GetPosition(index++, new Vector3(startX + offsetX, startY - currHeight)));
                 currHeight += item.height + legend.itemGap;
             }
         }
@@ -173,6 +174,7 @@ namespace XCharts.Runtime
         {
             var currWidth = 0f;
             var offsetY = 0f;
+            var index = 0;
             foreach (var kv in legend.context.buttonList)
             {
                 var item = kv.Value;
@@ -181,7 +183,7 @@ namespace XCharts.Runtime
                     currWidth = 0;
                     offsetY += legend.context.eachHeight;
                 }
-                item.SetPosition(new Vector3(startX + currWidth, startY - offsetY));
+                item.SetPosition(legend.GetPosition(index++, new Vector3(startX + currWidth, startY - offsetY)));
                 currWidth += item.width + legend.itemGap;
             }
         }

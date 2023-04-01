@@ -69,7 +69,15 @@ namespace XCharts.Runtime
         /// </summary>
         public Vector3 chartPosition { get { return m_ChartPosition; } }
         public Rect chartRect { get { return m_ChartRect; } }
+        /// <summary>
+        /// The callback function of chart init.
+        /// |图表的初始化完成回调。
+        /// </summary>
         public Action onInit { set { m_OnInit = value; } }
+        /// <summary>
+        /// The callback function of chart update.
+        /// |图表的Update回调。
+        /// </summary>
         public Action onUpdate { set { m_OnUpdate = value; } }
         /// <summary>
         /// 自定义绘制回调。在绘制Serie前调用。
@@ -96,21 +104,48 @@ namespace XCharts.Runtime
         /// </summary>
         public CustomDrawGaugePointerFunction customDrawGaugePointerFunction { set { m_CustomDrawGaugePointerFunction = value; } get { return m_CustomDrawGaugePointerFunction; } }
         /// <summary>
+        /// the callback function of pointer click serie.
+        /// |鼠标点击Serie回调。
+        /// </summary>
+        [Since("v3.6.0")]
+        public Action<SerieEventData> onSerieClick { set { m_OnSerieClick = value; m_ForceOpenRaycastTarget = true; } get { return m_OnSerieClick; } }
+        /// <summary>
+        /// the callback function of pointer down serie.
+        /// |鼠标按下Serie回调。
+        /// </summary>
+        [Since("v3.6.0")]
+        public Action<SerieEventData> onSerieDown { set { m_OnSerieDown = value; m_ForceOpenRaycastTarget = true; } get { return m_OnSerieDown; } }
+        /// <summary>
+        /// the callback function of pointer enter serie.
+        /// |鼠标进入Serie回调。
+        /// </summary>
+        [Since("v3.6.0")]
+        public Action<SerieEventData> onSerieEnter { set { m_OnSerieEnter = value; m_ForceOpenRaycastTarget = true; } get { return m_OnSerieEnter; } }
+        /// <summary>
+        /// the callback function of pointer exit serie.
+        /// |鼠标离开Serie回调。
+        /// </summary>
+        [Since("v3.6.0")]
+        public Action<SerieEventData> onSerieExit { set { m_OnSerieExit = value; m_ForceOpenRaycastTarget = true; } get { return m_OnSerieExit; } }
+        /// <summary>
         /// the callback function of pointer click pie area.
         /// |点击饼图区域回调。参数：PointerEventData，SerieIndex，SerieDataIndex
         /// </summary>
-        public Action<PointerEventData, int, int> onPointerClickPie { set { m_OnPointerClickPie = value; m_ForceOpenRaycastTarget = true; } get { return m_OnPointerClickPie; } }
+        [Obsolete("Use \"onSerieClick\" instead", true)]
+        public Action<PointerEventData, int, int> onPointerClickPie { get; set; }
         /// <summary>
         /// the callback function of pointer enter pie area.
         /// |鼠标进入和离开饼图区域回调，SerieDataIndex为-1时表示离开。参数：PointerEventData，SerieIndex，SerieDataIndex
         /// </summary>
         [Since("v3.3.0")]
+        [Obsolete("Use \"onSerieEnter\" instead", true)]
         public Action<int, int> onPointerEnterPie { set { m_OnPointerEnterPie = value; m_ForceOpenRaycastTarget = true; } get { return m_OnPointerEnterPie; } }
         /// <summary>
         /// the callback function of click bar.
         /// |点击柱形图柱条回调。参数：eventData, dataIndex
         /// </summary>
-        public Action<PointerEventData, int> onPointerClickBar { set { m_OnPointerClickBar = value; m_ForceOpenRaycastTarget = true; } get { return m_OnPointerClickBar; } }
+        [Obsolete("Use \"onSerieClick\" instead", true)]
+        public Action<PointerEventData, int> onPointerClickBar { get; set; }
         /// <summary>
         /// 坐标轴变更数据索引时回调。参数：axis, dataIndex/dataValue
         /// </summary>
@@ -464,7 +499,7 @@ namespace XCharts.Runtime
         /// 转换X轴和Y轴的配置
         /// </summary>
         /// <param name="index">坐标轴索引，0或1</param>
-        public void CovertXYAxis(int index)
+        public void ConvertXYAxis(int index)
         {
             List<MainComponent> m_XAxes;
             List<MainComponent> m_YAxes;
@@ -601,13 +636,14 @@ namespace XCharts.Runtime
         /// <returns></returns>
         public Color32 GetMarkColor(Serie serie, SerieData serieData)
         {
-            if (ChartHelper.IsClearColor(serie.markColor))
+            var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
+            if (ChartHelper.IsClearColor(itemStyle.markColor))
             {
                 return GetItemColor(serie, serieData);
             }
             else
             {
-                return serie.markColor;
+                return itemStyle.markColor;
             }
         }
 
@@ -630,16 +666,6 @@ namespace XCharts.Runtime
             Color32 color, toColor;
             SerieHelper.GetItemColor(out color, out toColor, serie, null, m_Theme);
             return color;
-        }
-
-        /// <summary>
-        /// 保存图表为图片。
-        /// </summary>
-        /// <param name="imageType">type of image: png, jpg, exr</param>
-        /// <param name="savePath">save path</param>
-        public void SaveAsImage(string imageType = "png", string savePath = "")
-        {
-            StartCoroutine(SaveAsImageSync(imageType, savePath));
         }
     }
 }

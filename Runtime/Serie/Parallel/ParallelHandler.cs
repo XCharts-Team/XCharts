@@ -11,15 +11,12 @@ namespace XCharts.Runtime
         public override void Update()
         {
             base.Update();
-            UpdateSerieContext();
         }
 
         public override void DrawSerie(VertexHelper vh)
         {
             DrawParallelSerie(vh, serie);
         }
-
-        private void UpdateSerieContext() { }
 
         private void DrawParallelSerie(VertexHelper vh, Parallel serie)
         {

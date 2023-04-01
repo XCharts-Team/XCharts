@@ -27,10 +27,6 @@ namespace XCharts.Runtime
         public override void Update()
         {
             base.Update();
-            if (serie.IsUseCoord<GridCoord>())
-                UpdateSerieContext();
-            else if (serie.IsUseCoord<PolarCoord>())
-                UpdateSeriePolarContext();
         }
 
         public override void DrawSerie(VertexHelper vh)
@@ -97,7 +93,7 @@ namespace XCharts.Runtime
                 {
                     var xAxis = chart.GetChartComponent<XAxis>(serie.xAxisIndex);
                     if (xAxis != null)
-                        category = xAxis.GetData((int) serieData.GetData(0));
+                        category = xAxis.GetData((int)serieData.GetData(0));
                 }
                 title = serie.serieName;
 
@@ -121,7 +117,15 @@ namespace XCharts.Runtime
             }
         }
 
-        private void UpdateSerieContext()
+        public override void UpdateSerieContext()
+        {
+            if (serie.IsUseCoord<GridCoord>())
+                UpdateSerieGridContext();
+            else if (serie.IsUseCoord<PolarCoord>())
+                UpdateSeriePolarContext();
+        }
+
+        private void UpdateSerieGridContext()
         {
             if (m_SerieGrid == null)
                 return;

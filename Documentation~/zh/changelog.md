@@ -1,11 +1,12 @@
 ---
-sidebar_position: 5
+sidebar_position: 61
 slug: /changelog
 ---
 
 # 更新日志
 
 [master](#master)  
+[v3.6.0](#v360)  
 [v3.5.0](#v350)  
 [v3.4.0](#v340)  
 [v3.3.0](#v330)  
@@ -64,6 +65,59 @@ slug: /changelog
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.6.0
+
+版本要点：
+
+* 增加`InputSystem`支持 (by __Bian-Sh__)
+* 增加官网[在线示例](https://xcharts-team.github.io/examples/)多版本支持 (by __SHL-COOL__)
+* 完善对`VR`的支持 (by __Ambitroc__)
+* 增加`UITable`，`UIStatistic`等[扩展UI组件](https://xcharts-team.github.io/docs/ui)
+* 增加`ItemStyle`的`MarkColor`
+* 增加通配符`{h}`的支持
+* 优化`Tooltip`，`Legend`，`DataZoom`，`Axis`等组件
+* 重构相关`API`接口，完善回调接口
+* 修复若干问题
+
+升级注意：
+
+* 部分接口有调整，可根据提示更换下接口即可。
+
+日志详情：
+
+* (2023.04.01) 发布`v3.6.0`版本
+* (2023.03.14) 修复`Tooltip`的`titleFormater`设置`{b}`可能不生效的问题
+* (2023.03.14) 修复`BarChart`在数据为0时不绘制柱条背景的问题 (#250) (by __Ambitroc__)
+* (2023.03.12) 增加`LabelStyle`的`autoRotate`可设置有角度的竖版文本的自动旋转
+* (2023.03.10) 增加`VR`等其他非鼠标输入方式的Point位置获取 (#248) (by __Ambitroc__)
+* (2023.03.09) 增加`Chart`的`onSerieClick`，`onSerieDown`，`onSerieEnter`和`onSerieExit`回调
+* (2023.03.09) 修复`Pie`的点击选中偏移不生效的问题
+* (2023.03.04) 增加`Legend`的`Positions`可自定义图例的位置
+* (2023.03.03) 修复`Animation`变更动画可能无效的问题
+* (2023.02.28) 修复`Legend`点击时`Serie`的`Label`不刷新的问题
+* (2023.02.26) 增加`DataZoom`的`startEndFunction`委托
+* (2023.02.12) 重构`Component`相关代码，调整API接口
+* (2023.02.10) 修复`Axis`在`Log`轴时某些情况下最小值不正确的问题
+* (2023.02.10) 优化`Axis`的数值`Label`的默认显示格式
+* (2023.02.08) 增加`DataZoom`的`startLock`和`endLock`参数支持锁定
+* (2023.02.02) 修复`DataZoom`开启时`X轴`的`Label`可能会显示在图表外的问题
+* (2023.02.02) 优化`SerieData`的`ignore`设置时的忽略数据判断
+* (2023.02.01) 修复`XChartsMgr.ContainsChart()`接口异常
+* (2023.01.31) 增加`InputSystem`的支持 (#242) (by __Bian-Sh__)
+* (2023.01.11) 修复`Inspector`上移除`Component`后图表没有及时刷新的问题 (#241)
+* (2023.01.06) 修复`Pie`在最后的几个数据都为0时`Label`显示不正常的问题 (#240)
+* (2023.01.03) 删除`Serie`的`MarkColor`，增加`ItemStyle`的`MarkColor`
+* (2022.12.29) 增加`Editor`对`List`的`+`添加编辑功能
+* (2022.12.29) 修复`UpdateXYData()`接口影响数据精度的问题 (#238)
+* (2022.12.28) 修复`Pie`只有一个数据时设置`border`后显示异常的问题 (#237)
+* (2022.12.22) 调整`Covert`重命名为`Convert`，涉及的接口有：`ConvertXYAxis()`，`CovertSerie()`等
+* (2022.12.22) 修复`Convert XY Axis`后Y轴的`Label`显示异常的问题
+* (2022.12.12) 修复`Axis`的`Value`轴在某些情况下计算数值范围不准确的问题
+* (2022.12.12) 优化`Legend`的`formatter`支持`{h}`通配符
+* (2022.12.12) 修复`Legend`的`formatter`设置为固定值时显示不正常的问题
+* (2022.12.08) 增加`AreaStyle`的`toTop`参数可设置折线图渐变色是到顶部还是到实际位置
+* (2022.12.07) 增加`Formatter`的文本通配符`{h}`支持设置当前颜色值
 
 ## v3.5.0
 
@@ -673,7 +727,7 @@ slug: /changelog
 * (2020.04.19) 优化`LineChart`折线图的区域填充渐变效果
 * (2020.04.19) 增加`AxisLabel`的`onZero`参数可将`Label`显示在`0`刻度上
 * (2020.04.19) 增加`Serie`和`AxisLabel`的`showAsPositiveNumber`参数将负数数值显示为正数
-* (2020.04.18) 增加`Covert XY Axis`互换XY轴配置
+* (2020.04.18) 增加`Convert XY Axis`互换XY轴配置
 * (2020.04.17) 增加`Axis`可通过`inverse`参数设置坐标轴反转
 * (2020.04.16) 修复`Check warning`在`Unity2019.3`上的显示问题
 * (2020.04.16) 修复`PieChart`在设置`Space`参数后动画绘制异常的问题

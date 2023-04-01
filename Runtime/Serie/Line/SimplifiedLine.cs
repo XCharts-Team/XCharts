@@ -8,8 +8,8 @@ namespace XCharts.Runtime
     [SerieConvert(typeof(SimplifiedBar), typeof(Line))]
     [CoordOptions(typeof(GridCoord))]
     [DefaultAnimation(AnimationType.LeftToRight)]
-    [SerieExtraComponent(typeof(AreaStyle))]
-    [SerieDataExtraComponent()]
+    [SerieComponent(typeof(AreaStyle))]
+    [SerieDataComponent()]
     [SerieDataExtraField()]
     public class SimplifiedLine : Serie, INeedSerieContainer, ISimplifiedSerie
     {
@@ -32,7 +32,7 @@ namespace XCharts.Runtime
             return serie;
         }
 
-        public static SimplifiedLine CovertSerie(Serie serie)
+        public static SimplifiedLine ConvertSerie(Serie serie)
         {
             var newSerie = serie.Clone<SimplifiedLine>();
             return newSerie;

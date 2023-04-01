@@ -21,6 +21,7 @@ namespace XCharts.Runtime
         private Vector3 m_IconOffest;
         private Align m_Align = Align.Left;
         private Image m_IconImage;
+        private bool m_Active = true;
 
         public Image icon
         {
@@ -40,6 +41,7 @@ namespace XCharts.Runtime
         public bool hideIconIfTextEmpty { set { m_HideIconIfTextEmpty = value; } }
         public bool isIconActive { get; private set; }
         public bool isAnimationEnd { get; internal set; }
+        public Rect rect { get; set; }
 
         internal RectTransform objectRect
         {
@@ -167,6 +169,11 @@ namespace XCharts.Runtime
             if (m_LabelText != null) m_LabelText.SetColor(color);
         }
 
+        public void SetRotate(float rotate)
+        {
+            transform.localEulerAngles = new Vector3(0, 0, rotate);
+        }
+
         public void SetTextRotate(float rotate)
         {
             if (m_LabelText != null) m_LabelText.SetLocalEulerAngles(new Vector3(0, 0, rotate));
@@ -187,14 +194,22 @@ namespace XCharts.Runtime
             return transform.localPosition;
         }
 
+        public override bool IsActive()
+        {
+            return m_Active;
+        }
+
         public void SetActive(bool flag)
         {
+            m_Active = flag;
             ChartHelper.SetActive(gameObject, flag);
         }
+
         public void SetTextActive(bool flag)
         {
             if (m_LabelText != null) m_LabelText.SetActive(flag);
         }
+
         public void SetIconActive(bool flag)
         {
             isIconActive = flag;

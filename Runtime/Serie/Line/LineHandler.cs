@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using XUGL;
 
@@ -69,7 +70,7 @@ namespace XCharts.Runtime
             var endLabelList = m_SerieGrid.context.endLabelList;
             if (endLabelList.Count <= 1) return;
 
-            endLabelList.Sort(delegate(ChartLabel a, ChartLabel b)
+            endLabelList.Sort(delegate (ChartLabel a, ChartLabel b)
             {
                 if (a == null || b == null) return 1;
                 return b.transform.position.y.CompareTo(a.transform.position.y);
@@ -95,6 +96,28 @@ namespace XCharts.Runtime
                     lastY = label.transform.localPosition.y;
                 }
             }
+        }
+
+        public override int GetPointerItemDataIndex()
+        {
+            var symbolSize = SerieHelper.GetSysmbolSize(serie, null, chart.theme, chart.theme.serie.lineSymbolSize) * 1.5f;
+            var count = serie.context.dataPoints.Count;
+            for (int i = 0; i < count; i++)
+            {
+                var index = serie.context.dataIndexs[i];
+                var serieData = serie.GetSerieData(index);
+                if (serieData == null)
+                    continue;
+                if (serieData.context.isClip)
+                    continue;
+
+                var pos = serie.context.dataPoints[i];
+                if (Vector2.Distance(pos, chart.pointerPos) < symbolSize)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
     }
 }

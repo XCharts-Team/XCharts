@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 31
 slug: /configuration
 ---
 
@@ -7,76 +7,176 @@ slug: /configuration
 
 ## Serie
 
-|||||
-|--|--|--|--|
-|[Bar](#bar)|[BaseScatter](#basescatter)|[Candlestick](#candlestick)|[EffectScatter](#effectscatter)|
-|[Heatmap](#heatmap)|[Line](#line)|[Parallel](#parallel)|[Pie](#pie)|
-|[Radar](#radar)|[Ring](#ring)|[Scatter](#scatter)|[Serie](#serie)|
-|[SimplifiedBar](#simplifiedbar)|[SimplifiedCandlestick](#simplifiedcandlestick)|[SimplifiedLine](#simplifiedline)|
+- [Bar](#bar)
+- [BaseScatter](#basescatter)
+- [Candlestick](#candlestick)
+- [EffectScatter](#effectscatter)
+- [Heatmap](#heatmap)
+- [Line](#line)
+- [Parallel](#parallel)
+- [Pie](#pie)
+- [Radar](#radar)
+- [Ring](#ring)
+- [Scatter](#scatter)
+- [Serie](#serie)
+- [SimplifiedBar](#simplifiedbar)
+- [SimplifiedCandlestick](#simplifiedcandlestick)
+- [SimplifiedLine](#simplifiedline)
+
 
 ## Theme
 
-|||||
-|--|--|--|--|
-|[AngleAxisTheme](#angleaxistheme)|[AxisTheme](#axistheme)|[BaseAxisTheme](#baseaxistheme)|[ComponentTheme](#componenttheme)|
-|[DataZoomTheme](#datazoomtheme)|[LegendTheme](#legendtheme)|[PolarAxisTheme](#polaraxistheme)|[RadarAxisTheme](#radaraxistheme)|
-|[RadiusAxisTheme](#radiusaxistheme)|[SerieTheme](#serietheme)|[SubTitleTheme](#subtitletheme)|[Theme](#theme)|
-|[ThemeStyle](#themestyle)|[TitleTheme](#titletheme)|[TooltipTheme](#tooltiptheme)|[VisualMapTheme](#visualmaptheme)|
+- [AngleAxisTheme](#angleaxistheme)
+- [AxisTheme](#axistheme)
+- [BaseAxisTheme](#baseaxistheme)
+- [ComponentTheme](#componenttheme)
+- [DataZoomTheme](#datazoomtheme)
+- [LegendTheme](#legendtheme)
+- [PolarAxisTheme](#polaraxistheme)
+- [RadarAxisTheme](#radaraxistheme)
+- [RadiusAxisTheme](#radiusaxistheme)
+- [SerieTheme](#serietheme)
+- [SubTitleTheme](#subtitletheme)
+- [Theme](#theme)
+- [ThemeStyle](#themestyle)
+- [TitleTheme](#titletheme)
+- [TooltipTheme](#tooltiptheme)
+- [UIComponentTheme](#uicomponenttheme)
+- [VisualMapTheme](#visualmaptheme)
+
 
 ## MainComponent
 
-|||||
-|--|--|--|--|
-|[AngleAxis](#angleaxis)|[Axis](#axis)|[Background](#background)|[CalendarCoord](#calendarcoord)|
-|[Comment](#comment)|[CoordSystem](#coordsystem)|[DataZoom](#datazoom)|[GridCoord](#gridcoord)|
-|[Legend](#legend)|[MarkArea](#markarea)|[MarkLine](#markline)|[ParallelAxis](#parallelaxis)|
-|[ParallelCoord](#parallelcoord)|[PolarCoord](#polarcoord)|[RadarCoord](#radarcoord)|[RadiusAxis](#radiusaxis)|
-|[Settings](#settings)|[SingleAxis](#singleaxis)|[SingleAxisCoord](#singleaxiscoord)|[Title](#title)|
-|[Tooltip](#tooltip)|[VisualMap](#visualmap)|[XAxis](#xaxis)|[YAxis](#yaxis)|
+- [AngleAxis](#angleaxis)
+- [Axis](#axis)
+- [Background](#background)
+- [CalendarCoord](#calendarcoord)
+- [Comment](#comment)
+- [CoordSystem](#coordsystem)
+- [DataZoom](#datazoom)
+- [GridCoord](#gridcoord)
+- [Legend](#legend)
+- [MarkArea](#markarea)
+- [MarkLine](#markline)
+- [ParallelAxis](#parallelaxis)
+- [ParallelCoord](#parallelcoord)
+- [PolarCoord](#polarcoord)
+- [RadarCoord](#radarcoord)
+- [RadiusAxis](#radiusaxis)
+- [Settings](#settings)
+- [SingleAxis](#singleaxis)
+- [SingleAxisCoord](#singleaxiscoord)
+- [Title](#title)
+- [Tooltip](#tooltip)
+- [VisualMap](#visualmap)
+- [XAxis](#xaxis)
+- [YAxis](#yaxis)
+
 
 ## ChildComponent
 
-|||||
-|--|--|--|--|
-|[AngleAxisTheme](#angleaxistheme)|[AnimationStyle](#animationstyle)|[AreaStyle](#areastyle)|[ArrowStyle](#arrowstyle)|
-|[AxisLabel](#axislabel)|[AxisLine](#axisline)|[AxisMinorSplitLine](#axisminorsplitline)|[AxisMinorTick](#axisminortick)|
-|[AxisName](#axisname)|[AxisSplitArea](#axissplitarea)|[AxisSplitLine](#axissplitline)|[AxisTheme](#axistheme)|
-|[AxisTick](#axistick)|[BaseAxisTheme](#baseaxistheme)|[BaseLine](#baseline)|[BlurStyle](#blurstyle)|
-|[CommentItem](#commentitem)|[CommentMarkStyle](#commentmarkstyle)|[ComponentTheme](#componenttheme)|[DataZoomTheme](#datazoomtheme)|
-|[EmphasisStyle](#emphasisstyle)|[EndLabelStyle](#endlabelstyle)|[IconStyle](#iconstyle)|[ImageStyle](#imagestyle)|
-|[ItemStyle](#itemstyle)|[LabelLine](#labelline)|[LabelStyle](#labelstyle)|[LegendTheme](#legendtheme)|
-|[Level](#level)|[LevelStyle](#levelstyle)|[LineArrow](#linearrow)|[LineStyle](#linestyle)|
-|[Location](#location)|[MarkAreaData](#markareadata)|[MarkLineData](#marklinedata)|[MarqueeStyle](#marqueestyle)|
-|[Padding](#padding)|[PolarAxisTheme](#polaraxistheme)|[RadarAxisTheme](#radaraxistheme)|[RadiusAxisTheme](#radiusaxistheme)|
-|[SelectStyle](#selectstyle)|[SerieData](#seriedata)|[SerieSymbol](#seriesymbol)|[SerieTheme](#serietheme)|
-|[StageColor](#stagecolor)|[StateStyle](#statestyle)|[SubTitleTheme](#subtitletheme)|[SymbolStyle](#symbolstyle)|
-|[TextLimit](#textlimit)|[TextPadding](#textpadding)|[TextStyle](#textstyle)|[ThemeStyle](#themestyle)|
-|[TitleStyle](#titlestyle)|[TitleTheme](#titletheme)|[TooltipTheme](#tooltiptheme)|[VisualMapRange](#visualmaprange)|
-|[VisualMapTheme](#visualmaptheme)|
+- [AngleAxisTheme](#angleaxistheme)
+- [AnimationStyle](#animationstyle)
+- [AreaStyle](#areastyle)
+- [ArrowStyle](#arrowstyle)
+- [AxisLabel](#axislabel)
+- [AxisLine](#axisline)
+- [AxisMinorSplitLine](#axisminorsplitline)
+- [AxisMinorTick](#axisminortick)
+- [AxisName](#axisname)
+- [AxisSplitArea](#axissplitarea)
+- [AxisSplitLine](#axissplitline)
+- [AxisTheme](#axistheme)
+- [AxisTick](#axistick)
+- [BaseAxisTheme](#baseaxistheme)
+- [BaseLine](#baseline)
+- [BlurStyle](#blurstyle)
+- [CommentItem](#commentitem)
+- [CommentMarkStyle](#commentmarkstyle)
+- [ComponentTheme](#componenttheme)
+- [DataZoomTheme](#datazoomtheme)
+- [EmphasisStyle](#emphasisstyle)
+- [EndLabelStyle](#endlabelstyle)
+- [IconStyle](#iconstyle)
+- [ImageStyle](#imagestyle)
+- [ItemStyle](#itemstyle)
+- [LabelLine](#labelline)
+- [LabelStyle](#labelstyle)
+- [LegendTheme](#legendtheme)
+- [Level](#level)
+- [LevelStyle](#levelstyle)
+- [LineArrow](#linearrow)
+- [LineStyle](#linestyle)
+- [Location](#location)
+- [MarkAreaData](#markareadata)
+- [MarkLineData](#marklinedata)
+- [MarqueeStyle](#marqueestyle)
+- [Padding](#padding)
+- [PolarAxisTheme](#polaraxistheme)
+- [RadarAxisTheme](#radaraxistheme)
+- [RadiusAxisTheme](#radiusaxistheme)
+- [SelectStyle](#selectstyle)
+- [SerieData](#seriedata)
+- [SerieSymbol](#seriesymbol)
+- [SerieTheme](#serietheme)
+- [StageColor](#stagecolor)
+- [StateStyle](#statestyle)
+- [SubTitleTheme](#subtitletheme)
+- [SymbolStyle](#symbolstyle)
+- [TextLimit](#textlimit)
+- [TextPadding](#textpadding)
+- [TextStyle](#textstyle)
+- [ThemeStyle](#themestyle)
+- [TitleStyle](#titlestyle)
+- [TitleTheme](#titletheme)
+- [TooltipTheme](#tooltiptheme)
+- [UIComponentTheme](#uicomponenttheme)
+- [VisualMapRange](#visualmaprange)
+- [VisualMapTheme](#visualmaptheme)
 
-## ISerieExtraComponent
 
-|||||
-|--|--|--|--|
-|[AreaStyle](#areastyle)|[BlurStyle](#blurstyle)|[EmphasisStyle](#emphasisstyle)|[ImageStyle](#imagestyle)|
-|[LabelLine](#labelline)|[LabelStyle](#labelstyle)|[LineArrow](#linearrow)|[SelectStyle](#selectstyle)|
-|[TitleStyle](#titlestyle)|
+## ISerieComponent
+
+- [AreaStyle](#areastyle)
+- [BlurStyle](#blurstyle)
+- [EmphasisStyle](#emphasisstyle)
+- [ImageStyle](#imagestyle)
+- [LabelLine](#labelline)
+- [LabelStyle](#labelstyle)
+- [LineArrow](#linearrow)
+- [SelectStyle](#selectstyle)
+- [TitleStyle](#titlestyle)
+
 
 ## ISerieDataComponent
 
-|||||
-|--|--|--|--|
-|[AreaStyle](#areastyle)|[BlurStyle](#blurstyle)|[EmphasisStyle](#emphasisstyle)|[ImageStyle](#imagestyle)|
-|[ItemStyle](#itemstyle)|[LabelLine](#labelline)|[LabelStyle](#labelstyle)|[LineStyle](#linestyle)|
-|[SelectStyle](#selectstyle)|[SerieSymbol](#seriesymbol)|[TitleStyle](#titlestyle)|
+- [AreaStyle](#areastyle)
+- [BlurStyle](#blurstyle)
+- [EmphasisStyle](#emphasisstyle)
+- [ImageStyle](#imagestyle)
+- [ItemStyle](#itemstyle)
+- [LabelLine](#labelline)
+- [LabelStyle](#labelstyle)
+- [LineStyle](#linestyle)
+- [SelectStyle](#selectstyle)
+- [SerieSymbol](#seriesymbol)
+- [TitleStyle](#titlestyle)
+
 
 ## Other Component
 
-|||||
-|--|--|--|--|
-|[BaseSerie](#baseserie)|[ChartText](#charttext)|[ChildComponent](#childcomponent)|[DebugInfo](#debuginfo)|
-|[Indicator](#indicator)|[Lang](#lang)|[LangCandlestick](#langcandlestick)|[LangTime](#langtime)|
-|[MainComponent](#maincomponent)|[XCResourcesImporter](#xcresourcesimporter)|[XCSettings](#xcsettings)|
+- [BaseSerie](#baseserie)
+- [ChartText](#charttext)
+- [ChildComponent](#childcomponent)
+- [DebugInfo](#debuginfo)
+- [Indicator](#indicator)
+- [Lang](#lang)
+- [LangCandlestick](#langcandlestick)
+- [LangTime](#langtime)
+- [MainComponent](#maincomponent)
+- [XCResourcesImporter](#xcresourcesimporter)
+- [XCSettings](#xcsettings)
+
 
 ## AngleAxis
 
@@ -116,7 +216,7 @@ the animation of serie.
 
 ## AreaStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 The style of area.
 
@@ -128,6 +228,7 @@ The style of area.
 |toColor|||Gradient color, start color to toColor.
 |opacity|0.6f||Opacity of the component. Supports value from 0 to 1, and the component will not be drawn when set to 0.
 |innerFill||v3.2.0|Whether to fill only polygonal areas. Currently, only convex polygons are supported.
+|toTop|true|v3.6.0|Whether to fill the gradient color to the top. The default is true, which means that the gradient color is filled to the top. If it is false, the gradient color is filled to the actual position.
 
 ## ArrowStyle
 
@@ -354,7 +455,7 @@ Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontai
 
 ## BlurStyle
 
-Inherits or Implemented: [StateStyle](#statestyle),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 > Since `v3.2.0`
 
@@ -473,6 +574,8 @@ DataZoom component is used for zooming a specific area, which enables user to in
 |lineStyle|||阴影线条样式。 [LineStyle](#linestyle)|
 |areaStyle|||阴影填充样式。 [AreaStyle](#areastyle)|
 |marqueeStyle||v3.5.0|选取框样式。 [MarqueeStyle](#marqueestyle)|
+|startLock||v3.6.0|Lock start value.
+|endLock||v3.6.0|Lock end value.
 
 ## DataZoomTheme
 
@@ -505,7 +608,7 @@ Inherits or Implemented: [BaseScatter](#basescatter)
 
 ## EmphasisStyle
 
-Inherits or Implemented: [StateStyle](#statestyle),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 > Since `v3.2.0`
 
@@ -567,7 +670,7 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 
 ## ImageStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -622,6 +725,7 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieDataComponent]
 |color0|||数据项颜色。
 |toColor|||Gradient color1.
 |toColor2|||Gradient color2.Only valid in line diagrams.
+|markColor||v3.6.0|Serie's mark color. It is only used to display Legend and Tooltip, and does not affect the drawing color. The default value is clear.
 |backgroundColor|||数据项背景颜色。
 |backgroundWidth|||数据项背景宽度。
 |centerColor|||中心区域颜色。
@@ -639,7 +743,7 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieDataComponent]
 
 ## LabelLine
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 标签的引导线
 
@@ -658,7 +762,7 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent
 
 ## LabelStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 Text label of chart, to explain some data information about graphic item like value, name and so on.
 
@@ -669,6 +773,7 @@ Text label of chart, to explain some data information about graphic item like va
 |autoOffset|false||是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。
 |offset|||offset to the host graphic element.
 |rotate|||Rotation of label.
+|autoRotate|false|v3.6.0|auto rotate of label.
 |distance|||距离轴线的距离。
 |formatter|||formatter of label.
 |numericFormatter|||Standard numeric format strings.
@@ -718,6 +823,7 @@ Legend component.The legend component shows different sets of tags, colors, and 
 |colors|||the colors of legend item.
 |background||v3.1.0|the sytle of background. [ImageStyle](#imagestyle)|
 |padding||v3.1.0|the paddinng of item and background. [Padding](#padding)|
+|positions||v3.6.0|the custom positions of legend item.
 
 ## LegendTheme
 
@@ -753,7 +859,7 @@ Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontai
 
 ## LineArrow
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieExtraComponent](#iserieextracomponent)
+Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent)
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -986,7 +1092,7 @@ Inherits or Implemented: [BaseScatter](#basescatter)
 
 ## SelectStyle
 
-Inherits or Implemented: [StateStyle](#statestyle),[ISerieExtraComponent](#iserieextracomponent),[ISerieDataComponent](#iseriedatacomponent)
+Inherits or Implemented: [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
 > Since `v3.2.0`
 
@@ -1008,7 +1114,6 @@ Inherits or Implemented: [BaseSerie](#baseserie),[IComparable](#icomparable)
 |serieName|||Series name used for displaying in tooltip and filtering with legend.
 |state||v3.2.0|The default state of a serie.<br/>`SerieState`:<br/>- `Normal`: Normal state.<br/>- `Emphasis`: Emphasis state.<br/>- `Blur`: Blur state.<br/>- `Select`: Select state.<br/>- `Auto`: Auto state.<br/>|
 |colorBy||v3.2.0|The policy to take color from theme.<br/>`SerieColorBy`:<br/>- `Default`: Select state.<br/>- `Serie`: assigns the colors in the palette by serie, so that all data in the same series are in the same color;.<br/>- `Data`: assigns colors in the palette according to data items, with each data item using a different color..<br/>|
-|markColor||v3.4.0|Serie's mark color. It is only used to display Legend and Tooltip, and does not affect the drawing color. The default value is clear.
 |stack|||If stack the value. On the same category axis, the series with the same stack name would be put on top of each other.
 |xAxisIndex|0||the index of XAxis.
 |yAxisIndex|0||the index of YAxis.
@@ -1024,7 +1129,7 @@ Inherits or Implemented: [BaseSerie](#baseserie),[IComparable](#icomparable)
 |sampleType|||the type of sample.<br/>`SampleType`:<br/>- `Peak`: Take a peak. When the average value of the filter point is greater than or equal to 'sampleAverage', take the maximum value; If you do it the other way around, you get the minimum.<br/>- `Average`: Take the average of the filter points.<br/>- `Max`: Take the maximum value of the filter point.<br/>- `Min`: Take the minimum value of the filter point.<br/>- `Sum`: Take the sum of the filter points.<br/>|
 |sampleAverage|0||设定的采样平均值。当sampleType 为 Peak 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为0时会实时计算所有数据的平均值。
 |lineType|||The type of line chart.<br/>`LineType`:<br/>- `Normal`: the normal line chart，<br/>- `Smooth`: the smooth line chart，<br/>- `StepStart`: step line.<br/>- `StepMiddle`: step line.<br/>- `StepEnd`: step line.<br/>|
-|smoothLimit|true|v3.4.0|Whether to restrict the curve. When true, the curve between two continuous data of the same value is restricted to not exceed the data point, and is flat to the data point.
+|smoothLimit|false|v3.4.0|Whether to restrict the curve. When true, the curve between two continuous data of the same value is restricted to not exceed the data point, and is flat to the data point.
 |barType|||柱形图类型。<br/>`BarType`:<br/>- `Normal`: normal bar.<br/>- `Zebra`: zebra bar.<br/>- `Capsule`: capsule bar.<br/>|
 |barPercentStack|false||柱形图是否为百分比堆积。相同stack的serie只要有一个barPercentStack为true，则就显示成百分比堆叠柱状图。
 |barWidth|0||The width of the bar. Adaptive when default 0.
@@ -1341,7 +1446,7 @@ Title component, including main title and subtitle.
 
 ## TitleStyle
 
-Inherits or Implemented: [LabelStyle](#labelstyle),[ISerieDataComponent](#iseriedatacomponent),[ISerieExtraComponent](#iserieextracomponent)
+Inherits or Implemented: [LabelStyle](#labelstyle),[ISerieDataComponent](#iseriedatacomponent),[ISerieComponent](#iseriecomponent)
 
 the title of serie.
 
@@ -1403,6 +1508,16 @@ Inherits or Implemented: [ComponentTheme](#componenttheme)
 |areaColor|||the color of line.
 |labelTextColor|||the text color of tooltip cross indicator's axis label.
 |labelBackgroundColor|||the background color of tooltip cross indicator's axis label.
+
+## UIComponentTheme
+
+Inherits or Implemented: [ChildComponent](#childcomponent)
+
+|field|default|since|comment|
+|--|--|--|--|
+|show|true||
+|sharedTheme|||the asset of theme. [Theme](#theme)|
+|transparentBackground|false||
 
 ## VisualMap
 

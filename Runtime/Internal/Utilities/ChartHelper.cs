@@ -123,14 +123,14 @@ namespace XCharts.Runtime
                 GameObject.DestroyImmediate(go.gameObject, true);
             }
         }
-        public static void DestoryGameObjectByMatch(Transform parent, string match)
+        public static void DestoryGameObjectByMatch(Transform parent, string containString)
         {
             if (parent == null) return;
             var childCount = parent.childCount;
             for (int i = childCount - 1; i >= 0; i--)
             {
                 var go = parent.GetChild(i);
-                if (go != null && go.name.StartsWith(match))
+                if (go != null && go.name.Contains(containString))
                 {
                     GameObject.DestroyImmediate(go.gameObject, true);
                 }
@@ -161,20 +161,47 @@ namespace XCharts.Runtime
             {
 #if UNITY_EDITOR
                 if (!Application.isPlaying)
-                    GameObject.DestroyImmediate(component as GameObject, true);
+                    GameObject.DestroyImmediate(component as UnityEngine.Object);
                 else
-                    GameObject.Destroy(component as GameObject);
+                    GameObject.Destroy(component as UnityEngine.Object);
 #else
-                GameObject.Destroy(component as GameObject);
+                GameObject.Destroy(component as UnityEngine.Object);
 #endif
             }
         }
+
+        [System.Obsolete("Use EnsureComponent instead")]
         public static T GetOrAddComponent<T>(Transform transform) where T : Component
         {
-            return GetOrAddComponent<T>(transform.gameObject);
+            return EnsureComponent<T>(transform.gameObject);
         }
 
+        [System.Obsolete("Use EnsureComponent instead")]
         public static T GetOrAddComponent<T>(GameObject gameObject) where T : Component
+        {
+            return EnsureComponent<T>(gameObject);
+        }
+
+        /// <summary>
+        /// Ensure that the transform has the specified component, add it if not.
+        /// |确保对象有指定的组件，如果没有则添加。
+        /// </summary>
+        /// <param name="transform"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T EnsureComponent<T>(Transform transform) where T : Component
+        {
+            return EnsureComponent<T>(transform.gameObject);
+        }
+
+        /// <summary>
+        /// Ensure that the game object has the specified component, add it if not.
+        /// | 确保对象有指定的组件，如果没有则添加。
+        /// </summary>
+        /// <param name="gameObject"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T EnsureComponent<T>(GameObject gameObject) where T : Component
         {
             if (gameObject.GetComponent<T>() == null)
             {
@@ -214,7 +241,7 @@ namespace XCharts.Runtime
                 obj.transform.localRotation = Quaternion.Euler(0, 0, 0);
                 obj.layer = parent.gameObject.layer;
             }
-            RectTransform rect = GetOrAddComponent<RectTransform>(obj);
+            RectTransform rect = EnsureComponent<RectTransform>(obj);
             rect.localPosition = Vector3.zero;
             rect.sizeDelta = sizeDelta;
             rect.anchorMin = anchorMin;
@@ -228,7 +255,7 @@ namespace XCharts.Runtime
             Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta)
         {
             if (obj == null) return;
-            RectTransform rect = GetOrAddComponent<RectTransform>(obj);
+            RectTransform rect = EnsureComponent<RectTransform>(obj);
             rect.sizeDelta = sizeDelta;
             rect.anchorMin = anchorMin;
             rect.anchorMax = anchorMax;
@@ -253,7 +280,7 @@ namespace XCharts.Runtime
             chartText.tmpText.raycastTarget = false;
             chartText.tmpText.enableWordWrapping = textStyle.autoWrap;
 #else
-            chartText.text = GetOrAddComponent<Text>(txtObj);
+            chartText.text = EnsureComponent<Text>(txtObj);
             chartText.text.font = textStyle.font == null ? theme.font : textStyle.font;
             chartText.text.fontStyle = textStyle.fontStyle;
             chartText.text.horizontalOverflow = textStyle.autoWrap ? HorizontalWrapMode.Wrap : HorizontalWrapMode.Overflow;
@@ -272,7 +299,7 @@ namespace XCharts.Runtime
             chartText.SetLineSpacing(textStyle.lineSpacing);
             chartText.SetActive(textStyle.show);
 
-            RectTransform rect = GetOrAddComponent<RectTransform>(txtObj);
+            RectTransform rect = EnsureComponent<RectTransform>(txtObj);
             rect.localPosition = Vector3.zero;
             rect.sizeDelta = sizeDelta;
             rect.anchorMin = anchorMin;
@@ -281,13 +308,13 @@ namespace XCharts.Runtime
             return chartText;
         }
 
-        internal static Painter AddPainterObject(string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax,
+        public static Painter AddPainterObject(string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax,
             Vector2 pivot, Vector2 sizeDelta, HideFlags hideFlags, int siblingIndex)
         {
             var painterObj = ChartHelper.AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             painterObj.hideFlags = hideFlags;
             painterObj.transform.SetSiblingIndex(siblingIndex);
-            return ChartHelper.GetOrAddComponent<Painter>(painterObj);
+            return ChartHelper.EnsureComponent<Painter>(painterObj);
         }
 
         public static Image AddIcon(string name, Transform parent, IconStyle iconStyle)
@@ -303,7 +330,7 @@ namespace XCharts.Runtime
             var pivot = new Vector2(0.5f, 0.5f);
             var sizeDelta = new Vector2(width, height);
             GameObject iconObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
-            var img = GetOrAddComponent<Image>(iconObj);
+            var img = EnsureComponent<Image>(iconObj);
             if (img.raycastTarget != false)
                 img.raycastTarget = false;
             if (img.type != type)
@@ -324,14 +351,20 @@ namespace XCharts.Runtime
             if (background == null) return;
             if (imageStyle.show)
             {
+                background.gameObject.SetActive(true);
                 background.sprite = imageStyle.sprite;
                 background.color = imageStyle.color;
                 background.type = imageStyle.type;
+                if (imageStyle.width > 0 && imageStyle.height > 0)
+                {
+                    background.rectTransform.sizeDelta = new Vector2(imageStyle.width, imageStyle.height);
+                }
             }
             else
             {
                 background.sprite = null;
                 background.color = Color.clear;
+                background.gameObject.SetActive(false);
             }
         }
 
@@ -356,7 +389,43 @@ namespace XCharts.Runtime
             var alignment = textStyle.GetAlignment(autoAlignment);
             UpdateAnchorAndPivotByTextAlignment(alignment, out anchorMin, out anchorMax, out pivot);
             var labelObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
-            var label = GetOrAddComponent<ChartLabel>(labelObj);
+            //ChartHelper.RemoveComponent<Text>(labelObj);
+            var label = EnsureComponent<ChartLabel>(labelObj);
+            label.text = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot,
+                sizeDelta, textStyle, theme, autoColor, autoAlignment, label.text);
+            label.icon = ChartHelper.AddIcon("Icon", label.gameObject.transform, labelStyle.icon);
+            label.SetSize(labelStyle.width, labelStyle.height);
+            label.SetTextPadding(labelStyle.textPadding);
+            label.SetText(content);
+            label.UpdateIcon(labelStyle.icon);
+            if (labelStyle.background.show)
+            {
+                label.color = (!labelStyle.background.autoColor || autoColor == Color.clear) ?
+                    labelStyle.background.color : autoColor;
+                label.sprite = labelStyle.background.sprite;
+                label.type = labelStyle.background.type;
+            }
+            else
+            {
+                label.color = Color.clear;
+                label.sprite = null;
+            }
+            label.transform.localEulerAngles = new Vector3(0, 0, labelStyle.rotate);
+            label.transform.localPosition = labelStyle.offset;
+            return label;
+        }
+
+        public static ChartLabel AddChartLabel2(string name, Transform parent, LabelStyle labelStyle,
+            ComponentTheme theme, string content, Color autoColor, TextAnchor autoAlignment = TextAnchor.MiddleCenter)
+        {
+            Vector2 anchorMin, anchorMax, pivot;
+            var sizeDelta = new Vector2(labelStyle.width, labelStyle.height);
+            var textStyle = labelStyle.textStyle;
+            var alignment = textStyle.GetAlignment(autoAlignment);
+            UpdateAnchorAndPivotByTextAlignment(alignment, out anchorMin, out anchorMax, out pivot);
+            var vector0_5 = new Vector2(0.5f, 0.5f);
+            var labelObj = AddObject(name, parent, vector0_5, vector0_5, vector0_5, sizeDelta);
+            var label = EnsureComponent<ChartLabel>(labelObj);
             label.text = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot,
                 sizeDelta, textStyle, theme, autoColor, autoAlignment, label.text);
             label.icon = ChartHelper.AddIcon("Icon", label.gameObject.transform, labelStyle.icon);
@@ -678,7 +747,7 @@ namespace XCharts.Runtime
             }
             if (ceilRate == 0)
             {
-                var bigger = Math.Floor(Math.Abs(min));
+                var bigger = min < 0 ? Math.Ceiling(Math.Abs(min)) : Math.Floor(Math.Abs(min));
                 int n = 1;
                 while (bigger / (Mathf.Pow(10, n)) > 10)
                 {
@@ -741,24 +810,12 @@ namespace XCharts.Runtime
             return min;
         }
 
-        public static int GetFloatAccuracy(double value)
-        {
-            if (value > 1 || value < -1) return 0;
-            int count = 1;
-            int intvalue = (int) (value * Mathf.Pow(10, count));
-            while (intvalue == 0 && count < 38)
-            {
-                count++;
-                intvalue = (int) (value * Mathf.Pow(10, count));
-            }
-            if (count == 38 && (value == 0 || value == 1)) return 1;
-            else return count;
-        }
+        
 
         public static void AddEventListener(GameObject obj, EventTriggerType type,
             UnityEngine.Events.UnityAction<BaseEventData> call)
         {
-            EventTrigger trigger = GetOrAddComponent<EventTrigger>(obj.gameObject);
+            EventTrigger trigger = EnsureComponent<EventTrigger>(obj.gameObject);
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = type;
             entry.callback = new EventTrigger.TriggerEvent();

@@ -179,23 +179,23 @@ namespace XCharts.Runtime
             RefreshChart();
         }
 
-        public bool CovertSerie<T>(Serie serie) where T : Serie
+        public bool ConvertSerie<T>(Serie serie) where T : Serie
         {
-            return CovertSerie(serie, typeof(T));
+            return ConvertSerie(serie, typeof(T));
         }
 
-        public bool CovertSerie(Serie serie, Type type)
+        public bool ConvertSerie(Serie serie, Type type)
         {
             try
             {
-                var newSerie = type.InvokeMember("CovertSerie",
+                var newSerie = type.InvokeMember("ConvertSerie",
                     BindingFlags.InvokeMethod | BindingFlags.Static | BindingFlags.Public, null, null,
                     new object[] { serie }) as Serie;
                 return ReplaceSerie(serie, newSerie);
             }
             catch
             {
-                Debug.LogError(string.Format("CovertSerie Failed: can't found {0}.CovertSerie(Serie serie)", type.Name));
+                Debug.LogError(string.Format("ConvertSerie Failed: can't found {0}.ConvertSerie(Serie serie)", type.Name));
                 return false;
             }
         }
@@ -647,6 +647,7 @@ namespace XCharts.Runtime
         public void SetSerieActive(Serie serie, bool active)
         {
             serie.show = active;
+            serie.RefreshLabel();
             serie.AnimationReset();
             if (active) serie.AnimationFadeIn();
             UpdateLegendColor(serie.serieName, active);

@@ -8,6 +8,6 @@ namespace XCharts.Runtime
     /// </summary>
     [System.Serializable]
     [Since("v3.2.0")]
-    public class SelectStyle : StateStyle, ISerieExtraComponent, ISerieDataComponent
+    public class SelectStyle : StateStyle, ISerieComponent, ISerieDataComponent
     { }
 }

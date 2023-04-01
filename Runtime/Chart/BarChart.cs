@@ -14,7 +14,7 @@ namespace XCharts.Runtime
             AddChartComponentWhenNoExist<XAxis>();
             AddChartComponentWhenNoExist<YAxis>();
 
-            var tooltip = GetOrAddChartComponent<Tooltip>();
+            var tooltip = EnsureChartComponent<Tooltip>();
             tooltip.type = Tooltip.Type.Shadow;
             tooltip.trigger = Tooltip.Trigger.Axis;
 

@@ -8,7 +8,7 @@ namespace XCharts.Runtime
     /// |图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
     /// </summary>
     [System.Serializable]
-    public class LabelStyle : ChildComponent, ISerieExtraComponent, ISerieDataComponent
+    public class LabelStyle : ChildComponent, ISerieComponent, ISerieDataComponent
     {
         /// <summary>
         /// The position of label.
@@ -74,6 +74,7 @@ namespace XCharts.Runtime
         [SerializeField] protected bool m_AutoOffset = false;
         [SerializeField] protected Vector3 m_Offset;
         [SerializeField] protected float m_Rotate;
+        [SerializeField][Since("v3.6.0")] protected bool m_AutoRotate = false;
         [SerializeField] protected float m_Distance;
         [SerializeField] protected string m_Formatter;
         [SerializeField] protected string m_NumericFormatter = "";
@@ -153,6 +154,15 @@ namespace XCharts.Runtime
         {
             get { return m_Rotate; }
             set { if (PropertyUtil.SetStruct(ref m_Rotate, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// auto rotate of label.
+        /// |是否自动旋转。
+        /// </summary>
+        public bool autoRotate
+        {
+            get { return m_AutoRotate; }
+            set { if (PropertyUtil.SetStruct(ref m_AutoRotate, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// 距离轴线的距离。
@@ -336,33 +346,38 @@ namespace XCharts.Runtime
 
         public virtual string GetFormatterContent(int labelIndex, double value, double minValue, double maxValue, bool isLog = false)
         {
+            var newNumericFormatter = numericFormatter;
+            if (string.IsNullOrEmpty(newNumericFormatter) && !isLog)
+            {
+                newNumericFormatter = MathUtil.IsInteger(maxValue) ? "0" : "f" + MathUtil.GetPrecision(maxValue);
+            }
             if (string.IsNullOrEmpty(m_Formatter))
             {
                 if (isLog)
                 {
-                    return GetFormatterFunctionContent(labelIndex, value, ChartCached.NumberToStr(value, numericFormatter));
+                    return GetFormatterFunctionContent(labelIndex, value, ChartCached.NumberToStr(value, newNumericFormatter));
                 }
                 if (minValue >= -1 && minValue <= 1 && maxValue >= -1 && maxValue <= 1)
                 {
-                    int minAcc = ChartHelper.GetFloatAccuracy(minValue);
-                    int maxAcc = ChartHelper.GetFloatAccuracy(maxValue);
-                    int curAcc = ChartHelper.GetFloatAccuracy(value);
+                    int minAcc = MathUtil.GetPrecision(minValue);
+                    int maxAcc = MathUtil.GetPrecision(maxValue);
+                    int curAcc = MathUtil.GetPrecision(value);
                     int acc = Mathf.Max(Mathf.Max(minAcc, maxAcc), curAcc);
-                    return GetFormatterFunctionContent(labelIndex, value, ChartCached.FloatToStr(value, numericFormatter, acc));
+                    return GetFormatterFunctionContent(labelIndex, value, ChartCached.FloatToStr(value, newNumericFormatter, acc));
                 }
-                return GetFormatterFunctionContent(labelIndex, value, ChartCached.NumberToStr(value, numericFormatter));
+                return GetFormatterFunctionContent(labelIndex, value, ChartCached.NumberToStr(value, newNumericFormatter));
             }
             else
             {
                 var content = m_Formatter;
-                FormatterHelper.ReplaceAxisLabelContent(ref content, numericFormatter, value);
+                FormatterHelper.ReplaceAxisLabelContent(ref content, newNumericFormatter, value);
                 return GetFormatterFunctionContent(labelIndex, value, content);
             }
         }
 
         public string GetFormatterDateTime(int labelIndex, double value, double minValue, double maxValue)
         {
-            var timestamp = (int) value;
+            var timestamp = (int)value;
             var dateTime = DateTimeUtil.GetDateTime(timestamp);
             var dateString = string.Empty;
             if (string.IsNullOrEmpty(numericFormatter) || numericFormatter.Equals("f2"))

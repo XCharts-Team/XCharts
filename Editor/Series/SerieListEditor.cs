@@ -169,22 +169,22 @@ namespace XCharts.Editor
                     RefreshEditors();
                 }
             }));
-            foreach (var type in GetCovertToSerie(editor.serie.GetType()))
+            foreach (var type in GetConvertToSerie(editor.serie.GetType()))
             {
-                editor.menus.Add(new HeaderMenuInfo("Covert to " + type.Name, () =>
+                editor.menus.Add(new HeaderMenuInfo("Convert to " + type.Name, () =>
                 {
-                    CovertSerie(editor.serie, type);
+                    ConvertSerie(editor.serie, type);
                 }));
             }
-            if (editor.serie.GetType().IsDefined(typeof(SerieExtraComponentAttribute), false))
+            if (editor.serie.GetType().IsDefined(typeof(SerieComponentAttribute), false))
             {
-                var attribute = editor.serie.GetType().GetAttribute<SerieExtraComponentAttribute>();
+                var attribute = editor.serie.GetType().GetAttribute<SerieComponentAttribute>();
                 foreach (var type in attribute.types)
                 {
                     var size = editor.FindProperty(Serie.extraComponentMap[type]).arraySize;
                     editor.menus.Add(new HeaderMenuInfo("Add " + type.Name, () =>
                     {
-                        editor.serie.AddExtraComponent(type);
+                        editor.serie.EnsureComponent(type);
                         RefreshEditors();
                         chart.RefreshAllComponent();
                         EditorUtility.SetDirty(chart);
@@ -195,7 +195,7 @@ namespace XCharts.Editor
                     var size = editor.FindProperty(Serie.extraComponentMap[type]).arraySize;
                     editor.menus.Add(new HeaderMenuInfo("Remove " + type.Name, () =>
                     {
-                        editor.serie.RemoveExtraComponent(type);
+                        editor.serie.RemoveComponent(type);
                         RefreshEditors();
                         chart.RefreshAllComponent();
                         EditorUtility.SetDirty(chart);
@@ -224,9 +224,9 @@ namespace XCharts.Editor
             AssetDatabase.Refresh();
         }
 
-        public void CovertSerie(Serie serie, Type type)
+        public void ConvertSerie(Serie serie, Type type)
         {
-            chart.CovertSerie(serie, type);
+            chart.ConvertSerie(serie, type);
             m_SeriesProperty = m_BaseEditor.RefreshSeries();
             RefreshEditors();
         }
@@ -254,7 +254,7 @@ namespace XCharts.Editor
             AssetDatabase.Refresh();
         }
 
-        private List<Type> GetCovertToSerie(Type serie)
+        private List<Type> GetConvertToSerie(Type serie)
         {
             var list = new List<Type>();
             var typeMap = RuntimeUtil.GetAllTypesDerivedFrom<Serie>();

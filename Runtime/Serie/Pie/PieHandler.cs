@@ -12,7 +12,6 @@ namespace XCharts.Runtime
         public override void Update()
         {
             base.Update();
-            UpdateSerieContext();
         }
 
         public override void DrawBase(VertexHelper vh)
@@ -79,32 +78,28 @@ namespace XCharts.Runtime
 
         public override void OnPointerDown(PointerEventData eventData)
         {
-            if (!chart.HasSerie<Pie>()) return;
             if (chart.pointerPos == Vector2.zero) return;
+            var dataIndex = GetPiePosIndex(serie, chart.pointerPos);
             var refresh = false;
-            for (int i = 0; i < chart.series.Count; i++)
+            if (dataIndex >= 0)
             {
-                var serie = chart.GetSerie(i);
-                if (!(serie is Pie)) continue;
-                var index = GetPiePosIndex(serie, chart.pointerPos);
-                if (index >= 0)
+                refresh = true;
+                for (int j = 0; j < serie.data.Count; j++)
                 {
-                    refresh = true;
-                    for (int j = 0; j < serie.data.Count; j++)
-                    {
-                        if (j == index) serie.data[j].context.selected = !serie.data[j].context.selected;
-                        else serie.data[j].context.selected = false;
-                    }
-                    if (chart.onPointerClickPie != null)
-                    {
-                        chart.onPointerClickPie(eventData, i, index);
-                    }
+                    if (j == dataIndex) serie.data[j].context.selected = !serie.data[j].context.selected;
+                    else serie.data[j].context.selected = false;
                 }
             }
             if (refresh) chart.RefreshChart();
+            base.OnPointerDown(eventData);
         }
 
-        private void UpdateSerieContext()
+        public override int GetPointerItemDataIndex()
+        {
+            return GetPiePosIndex(serie, chart.pointerPos);
+        }
+
+        public override void UpdateSerieContext()
         {
             var needCheck = m_LegendEnter || (chart.isPointerInChart && PointerIsInPieSerie(serie, chart.pointerPos));
             var needInteract = false;
@@ -123,14 +118,8 @@ namespace XCharts.Runtime
                         serieData.context.highlight = false;
                         serieData.interact.SetValueAndColor(ref needInteract, serieData.context.outsideRadius, color, toColor);
                     }
-                    if (chart.onPointerEnterPie != null)
-                    {
-                        chart.onPointerEnterPie(serie.index, serie.context.pointerItemDataIndex);
-                    }
                     if (needInteract)
-                    {
                         chart.RefreshPainter(serie);
-                    }
                 }
                 return;
             }
@@ -138,6 +127,7 @@ namespace XCharts.Runtime
             var lastPointerItemDataIndex = serie.context.pointerItemDataIndex;
             var dataIndex = GetPiePosIndex(serie, chart.pointerPos);
             serie.context.pointerItemDataIndex = -1;
+            serie.context.pointerEnter = dataIndex >= 0;
             for (int i = 0; i < serie.dataCount; i++)
             {
                 var serieData = serie.data[i];
@@ -162,10 +152,6 @@ namespace XCharts.Runtime
             if (lastPointerItemDataIndex != serie.context.pointerItemDataIndex)
             {
                 needInteract = true;
-                if (chart.onPointerEnterPie != null)
-                {
-                    chart.onPointerEnterPie(serie.index, serie.context.pointerItemDataIndex);
-                }
             }
             if (needInteract)
             {
@@ -220,21 +206,21 @@ namespace XCharts.Runtime
                 }
                 float degree = serie.pieRoseType == RoseType.Area ?
                     (totalDegree / showdataCount) :
-                    (float) (totalDegree * value / dataTotalFilterMinAngle);
+                    (float)(totalDegree * value / dataTotalFilterMinAngle);
                 if (serie.minAngle > 0 && degree < serie.minAngle) degree = serie.minAngle;
                 serieData.context.toAngle = startDegree + degree;
                 if (serieData.radius > 0)
                     serieData.context.outsideRadius = ChartHelper.GetActualValue(serieData.radius, Mathf.Min(chart.chartWidth, chart.chartHeight));
                 else
                     serieData.context.outsideRadius = serie.pieRoseType > 0 ?
-                    serie.context.insideRadius + (float) ((serie.context.outsideRadius - serie.context.insideRadius) * value / serie.context.dataMax) :
+                    serie.context.insideRadius + (float)((serie.context.outsideRadius - serie.context.insideRadius) * value / serie.context.dataMax) :
                     serie.context.outsideRadius;
                 if (serieData.context.highlight)
                 {
                     serieData.context.outsideRadius += chart.theme.serie.pieTooltipExtraRadius;
                 }
                 var offset = 0f;
-                if (serie.pieClickOffset && serieData.selected)
+                if (serie.pieClickOffset && (serieData.selected || serieData.context.selected))
                 {
                     offset += chart.theme.serie.pieSelectedOffset;
                 }
@@ -248,6 +234,7 @@ namespace XCharts.Runtime
                 }
                 var halfDegree = (serieData.context.toAngle - startDegree) / 2;
                 serieData.context.halfAngle = startDegree + halfDegree;
+                serieData.context.angle = startDegree + halfDegree;
                 serieData.context.offsetCenter = serie.context.center;
                 serieData.context.insideRadius = serie.context.insideRadius;
                 if (offset > 0)
@@ -258,7 +245,7 @@ namespace XCharts.Runtime
                     serieData.context.offsetRadius = 0;
                     serieData.context.insideRadius -= serieData.context.offsetRadius;
                     serieData.context.outsideRadius -= serieData.context.offsetRadius;
-                    if (serie.pieClickOffset && serieData.selected)
+                    if (serie.pieClickOffset && (serieData.selected || serieData.context.selected))
                     {
                         serieData.context.offsetRadius += chart.theme.serie.pieSelectedOffset;
                         if (serieData.context.insideRadius > 0)
@@ -350,7 +337,7 @@ namespace XCharts.Runtime
                     serieData.interact.SetValueAndColor(ref interacting, outsideRadius, color, toColor);
                 }
 
-                if (serie.pieClickOffset && serieData.selected)
+                if (serie.pieClickOffset && (serieData.selected || serieData.context.selected))
                 {
                     var drawEndDegree = serieData.context.currentAngle;
                     var needRoundCap = serie.roundCap && insideRadius > 0;
@@ -491,8 +478,9 @@ namespace XCharts.Runtime
                     pos6 = pos0 + Vector3.left * lineCircleDiff;
                     pos4 = pos6 + Vector3.left * r4;
                 }
-                var pos5X = (currAngle - startAngle) % 360 > 180 ?
-                    pos2.x - labelLine.lineLength2 : pos2.x + labelLine.lineLength2;
+                var diffAngle = (currAngle - startAngle) % 360;
+                var isLeft = diffAngle > 180 || (diffAngle == 0 && serieData.context.startAngle > 0);
+                var pos5X = isLeft ? pos2.x - labelLine.lineLength2 : pos2.x + labelLine.lineLength2;
                 var pos5 = new Vector3(pos5X, pos2.y);
                 var angle = Vector3.Angle(pos1 - center, pos2 - pos1);
                 if (angle > 15)
@@ -537,7 +525,7 @@ namespace XCharts.Runtime
                 var serieData = serie.data[i];
                 if (angle >= serieData.context.startAngle && angle <= serieData.context.toAngle)
                 {
-                    var ndist = serieData.selected ?
+                    var ndist = (serieData.selected || serieData.context.selected) ?
                         Vector2.Distance(local, serieData.context.offsetCenter) :
                         dist;
                     if (ndist >= serieData.context.insideRadius && ndist <= serieData.context.outsideRadius)

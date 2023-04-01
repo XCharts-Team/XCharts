@@ -28,7 +28,7 @@ namespace XCharts.Example
             serie.symbol.show = false;
             serie.maxCache = maxCacheDataNumber;
 
-            var xAxis = chart.GetOrAddChartComponent<XAxis>();
+            var xAxis = chart.EnsureChartComponent<XAxis>();
             xAxis.maxCache = maxCacheDataNumber;
             timeNow = DateTime.Now;
             timeNow = timeNow.AddSeconds(-maxCacheDataNumber);

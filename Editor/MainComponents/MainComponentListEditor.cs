@@ -151,6 +151,7 @@ namespace XCharts.Editor
             m_Editors[id].OnDisable();
             chart.RemoveChartComponent(m_Editors[id].component);
             m_Editors.RemoveAt(id);
+            chart.RebuildChartObject();
             m_ComponentsProperty = m_BaseEditor.RefreshComponent();
             RefreshEditors();
             EditorUtility.SetDirty(chart);

@@ -106,7 +106,8 @@ namespace XCharts.Runtime
                     break;
                 }
             }
-            if (ChartHelper.IsClearColor(destSerie.markColor))
+            var itemStyle = SerieHelper.GetItemStyle(destSerie, destSerieData, SerieState.Normal);
+            if (ChartHelper.IsClearColor(itemStyle.markColor))
             {
                 Color32 color, toColor;
                 SerieHelper.GetItemColor(out color, out toColor, destSerie, destSerieData, chart.theme, index, SerieState.Normal);
@@ -114,7 +115,7 @@ namespace XCharts.Runtime
             }
             else
             {
-                return destSerie.markColor;
+                return itemStyle.markColor;
             }
         }
 
@@ -345,7 +346,7 @@ namespace XCharts.Runtime
                     if ((isPolar && serie.polarIndex != axisIndex) ||
                         (!isPolar && serie.yAxisIndex != axisIndex) ||
                         !serie.show) continue;
-                    var updateDuration = serie.animation.enable?serie.animation.dataChangeDuration : 0;
+                    var updateDuration = serie.animation.enable ? serie.animation.dataChangeDuration : 0;
                     var unscaledTime = serie.animation.unscaledTime;
                     if (isPercentStack && SeriesHelper.IsPercentStack<Bar>(series, serie.serieName))
                     {
@@ -354,7 +355,7 @@ namespace XCharts.Runtime
                     }
                     else
                     {
-                        var showData = serie.GetDataList(filterByDataZoom?chart.GetXDataZoomOfSerie(serie) : null);
+                        var showData = serie.GetDataList(filterByDataZoom ? chart.GetXDataZoomOfSerie(serie) : null);
                         if (serie is Candlestick || serie is SimplifiedCandlestick)
                         {
                             foreach (var data in showData)
@@ -370,9 +371,9 @@ namespace XCharts.Runtime
                             var performanceMode = serie.IsPerformanceMode();
                             foreach (var data in showData)
                             {
-                                var currData = performanceMode? data.GetData(yValue?1 : 0, inverse):
+                                var currData = performanceMode ? data.GetData(yValue ? 1 : 0, inverse) :
                                     data.GetCurrData(yValue ? 1 : 0, updateDuration, unscaledTime, inverse);
-                                if (!serie.IsIgnoreValue(currData))
+                                if (!serie.IsIgnoreValue(data, currData))
                                 {
                                     if (currData > max) max = currData;
                                     if (currData < min) min = currData;
@@ -394,7 +395,7 @@ namespace XCharts.Runtime
                         if ((isPolar && serie.polarIndex != axisIndex) ||
                             (!isPolar && serie.yAxisIndex != axisIndex) ||
                             !serie.show) continue;
-                        var showData = serie.GetDataList(filterByDataZoom?chart.GetXDataZoomOfSerie(serie) : null);
+                        var showData = serie.GetDataList(filterByDataZoom ? chart.GetXDataZoomOfSerie(serie) : null);
                         if (SeriesHelper.IsPercentStack<Bar>(series, serie.stack))
                         {
                             for (int j = 0; j < showData.Count; j++)
@@ -418,7 +419,7 @@ namespace XCharts.Runtime
                                     currData = yValue ? showData[j].GetData(1) : showData[j].GetData(0);
                                 }
                                 if (inverse) currData = -currData;
-                                if (!serie.IsIgnoreValue(currData))
+                                if (!serie.IsIgnoreValue(showData[j], currData))
                                     _serieTotalValueForMinMax[j] = _serieTotalValueForMinMax[j] + currData;
                             }
                         }

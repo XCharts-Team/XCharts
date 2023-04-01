@@ -1,6 +1,8 @@
 using UnityEngine;
 using XCharts.Runtime;
-
+#if INPUT_SYSTEM_ENABLED
+using Input = XCharts.Runtime.InputHelper;
+#endif
 namespace XCharts.Example
 {
     [DisallowMultipleComponent]
@@ -18,7 +20,7 @@ namespace XCharts.Example
             {
                 chart = gameObject.AddComponent<CandlestickChart>();
             }
-            GenerateOHLC(dataCount);
+            AddData();
         }
 
         void Update()
@@ -29,9 +31,7 @@ namespace XCharts.Example
             }
         }
 
-        void AddData() { }
-
-        void GenerateOHLC(int count)
+        void AddData()
         {
             chart.ClearData();
 
@@ -40,7 +40,7 @@ namespace XCharts.Example
             var boxVals = new float[4];
             var dayRange = 12;
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < dataCount; i++)
             {
                 baseValue = baseValue + Random.Range(0f, 1f) * 30 - 10;
                 for (int j = 0; j < 4; j++)

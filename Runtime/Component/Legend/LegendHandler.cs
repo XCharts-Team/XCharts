@@ -55,6 +55,7 @@ namespace XCharts.Runtime
                     chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
                 legend.gameObject = legendObject;
                 legendObject.hideFlags = chart.chartHideFlags;
+                //ChartHelper.DestoryGameObjectByMatch(legendObject.transform, "_");
                 SeriesHelper.UpdateSerieNameList(chart, ref chart.m_LegendRealShowName);
                 legend.context.background = ChartHelper.AddIcon("background", legendObject.transform, 0, 0);
                 legend.context.background.transform.SetSiblingIndex(0);
@@ -85,13 +86,14 @@ namespace XCharts.Runtime
                 for (int i = 0; i < datas.Count; i++)
                 {
                     if (!SeriesHelper.IsLegalLegendName(datas[i])) continue;
-                    string legendName = GetFormatterContent(legend, i, datas[i]);
+                    string legendName = datas[i];
+                    var legendContent = GetFormatterContent(legend, i, datas[i]);
                     var readIndex = chart.m_LegendRealShowName.IndexOf(datas[i]);
                     var active = chart.IsActiveByLegend(datas[i]);
                     var bgColor = LegendHelper.GetIconColor(chart, legend, readIndex, datas[i], active);
                     bgColor.a = legend.itemOpacity;
                     var item = LegendHelper.AddLegendItem(chart, legend, i, datas[i], legendObject.transform, chart.theme,
-                        legendName, bgColor, active, readIndex);
+                        legendContent, bgColor, active, readIndex);
                     legend.SetButton(legendName, item, totalLegend);
                     ChartHelper.ClearEventListener(item.button.gameObject);
                     ChartHelper.AddEventListener(item.button.gameObject, EventTriggerType.PointerDown, (data) =>
@@ -154,7 +156,7 @@ namespace XCharts.Runtime
                 var content = legend.formatter.Replace("{name}", category);
                 content = content.Replace("{value}", category);
                 var serie = chart.GetSerie(0);
-                FormatterHelper.ReplaceContent(ref content, dataIndex, legend.numericFormatter, serie, chart);
+                FormatterHelper.ReplaceContent(ref content, dataIndex, legend.numericFormatter, serie, chart, category);
                 return content;
             }
         }

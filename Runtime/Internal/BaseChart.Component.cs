@@ -41,7 +41,7 @@ namespace XCharts.Runtime
 
         public T AddChartComponent<T>() where T : MainComponent
         {
-            return (T) AddChartComponent(typeof(T));
+            return (T)AddChartComponent(typeof(T));
         }
 
         public T AddChartComponentWhenNoExist<T>() where T : MainComponent
@@ -118,7 +118,7 @@ namespace XCharts.Runtime
             if (attrubte.handler == null)
                 return;
 
-            var handler = (MainComponentHandler) Activator.CreateInstance(attrubte.handler);
+            var handler = (MainComponentHandler)Activator.CreateInstance(attrubte.handler);
             handler.attribute = attrubte;
             handler.chart = this;
             handler.SetComponent(component);
@@ -221,9 +221,9 @@ namespace XCharts.Runtime
             return GetChartComponentNum(typeof(T));
         }
 
+        private static List<MainComponent> list;
         public int GetChartComponentNum(Type type)
         {
-            List<MainComponent> list;
             if (m_ComponentMaps.TryGetValue(type, out list))
                 return list.Count;
             else
@@ -245,7 +245,25 @@ namespace XCharts.Runtime
             return m_ComponentMaps[typeof(T)];
         }
 
+        [Obsolete("'GetOrAddChartComponent' is obsolete, Use 'EnsureChartComponent' instead.")]
         public T GetOrAddChartComponent<T>() where T : MainComponent
+        {
+            var component = GetChartComponent<T>();
+            if (component == null)
+                return AddChartComponent<T>();
+            else
+                return component;
+        }
+
+        /// <summary>
+        /// Ensure the chart has the component, if not, add it. 
+        /// Note: it may fail to add.
+        /// |确保图表有该组件，如果没有则添加。注意：有可能添加不成功。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns>component, or null if add failed.</returns>
+        [Since("v3.6.0")]
+        public T EnsureChartComponent<T>() where T : MainComponent
         {
             var component = GetChartComponent<T>();
             if (component == null)
@@ -262,7 +280,7 @@ namespace XCharts.Runtime
             {
                 if (com is T && com.index == index)
                 {
-                    component = (T) com;
+                    component = (T)com;
                     return true;
                 }
             }
@@ -417,11 +435,11 @@ namespace XCharts.Runtime
             var yAxis = GetChartComponent<YAxis>();
             if (yAxis.IsCategory())
             {
-                return yAxis.GetData((int) yAxis.context.pointerValue, dataZoom);
+                return yAxis.GetData((int)yAxis.context.pointerValue, dataZoom);
             }
             else if (xAxis.IsCategory())
             {
-                return xAxis.GetData((int) xAxis.context.pointerValue, dataZoom);
+                return xAxis.GetData((int)xAxis.context.pointerValue, dataZoom);
             }
             return null;
         }
@@ -431,11 +449,11 @@ namespace XCharts.Runtime
             var yAxis = GetChartComponent<YAxis>(serie.yAxisIndex);
             if (yAxis.IsCategory())
             {
-                return yAxis.GetData((int) yAxis.context.pointerValue, dataZoom);
+                return yAxis.GetData((int)yAxis.context.pointerValue, dataZoom);
             }
             else if (xAxis.IsCategory())
             {
-                return xAxis.GetData((int) xAxis.context.pointerValue, dataZoom);
+                return xAxis.GetData((int)xAxis.context.pointerValue, dataZoom);
             }
             return null;
         }

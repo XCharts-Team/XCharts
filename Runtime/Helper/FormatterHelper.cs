@@ -8,7 +8,7 @@ namespace XCharts.Runtime
     public static class FormatterHelper
     {
         public const string PH_NN = "\n";
-        private static Regex s_Regex = new Regex(@"{([a-g|.]\d*)(:\d+(-\d+)?)?(:[c-g|x|p|r]\d*|:0\.#*)?}", RegexOptions.IgnoreCase);
+        private static Regex s_Regex = new Regex(@"{([a-h|.]\d*)(:\d+(-\d+)?)?(:[c-g|x|p|r]\d*|:0\.#*)?}", RegexOptions.IgnoreCase);
         private static Regex s_RegexSub = new Regex(@"(0\.#*)|(\d+-\d+)|(\w+)|(\.)", RegexOptions.IgnoreCase);
         private static Regex s_RegexN = new Regex(@"^\d+", RegexOptions.IgnoreCase);
         private static Regex s_RegexN_N = new Regex(@"\d+-\d+", RegexOptions.IgnoreCase);
@@ -16,8 +16,8 @@ namespace XCharts.Runtime
         private static Regex s_RegexNewLine = new Regex(@"[\\|/]+n|</br>|<br>|<br/>", RegexOptions.IgnoreCase);
         private static Regex s_RegexForAxisLabel = new Regex(@"{value(:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
         private static Regex s_RegexSubForAxisLabel = new Regex(@"(value)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
-        private static Regex s_RegexForSerieLabel = new Regex(@"{[a-g|\.]\d*(:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
-        private static Regex s_RegexSubForSerieLabel = new Regex(@"(\.)|([a-g]\d*)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
+        private static Regex s_RegexForSerieLabel = new Regex(@"{[a-h|\.]\d*(:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
+        private static Regex s_RegexSubForSerieLabel = new Regex(@"(\.)|([a-h]\d*)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
 
         public static bool NeedFormat(string content)
         {
@@ -25,7 +25,7 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// 替换字符串中的通配符，支持的通配符有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。
+        /// 替换字符串中的通配符，支持的通配符有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}、{h}。
         /// </summary>
         /// <param name="content">要替换的字符串</param>
         /// <param name="dataIndex">选中的数据项serieData索引</param>
@@ -34,10 +34,9 @@ namespace XCharts.Runtime
         /// <param name="series">所有serie</param>
         /// <param name="theme">用来获取指定index的颜色</param>
         /// <param name="category">选中的类目，一般用在折线图和柱状图</param>
-        /// <param name="dataZoom">dataZoom</param>
         /// <returns></returns>
         public static bool ReplaceContent(ref string content, int dataIndex, string numericFormatter, Serie serie,
-            BaseChart chart, DataZoom dataZoom = null)
+            BaseChart chart, string colorName = null)
         {
             var foundDot = false;
             var mc = s_Regex.Matches(content);
@@ -64,16 +63,26 @@ namespace XCharts.Runtime
                     targetIndex = 0;
                 }
                 if (serie == null) continue;
-                if (p == '.')
+                if (p == '.' || p == 'h' || p == 'H')
                 {
-                    var bIndex = targetIndex;
+                    var bIndex = dataIndex;
                     if (argsCount >= 2)
                     {
                         var args1Str = args[1].ToString();
                         if (s_RegexN.IsMatch(args1Str)) bIndex = int.Parse(args1Str);
                     }
-                    content = content.Replace(old, ChartCached.ColorToDotStr(chart.theme.GetColor(bIndex)));
-                    foundDot = true;
+                    var color = string.IsNullOrEmpty(colorName) ?
+                        (Color)chart.GetMarkColor(serie, serie.GetSerieData(bIndex)) :
+                        SeriesHelper.GetNameColor(chart, bIndex, colorName);
+                    if (p == '.')
+                    {
+                        content = content.Replace(old, ChartCached.ColorToDotStr(color));
+                        foundDot = true;
+                    }
+                    else
+                    {
+                        content = content.Replace(old, "#" + ChartCached.ColorToStr(color));
+                    }
                 }
                 else if (p == 'a' || p == 'A')
                 {
@@ -90,15 +99,15 @@ namespace XCharts.Runtime
                         var args1Str = args[1].ToString();
                         if (s_RegexN.IsMatch(args1Str)) bIndex = int.Parse(args1Str);
                     }
-                    var needCategory = (p != 'e' && p != 'E') && (serie is Line || serie is Bar);
+                    var needCategory = (p != 'e' && p != 'E') && serie.defaultColorBy != SerieColorBy.Data;
                     if (needCategory)
                     {
-                        var category = chart.GetTooltipCategory(dataIndex, serie, dataZoom);
+                        var category = chart.GetTooltipCategory(dataIndex, serie);
                         content = content.Replace(old, category);
                     }
                     else
                     {
-                        var serieData = serie.GetSerieData(bIndex, dataZoom);
+                        var serieData = serie.GetSerieData(bIndex);
                         content = content.Replace(old, serieData.name);
                     }
                 }
@@ -144,7 +153,7 @@ namespace XCharts.Runtime
                     {
                         numericFormatter = SerieHelper.GetNumericFormatter(serie, serie.GetSerieData(bIndex), "");
                     }
-                    var value = serie.GetData(bIndex, dimensionIndex, dataZoom);
+                    var value = serie.GetData(bIndex, dimensionIndex);
                     if (isPercent)
                     {
                         var total = serie.GetDataTotal(dimensionIndex, serie.GetSerieData(bIndex));
@@ -224,6 +233,10 @@ namespace XCharts.Runtime
                 else if (p == 'g' || p == 'G')
                 {
                     content = content.Replace(old, ChartCached.NumberToStr(dataCount, numericFormatter));
+                }
+                else if (p == 'h' || p == 'H')
+                {
+                    content = content.Replace(old, "#" + ChartCached.ColorToStr(color));
                 }
             }
             content = TrimAndReplaceLine(content);

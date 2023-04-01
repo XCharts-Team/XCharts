@@ -24,6 +24,7 @@ namespace XCharts.Editor
             PropertyField("m_Padding");
             PropertyListField("m_Icons");
             PropertyListField("m_Colors");
+            PropertyListField("m_Positions");
             PropertyListField("m_Data");
             --EditorGUI.indentLevel;
         }

@@ -17,7 +17,7 @@ namespace XCharts.Runtime
                 if (serieData.show && serieData.data.Count > dimension)
                 {
                     var value = serieData.data[dimension];
-                    if (value < min && !serie.IsIgnoreValue(value)) min = value;
+                    if (value < min && !serie.IsIgnoreValue(serieData, value)) min = value;
                 }
             }
             return min == double.MaxValue ? 0 : min;
@@ -33,7 +33,7 @@ namespace XCharts.Runtime
                 if (serieData.show && serieData.data.Count > dimension)
                 {
                     var value = serieData.data[dimension];
-                    if (value < min && !serie.IsIgnoreValue(value))
+                    if (value < min && !serie.IsIgnoreValue(serieData, value))
                     {
                         min = value;
                         minData = serieData;
@@ -52,7 +52,7 @@ namespace XCharts.Runtime
                 if (serieData.show && serieData.data.Count > dimension)
                 {
                     var value = serieData.data[dimension];
-                    if (value > max && !serie.IsIgnoreValue(value)) max = value;
+                    if (value > max && !serie.IsIgnoreValue(serieData, value)) max = value;
                 }
             }
             return max == double.MinValue ? 0 : max;
@@ -68,7 +68,7 @@ namespace XCharts.Runtime
                 if (serieData.show && serieData.data.Count > dimension)
                 {
                     var value = serieData.data[dimension];
-                    if (value > max && !serie.IsIgnoreValue(value))
+                    if (value > max && !serie.IsIgnoreValue(serieData, value))
                     {
                         max = value;
                         maxData = serieData;
@@ -88,7 +88,7 @@ namespace XCharts.Runtime
                 if (serieData.show && serieData.data.Count > dimension)
                 {
                     var value = serieData.data[dimension];
-                    if (!serie.IsIgnoreValue(value))
+                    if (!serie.IsIgnoreValue(serieData, value))
                         total += value;
                 }
             }
@@ -106,7 +106,7 @@ namespace XCharts.Runtime
                 if (serieData.show && serieData.data.Count > dimension)
                 {
                     var value = serieData.data[dimension];
-                    if (!serie.IsIgnoreValue(value))
+                    if (!serie.IsIgnoreValue(serieData, value))
                         s_TempList.Add(value);
                 }
             }
@@ -137,7 +137,7 @@ namespace XCharts.Runtime
                 if (serieData.show && serieData.data.Count > dimension)
                 {
                     var value = serieData.data[dimension];
-                    if (!serie.IsIgnoreValue(value))
+                    if (!serie.IsIgnoreValue(serieData, value))
                     {
                         if (value > max) max = value;
                         if (value < min) min = value;
@@ -177,7 +177,7 @@ namespace XCharts.Runtime
                     for (int j = 0; j < count; j++)
                     {
                         var value = serieData.data[j];
-                        if (!serie.IsIgnoreValue(value))
+                        if (!serie.IsIgnoreValue(serieData, value))
                         {
                             if (value > max) max = value;
                             if (value < min) min = value;
@@ -268,7 +268,7 @@ namespace XCharts.Runtime
         {
             if (serieData == null) return GetSerieState(serie);
             if (serieData.context.highlight) return SerieState.Emphasis;
-            if (serieData.state == SerieState.Auto) return defaultSerieState?serie.state : GetSerieState(serie);
+            if (serieData.state == SerieState.Auto) return defaultSerieState ? serie.state : GetSerieState(serie);
             return serieData.state;
         }
 
@@ -292,7 +292,7 @@ namespace XCharts.Runtime
         public static void GetItemColor(out Color32 color, out Color32 toColor,
             Serie serie, SerieData serieData, ThemeStyle theme, SerieState state = SerieState.Auto)
         {
-            var colorIndex = serieData != null && serie.colorByData? serieData.index : serie.context.colorIndex;
+            var colorIndex = serieData != null && serie.colorByData ? serieData.index : serie.context.colorIndex;
             GetItemColor(out color, out toColor, serie, serieData, theme, colorIndex, state, true);
         }
 
@@ -438,7 +438,7 @@ namespace XCharts.Runtime
             if (state == SerieState.Auto) state = GetSerieState(serie, serieData);
             if (state == SerieState.Normal)
             {
-                return serieData != null && serieData.itemStyle != null? serieData.itemStyle : serie.itemStyle;
+                return serieData != null && serieData.itemStyle != null ? serieData.itemStyle : serie.itemStyle;
             }
             else
             {
@@ -452,7 +452,7 @@ namespace XCharts.Runtime
             if (state == SerieState.Auto) state = GetSerieState(serie, serieData);
             if (state == SerieState.Normal)
             {
-                return serieData != null && serieData.labelStyle != null? serieData.labelStyle : serie.label;
+                return serieData != null && serieData.labelStyle != null ? serieData.labelStyle : serie.label;
             }
             else
             {
@@ -466,7 +466,7 @@ namespace XCharts.Runtime
             if (state == SerieState.Auto) state = GetSerieState(serie, serieData);
             if (state == SerieState.Normal)
             {
-                return serieData != null && serieData.labelLine != null? serieData.labelLine : serie.labelLine;
+                return serieData != null && serieData.labelLine != null ? serieData.labelLine : serie.labelLine;
             }
             else
             {
@@ -480,7 +480,7 @@ namespace XCharts.Runtime
             if (state == SerieState.Auto) state = GetSerieState(serie, serieData);
             if (state == SerieState.Normal)
             {
-                return serieData != null && serieData.symbol != null? serieData.symbol : serie.symbol;
+                return serieData != null && serieData.symbol != null ? serieData.symbol : serie.symbol;
             }
             else
             {
@@ -542,16 +542,17 @@ namespace XCharts.Runtime
         public static bool GetAreaColor(out Color32 color, out Color32 toColor,
             Serie serie, SerieData serieData, ThemeStyle theme, int index)
         {
-            bool fill;
-            return GetAreaColor(out color, out toColor, out fill, serie, serieData, theme, index);
+            bool fill, toTop;
+            return GetAreaColor(out color, out toColor, out fill, out toTop, serie, serieData, theme, index);
         }
 
         public static bool GetAreaColor(out Color32 color, out Color32 toColor, out bool innerFill,
-            Serie serie, SerieData serieData, ThemeStyle theme, int index)
+            out bool toTop, Serie serie, SerieData serieData, ThemeStyle theme, int index)
         {
             color = ChartConst.clearColor32;
             toColor = ChartConst.clearColor32;
             innerFill = false;
+            toTop = true;
             var state = GetSerieState(serie, serieData);
             var stateStyle = GetStateStyle(serie, serieData, state);
             if (stateStyle == null)
@@ -559,6 +560,7 @@ namespace XCharts.Runtime
                 var areaStyle = GetAreaStyle(serie, serieData);
                 if (areaStyle == null || !areaStyle.show) return false;
                 innerFill = areaStyle.innerFill;
+                toTop = areaStyle.toTop;
                 GetColor(ref color, areaStyle.color, serie.itemStyle.color, areaStyle.opacity, theme, index);
                 GetColor(ref toColor, areaStyle.toColor, color, areaStyle.opacity, theme, index);
                 switch (state)
@@ -584,6 +586,7 @@ namespace XCharts.Runtime
                 if (stateStyle.areaStyle.show)
                 {
                     innerFill = stateStyle.areaStyle.innerFill;
+                    toTop = stateStyle.areaStyle.toTop;
                     GetColor(ref color, stateStyle.areaStyle.color, stateStyle.itemStyle.color, stateStyle.areaStyle.opacity, theme, index);
                     GetColor(ref color, stateStyle.areaStyle.toColor, color, stateStyle.areaStyle.opacity, theme, index);
                 }
@@ -679,7 +682,7 @@ namespace XCharts.Runtime
             if (stateStyle == null)
             {
                 var symbol = GetSerieSymbol(serie, serieData, SerieState.Normal);
-                size = symbol.GetSize(serieData == null? null : serieData.data, defaultSize);
+                size = symbol.GetSize(serieData == null ? null : serieData.data, defaultSize);
                 switch (state)
                 {
                     case SerieState.Emphasis:
@@ -693,7 +696,7 @@ namespace XCharts.Runtime
             else
             {
                 var symbol = stateStyle.symbol;
-                size = symbol.GetSize(serieData == null? null : serieData.data, defaultSize);
+                size = symbol.GetSize(serieData == null ? null : serieData.data, defaultSize);
             }
             return size;
         }
@@ -892,7 +895,7 @@ namespace XCharts.Runtime
             switch (serie.dataSortType)
             {
                 case SerieDataSortType.Ascending:
-                    serie.context.sortedData.Sort(delegate(SerieData data1, SerieData data2)
+                    serie.context.sortedData.Sort(delegate (SerieData data1, SerieData data2)
                     {
                         var value1 = data1.GetData(1);
                         var value2 = data2.GetData(1);
@@ -902,7 +905,7 @@ namespace XCharts.Runtime
                     });
                     break;
                 case SerieDataSortType.Descending:
-                    serie.context.sortedData.Sort(delegate(SerieData data1, SerieData data2)
+                    serie.context.sortedData.Sort(delegate (SerieData data1, SerieData data2)
                     {
                         var value1 = data1.GetData(1);
                         var value2 = data2.GetData(1);

@@ -8,7 +8,7 @@ namespace XCharts.Runtime
     /// |标题相关设置。
     /// </summary>
     [Serializable]
-    public class TitleStyle : LabelStyle, ISerieDataComponent, ISerieExtraComponent
+    public class TitleStyle : LabelStyle, ISerieDataComponent, ISerieComponent
     {
 
     }

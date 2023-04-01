@@ -11,39 +11,30 @@ namespace XCharts.Example
         private Serie serie;
         private int m_DataNum = 8;
 
-        void Awake()
-        {
-            LoopDemo();
-        }
-
         private void OnEnable()
         {
-            LoopDemo();
-        }
-
-        void LoopDemo()
-        {
-            StopAllCoroutines();
             StartCoroutine(PieDemo());
         }
 
         IEnumerator PieDemo()
         {
-            StartCoroutine(AddSimpleLine());
-            yield return new WaitForSeconds(2);
-            StartCoroutine(ChangeLineType());
-            yield return new WaitForSeconds(8);
-            StartCoroutine(LineAreaStyleSettings());
-            yield return new WaitForSeconds(5);
-            StartCoroutine(LineArrowSettings());
-            yield return new WaitForSeconds(2);
-            StartCoroutine(LineSymbolSettings());
-            yield return new WaitForSeconds(7);
-            StartCoroutine(LineLabelSettings());
-            yield return new WaitForSeconds(3);
-            StartCoroutine(LineMutilSerie());
-            yield return new WaitForSeconds(5);
-            LoopDemo();
+            while (true)
+            {
+                StartCoroutine(AddSimpleLine());
+                yield return new WaitForSeconds(2);
+                StartCoroutine(ChangeLineType());
+                yield return new WaitForSeconds(8);
+                StartCoroutine(LineAreaStyleSettings());
+                yield return new WaitForSeconds(5);
+                StartCoroutine(LineArrowSettings());
+                yield return new WaitForSeconds(2);
+                StartCoroutine(LineSymbolSettings());
+                yield return new WaitForSeconds(7);
+                StartCoroutine(LineLabelSettings());
+                yield return new WaitForSeconds(3);
+                StartCoroutine(LineMutilSerie());
+                yield return new WaitForSeconds(5);
+            }
         }
 
         IEnumerator AddSimpleLine()
@@ -116,7 +107,7 @@ namespace XCharts.Example
         {
             chart.GetChartComponent<Title>().subText = "AreaStyle 面积图";
 
-            serie.AddExtraComponent<AreaStyle>();
+            serie.EnsureComponent<AreaStyle>();
             serie.areaStyle.show = true;
             chart.RefreshChart();
             yield return new WaitForSeconds(1f);
@@ -145,7 +136,7 @@ namespace XCharts.Example
         IEnumerator LineArrowSettings()
         {
             chart.GetChartComponent<Title>().subText = "LineArrow 头部箭头";
-            chart.GetSerie(0).AddExtraComponent<LineArrow>();
+            chart.GetSerie(0).EnsureComponent<LineArrow>();
             serie.lineArrow.show = true;
             serie.lineArrow.position = LineArrow.Position.Start;
             chart.RefreshChart();
@@ -207,7 +198,7 @@ namespace XCharts.Example
         IEnumerator LineLabelSettings()
         {
             chart.GetChartComponent<Title>().subText = "SerieLabel 文本标签";
-            serie.AddExtraComponent<LabelStyle>();
+            serie.EnsureComponent<LabelStyle>();
             chart.RefreshChart();
             while (serie.label.offset[1] < 20)
             {

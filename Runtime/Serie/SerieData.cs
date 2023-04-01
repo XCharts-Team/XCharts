@@ -234,71 +234,157 @@ namespace XCharts.Runtime
             m_SelectStyles.Clear();
         }
 
+        [Obsolete("GetOrAddComponent is obsolete. Use EnsureComponent instead.")]
         public T GetOrAddComponent<T>() where T : ChildComponent, ISerieDataComponent
         {
-            return GetOrAddComponent(typeof(T)) as T;
+            return EnsureComponent<T>();
         }
 
-        public ISerieDataComponent GetOrAddComponent(Type type)
+        /// <summary>
+        /// Get the component of the serie data. return null if not exist.
+        /// |获取数据项的指定类型的组件，如果不存在则返回null。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T GetComponent<T>() where T : ChildComponent, ISerieDataComponent
+        {
+            return GetComponentInternal(typeof(T), false) as T;
+        }
+
+        /// <summary>
+        /// Ensure the serie data has the component, if not, add it.  
+        /// |确保数据项有指定类型的组件，如果没有则添加。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        [Since("v3.6.0")]
+        public T EnsureComponent<T>() where T : ChildComponent, ISerieDataComponent
+        {
+            return GetComponentInternal(typeof(T), true) as T;
+        }
+
+        /// <summary>
+        /// Ensure the serie data has the component, if not, add it.
+        /// |确保数据项有指定类型的组件，如果没有则添加。
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        [Since("v3.6.0")]
+        public ISerieDataComponent EnsureComponent(Type type)
+        {
+            return GetComponentInternal(type, true);
+        }
+
+        private ISerieDataComponent GetComponentInternal(Type type, bool addIfNotExist)
         {
             if (type == typeof(ItemStyle))
             {
                 if (m_ItemStyles.Count == 0)
-                    m_ItemStyles.Add(new ItemStyle() { show = true });
+                {
+                    if (addIfNotExist)
+                        m_ItemStyles.Add(new ItemStyle() { show = true });
+                    else
+                        return null;
+                }
                 return m_ItemStyles[0];
             }
             else if (type == typeof(LabelStyle))
             {
                 if (m_Labels.Count == 0)
-                    m_Labels.Add(new LabelStyle() { show = true });
+                {
+                    if (addIfNotExist)
+                        m_Labels.Add(new LabelStyle() { show = true });
+                    else
+                        return null;
+                }
                 return m_Labels[0];
             }
             else if (type == typeof(LabelLine))
             {
                 if (m_LabelLines.Count == 0)
-                    m_LabelLines.Add(new LabelLine() { show = true });
+                {
+                    if (addIfNotExist)
+                        m_LabelLines.Add(new LabelLine() { show = true });
+                    else
+                        return null;
+                }
                 return m_LabelLines[0];
             }
             else if (type == typeof(EmphasisStyle))
             {
                 if (m_EmphasisStyles.Count == 0)
-                    m_EmphasisStyles.Add(new EmphasisStyle() { show = true });
+                {
+                    if (addIfNotExist)
+                        m_EmphasisStyles.Add(new EmphasisStyle() { show = true });
+                    else
+                        return null;
+                }
                 return m_EmphasisStyles[0];
             }
             else if (type == typeof(BlurStyle))
             {
                 if (m_BlurStyles.Count == 0)
-                    m_BlurStyles.Add(new BlurStyle() { show = true });
+                {
+                    if (addIfNotExist)
+                        m_BlurStyles.Add(new BlurStyle() { show = true });
+                    else
+                        return null;
+                }
                 return m_BlurStyles[0];
             }
             else if (type == typeof(SelectStyle))
             {
                 if (m_SelectStyles.Count == 0)
-                    m_SelectStyles.Add(new SelectStyle() { show = true });
+                {
+                    if (addIfNotExist)
+                        m_SelectStyles.Add(new SelectStyle() { show = true });
+                    else
+                        return null;
+                }
                 return m_SelectStyles[0];
             }
             else if (type == typeof(SerieSymbol))
             {
                 if (m_Symbols.Count == 0)
-                    m_Symbols.Add(new SerieSymbol() { show = true });
+                {
+                    if (addIfNotExist)
+                        m_Symbols.Add(new SerieSymbol() { show = true });
+                    else
+                        return null;
+                }
                 return m_Symbols[0];
             }
             else if (type == typeof(LineStyle))
             {
                 if (m_LineStyles.Count == 0)
-                    m_LineStyles.Add(new LineStyle() { show = true });
+                {
+                    if (addIfNotExist)
+                        m_LineStyles.Add(new LineStyle() { show = true });
+                    else
+                        return null;
+                }
                 return m_LineStyles[0];
             }
             else if (type == typeof(AreaStyle))
             {
                 if (m_AreaStyles.Count == 0)
-                    m_AreaStyles.Add(new AreaStyle() { show = true });
+                {
+                    if (addIfNotExist)
+                        m_AreaStyles.Add(new AreaStyle() { show = true });
+                    else
+                        return null;
+                }
                 return m_AreaStyles[0];
             }
             else if (type == typeof(TitleStyle))
             {
                 if (m_TitleStyles.Count == 0)
-                    m_TitleStyles.Add(new TitleStyle() { show = true });
+                {
+                    if (addIfNotExist)
+                        m_TitleStyles.Add(new TitleStyle() { show = true });
+                    else
+                        return null;
+                }
                 return m_TitleStyles[0];
             }
             else
@@ -398,7 +484,7 @@ namespace XCharts.Runtime
             return GetCurrData(index, animationDuration, inverse, 0, 0, unscaledTime);
         }
 
-        public double GetCurrData(int index, float animationDuration, bool inverse, double min, double max, bool unscaledTime)
+        public double GetCurrData(int index, float animationDuration, bool inverse, double min, double max, bool unscaledTime, bool loop = false)
         {
             if (index < m_DataUpdateFlag.Count && m_DataUpdateFlag[index] && animationDuration > 0)
             {
@@ -410,7 +496,13 @@ namespace XCharts.Runtime
                 if (rate < 1)
                 {
                     CheckLastData(unscaledTime);
-                    var curr = MathUtil.Lerp(GetPreviousData(index), GetData(index), rate);
+                    var prev = GetPreviousData(index);
+                    var next = GetData(index);
+                    if (loop)
+                    {
+                        if (next <= min && prev != 0) next = max;
+                    }
+                    var curr = MathUtil.Lerp(prev, next, rate);
                     if (min != 0 || max != 0)
                     {
                         if (inverse)
@@ -576,6 +668,12 @@ namespace XCharts.Runtime
             if (labelObject != null) labelObject.SetActive(flag);
         }
 
+        public void SetPolygon(params Vector2[] points)
+        {
+            m_PolygonPoints.Clear();
+            m_PolygonPoints.AddRange(points);
+        }
+
         public void SetPolygon(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4)
         {
             m_PolygonPoints.Clear();
@@ -584,6 +682,7 @@ namespace XCharts.Runtime
             m_PolygonPoints.Add(p3);
             m_PolygonPoints.Add(p4);
         }
+
         public void SetPolygon(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Vector2 p5)
         {
             SetPolygon(p1, p2, p3, p4);

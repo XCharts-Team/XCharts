@@ -31,14 +31,18 @@ namespace XCharts.Runtime
         public virtual void OnScroll(PointerEventData eventData) { }
         public virtual void RefreshLabelNextFrame() { }
         public virtual void RefreshLabelInternal() { }
+        public virtual void UpdateSerieContext() { }
         public virtual void UpdateTooltipSerieParams(int dataIndex, bool showCategory,
             string category, string marker,
             string itemFormatter, string numericFormatter, string ignoreDataDefaultContent,
-            ref List<SerieParams> paramList, ref string title) { }
+            ref List<SerieParams> paramList, ref string title)
+        { }
         public virtual void OnLegendButtonClick(int index, string legendName, bool show) { }
         public virtual void OnLegendButtonEnter(int index, string legendName) { }
         public virtual void OnLegendButtonExit(int index, string legendName) { }
         internal abstract void SetSerie(Serie serie);
+        public virtual int GetPointerItemDataIndex() { return -1; }
+        public virtual int GetPointerItemDataDimension() { return 1; }
     }
 
     public abstract class SerieHandler<T> : SerieHandler where T : Serie
@@ -62,7 +66,7 @@ namespace XCharts.Runtime
 
         internal override void SetSerie(Serie serie)
         {
-            this.serie = (T) serie;
+            this.serie = (T)serie;
             this.serie.context.param.serieType = typeof(T);
             m_NeedInitComponent = true;
             AnimationStyleHelper.UpdateSerieAnimation(serie);
@@ -120,6 +124,36 @@ namespace XCharts.Runtime
                 chart.RefreshPainter(serie);
                 serie.ResetInteract();
                 serie.ClearVerticesDirty();
+            }
+            UpdateSerieContextInternal();
+        }
+
+        private void UpdateSerieContextInternal()
+        {
+            var lastEnter = serie.context.pointerEnter;
+            var lastDataIndex = serie.context.pointerItemDataIndex;
+            UpdateSerieContext();
+            if (lastEnter != serie.context.pointerEnter || lastDataIndex != serie.context.pointerItemDataIndex)
+            {
+                if (chart.onSerieEnter != null || chart.onSerieExit != null || serie.onEnter != null || serie.onExit != null)
+                {
+                    var dataIndex = GetPointerItemDataIndex();
+                    var dimension = GetPointerItemDataDimension();
+                    var value = serie.GetData(dataIndex, dimension);
+                    var data = SerieEventDataPool.Get(chart.pointerPos, serie.index, dataIndex, dimension, value);
+                    if (serie.context.pointerEnter)
+                    {
+                        if (serie.onEnter != null) serie.onEnter(data);
+                        if (chart.onSerieEnter != null) chart.onSerieEnter(data);
+                    }
+                    else
+                    {
+                        data.dataIndex = lastDataIndex;
+                        if (serie.onExit != null) serie.onExit(data);
+                        if (chart.onSerieExit != null) chart.onSerieExit(data);
+                    }
+                    SerieEventDataPool.Release(data);
+                }
             }
         }
 
@@ -189,7 +223,7 @@ namespace XCharts.Runtime
         {
             if (m_SerieRoot != null)
             {
-                var rect = ChartHelper.GetOrAddComponent<RectTransform>(m_SerieRoot);
+                var rect = ChartHelper.EnsureComponent<RectTransform>(m_SerieRoot);
                 rect.localPosition = Vector3.zero;
                 rect.sizeDelta = chart.chartSizeDelta;
                 rect.anchorMin = chart.chartMinAnchor;
@@ -289,7 +323,7 @@ namespace XCharts.Runtime
                 return;
             }
             InitRoot();
-            var dataAutoColor = (Color) chart.GetLegendRealShowNameColor(serie.legendName);
+            var dataAutoColor = (Color)chart.GetLegendRealShowNameColor(serie.legendName);
             m_EndLabel = ChartHelper.AddChartLabel(s_SerieEndLabelObjectName, m_SerieRoot.transform, serie.endLabel,
                 chart.theme.common, "", dataAutoColor, TextAnchor.MiddleLeft);
             m_EndLabel.SetActive(serie.endLabel.show);
@@ -385,6 +419,7 @@ namespace XCharts.Runtime
                 var isIgnore = serie.IsIgnoreIndex(serieData.index, defaultDimension);
                 if (serie.show &&
                     currLabel != null &&
+                    currLabel.show &&
                     serieData.context.canShowLabel &&
                     !isIgnore)
                 {
@@ -468,6 +503,13 @@ namespace XCharts.Runtime
             var labelPosition = GetSerieDataLabelPosition(serieData, currLabel);
             var offset = GetSerieDataLabelOffset(serieData, currLabel);
             serieData.labelObject.SetPosition(labelPosition + offset);
+            if (currLabel.autoRotate && serieData.context.angle != 0)
+            {
+                if (serieData.context.angle > 90 && serieData.context.angle < 270)
+                    serieData.labelObject.SetRotate(180 - serieData.context.angle + currLabel.rotate);
+                else
+                    serieData.labelObject.SetRotate(-serieData.context.angle + currLabel.rotate);
+            }
         }
 
         public virtual Vector3 GetSerieDataLabelPosition(SerieData serieData, LabelStyle label)
@@ -492,7 +534,7 @@ namespace XCharts.Runtime
             var colorIndex = serie.colorByData ? serieData.index : serie.index;
             Color32 color, toColor;
             SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, colorIndex, SerieState.Normal, false);
-            return (Color) color;
+            return (Color)color;
         }
 
         protected void UpdateCoordSerieParams(ref List<SerieParams> paramList, ref string title,
@@ -536,7 +578,7 @@ namespace XCharts.Runtime
 
             param.columns.Add(param.marker);
             param.columns.Add(showCategory ? category : serie.serieName);
-            param.columns.Add(ignore?ignoreDataDefaultContent : ChartCached.NumberToStr(param.value, param.numericFormatter));
+            param.columns.Add(ignore ? ignoreDataDefaultContent : ChartCached.NumberToStr(param.value, param.numericFormatter));
 
             paramList.Add(param);
         }
@@ -565,7 +607,7 @@ namespace XCharts.Runtime
                 return;
 
             if (colorIndex < 0)
-                colorIndex = serie.colorByData?dataIndex : chart.GetLegendRealShowNameIndex(serieData.name);
+                colorIndex = serie.colorByData ? dataIndex : chart.GetLegendRealShowNameIndex(serieData.name);
 
             Color32 color, toColor;
             SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, colorIndex, SerieState.Normal);
@@ -579,7 +621,7 @@ namespace XCharts.Runtime
             param.dataCount = serie.dataCount;
             param.value = serieData.GetData(param.dimension);
             param.ignore = ignore;
-            param.total = serie.multiDimensionLabel? serieData.GetTotalData() : serie.GetDataTotal(defaultDimension);
+            param.total = serie.multiDimensionLabel ? serieData.GetTotalData() : serie.GetDataTotal(defaultDimension);
             param.color = color;
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
             param.itemFormatter = itemFormatter;
@@ -589,7 +631,7 @@ namespace XCharts.Runtime
             param.columns.Add(param.marker);
             param.columns.Add(serieData.name);
 
-            param.columns.Add(ignore?ignoreDataDefaultContent : ChartCached.NumberToStr(param.value, param.numericFormatter));
+            param.columns.Add(ignore ? ignoreDataDefaultContent : ChartCached.NumberToStr(param.value, param.numericFormatter));
 
             paramList.Add(param);
         }
@@ -611,6 +653,48 @@ namespace XCharts.Runtime
             var color = symbol.GetColor(defaultColor);
             chart.DrawSymbol(vh, symbol.type, symbol.size, 1, pos,
                 color, color, ColorUtil.clearColor32, color, symbol.gap, null);
+        }
+
+        public override void OnPointerDown(PointerEventData eventData)
+        {
+            if (serie.onDown == null && chart.onSerieDown == null) return;
+            if (!serie.context.pointerEnter) return;
+            var dataIndex = GetPointerItemDataIndex();
+            if (dataIndex < 0) return;
+            var dimension = GetPointerItemDataDimension();
+            var value = serie.GetData(dataIndex, dimension);
+            var data = SerieEventDataPool.Get(chart.pointerPos, serie.index, dataIndex, dimension, value);
+            if (chart.onSerieDown != null)
+                chart.onSerieDown(data);
+            if (serie.onDown != null)
+                serie.onDown(data);
+            SerieEventDataPool.Release(data);
+        }
+
+        public override void OnPointerClick(PointerEventData eventData)
+        {
+            if (serie.onClick == null && chart.onSerieClick == null) return;
+            if (!serie.context.pointerEnter) return;
+            var dataIndex = GetPointerItemDataIndex();
+            if (dataIndex < 0) return;
+            var dimension = GetPointerItemDataDimension();
+            var value = serie.GetData(dataIndex, dimension);
+            var data = SerieEventDataPool.Get(chart.pointerPos, serie.index, dataIndex, dimension, value);
+            if (chart.onSerieClick != null)
+                chart.onSerieClick(data);
+            if (serie.onClick != null)
+                serie.onClick(data);
+            SerieEventDataPool.Release(data);
+        }
+
+        public override int GetPointerItemDataIndex()
+        {
+            return serie.context.pointerItemDataIndex;
+        }
+
+        public override int GetPointerItemDataDimension()
+        {
+            return serie.context.pointerItemDataDimension;
         }
     }
 }

@@ -5,8 +5,8 @@ namespace XCharts.Runtime
     [SerieConvert(typeof(Line), typeof(Pie))]
     [CoordOptions(typeof(GridCoord), typeof(PolarCoord))]
     [DefaultAnimation(AnimationType.BottomToTop)]
-    [SerieExtraComponent(typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
-    [SerieDataExtraComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieComponent(typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieDataComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataExtraField("m_Ignore")]
     public class Bar : Serie, INeedSerieContainer
     {
@@ -23,7 +23,7 @@ namespace XCharts.Runtime
             return serie;
         }
 
-        public static Bar CovertSerie(Serie serie)
+        public static Bar ConvertSerie(Serie serie)
         {
             var newSerie = SerieHelper.CloneSerie<Bar>(serie);
             return newSerie;

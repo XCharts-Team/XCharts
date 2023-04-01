@@ -230,7 +230,6 @@ namespace XCharts.Runtime
         [SerializeField] private string m_SerieName;
         [SerializeField][Since("v3.2.0")] private SerieState m_State = SerieState.Normal;
         [SerializeField][Since("v3.2.0")] private SerieColorBy m_ColorBy = SerieColorBy.Default;
-        [SerializeField][Since("v3.4.0")] private Color32 m_MarkColor;
         [SerializeField] private string m_Stack;
         [SerializeField] private int m_XAxisIndex = 0;
         [SerializeField] private int m_YAxisIndex = 0;
@@ -248,7 +247,7 @@ namespace XCharts.Runtime
         [SerializeField] private float m_SampleAverage = 0;
 
         [SerializeField] private LineType m_LineType = LineType.Normal;
-        [SerializeField][Since("v3.4.0")] private bool m_SmoothLimit = true;
+        [SerializeField][Since("v3.4.0")] private bool m_SmoothLimit = false;
         [SerializeField] private BarType m_BarType = BarType.Normal;
         [SerializeField] private bool m_BarPercentStack = false;
         [SerializeField] private float m_BarWidth = 0;
@@ -309,6 +308,27 @@ namespace XCharts.Runtime
         [NonSerialized] internal bool m_NeedUpdateFilterData;
         [NonSerialized] public List<SerieData> m_FilterData = new List<SerieData>();
         [NonSerialized] private bool m_NameDirty;
+
+        /// <summary>
+        /// event callback when click serie.
+        /// |点击系列时的回调。
+        /// </summary>
+        public Action<SerieEventData> onClick { get; set; }
+        /// <summary>
+        /// event callback when mouse down on serie.
+        /// |鼠标按下时的回调。
+        /// </summary>
+        public Action<SerieEventData> onDown { get; set; }
+        /// <summary>
+        /// event callback when mouse enter serie.
+        /// |鼠标进入时的回调。
+        /// </summary>
+        public Action<SerieEventData> onEnter { get; set; }
+        /// <summary>
+        /// event callback when mouse leave serie.
+        /// |鼠标离开时的回调。
+        /// </summary>
+        public Action<SerieEventData> onExit { get; set; }
 
         /// <summary>
         /// The index of serie.
@@ -372,17 +392,8 @@ namespace XCharts.Runtime
         public SerieColorBy colorBy
         {
             //get { return m_ColorBy; }
-            get { return m_ColorBy == SerieColorBy.Default?defaultColorBy : m_ColorBy; }
+            get { return m_ColorBy == SerieColorBy.Default ? defaultColorBy : m_ColorBy; }
             set { if (PropertyUtil.SetStruct(ref m_ColorBy, value)) { SetAllDirty(); } }
-        }
-        /// <summary>
-        /// Serie's mark color. It is only used to display Legend and Tooltip, and does not affect the drawing color. The default value is clear.
-        /// |Serie的标识颜色。仅用于Legend和Tooltip的展示，不影响绘制颜色，默认为clear。
-        /// </summary>
-        public Color32 markColor
-        {
-            get { return m_MarkColor; }
-            set { if (PropertyUtil.SetStruct(ref m_MarkColor, value)) { SetAllDirty(); } }
         }
         /// <summary>
         /// If stack the value. On the same category axis, the series with the same stack name would be put on top of each other.
@@ -1071,7 +1082,7 @@ namespace XCharts.Runtime
                 var max = double.MinValue;
                 foreach (var sdata in data)
                 {
-                    if (sdata.show && !IsIgnoreValue(sdata.data[1]) && sdata.data[1] > max)
+                    if (sdata.show && !IsIgnoreValue(sdata, sdata.data[1]) && sdata.data[1] > max)
                     {
                         max = sdata.data[1];
                     }
@@ -1090,7 +1101,7 @@ namespace XCharts.Runtime
                 var max = double.MinValue;
                 foreach (var sdata in data)
                 {
-                    if (sdata.show && !IsIgnoreValue(sdata.data[0]) && sdata.data[0] > max)
+                    if (sdata.show && !IsIgnoreValue(sdata, sdata.data[0]) && sdata.data[0] > max)
                     {
                         max = sdata.data[0];
                     }
@@ -1109,7 +1120,7 @@ namespace XCharts.Runtime
                 var min = double.MaxValue;
                 foreach (var sdata in data)
                 {
-                    if (sdata.show && !IsIgnoreValue(sdata.data[1]) && sdata.data[1] < min)
+                    if (sdata.show && !IsIgnoreValue(sdata, sdata.data[1]) && sdata.data[1] < min)
                     {
                         min = sdata.data[1];
                     }
@@ -1128,7 +1139,7 @@ namespace XCharts.Runtime
                 var min = double.MaxValue;
                 foreach (var sdata in data)
                 {
-                    if (sdata.show && !IsIgnoreValue(sdata.data[0]) && sdata.data[0] < min)
+                    if (sdata.show && !IsIgnoreValue(sdata, sdata.data[0]) && sdata.data[0] < min)
                     {
                         min = sdata.data[0];
                     }
@@ -1149,7 +1160,7 @@ namespace XCharts.Runtime
                 {
                     foreach (var sdata in data)
                     {
-                        if (sdata.show && !IsIgnoreValue(sdata.data[1]))
+                        if (sdata.show && !IsIgnoreValue(sdata, sdata.data[1]))
                             total += sdata.data[1];
                     }
                 }
@@ -1159,7 +1170,7 @@ namespace XCharts.Runtime
                     var unscaledTime = animation.unscaledTime;
                     foreach (var sdata in data)
                     {
-                        if (sdata.show && !IsIgnoreValue(sdata.data[1]))
+                        if (sdata.show && !IsIgnoreValue(sdata, sdata.data[1]))
                             total += sdata.GetCurrData(1, duration, unscaledTime);
                     }
                 }
@@ -1177,7 +1188,7 @@ namespace XCharts.Runtime
                 double total = 0;
                 foreach (var sdata in data)
                 {
-                    if (sdata.show && !IsIgnoreValue(sdata.data[1]))
+                    if (sdata.show && !IsIgnoreValue(sdata, sdata.data[1]))
                         total += sdata.data[0];
                 }
                 return total;
@@ -1658,7 +1669,7 @@ namespace XCharts.Runtime
         /// <param name="index"></param>
         /// <param name="xValue"></param>
         /// <param name="yValue"></param>
-        public bool UpdateXYData(int index, float xValue, float yValue)
+        public bool UpdateXYData(int index, double xValue, double yValue)
         {
             var flag1 = UpdateData(index, 0, xValue);
             var flag2 = UpdateData(index, 1, yValue);
@@ -1790,12 +1801,17 @@ namespace XCharts.Runtime
 
         public bool IsIgnoreValue(SerieData serieData, int dimension = 1)
         {
-            return serieData.ignore || IsIgnoreValue(serieData.GetData(dimension));
+            return IsIgnoreValue(serieData, serieData.GetData(dimension));
         }
 
         public bool IsIgnoreValue(double value)
         {
             return m_Ignore && MathUtil.Approximately(value, m_IgnoreValue);
+        }
+
+        public bool IsIgnoreValue(SerieData serieData, double value)
+        {
+            return serieData.ignore || IsIgnoreValue(value);
         }
 
         public bool IsIgnorePoint(int index)

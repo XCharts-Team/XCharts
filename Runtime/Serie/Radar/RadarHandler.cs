@@ -12,7 +12,6 @@ namespace XCharts.Runtime
         public override void Update()
         {
             base.Update();
-            UpdateSerieContext();
         }
 
         public override void DrawSerie(VertexHelper vh)
@@ -86,22 +85,33 @@ namespace XCharts.Runtime
             }
         }
 
-        private void UpdateSerieContext()
+        public override void UpdateSerieContext()
         {
             var needCheck = m_LegendEnter ||
                 (chart.isPointerInChart && (m_RadarCoord != null && m_RadarCoord.IsPointerEnter()));
             var needInteract = false;
-            var needHideAll = false;
             if (!needCheck)
             {
-                if (m_LastCheckContextFlag == needCheck)
-                    return;
-                needHideAll = true;
+                if (m_LastCheckContextFlag != needCheck)
+                {
+                    m_LastCheckContextFlag = needCheck;
+                    serie.context.pointerItemDataIndex = -1;
+                    serie.context.pointerItemDataDimension = -1;
+                    serie.context.pointerEnter = false;
+                    foreach (var serieData in serie.data)
+                    {
+                        serieData.context.highlight = false;
+                        serieData.interact.Reset();
+                    }
+                    chart.RefreshPainter(serie);
+                }
+                return;
             }
             m_LastCheckContextFlag = needCheck;
             serie.highlight = false;
             serie.context.pointerEnter = false;
             serie.context.pointerItemDataIndex = -1;
+            serie.context.pointerItemDataDimension = -1;
             var areaStyle = serie.areaStyle;
             var themeSymbolSize = chart.theme.serie.lineSymbolSize;
             switch (serie.radarType)
@@ -112,21 +122,23 @@ namespace XCharts.Runtime
                         var serieData = serie.data[i];
                         var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
                         var symbolSize = symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
-                        if (needHideAll || m_LegendEnter)
+                        if (m_LegendEnter)
                         {
-                            serieData.context.highlight = needHideAll ? false : true;
+                            serieData.context.highlight = true;
                             serieData.interact.SetValue(ref needInteract, symbolSize, serieData.context.highlight);
                         }
                         else
                         {
                             serieData.context.highlight = false;
-                            foreach (var pos in serieData.context.dataPoints)
+                            for (int n = 0; n < serieData.context.dataPoints.Count; n++)
                             {
+                                var pos = serieData.context.dataPoints[n];
                                 if (Vector3.Distance(chart.pointerPos, pos) < symbolSize * 2)
                                 {
                                     serie.highlight = true;
                                     serie.context.pointerEnter = true;
                                     serie.context.pointerItemDataIndex = i;
+                                    serie.context.pointerItemDataDimension = n;
                                     serieData.context.highlight = true;
                                     break;
                                 }
@@ -144,6 +156,7 @@ namespace XCharts.Runtime
                                         serie.highlight = true;
                                         serie.context.pointerEnter = true;
                                         serie.context.pointerItemDataIndex = i;
+                                        serie.context.pointerItemDataDimension = n;
                                         serieData.context.highlight = true;
                                         break;
                                     }
@@ -163,6 +176,7 @@ namespace XCharts.Runtime
                         {
                             serie.context.pointerEnter = true;
                             serie.context.pointerItemDataIndex = i;
+                            serie.context.pointerItemDataDimension = 1;
                             serieData.context.highlight = true;
                             needInteract = true;
                         }
@@ -183,6 +197,7 @@ namespace XCharts.Runtime
                             {
                                 serie.context.pointerEnter = true;
                                 serie.context.pointerItemDataIndex = n;
+                                serie.context.pointerItemDataDimension = 1;
                                 p1.context.highlight = true;
                                 needInteract = true;
                                 break;
@@ -264,7 +279,7 @@ namespace XCharts.Runtime
                             max = serie.context.dataMax;
                         }
                     }
-                    var radius = (float) (m_RadarCoord.context.dataRadius * (value - min) / (max - min));
+                    var radius = (float)(m_RadarCoord.context.dataRadius * (value - min) / (max - min));
                     var currAngle = startAngle + (n + (m_RadarCoord.positionType == RadarCoord.PositionType.Between ? 0.5f : 0)) * angle;
                     radius *= rate;
                     if (n == 0)
@@ -380,7 +395,7 @@ namespace XCharts.Runtime
                 }
                 var lineStyle = SerieHelper.GetLineStyle(serie, serieData);
                 Color32 areaColor, areaToColor;
-                var colorIndex = serie.colorByData?j : serie.context.colorIndex;
+                var colorIndex = serie.colorByData ? j : serie.context.colorIndex;
                 var showArea = SerieHelper.GetAreaColor(out areaColor, out areaToColor, serie, serieData, chart.theme, colorIndex - 1);
                 var lineColor = SerieHelper.GetLineColor(serie, serieData, chart.theme, colorIndex);
                 int dataCount = m_RadarCoord.indicatorList.Count;
@@ -397,7 +412,7 @@ namespace XCharts.Runtime
                 {
                     lineColor = m_RadarCoord.outRangeColor;
                 }
-                var radius = (float) (max < 0 ? m_RadarCoord.context.dataRadius - m_RadarCoord.context.dataRadius * value / max :
+                var radius = (float)(max < 0 ? m_RadarCoord.context.dataRadius - m_RadarCoord.context.dataRadius * value / max :
                     m_RadarCoord.context.dataRadius * value / max);
                 var currAngle = startAngle + (index + (m_RadarCoord.positionType == RadarCoord.PositionType.Between ? 0.5f : 0)) * angle;
                 radius *= rate;

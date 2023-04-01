@@ -576,13 +576,7 @@ namespace XCharts.Runtime
             {
                 total = context.labelValueList.Count;
             }
-            var labelShow = axisLabel.show && (axisLabel.interval == 0 || index % (axisLabel.interval + 1) == 0);
-            if (labelShow)
-            {
-                if (!axisLabel.showStartLabel && index == 0) labelShow = false;
-                else if (!axisLabel.showEndLabel && index == total - 1) labelShow = false;
-            }
-            return labelShow;
+            return axisLabel.IsNeedShowLabel(index, total);
         }
 
         public void SetNeedUpdateFilterData()
@@ -827,18 +821,18 @@ namespace XCharts.Runtime
                 return logBaseE ? (float) Math.Log(value) : (float) Math.Log(value, logBase);
         }
 
-        public int GetLogMinIndex()
+        public double GetLogMinIndex()
         {
             return logBaseE ?
-                (int) Math.Log(context.minValue) :
-                (int) Math.Log(context.minValue, logBase);
+                Math.Log(context.minValue) :
+                Math.Log(context.minValue, logBase);
         }
 
-        public int GetLogMaxIndex()
+        public double GetLogMaxIndex()
         {
             return logBaseE ?
-                (int) Math.Log(context.maxValue) :
-                (int) Math.Log(context.maxValue, logBase);
+                Math.Log(context.maxValue) :
+                Math.Log(context.maxValue, logBase);
         }
 
         public double GetLabelValue(int index)

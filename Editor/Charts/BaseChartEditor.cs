@@ -14,7 +14,7 @@ namespace XCharts.Editor
         {
             public static readonly GUIContent btnAddSerie = new GUIContent("Add Serie", "");
             public static readonly GUIContent btnAddComponent = new GUIContent("Add Main Component", "");
-            public static readonly GUIContent btnCovertXYAxis = new GUIContent("Covert XY Axis", "");
+            public static readonly GUIContent btnConvertXYAxis = new GUIContent("Convert XY Axis", "");
             public static readonly GUIContent btnRebuildChartObject = new GUIContent("Rebuild Chart Object", "");
             public static readonly GUIContent btnSaveAsImage = new GUIContent("Save As Image", "");
             public static readonly GUIContent btnCheckWarning = new GUIContent("Check Warning", "");
@@ -273,8 +273,8 @@ namespace XCharts.Editor
         {
             if (m_Chart.HasChartComponent<XAxis>() && m_Chart.HasChartComponent<YAxis>())
             {
-                if (GUILayout.Button(Styles.btnCovertXYAxis))
-                    m_Chart.CovertXYAxis(0);
+                if (GUILayout.Button(Styles.btnConvertXYAxis))
+                    m_Chart.ConvertXYAxis(0);
             }
             if (GUILayout.Button(Styles.btnRebuildChartObject))
             {

@@ -1,6 +1,8 @@
 using UnityEngine;
 using XCharts.Runtime;
-
+#if INPUT_SYSTEM_ENABLED
+using Input = XCharts.Runtime.InputHelper;
+#endif
 namespace XCharts.Example
 {
     [DisallowMultipleComponent]
@@ -19,7 +21,7 @@ namespace XCharts.Example
             var serieIndex = 0;
             var serie = chart.GetSerie(serieIndex);
             if (serie == null) return;
-            serie.AddExtraComponent<LabelStyle>();
+            serie.EnsureComponent<LabelStyle>();
             serie.label.show = true;
             serie.label.position = LabelStyle.Position.Outside;
         }

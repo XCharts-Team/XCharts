@@ -217,7 +217,9 @@ namespace XCharts.Runtime
             {
                 var currAngle = serieData.context.halfAngle;
                 var offset = labelLine.lineLength2 + serieData.labelObject.GetTextWidth() / 2;
-                if ((currAngle - serie.context.startAngle) % 360 > 180)
+                var angle = (currAngle - serie.context.startAngle) % 360;
+                var isLeft = angle > 180 || (angle == 0 && serieData.context.startAngle > 0);
+                if (isLeft)
                     return serieData.context.labelPosition + new Vector3(-offset, 0, 0);
                 else
                     return serieData.context.labelPosition + new Vector3(offset, 0, 0);

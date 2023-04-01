@@ -34,7 +34,6 @@ namespace XCharts.Runtime
         {
             if (m_SerieGrid == null)
                 return;
-            var lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
             var needCheck = (chart.isPointerInChart && m_SerieGrid.IsPointerEnter()) || m_LegendEnter;
             if (!needCheck)
             {
@@ -55,6 +54,7 @@ namespace XCharts.Runtime
                 return;
             }
             m_LastCheckContextFlag = needCheck;
+            var lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
             var themeSymbolSize = chart.theme.serie.lineSymbolSize;
             var needInteract = false;
             serie.ResetDataIndex();

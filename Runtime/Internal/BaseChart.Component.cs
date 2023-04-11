@@ -72,6 +72,7 @@ namespace XCharts.Runtime
             CreateComponentHandler(component);
 #if UNITY_EDITOR && UNITY_2019_1_OR_NEWER
             UnityEditor.EditorUtility.SetDirty(this);
+            OnBeforeSerialize();
 #endif
             return component;
         }
@@ -88,6 +89,7 @@ namespace XCharts.Runtime
             }
             component.index = list.Count;
             list.Add(component);
+            m_Components.Sort((a, b) => { return a.GetType().Name.CompareTo(b.GetType().Name); });
         }
 
         private void CheckAddRequireChartComponent(Type type)
@@ -179,6 +181,10 @@ namespace XCharts.Runtime
             {
                 if (component.gameObject != null)
                     ChartHelper.SetActive(component.gameObject, false);
+#if UNITY_EDITOR && UNITY_2019_1_OR_NEWER
+                UnityEditor.EditorUtility.SetDirty(this);
+                OnBeforeSerialize();
+#endif
                 InitComponentHandlers();
                 RefreshChart();
                 return true;

@@ -66,6 +66,8 @@ slug: /changelog
 
 ## master
 
+* (2023.04.11) 修复动态添加组件时`Inspector`可能异常的问题
+
 ## v3.6.0
 
 版本要点：

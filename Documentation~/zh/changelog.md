@@ -66,7 +66,8 @@ slug: /changelog
 
 ## master
 
-* (2023.04.12) 增加`RadarChart`对通配符`{b}`的支持
+* (2023.04.12) 优化`RadarCood`设置`startAngle`时文本也跟随调整位置
+* (2023.04.12) 增加`Radar`对通配符`{b}`的支持
 * (2023.04.11) 修复动态添加组件时`Inspector`可能异常的问题
 
 ## v3.6.0

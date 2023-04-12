@@ -383,6 +383,7 @@ namespace XCharts.Runtime
                     angle = 2 * Mathf.PI / indicatorNum * (index + 0.5f);
                     break;
             }
+            angle += startAngle * Mathf.PI / 180;
             var x = context.center.x + (context.radius + indicatorGap) * Mathf.Sin(angle);
             var y = context.center.y + (context.radius + indicatorGap) * Mathf.Cos(angle);
             return new Vector3(x, y);

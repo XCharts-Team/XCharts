@@ -429,6 +429,13 @@ namespace XCharts.Runtime
             return indicatorList[indicatorIndex];
         }
 
+        public string GetIndicatorName(int indicatorIndex)
+        {
+            var indicator = GetIndicator(indicatorIndex);
+            if (indicator == null) return string.Empty;
+            return indicator.name;
+        }
+
         public override void ClearData()
         {
             indicatorList.Clear();

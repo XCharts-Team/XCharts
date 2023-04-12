@@ -66,6 +66,7 @@ slug: /changelog
 
 ## master
 
+* (2023.04.12) 增加`RadarChart`对通配符`{b}`的支持
 * (2023.04.11) 修复动态添加组件时`Inspector`可能异常的问题
 
 ## v3.6.0

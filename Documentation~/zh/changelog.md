@@ -66,6 +66,7 @@ slug: /changelog
 
 ## master
 
+* (2023.04.14) 修复`Tooltip`在只有一个数据时可能异常的问题
 * (2023.04.14) 增加`BaseChart`的`TriggerTooltip()`接口尝试触发`ToolTip`
 * (2023.04.12) 优化`RadarCood`设置`startAngle`时文本也跟随调整位置
 * (2023.04.12) 增加`Radar`对通配符`{b}`的支持

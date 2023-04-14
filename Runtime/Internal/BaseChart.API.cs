@@ -667,5 +667,64 @@ namespace XCharts.Runtime
             SerieHelper.GetItemColor(out color, out toColor, serie, null, m_Theme);
             return color;
         }
+
+        /// <summary>
+        /// trigger tooltip by data index.
+        /// |尝试触发指定数据项的Tooltip.
+        /// </summary>
+        /// <param name="dataIndex">数据项索引</param>
+        /// <returns></returns>
+        [Since("v3.7.0")]
+        public bool TriggerTooltip(int dataIndex)
+        {
+            var serie = GetSerie(0);
+            if (serie == null) return false;
+            var dataPoints = serie.context.dataPoints;
+            var dataPoint = Vector3.zero;
+            if (dataPoints.Count == 0)
+            {
+                if (serie.dataCount == 0) return false;
+                dataIndex = dataIndex % serie.dataCount;
+                var serieData = serie.GetSerieData(dataIndex);
+                if (serieData == null) return false;
+                dataPoint = serie.GetSerieData(dataIndex).context.position;
+            }
+            else
+            {
+                dataIndex = dataIndex % dataPoints.Count;
+                dataPoint = dataPoints[dataIndex];
+            }
+            return TriggerTooltip(dataPoint);
+        }
+
+        /// <summary>
+        /// trigger tooltip by chart local position.
+        /// |在指定的位置尝试触发Tooltip.
+        /// </summary>
+        /// <param name="localPosition"></param>
+        /// <returns></returns>
+        [Since("v3.7.0")]
+        public bool TriggerTooltip(Vector3 localPosition)
+        {
+            var screenPoint = LocalPointToScreenPoint(localPosition);
+            var eventData = new PointerEventData(EventSystem.current);
+            eventData.position = screenPoint;
+            OnPointerEnter(eventData);
+            return true;
+        }
+
+        /// <summary>
+        /// cancel tooltip.
+        /// |取消Tooltip.
+        /// </summary>
+        [Since("v3.7.0")]
+        public void CancelTooltip()
+        {
+            var tooltip = GetChartComponent<Tooltip>();
+            if (tooltip != null)
+            {
+                tooltip.SetActive(false);
+            }
+        }
     }
 }

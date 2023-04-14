@@ -204,6 +204,7 @@ Inherits or Implemented: [BaseGraph](#basegraph),[ISerializationCallbackReceiver
 |CanAddChartComponent()||public bool CanAddChartComponent(Type type)|
 |CanAddSerie()||public bool CanAddSerie(Type type)|
 |CanAddSerie&lt;T&gt;()||public bool CanAddSerie&lt;T&gt;() where T : Serie|
+|CancelTooltip()|v3.7.0|public void CancelTooltip()<br/>cancel tooltip. |
 |CanMultipleComponent()||public bool CanMultipleComponent(Type type)|
 |ClampInChart()||public void ClampInChart(ref Vector3 pos)|
 |ClampInGrid()||public Vector3 ClampInGrid(GridCoord grid, Vector3 pos)|
@@ -319,6 +320,8 @@ Inherits or Implemented: [BaseGraph](#basegraph),[ISerializationCallbackReceiver
 |SetSeriePainterMaterial()||public void SetSeriePainterMaterial(Material material)<br/>设置Serie Painter的材质球 |
 |SetTopPainterMaterial()||public void SetTopPainterMaterial(Material material)<br/>设置Top Painter的材质球 |
 |SetUpperPainterMaterial()||public void SetUpperPainterMaterial(Material material)<br/>设置Upper Painter的材质球 |
+|TriggerTooltip()|v3.7.0|public bool TriggerTooltip(int dataIndex)<br/>trigger tooltip by data index. |
+|TriggerTooltip()|v3.7.0|public bool TriggerTooltip(Vector3 localPosition)<br/>trigger tooltip by chart local position. |
 |TryAddChartComponent()||public bool TryAddChartComponent(Type type)|
 |TryAddChartComponent&lt;T&gt;()||public bool TryAddChartComponent&lt;T&gt;() where T : MainComponent|
 |TryAddChartComponent&lt;T&gt;()||public bool TryAddChartComponent&lt;T&gt;(out T component) where T : MainComponent|
@@ -355,6 +358,8 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic),[IPointerDownHandle
 |onPointerUp||public Action&lt;PointerEventData, BaseGraph&gt; onPointerUp<br/>鼠标弹起回调。 |
 |onScroll||public Action&lt;PointerEventData, BaseGraph&gt; onScroll<br/>鼠标滚动回调。 |
 |CheckWarning()||public string CheckWarning()<br/>检测警告信息。 |
+|LocalPointToScreenPoint()|v3.7.0|public Vector2 LocalPointToScreenPoint(Vector2 localPoint)<br/>chart local point to screen point. |
+|LocalPointToWorldPoint()|v3.7.0|public Vector2 LocalPointToWorldPoint(Vector2 localPoint)<br/>chart local point to world point. |
 |OnBeginDrag()||public virtual void OnBeginDrag(PointerEventData eventData)|
 |OnDrag()||public virtual void OnDrag(PointerEventData eventData)|
 |OnEndDrag()||public virtual void OnEndDrag(PointerEventData eventData)|

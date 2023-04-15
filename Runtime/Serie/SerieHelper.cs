@@ -822,7 +822,10 @@ namespace XCharts.Runtime
             }
             else if (endValue == 0)
             {
-                serie.m_FilterData = emptyFilter;
+                if (serie.m_FilterData == null)
+                    serie.m_FilterData = new List<SerieData>();
+                else if (serie.m_FilterData.Count > 0)
+                    serie.m_FilterData.Clear();
             }
         }
 
@@ -880,7 +883,10 @@ namespace XCharts.Runtime
             else if (end == 0)
             {
                 serie.context.dataZoomStartIndex = 0;
-                serie.m_FilterData = emptyFilter;
+                if (serie.m_FilterData == null)
+                    serie.m_FilterData = new List<SerieData>();
+                else if (serie.m_FilterData.Count > 0)
+                    serie.m_FilterData.Clear();
             }
         }
 

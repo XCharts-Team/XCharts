@@ -15,10 +15,11 @@ namespace XCharts.Editor
             if (MakeComponentFoldout(prop, "m_Show", true))
             {
                 ++EditorGUI.indentLevel;
-                var type = (SymbolType) prop.FindPropertyRelative("m_Type").enumValueIndex;
+                var type = (SymbolType)prop.FindPropertyRelative("m_Type").enumValueIndex;
                 PropertyField(prop, "m_Type");
                 if (type == SymbolType.Custom)
                 {
+                    AddHelpBox("Custom symbol only work in PictorialBar serie", MessageType.Warning);
                     PropertyField(prop, "m_Image");
                     PropertyField(prop, "m_ImageType");
                     PropertyField(prop, "m_Width");
@@ -27,7 +28,7 @@ namespace XCharts.Editor
                 }
                 PropertyField(prop, "m_Gap");
                 PropertyField(prop, "m_SizeType");
-                switch ((SymbolSizeType) prop.FindPropertyRelative("m_SizeType").enumValueIndex)
+                switch ((SymbolSizeType)prop.FindPropertyRelative("m_SizeType").enumValueIndex)
                 {
                     case SymbolSizeType.Custom:
                         PropertyField(prop, "m_Size");

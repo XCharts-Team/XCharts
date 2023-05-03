@@ -73,6 +73,14 @@ namespace XCharts.Editor
             return prop.propertyPath + "_" + index;
         }
 
+        protected void AddHelpBox(string message, MessageType type = MessageType.Warning, int line = 2)
+        {
+            var offset = EditorGUI.indentLevel * ChartEditorHelper.INDENT_WIDTH;
+            EditorGUI.HelpBox(new Rect(m_DrawRect.x + offset, m_DrawRect.y, m_DrawRect.width - offset, EditorGUIUtility.singleLineHeight * line), message, type);
+            for (int i = 0; i < line; i++)
+                AddSingleLineHeight();
+        }
+
         protected void AddSingleLineHeight()
         {
             m_Heights[m_KeyName] += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;

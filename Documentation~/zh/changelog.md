@@ -66,6 +66,7 @@ slug: /changelog
 
 ## master
 
+* (2023.05.04) 增加`Symbol`选择`Custom`类型时的`Warning`提示
 * (2023.04.15) 修复`DataZoom`在多个图表时可能异常的问题 (#252)
 * (2023.04.14) 修复`Tooltip`在只有一个数据时可能异常的问题
 * (2023.04.14) 增加`BaseChart`的`TriggerTooltip()`接口尝试触发`ToolTip`

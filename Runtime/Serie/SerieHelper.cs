@@ -760,7 +760,6 @@ namespace XCharts.Runtime
             }
         }
 
-        private static List<SerieData> emptyFilter = new List<SerieData>();
         /// <summary>
         /// 根据dataZoom更新数据列表缓存
         /// </summary>

@@ -394,8 +394,8 @@ namespace XCharts.Runtime
 
                     case Axis.AxisMinMaxType.MinMax:
 
-                        minValue = ceilRate != 0 ? ChartHelper.GetMinDivisibleValue(minValue, ceilRate) : minValue;
-                        maxValue = ceilRate != 0 ? ChartHelper.GetMaxDivisibleValue(maxValue, ceilRate) : maxValue;
+                        minValue = needFormat ? ChartHelper.GetMinDivisibleValue(minValue, ceilRate) : minValue;
+                        maxValue = needFormat ? ChartHelper.GetMaxDivisibleValue(maxValue, ceilRate) : maxValue;
                         break;
                 }
             }

@@ -81,7 +81,7 @@ namespace XCharts.Runtime
         [SerializeField] private RangeMode m_RangeMode;
         [SerializeField] private float m_Start;
         [SerializeField] private float m_End;
-        [SerializeField] private int m_MinShowNum = 1;
+        [SerializeField] private int m_MinShowNum = 2;
         [Range(1f, 20f)]
         [SerializeField] private float m_ScrollSensitivity = 1.1f;
         [SerializeField] private Orient m_Orient = Orient.Horizonal;

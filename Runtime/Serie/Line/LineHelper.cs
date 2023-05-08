@@ -15,7 +15,7 @@ namespace XCharts.Runtime
             var rate = 0;
             var width = isYAxis ? grid.context.height : grid.context.width;
             if (sampleDist > 0)
-                rate = (int) ((maxCount - serie.minShow) / (width / sampleDist));
+                rate = (int)((maxCount - serie.minShow) / (width / sampleDist));
             if (rate < 1)
                 rate = 1;
             return rate;
@@ -281,6 +281,7 @@ namespace XCharts.Runtime
 
             var lastDataIsIgnore = datas[0].isIgnoreBreak;
             var smooth = serie.lineType == LineType.Smooth;
+            var firstInGridPointIndex = smooth && serie.clip ? -1 : 1;
             for (int i = 1; i < dataCount; i++)
             {
                 var cdata = datas[i];
@@ -299,8 +300,37 @@ namespace XCharts.Runtime
                 }
                 serie.context.lineEndPostion = cp;
                 serie.context.lineEndValue = AxisHelper.GetAxisPositionValue(grid, relativedAxis, cp);
-
                 var handled = false;
+                var isClip = false;
+                if (serie.clip)
+                {
+                    if (smooth)
+                    {
+                        if (!grid.Contains(cp))
+                            isClip = true;
+                        else if (firstInGridPointIndex <= 0)
+                            firstInGridPointIndex = i;
+                        if (firstInGridPointIndex > 0 && !grid.Contains(np))
+                            isClip = true;
+                    }
+                    else if (i == 1 || i == dataCount - 1)
+                    {
+                        var isLpInGrid = grid.Contains(lp);
+                        var isCpInGrid = grid.Contains(cp);
+                        if (i == 1 && !isLpInGrid)
+                        {
+                            grid.BoundaryPoint(lp, cp, ref lp);
+                        }
+                        if (i == dataCount -1 && !isCpInGrid)
+                        {
+                            if (grid.BoundaryPoint(lp, cp, ref cp))
+                            {
+                                np = cp;
+                            }
+                        }
+                    }
+                    if (isClip) isIgnore = true;
+                }
                 if (!smooth)
                 {
                     switch (serie.lineStyle.type)
@@ -473,7 +503,7 @@ namespace XCharts.Runtime
 
                         var dir = (ep - sp).normalized;
                         var dist = Vector3.Distance(sp, ep);
-                        var segment = (int) (dist / setting.lineSegmentDistance);
+                        var segment = (int)(dist / setting.lineSegmentDistance);
                         serie.context.drawPoints.Add(new PointInfo(sp, ignore));
                         for (int j = 1; j < segment; j++)
                         {

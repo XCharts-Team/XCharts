@@ -151,10 +151,15 @@ namespace XCharts.Runtime
         public bool BoundaryPoint(Vector3 sp, Vector3 ep, ref Vector3 point)
         {
             if (Contains(sp) && Contains(ep))
-            {
-                point = ep;
                 return false;
-            }
+            if (sp.x < context.x && ep.x < context.x)
+                return false;
+            if (sp.x > context.x + context.width && ep.x > context.x + context.width)
+                return false;
+            if (sp.y < context.y && ep.y < context.y)
+                return false;
+            if (sp.y > context.y + context.height && ep.y > context.y + context.height)
+                return false;
             var lb = new Vector3(context.x, context.y);
             var lt = new Vector3(context.x, context.y + context.height);
             var rt = new Vector3(context.x + context.width, context.y + context.height);

@@ -255,12 +255,10 @@ namespace XUGL
         /// <param name="p2">线段1终点</param>
         /// <param name="p3">线段2起点</param>
         /// <param name="p4">线段2终点</param>
-        /// <param name="intersection">相交点。当不想交时默认为 Vector3.zero </param>
+        /// <param name="intersection">相交点。当不相交时为初始值</param>
         /// <returns>相交则返回 true, 否则返回 false</returns>
         public static bool GetIntersection(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4, ref Vector3 intersection)
         {
-            intersection = Vector3.zero;
-
             var d = (p2.x - p1.x) * (p4.y - p3.y) - (p2.y - p1.y) * (p4.x - p3.x);
             if (d == 0)
                 return false;

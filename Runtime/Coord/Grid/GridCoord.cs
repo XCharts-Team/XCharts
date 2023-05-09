@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using XUGL;
 
@@ -173,6 +174,32 @@ namespace XCharts.Runtime
             if (UGLHelper.GetIntersection(sp, ep, lb, lt, ref point))
                 return true;
             return false;
+        }
+
+        /// <summary>
+        /// 给定的线段和Grid边界的交点
+        /// </summary>
+        /// <param name="sp"></param>
+        /// <param name="ep"></param>
+        /// <returns></returns>
+        public bool BoundaryPoint(Vector3 sp, Vector3 ep, ref List<Vector3> point)
+        {
+            if (Contains(sp) && Contains(ep))
+                return false;
+            var lb = new Vector3(context.x, context.y);
+            var lt = new Vector3(context.x, context.y + context.height);
+            var rt = new Vector3(context.x + context.width, context.y + context.height);
+            var rb = new Vector3(context.x + context.width, context.y);
+            var flag = false;
+            if (UGLHelper.GetIntersection(sp, ep, lb, lt, ref point))
+                flag = true;
+            if (UGLHelper.GetIntersection(sp, ep, lt, rt, ref point))
+                flag = true;
+            if (UGLHelper.GetIntersection(sp, ep, lb, rb, ref point))
+                flag = true;
+            if (UGLHelper.GetIntersection(sp, ep, rb, rt, ref point))
+                flag = true;
+            return flag;
         }
     }
 }

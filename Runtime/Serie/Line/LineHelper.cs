@@ -282,6 +282,7 @@ namespace XCharts.Runtime
             var lastDataIsIgnore = datas[0].isIgnoreBreak;
             var smooth = serie.lineType == LineType.Smooth;
             var firstInGridPointIndex = smooth && serie.clip ? -1 : 1;
+            var interactPoints = new List<Vector3>();
             for (int i = 1; i < dataCount; i++)
             {
                 var cdata = datas[i];
@@ -313,19 +314,26 @@ namespace XCharts.Runtime
                         if (firstInGridPointIndex > 0 && !grid.Contains(np))
                             isClip = true;
                     }
-                    else if (i == 1 || i == dataCount - 1)
+                    else
                     {
                         var isLpInGrid = grid.Contains(lp);
                         var isCpInGrid = grid.Contains(cp);
-                        if (i == 1 && !isLpInGrid)
+                        if (!isLpInGrid || !isCpInGrid)
                         {
-                            grid.BoundaryPoint(lp, cp, ref lp);
-                        }
-                        if (i == dataCount -1 && !isCpInGrid)
-                        {
-                            if (grid.BoundaryPoint(lp, cp, ref cp))
+                            interactPoints.Clear();
+                            if (grid.BoundaryPoint(lp, cp, ref interactPoints))
                             {
-                                np = cp;
+                                if (interactPoints.Count >= 2)
+                                {
+                                    lp = interactPoints[0];
+                                    cp = interactPoints[1];
+                                }
+                                else if (isLpInGrid)
+                                    cp = interactPoints[0];
+                                else
+                                    lp = interactPoints[0];
+                                if (i == dataCount - 1)
+                                    np = cp;
                             }
                         }
                     }

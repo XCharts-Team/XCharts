@@ -421,8 +421,10 @@ Inherits or Implemented: [BaseChart](#basechart)
 |GetFullName()||public static string GetFullName(Transform transform)|
 |GetHighlightColor()||public static Color32 GetHighlightColor(Color32 color, float rate = 0.8f)|
 |GetLastValue()||public static Vector3 GetLastValue(List&lt;Vector3&gt; list)|
+|GetMaxCeilRate()||public static double GetMaxCeilRate(double value, double ceilRate)|
 |GetMaxDivisibleValue()||public static double GetMaxDivisibleValue(double max, double ceilRate)|
 |GetMaxLogValue()||public static double GetMaxLogValue(double value, float logBase, bool isLogBaseE, out int splitNumber)|
+|GetMinCeilRate()||public static double GetMinCeilRate(double value, double ceilRate)|
 |GetMinDivisibleValue()||public static double GetMinDivisibleValue(double min, double ceilRate)|
 |GetMinLogValue()||public static double GetMinLogValue(double value, float logBase, bool isLogBaseE, out int splitNumber)|
 |GetOrAddComponent&lt;T&gt;()||public static T GetOrAddComponent&lt;T&gt;(GameObject gameObject) where T : Component|
@@ -1171,6 +1173,7 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 |GetBezier2()||public static Vector3 GetBezier2(float t, Vector3 sp, Vector3 p1, Vector3 p2, Vector3 ep)|
 |GetBezierList()||public static List&lt;Vector3&gt; GetBezierList(Vector3 sp, Vector3 ep, int segment, Vector3 cp)|
 |GetDire()||public static Vector3 GetDire(float angle, bool isDegree = false)|
+|GetIntersection()||public static bool GetIntersection(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4, ref List&lt;Vector3&gt; intersection)<br/>获得两直线的交点 |
 |GetIntersection()||public static bool GetIntersection(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4, ref Vector3 intersection)<br/>获得两直线的交点 |
 |GetPos()||public static Vector3 GetPos(Vector3 center, float radius, float angle, bool isDegree = false)|
 |GetVertialDire()||public static Vector3 GetVertialDire(Vector3 dire)|

@@ -66,6 +66,8 @@ slug: /changelog
 
 ## master
 
+* (2023.05.10) 增加`Axis`的`MinMaxAuto`范围类型
+* (2023.05.10) 增加`Line`对`Clip`的支持
 * (2023.05.04) 优化`Axis`在-1到1范围时设置`CeilRate`不生效的问题
 * (2023.05.04) 优化`Axis`的`MinMax`类型范围计算
 * (2023.05.04) 修复`AxisLabel`在数据都是小于1的浮点数时显示`Label`格式不对的问题

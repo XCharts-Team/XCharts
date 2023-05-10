@@ -252,7 +252,7 @@ Inherits or Implemented: [MainComponent](#maincomponent)
 |--|--|--|--|
 |show|true||是否显示坐标轴。
 |type|||坐标轴类型。<br/>`Axis.AxisType`:<br/>- `Value`: 数值轴。适用于连续数据。<br/>- `Category`: 类目轴。适用于离散的类目数据，为该类型时必须通过 data 设置类目数据。serie的数据第0维数据对应坐标轴data的index。<br/>- `Log`: 对数轴。适用于对数数据。<br/>- `Time`: 时间轴。适用于连续的时序数据。<br/>|
-|minMaxType|||坐标轴刻度最大最小值显示类型。<br/>`Axis.AxisMinMaxType`:<br/>- `Default`: 0-最大值。<br/>- `MinMax`: 最小值-最大值。<br/>- `Custom`: 自定义最小值最大值。<br/>|
+|minMaxType|||坐标轴刻度最大最小值显示类型。<br/>`Axis.AxisMinMaxType`:<br/>- `Default`: 0-最大值。<br/>- `MinMax`: 最小值-最大值。<br/>- `Custom`: 自定义最小值最大值。<br/>- `MinMaxAuto`: [since("v3.7.0")]最小值-最大值。自动计算合适的值。<br/>|
 |gridIndex|||坐标轴所在的 grid 的索引，默认位于第一个 grid。
 |polarIndex|||坐标轴所在的 ploar 的索引，默认位于第一个 polar。
 |parallelIndex|||坐标轴所在的 parallel 的索引，默认位于第一个 parallel。
@@ -567,7 +567,7 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 |rangeMode|||取绝对值还是百分比。<br/>`DataZoom.RangeMode`:<br/>- `//Value`: The value type of start and end.取值类型<br/>- `Percent`: 百分比。<br/>|
 |start|||数据窗口范围的起始百分比。范围是：0 ~ 100。
 |end|||数据窗口范围的结束百分比。范围是：0 ~ 100。
-|minShowNum|1||最小显示数据个数。当DataZoom放大到最大时，最小显示的数据个数。
+|minShowNum|2||最小显示数据个数。当DataZoom放大到最大时，最小显示的数据个数。
 |scrollSensitivity|1.1f||缩放区域组件的敏感度。值越高每次缩放所代表的数据越多。
 |orient|||布局方式是横还是竖。不仅是布局方式，对于直角坐标系而言，也决定了，缺省情况控制横向数轴还是纵向数轴。<br/>`Orient`:<br/>- `Horizonal`: 水平<br/>- `Vertical`: 垂直<br/>|
 |labelStyle|||文本标签格式。 [LabelStyle](#labelstyle)|

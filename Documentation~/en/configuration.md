@@ -252,7 +252,7 @@ The axis in rectangular coordinate.
 |--|--|--|--|
 |show|true||Whether to show axis.
 |type|||the type of axis.<br/>`Axis.AxisType`:<br/>- `Value`: Numerical axis, suitable for continuous data.<br/>- `Category`: Category axis, suitable for discrete category data. Data should only be set via data for this type.<br/>- `Log`: Log axis, suitable for log data.<br/>- `Time`: Time axis, suitable for continuous time series data.<br/>|
-|minMaxType|||the type of axis minmax.<br/>`Axis.AxisMinMaxType`:<br/>- `Default`: 0 - maximum.<br/>- `MinMax`: minimum - maximum.<br/>- `Custom`: Customize the minimum and maximum.<br/>|
+|minMaxType|||the type of axis minmax.<br/>`Axis.AxisMinMaxType`:<br/>- `Default`: 0 - maximum.<br/>- `MinMax`: minimum - maximum.<br/>- `Custom`: Customize the minimum and maximum.<br/>- `MinMaxAuto`: [since("v3.7.0")]minimum - maximum, automatically calculate the appropriate values.<br/>|
 |gridIndex|||The index of the grid on which the axis are located, by default, is in the first grid.
 |polarIndex|||The index of the polar on which the axis are located, by default, is in the first polar.
 |parallelIndex|||The index of the parallel on which the axis are located, by default, is in the first parallel.
@@ -567,7 +567,7 @@ DataZoom component is used for zooming a specific area, which enables user to in
 |rangeMode|||Use absolute value or percent value in DataZoom.start and DataZoom.end.<br/>`DataZoom.RangeMode`:<br/>- `//Value`: The value type of start and end.取值类型<br/>- `Percent`: percent value.<br/>|
 |start|||The start percentage of the window out of the data extent, in the range of 0 ~ 100.
 |end|||The end percentage of the window out of the data extent, in the range of 0 ~ 100.
-|minShowNum|1||Minimum number of display data. Minimum number of data displayed when DataZoom is enlarged to maximum.
+|minShowNum|2||Minimum number of display data. Minimum number of data displayed when DataZoom is enlarged to maximum.
 |scrollSensitivity|1.1f||The sensitivity of dataZoom scroll. The larger the number, the more sensitive it is.
 |orient|||Specify whether the layout of dataZoom component is horizontal or vertical. What's more, it indicates whether the horizontal axis or vertical axis is controlled by default in catesian coordinate system.<br/>`Orient`:<br/>- `Horizonal`: 水平<br/>- `Vertical`: 垂直<br/>|
 |labelStyle|||label style. [LabelStyle](#labelstyle)|

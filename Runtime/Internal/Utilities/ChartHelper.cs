@@ -692,8 +692,8 @@ namespace XCharts.Runtime
                     intvalue = (int)(max * Mathf.Pow(10, count));
                 }
                 var pow = Mathf.Pow(10, count);
-                var value = (max > 0) ? (int)((max * pow + 1)) / pow :
-                    (int)((max * pow - 1)) / pow;
+                var value = max > 0 ? (int)((max * (pow + 1))) / pow :
+                    (int)((max * (pow - 1))) / pow;
                 return GetMaxCeilRate(value, ceilRate);
             }
             if (ceilRate == 0)
@@ -757,8 +757,8 @@ namespace XCharts.Runtime
                     intvalue = (int)(min * Mathf.Pow(10, count));
                 }
                 var pow = Mathf.Pow(10, count);
-                var value = (min > 0) ? (int)((min * pow + 1)) / pow :
-                    (int)((min * pow - 1)) / pow;
+                var value = min > 0 ? ((int)(min * (pow - 1))) / pow :
+                    ((int)(min * (pow + 1))) / pow;
                 return GetMinCeilRate(value, ceilRate);
             }
             if (ceilRate == 0)

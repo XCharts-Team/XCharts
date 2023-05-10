@@ -59,7 +59,12 @@ namespace XCharts.Runtime
             /// Customize the minimum and maximum.
             /// |自定义最小值最大值。
             /// </summary>
-            Custom
+            Custom,
+            /// <summary>
+            /// [since("v3.7.0")]minimum - maximum, automatically calculate the appropriate values.
+            /// |[since("v3.7.0")]最小值-最大值。自动计算合适的值。
+            /// </summary>
+            MinMaxAuto,
         }
         /// <summary>
         /// the position of axis in grid.

@@ -133,14 +133,48 @@ namespace XCharts.Runtime
             return Contains(pos.x, pos.y);
         }
 
+        [Since("v3.7.0")]
+        public bool Contains(Vector3 pos, bool isYAxis)
+        {
+            return isYAxis ? ContainsY(pos.y) : ContainsX(pos.x);
+        }
+
         public bool Contains(float x, float y)
         {
-            if (x < context.x - 1 || x > context.x + context.width + 1 ||
-                y < context.y - 1 || y > context.y + context.height + 1)
-            {
-                return false;
-            }
-            return true;
+            return ContainsX(x) && ContainsY(y);
+        }
+
+        [Since("v3.7.0")]
+        public bool ContainsX(float x)
+        {
+            return x >= context.x && x <= context.x + context.width;
+        }
+
+        [Since("v3.7.0")]
+        public bool ContainsY(float y)
+        {
+            return y >= context.y && y <= context.y + context.height;
+        }
+
+        [Since("v3.7.0")]
+        public void Clamp(ref Vector3 pos)
+        {
+            ClampX(ref pos);
+            ClampY(ref pos);
+        }
+
+        [Since("v3.7.0")]
+        public void ClampX(ref Vector3 pos)
+        {
+            if (pos.x < context.x) pos.x = context.x;
+            else if (pos.x > context.x + context.width) pos.x = context.x + context.width;
+        }
+
+        [Since("v3.7.0")]
+        public void ClampY(ref Vector3 pos)
+        {
+            if (pos.y < context.y) pos.y = context.y;
+            else if (pos.y > context.y + context.height) pos.y = context.y + context.height;
         }
 
         /// <summary>

@@ -839,7 +839,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_Large, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// 开启大数量优化的阈值。只有当开启了large并且数据量大于该阀值时才进入性能模式。
+        /// Turn on the threshold for mass optimization. Enter performance mode only when large is enabled and the amount of data is greater than the threshold.
+        /// |开启大数量优化的阈值。只有当开启了large并且数据量大于该阀值时才进入性能模式。
         /// </summary>
         public int largeThreshold
         {
@@ -847,7 +848,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_LargeThreshold, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// 在饼图且标签外部显示的情况下，是否启用防止标签重叠策略，默认关闭，在标签拥挤重叠的情况下会挪动各个标签的位置，防止标签间的重叠。
+        /// If the pie chart and labels are displayed externally, whether to enable the label overlap prevention policy is disabled by default. If labels are crowded and overlapped, the positions of labels are moved to prevent label overlap.
+        /// |在饼图且标签外部显示的情况下，是否启用防止标签重叠策略，默认关闭，在标签拥挤重叠的情况下会挪动各个标签的位置，防止标签间的重叠。
         /// </summary>
         public bool avoidLabelOverlap
         {

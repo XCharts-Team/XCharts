@@ -339,8 +339,8 @@ namespace XUGL
 
             if (Vector3.Cross(dir1, dir2) == Vector3.zero && np != cp)
             {
-                itp = ntp;
-                ibp = nbp;
+                itp = clp;
+                ibp = crp;
                 return;
             }
 

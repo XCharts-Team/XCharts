@@ -286,8 +286,7 @@ namespace XCharts.Runtime
 
             var lastDataIsIgnore = datas[0].isIgnoreBreak;
             var smooth = serie.lineType == LineType.Smooth;
-            var firstInGridPointIndex = smooth && serie.clip ? -1 : 1;
-            // var interactPoints = new List<Vector3>();
+            var firstInGridPointIndex = serie.clip ? -1 : 1;
             for (int i = 1; i < dataCount; i++)
             {
                 var cdata = datas[i];
@@ -310,38 +309,10 @@ namespace XCharts.Runtime
                 var isClip = false;
                 if (serie.clip)
                 {
-                    //if (smooth)
-                    {
-                        if (!grid.Contains(cp))
-                            isClip = true;
-                        else if (firstInGridPointIndex <= 0)
-                            firstInGridPointIndex = i;
-                        if (firstInGridPointIndex > 0 && !grid.Contains(np))
-                            isClip = true;
-                    }
-                    // else
-                    // {
-                    //     var isLpInGrid = grid.Contains(lp);
-                    //     var isCpInGrid = grid.Contains(cp);
-                    //     if (!isLpInGrid || !isCpInGrid)
-                    //     {
-                    //         interactPoints.Clear();
-                    //         if (grid.BoundaryPoint(lp, cp, ref interactPoints))
-                    //         {
-                    //             if (interactPoints.Count >= 2)
-                    //             {
-                    //                 lp = interactPoints[0];
-                    //                 cp = interactPoints[1];
-                    //             }
-                    //             else if (isLpInGrid)
-                    //                 cp = interactPoints[0];
-                    //             else
-                    //                 lp = interactPoints[0];
-                    //             if (i == dataCount - 1)
-                    //                 np = cp;
-                    //         }
-                    //     }
-                    // }
+                    if (!grid.Contains(cp))
+                        isClip = true;
+                    else if (firstInGridPointIndex <= 0)
+                        firstInGridPointIndex = i;
                     if (isClip) isIgnore = true;
                 }
                 if (!smooth)
@@ -384,8 +355,10 @@ namespace XCharts.Runtime
                     ref itp, ref ibp,
                     ref clp, ref crp,
                     ref bitp, ref bibp, i);
-                if (i == firstInGridPointIndex)
+
+                if (i == 1)
                 {
+                    if (isClip) lastDataIsIgnore = true;
                     AddLineVertToVertexHelper(vh, ltp, lbp, lineColor, isVisualMapGradient, isLineStyleGradient,
                         visualMap, serie.lineStyle, grid, axis, relativedAxis, false, lastDataIsIgnore, isIgnore);
                     if (dataCount == 2 || isBreak)

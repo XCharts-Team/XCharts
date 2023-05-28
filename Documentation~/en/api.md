@@ -35,8 +35,15 @@ slug: /api
 - [GridCoordContext](#gridcoordcontext)
 - [HeatmapChart](#heatmapchart)
 - [IgnoreDoc](#ignoredoc)
+- [INeedSerieContainer](#ineedseriecontainer)
 - [InputHelper](#inputhelper)
 - [InteractData](#interactdata)
+- [IPropertyChanged](#ipropertychanged)
+- [ISerieComponent](#iseriecomponent)
+- [ISerieContainer](#iseriecontainer)
+- [ISerieDataComponent](#iseriedatacomponent)
+- [ISimplifiedSerie](#isimplifiedserie)
+- [IUpdateRuntimeData](#iupdateruntimedata)
 - [LayerHelper](#layerhelper)
 - [LegendContext](#legendcontext)
 - [LegendHelper](#legendhelper)
@@ -63,6 +70,7 @@ slug: /api
 - [RingChart](#ringchart)
 - [RuntimeUtil](#runtimeutil)
 - [ScatterChart](#scatterchart)
+- [ScriptableObject](#scriptableobject)
 - [SerieComponentAttribute](#seriecomponentattribute)
 - [SerieContext](#seriecontext)
 - [SerieConvertAttribute](#serieconvertattribute)
@@ -106,6 +114,8 @@ slug: /api
 
 ## AnimationStyleHelper
 
+Fullname: XCharts.Runtime.AnimationStyleHelper
+
 |public method|since|description|
 |--|--|--|
 |CheckDataAnimation()||public static float CheckDataAnimation(BaseChart chart, Serie serie, int dataIndex, float destProgress, float startPorgress = 0)|
@@ -115,13 +125,17 @@ slug: /api
 
 ## AxisContext
 
+Fullname: XCharts.Runtime.AxisContext
 Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## AxisHandler&lt;T&gt;
 
+Fullname: XCharts.AxisHandler<T>
 Inherits or Implemented: [MainComponentHandler](#maincomponenthandler)
 
 ## AxisHelper
+
+Fullname: XCharts.Runtime.AxisHelper
 
 |public method|since|description|
 |--|--|--|
@@ -149,11 +163,14 @@ Inherits or Implemented: [MainComponentHandler](#maincomponenthandler)
 
 ## BarChart
 
+Fullname: XCharts.Runtime.BarChart
 Inherits or Implemented: [BaseChart](#basechart)
 
 ## BaseChart
 
-Inherits or Implemented: [BaseGraph](#basegraph),[ISerializationCallbackReceiver](#iserializationcallbackreceiver)
+Fullname: XCharts.Runtime.BaseChart
+Inherits or Implemented: [BaseGraph](#basegraph),[ISerializationCallbackReceiver](https://docs.unity3d.com/ScriptReference/30_search.html?q=ISerializationCallbackReceiver)
+Subclasses: [BarChart](#barchart),[CandlestickChart](#candlestickchart),[HeatmapChart](#heatmapchart),[LineChart](#linechart),[ParallelChart](#parallelchart),[PieChart](#piechart),[PolarChart](#polarchart),[RadarChart](#radarchart),[RingChart](#ringchart),[ScatterChart](#scatterchart),[SimplifiedBarChart](#simplifiedbarchart),[SimplifiedCandlestickChart](#simplifiedcandlestickchart),[SimplifiedLineChart](#simplifiedlinechart)
 
 |public method|since|description|
 |--|--|--|
@@ -344,7 +361,9 @@ Inherits or Implemented: [BaseGraph](#basegraph),[ISerializationCallbackReceiver
 
 ## BaseGraph
 
-Inherits or Implemented: [MaskableGraphic](#maskablegraphic),[IPointerDownHandler](#ipointerdownhandler),[IPointerUpHandler](#ipointeruphandler),[](#)
+Fullname: XCharts.Runtime.BaseGraph
+Inherits or Implemented: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=MaskableGraphic),[IPointerDownHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=IPointerDownHandler),[IPointerUpHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=IPointerUpHandler),[](#)
+Subclasses: [BaseChart](#basechart),[UIComponent](#uicomponent)
 
 |public method|since|description|
 |--|--|--|
@@ -379,9 +398,12 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic),[IPointerDownHandle
 
 ## CandlestickChart
 
+Fullname: XCharts.Runtime.CandlestickChart
 Inherits or Implemented: [BaseChart](#basechart)
 
 ## ChartCached
+
+Fullname: XCharts.Runtime.ChartCached
 
 |public method|since|description|
 |--|--|--|
@@ -394,9 +416,15 @@ Inherits or Implemented: [BaseChart](#basechart)
 
 ## ChartConst
 
+Fullname: XCharts.Runtime.ChartConst
+
 ## ChartDrawer
 
+Fullname: XCharts.Runtime.ChartDrawer
+
 ## ChartHelper
+
+Fullname: XCharts.Runtime.ChartHelper
 
 |public method|since|description|
 |--|--|--|
@@ -465,7 +493,8 @@ Inherits or Implemented: [BaseChart](#basechart)
 
 ## ChartLabel
 
-Inherits or Implemented: [Image](#image)
+Fullname: XCharts.Runtime.ChartLabel
+Inherits or Implemented: [Image](https://docs.unity3d.com/ScriptReference/30_search.html?q=Image)
 
 |public method|since|description|
 |--|--|--|
@@ -494,11 +523,15 @@ Inherits or Implemented: [Image](#image)
 
 ## ChartObject
 
+Fullname: XCharts.Runtime.ChartObject
+
 |public method|since|description|
 |--|--|--|
 |Destroy()||public virtual void Destroy()|
 
 ## CheckHelper
+
+Fullname: XCharts.Runtime.CheckHelper
 
 |public method|since|description|
 |--|--|--|
@@ -507,13 +540,16 @@ Inherits or Implemented: [Image](#image)
 
 ## ColorUtil
 
+Fullname: XCharts.Runtime.ColorUtil
+
 |public method|since|description|
 |--|--|--|
 |GetColor()||public static Color32 GetColor(string hexColorStr)<br/>Convert the html string to color. |
 
 ## ComponentHandlerAttribute
 
-Inherits or Implemented: [Attribute](#attribute)
+Fullname: XCharts.Runtime.ComponentHandlerAttribute
+Inherits or Implemented: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
 
 |public method|since|description|
 |--|--|--|
@@ -521,6 +557,8 @@ Inherits or Implemented: [Attribute](#attribute)
 |ComponentHandlerAttribute()||public ComponentHandlerAttribute(Type handler, bool allowMultiple)|
 
 ## ComponentHelper
+
+Fullname: XCharts.Runtime.ComponentHelper
 
 |public method|since|description|
 |--|--|--|
@@ -532,7 +570,8 @@ Inherits or Implemented: [Attribute](#attribute)
 
 ## CoordOptionsAttribute
 
-Inherits or Implemented: [Attribute](#attribute)
+Fullname: XCharts.Runtime.CoordOptionsAttribute
+Inherits or Implemented: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
 
 |public method|since|description|
 |--|--|--|
@@ -544,9 +583,12 @@ Inherits or Implemented: [Attribute](#attribute)
 
 ## DataZoomContext
 
+Fullname: XCharts.Runtime.DataZoomContext
 Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## DataZoomHelper
+
+Fullname: XCharts.Runtime.DataZoomHelper
 
 |public method|since|description|
 |--|--|--|
@@ -554,6 +596,8 @@ Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 |UpdateDataZoomRuntimeStartEndValue&lt;T&gt;()||public static void UpdateDataZoomRuntimeStartEndValue&lt;T&gt;(BaseChart chart) where T : Serie|
 
 ## DateTimeUtil
+
+Fullname: XCharts.Runtime.DateTimeUtil
 
 |public method|since|description|
 |--|--|--|
@@ -563,7 +607,8 @@ Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## DefaultAnimationAttribute
 
-Inherits or Implemented: [Attribute](#attribute)
+Fullname: XCharts.Runtime.DefaultAnimationAttribute
+Inherits or Implemented: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
 
 |public method|since|description|
 |--|--|--|
@@ -571,12 +616,16 @@ Inherits or Implemented: [Attribute](#attribute)
 
 ## DefineSymbolsUtil
 
+Fullname: XCharts.Runtime.DefineSymbolsUtil
+
 |public method|since|description|
 |--|--|--|
 |AddGlobalDefine()||public static void AddGlobalDefine(string symbol)|
 |RemoveGlobalDefine()||public static void RemoveGlobalDefine(string symbol)|
 
 ## FormatterHelper
+
+Fullname: XCharts.Runtime.FormatterHelper
 
 |public method|since|description|
 |--|--|--|
@@ -588,21 +637,31 @@ Inherits or Implemented: [Attribute](#attribute)
 
 ## GridCoordContext
 
+Fullname: XCharts.Runtime.GridCoordContext
 Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## HeatmapChart
 
+Fullname: XCharts.Runtime.HeatmapChart
 Inherits or Implemented: [BaseChart](#basechart)
 
 ## IgnoreDoc
 
-Inherits or Implemented: [Attribute](#attribute)
+Fullname: XCharts.Runtime.IgnoreDoc
+Inherits or Implemented: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
 
 |public method|since|description|
 |--|--|--|
 |IgnoreDoc()||public IgnoreDoc()|
 
+## INeedSerieContainer
+
+Fullname: XCharts.Runtime.INeedSerieContainer
+Subclasses: [Bar](#bar),[SimplifiedBar](#simplifiedbar),[Candlestick](#candlestick),[SimplifiedCandlestick](#simplifiedcandlestick),[Heatmap](#heatmap),[Line](#line),[SimplifiedLine](#simplifiedline),[Parallel](#parallel),[Radar](#radar),[BaseScatter](#basescatter)
+
 ## InputHelper
+
+Fullname: XCharts.Runtime.InputHelper
 
 |public method|since|description|
 |--|--|--|
@@ -610,6 +669,8 @@ Inherits or Implemented: [Attribute](#attribute)
 |GetTouch()||public static Touch GetTouch(int v)|
 
 ## InteractData
+
+Fullname: XCharts.Runtime.InteractData
 
 |public method|since|description|
 |--|--|--|
@@ -625,7 +686,39 @@ Inherits or Implemented: [Attribute](#attribute)
 |TryGetValue()||public bool TryGetValue(ref float value, ref bool interacting, float animationDuration = 250)|
 |TryGetValueAndColor()||public bool TryGetValueAndColor(ref float value, ref Color32 color, ref Color32 toColor, ref bool interacting, float animationDuration = 250)|
 
+## IPropertyChanged
+
+Fullname: XCharts.Runtime.IPropertyChanged
+Subclasses: [Location](#location),[Comment](#comment),[Legend](#legend),[Title](#title)
+
+## ISerieComponent
+
+Fullname: XCharts.Runtime.ISerieComponent
+Subclasses: [AreaStyle](#areastyle),[ImageStyle](#imagestyle),[LineArrow](#linearrow),[LabelLine](#labelline),[LabelStyle](#labelstyle),[BlurStyle](#blurstyle),[EmphasisStyle](#emphasisstyle),[SelectStyle](#selectstyle),[TitleStyle](#titlestyle)
+
+## ISerieContainer
+
+Fullname: XCharts.Runtime.ISerieContainer
+Subclasses: [RadarCoord](#radarcoord),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[ParallelCoord](#parallelcoord),[PolarCoord](#polarcoord)
+
+## ISerieDataComponent
+
+Fullname: XCharts.Runtime.ISerieDataComponent
+Subclasses: [AreaStyle](#areastyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[LineStyle](#linestyle),[SerieSymbol](#seriesymbol),[LabelLine](#labelline),[LabelStyle](#labelstyle),[BlurStyle](#blurstyle),[EmphasisStyle](#emphasisstyle),[SelectStyle](#selectstyle),[TitleStyle](#titlestyle)
+
+## ISimplifiedSerie
+
+Fullname: XCharts.Runtime.ISimplifiedSerie
+Subclasses: [SimplifiedBar](#simplifiedbar),[SimplifiedCandlestick](#simplifiedcandlestick),[SimplifiedLine](#simplifiedline)
+
+## IUpdateRuntimeData
+
+Fullname: XCharts.Runtime.IUpdateRuntimeData
+Subclasses: [SingleAxis](#singleaxis),[DataZoom](#datazoom),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[ParallelCoord](#parallelcoord)
+
 ## LayerHelper
+
+Fullname: XCharts.Runtime.LayerHelper
 
 |public method|since|description|
 |--|--|--|
@@ -634,9 +727,12 @@ Inherits or Implemented: [Attribute](#attribute)
 
 ## LegendContext
 
+Fullname: XCharts.Runtime.LegendContext
 Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## LegendHelper
+
+Fullname: XCharts.Runtime.LegendHelper
 
 |public method|since|description|
 |--|--|--|
@@ -648,6 +744,8 @@ Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 |SetLegendBackground()||public static void SetLegendBackground(Legend legend, ImageStyle style)|
 
 ## LegendItem
+
+Fullname: XCharts.Runtime.LegendItem
 
 |public method|since|description|
 |--|--|--|
@@ -672,11 +770,14 @@ Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## LineChart
 
+Fullname: XCharts.Runtime.LineChart
 Inherits or Implemented: [BaseChart](#basechart)
 
 ## ListFor
 
-Inherits or Implemented: [Attribute](#attribute)
+Fullname: XCharts.Runtime.ListFor
+Inherits or Implemented: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
+Subclasses: [ListForComponent](#listforcomponent),[ListForSerie](#listforserie)
 
 |public method|since|description|
 |--|--|--|
@@ -684,6 +785,7 @@ Inherits or Implemented: [Attribute](#attribute)
 
 ## ListForComponent
 
+Fullname: XCharts.Runtime.ListForComponent
 Inherits or Implemented: [ListFor](#listfor)
 
 |public method|since|description|
@@ -692,6 +794,7 @@ Inherits or Implemented: [ListFor](#listfor)
 
 ## ListForSerie
 
+Fullname: XCharts.Runtime.ListForSerie
 Inherits or Implemented: [ListFor](#listfor)
 
 |public method|since|description|
@@ -700,7 +803,13 @@ Inherits or Implemented: [ListFor](#listfor)
 
 ## MainComponentContext
 
+Fullname: XCharts.Runtime.MainComponentContext
+Subclasses: [AxisContext](#axiscontext),[DataZoomContext](#datazoomcontext),[LegendContext](#legendcontext),[RadarCoordContext](#radarcoordcontext),[VisualMapContext](#visualmapcontext),[GridCoordContext](#gridcoordcontext),[ParallelCoordContext](#parallelcoordcontext),[PolarCoordContext](#polarcoordcontext)
+
 ## MainComponentHandler
+
+Fullname: XCharts.Runtime.MainComponentHandler
+Subclasses: [AxisHandler<T>](#axishandlert),[MainComponentHandler<T>](#maincomponenthandlert)
 
 |public method|since|description|
 |--|--|--|
@@ -724,9 +833,12 @@ Inherits or Implemented: [ListFor](#listfor)
 
 ## MainComponentHandler&lt;T&gt;
 
+Fullname: XCharts.Runtime.MainComponentHandler<T>
 Inherits or Implemented: [MainComponentHandler](#maincomponenthandler)
 
 ## MathUtil
+
+Fullname: XCharts.Runtime.MathUtil
 
 |public method|since|description|
 |--|--|--|
@@ -740,6 +852,7 @@ Inherits or Implemented: [MainComponentHandler](#maincomponenthandler)
 
 ## ObjectPool&lt;T&gt; where T
 
+Fullname: XCharts.Runtime.ObjectPool<T> where T
 Inherits or Implemented: [new()](#new())
 
 |public method|since|description|
@@ -752,7 +865,8 @@ Inherits or Implemented: [new()](#new())
 
 ## Painter
 
-Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
+Fullname: XCharts.Runtime.Painter
+Inherits or Implemented: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=MaskableGraphic)
 
 |public method|since|description|
 |--|--|--|
@@ -764,25 +878,32 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 
 ## ParallelChart
 
+Fullname: XCharts.Runtime.ParallelChart
 Inherits or Implemented: [BaseChart](#basechart)
 
 ## ParallelCoordContext
 
+Fullname: XCharts.Runtime.ParallelCoordContext
 Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## PieChart
 
+Fullname: XCharts.Runtime.PieChart
 Inherits or Implemented: [BaseChart](#basechart)
 
 ## PolarChart
 
+Fullname: XCharts.Runtime.PolarChart
 Inherits or Implemented: [BaseChart](#basechart)
 
 ## PolarCoordContext
 
+Fullname: XCharts.Runtime.PolarCoordContext
 Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## PropertyUtil
+
+Fullname: XCharts.Runtime.PropertyUtil
 
 |public method|since|description|
 |--|--|--|
@@ -793,13 +914,17 @@ Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## RadarChart
 
+Fullname: XCharts.Runtime.RadarChart
 Inherits or Implemented: [BaseChart](#basechart)
 
 ## RadarCoordContext
 
+Fullname: XCharts.Runtime.RadarCoordContext
 Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## ReflectionUtil
+
+Fullname: XCharts.Runtime.ReflectionUtil
 
 |public method|since|description|
 |--|--|--|
@@ -812,7 +937,8 @@ Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## RequireChartComponentAttribute
 
-Inherits or Implemented: [Attribute](#attribute)
+Fullname: XCharts.Runtime.RequireChartComponentAttribute
+Inherits or Implemented: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
 
 |public method|since|description|
 |--|--|--|
@@ -822,9 +948,12 @@ Inherits or Implemented: [Attribute](#attribute)
 
 ## RingChart
 
+Fullname: XCharts.Runtime.RingChart
 Inherits or Implemented: [BaseChart](#basechart)
 
 ## RuntimeUtil
+
+Fullname: XCharts.Runtime.RuntimeUtil
 
 |public method|since|description|
 |--|--|--|
@@ -837,11 +966,18 @@ Inherits or Implemented: [BaseChart](#basechart)
 
 ## ScatterChart
 
+Fullname: XCharts.Runtime.ScatterChart
 Inherits or Implemented: [BaseChart](#basechart)
+
+## ScriptableObject
+
+Fullname: .ScriptableObject
+Subclasses: [Lang](#lang),[XCSettings](#xcsettings),[Theme](#theme)
 
 ## SerieComponentAttribute
 
-Inherits or Implemented: [Attribute](#attribute)
+Fullname: XCharts.Runtime.SerieComponentAttribute
+Inherits or Implemented: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
 
 |public method|since|description|
 |--|--|--|
@@ -858,9 +994,12 @@ Inherits or Implemented: [Attribute](#attribute)
 
 ## SerieContext
 
+Fullname: XCharts.Runtime.SerieContext
+
 ## SerieConvertAttribute
 
-Inherits or Implemented: [Attribute](#attribute)
+Fullname: XCharts.Runtime.SerieConvertAttribute
+Inherits or Implemented: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
 
 |public method|since|description|
 |--|--|--|
@@ -873,7 +1012,8 @@ Inherits or Implemented: [Attribute](#attribute)
 
 ## SerieDataComponentAttribute
 
-Inherits or Implemented: [Attribute](#attribute)
+Fullname: XCharts.Runtime.SerieDataComponentAttribute
+Inherits or Implemented: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
 
 |public method|since|description|
 |--|--|--|
@@ -890,13 +1030,16 @@ Inherits or Implemented: [Attribute](#attribute)
 
 ## SerieDataContext
 
+Fullname: XCharts.Runtime.SerieDataContext
+
 |public method|since|description|
 |--|--|--|
 |Reset()||public void Reset()|
 
 ## SerieDataExtraFieldAttribute
 
-Inherits or Implemented: [Attribute](#attribute)
+Fullname: XCharts.Runtime.SerieDataExtraFieldAttribute
+Inherits or Implemented: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
 
 |public method|since|description|
 |--|--|--|
@@ -912,11 +1055,15 @@ Inherits or Implemented: [Attribute](#attribute)
 
 ## SerieEventData
 
+Fullname: XCharts.Runtime.SerieEventData
+
 |public method|since|description|
 |--|--|--|
 |Reset()||public void Reset()|
 
 ## SerieEventDataPool
+
+Fullname: XCharts.Runtime.SerieEventDataPool
 
 |public method|since|description|
 |--|--|--|
@@ -924,6 +1071,8 @@ Inherits or Implemented: [Attribute](#attribute)
 |Release()||public static void Release(SerieEventData toRelease)|
 
 ## SerieHandler
+
+Fullname: XCharts.Runtime.SerieHandler
 
 |public method|since|description|
 |--|--|--|
@@ -951,8 +1100,14 @@ Inherits or Implemented: [Attribute](#attribute)
 |Update()||public virtual void Update() { }|
 |UpdateSerieContext()||public virtual void UpdateSerieContext() { }|
 
+## SerieHandler where T
+
+Fullname: .SerieHandler where T
+Subclasses: [SerieHandler<T>](#seriehandlert)
+
 ## SerieHandler&lt;T&gt;
 
+Fullname: XCharts.Runtime.SerieHandler<T>
 Inherits or Implemented: [SerieHandler where T](#seriehandler where t),[Serie](#serie)
 
 |public method|since|description|
@@ -978,7 +1133,8 @@ Inherits or Implemented: [SerieHandler where T](#seriehandler where t),[Serie](#
 
 ## SerieHandlerAttribute
 
-Inherits or Implemented: [Attribute](#attribute)
+Fullname: XCharts.Runtime.SerieHandlerAttribute
+Inherits or Implemented: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
 
 |public method|since|description|
 |--|--|--|
@@ -986,6 +1142,8 @@ Inherits or Implemented: [Attribute](#attribute)
 |SerieHandlerAttribute()||public SerieHandlerAttribute(Type handler, bool allowMultiple)|
 
 ## SerieHelper
+
+Fullname: XCharts.Runtime.SerieHelper
 
 |public method|since|description|
 |--|--|--|
@@ -1029,6 +1187,8 @@ Inherits or Implemented: [Attribute](#attribute)
 
 ## SerieLabelHelper
 
+Fullname: XCharts.Runtime.SerieLabelHelper
+
 |public method|since|description|
 |--|--|--|
 |AvoidLabelOverlap()||public static void AvoidLabelOverlap(Serie serie, ComponentTheme theme)|
@@ -1040,6 +1200,8 @@ Inherits or Implemented: [Attribute](#attribute)
 
 ## SerieLabelPool
 
+Fullname: XCharts.Runtime.SerieLabelPool
+
 |public method|since|description|
 |--|--|--|
 |ClearAll()||public static void ClearAll()|
@@ -1048,7 +1210,11 @@ Inherits or Implemented: [Attribute](#attribute)
 
 ## SerieParams
 
+Fullname: XCharts.Runtime.SerieParams
+
 ## SeriesHelper
+
+Fullname: XCharts.Runtime.SeriesHelper
 
 |public method|since|description|
 |--|--|--|
@@ -1068,25 +1234,31 @@ Inherits or Implemented: [Attribute](#attribute)
 
 ## SimplifiedBarChart
 
+Fullname: XCharts.Runtime.SimplifiedBarChart
 Inherits or Implemented: [BaseChart](#basechart)
 
 ## SimplifiedCandlestickChart
 
+Fullname: XCharts.Runtime.SimplifiedCandlestickChart
 Inherits or Implemented: [BaseChart](#basechart)
 
 ## SimplifiedLineChart
 
+Fullname: XCharts.Runtime.SimplifiedLineChart
 Inherits or Implemented: [BaseChart](#basechart)
 
 ## Since
 
-Inherits or Implemented: [Attribute](#attribute)
+Fullname: XCharts.Runtime.Since
+Inherits or Implemented: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
 
 |public method|since|description|
 |--|--|--|
 |Since()||public Since(string version)|
 
 ## SVG
+
+Fullname: XUGL.SVG
 
 |public method|since|description|
 |--|--|--|
@@ -1096,9 +1268,12 @@ Inherits or Implemented: [Attribute](#attribute)
 
 ## SVGImage
 
-Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
+Fullname: XCharts.Runtime.SVGImage
+Inherits or Implemented: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=MaskableGraphic)
 
 ## SVGPath
+
+Fullname: XUGL.SVGPath
 
 |public method|since|description|
 |--|--|--|
@@ -1108,15 +1283,23 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 
 ## SVGPathSeg
 
+Fullname: XUGL.SVGPathSeg
+
 |public method|since|description|
 |--|--|--|
 |SVGPathSeg()||public SVGPathSeg(SVGPathSegType type)|
 
 ## TooltipContext
 
+Fullname: XCharts.Runtime.TooltipContext
+
 ## TooltipData
 
+Fullname: XCharts.Runtime.TooltipData
+
 ## TooltipHelper
+
+Fullname: XCharts.Runtime.TooltipHelper
 
 |public method|since|description|
 |--|--|--|
@@ -1126,6 +1309,8 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 |LimitInRect()||public static void LimitInRect(Tooltip tooltip, Rect chartRect)|
 
 ## TooltipView
+
+Fullname: XCharts.Runtime.TooltipView
 
 |public method|since|description|
 |--|--|--|
@@ -1139,7 +1324,11 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 
 ## TooltipViewItem
 
+Fullname: XCharts.Runtime.TooltipViewItem
+
 ## UGL
+
+Fullname: XUGL.UGL
 
 |public method|since|description|
 |--|--|--|
@@ -1162,9 +1351,12 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 
 ## UGLExample
 
-Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
+Fullname: XUGL.UGLExample
+Inherits or Implemented: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=MaskableGraphic)
 
 ## UGLHelper
+
+Fullname: XUGL.UGLHelper
 
 |public method|since|description|
 |--|--|--|
@@ -1194,6 +1386,7 @@ Inherits or Implemented: [MaskableGraphic](#maskablegraphic)
 
 ## UIComponent
 
+Fullname: XCharts.Runtime.UIComponent
 Inherits or Implemented: [BaseGraph](#basegraph)
 
 |public method|since|description|
@@ -1202,15 +1395,20 @@ Inherits or Implemented: [BaseGraph](#basegraph)
 
 ## UIHelper
 
+Fullname: XCharts.Runtime.UIHelper
+
 |public method|since|description|
 |--|--|--|
 |GetBackgroundColor()||public static Color32 GetBackgroundColor(UIComponent component)|
 
 ## VisualMapContext
 
+Fullname: XCharts.Runtime.VisualMapContext
 Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## VisualMapHelper
+
+Fullname: XCharts.Runtime.VisualMapHelper
 
 |public method|since|description|
 |--|--|--|
@@ -1222,6 +1420,8 @@ Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 |SetMinMax()||public static void SetMinMax(VisualMap visualMap, double min, double max)|
 
 ## XChartsMgr
+
+Fullname: XCharts.Runtime.XChartsMgr
 
 |public method|since|description|
 |--|--|--|
@@ -1238,13 +1438,16 @@ Inherits or Implemented: [MainComponentContext](#maincomponentcontext)
 
 ## XCResourceImporterWindow
 
-Inherits or Implemented: [UnityEditor.EditorWindow](#unityeditor.editorwindow)
+Fullname: XCharts.Runtime.XCResourceImporterWindow
+Inherits or Implemented: [UnityEditor.EditorWindow](https://docs.unity3d.com/ScriptReference/30_search.html?q=UnityEditor.EditorWindow)
 
 |public method|since|description|
 |--|--|--|
 |ShowPackageImporterWindow()||public static void ShowPackageImporterWindow()|
 
 ## XCThemeMgr
+
+Fullname: XCharts.Runtime.XCThemeMgr
 
 |public method|since|description|
 |--|--|--|

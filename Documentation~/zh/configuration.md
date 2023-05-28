@@ -163,13 +163,20 @@ slug: /configuration
 - [TitleStyle](#titlestyle)
 
 
-## Other 其他组件
+## Other 其他
 
 - [BaseSerie](#baseserie)
 - [ChartText](#charttext)
 - [ChildComponent](#childcomponent)
 - [DebugInfo](#debuginfo)
 - [Indicator](#indicator)
+- [INeedSerieContainer](#ineedseriecontainer)
+- [IPropertyChanged](#ipropertychanged)
+- [ISerieComponent](#iseriecomponent)
+- [ISerieContainer](#iseriecontainer)
+- [ISerieDataComponent](#iseriedatacomponent)
+- [ISimplifiedSerie](#isimplifiedserie)
+- [IUpdateRuntimeData](#iupdateruntimedata)
 - [Lang](#lang)
 - [LangCandlestick](#langcandlestick)
 - [LangTime](#langtime)
@@ -180,24 +187,39 @@ slug: /configuration
 
 ## AngleAxis
 
-Inherits or Implemented: [Axis](#axis)
+> 全名: XCharts.Runtime.AngleAxis
+> 继承: [Axis](#axis)
 
 极坐标系的角度轴。
+
+```mdx-code-block
+<APITable name="AngleAxis">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
 |startAngle|0||起始刻度的角度，默认为 0 度，即圆心的正右方。
 
+```mdx-code-block
+</APITable>
+```
+
 ## AngleAxisTheme
 
-Inherits or Implemented: [BaseAxisTheme](#baseaxistheme)
+> 全名: XCharts.Runtime.AngleAxisTheme
+> 继承: [BaseAxisTheme](#baseaxistheme)
 
 
 ## AnimationStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.AnimationStyle
+> 继承: [ChildComponent](#childcomponent)
 
 动画表现。
+
+```mdx-code-block
+<APITable name="AnimationStyle">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -214,11 +236,20 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |actualDuration|||实际的动画时长（毫秒）。
 |unscaledTime||v3.4.0|动画是否受TimeScaled的影响。默认为 false 受TimeScaled的影响。
 
+```mdx-code-block
+</APITable>
+```
+
 ## AreaStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> 全名: XCharts.Runtime.AreaStyle
+> 继承: [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 区域填充样式。
+
+```mdx-code-block
+<APITable name="AreaStyle">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -230,9 +261,18 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#is
 |innerFill||v3.2.0|是否只填充多边形区域。目前只支持凸多边形。
 |toTop|true|v3.6.0|渐变色是到顶部还是到实际位置。默认为true到顶部。
 
+```mdx-code-block
+</APITable>
+```
+
 ## ArrowStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.ArrowStyle
+> 继承: [ChildComponent](#childcomponent)
+
+```mdx-code-block
+<APITable name="ArrowStyle">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -242,11 +282,21 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |dent|3||箭头的凹度。
 |color|Color.clear||箭头颜色。
 
+```mdx-code-block
+</APITable>
+```
+
 ## Axis
 
-Inherits or Implemented: [MainComponent](#maincomponent)
+> 全名: XCharts.Runtime.Axis
+> 继承: [MainComponent](#maincomponent)
+> 子类: [AngleAxis](#angleaxis), [ParallelAxis](#parallelaxis), [RadiusAxis](#radiusaxis), [SingleAxis](#singleaxis), [XAxis](#xaxis), [YAxis](#yaxis)
 
 直角坐标系的坐标轴组件。
+
+```mdx-code-block
+<APITable name="Axis">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -282,11 +332,20 @@ Inherits or Implemented: [MainComponent](#maincomponent)
 |minorSplitLine||v3.2.0|坐标轴次分割线。 [AxisMinorSplitLine](#axisminorsplitline)|
 |indicatorLabel||v3.4.0|指示器文本的样式。Tooltip为Cross时使用。 [LabelStyle](#labelstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## AxisLabel
 
-Inherits or Implemented: [LabelStyle](#labelstyle)
+> 全名: XCharts.Runtime.AxisLabel
+> 继承: [LabelStyle](#labelstyle)
 
 坐标轴刻度标签的相关设置。
+
+```mdx-code-block
+<APITable name="AxisLabel">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -298,11 +357,20 @@ Inherits or Implemented: [LabelStyle](#labelstyle)
 |showEndLabel|true||是否显示最后一个文本。
 |textLimit|||文本限制。 [TextLimit](#textlimit)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## AxisLine
 
-Inherits or Implemented: [BaseLine](#baseline)
+> 全名: XCharts.Runtime.AxisLine
+> 继承: [BaseLine](#baseline)
 
 坐标轴轴线。
+
+```mdx-code-block
+<APITable name="AxisLine">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -310,37 +378,64 @@ Inherits or Implemented: [BaseLine](#baseline)
 |showArrow|||是否显示箭头。
 |arrow|||轴线箭头。 [ArrowStyle](#arrowstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## AxisMinorSplitLine
 
-Inherits or Implemented: [BaseLine](#baseline)
+> 全名: XCharts.Runtime.AxisMinorSplitLine
+> 继承: [BaseLine](#baseline)
 
 > 从 `v3.2.0` 开始支持
 
 坐标轴在 grid 区域中的次分隔线。次分割线会对齐次刻度线 minorTick。
+
+```mdx-code-block
+<APITable name="AxisMinorSplitLine">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
 |distance|||刻度线与轴线的距离。
 |autoColor|||自动设置颜色。
 
+```mdx-code-block
+</APITable>
+```
+
 ## AxisMinorTick
 
-Inherits or Implemented: [BaseLine](#baseline)
+> 全名: XCharts.Runtime.AxisMinorTick
+> 继承: [BaseLine](#baseline)
 
 > 从 `v3.2.0` 开始支持
 
 坐标轴次刻度相关设置。注意：次刻度无法在类目轴中使用。
+
+```mdx-code-block
+<APITable name="AxisMinorTick">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
 |splitNumber|5||分隔线之间分割的刻度数。
 |autoColor|||
 
+```mdx-code-block
+</APITable>
+```
+
 ## AxisName
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.AxisName
+> 继承: [ChildComponent](#childcomponent)
 
 坐标轴名称。
+
+```mdx-code-block
+<APITable name="AxisName">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -349,22 +444,40 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |onZero||v3.1.0|坐标轴名称的位置是否保持和Y轴0刻度一致。
 |labelStyle|||文本样式。 [LabelStyle](#labelstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## AxisSplitArea
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.AxisSplitArea
+> 继承: [ChildComponent](#childcomponent)
 
 坐标轴在 grid 区域中的分隔区域，默认不显示。
+
+```mdx-code-block
+<APITable name="AxisSplitArea">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
 |show|||是否显示分隔区域。
 |color|||分隔区域颜色。分隔区域会按数组中颜色的顺序依次循环设置颜色。默认是一个深浅的间隔色。
 
+```mdx-code-block
+</APITable>
+```
+
 ## AxisSplitLine
 
-Inherits or Implemented: [BaseLine](#baseline)
+> 全名: XCharts.Runtime.AxisSplitLine
+> 继承: [BaseLine](#baseline)
 
 坐标轴在 grid 区域中的分隔线。
+
+```mdx-code-block
+<APITable name="AxisSplitLine">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -374,16 +487,26 @@ Inherits or Implemented: [BaseLine](#baseline)
 |showStartLine|true|v3.3.0|是否显示第一条分割线。
 |showEndLine|true|v3.3.0|是否显示最后一条分割线。
 
+```mdx-code-block
+</APITable>
+```
+
 ## AxisTheme
 
-Inherits or Implemented: [BaseAxisTheme](#baseaxistheme)
+> 全名: XCharts.Runtime.AxisTheme
+> 继承: [BaseAxisTheme](#baseaxistheme)
 
 
 ## AxisTick
 
-Inherits or Implemented: [BaseLine](#baseline)
+> 全名: XCharts.Runtime.AxisTick
+> 继承: [BaseLine](#baseline)
 
 坐标轴刻度相关设置。
+
+```mdx-code-block
+<APITable name="AxisTick">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -395,11 +518,20 @@ Inherits or Implemented: [BaseLine](#baseline)
 |splitNumber|0||分隔线之间分割的刻度数。
 |autoColor|||
 
+```mdx-code-block
+</APITable>
+```
+
 ## Background
 
-Inherits or Implemented: [MainComponent](#maincomponent)
+> 全名: XCharts.Runtime.Background
+> 继承: [MainComponent](#maincomponent)
 
 背景组件。
+
+```mdx-code-block
+<APITable name="Background">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -409,14 +541,25 @@ Inherits or Implemented: [MainComponent](#maincomponent)
 |imageColor|||背景图颜色。
 |autoColor|true||当background组件开启时，是否自动使用主题背景色作为backgrounnd组件的颜色。当设置为false时，用imageColor作为颜色。
 
+```mdx-code-block
+</APITable>
+```
+
 ## Bar
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
+> 全名: XCharts.Runtime.Bar
+> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
 
 
 ## BaseAxisTheme
 
-Inherits or Implemented: [ComponentTheme](#componenttheme)
+> 全名: XCharts.Runtime.BaseAxisTheme
+> 继承: [ComponentTheme](#componenttheme)
+> 子类: [AxisTheme](#axistheme), [RadiusAxisTheme](#radiusaxistheme), [AngleAxisTheme](#angleaxistheme), [PolarAxisTheme](#polaraxistheme), [RadarAxisTheme](#radaraxistheme)
+
+```mdx-code-block
+<APITable name="BaseAxisTheme">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -434,28 +577,48 @@ Inherits or Implemented: [ComponentTheme](#componenttheme)
 |tickColor|||坐标轴线颜色。
 |splitAreaColors|||坐标轴分隔区域的颜色。
 
+```mdx-code-block
+</APITable>
+```
+
 ## BaseLine
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.BaseLine
+> 继承: [ChildComponent](#childcomponent)
+> 子类: [AxisLine](#axisline), [AxisMinorSplitLine](#axisminorsplitline), [AxisMinorTick](#axisminortick), [AxisSplitLine](#axissplitline), [AxisTick](#axistick)
 
 线条基础配置。
+
+```mdx-code-block
+<APITable name="BaseLine">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
 |show|||是否显示坐标轴轴线。
 |lineStyle|||线条样式 [LineStyle](#linestyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## BaseScatter
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
+> 全名: XCharts.Runtime.BaseScatter
+> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
+> 子类: [EffectScatter](#effectscatter), [Scatter](#scatter)
 
 
 ## BaseSerie
 
+> 全名: XCharts.Runtime.BaseSerie
+> 子类: [Serie](#serie)
+
 
 ## BlurStyle
 
-Inherits or Implemented: [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> 全名: XCharts.Runtime.BlurStyle
+> 继承: [StateStyle](#statestyle), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 > 从 `v3.2.0` 开始支持
 
@@ -464,25 +627,36 @@ Inherits or Implemented: [StateStyle](#statestyle),[ISerieComponent](#iseriecomp
 
 ## CalendarCoord
 
-Inherits or Implemented: [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
+> 全名: XCharts.Runtime.CalendarCoord
+> 继承: [CoordSystem](#coordsystem), [IUpdateRuntimeData](#iupdateruntimedata), [ISerieContainer](#iseriecontainer)
 
 
 ## Candlestick
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
+> 全名: XCharts.Runtime.Candlestick
+> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
 
 
 ## ChartText
 
+> 全名: XCharts.Runtime.ChartText
 
 ## ChildComponent
+
+> 全名: XCharts.Runtime.ChildComponent
+> 子类: [AnimationStyle](#animationstyle), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
 
 
 ## Comment
 
-Inherits or Implemented: [MainComponent](#maincomponent),[IPropertyChanged](#ipropertychanged)
+> 全名: XCharts.Runtime.Comment
+> 继承: [MainComponent](#maincomponent), [IPropertyChanged](#ipropertychanged)
 
 图表注解组件。
+
+```mdx-code-block
+<APITable name="Comment">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -491,11 +665,20 @@ Inherits or Implemented: [MainComponent](#maincomponent),[IPropertyChanged](#ipr
 |markStyle|||所有组件的文本样式。 [CommentMarkStyle](#commentmarkstyle)|
 |items|||注解项。每个注解组件可以设置多个注解项。
 
+```mdx-code-block
+</APITable>
+```
+
 ## CommentItem
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.CommentItem
+> 继承: [ChildComponent](#childcomponent)
 
 注解项。
+
+```mdx-code-block
+<APITable name="CommentItem">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -506,20 +689,39 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |labelStyle|||注解项的文本样式。 [LabelStyle](#labelstyle)|
 |location||v3.5.0|Comment显示的位置。 [Location](#location)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## CommentMarkStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.CommentMarkStyle
+> 继承: [ChildComponent](#childcomponent)
 
 注解项区域样式。
+
+```mdx-code-block
+<APITable name="CommentMarkStyle">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否显示当前注解项。
 |lineStyle|||线条样式。 [LineStyle](#linestyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## ComponentTheme
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.ComponentTheme
+> 继承: [ChildComponent](#childcomponent)
+> 子类: [BaseAxisTheme](#baseaxistheme), [DataZoomTheme](#datazoomtheme), [LegendTheme](#legendtheme), [SubTitleTheme](#subtitletheme), [TitleTheme](#titletheme), [TooltipTheme](#tooltiptheme), [VisualMapTheme](#visualmaptheme)
+
+```mdx-code-block
+<APITable name="ComponentTheme">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -529,18 +731,29 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |fontSize|18||文本字体大小。
 |tMPFont|||字体。
 
+```mdx-code-block
+</APITable>
+```
+
 ## CoordSystem
 
-Inherits or Implemented: [MainComponent](#maincomponent)
+> 全名: XCharts.Runtime.CoordSystem
+> 继承: [MainComponent](#maincomponent)
+> 子类: [RadarCoord](#radarcoord), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [ParallelCoord](#parallelcoord), [PolarCoord](#polarcoord), [SingleAxisCoord](#singleaxiscoord)
 
 坐标系系统。
 
 
 ## DataZoom
 
-Inherits or Implemented: [MainComponent](#maincomponent),[IUpdateRuntimeData](#iupdateruntimedata)
+> 全名: XCharts.Runtime.DataZoom
+> 继承: [MainComponent](#maincomponent), [IUpdateRuntimeData](#iupdateruntimedata)
 
 DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息，或者概览数据整体，或者去除离群点的影响。
+
+```mdx-code-block
+<APITable name="DataZoom">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -577,9 +790,18 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 |startLock||v3.6.0|固定起始值，不让改变。
 |endLock||v3.6.0|固定结束值，不让改变。
 
+```mdx-code-block
+</APITable>
+```
+
 ## DataZoomTheme
 
-Inherits or Implemented: [ComponentTheme](#componenttheme)
+> 全名: XCharts.Runtime.DataZoomTheme
+> 继承: [ComponentTheme](#componenttheme)
+
+```mdx-code-block
+<APITable name="DataZoomTheme">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -591,7 +813,16 @@ Inherits or Implemented: [ComponentTheme](#componenttheme)
 |dataAreaColor|||数据阴影的填充颜色。
 |backgroundColor|||背景颜色。
 
+```mdx-code-block
+</APITable>
+```
+
 ## DebugInfo
+
+> 全名: XCharts.Runtime.DebugInfo
+```mdx-code-block
+<APITable name="DebugInfo">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -601,18 +832,28 @@ Inherits or Implemented: [ComponentTheme](#componenttheme)
 |foldSeries|false||是否在Inspector上折叠Serie。
 |labelStyle||| [LabelStyle](#labelstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## EffectScatter
 
-Inherits or Implemented: [BaseScatter](#basescatter)
+> 全名: XCharts.Runtime.EffectScatter
+> 继承: [BaseScatter](#basescatter)
 
 
 ## EmphasisStyle
 
-Inherits or Implemented: [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> 全名: XCharts.Runtime.EmphasisStyle
+> 继承: [StateStyle](#statestyle), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 > 从 `v3.2.0` 开始支持
 
 高亮状态样式。
+
+```mdx-code-block
+<APITable name="EmphasisStyle">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -620,16 +861,26 @@ Inherits or Implemented: [StateStyle](#statestyle),[ISerieComponent](#iseriecomp
 |focus|||在高亮图形时，是否淡出其它数据的图形已达到聚焦的效果。<br/>`EmphasisStyle.FocusType`:<br/>- `None`: 不淡出其它图形，默认使用该配置。<br/>- `Self`: 只聚焦（不淡出）当前高亮的数据的图形。<br/>- `Series`: 聚焦当前高亮的数据所在的系列的所有图形。<br/>|
 |blurScope|||在开启focus的时候，可以通过blurScope配置淡出的范围。<br/>`EmphasisStyle.BlurScope`:<br/>- `GridCoord`: 淡出范围为坐标系，默认使用该配置。<br/>- `Series`: 淡出范围为系列。<br/>- `Global`: 淡出范围为全局。<br/>|
 
+```mdx-code-block
+</APITable>
+```
+
 ## EndLabelStyle
 
-Inherits or Implemented: [LabelStyle](#labelstyle)
+> 全名: XCharts.Runtime.EndLabelStyle
+> 继承: [LabelStyle](#labelstyle)
 
 
 ## GridCoord
 
-Inherits or Implemented: [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
+> 全名: XCharts.Runtime.GridCoord
+> 继承: [CoordSystem](#coordsystem), [IUpdateRuntimeData](#iupdateruntimedata), [ISerieContainer](#iseriecontainer)
 
 Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart can be drawn in grid.
+
+```mdx-code-block
+<APITable name="GridCoord">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -643,23 +894,41 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |borderWidth|0f||网格边框宽。
 |borderColor|||网格边框颜色。
 
+```mdx-code-block
+</APITable>
+```
+
 ## Heatmap
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
+> 全名: XCharts.Runtime.Heatmap
+> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
+
+```mdx-code-block
+<APITable name="Heatmap">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
 |heatmapType||v3.3.0|热力图类型。通过颜色映射划分。<br/>`HeatmapType`:<br/>- `Data`: 数据映射型。默认用第2维数据作为颜色映射。要求数据至少有3个维度数据。<br/>- `Count`: 个数映射型。统计数据在划分的格子中出现的次数，作为颜色映射。要求数据至少有2个维度数据。<br/>|
 
+```mdx-code-block
+</APITable>
+```
+
 ## IconStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.IconStyle
+> 继承: [ChildComponent](#childcomponent)
+
+```mdx-code-block
+<APITable name="IconStyle">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
 |show|false||是否显示图标。
 |layer|||显示在上层还是在下层。<br/>`IconStyle.Layer`:<br/>- `UnderText`: The icon is display under the label text. 图标在标签文字下<br/>- `AboveText`: The icon is display above the label text. 图标在标签文字上<br/>|
-|align|||水平方向对齐方式。<br/>`Align`:<br/>- `Center`: 对齐方式<br/>- `Left`: 对齐方式<br/>- `Right`: 对齐方式<br/>|
+|align|||水平方向对齐方式。<br/>`Align`:<br/>- `Center`: 对齐方式。文本，图标，图形等的对齐方式。<br/>- `Left`: 对齐方式。文本，图标，图形等的对齐方式。<br/>- `Right`: 对齐方式。文本，图标，图形等的对齐方式。<br/>|
 |sprite|||图标的图片。
 |type|||图片的显示类型。
 |color|||图标颜色。
@@ -668,9 +937,18 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |offset|||图标偏移。
 |autoHideWhenLabelEmpty|false||当label内容为空时是否自动隐藏图标
 
+```mdx-code-block
+</APITable>
+```
+
 ## ImageStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> 全名: XCharts.Runtime.ImageStyle
+> 继承: [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
+
+```mdx-code-block
+<APITable name="ImageStyle">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -682,9 +960,18 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#is
 |width|0||图标宽。
 |height|0||图标高。
 
+```mdx-code-block
+</APITable>
+```
+
 ## Indicator
 
+> 全名: XCharts.Runtime.Indicator
 雷达图的指示器，用来指定雷达图中的多个变量（维度）。
+
+```mdx-code-block
+<APITable name="Indicator">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -712,11 +999,62 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#is
 |startAngle||v3.4.0|起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
 |indicatorList|||指示器列表。
 
+```mdx-code-block
+</APITable>
+```
+
+## INeedSerieContainer
+
+> 全名: XCharts.Runtime.INeedSerieContainer
+> 子类: [Bar](#bar), [SimplifiedBar](#simplifiedbar), [Candlestick](#candlestick), [SimplifiedCandlestick](#simplifiedcandlestick), [Heatmap](#heatmap), [Line](#line), [SimplifiedLine](#simplifiedline), [Parallel](#parallel), [Radar](#radar), [BaseScatter](#basescatter)
+
+
+## IPropertyChanged
+
+> 全名: XCharts.Runtime.IPropertyChanged
+> 子类: [Location](#location), [Comment](#comment), [Legend](#legend), [Title](#title)
+
+属性变更接口
+
+
+## ISerieComponent
+
+> 全名: XCharts.Runtime.ISerieComponent
+> 子类: [AreaStyle](#areastyle), [ImageStyle](#imagestyle), [LineArrow](#linearrow), [LabelLine](#labelline), [LabelStyle](#labelstyle), [BlurStyle](#blurstyle), [EmphasisStyle](#emphasisstyle), [SelectStyle](#selectstyle), [TitleStyle](#titlestyle)
+
+可用于Serie的组件。
+
+
+## ISerieContainer
+
+> 全名: XCharts.Runtime.ISerieContainer
+> 子类: [RadarCoord](#radarcoord), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [ParallelCoord](#parallelcoord), [PolarCoord](#polarcoord)
+
+
+## ISerieDataComponent
+
+> 全名: XCharts.Runtime.ISerieDataComponent
+> 子类: [AreaStyle](#areastyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [LineStyle](#linestyle), [SerieSymbol](#seriesymbol), [LabelLine](#labelline), [LabelStyle](#labelstyle), [BlurStyle](#blurstyle), [EmphasisStyle](#emphasisstyle), [SelectStyle](#selectstyle), [TitleStyle](#titlestyle)
+
+可用于SerieData的组件。
+
+
+## ISimplifiedSerie
+
+> 全名: XCharts.Runtime.ISimplifiedSerie
+> 子类: [SimplifiedBar](#simplifiedbar), [SimplifiedCandlestick](#simplifiedcandlestick), [SimplifiedLine](#simplifiedline)
+
+
 ## ItemStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieDataComponent](#iseriedatacomponent)
+> 全名: XCharts.Runtime.ItemStyle
+> 继承: [ChildComponent](#childcomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 图形样式。
+
+```mdx-code-block
+<APITable name="ItemStyle">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -741,17 +1079,32 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieDataComponent]
 |numericFormatter|||标准数字格式字符串。用于将数值格式化显示为字符串。 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
 |cornerRadius|||圆角半径。用数组分别指定4个圆角半径（顺时针左上，右上，右下，左下）。
 
+```mdx-code-block
+</APITable>
+```
+
+## IUpdateRuntimeData
+
+> 全名: XCharts.Runtime.IUpdateRuntimeData
+> 子类: [SingleAxis](#singleaxis), [DataZoom](#datazoom), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [ParallelCoord](#parallelcoord)
+
+
 ## LabelLine
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> 全名: XCharts.Runtime.LabelLine
+> 继承: [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 标签的引导线
+
+```mdx-code-block
+<APITable name="LabelLine">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否显示视觉引导线。
 |lineType|||视觉引导线类型。<br/>`LabelLine.LineType`:<br/>- `BrokenLine`: 折线<br/>- `Curves`: 曲线<br/>- `HorizontalLine`: 水平线<br/>|
-|lineColor|ChartConst.clearColor32||视觉引导线颜色。默认和serie一致取自调色板。
+|lineColor|Color32(0,0,0,0)||视觉引导线颜色。默认和serie一致取自调色板。
 |lineAngle|0||视觉引导线的固定角度。对折线和曲线有效。
 |lineWidth|1.0f||视觉引导线的宽度。
 |lineGap|1.0f||视觉引导线和容器的间距。
@@ -760,11 +1113,21 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#is
 |startSymbol|||起始点的图形标记。 [SymbolStyle](#symbolstyle)|
 |endSymbol|||结束点的图形标记。 [SymbolStyle](#symbolstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## LabelStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> 全名: XCharts.Runtime.LabelStyle
+> 继承: [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
+> 子类: [AxisLabel](#axislabel), [EndLabelStyle](#endlabelstyle), [TitleStyle](#titlestyle)
 
 图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
+
+```mdx-code-block
+<APITable name="LabelStyle">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -784,24 +1147,36 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#is
 |textPadding|||文本的边距。 [TextPadding](#textpadding)|
 |textStyle|||文本样式。 [TextStyle](#textstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## Lang
 
-Inherits or Implemented: [ScriptableObject](#scriptableobject)
+> 全名: XCharts.Runtime.Lang
+> 继承: [ScriptableObject](#scriptableobject)
 
 国际化语言表。
 
 
 ## LangCandlestick
 
+> 全名: XCharts.Runtime.LangCandlestick
 
 ## LangTime
 
+> 全名: XCharts.Runtime.LangTime
 
 ## Legend
 
-Inherits or Implemented: [MainComponent](#maincomponent),[IPropertyChanged](#ipropertychanged)
+> 全名: XCharts.Runtime.Legend
+> 继承: [MainComponent](#maincomponent), [IPropertyChanged](#ipropertychanged)
 
 图例组件。 图例组件展现了不同系列的标记，颜色和名字。可以通过点击图例控制哪些系列不显示。
+
+```mdx-code-block
+<APITable name="Legend">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -825,17 +1200,35 @@ Inherits or Implemented: [MainComponent](#maincomponent),[IPropertyChanged](#ipr
 |padding||v3.1.0|图例标记和背景的间距。 [Padding](#padding)|
 |positions||v3.6.0|图例标记的自定义位置列表。
 
+```mdx-code-block
+</APITable>
+```
+
 ## LegendTheme
 
-Inherits or Implemented: [ComponentTheme](#componenttheme)
+> 全名: XCharts.Runtime.LegendTheme
+> 继承: [ComponentTheme](#componenttheme)
+
+```mdx-code-block
+<APITable name="LegendTheme">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
 |unableColor|||文本颜色。
 
+```mdx-code-block
+</APITable>
+```
+
 ## Level
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.Level
+> 继承: [ChildComponent](#childcomponent)
+
+```mdx-code-block
+<APITable name="Level">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -843,23 +1236,42 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |upperLabel|||上方的文本标签样式。 [LabelStyle](#labelstyle)|
 |itemStyle|||数据项样式。 [ItemStyle](#itemstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## LevelStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.LevelStyle
+> 继承: [ChildComponent](#childcomponent)
+
+```mdx-code-block
+<APITable name="LevelStyle">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
 |show|false||是否启用LevelStyle
 |levels|||各层节点对应的配置。当enableLevels为true时生效，levels[0]对应的第一层的配置，levels[1]对应第二层，依次类推。当levels中没有对应层时用默认的设置。
 
+```mdx-code-block
+</APITable>
+```
+
 ## Line
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
+> 全名: XCharts.Runtime.Line
+> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
 
 
 ## LineArrow
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent)
+> 全名: XCharts.Runtime.LineArrow
+> 继承: [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent)
+
+```mdx-code-block
+<APITable name="LineArrow">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -867,11 +1279,20 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#is
 |position|||箭头位置。<br/>`LineArrow.Position`:<br/>- `End`: 末端箭头<br/>- `Start`: 头端箭头<br/>|
 |arrow|||箭头。 [ArrowStyle](#arrowstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## LineStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieDataComponent](#iseriedatacomponent)
+> 全名: XCharts.Runtime.LineStyle
+> 继承: [ChildComponent](#childcomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 线条样式。 注： 修改 lineStyle 中的颜色不会影响图例颜色，如果需要图例颜色和折线图颜色一致，需修改 itemStyle.color，线条颜色默认也会取该颜色。 toColor，toColor2可设置水平方向的渐变，如需要设置垂直方向的渐变，可使用VisualMap。
+
+```mdx-code-block
+<APITable name="LineStyle">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -884,11 +1305,20 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieDataComponent]
 |length|0||线长。
 |opacity|1||线的透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
 
+```mdx-code-block
+</APITable>
+```
+
 ## Location
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[IPropertyChanged](#ipropertychanged)
+> 全名: XCharts.Runtime.Location
+> 继承: [ChildComponent](#childcomponent), [IPropertyChanged](#ipropertychanged)
 
 位置类型。通过Align快速设置大体位置，再通过left，right，top，bottom微调具体位置。
+
+```mdx-code-block
+<APITable name="Location">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -898,16 +1328,27 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[IPropertyChanged](#i
 |top|||离容器上侧的距离。
 |bottom|||离容器下侧的距离。
 
+```mdx-code-block
+</APITable>
+```
+
 ## MainComponent
 
-Inherits or Implemented: [IComparable](#icomparable)
+> 全名: XCharts.Runtime.MainComponent
+> 继承: [IComparable](https://docs.unity3d.com/ScriptReference/30_search.html?q=IComparable)
+> 子类: [Axis](#axis), [Background](#background), [Comment](#comment), [DataZoom](#datazoom), [Legend](#legend), [MarkArea](#markarea), [MarkLine](#markline), [Settings](#settings), [Title](#title), [Tooltip](#tooltip), [VisualMap](#visualmap), [CoordSystem](#coordsystem)
 
 
 ## MarkArea
 
-Inherits or Implemented: [MainComponent](#maincomponent)
+> 全名: XCharts.Runtime.MarkArea
+> 继承: [MainComponent](#maincomponent)
 
 图表标域，常用于标记图表中某个范围的数据。
+
+```mdx-code-block
+<APITable name="MarkArea">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -919,11 +1360,20 @@ Inherits or Implemented: [MainComponent](#maincomponent)
 |itemStyle|||标域样式。 [ItemStyle](#itemstyle)|
 |label|||标域文本样式。 [LabelStyle](#labelstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## MarkAreaData
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.MarkAreaData
+> 继承: [ChildComponent](#childcomponent)
 
 标域的数据。
+
+```mdx-code-block
+<APITable name="MarkAreaData">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -935,11 +1385,20 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |xValue|||X轴上的指定值。当X轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为None时有效。
 |yValue|||Y轴上的指定值。当Y轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为None时有效。
 
+```mdx-code-block
+</APITable>
+```
+
 ## MarkLine
 
-Inherits or Implemented: [MainComponent](#maincomponent)
+> 全名: XCharts.Runtime.MarkLine
+> 继承: [MainComponent](#maincomponent)
 
 图表标线。
+
+```mdx-code-block
+<APITable name="MarkLine">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -948,11 +1407,20 @@ Inherits or Implemented: [MainComponent](#maincomponent)
 |animation|||标线的动画样式。 [AnimationStyle](#animationstyle)|
 |data|||标线的数据列表。当数据项的group为0时，每个数据项表示一条标线；当group不为0时，相同group的两个数据项分别表 示标线的起始点和终止点来组成一条标线，此时标线的相关样式参数取起始点的参数。
 
+```mdx-code-block
+</APITable>
+```
+
 ## MarkLineData
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.MarkLineData
+> 继承: [ChildComponent](#childcomponent)
 
 图表标线的数据。
+
+```mdx-code-block
+<APITable name="MarkLineData">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -970,13 +1438,22 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |lineStyle|||标线样式。 [LineStyle](#linestyle)|
 |label|||文本样式。可设置position为Start、Middle和End在不同的位置显示文本。 [LabelStyle](#labelstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## MarqueeStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.MarqueeStyle
+> 继承: [ChildComponent](#childcomponent)
 
 > 从 `v3.5.0` 开始支持
 
 Marquee style. It can be used for the DataZoom component. 选取框样式。可用于DataZoom组件。
+
+```mdx-code-block
+<APITable name="MarqueeStyle">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -985,11 +1462,21 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 |areaStyle||v3.5.0|选取框区域填充样式。 [AreaStyle](#areastyle)|
 |lineStyle||v3.5.0|选取框区域边框样式。 [LineStyle](#linestyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## Padding
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.Padding
+> 继承: [ChildComponent](#childcomponent)
+> 子类: [TextPadding](#textpadding)
 
 边距设置。
+
+```mdx-code-block
+<APITable name="Padding">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -999,21 +1486,32 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |left|2f||左边间距。
 |bottom|0||底部间距。
 
+```mdx-code-block
+</APITable>
+```
+
 ## Parallel
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
+> 全名: XCharts.Runtime.Parallel
+> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
 
 
 ## ParallelAxis
 
-Inherits or Implemented: [Axis](#axis)
+> 全名: XCharts.Runtime.ParallelAxis
+> 继承: [Axis](#axis)
 
 
 ## ParallelCoord
 
-Inherits or Implemented: [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
+> 全名: XCharts.Runtime.ParallelCoord
+> 继承: [CoordSystem](#coordsystem), [IUpdateRuntimeData](#iupdateruntimedata), [ISerieContainer](#iseriecontainer)
 
 Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart can be drawn in grid.
+
+```mdx-code-block
+<APITable name="ParallelCoord">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1025,21 +1523,32 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |bottom|0.12f||grid 组件离容器下侧的距离。
 |backgroundColor|||网格背景色，默认透明。
 
+```mdx-code-block
+</APITable>
+```
+
 ## Pie
 
-Inherits or Implemented: [Serie](#serie)
+> 全名: XCharts.Runtime.Pie
+> 继承: [Serie](#serie)
 
 
 ## PolarAxisTheme
 
-Inherits or Implemented: [BaseAxisTheme](#baseaxistheme)
+> 全名: XCharts.Runtime.PolarAxisTheme
+> 继承: [BaseAxisTheme](#baseaxistheme)
 
 
 ## PolarCoord
 
-Inherits or Implemented: [CoordSystem](#coordsystem),[ISerieContainer](#iseriecontainer)
+> 全名: XCharts.Runtime.PolarCoord
+> 继承: [CoordSystem](#coordsystem), [ISerieContainer](#iseriecontainer)
 
 极坐标系组件。 极坐标系，可以用于散点图和折线图。每个极坐标系拥有一个角度轴和一个半径轴。
+
+```mdx-code-block
+<APITable name="PolarCoord">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1048,51 +1557,71 @@ Inherits or Implemented: [CoordSystem](#coordsystem),[ISerieContainer](#iserieco
 |radius|||半径。radius[0]表示内径，radius[1]表示外径。
 |backgroundColor|||极坐标的背景色，默认透明。
 
+```mdx-code-block
+</APITable>
+```
+
 ## Radar
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
+> 全名: XCharts.Runtime.Radar
+> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
+
+```mdx-code-block
+<APITable name="Radar">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
 |smooth|false|v3.2.0|是否平滑曲线。平滑曲线时不支持区域填充颜色。
 
+```mdx-code-block
+</APITable>
+```
+
 ## RadarAxisTheme
 
-Inherits or Implemented: [BaseAxisTheme](#baseaxistheme)
+> 全名: XCharts.Runtime.RadarAxisTheme
+> 继承: [BaseAxisTheme](#baseaxistheme)
 
 
 ## RadarCoord
 
-Inherits or Implemented: [CoordSystem](#coordsystem),[ISerieContainer](#iseriecontainer)
+> 全名: XCharts.Runtime.RadarCoord
+> 继承: [CoordSystem](#coordsystem), [ISerieContainer](#iseriecontainer)
 
 Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适用于雷达图。
 
 
 ## RadiusAxis
 
-Inherits or Implemented: [Axis](#axis)
+> 全名: XCharts.Runtime.RadiusAxis
+> 继承: [Axis](#axis)
 
 极坐标系的径向轴。
 
 
 ## RadiusAxisTheme
 
-Inherits or Implemented: [BaseAxisTheme](#baseaxistheme)
+> 全名: XCharts.Runtime.RadiusAxisTheme
+> 继承: [BaseAxisTheme](#baseaxistheme)
 
 
 ## Ring
 
-Inherits or Implemented: [Serie](#serie)
+> 全名: XCharts.Runtime.Ring
+> 继承: [Serie](#serie)
 
 
 ## Scatter
 
-Inherits or Implemented: [BaseScatter](#basescatter)
+> 全名: XCharts.Runtime.Scatter
+> 继承: [BaseScatter](#basescatter)
 
 
 ## SelectStyle
 
-Inherits or Implemented: [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> 全名: XCharts.Runtime.SelectStyle
+> 继承: [StateStyle](#statestyle), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 > 从 `v3.2.0` 开始支持
 
@@ -1101,9 +1630,15 @@ Inherits or Implemented: [StateStyle](#statestyle),[ISerieComponent](#iseriecomp
 
 ## Serie
 
-Inherits or Implemented: [BaseSerie](#baseserie),[IComparable](#icomparable)
+> 全名: XCharts.Runtime.Serie
+> 继承: [BaseSerie](#baseserie), [IComparable](https://docs.unity3d.com/ScriptReference/30_search.html?q=IComparable)
+> 子类: [SerieHandler<T>](#seriehandler<t>), [Bar](#bar), [SimplifiedBar](#simplifiedbar), [Candlestick](#candlestick), [SimplifiedCandlestick](#simplifiedcandlestick), [Heatmap](#heatmap), [Line](#line), [SimplifiedLine](#simplifiedline), [Parallel](#parallel), [Pie](#pie), [Radar](#radar), [Ring](#ring), [BaseScatter](#basescatter)
 
-系列。
+系列。系列一般由数据和配置组成，用来表示具体的图表图形，如折线图的一条折线，柱图的一组柱子等。一个图表中可以包含多个不同类型的系列。
+
+```mdx-code-block
+<APITable name="Serie">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1113,7 +1648,7 @@ Inherits or Implemented: [BaseSerie](#baseserie),[IComparable](#icomparable)
 |serieType|||系列类型。
 |serieName|||系列名称，用于 tooltip 的显示，legend 的图例筛选。
 |state||v3.2.0|系列的默认状态。<br/>`SerieState`:<br/>- `Normal`: 正常状态。<br/>- `Emphasis`: 高亮状态。<br/>- `Blur`: 淡出状态。<br/>- `Select`: 选中状态。<br/>- `Auto`: 自动保持和父节点一致。一般用在SerieData。<br/>|
-|colorBy||v3.2.0|从主题中取色的策略。<br/>`SerieColorBy`:<br/>- `Default`: 默认策略。每种Serie都有自己的默认的取颜色策略。比如Line默认是Series策略，Pie默认是Data策略<br/>- `Serie`: 按照系列分配调色盘中的颜色，同一系列中的所有数据都是用相同的颜色。<br/>- `Data`: 按照数据项分配调色盘中的颜色，每个数据项都使用不同的颜色。<br/>|
+|colorBy||v3.2.0|从主题中取色的策略。<br/>`SerieColorBy`:<br/>- `Default`: 默认策略。每种Serie都有自己的默认的取颜色策略。比如Line默认是Series策略，Pie默认是Data策略。<br/>- `Serie`: 按照系列分配调色盘中的颜色，同一系列中的所有数据都是用相同的颜色。<br/>- `Data`: 按照数据项分配调色盘中的颜色，每个数据项都使用不同的颜色。<br/>|
 |stack|||数据堆叠，同个类目轴上系列配置相同的stack值后，后一个系列的值会在前一个系列的值上相加。
 |xAxisIndex|0||使用X轴的index。
 |yAxisIndex|0||使用Y轴的index。
@@ -1164,9 +1699,9 @@ Inherits or Implemented: [BaseSerie](#baseserie),[IComparable](#icomparable)
 |avoidLabelOverlap|false||在饼图且标签外部显示的情况下，是否启用防止标签重叠策略，默认关闭，在标签拥挤重叠的情况下会挪动各个标签的位置，防止标签间的重叠。
 |radarType|||雷达图类型。<br/>`RadarType`:<br/>- `Multiple`: 多圈雷达图。此时可一个雷达里绘制多个圈，一个serieData就可组成一个圈（多维数据）。<br/>- `Single`: 单圈雷达图。此时一个雷达只能绘制一个圈，多个serieData组成一个圈，数据取自`data[1]`。<br/>|
 |placeHolder|false||占位模式。占位模式时，数据有效但不参与渲染和显示。
-|dataSortType|||组件的数据排序。<br/>`SerieDataSortType`:<br/>- `None`: 按 data 的顺序<br/>- `Ascending`: 升序<br/>- `Descending`: 降序<br/>|
+|dataSortType|||组件的数据排序。<br/>`SerieDataSortType`:<br/>- `None`: 按数据的顺序。<br/>- `Ascending`: 升序。<br/>- `Descending`: 降序。<br/>|
 |orient|||组件的朝向。<br/>`Orient`:<br/>- `Horizonal`: 水平<br/>- `Vertical`: 垂直<br/>|
-|align|||组件水平方向对齐方式。<br/>`Align`:<br/>- `Center`: 对齐方式<br/>- `Left`: 对齐方式<br/>- `Right`: 对齐方式<br/>|
+|align|||组件水平方向对齐方式。<br/>`Align`:<br/>- `Center`: 对齐方式。文本，图标，图形等的对齐方式。<br/>- `Left`: 对齐方式。文本，图标，图形等的对齐方式。<br/>- `Right`: 对齐方式。文本，图标，图形等的对齐方式。<br/>|
 |left|||组件离容器左侧的距离。
 |right|||组件离容器右侧的距离。
 |top|||组件离容器上侧的距离。
@@ -1178,11 +1713,20 @@ Inherits or Implemented: [BaseSerie](#baseserie),[IComparable](#icomparable)
 |itemStyle|||图形样式。 [ItemStyle](#itemstyle)|
 |data|||系列中的数据内容数组。SerieData可以设置1到n维数据。
 
+```mdx-code-block
+</APITable>
+```
+
 ## SerieData
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.SerieData
+> 继承: [ChildComponent](#childcomponent)
 
 系列中的一个数据项。可存储数据名和1-n维个数据。
+
+```mdx-code-block
+<APITable name="SerieData">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1196,11 +1740,20 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |state||v3.2.0|数据项的默认状态。<br/>`SerieState`:<br/>- `Normal`: 正常状态。<br/>- `Emphasis`: 高亮状态。<br/>- `Blur`: 淡出状态。<br/>- `Select`: 选中状态。<br/>- `Auto`: 自动保持和父节点一致。一般用在SerieData。<br/>|
 |data|||可指定任意维数的数值列表。
 
+```mdx-code-block
+</APITable>
+```
+
 ## SerieSymbol
 
-Inherits or Implemented: [SymbolStyle](#symbolstyle),[ISerieDataComponent](#iseriedatacomponent)
+> 全名: XCharts.Runtime.SerieSymbol
+> 继承: [SymbolStyle](#symbolstyle), [ISerieDataComponent](#iseriedatacomponent)
 
 系列数据项的标记的图形
+
+```mdx-code-block
+<APITable name="SerieSymbol">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1215,9 +1768,18 @@ Inherits or Implemented: [SymbolStyle](#symbolstyle),[ISerieDataComponent](#iser
 |minSize|0f|v3.3.0|图形最小尺寸。只在sizeType为SymbolSizeType.FromData时有效。
 |maxSize|0f|v3.3.0|图形最大尺寸。只在sizeType为SymbolSizeType.FromData时有效。
 
+```mdx-code-block
+</APITable>
+```
+
 ## SerieTheme
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.SerieTheme
+> 继承: [ChildComponent](#childcomponent)
+
+```mdx-code-block
+<APITable name="SerieTheme">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1233,11 +1795,20 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |candlestickBorderColor|Color32(235, 84, 84, 255)||K线图阳线（跌）边框色
 |candlestickBorderColor0|Color32(71, 178, 98, 255)||K线图阴线（跌）边框色
 
+```mdx-code-block
+</APITable>
+```
+
 ## Settings
 
-Inherits or Implemented: [MainComponent](#maincomponent)
+> 全名: XCharts.Runtime.Settings
+> 继承: [MainComponent](#maincomponent)
 
 全局参数设置组件。一般情况下可使用默认值，当有需要时可进行调整。
+
+```mdx-code-block
+<APITable name="Settings">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1256,26 +1827,38 @@ Inherits or Implemented: [MainComponent](#maincomponent)
 |legendIconCornerRadius|||图例圆角半径。用数组分别指定4个圆角半径（顺时针左上，右上，右下，左下）。
 |axisMaxSplitNumber|50|v3.1.0|坐标轴最大分隔段数。段数过大时可能会生成较多的label节点。
 
+```mdx-code-block
+</APITable>
+```
+
 ## SimplifiedBar
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer),[ISimplifiedSerie](#isimplifiedserie)
+> 全名: XCharts.Runtime.SimplifiedBar
+> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer), [ISimplifiedSerie](#isimplifiedserie)
 
 
 ## SimplifiedCandlestick
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer),[ISimplifiedSerie](#isimplifiedserie)
+> 全名: XCharts.Runtime.SimplifiedCandlestick
+> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer), [ISimplifiedSerie](#isimplifiedserie)
 
 
 ## SimplifiedLine
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer),[ISimplifiedSerie](#isimplifiedserie)
+> 全名: XCharts.Runtime.SimplifiedLine
+> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer), [ISimplifiedSerie](#isimplifiedserie)
 
 
 ## SingleAxis
 
-Inherits or Implemented: [Axis](#axis),[IUpdateRuntimeData](#iupdateruntimedata)
+> 全名: XCharts.Runtime.SingleAxis
+> 继承: [Axis](#axis), [IUpdateRuntimeData](#iupdateruntimedata)
 
 单轴。
+
+```mdx-code-block
+<APITable name="SingleAxis">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1287,27 +1870,47 @@ Inherits or Implemented: [Axis](#axis),[IUpdateRuntimeData](#iupdateruntimedata)
 |width|0||坐标轴宽。
 |height|50||坐标轴高。
 
+```mdx-code-block
+</APITable>
+```
+
 ## SingleAxisCoord
 
-Inherits or Implemented: [CoordSystem](#coordsystem)
+> 全名: XCharts.Runtime.SingleAxisCoord
+> 继承: [CoordSystem](#coordsystem)
 
 
 ## StageColor
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.StageColor
+> 继承: [ChildComponent](#childcomponent)
+
+```mdx-code-block
+<APITable name="StageColor">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
 |percent|||结束位置百分比。
 |color|||颜色。
 
+```mdx-code-block
+</APITable>
+```
+
 ## StateStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.StateStyle
+> 继承: [ChildComponent](#childcomponent)
+> 子类: [BlurStyle](#blurstyle), [EmphasisStyle](#emphasisstyle), [SelectStyle](#selectstyle)
 
 > 从 `v3.2.0` 开始支持
 
 Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种状态。
+
+```mdx-code-block
+<APITable name="StateStyle">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1319,16 +1922,27 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 |areaStyle|||区域样式。 [AreaStyle](#areastyle)|
 |symbol|||标记样式。 [SerieSymbol](#seriesymbol)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## SubTitleTheme
 
-Inherits or Implemented: [ComponentTheme](#componenttheme)
+> 全名: XCharts.Runtime.SubTitleTheme
+> 继承: [ComponentTheme](#componenttheme)
 
 
 ## SymbolStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.SymbolStyle
+> 继承: [ChildComponent](#childcomponent)
+> 子类: [SerieSymbol](#seriesymbol)
 
 系列数据项的标记的图形
+
+```mdx-code-block
+<APITable name="SymbolStyle">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1343,11 +1957,20 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |imageType|||图形填充类型。
 |color|||图形的颜色。
 
+```mdx-code-block
+</APITable>
+```
+
 ## TextLimit
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.TextLimit
+> 继承: [ChildComponent](#childcomponent)
 
 文本字符限制和自适应。当文本长度超过设定的长度时进行裁剪，并将后缀附加在最后。 只在类目轴中有效。
+
+```mdx-code-block
+<APITable name="TextLimit">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1356,18 +1979,28 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |gap|1||两边留白像素距离。 [default:10f]
 |suffix|||长度超出时的后缀。 [default: "..."]
 
+```mdx-code-block
+</APITable>
+```
+
 ## TextPadding
 
-Inherits or Implemented: [Padding](#padding)
+> 全名: XCharts.Runtime.TextPadding
+> 继承: [Padding](#padding)
 
 文本的内边距设置。
 
 
 ## TextStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.TextStyle
+> 继承: [ChildComponent](#childcomponent)
 
 文本的相关设置。
+
+```mdx-code-block
+<APITable name="TextStyle">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1387,11 +2020,20 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |tMPAlignment|||
 |tMPSpriteAsset||v3.1.0|
 
+```mdx-code-block
+</APITable>
+```
+
 ## Theme
 
-Inherits or Implemented: [ScriptableObject](#scriptableobject)
+> 全名: XCharts.Runtime.Theme
+> 继承: [ScriptableObject](#scriptableobject)
 
 主题相关配置。
+
+```mdx-code-block
+<APITable name="Theme">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1412,11 +2054,20 @@ Inherits or Implemented: [ScriptableObject](#scriptableobject)
 |visualMap||| [VisualMapTheme](#visualmaptheme)|
 |serie||| [SerieTheme](#serietheme)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## ThemeStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.ThemeStyle
+> 继承: [ChildComponent](#childcomponent)
 
 主题相关配置。
+
+```mdx-code-block
+<APITable name="ThemeStyle">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1428,11 +2079,20 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |customBackgroundColor|||自定义的背景颜色。
 |customColorPalette|||
 
+```mdx-code-block
+</APITable>
+```
+
 ## Title
 
-Inherits or Implemented: [MainComponent](#maincomponent),[IPropertyChanged](#ipropertychanged)
+> 全名: XCharts.Runtime.Title
+> 继承: [MainComponent](#maincomponent), [IPropertyChanged](#ipropertychanged)
 
 标题组件，包含主标题和副标题。
+
+```mdx-code-block
+<APITable name="Title">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1444,23 +2104,34 @@ Inherits or Implemented: [MainComponent](#maincomponent),[IPropertyChanged](#ipr
 |itemGap|0||主副标题之间的间距。
 |location|||标题显示位置。 [Location](#location)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## TitleStyle
 
-Inherits or Implemented: [LabelStyle](#labelstyle),[ISerieDataComponent](#iseriedatacomponent),[ISerieComponent](#iseriecomponent)
+> 全名: XCharts.Runtime.TitleStyle
+> 继承: [LabelStyle](#labelstyle), [ISerieDataComponent](#iseriedatacomponent), [ISerieComponent](#iseriecomponent)
 
 标题相关设置。
 
 
 ## TitleTheme
 
-Inherits or Implemented: [ComponentTheme](#componenttheme)
+> 全名: XCharts.Runtime.TitleTheme
+> 继承: [ComponentTheme](#componenttheme)
 
 
 ## Tooltip
 
-Inherits or Implemented: [MainComponent](#maincomponent)
+> 全名: XCharts.Runtime.Tooltip
+> 继承: [MainComponent](#maincomponent)
 
 提示框组件。
+
+```mdx-code-block
+<APITable name="Tooltip">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1496,9 +2167,18 @@ Inherits or Implemented: [MainComponent](#maincomponent)
 |titleLabelStyle|||标题的文本样式。 [LabelStyle](#labelstyle)|
 |contentLabelStyles|||内容部分的文本样式列表。和列一一对应。
 
+```mdx-code-block
+</APITable>
+```
+
 ## TooltipTheme
 
-Inherits or Implemented: [ComponentTheme](#componenttheme)
+> 全名: XCharts.Runtime.TooltipTheme
+> 继承: [ComponentTheme](#componenttheme)
+
+```mdx-code-block
+<APITable name="TooltipTheme">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1509,9 +2189,18 @@ Inherits or Implemented: [ComponentTheme](#componenttheme)
 |labelTextColor|||十字指示器坐标轴标签的文本颜色。
 |labelBackgroundColor|||十字指示器坐标轴标签的背景颜色。
 
+```mdx-code-block
+</APITable>
+```
+
 ## UIComponentTheme
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.UIComponentTheme
+> 继承: [ChildComponent](#childcomponent)
+
+```mdx-code-block
+<APITable name="UIComponentTheme">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1519,11 +2208,20 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |sharedTheme|||主题配置。 [Theme](#theme)|
 |transparentBackground|false||
 
+```mdx-code-block
+</APITable>
+```
+
 ## VisualMap
 
-Inherits or Implemented: [MainComponent](#maincomponent)
+> 全名: XCharts.Runtime.VisualMap
+> 继承: [MainComponent](#maincomponent)
 
 视觉映射组件。用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）。
+
+```mdx-code-block
+<APITable name="VisualMap">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1554,9 +2252,18 @@ Inherits or Implemented: [MainComponent](#maincomponent)
 |outOfRange|||定义 在选中范围外 的视觉颜色。
 |inRange|||分段式每一段的相关配置。
 
+```mdx-code-block
+</APITable>
+```
+
 ## VisualMapRange
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> 全名: XCharts.Runtime.VisualMapRange
+> 继承: [ChildComponent](#childcomponent)
+
+```mdx-code-block
+<APITable name="VisualMapRange">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1565,9 +2272,18 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |label|||文字描述
 |color|||颜色
 
+```mdx-code-block
+</APITable>
+```
+
 ## VisualMapTheme
 
-Inherits or Implemented: [ComponentTheme](#componenttheme)
+> 全名: XCharts.Runtime.VisualMapTheme
+> 继承: [ComponentTheme](#componenttheme)
+
+```mdx-code-block
+<APITable name="VisualMapTheme">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1576,19 +2292,30 @@ Inherits or Implemented: [ComponentTheme](#componenttheme)
 |backgroundColor|||背景颜色。
 |triangeLen|20f||可视化组件的调节三角形边长。
 
+```mdx-code-block
+</APITable>
+```
+
 ## XAxis
 
-Inherits or Implemented: [Axis](#axis)
+> 全名: XCharts.Runtime.XAxis
+> 继承: [Axis](#axis)
 
 直角坐标系 grid 中的 x 轴。
 
 
 ## XCResourcesImporter
 
+> 全名: XCharts.Runtime.XCResourcesImporter
 
 ## XCSettings
 
-Inherits or Implemented: [ScriptableObject](#scriptableobject)
+> 全名: XCharts.Runtime.XCSettings
+> 继承: [ScriptableObject](#scriptableobject)
+
+```mdx-code-block
+<APITable name="XCSettings">
+```
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1630,9 +2357,14 @@ Inherits or Implemented: [ScriptableObject](#scriptableobject)
 |pieSelectedOffset|8f||
 |customThemes|||
 
+```mdx-code-block
+</APITable>
+```
+
 ## YAxis
 
-Inherits or Implemented: [Axis](#axis)
+> 全名: XCharts.Runtime.YAxis
+> 继承: [Axis](#axis)
 
 直角坐标系 grid 中的 y 轴。
 

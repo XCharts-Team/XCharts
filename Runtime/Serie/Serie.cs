@@ -6,7 +6,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Whether to show as Nightingale chart, which distinguishs data through radius. 
-    /// 是否展示成南丁格尔图，通过半径区分数据大小。
+    /// |是否展示成南丁格尔图，通过半径区分数据大小。
     /// </summary>
     public enum RoseType
     {
@@ -61,7 +61,8 @@ namespace XCharts.Runtime
     }
 
     /// <summary>
-    /// the type of bar. |柱状图类型。
+    /// the type of bar. 
+    /// |柱状图类型。
     /// </summary>
     public enum BarType
     {
@@ -83,7 +84,8 @@ namespace XCharts.Runtime
     }
 
     /// <summary>
-    /// the type of radar. |雷达图类型。
+    /// the type of radar. 
+    /// |雷达图类型。
     /// </summary>
     public enum RadarType
     {
@@ -100,7 +102,8 @@ namespace XCharts.Runtime
     }
 
     /// <summary>
-    /// 采样类型
+    /// sample type of line chart.
+    /// |采样类型，一般用于折线图。
     /// </summary>
     public enum SampleType
     {
@@ -133,26 +136,31 @@ namespace XCharts.Runtime
     }
 
     /// <summary>
-    /// 数据排序方式
+    /// the sort type of serie data.
+    /// |数据排序方式。
     /// </summary>
     public enum SerieDataSortType
     {
         /// <summary>
-        /// 按 data 的顺序
+        /// In the order of data.
+        /// |按数据的顺序。
         /// </summary>
         None,
         /// <summary>
-        /// 升序
+        /// Sort data in ascending order.
+        /// |升序。
         /// </summary>
         Ascending,
         /// <summary>
-        /// 降序
+        /// Sort data in descending order.
+        /// |降序。
         /// </summary>
         Descending,
     }
 
     /// <summary>
-    /// 对齐方式
+    /// Alignment mode.
+    /// |对齐方式。文本，图标，图形等的对齐方式。
     /// </summary>
     public enum Align
     {
@@ -202,23 +210,23 @@ namespace XCharts.Runtime
     {
         /// <summary>
         /// Select state.
-        /// |默认策略。每种Serie都有自己的默认的取颜色策略。比如Line默认是Series策略，Pie默认是Data策略
+        /// |默认策略。每种Serie都有自己的默认的取颜色策略。比如Line默认是Series策略，Pie默认是Data策略。
         /// </summary>
         Default,
         /// <summary>
-        /// assigns the colors in the palette by serie, so that all data in the same series are in the same color;.
+        /// assigns the colors in the palette by serie, so that all data in the same series are in the same color.
         /// |按照系列分配调色盘中的颜色，同一系列中的所有数据都是用相同的颜色。
         /// </summary>
         Serie,
         /// <summary>
-        /// assigns colors in the palette according to data items, with each data item using a different color..
+        /// assigns colors in the palette according to data items, with each data item using a different color.
         /// |按照数据项分配调色盘中的颜色，每个数据项都使用不同的颜色。
         /// </summary>
         Data
     }
 
     /// <summary>
-    /// 系列。
+    /// 系列。系列一般由数据和配置组成，用来表示具体的图表图形，如折线图的一条折线，柱图的一组柱子等。一个图表中可以包含多个不同类型的系列。
     /// </summary>
     [System.Serializable]
     public partial class Serie : BaseSerie, IComparable

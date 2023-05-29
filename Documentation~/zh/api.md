@@ -70,7 +70,6 @@ slug: /api
 - [RingChart](#ringchart)
 - [RuntimeUtil](#runtimeutil)
 - [ScatterChart](#scatterchart)
-- [ScriptableObject](#scriptableobject)
 - [SerieComponentAttribute](#seriecomponentattribute)
 - [SerieContext](#seriecontext)
 - [SerieConvertAttribute](#serieconvertattribute)
@@ -114,7 +113,7 @@ slug: /api
 
 ## AnimationStyleHelper
 
-全名: XCharts.Runtime.AnimationStyleHelper
+> XCharts.Runtime.AnimationStyleHelper
 
 |public method|since|description|
 |--|--|--|
@@ -125,17 +124,15 @@ slug: /api
 
 ## AxisContext
 
-全名: XCharts.Runtime.AxisContext
-继承: [MainComponentContext](#maincomponentcontext)
+> XCharts.Runtime.AxisContext : [MainComponentContext](#maincomponentcontext)
 
 ## AxisHandler&lt;T&gt;
 
-全名: XCharts.AxisHandler<T>
-继承: [MainComponentHandler](#maincomponenthandler)
+> XCharts.AxisHandler&lt;T&gt; : [MainComponentHandler](#maincomponenthandler)
 
 ## AxisHelper
 
-全名: XCharts.Runtime.AxisHelper
+> XCharts.Runtime.AxisHelper
 
 |public method|since|description|
 |--|--|--|
@@ -163,14 +160,11 @@ slug: /api
 
 ## BarChart
 
-全名: XCharts.Runtime.BarChart
-继承: [BaseChart](#basechart)
+> XCharts.Runtime.BarChart : [BaseChart](#basechart)
 
 ## BaseChart
 
-全名: XCharts.Runtime.BaseChart
-继承: [BaseGraph](#basegraph),[ISerializationCallbackReceiver](https://docs.unity3d.com/ScriptReference/30_search.html?q=ISerializationCallbackReceiver)
-子类: [BarChart](#barchart),[CandlestickChart](#candlestickchart),[HeatmapChart](#heatmapchart),[LineChart](#linechart),[ParallelChart](#parallelchart),[PieChart](#piechart),[PolarChart](#polarchart),[RadarChart](#radarchart),[RingChart](#ringchart),[ScatterChart](#scatterchart),[SimplifiedBarChart](#simplifiedbarchart),[SimplifiedCandlestickChart](#simplifiedcandlestickchart),[SimplifiedLineChart](#simplifiedlinechart)
+> XCharts.Runtime.BaseChart : [BaseGraph](#basegraph),[ISerializationCallbackReceiver](https://docs.unity3d.com/ScriptReference/30_search.html?q=iserializationcallbackreceiver) / Subclasses: [BarChart](#barchart),[CandlestickChart](#candlestickchart),[HeatmapChart](#heatmapchart),[LineChart](#linechart),[ParallelChart](#parallelchart),[PieChart](#piechart),[PolarChart](#polarchart),[RadarChart](#radarchart),[RingChart](#ringchart),[ScatterChart](#scatterchart),[SimplifiedBarChart](#simplifiedbarchart),[SimplifiedCandlestickChart](#simplifiedcandlestickchart),[SimplifiedLineChart](#simplifiedlinechart) 
 
 |public method|since|description|
 |--|--|--|
@@ -361,9 +355,7 @@ slug: /api
 
 ## BaseGraph
 
-全名: XCharts.Runtime.BaseGraph
-继承: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=MaskableGraphic),[IPointerDownHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=IPointerDownHandler),[IPointerUpHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=IPointerUpHandler),[](#)
-子类: [BaseChart](#basechart),[UIComponent](#uicomponent)
+> XCharts.Runtime.BaseGraph : [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic),[IPointerDownHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=ipointerdownhandler),[IPointerUpHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=ipointeruphandler),[](#) / Subclasses: [BaseChart](#basechart),[UIComponent](#uicomponent) 
 
 |public method|since|description|
 |--|--|--|
@@ -398,12 +390,11 @@ slug: /api
 
 ## CandlestickChart
 
-全名: XCharts.Runtime.CandlestickChart
-继承: [BaseChart](#basechart)
+> XCharts.Runtime.CandlestickChart : [BaseChart](#basechart)
 
 ## ChartCached
 
-全名: XCharts.Runtime.ChartCached
+> XCharts.Runtime.ChartCached
 
 |public method|since|description|
 |--|--|--|
@@ -416,15 +407,15 @@ slug: /api
 
 ## ChartConst
 
-全名: XCharts.Runtime.ChartConst
+> XCharts.Runtime.ChartConst
 
 ## ChartDrawer
 
-全名: XCharts.Runtime.ChartDrawer
+> XCharts.Runtime.ChartDrawer
 
 ## ChartHelper
 
-全名: XCharts.Runtime.ChartHelper
+> XCharts.Runtime.ChartHelper
 
 |public method|since|description|
 |--|--|--|
@@ -493,8 +484,7 @@ slug: /api
 
 ## ChartLabel
 
-全名: XCharts.Runtime.ChartLabel
-继承: [Image](https://docs.unity3d.com/ScriptReference/30_search.html?q=Image)
+> XCharts.Runtime.ChartLabel : [Image](https://docs.unity3d.com/ScriptReference/30_search.html?q=image)
 
 |public method|since|description|
 |--|--|--|
@@ -523,7 +513,7 @@ slug: /api
 
 ## ChartObject
 
-全名: XCharts.Runtime.ChartObject
+> XCharts.Runtime.ChartObject
 
 |public method|since|description|
 |--|--|--|
@@ -531,7 +521,7 @@ slug: /api
 
 ## CheckHelper
 
-全名: XCharts.Runtime.CheckHelper
+> XCharts.Runtime.CheckHelper
 
 |public method|since|description|
 |--|--|--|
@@ -540,7 +530,7 @@ slug: /api
 
 ## ColorUtil
 
-全名: XCharts.Runtime.ColorUtil
+> XCharts.Runtime.ColorUtil
 
 |public method|since|description|
 |--|--|--|
@@ -548,8 +538,7 @@ slug: /api
 
 ## ComponentHandlerAttribute
 
-全名: XCharts.Runtime.ComponentHandlerAttribute
-继承: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
+> XCharts.Runtime.ComponentHandlerAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
 
 |public method|since|description|
 |--|--|--|
@@ -558,7 +547,7 @@ slug: /api
 
 ## ComponentHelper
 
-全名: XCharts.Runtime.ComponentHelper
+> XCharts.Runtime.ComponentHelper
 
 |public method|since|description|
 |--|--|--|
@@ -570,8 +559,7 @@ slug: /api
 
 ## CoordOptionsAttribute
 
-全名: XCharts.Runtime.CoordOptionsAttribute
-继承: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
+> XCharts.Runtime.CoordOptionsAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
 
 |public method|since|description|
 |--|--|--|
@@ -583,12 +571,11 @@ slug: /api
 
 ## DataZoomContext
 
-全名: XCharts.Runtime.DataZoomContext
-继承: [MainComponentContext](#maincomponentcontext)
+> XCharts.Runtime.DataZoomContext : [MainComponentContext](#maincomponentcontext)
 
 ## DataZoomHelper
 
-全名: XCharts.Runtime.DataZoomHelper
+> XCharts.Runtime.DataZoomHelper
 
 |public method|since|description|
 |--|--|--|
@@ -597,7 +584,7 @@ slug: /api
 
 ## DateTimeUtil
 
-全名: XCharts.Runtime.DateTimeUtil
+> XCharts.Runtime.DateTimeUtil
 
 |public method|since|description|
 |--|--|--|
@@ -607,8 +594,7 @@ slug: /api
 
 ## DefaultAnimationAttribute
 
-全名: XCharts.Runtime.DefaultAnimationAttribute
-继承: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
+> XCharts.Runtime.DefaultAnimationAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
 
 |public method|since|description|
 |--|--|--|
@@ -616,7 +602,7 @@ slug: /api
 
 ## DefineSymbolsUtil
 
-全名: XCharts.Runtime.DefineSymbolsUtil
+> XCharts.Runtime.DefineSymbolsUtil
 
 |public method|since|description|
 |--|--|--|
@@ -625,7 +611,7 @@ slug: /api
 
 ## FormatterHelper
 
-全名: XCharts.Runtime.FormatterHelper
+> XCharts.Runtime.FormatterHelper
 
 |public method|since|description|
 |--|--|--|
@@ -637,18 +623,15 @@ slug: /api
 
 ## GridCoordContext
 
-全名: XCharts.Runtime.GridCoordContext
-继承: [MainComponentContext](#maincomponentcontext)
+> XCharts.Runtime.GridCoordContext : [MainComponentContext](#maincomponentcontext)
 
 ## HeatmapChart
 
-全名: XCharts.Runtime.HeatmapChart
-继承: [BaseChart](#basechart)
+> XCharts.Runtime.HeatmapChart : [BaseChart](#basechart)
 
 ## IgnoreDoc
 
-全名: XCharts.Runtime.IgnoreDoc
-继承: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
+> XCharts.Runtime.IgnoreDoc : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
 
 |public method|since|description|
 |--|--|--|
@@ -656,12 +639,11 @@ slug: /api
 
 ## INeedSerieContainer
 
-全名: XCharts.Runtime.INeedSerieContainer
-子类: [Bar](#bar),[SimplifiedBar](#simplifiedbar),[Candlestick](#candlestick),[SimplifiedCandlestick](#simplifiedcandlestick),[Heatmap](#heatmap),[Line](#line),[SimplifiedLine](#simplifiedline),[Parallel](#parallel),[Radar](#radar),[BaseScatter](#basescatter)
+> XCharts.Runtime.INeedSerieContainer / Subclasses: [Bar](#bar),[SimplifiedBar](#simplifiedbar),[Candlestick](#candlestick),[SimplifiedCandlestick](#simplifiedcandlestick),[Heatmap](#heatmap),[Line](#line),[SimplifiedLine](#simplifiedline),[Parallel](#parallel),[Radar](#radar),[BaseScatter](#basescatter) 
 
 ## InputHelper
 
-全名: XCharts.Runtime.InputHelper
+> XCharts.Runtime.InputHelper
 
 |public method|since|description|
 |--|--|--|
@@ -670,7 +652,7 @@ slug: /api
 
 ## InteractData
 
-全名: XCharts.Runtime.InteractData
+> XCharts.Runtime.InteractData
 
 |public method|since|description|
 |--|--|--|
@@ -688,37 +670,34 @@ slug: /api
 
 ## IPropertyChanged
 
-全名: XCharts.Runtime.IPropertyChanged
-子类: [Location](#location),[Comment](#comment),[Legend](#legend),[Title](#title)
+> XCharts.Runtime.IPropertyChanged / Subclasses: [Location](#location),[Comment](#comment),[Legend](#legend),[Title](#title) 
+属性变更接口
 
 ## ISerieComponent
 
-全名: XCharts.Runtime.ISerieComponent
-子类: [AreaStyle](#areastyle),[ImageStyle](#imagestyle),[LineArrow](#linearrow),[LabelLine](#labelline),[LabelStyle](#labelstyle),[BlurStyle](#blurstyle),[EmphasisStyle](#emphasisstyle),[SelectStyle](#selectstyle),[TitleStyle](#titlestyle)
+> XCharts.Runtime.ISerieComponent / Subclasses: [AreaStyle](#areastyle),[ImageStyle](#imagestyle),[LineArrow](#linearrow),[LabelLine](#labelline),[LabelStyle](#labelstyle),[BlurStyle](#blurstyle),[EmphasisStyle](#emphasisstyle),[SelectStyle](#selectstyle),[TitleStyle](#titlestyle) 
+可用于Serie的组件。
 
 ## ISerieContainer
 
-全名: XCharts.Runtime.ISerieContainer
-子类: [RadarCoord](#radarcoord),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[ParallelCoord](#parallelcoord),[PolarCoord](#polarcoord)
+> XCharts.Runtime.ISerieContainer / Subclasses: [RadarCoord](#radarcoord),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[ParallelCoord](#parallelcoord),[PolarCoord](#polarcoord) 
 
 ## ISerieDataComponent
 
-全名: XCharts.Runtime.ISerieDataComponent
-子类: [AreaStyle](#areastyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[LineStyle](#linestyle),[SerieSymbol](#seriesymbol),[LabelLine](#labelline),[LabelStyle](#labelstyle),[BlurStyle](#blurstyle),[EmphasisStyle](#emphasisstyle),[SelectStyle](#selectstyle),[TitleStyle](#titlestyle)
+> XCharts.Runtime.ISerieDataComponent / Subclasses: [AreaStyle](#areastyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[LineStyle](#linestyle),[SerieSymbol](#seriesymbol),[LabelLine](#labelline),[LabelStyle](#labelstyle),[BlurStyle](#blurstyle),[EmphasisStyle](#emphasisstyle),[SelectStyle](#selectstyle),[TitleStyle](#titlestyle) 
+可用于SerieData的组件。
 
 ## ISimplifiedSerie
 
-全名: XCharts.Runtime.ISimplifiedSerie
-子类: [SimplifiedBar](#simplifiedbar),[SimplifiedCandlestick](#simplifiedcandlestick),[SimplifiedLine](#simplifiedline)
+> XCharts.Runtime.ISimplifiedSerie / Subclasses: [SimplifiedBar](#simplifiedbar),[SimplifiedCandlestick](#simplifiedcandlestick),[SimplifiedLine](#simplifiedline) 
 
 ## IUpdateRuntimeData
 
-全名: XCharts.Runtime.IUpdateRuntimeData
-子类: [SingleAxis](#singleaxis),[DataZoom](#datazoom),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[ParallelCoord](#parallelcoord)
+> XCharts.Runtime.IUpdateRuntimeData / Subclasses: [SingleAxis](#singleaxis),[DataZoom](#datazoom),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[ParallelCoord](#parallelcoord) 
 
 ## LayerHelper
 
-全名: XCharts.Runtime.LayerHelper
+> XCharts.Runtime.LayerHelper
 
 |public method|since|description|
 |--|--|--|
@@ -727,12 +706,11 @@ slug: /api
 
 ## LegendContext
 
-全名: XCharts.Runtime.LegendContext
-继承: [MainComponentContext](#maincomponentcontext)
+> XCharts.Runtime.LegendContext : [MainComponentContext](#maincomponentcontext)
 
 ## LegendHelper
 
-全名: XCharts.Runtime.LegendHelper
+> XCharts.Runtime.LegendHelper
 
 |public method|since|description|
 |--|--|--|
@@ -745,7 +723,7 @@ slug: /api
 
 ## LegendItem
 
-全名: XCharts.Runtime.LegendItem
+> XCharts.Runtime.LegendItem
 
 |public method|since|description|
 |--|--|--|
@@ -770,14 +748,11 @@ slug: /api
 
 ## LineChart
 
-全名: XCharts.Runtime.LineChart
-继承: [BaseChart](#basechart)
+> XCharts.Runtime.LineChart : [BaseChart](#basechart)
 
 ## ListFor
 
-全名: XCharts.Runtime.ListFor
-继承: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
-子类: [ListForComponent](#listforcomponent),[ListForSerie](#listforserie)
+> XCharts.Runtime.ListFor : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute) / Subclasses: [ListForComponent](#listforcomponent),[ListForSerie](#listforserie) 
 
 |public method|since|description|
 |--|--|--|
@@ -785,8 +760,7 @@ slug: /api
 
 ## ListForComponent
 
-全名: XCharts.Runtime.ListForComponent
-继承: [ListFor](#listfor)
+> XCharts.Runtime.ListForComponent : [ListFor](#listfor)
 
 |public method|since|description|
 |--|--|--|
@@ -794,8 +768,7 @@ slug: /api
 
 ## ListForSerie
 
-全名: XCharts.Runtime.ListForSerie
-继承: [ListFor](#listfor)
+> XCharts.Runtime.ListForSerie : [ListFor](#listfor)
 
 |public method|since|description|
 |--|--|--|
@@ -803,13 +776,11 @@ slug: /api
 
 ## MainComponentContext
 
-全名: XCharts.Runtime.MainComponentContext
-子类: [AxisContext](#axiscontext),[DataZoomContext](#datazoomcontext),[LegendContext](#legendcontext),[RadarCoordContext](#radarcoordcontext),[VisualMapContext](#visualmapcontext),[GridCoordContext](#gridcoordcontext),[ParallelCoordContext](#parallelcoordcontext),[PolarCoordContext](#polarcoordcontext)
+> XCharts.Runtime.MainComponentContext / Subclasses: [AxisContext](#axiscontext),[DataZoomContext](#datazoomcontext),[LegendContext](#legendcontext),[RadarCoordContext](#radarcoordcontext),[VisualMapContext](#visualmapcontext),[GridCoordContext](#gridcoordcontext),[ParallelCoordContext](#parallelcoordcontext),[PolarCoordContext](#polarcoordcontext) 
 
 ## MainComponentHandler
 
-全名: XCharts.Runtime.MainComponentHandler
-子类: [AxisHandler<T>](#axishandlert),[MainComponentHandler<T>](#maincomponenthandlert)
+> XCharts.Runtime.MainComponentHandler / Subclasses: [AxisHandler&lt;T&gt;](#axishandlert),[MainComponentHandler&lt;T&gt;](#maincomponenthandlert) 
 
 |public method|since|description|
 |--|--|--|
@@ -833,12 +804,11 @@ slug: /api
 
 ## MainComponentHandler&lt;T&gt;
 
-全名: XCharts.Runtime.MainComponentHandler<T>
-继承: [MainComponentHandler](#maincomponenthandler)
+> XCharts.Runtime.MainComponentHandler&lt;T&gt; : [MainComponentHandler](#maincomponenthandler)
 
 ## MathUtil
 
-全名: XCharts.Runtime.MathUtil
+> XCharts.Runtime.MathUtil
 
 |public method|since|description|
 |--|--|--|
@@ -852,8 +822,7 @@ slug: /api
 
 ## ObjectPool&lt;T&gt; where T
 
-全名: XCharts.Runtime.ObjectPool<T> where T
-继承: [new()](#new())
+> XCharts.Runtime.ObjectPool&lt;T&gt; where T : [new()](#new())
 
 |public method|since|description|
 |--|--|--|
@@ -865,8 +834,7 @@ slug: /api
 
 ## Painter
 
-全名: XCharts.Runtime.Painter
-继承: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=MaskableGraphic)
+> XCharts.Runtime.Painter : [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic)
 
 |public method|since|description|
 |--|--|--|
@@ -878,32 +846,27 @@ slug: /api
 
 ## ParallelChart
 
-全名: XCharts.Runtime.ParallelChart
-继承: [BaseChart](#basechart)
+> XCharts.Runtime.ParallelChart : [BaseChart](#basechart)
 
 ## ParallelCoordContext
 
-全名: XCharts.Runtime.ParallelCoordContext
-继承: [MainComponentContext](#maincomponentcontext)
+> XCharts.Runtime.ParallelCoordContext : [MainComponentContext](#maincomponentcontext)
 
 ## PieChart
 
-全名: XCharts.Runtime.PieChart
-继承: [BaseChart](#basechart)
+> XCharts.Runtime.PieChart : [BaseChart](#basechart)
 
 ## PolarChart
 
-全名: XCharts.Runtime.PolarChart
-继承: [BaseChart](#basechart)
+> XCharts.Runtime.PolarChart : [BaseChart](#basechart)
 
 ## PolarCoordContext
 
-全名: XCharts.Runtime.PolarCoordContext
-继承: [MainComponentContext](#maincomponentcontext)
+> XCharts.Runtime.PolarCoordContext : [MainComponentContext](#maincomponentcontext)
 
 ## PropertyUtil
 
-全名: XCharts.Runtime.PropertyUtil
+> XCharts.Runtime.PropertyUtil
 
 |public method|since|description|
 |--|--|--|
@@ -914,17 +877,15 @@ slug: /api
 
 ## RadarChart
 
-全名: XCharts.Runtime.RadarChart
-继承: [BaseChart](#basechart)
+> XCharts.Runtime.RadarChart : [BaseChart](#basechart)
 
 ## RadarCoordContext
 
-全名: XCharts.Runtime.RadarCoordContext
-继承: [MainComponentContext](#maincomponentcontext)
+> XCharts.Runtime.RadarCoordContext : [MainComponentContext](#maincomponentcontext)
 
 ## ReflectionUtil
 
-全名: XCharts.Runtime.ReflectionUtil
+> XCharts.Runtime.ReflectionUtil
 
 |public method|since|description|
 |--|--|--|
@@ -937,8 +898,7 @@ slug: /api
 
 ## RequireChartComponentAttribute
 
-全名: XCharts.Runtime.RequireChartComponentAttribute
-继承: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
+> XCharts.Runtime.RequireChartComponentAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
 
 |public method|since|description|
 |--|--|--|
@@ -948,12 +908,11 @@ slug: /api
 
 ## RingChart
 
-全名: XCharts.Runtime.RingChart
-继承: [BaseChart](#basechart)
+> XCharts.Runtime.RingChart : [BaseChart](#basechart)
 
 ## RuntimeUtil
 
-全名: XCharts.Runtime.RuntimeUtil
+> XCharts.Runtime.RuntimeUtil
 
 |public method|since|description|
 |--|--|--|
@@ -966,18 +925,12 @@ slug: /api
 
 ## ScatterChart
 
-全名: XCharts.Runtime.ScatterChart
-继承: [BaseChart](#basechart)
-
-## ScriptableObject
-
-全名: .ScriptableObject
-子类: [Lang](#lang),[XCSettings](#xcsettings),[Theme](#theme)
+> XCharts.Runtime.ScatterChart : [BaseChart](#basechart)
 
 ## SerieComponentAttribute
 
-全名: XCharts.Runtime.SerieComponentAttribute
-继承: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
+> XCharts.Runtime.SerieComponentAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+可添加到Serie的组件。
 
 |public method|since|description|
 |--|--|--|
@@ -994,12 +947,12 @@ slug: /api
 
 ## SerieContext
 
-全名: XCharts.Runtime.SerieContext
+> XCharts.Runtime.SerieContext
 
 ## SerieConvertAttribute
 
-全名: XCharts.Runtime.SerieConvertAttribute
-继承: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
+> XCharts.Runtime.SerieConvertAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+可转化为哪些Serie类型。
 
 |public method|since|description|
 |--|--|--|
@@ -1012,8 +965,8 @@ slug: /api
 
 ## SerieDataComponentAttribute
 
-全名: XCharts.Runtime.SerieDataComponentAttribute
-继承: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
+> XCharts.Runtime.SerieDataComponentAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+可添加到SerieData的组件。
 
 |public method|since|description|
 |--|--|--|
@@ -1030,7 +983,7 @@ slug: /api
 
 ## SerieDataContext
 
-全名: XCharts.Runtime.SerieDataContext
+> XCharts.Runtime.SerieDataContext
 
 |public method|since|description|
 |--|--|--|
@@ -1038,8 +991,7 @@ slug: /api
 
 ## SerieDataExtraFieldAttribute
 
-全名: XCharts.Runtime.SerieDataExtraFieldAttribute
-继承: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
+> XCharts.Runtime.SerieDataExtraFieldAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
 
 |public method|since|description|
 |--|--|--|
@@ -1055,7 +1007,8 @@ slug: /api
 
 ## SerieEventData
 
-全名: XCharts.Runtime.SerieEventData
+> XCharts.Runtime.SerieEventData
+serie事件的数据。
 
 |public method|since|description|
 |--|--|--|
@@ -1063,7 +1016,7 @@ slug: /api
 
 ## SerieEventDataPool
 
-全名: XCharts.Runtime.SerieEventDataPool
+> XCharts.Runtime.SerieEventDataPool
 
 |public method|since|description|
 |--|--|--|
@@ -1072,7 +1025,7 @@ slug: /api
 
 ## SerieHandler
 
-全名: XCharts.Runtime.SerieHandler
+> XCharts.Runtime.SerieHandler
 
 |public method|since|description|
 |--|--|--|
@@ -1102,13 +1055,11 @@ slug: /api
 
 ## SerieHandler where T
 
-全名: .SerieHandler where T
-子类: [SerieHandler<T>](#seriehandlert)
+> .SerieHandler where T / Subclasses: [SerieHandler&lt;T&gt;](#seriehandlert) 
 
 ## SerieHandler&lt;T&gt;
 
-全名: XCharts.Runtime.SerieHandler<T>
-继承: [SerieHandler where T](#seriehandler where t),[Serie](#serie)
+> XCharts.Runtime.SerieHandler&lt;T&gt; : [SerieHandler where T](#seriehandler where t),[Serie](#serie)
 
 |public method|since|description|
 |--|--|--|
@@ -1133,8 +1084,7 @@ slug: /api
 
 ## SerieHandlerAttribute
 
-全名: XCharts.Runtime.SerieHandlerAttribute
-继承: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
+> XCharts.Runtime.SerieHandlerAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
 
 |public method|since|description|
 |--|--|--|
@@ -1143,7 +1093,7 @@ slug: /api
 
 ## SerieHelper
 
-全名: XCharts.Runtime.SerieHelper
+> XCharts.Runtime.SerieHelper
 
 |public method|since|description|
 |--|--|--|
@@ -1187,7 +1137,7 @@ slug: /api
 
 ## SerieLabelHelper
 
-全名: XCharts.Runtime.SerieLabelHelper
+> XCharts.Runtime.SerieLabelHelper
 
 |public method|since|description|
 |--|--|--|
@@ -1200,7 +1150,7 @@ slug: /api
 
 ## SerieLabelPool
 
-全名: XCharts.Runtime.SerieLabelPool
+> XCharts.Runtime.SerieLabelPool
 
 |public method|since|description|
 |--|--|--|
@@ -1210,11 +1160,11 @@ slug: /api
 
 ## SerieParams
 
-全名: XCharts.Runtime.SerieParams
+> XCharts.Runtime.SerieParams
 
 ## SeriesHelper
 
-全名: XCharts.Runtime.SeriesHelper
+> XCharts.Runtime.SeriesHelper
 
 |public method|since|description|
 |--|--|--|
@@ -1234,23 +1184,19 @@ slug: /api
 
 ## SimplifiedBarChart
 
-全名: XCharts.Runtime.SimplifiedBarChart
-继承: [BaseChart](#basechart)
+> XCharts.Runtime.SimplifiedBarChart : [BaseChart](#basechart)
 
 ## SimplifiedCandlestickChart
 
-全名: XCharts.Runtime.SimplifiedCandlestickChart
-继承: [BaseChart](#basechart)
+> XCharts.Runtime.SimplifiedCandlestickChart : [BaseChart](#basechart)
 
 ## SimplifiedLineChart
 
-全名: XCharts.Runtime.SimplifiedLineChart
-继承: [BaseChart](#basechart)
+> XCharts.Runtime.SimplifiedLineChart : [BaseChart](#basechart)
 
 ## Since
 
-全名: XCharts.Runtime.Since
-继承: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=Attribute)
+> XCharts.Runtime.Since : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
 
 |public method|since|description|
 |--|--|--|
@@ -1258,7 +1204,7 @@ slug: /api
 
 ## SVG
 
-全名: XUGL.SVG
+> XUGL.SVG
 
 |public method|since|description|
 |--|--|--|
@@ -1268,12 +1214,11 @@ slug: /api
 
 ## SVGImage
 
-全名: XCharts.Runtime.SVGImage
-继承: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=MaskableGraphic)
+> XCharts.Runtime.SVGImage : [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic)
 
 ## SVGPath
 
-全名: XUGL.SVGPath
+> XUGL.SVGPath
 
 |public method|since|description|
 |--|--|--|
@@ -1283,7 +1228,7 @@ slug: /api
 
 ## SVGPathSeg
 
-全名: XUGL.SVGPathSeg
+> XUGL.SVGPathSeg
 
 |public method|since|description|
 |--|--|--|
@@ -1291,15 +1236,15 @@ slug: /api
 
 ## TooltipContext
 
-全名: XCharts.Runtime.TooltipContext
+> XCharts.Runtime.TooltipContext
 
 ## TooltipData
 
-全名: XCharts.Runtime.TooltipData
+> XCharts.Runtime.TooltipData
 
 ## TooltipHelper
 
-全名: XCharts.Runtime.TooltipHelper
+> XCharts.Runtime.TooltipHelper
 
 |public method|since|description|
 |--|--|--|
@@ -1310,7 +1255,7 @@ slug: /api
 
 ## TooltipView
 
-全名: XCharts.Runtime.TooltipView
+> XCharts.Runtime.TooltipView
 
 |public method|since|description|
 |--|--|--|
@@ -1324,11 +1269,12 @@ slug: /api
 
 ## TooltipViewItem
 
-全名: XCharts.Runtime.TooltipViewItem
+> XCharts.Runtime.TooltipViewItem
 
 ## UGL
 
-全名: XUGL.UGL
+> XUGL.UGL
+UGUI 图形库
 
 |public method|since|description|
 |--|--|--|
@@ -1351,12 +1297,11 @@ slug: /api
 
 ## UGLExample
 
-全名: XUGL.UGLExample
-继承: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=MaskableGraphic)
+> XUGL.UGLExample : [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic)
 
 ## UGLHelper
 
-全名: XUGL.UGLHelper
+> XUGL.UGLHelper
 
 |public method|since|description|
 |--|--|--|
@@ -1386,8 +1331,8 @@ slug: /api
 
 ## UIComponent
 
-全名: XCharts.Runtime.UIComponent
-继承: [BaseGraph](#basegraph)
+> XCharts.Runtime.UIComponent : [BaseGraph](#basegraph)
+UI组件基类。
 
 |public method|since|description|
 |--|--|--|
@@ -1395,7 +1340,8 @@ slug: /api
 
 ## UIHelper
 
-全名: XCharts.Runtime.UIHelper
+> XCharts.Runtime.UIHelper
+UI帮助类。
 
 |public method|since|description|
 |--|--|--|
@@ -1403,12 +1349,11 @@ slug: /api
 
 ## VisualMapContext
 
-全名: XCharts.Runtime.VisualMapContext
-继承: [MainComponentContext](#maincomponentcontext)
+> XCharts.Runtime.VisualMapContext : [MainComponentContext](#maincomponentcontext)
 
 ## VisualMapHelper
 
-全名: XCharts.Runtime.VisualMapHelper
+> XCharts.Runtime.VisualMapHelper
 
 |public method|since|description|
 |--|--|--|
@@ -1421,7 +1366,7 @@ slug: /api
 
 ## XChartsMgr
 
-全名: XCharts.Runtime.XChartsMgr
+> XCharts.Runtime.XChartsMgr
 
 |public method|since|description|
 |--|--|--|
@@ -1438,8 +1383,7 @@ slug: /api
 
 ## XCResourceImporterWindow
 
-全名: XCharts.Runtime.XCResourceImporterWindow
-继承: [UnityEditor.EditorWindow](https://docs.unity3d.com/ScriptReference/30_search.html?q=UnityEditor.EditorWindow)
+> XCharts.Runtime.XCResourceImporterWindow : [UnityEditor.EditorWindow](https://docs.unity3d.com/ScriptReference/30_search.html?q=unityeditor.editorwindow)
 
 |public method|since|description|
 |--|--|--|
@@ -1447,7 +1391,7 @@ slug: /api
 
 ## XCThemeMgr
 
-全名: XCharts.Runtime.XCThemeMgr
+> XCharts.Runtime.XCThemeMgr
 
 |public method|since|description|
 |--|--|--|

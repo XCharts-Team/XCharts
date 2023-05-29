@@ -187,8 +187,7 @@ slug: /configuration
 
 ## AngleAxis
 
-> 全名: XCharts.Runtime.AngleAxis
-> 继承: [Axis](#axis)
+> XCharts.Runtime.AngleAxis : [Axis](#axis)
 
 极坐标系的角度轴。
 
@@ -206,14 +205,11 @@ slug: /configuration
 
 ## AngleAxisTheme
 
-> 全名: XCharts.Runtime.AngleAxisTheme
-> 继承: [BaseAxisTheme](#baseaxistheme)
-
+> XCharts.Runtime.AngleAxisTheme : [BaseAxisTheme](#baseaxistheme)
 
 ## AnimationStyle
 
-> 全名: XCharts.Runtime.AnimationStyle
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.AnimationStyle : [ChildComponent](#childcomponent)
 
 动画表现。
 
@@ -242,8 +238,7 @@ slug: /configuration
 
 ## AreaStyle
 
-> 全名: XCharts.Runtime.AreaStyle
-> 继承: [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
+> XCharts.Runtime.AreaStyle : [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 区域填充样式。
 
@@ -267,8 +262,7 @@ slug: /configuration
 
 ## ArrowStyle
 
-> 全名: XCharts.Runtime.ArrowStyle
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.ArrowStyle : [ChildComponent](#childcomponent)
 
 ```mdx-code-block
 <APITable name="ArrowStyle">
@@ -288,9 +282,7 @@ slug: /configuration
 
 ## Axis
 
-> 全名: XCharts.Runtime.Axis
-> 继承: [MainComponent](#maincomponent)
-> 子类: [AngleAxis](#angleaxis), [ParallelAxis](#parallelaxis), [RadiusAxis](#radiusaxis), [SingleAxis](#singleaxis), [XAxis](#xaxis), [YAxis](#yaxis)
+> XCharts.Runtime.Axis : [MainComponent](#maincomponent) / Subclasses: [AngleAxis](#angleaxis), [ParallelAxis](#parallelaxis), [RadiusAxis](#radiusaxis), [SingleAxis](#singleaxis), [XAxis](#xaxis), [YAxis](#yaxis)
 
 直角坐标系的坐标轴组件。
 
@@ -338,8 +330,7 @@ slug: /configuration
 
 ## AxisLabel
 
-> 全名: XCharts.Runtime.AxisLabel
-> 继承: [LabelStyle](#labelstyle)
+> XCharts.Runtime.AxisLabel : [LabelStyle](#labelstyle)
 
 坐标轴刻度标签的相关设置。
 
@@ -363,8 +354,7 @@ slug: /configuration
 
 ## AxisLine
 
-> 全名: XCharts.Runtime.AxisLine
-> 继承: [BaseLine](#baseline)
+> XCharts.Runtime.AxisLine : [BaseLine](#baseline)
 
 坐标轴轴线。
 
@@ -384,8 +374,7 @@ slug: /configuration
 
 ## AxisMinorSplitLine
 
-> 全名: XCharts.Runtime.AxisMinorSplitLine
-> 继承: [BaseLine](#baseline)
+> XCharts.Runtime.AxisMinorSplitLine : [BaseLine](#baseline)
 
 > 从 `v3.2.0` 开始支持
 
@@ -406,8 +395,7 @@ slug: /configuration
 
 ## AxisMinorTick
 
-> 全名: XCharts.Runtime.AxisMinorTick
-> 继承: [BaseLine](#baseline)
+> XCharts.Runtime.AxisMinorTick : [BaseLine](#baseline)
 
 > 从 `v3.2.0` 开始支持
 
@@ -428,8 +416,7 @@ slug: /configuration
 
 ## AxisName
 
-> 全名: XCharts.Runtime.AxisName
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.AxisName : [ChildComponent](#childcomponent)
 
 坐标轴名称。
 
@@ -450,8 +437,7 @@ slug: /configuration
 
 ## AxisSplitArea
 
-> 全名: XCharts.Runtime.AxisSplitArea
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.AxisSplitArea : [ChildComponent](#childcomponent)
 
 坐标轴在 grid 区域中的分隔区域，默认不显示。
 
@@ -470,8 +456,7 @@ slug: /configuration
 
 ## AxisSplitLine
 
-> 全名: XCharts.Runtime.AxisSplitLine
-> 继承: [BaseLine](#baseline)
+> XCharts.Runtime.AxisSplitLine : [BaseLine](#baseline)
 
 坐标轴在 grid 区域中的分隔线。
 
@@ -493,14 +478,11 @@ slug: /configuration
 
 ## AxisTheme
 
-> 全名: XCharts.Runtime.AxisTheme
-> 继承: [BaseAxisTheme](#baseaxistheme)
-
+> XCharts.Runtime.AxisTheme : [BaseAxisTheme](#baseaxistheme)
 
 ## AxisTick
 
-> 全名: XCharts.Runtime.AxisTick
-> 继承: [BaseLine](#baseline)
+> XCharts.Runtime.AxisTick : [BaseLine](#baseline)
 
 坐标轴刻度相关设置。
 
@@ -524,8 +506,7 @@ slug: /configuration
 
 ## Background
 
-> 全名: XCharts.Runtime.Background
-> 继承: [MainComponent](#maincomponent)
+> XCharts.Runtime.Background : [MainComponent](#maincomponent)
 
 背景组件。
 
@@ -547,15 +528,11 @@ slug: /configuration
 
 ## Bar
 
-> 全名: XCharts.Runtime.Bar
-> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
-
+> XCharts.Runtime.Bar : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
 
 ## BaseAxisTheme
 
-> 全名: XCharts.Runtime.BaseAxisTheme
-> 继承: [ComponentTheme](#componenttheme)
-> 子类: [AxisTheme](#axistheme), [RadiusAxisTheme](#radiusaxistheme), [AngleAxisTheme](#angleaxistheme), [PolarAxisTheme](#polaraxistheme), [RadarAxisTheme](#radaraxistheme)
+> XCharts.Runtime.BaseAxisTheme : [ComponentTheme](#componenttheme) / Subclasses: [AxisTheme](#axistheme), [RadiusAxisTheme](#radiusaxistheme), [AngleAxisTheme](#angleaxistheme), [PolarAxisTheme](#polaraxistheme), [RadarAxisTheme](#radaraxistheme)
 
 ```mdx-code-block
 <APITable name="BaseAxisTheme">
@@ -583,9 +560,7 @@ slug: /configuration
 
 ## BaseLine
 
-> 全名: XCharts.Runtime.BaseLine
-> 继承: [ChildComponent](#childcomponent)
-> 子类: [AxisLine](#axisline), [AxisMinorSplitLine](#axisminorsplitline), [AxisMinorTick](#axisminortick), [AxisSplitLine](#axissplitline), [AxisTick](#axistick)
+> XCharts.Runtime.BaseLine : [ChildComponent](#childcomponent) / Subclasses: [AxisLine](#axisline), [AxisMinorSplitLine](#axisminorsplitline), [AxisMinorTick](#axisminortick), [AxisSplitLine](#axissplitline), [AxisTick](#axistick)
 
 线条基础配置。
 
@@ -604,53 +579,39 @@ slug: /configuration
 
 ## BaseScatter
 
-> 全名: XCharts.Runtime.BaseScatter
-> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
-> 子类: [EffectScatter](#effectscatter), [Scatter](#scatter)
-
+> XCharts.Runtime.BaseScatter : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer) / Subclasses: [EffectScatter](#effectscatter), [Scatter](#scatter)
 
 ## BaseSerie
 
-> 全名: XCharts.Runtime.BaseSerie
-> 子类: [Serie](#serie)
-
+> XCharts.Runtime.BaseSerie / Subclasses: [Serie](#serie)
 
 ## BlurStyle
 
-> 全名: XCharts.Runtime.BlurStyle
-> 继承: [StateStyle](#statestyle), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
+> XCharts.Runtime.BlurStyle : [StateStyle](#statestyle), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 > 从 `v3.2.0` 开始支持
 
 淡出状态样式。
 
-
 ## CalendarCoord
 
-> 全名: XCharts.Runtime.CalendarCoord
-> 继承: [CoordSystem](#coordsystem), [IUpdateRuntimeData](#iupdateruntimedata), [ISerieContainer](#iseriecontainer)
-
+> XCharts.Runtime.CalendarCoord : [CoordSystem](#coordsystem), [IUpdateRuntimeData](#iupdateruntimedata), [ISerieContainer](#iseriecontainer)
 
 ## Candlestick
 
-> 全名: XCharts.Runtime.Candlestick
-> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
-
+> XCharts.Runtime.Candlestick : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
 
 ## ChartText
 
-> 全名: XCharts.Runtime.ChartText
+> XCharts.Runtime.ChartText
 
 ## ChildComponent
 
-> 全名: XCharts.Runtime.ChildComponent
-> 子类: [AnimationStyle](#animationstyle), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
-
+> XCharts.Runtime.ChildComponent / Subclasses: [AnimationStyle](#animationstyle), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
 
 ## Comment
 
-> 全名: XCharts.Runtime.Comment
-> 继承: [MainComponent](#maincomponent), [IPropertyChanged](#ipropertychanged)
+> XCharts.Runtime.Comment : [MainComponent](#maincomponent), [IPropertyChanged](#ipropertychanged)
 
 图表注解组件。
 
@@ -671,8 +632,7 @@ slug: /configuration
 
 ## CommentItem
 
-> 全名: XCharts.Runtime.CommentItem
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.CommentItem : [ChildComponent](#childcomponent)
 
 注解项。
 
@@ -695,8 +655,7 @@ slug: /configuration
 
 ## CommentMarkStyle
 
-> 全名: XCharts.Runtime.CommentMarkStyle
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.CommentMarkStyle : [ChildComponent](#childcomponent)
 
 注解项区域样式。
 
@@ -715,9 +674,7 @@ slug: /configuration
 
 ## ComponentTheme
 
-> 全名: XCharts.Runtime.ComponentTheme
-> 继承: [ChildComponent](#childcomponent)
-> 子类: [BaseAxisTheme](#baseaxistheme), [DataZoomTheme](#datazoomtheme), [LegendTheme](#legendtheme), [SubTitleTheme](#subtitletheme), [TitleTheme](#titletheme), [TooltipTheme](#tooltiptheme), [VisualMapTheme](#visualmaptheme)
+> XCharts.Runtime.ComponentTheme : [ChildComponent](#childcomponent) / Subclasses: [BaseAxisTheme](#baseaxistheme), [DataZoomTheme](#datazoomtheme), [LegendTheme](#legendtheme), [SubTitleTheme](#subtitletheme), [TitleTheme](#titletheme), [TooltipTheme](#tooltiptheme), [VisualMapTheme](#visualmaptheme)
 
 ```mdx-code-block
 <APITable name="ComponentTheme">
@@ -737,17 +694,13 @@ slug: /configuration
 
 ## CoordSystem
 
-> 全名: XCharts.Runtime.CoordSystem
-> 继承: [MainComponent](#maincomponent)
-> 子类: [RadarCoord](#radarcoord), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [ParallelCoord](#parallelcoord), [PolarCoord](#polarcoord), [SingleAxisCoord](#singleaxiscoord)
+> XCharts.Runtime.CoordSystem : [MainComponent](#maincomponent) / Subclasses: [RadarCoord](#radarcoord), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [ParallelCoord](#parallelcoord), [PolarCoord](#polarcoord), [SingleAxisCoord](#singleaxiscoord)
 
 坐标系系统。
 
-
 ## DataZoom
 
-> 全名: XCharts.Runtime.DataZoom
-> 继承: [MainComponent](#maincomponent), [IUpdateRuntimeData](#iupdateruntimedata)
+> XCharts.Runtime.DataZoom : [MainComponent](#maincomponent), [IUpdateRuntimeData](#iupdateruntimedata)
 
 DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息，或者概览数据整体，或者去除离群点的影响。
 
@@ -796,8 +749,7 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 
 ## DataZoomTheme
 
-> 全名: XCharts.Runtime.DataZoomTheme
-> 继承: [ComponentTheme](#componenttheme)
+> XCharts.Runtime.DataZoomTheme : [ComponentTheme](#componenttheme)
 
 ```mdx-code-block
 <APITable name="DataZoomTheme">
@@ -819,7 +771,8 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 
 ## DebugInfo
 
-> 全名: XCharts.Runtime.DebugInfo
+> XCharts.Runtime.DebugInfo
+
 ```mdx-code-block
 <APITable name="DebugInfo">
 ```
@@ -838,14 +791,11 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 
 ## EffectScatter
 
-> 全名: XCharts.Runtime.EffectScatter
-> 继承: [BaseScatter](#basescatter)
-
+> XCharts.Runtime.EffectScatter : [BaseScatter](#basescatter)
 
 ## EmphasisStyle
 
-> 全名: XCharts.Runtime.EmphasisStyle
-> 继承: [StateStyle](#statestyle), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
+> XCharts.Runtime.EmphasisStyle : [StateStyle](#statestyle), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 > 从 `v3.2.0` 开始支持
 
@@ -867,14 +817,11 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 
 ## EndLabelStyle
 
-> 全名: XCharts.Runtime.EndLabelStyle
-> 继承: [LabelStyle](#labelstyle)
-
+> XCharts.Runtime.EndLabelStyle : [LabelStyle](#labelstyle)
 
 ## GridCoord
 
-> 全名: XCharts.Runtime.GridCoord
-> 继承: [CoordSystem](#coordsystem), [IUpdateRuntimeData](#iupdateruntimedata), [ISerieContainer](#iseriecontainer)
+> XCharts.Runtime.GridCoord : [CoordSystem](#coordsystem), [IUpdateRuntimeData](#iupdateruntimedata), [ISerieContainer](#iseriecontainer)
 
 Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart can be drawn in grid.
 
@@ -900,8 +847,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## Heatmap
 
-> 全名: XCharts.Runtime.Heatmap
-> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
+> XCharts.Runtime.Heatmap : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
 
 ```mdx-code-block
 <APITable name="Heatmap">
@@ -917,8 +863,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## IconStyle
 
-> 全名: XCharts.Runtime.IconStyle
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.IconStyle : [ChildComponent](#childcomponent)
 
 ```mdx-code-block
 <APITable name="IconStyle">
@@ -943,8 +888,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## ImageStyle
 
-> 全名: XCharts.Runtime.ImageStyle
-> 继承: [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
+> XCharts.Runtime.ImageStyle : [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 ```mdx-code-block
 <APITable name="ImageStyle">
@@ -966,7 +910,8 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## Indicator
 
-> 全名: XCharts.Runtime.Indicator
+> XCharts.Runtime.Indicator
+
 雷达图的指示器，用来指定雷达图中的多个变量（维度）。
 
 ```mdx-code-block
@@ -1005,50 +950,37 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## INeedSerieContainer
 
-> 全名: XCharts.Runtime.INeedSerieContainer
-> 子类: [Bar](#bar), [SimplifiedBar](#simplifiedbar), [Candlestick](#candlestick), [SimplifiedCandlestick](#simplifiedcandlestick), [Heatmap](#heatmap), [Line](#line), [SimplifiedLine](#simplifiedline), [Parallel](#parallel), [Radar](#radar), [BaseScatter](#basescatter)
-
+> XCharts.Runtime.INeedSerieContainer / Subclasses: [Bar](#bar), [SimplifiedBar](#simplifiedbar), [Candlestick](#candlestick), [SimplifiedCandlestick](#simplifiedcandlestick), [Heatmap](#heatmap), [Line](#line), [SimplifiedLine](#simplifiedline), [Parallel](#parallel), [Radar](#radar), [BaseScatter](#basescatter)
 
 ## IPropertyChanged
 
-> 全名: XCharts.Runtime.IPropertyChanged
-> 子类: [Location](#location), [Comment](#comment), [Legend](#legend), [Title](#title)
+> XCharts.Runtime.IPropertyChanged / Subclasses: [Location](#location), [Comment](#comment), [Legend](#legend), [Title](#title)
 
 属性变更接口
 
-
 ## ISerieComponent
 
-> 全名: XCharts.Runtime.ISerieComponent
-> 子类: [AreaStyle](#areastyle), [ImageStyle](#imagestyle), [LineArrow](#linearrow), [LabelLine](#labelline), [LabelStyle](#labelstyle), [BlurStyle](#blurstyle), [EmphasisStyle](#emphasisstyle), [SelectStyle](#selectstyle), [TitleStyle](#titlestyle)
+> XCharts.Runtime.ISerieComponent / Subclasses: [AreaStyle](#areastyle), [ImageStyle](#imagestyle), [LineArrow](#linearrow), [LabelLine](#labelline), [LabelStyle](#labelstyle), [BlurStyle](#blurstyle), [EmphasisStyle](#emphasisstyle), [SelectStyle](#selectstyle), [TitleStyle](#titlestyle)
 
 可用于Serie的组件。
 
-
 ## ISerieContainer
 
-> 全名: XCharts.Runtime.ISerieContainer
-> 子类: [RadarCoord](#radarcoord), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [ParallelCoord](#parallelcoord), [PolarCoord](#polarcoord)
-
+> XCharts.Runtime.ISerieContainer / Subclasses: [RadarCoord](#radarcoord), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [ParallelCoord](#parallelcoord), [PolarCoord](#polarcoord)
 
 ## ISerieDataComponent
 
-> 全名: XCharts.Runtime.ISerieDataComponent
-> 子类: [AreaStyle](#areastyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [LineStyle](#linestyle), [SerieSymbol](#seriesymbol), [LabelLine](#labelline), [LabelStyle](#labelstyle), [BlurStyle](#blurstyle), [EmphasisStyle](#emphasisstyle), [SelectStyle](#selectstyle), [TitleStyle](#titlestyle)
+> XCharts.Runtime.ISerieDataComponent / Subclasses: [AreaStyle](#areastyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [LineStyle](#linestyle), [SerieSymbol](#seriesymbol), [LabelLine](#labelline), [LabelStyle](#labelstyle), [BlurStyle](#blurstyle), [EmphasisStyle](#emphasisstyle), [SelectStyle](#selectstyle), [TitleStyle](#titlestyle)
 
 可用于SerieData的组件。
 
-
 ## ISimplifiedSerie
 
-> 全名: XCharts.Runtime.ISimplifiedSerie
-> 子类: [SimplifiedBar](#simplifiedbar), [SimplifiedCandlestick](#simplifiedcandlestick), [SimplifiedLine](#simplifiedline)
-
+> XCharts.Runtime.ISimplifiedSerie / Subclasses: [SimplifiedBar](#simplifiedbar), [SimplifiedCandlestick](#simplifiedcandlestick), [SimplifiedLine](#simplifiedline)
 
 ## ItemStyle
 
-> 全名: XCharts.Runtime.ItemStyle
-> 继承: [ChildComponent](#childcomponent), [ISerieDataComponent](#iseriedatacomponent)
+> XCharts.Runtime.ItemStyle : [ChildComponent](#childcomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 图形样式。
 
@@ -1085,14 +1017,11 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## IUpdateRuntimeData
 
-> 全名: XCharts.Runtime.IUpdateRuntimeData
-> 子类: [SingleAxis](#singleaxis), [DataZoom](#datazoom), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [ParallelCoord](#parallelcoord)
-
+> XCharts.Runtime.IUpdateRuntimeData / Subclasses: [SingleAxis](#singleaxis), [DataZoom](#datazoom), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [ParallelCoord](#parallelcoord)
 
 ## LabelLine
 
-> 全名: XCharts.Runtime.LabelLine
-> 继承: [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
+> XCharts.Runtime.LabelLine : [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 标签的引导线
 
@@ -1119,9 +1048,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## LabelStyle
 
-> 全名: XCharts.Runtime.LabelStyle
-> 继承: [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
-> 子类: [AxisLabel](#axislabel), [EndLabelStyle](#endlabelstyle), [TitleStyle](#titlestyle)
+> XCharts.Runtime.LabelStyle : [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent) / Subclasses: [AxisLabel](#axislabel), [EndLabelStyle](#endlabelstyle), [TitleStyle](#titlestyle)
 
 图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
 
@@ -1153,24 +1080,21 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## Lang
 
-> 全名: XCharts.Runtime.Lang
-> 继承: [ScriptableObject](#scriptableobject)
+> XCharts.Runtime.Lang : [ScriptableObject](https://docs.unity3d.com/ScriptReference/30_search.html?q=ScriptableObject)
 
 国际化语言表。
 
-
 ## LangCandlestick
 
-> 全名: XCharts.Runtime.LangCandlestick
+> XCharts.Runtime.LangCandlestick
 
 ## LangTime
 
-> 全名: XCharts.Runtime.LangTime
+> XCharts.Runtime.LangTime
 
 ## Legend
 
-> 全名: XCharts.Runtime.Legend
-> 继承: [MainComponent](#maincomponent), [IPropertyChanged](#ipropertychanged)
+> XCharts.Runtime.Legend : [MainComponent](#maincomponent), [IPropertyChanged](#ipropertychanged)
 
 图例组件。 图例组件展现了不同系列的标记，颜色和名字。可以通过点击图例控制哪些系列不显示。
 
@@ -1206,8 +1130,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## LegendTheme
 
-> 全名: XCharts.Runtime.LegendTheme
-> 继承: [ComponentTheme](#componenttheme)
+> XCharts.Runtime.LegendTheme : [ComponentTheme](#componenttheme)
 
 ```mdx-code-block
 <APITable name="LegendTheme">
@@ -1223,8 +1146,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## Level
 
-> 全名: XCharts.Runtime.Level
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.Level : [ChildComponent](#childcomponent)
 
 ```mdx-code-block
 <APITable name="Level">
@@ -1242,8 +1164,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## LevelStyle
 
-> 全名: XCharts.Runtime.LevelStyle
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.LevelStyle : [ChildComponent](#childcomponent)
 
 ```mdx-code-block
 <APITable name="LevelStyle">
@@ -1260,14 +1181,11 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## Line
 
-> 全名: XCharts.Runtime.Line
-> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
-
+> XCharts.Runtime.Line : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
 
 ## LineArrow
 
-> 全名: XCharts.Runtime.LineArrow
-> 继承: [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent)
+> XCharts.Runtime.LineArrow : [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent)
 
 ```mdx-code-block
 <APITable name="LineArrow">
@@ -1285,8 +1203,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## LineStyle
 
-> 全名: XCharts.Runtime.LineStyle
-> 继承: [ChildComponent](#childcomponent), [ISerieDataComponent](#iseriedatacomponent)
+> XCharts.Runtime.LineStyle : [ChildComponent](#childcomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 线条样式。 注： 修改 lineStyle 中的颜色不会影响图例颜色，如果需要图例颜色和折线图颜色一致，需修改 itemStyle.color，线条颜色默认也会取该颜色。 toColor，toColor2可设置水平方向的渐变，如需要设置垂直方向的渐变，可使用VisualMap。
 
@@ -1311,8 +1228,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## Location
 
-> 全名: XCharts.Runtime.Location
-> 继承: [ChildComponent](#childcomponent), [IPropertyChanged](#ipropertychanged)
+> XCharts.Runtime.Location : [ChildComponent](#childcomponent), [IPropertyChanged](#ipropertychanged)
 
 位置类型。通过Align快速设置大体位置，再通过left，right，top，bottom微调具体位置。
 
@@ -1334,15 +1250,11 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## MainComponent
 
-> 全名: XCharts.Runtime.MainComponent
-> 继承: [IComparable](https://docs.unity3d.com/ScriptReference/30_search.html?q=IComparable)
-> 子类: [Axis](#axis), [Background](#background), [Comment](#comment), [DataZoom](#datazoom), [Legend](#legend), [MarkArea](#markarea), [MarkLine](#markline), [Settings](#settings), [Title](#title), [Tooltip](#tooltip), [VisualMap](#visualmap), [CoordSystem](#coordsystem)
-
+> XCharts.Runtime.MainComponent : [IComparable](https://docs.unity3d.com/ScriptReference/30_search.html?q=IComparable) / Subclasses: [Axis](#axis), [Background](#background), [Comment](#comment), [DataZoom](#datazoom), [Legend](#legend), [MarkArea](#markarea), [MarkLine](#markline), [Settings](#settings), [Title](#title), [Tooltip](#tooltip), [VisualMap](#visualmap), [CoordSystem](#coordsystem)
 
 ## MarkArea
 
-> 全名: XCharts.Runtime.MarkArea
-> 继承: [MainComponent](#maincomponent)
+> XCharts.Runtime.MarkArea : [MainComponent](#maincomponent)
 
 图表标域，常用于标记图表中某个范围的数据。
 
@@ -1366,8 +1278,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## MarkAreaData
 
-> 全名: XCharts.Runtime.MarkAreaData
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.MarkAreaData : [ChildComponent](#childcomponent)
 
 标域的数据。
 
@@ -1391,8 +1302,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## MarkLine
 
-> 全名: XCharts.Runtime.MarkLine
-> 继承: [MainComponent](#maincomponent)
+> XCharts.Runtime.MarkLine : [MainComponent](#maincomponent)
 
 图表标线。
 
@@ -1413,8 +1323,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## MarkLineData
 
-> 全名: XCharts.Runtime.MarkLineData
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.MarkLineData : [ChildComponent](#childcomponent)
 
 图表标线的数据。
 
@@ -1444,8 +1353,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## MarqueeStyle
 
-> 全名: XCharts.Runtime.MarqueeStyle
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.MarqueeStyle : [ChildComponent](#childcomponent)
 
 > 从 `v3.5.0` 开始支持
 
@@ -1468,9 +1376,7 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 
 ## Padding
 
-> 全名: XCharts.Runtime.Padding
-> 继承: [ChildComponent](#childcomponent)
-> 子类: [TextPadding](#textpadding)
+> XCharts.Runtime.Padding : [ChildComponent](#childcomponent) / Subclasses: [TextPadding](#textpadding)
 
 边距设置。
 
@@ -1492,20 +1398,15 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 
 ## Parallel
 
-> 全名: XCharts.Runtime.Parallel
-> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
-
+> XCharts.Runtime.Parallel : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
 
 ## ParallelAxis
 
-> 全名: XCharts.Runtime.ParallelAxis
-> 继承: [Axis](#axis)
-
+> XCharts.Runtime.ParallelAxis : [Axis](#axis)
 
 ## ParallelCoord
 
-> 全名: XCharts.Runtime.ParallelCoord
-> 继承: [CoordSystem](#coordsystem), [IUpdateRuntimeData](#iupdateruntimedata), [ISerieContainer](#iseriecontainer)
+> XCharts.Runtime.ParallelCoord : [CoordSystem](#coordsystem), [IUpdateRuntimeData](#iupdateruntimedata), [ISerieContainer](#iseriecontainer)
 
 Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart can be drawn in grid.
 
@@ -1529,20 +1430,15 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## Pie
 
-> 全名: XCharts.Runtime.Pie
-> 继承: [Serie](#serie)
-
+> XCharts.Runtime.Pie : [Serie](#serie)
 
 ## PolarAxisTheme
 
-> 全名: XCharts.Runtime.PolarAxisTheme
-> 继承: [BaseAxisTheme](#baseaxistheme)
-
+> XCharts.Runtime.PolarAxisTheme : [BaseAxisTheme](#baseaxistheme)
 
 ## PolarCoord
 
-> 全名: XCharts.Runtime.PolarCoord
-> 继承: [CoordSystem](#coordsystem), [ISerieContainer](#iseriecontainer)
+> XCharts.Runtime.PolarCoord : [CoordSystem](#coordsystem), [ISerieContainer](#iseriecontainer)
 
 极坐标系组件。 极坐标系，可以用于散点图和折线图。每个极坐标系拥有一个角度轴和一个半径轴。
 
@@ -1563,8 +1459,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## Radar
 
-> 全名: XCharts.Runtime.Radar
-> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
+> XCharts.Runtime.Radar : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
 
 ```mdx-code-block
 <APITable name="Radar">
@@ -1580,59 +1475,43 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## RadarAxisTheme
 
-> 全名: XCharts.Runtime.RadarAxisTheme
-> 继承: [BaseAxisTheme](#baseaxistheme)
-
+> XCharts.Runtime.RadarAxisTheme : [BaseAxisTheme](#baseaxistheme)
 
 ## RadarCoord
 
-> 全名: XCharts.Runtime.RadarCoord
-> 继承: [CoordSystem](#coordsystem), [ISerieContainer](#iseriecontainer)
+> XCharts.Runtime.RadarCoord : [CoordSystem](#coordsystem), [ISerieContainer](#iseriecontainer)
 
 Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适用于雷达图。
 
-
 ## RadiusAxis
 
-> 全名: XCharts.Runtime.RadiusAxis
-> 继承: [Axis](#axis)
+> XCharts.Runtime.RadiusAxis : [Axis](#axis)
 
 极坐标系的径向轴。
 
-
 ## RadiusAxisTheme
 
-> 全名: XCharts.Runtime.RadiusAxisTheme
-> 继承: [BaseAxisTheme](#baseaxistheme)
-
+> XCharts.Runtime.RadiusAxisTheme : [BaseAxisTheme](#baseaxistheme)
 
 ## Ring
 
-> 全名: XCharts.Runtime.Ring
-> 继承: [Serie](#serie)
-
+> XCharts.Runtime.Ring : [Serie](#serie)
 
 ## Scatter
 
-> 全名: XCharts.Runtime.Scatter
-> 继承: [BaseScatter](#basescatter)
-
+> XCharts.Runtime.Scatter : [BaseScatter](#basescatter)
 
 ## SelectStyle
 
-> 全名: XCharts.Runtime.SelectStyle
-> 继承: [StateStyle](#statestyle), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
+> XCharts.Runtime.SelectStyle : [StateStyle](#statestyle), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 > 从 `v3.2.0` 开始支持
 
 选中状态样式。
 
-
 ## Serie
 
-> 全名: XCharts.Runtime.Serie
-> 继承: [BaseSerie](#baseserie), [IComparable](https://docs.unity3d.com/ScriptReference/30_search.html?q=IComparable)
-> 子类: [SerieHandler<T>](#seriehandler<t>), [Bar](#bar), [SimplifiedBar](#simplifiedbar), [Candlestick](#candlestick), [SimplifiedCandlestick](#simplifiedcandlestick), [Heatmap](#heatmap), [Line](#line), [SimplifiedLine](#simplifiedline), [Parallel](#parallel), [Pie](#pie), [Radar](#radar), [Ring](#ring), [BaseScatter](#basescatter)
+> XCharts.Runtime.Serie : [BaseSerie](#baseserie), [IComparable](https://docs.unity3d.com/ScriptReference/30_search.html?q=IComparable) / Subclasses: [SerieHandler&lt;T&gt;](#seriehandlert), [Bar](#bar), [SimplifiedBar](#simplifiedbar), [Candlestick](#candlestick), [SimplifiedCandlestick](#simplifiedcandlestick), [Heatmap](#heatmap), [Line](#line), [SimplifiedLine](#simplifiedline), [Parallel](#parallel), [Pie](#pie), [Radar](#radar), [Ring](#ring), [BaseScatter](#basescatter)
 
 系列。系列一般由数据和配置组成，用来表示具体的图表图形，如折线图的一条折线，柱图的一组柱子等。一个图表中可以包含多个不同类型的系列。
 
@@ -1719,8 +1598,7 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 
 ## SerieData
 
-> 全名: XCharts.Runtime.SerieData
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.SerieData : [ChildComponent](#childcomponent)
 
 系列中的一个数据项。可存储数据名和1-n维个数据。
 
@@ -1746,8 +1624,7 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 
 ## SerieSymbol
 
-> 全名: XCharts.Runtime.SerieSymbol
-> 继承: [SymbolStyle](#symbolstyle), [ISerieDataComponent](#iseriedatacomponent)
+> XCharts.Runtime.SerieSymbol : [SymbolStyle](#symbolstyle), [ISerieDataComponent](#iseriedatacomponent)
 
 系列数据项的标记的图形
 
@@ -1774,8 +1651,7 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 
 ## SerieTheme
 
-> 全名: XCharts.Runtime.SerieTheme
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.SerieTheme : [ChildComponent](#childcomponent)
 
 ```mdx-code-block
 <APITable name="SerieTheme">
@@ -1801,8 +1677,7 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 
 ## Settings
 
-> 全名: XCharts.Runtime.Settings
-> 继承: [MainComponent](#maincomponent)
+> XCharts.Runtime.Settings : [MainComponent](#maincomponent)
 
 全局参数设置组件。一般情况下可使用默认值，当有需要时可进行调整。
 
@@ -1833,26 +1708,19 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 
 ## SimplifiedBar
 
-> 全名: XCharts.Runtime.SimplifiedBar
-> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer), [ISimplifiedSerie](#isimplifiedserie)
-
+> XCharts.Runtime.SimplifiedBar : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer), [ISimplifiedSerie](#isimplifiedserie)
 
 ## SimplifiedCandlestick
 
-> 全名: XCharts.Runtime.SimplifiedCandlestick
-> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer), [ISimplifiedSerie](#isimplifiedserie)
-
+> XCharts.Runtime.SimplifiedCandlestick : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer), [ISimplifiedSerie](#isimplifiedserie)
 
 ## SimplifiedLine
 
-> 全名: XCharts.Runtime.SimplifiedLine
-> 继承: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer), [ISimplifiedSerie](#isimplifiedserie)
-
+> XCharts.Runtime.SimplifiedLine : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer), [ISimplifiedSerie](#isimplifiedserie)
 
 ## SingleAxis
 
-> 全名: XCharts.Runtime.SingleAxis
-> 继承: [Axis](#axis), [IUpdateRuntimeData](#iupdateruntimedata)
+> XCharts.Runtime.SingleAxis : [Axis](#axis), [IUpdateRuntimeData](#iupdateruntimedata)
 
 单轴。
 
@@ -1876,14 +1744,11 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 
 ## SingleAxisCoord
 
-> 全名: XCharts.Runtime.SingleAxisCoord
-> 继承: [CoordSystem](#coordsystem)
-
+> XCharts.Runtime.SingleAxisCoord : [CoordSystem](#coordsystem)
 
 ## StageColor
 
-> 全名: XCharts.Runtime.StageColor
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.StageColor : [ChildComponent](#childcomponent)
 
 ```mdx-code-block
 <APITable name="StageColor">
@@ -1900,9 +1765,7 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 
 ## StateStyle
 
-> 全名: XCharts.Runtime.StateStyle
-> 继承: [ChildComponent](#childcomponent)
-> 子类: [BlurStyle](#blurstyle), [EmphasisStyle](#emphasisstyle), [SelectStyle](#selectstyle)
+> XCharts.Runtime.StateStyle : [ChildComponent](#childcomponent) / Subclasses: [BlurStyle](#blurstyle), [EmphasisStyle](#emphasisstyle), [SelectStyle](#selectstyle)
 
 > 从 `v3.2.0` 开始支持
 
@@ -1928,15 +1791,11 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## SubTitleTheme
 
-> 全名: XCharts.Runtime.SubTitleTheme
-> 继承: [ComponentTheme](#componenttheme)
-
+> XCharts.Runtime.SubTitleTheme : [ComponentTheme](#componenttheme)
 
 ## SymbolStyle
 
-> 全名: XCharts.Runtime.SymbolStyle
-> 继承: [ChildComponent](#childcomponent)
-> 子类: [SerieSymbol](#seriesymbol)
+> XCharts.Runtime.SymbolStyle : [ChildComponent](#childcomponent) / Subclasses: [SerieSymbol](#seriesymbol)
 
 系列数据项的标记的图形
 
@@ -1963,8 +1822,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## TextLimit
 
-> 全名: XCharts.Runtime.TextLimit
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.TextLimit : [ChildComponent](#childcomponent)
 
 文本字符限制和自适应。当文本长度超过设定的长度时进行裁剪，并将后缀附加在最后。 只在类目轴中有效。
 
@@ -1985,16 +1843,13 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## TextPadding
 
-> 全名: XCharts.Runtime.TextPadding
-> 继承: [Padding](#padding)
+> XCharts.Runtime.TextPadding : [Padding](#padding)
 
 文本的内边距设置。
 
-
 ## TextStyle
 
-> 全名: XCharts.Runtime.TextStyle
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.TextStyle : [ChildComponent](#childcomponent)
 
 文本的相关设置。
 
@@ -2026,8 +1881,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## Theme
 
-> 全名: XCharts.Runtime.Theme
-> 继承: [ScriptableObject](#scriptableobject)
+> XCharts.Runtime.Theme : [ScriptableObject](https://docs.unity3d.com/ScriptReference/30_search.html?q=ScriptableObject)
 
 主题相关配置。
 
@@ -2060,8 +1914,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## ThemeStyle
 
-> 全名: XCharts.Runtime.ThemeStyle
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.ThemeStyle : [ChildComponent](#childcomponent)
 
 主题相关配置。
 
@@ -2085,8 +1938,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## Title
 
-> 全名: XCharts.Runtime.Title
-> 继承: [MainComponent](#maincomponent), [IPropertyChanged](#ipropertychanged)
+> XCharts.Runtime.Title : [MainComponent](#maincomponent), [IPropertyChanged](#ipropertychanged)
 
 标题组件，包含主标题和副标题。
 
@@ -2110,22 +1962,17 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## TitleStyle
 
-> 全名: XCharts.Runtime.TitleStyle
-> 继承: [LabelStyle](#labelstyle), [ISerieDataComponent](#iseriedatacomponent), [ISerieComponent](#iseriecomponent)
+> XCharts.Runtime.TitleStyle : [LabelStyle](#labelstyle), [ISerieDataComponent](#iseriedatacomponent), [ISerieComponent](#iseriecomponent)
 
 标题相关设置。
 
-
 ## TitleTheme
 
-> 全名: XCharts.Runtime.TitleTheme
-> 继承: [ComponentTheme](#componenttheme)
-
+> XCharts.Runtime.TitleTheme : [ComponentTheme](#componenttheme)
 
 ## Tooltip
 
-> 全名: XCharts.Runtime.Tooltip
-> 继承: [MainComponent](#maincomponent)
+> XCharts.Runtime.Tooltip : [MainComponent](#maincomponent)
 
 提示框组件。
 
@@ -2173,8 +2020,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## TooltipTheme
 
-> 全名: XCharts.Runtime.TooltipTheme
-> 继承: [ComponentTheme](#componenttheme)
+> XCharts.Runtime.TooltipTheme : [ComponentTheme](#componenttheme)
 
 ```mdx-code-block
 <APITable name="TooltipTheme">
@@ -2195,8 +2041,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## UIComponentTheme
 
-> 全名: XCharts.Runtime.UIComponentTheme
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.UIComponentTheme : [ChildComponent](#childcomponent)
 
 ```mdx-code-block
 <APITable name="UIComponentTheme">
@@ -2214,8 +2059,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## VisualMap
 
-> 全名: XCharts.Runtime.VisualMap
-> 继承: [MainComponent](#maincomponent)
+> XCharts.Runtime.VisualMap : [MainComponent](#maincomponent)
 
 视觉映射组件。用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）。
 
@@ -2258,8 +2102,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## VisualMapRange
 
-> 全名: XCharts.Runtime.VisualMapRange
-> 继承: [ChildComponent](#childcomponent)
+> XCharts.Runtime.VisualMapRange : [ChildComponent](#childcomponent)
 
 ```mdx-code-block
 <APITable name="VisualMapRange">
@@ -2278,8 +2121,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## VisualMapTheme
 
-> 全名: XCharts.Runtime.VisualMapTheme
-> 继承: [ComponentTheme](#componenttheme)
+> XCharts.Runtime.VisualMapTheme : [ComponentTheme](#componenttheme)
 
 ```mdx-code-block
 <APITable name="VisualMapTheme">
@@ -2298,20 +2140,17 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## XAxis
 
-> 全名: XCharts.Runtime.XAxis
-> 继承: [Axis](#axis)
+> XCharts.Runtime.XAxis : [Axis](#axis)
 
 直角坐标系 grid 中的 x 轴。
 
-
 ## XCResourcesImporter
 
-> 全名: XCharts.Runtime.XCResourcesImporter
+> XCharts.Runtime.XCResourcesImporter
 
 ## XCSettings
 
-> 全名: XCharts.Runtime.XCSettings
-> 继承: [ScriptableObject](#scriptableobject)
+> XCharts.Runtime.XCSettings : [ScriptableObject](https://docs.unity3d.com/ScriptReference/30_search.html?q=ScriptableObject)
 
 ```mdx-code-block
 <APITable name="XCSettings">
@@ -2363,9 +2202,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## YAxis
 
-> 全名: XCharts.Runtime.YAxis
-> 继承: [Axis](#axis)
+> XCharts.Runtime.YAxis : [Axis](#axis)
 
 直角坐标系 grid 中的 y 轴。
-
 

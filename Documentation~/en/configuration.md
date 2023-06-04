@@ -2,6 +2,7 @@
 sidebar_position: 31
 slug: /configuration
 ---
+import APITable from '@site/src/components/APITable';
 
 # Chart Configuration
 
@@ -195,6 +196,7 @@ Angle axis of Polar Coordinate.
 <APITable name="AngleAxis">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |startAngle|0||Starting angle of axis. 0 degrees by default, standing for right position of center.
@@ -216,6 +218,7 @@ the animation of serie.
 ```mdx-code-block
 <APITable name="AnimationStyle">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -246,6 +249,7 @@ The style of area.
 <APITable name="AreaStyle">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Set this to false to prevent the areafrom showing.
@@ -268,6 +272,7 @@ The style of area.
 <APITable name="ArrowStyle">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |width|10||The widht of arrow.
@@ -289,6 +294,7 @@ The axis in rectangular coordinate.
 ```mdx-code-block
 <APITable name="Axis">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -338,6 +344,7 @@ Settings related to axis label.
 <APITable name="AxisLabel">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |interval|0||The display interval of the axis label.
@@ -362,6 +369,7 @@ Settings related to axis line.
 <APITable name="AxisLine">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |onZero|||When mutiple axes exists, this option can be used to specify which axis can be "onZero" to.
@@ -384,6 +392,7 @@ Minor split line of axis in grid area.
 <APITable name="AxisMinorSplitLine">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |distance|||The distance between the split line and axis line.
@@ -405,6 +414,7 @@ Settings related to axis minor tick.
 <APITable name="AxisMinorTick">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |splitNumber|5||Number of segments that the axis is split into.
@@ -423,6 +433,7 @@ the name of axis.
 ```mdx-code-block
 <APITable name="AxisName">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -445,6 +456,7 @@ Split area of axis in grid area, not shown by default.
 <APITable name="AxisSplitArea">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|||Set this to true to show the splitArea.
@@ -463,6 +475,7 @@ Split line of axis in grid area.
 ```mdx-code-block
 <APITable name="AxisSplitLine">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -490,6 +503,7 @@ Settings related to axis tick.
 <APITable name="AxisTick">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |alignWithLabel|||Align axis tick with label, which is available only when boundaryGap is set to be true in category axis.
@@ -514,6 +528,7 @@ Background component.
 <APITable name="Background">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Whether to enable the background component.
@@ -537,6 +552,7 @@ Background component.
 ```mdx-code-block
 <APITable name="BaseAxisTheme">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -567,6 +583,7 @@ Settings related to base line.
 ```mdx-code-block
 <APITable name="BaseLine">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -619,6 +636,7 @@ comment of chart.
 <APITable name="Comment">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Set this to false to prevent the comment from showing.
@@ -639,6 +657,7 @@ comment of chart.
 ```mdx-code-block
 <APITable name="CommentItem">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -663,6 +682,7 @@ the comment mark style.
 <APITable name="CommentMarkStyle">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Set this to false to prevent this comment item from showing.
@@ -679,6 +699,7 @@ the comment mark style.
 ```mdx-code-block
 <APITable name="ComponentTheme">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -707,6 +728,7 @@ DataZoom component is used for zooming a specific area, which enables user to in
 ```mdx-code-block
 <APITable name="DataZoom">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -755,6 +777,7 @@ DataZoom component is used for zooming a specific area, which enables user to in
 <APITable name="DataZoomTheme">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |borderWidth|||the width of border line.
@@ -776,6 +799,7 @@ DataZoom component is used for zooming a specific area, which enables user to in
 ```mdx-code-block
 <APITable name="DebugInfo">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -805,6 +829,7 @@ Configurations of emphasis state.
 <APITable name="EmphasisStyle">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |scale|1.1f||Whether to scale to highlight the data in emphasis state.
@@ -828,6 +853,7 @@ Grid component.
 ```mdx-code-block
 <APITable name="GridCoord">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -853,6 +879,7 @@ Grid component.
 <APITable name="Heatmap">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |heatmapType||v3.3.0|The mapping type of heatmap.<br/>`HeatmapType`:<br/>- `Data`: Data mapping type.By default, the second dimension data is used as the color map.<br/>- `Count`: Number mapping type.The number of occurrences of a statistic in a divided grid, as a color map.<br/>|
@@ -868,6 +895,7 @@ Grid component.
 ```mdx-code-block
 <APITable name="IconStyle">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -894,6 +922,7 @@ Grid component.
 <APITable name="ImageStyle">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Whether the data icon is show.
@@ -917,6 +946,7 @@ Indicator of radar chart, which is used to assign multiple variables(dimensions)
 ```mdx-code-block
 <APITable name="Indicator">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -988,6 +1018,7 @@ The interface for serie data component.
 <APITable name="ItemStyle">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否启用。
@@ -1029,6 +1060,7 @@ The interface for serie data component.
 <APITable name="LabelLine">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Whether the label line is showed.
@@ -1055,6 +1087,7 @@ Text label of chart, to explain some data information about graphic item like va
 ```mdx-code-block
 <APITable name="LabelStyle">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1102,6 +1135,7 @@ Legend component.The legend component shows different sets of tags, colors, and 
 <APITable name="Legend">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Whether to show legend component.
@@ -1136,6 +1170,7 @@ Legend component.The legend component shows different sets of tags, colors, and 
 <APITable name="LegendTheme">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |unableColor|||the color of text.
@@ -1151,6 +1186,7 @@ Legend component.The legend component shows different sets of tags, colors, and 
 ```mdx-code-block
 <APITable name="Level">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1169,6 +1205,7 @@ Legend component.The legend component shows different sets of tags, colors, and 
 ```mdx-code-block
 <APITable name="LevelStyle">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1191,6 +1228,7 @@ Legend component.The legend component shows different sets of tags, colors, and 
 <APITable name="LineArrow">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|||Whether to show the arrow.
@@ -1210,6 +1248,7 @@ The style of line.
 ```mdx-code-block
 <APITable name="LineStyle">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1235,6 +1274,7 @@ Location type. Quick to set the general location.
 ```mdx-code-block
 <APITable name="Location">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1262,6 +1302,7 @@ Used to mark an area in chart. For example, mark a time interval.
 <APITable name="MarkArea">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否显示标域。
@@ -1285,6 +1326,7 @@ Used to mark an area in chart. For example, mark a time interval.
 ```mdx-code-block
 <APITable name="MarkAreaData">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1310,6 +1352,7 @@ Use a line in the chart to illustrate.
 <APITable name="MarkLine">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Whether to display the marking line.
@@ -1330,6 +1373,7 @@ Data of marking line.
 ```mdx-code-block
 <APITable name="MarkLineData">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1363,6 +1407,7 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 <APITable name="MarqueeStyle">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |apply|false|v3.5.0|Check whether the scope is applied to the DataZoom. If this parameter is set to true, the range after the selection is complete is the DataZoom selection range.
@@ -1383,6 +1428,7 @@ padding setting of item or text.
 ```mdx-code-block
 <APITable name="Padding">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1413,6 +1459,7 @@ Grid component.
 ```mdx-code-block
 <APITable name="ParallelCoord">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1446,6 +1493,7 @@ Polar coordinate can be used in scatter and line chart. Every polar coordinate h
 <APITable name="PolarCoord">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Whether to show the polor component.
@@ -1464,6 +1512,7 @@ Polar coordinate can be used in scatter and line chart. Every polar coordinate h
 ```mdx-code-block
 <APITable name="Radar">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1518,6 +1567,7 @@ Configurations of select state.
 ```mdx-code-block
 <APITable name="Serie">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1606,6 +1656,7 @@ A data item of serie.
 <APITable name="SerieData">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |index|||the index of SerieData.
@@ -1632,6 +1683,7 @@ A data item of serie.
 <APITable name="SerieSymbol">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |sizeType|||the type of symbol size.<br/>`SymbolSizeType`:<br/>- `Custom`: Specify constant for symbol size.<br/>- `FromData`: Specify the dataIndex and dataScale to calculate symbol size.<br/>- `Function`: Specify function for symbol size.<br/>|
@@ -1656,6 +1708,7 @@ A data item of serie.
 ```mdx-code-block
 <APITable name="SerieTheme">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1684,6 +1737,7 @@ Global parameter setting component. The default value can be used in general, an
 ```mdx-code-block
 <APITable name="Settings">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1728,6 +1782,7 @@ Single axis.
 <APITable name="SingleAxis">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |orient|||Orientation of the axis. By default, it's 'Horizontal'. You can set it to be 'Vertical' to make a vertical axis.<br/>`Orient`:<br/>- `Horizonal`: 水平<br/>- `Vertical`: 垂直<br/>|
@@ -1754,6 +1809,7 @@ Single axis.
 <APITable name="StageColor">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |percent|||结束位置百分比。
@@ -1774,6 +1830,7 @@ the state style of serie.
 ```mdx-code-block
 <APITable name="StateStyle">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1803,6 +1860,7 @@ the state style of serie.
 <APITable name="SymbolStyle">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Whether the symbol is showed.
@@ -1830,6 +1888,7 @@ Text character limitation and adaptation component. When the length of the text 
 <APITable name="TextLimit">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |enable|false||Whether to enable text limit.
@@ -1856,6 +1915,7 @@ Settings related to text.
 ```mdx-code-block
 <APITable name="TextStyle">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1888,6 +1948,7 @@ Theme.
 ```mdx-code-block
 <APITable name="Theme">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1922,6 +1983,7 @@ Theme.
 <APITable name="ThemeStyle">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||
@@ -1945,6 +2007,7 @@ Title component, including main title and subtitle.
 ```mdx-code-block
 <APITable name="Title">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1979,6 +2042,7 @@ Tooltip component.
 ```mdx-code-block
 <APITable name="Tooltip">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -2026,6 +2090,7 @@ Tooltip component.
 <APITable name="TooltipTheme">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |lineType|||the type of line.<br/>`LineStyle.Type`:<br/>- `Solid`: 实线<br/>- `Dashed`: 虚线<br/>- `Dotted`: 点线<br/>- `DashDot`: 点划线<br/>- `DashDotDot`: 双点划线<br/>- `None`: 双点划线<br/>|
@@ -2047,6 +2112,7 @@ Tooltip component.
 <APITable name="UIComponentTheme">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||
@@ -2066,6 +2132,7 @@ VisualMap component. Mapping data to visual elements such as colors.
 ```mdx-code-block
 <APITable name="VisualMap">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -2108,6 +2175,7 @@ VisualMap component. Mapping data to visual elements such as colors.
 <APITable name="VisualMapRange">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |min|||范围最小值
@@ -2126,6 +2194,7 @@ VisualMap component. Mapping data to visual elements such as colors.
 ```mdx-code-block
 <APITable name="VisualMapTheme">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -2155,6 +2224,7 @@ The x axis in cartesian(rectangular) coordinate.
 ```mdx-code-block
 <APITable name="XCSettings">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|

@@ -2,6 +2,7 @@
 sidebar_position: 31
 slug: /configuration
 ---
+import APITable from '@site/src/components/APITable';
 
 # 配置项手册
 
@@ -195,6 +196,7 @@ slug: /configuration
 <APITable name="AngleAxis">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |startAngle|0||起始刻度的角度，默认为 0 度，即圆心的正右方。
@@ -216,6 +218,7 @@ slug: /configuration
 ```mdx-code-block
 <APITable name="AnimationStyle">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -246,6 +249,7 @@ slug: /configuration
 <APITable name="AreaStyle">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否显示区域填充。
@@ -268,6 +272,7 @@ slug: /configuration
 <APITable name="ArrowStyle">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |width|10||箭头宽。
@@ -289,6 +294,7 @@ slug: /configuration
 ```mdx-code-block
 <APITable name="Axis">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -338,6 +344,7 @@ slug: /configuration
 <APITable name="AxisLabel">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |interval|0||坐标轴刻度标签的显示间隔，在类目轴中有效。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
@@ -362,6 +369,7 @@ slug: /configuration
 <APITable name="AxisLine">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |onZero|||X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度上，只有在另一个轴为数值轴且包含 0 刻度时有效。
@@ -384,6 +392,7 @@ slug: /configuration
 <APITable name="AxisMinorSplitLine">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |distance|||刻度线与轴线的距离。
@@ -405,6 +414,7 @@ slug: /configuration
 <APITable name="AxisMinorTick">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |splitNumber|5||分隔线之间分割的刻度数。
@@ -423,6 +433,7 @@ slug: /configuration
 ```mdx-code-block
 <APITable name="AxisName">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -445,6 +456,7 @@ slug: /configuration
 <APITable name="AxisSplitArea">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|||是否显示分隔区域。
@@ -463,6 +475,7 @@ slug: /configuration
 ```mdx-code-block
 <APITable name="AxisSplitLine">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -490,6 +503,7 @@ slug: /configuration
 <APITable name="AxisTick">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |alignWithLabel|||类目轴中在 boundaryGap 为 true 的时候有效，可以保证刻度线和标签对齐。
@@ -514,6 +528,7 @@ slug: /configuration
 <APITable name="Background">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否启用背景组件。
@@ -537,6 +552,7 @@ slug: /configuration
 ```mdx-code-block
 <APITable name="BaseAxisTheme">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -567,6 +583,7 @@ slug: /configuration
 ```mdx-code-block
 <APITable name="BaseLine">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -619,6 +636,7 @@ slug: /configuration
 <APITable name="Comment">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否显示注解组件。
@@ -639,6 +657,7 @@ slug: /configuration
 ```mdx-code-block
 <APITable name="CommentItem">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -663,6 +682,7 @@ slug: /configuration
 <APITable name="CommentMarkStyle">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否显示当前注解项。
@@ -679,6 +699,7 @@ slug: /configuration
 ```mdx-code-block
 <APITable name="ComponentTheme">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -707,6 +728,7 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 ```mdx-code-block
 <APITable name="DataZoom">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -755,6 +777,7 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 <APITable name="DataZoomTheme">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |borderWidth|||边框线宽。
@@ -776,6 +799,7 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 ```mdx-code-block
 <APITable name="DebugInfo">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -805,6 +829,7 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 <APITable name="EmphasisStyle">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |scale|1.1f||高亮时的缩放倍数。
@@ -828,6 +853,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 ```mdx-code-block
 <APITable name="GridCoord">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -853,6 +879,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 <APITable name="Heatmap">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |heatmapType||v3.3.0|热力图类型。通过颜色映射划分。<br/>`HeatmapType`:<br/>- `Data`: 数据映射型。默认用第2维数据作为颜色映射。要求数据至少有3个维度数据。<br/>- `Count`: 个数映射型。统计数据在划分的格子中出现的次数，作为颜色映射。要求数据至少有2个维度数据。<br/>|
@@ -868,6 +895,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 ```mdx-code-block
 <APITable name="IconStyle">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -894,6 +922,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 <APITable name="ImageStyle">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否显示图标。
@@ -917,6 +946,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 ```mdx-code-block
 <APITable name="Indicator">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -988,6 +1018,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 <APITable name="ItemStyle">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否启用。
@@ -1029,6 +1060,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 <APITable name="LabelLine">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否显示视觉引导线。
@@ -1055,6 +1087,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 ```mdx-code-block
 <APITable name="LabelStyle">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1102,6 +1135,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 <APITable name="Legend">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否显示图例组件。
@@ -1136,6 +1170,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 <APITable name="LegendTheme">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |unableColor|||文本颜色。
@@ -1151,6 +1186,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 ```mdx-code-block
 <APITable name="Level">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1169,6 +1205,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 ```mdx-code-block
 <APITable name="LevelStyle">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1191,6 +1228,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 <APITable name="LineArrow">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|||是否显示箭头。
@@ -1210,6 +1248,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 ```mdx-code-block
 <APITable name="LineStyle">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1235,6 +1274,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 ```mdx-code-block
 <APITable name="Location">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1262,6 +1302,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 <APITable name="MarkArea">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否显示标域。
@@ -1285,6 +1326,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 ```mdx-code-block
 <APITable name="MarkAreaData">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1310,6 +1352,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 <APITable name="MarkLine">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否显示标线。
@@ -1330,6 +1373,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 ```mdx-code-block
 <APITable name="MarkLineData">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1363,6 +1407,7 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 <APITable name="MarqueeStyle">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |apply|false|v3.5.0|选取框范围是否应用到DataZoom上。当为true时，框选结束后的范围即为DataZoom的选择范围。
@@ -1383,6 +1428,7 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 ```mdx-code-block
 <APITable name="Padding">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1413,6 +1459,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 ```mdx-code-block
 <APITable name="ParallelCoord">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1446,6 +1493,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 <APITable name="PolarCoord">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否显示极坐标。
@@ -1464,6 +1512,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 ```mdx-code-block
 <APITable name="Radar">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1518,6 +1567,7 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 ```mdx-code-block
 <APITable name="Serie">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1606,6 +1656,7 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 <APITable name="SerieData">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |index|||数据项索引。
@@ -1632,6 +1683,7 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 <APITable name="SerieSymbol">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |sizeType|||标记图形的大小获取方式。<br/>`SymbolSizeType`:<br/>- `Custom`: 自定义大小。<br/>- `FromData`: 通过 dataIndex 从数据中获取，再乘以一个比例系数 dataScale 。<br/>- `Function`: 通过委托函数获取。<br/>|
@@ -1656,6 +1708,7 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 ```mdx-code-block
 <APITable name="SerieTheme">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1684,6 +1737,7 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 ```mdx-code-block
 <APITable name="Settings">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1728,6 +1782,7 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 <APITable name="SingleAxis">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |orient|||坐标轴朝向。默认为水平朝向。<br/>`Orient`:<br/>- `Horizonal`: 水平<br/>- `Vertical`: 垂直<br/>|
@@ -1754,6 +1809,7 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 <APITable name="StageColor">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |percent|||结束位置百分比。
@@ -1774,6 +1830,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 ```mdx-code-block
 <APITable name="StateStyle">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1803,6 +1860,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 <APITable name="SymbolStyle">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否显示标记。
@@ -1830,6 +1888,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 <APITable name="TextLimit">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |enable|false||是否启用文本自适应。 [default:true]
@@ -1856,6 +1915,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 ```mdx-code-block
 <APITable name="TextStyle">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1888,6 +1948,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 ```mdx-code-block
 <APITable name="Theme">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1922,6 +1983,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 <APITable name="ThemeStyle">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||
@@ -1945,6 +2007,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 ```mdx-code-block
 <APITable name="Title">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1979,6 +2042,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 ```mdx-code-block
 <APITable name="Tooltip">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -2026,6 +2090,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 <APITable name="TooltipTheme">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |lineType|||坐标轴线类型。<br/>`LineStyle.Type`:<br/>- `Solid`: 实线<br/>- `Dashed`: 虚线<br/>- `Dotted`: 点线<br/>- `DashDot`: 点划线<br/>- `DashDotDot`: 双点划线<br/>- `None`: 双点划线<br/>|
@@ -2047,6 +2112,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 <APITable name="UIComponentTheme">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||
@@ -2066,6 +2132,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 ```mdx-code-block
 <APITable name="VisualMap">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -2108,6 +2175,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 <APITable name="VisualMapRange">
 ```
 
+
 |field|default|since|comment|
 |--|--|--|--|
 |min|||范围最小值
@@ -2126,6 +2194,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 ```mdx-code-block
 <APITable name="VisualMapTheme">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -2155,6 +2224,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 ```mdx-code-block
 <APITable name="XCSettings">
 ```
+
 
 |field|default|since|comment|
 |--|--|--|--|

@@ -66,6 +66,7 @@ slug: /changelog
 
 ## master
 
+* (2023.06.04) 增加`HelpDoc`帮助文档跳转
 * (2023.05.10) 增加`Axis`的`MinMaxAuto`范围类型
 * (2023.05.10) 增加`Line`对`Clip`的支持
 * (2023.05.04) 优化`Axis`在-1到1范围时设置`CeilRate`不生效的问题

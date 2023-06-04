@@ -52,7 +52,7 @@ namespace XCharts.Editor
 
         public static void SecondField(Rect drawRect, SerializedProperty prop)
         {
-            RectOffset offset = new RectOffset(-(int) EditorGUIUtility.labelWidth, 0, 0, 0);
+            RectOffset offset = new RectOffset(-(int)EditorGUIUtility.labelWidth, 0, 0, 0);
             drawRect = offset.Add(drawRect);
             EditorGUI.PropertyField(drawRect, prop, GUIContent.none);
             drawRect = offset.Remove(drawRect);
@@ -180,8 +180,8 @@ namespace XCharts.Editor
                 if (prop.propertyType == SerializedPropertyType.Boolean)
                 {
                     if (!propEnable)
-                        using(new EditorGUI.DisabledScope(true))
-                    MakeBool(drawRect, prop);
+                        using (new EditorGUI.DisabledScope(true))
+                            MakeBool(drawRect, prop);
                     else
                         MakeBool(drawRect, prop);
                     if (prop2 != null && !moduleToggle[key])
@@ -444,7 +444,7 @@ namespace XCharts.Editor
             if (prop.propertyType == SerializedPropertyType.Float && prop.floatValue < minValue)
                 prop.floatValue = minValue;
             if (prop.propertyType == SerializedPropertyType.Integer && prop.intValue < minValue)
-                prop.intValue = (int) minValue;
+                prop.intValue = (int)minValue;
             var hig = EditorGUI.GetPropertyHeight(prop);
             drawRect.y += hig;
             heights[key] += hig;
@@ -459,7 +459,7 @@ namespace XCharts.Editor
             if (prop.propertyType == SerializedPropertyType.Float && prop.floatValue > maxValue)
                 prop.floatValue = maxValue;
             if (prop.propertyType == SerializedPropertyType.Integer && prop.intValue > maxValue)
-                prop.intValue = (int) maxValue;
+                prop.intValue = (int)maxValue;
             var hig = EditorGUI.GetPropertyHeight(prop);
             drawRect.y += hig;
             heights[key] += hig;
@@ -635,11 +635,13 @@ namespace XCharts.Editor
         }
 
         internal static bool DrawHeader(string title, SerializedProperty group, SerializedProperty activeField,
-            Action resetAction, Action removeAction)
+            Action resetAction, Action removeAction, Action docAction)
         {
             if (group == null) return false;
             group.isExpanded = DrawHeader(title, group.isExpanded, false, activeField, null,
-                new HeaderMenuInfo("Reset", resetAction), new HeaderMenuInfo("Remove", removeAction));
+                new HeaderMenuInfo("Reset", resetAction),
+                new HeaderMenuInfo("Remove", removeAction),
+                new HeaderMenuInfo("HelpDoc", docAction));
             return group.isExpanded;
         }
 

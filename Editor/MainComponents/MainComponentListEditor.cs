@@ -82,8 +82,9 @@ namespace XCharts.Editor
                     title,
                     editor.baseProperty,
                     editor.showProperty,
-                    () => { ResetComponentEditor(id); },
-                    () => { RemoveComponentEditor(id); }
+                    () => { if (EditorUtility.DisplayDialog("", "Sure reset " + editor.component.GetType().Name + "?", "Yes", "Cancel")) ResetComponentEditor(id); },
+                    () => { if (EditorUtility.DisplayDialog("", "Sure remove " + editor.component.GetType().Name + "?", "Yes", "Cancel")) RemoveComponentEditor(id); },
+                    () => { Application.OpenURL("https://xcharts-team.github.io/docs/configuration/#" + editor.component.GetType().Name.ToLower()); }
                 );
                 if (displayContent)
                 {

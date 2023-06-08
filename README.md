@@ -48,7 +48,7 @@
 [XCharts3.0 官方主页](https://xcharts-team.github.io)  
 [XCharts3.0 在线示例](https://xcharts-team.github.io/examples)  
 
-[XCharts3.0 教程](Documentation~/zh/tutorial01.md)  
+[XCharts3.0 教程：5分钟上手 XCharts](Documentation~/zh/tutorial01.md)  
 [XCharts3.0 API](Documentation~/zh/api.md)  
 [XCharts3.0 问答](Documentation~/zh/faq.md)  
 [XCharts3.0 配置项手册](Documentation~/zh/configuration.md)  

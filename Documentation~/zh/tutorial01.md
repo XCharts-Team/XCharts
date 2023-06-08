@@ -6,6 +6,14 @@ slug: /tutorial01
 
 # 教程：5分钟上手 XCharts 3.0
 
+> 注：本教程适用XCharts 3.x版本，2.x版本请看 [教程：5分钟上手XCharts 2.0](https://github.com/XCharts-Team/XCharts/blob/2.0/Doc/教程：5分钟上手XCharts.md)
+
+## 使用 XCharts 前需要掌握什么
+
+- 会简单使用Unity
+- 了解UGUI，会使用UGUI
+- 了解Unity的MonoBehavior脚本用法，知道怎么挂脚本，用代码操作脚本
+
 ## 获取和导入 XCharts
 
 XCharts可通过以下任意一种方式导入到项目：
@@ -210,6 +218,8 @@ xAxis.splitNumber = 10;
 xAxis.boundaryGap = true;
 xAxis.type = Axis.AxisType.Category;
 ```
+
+> 注：低版本没有`EnsureChartComponent()`接口时，用`GetOrAddChartComponent()`
 
 ### 改Serie的参数
 

@@ -7,6 +7,7 @@ namespace XCharts.Runtime
     [ExecuteInEditMode]
     [RequireComponent(typeof(RectTransform))]
     [DisallowMultipleComponent]
+    [HelpURL("https://xcharts-team.github.io/docs/configuration")]
     public class ParallelChart : BaseChart
     {
         protected override void DefaultChart()

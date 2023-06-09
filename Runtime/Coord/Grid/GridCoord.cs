@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using XUGL;
 
@@ -132,14 +133,48 @@ namespace XCharts.Runtime
             return Contains(pos.x, pos.y);
         }
 
+        [Since("v3.7.0")]
+        public bool Contains(Vector3 pos, bool isYAxis)
+        {
+            return isYAxis ? ContainsY(pos.y) : ContainsX(pos.x);
+        }
+
         public bool Contains(float x, float y)
         {
-            if (x < context.x - 1 || x > context.x + context.width + 1 ||
-                y < context.y - 1 || y > context.y + context.height + 1)
-            {
-                return false;
-            }
-            return true;
+            return ContainsX(x) && ContainsY(y);
+        }
+
+        [Since("v3.7.0")]
+        public bool ContainsX(float x)
+        {
+            return x >= context.x && x <= context.x + context.width;
+        }
+
+        [Since("v3.7.0")]
+        public bool ContainsY(float y)
+        {
+            return y >= context.y && y <= context.y + context.height;
+        }
+
+        [Since("v3.7.0")]
+        public void Clamp(ref Vector3 pos)
+        {
+            ClampX(ref pos);
+            ClampY(ref pos);
+        }
+
+        [Since("v3.7.0")]
+        public void ClampX(ref Vector3 pos)
+        {
+            if (pos.x < context.x) pos.x = context.x;
+            else if (pos.x > context.x + context.width) pos.x = context.x + context.width;
+        }
+
+        [Since("v3.7.0")]
+        public void ClampY(ref Vector3 pos)
+        {
+            if (pos.y < context.y) pos.y = context.y;
+            else if (pos.y > context.y + context.height) pos.y = context.y + context.height;
         }
 
         /// <summary>
@@ -151,10 +186,15 @@ namespace XCharts.Runtime
         public bool BoundaryPoint(Vector3 sp, Vector3 ep, ref Vector3 point)
         {
             if (Contains(sp) && Contains(ep))
-            {
-                point = ep;
                 return false;
-            }
+            if (sp.x < context.x && ep.x < context.x)
+                return false;
+            if (sp.x > context.x + context.width && ep.x > context.x + context.width)
+                return false;
+            if (sp.y < context.y && ep.y < context.y)
+                return false;
+            if (sp.y > context.y + context.height && ep.y > context.y + context.height)
+                return false;
             var lb = new Vector3(context.x, context.y);
             var lt = new Vector3(context.x, context.y + context.height);
             var rt = new Vector3(context.x + context.width, context.y + context.height);
@@ -168,6 +208,32 @@ namespace XCharts.Runtime
             if (UGLHelper.GetIntersection(sp, ep, lb, lt, ref point))
                 return true;
             return false;
+        }
+
+        /// <summary>
+        /// 给定的线段和Grid边界的交点
+        /// </summary>
+        /// <param name="sp"></param>
+        /// <param name="ep"></param>
+        /// <returns></returns>
+        public bool BoundaryPoint(Vector3 sp, Vector3 ep, ref List<Vector3> point)
+        {
+            if (Contains(sp) && Contains(ep))
+                return false;
+            var lb = new Vector3(context.x, context.y);
+            var lt = new Vector3(context.x, context.y + context.height);
+            var rt = new Vector3(context.x + context.width, context.y + context.height);
+            var rb = new Vector3(context.x + context.width, context.y);
+            var flag = false;
+            if (UGLHelper.GetIntersection(sp, ep, lb, lt, ref point))
+                flag = true;
+            if (UGLHelper.GetIntersection(sp, ep, lt, rt, ref point))
+                flag = true;
+            if (UGLHelper.GetIntersection(sp, ep, lb, rb, ref point))
+                flag = true;
+            if (UGLHelper.GetIntersection(sp, ep, rb, rt, ref point))
+                flag = true;
+            return flag;
         }
     }
 }

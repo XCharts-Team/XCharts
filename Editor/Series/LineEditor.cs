@@ -22,7 +22,7 @@ namespace XCharts.Editor
             {
                 PropertyField("m_SmoothLimit");
             }
-            //PropertyField("m_Clip");
+            PropertyField("m_Clip");
             PropertyFiledMore(() =>
             {
                 PropertyFieldLimitMin("m_MinShow", 0);

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.Assertions;
 using XCharts.Runtime;
 
@@ -81,8 +82,9 @@ namespace XCharts.Editor
                     title,
                     editor.baseProperty,
                     editor.showProperty,
-                    () => { ResetComponentEditor(id); },
-                    () => { RemoveComponentEditor(id); }
+                    () => { if (EditorUtility.DisplayDialog("", "Sure reset " + editor.component.GetType().Name + "?", "Yes", "Cancel")) ResetComponentEditor(id); },
+                    () => { if (EditorUtility.DisplayDialog("", "Sure remove " + editor.component.GetType().Name + "?", "Yes", "Cancel")) RemoveComponentEditor(id); },
+                    () => { Application.OpenURL("https://xcharts-team.github.io/docs/configuration/#" + editor.component.GetType().Name.ToLower()); }
                 );
                 if (displayContent)
                 {
@@ -102,7 +104,8 @@ namespace XCharts.Editor
                 editor.OnDisable();
 
             m_Editors.Clear();
-            for (int i = 0; i < chart.components.Count; i++)
+            var count = Mathf.Min(chart.components.Count, m_ComponentsProperty.Count);
+            for (int i = 0; i < count; i++)
             {
                 if (chart.components[i] != null)
                 {
@@ -119,7 +122,7 @@ namespace XCharts.Editor
 
             if (!m_EditorTypes.TryGetValue(settingsType, out editorType))
                 editorType = typeof(MainComponentBaseEditor);
-            var editor = (MainComponentBaseEditor) Activator.CreateInstance(editorType);
+            var editor = (MainComponentBaseEditor)Activator.CreateInstance(editorType);
             editor.Init(chart, component, property, m_BaseEditor);
 
             if (index < 0)

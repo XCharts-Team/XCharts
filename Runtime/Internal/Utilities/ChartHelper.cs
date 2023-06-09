@@ -521,7 +521,7 @@ namespace XCharts.Runtime
         {
             Vector3 dir = (ep - sp).normalized;
             float dist = Vector3.Distance(sp, ep);
-            int segment = (int) (dist / k);
+            int segment = (int)(dist / k);
             posList.Clear();
             posList.Add(sp);
             for (int i = 1; i < segment; i++)
@@ -676,7 +676,7 @@ namespace XCharts.Runtime
         {
             Color color;
             ColorUtility.TryParseHtmlString(hexColorStr, out color);
-            return (Color32) color;
+            return (Color32)color;
         }
 
         public static double GetMaxDivisibleValue(double max, double ceilRate)
@@ -685,15 +685,16 @@ namespace XCharts.Runtime
             if (max > -1 && max < 1)
             {
                 int count = 1;
-                int intvalue = (int) (max * Mathf.Pow(10, count));
+                int intvalue = (int)(max * Mathf.Pow(10, count));
                 while (intvalue == 0 && count < 12)
                 {
                     count++;
-                    intvalue = (int) (max * Mathf.Pow(10, count));
+                    intvalue = (int)(max * Mathf.Pow(10, count));
                 }
                 var pow = Mathf.Pow(10, count);
-                if (max > 0) return (int) ((max * pow + 1)) / pow;
-                else return (int) ((max * pow - 1)) / pow;
+                var value = max > 0 ? (int)((max * (pow + 1))) / pow :
+                    (int)((max * (pow - 1))) / pow;
+                return GetMaxCeilRate(value, ceilRate);
             }
             if (ceilRate == 0)
             {
@@ -723,10 +724,24 @@ namespace XCharts.Runtime
             }
             else
             {
-                var mod = max % ceilRate;
-                int rate = (int) (max / ceilRate);
-                return mod == 0 ? max : (max < 0 ? rate : rate + 1) * ceilRate;
+                return GetMaxCeilRate(max, ceilRate);
             }
+        }
+
+        public static double GetMaxCeilRate(double value, double ceilRate)
+        {
+            if (ceilRate == 0) return value;
+            var mod = value % ceilRate;
+            int rate = (int)(value / ceilRate);
+            return mod == 0 ? value : (value < 0 ? rate : rate + 1) * ceilRate;
+        }
+
+        public static double GetMinCeilRate(double value, double ceilRate)
+        {
+            if (ceilRate == 0) return value;
+            var mod = value % ceilRate;
+            int rate = (int)(value / ceilRate);
+            return mod == 0 ? value : (value < 0 ? rate - 1 : rate) * ceilRate;
         }
 
         public static double GetMinDivisibleValue(double min, double ceilRate)
@@ -735,15 +750,16 @@ namespace XCharts.Runtime
             if (min > -1 && min < 1)
             {
                 int count = 1;
-                int intvalue = (int) (min * Mathf.Pow(10, count));
+                int intvalue = (int)(min * Mathf.Pow(10, count));
                 while (intvalue == 0 && count < 12)
                 {
                     count++;
-                    intvalue = (int) (min * Mathf.Pow(10, count));
+                    intvalue = (int)(min * Mathf.Pow(10, count));
                 }
                 var pow = Mathf.Pow(10, count);
-                if (min > 0) return (int) ((min * pow + 1)) / pow;
-                else return (int) ((min * pow - 1)) / pow;
+                var value = min > 0 ? ((int)(min * (pow - 1))) / pow :
+                    ((int)(min * (pow + 1))) / pow;
+                return GetMinCeilRate(value, ceilRate);
             }
             if (ceilRate == 0)
             {
@@ -764,9 +780,7 @@ namespace XCharts.Runtime
             }
             else
             {
-                var mod = min % ceilRate;
-                int rate = (int) (min / ceilRate);
-                return mod == 0 ? min : (min < 0 ? rate - 1 : rate) * ceilRate;
+                return GetMinCeilRate(min, ceilRate);
             }
         }
 
@@ -809,8 +823,6 @@ namespace XCharts.Runtime
             }
             return min;
         }
-
-        
 
         public static void AddEventListener(GameObject obj, EventTriggerType type,
             UnityEngine.Events.UnityAction<BaseEventData> call)
@@ -902,32 +914,32 @@ namespace XCharts.Runtime
         {
             if (color.a != 0 && opacity != 1)
             {
-                color.a = (byte) (color.a * opacity);
+                color.a = (byte)(color.a * opacity);
             }
         }
 
         public static Color32 GetHighlightColor(Color32 color, float rate = 0.8f)
         {
             var newColor = color;
-            newColor.r = (byte) (color.r * rate);
-            newColor.g = (byte) (color.g * rate);
-            newColor.b = (byte) (color.b * rate);
+            newColor.r = (byte)(color.r * rate);
+            newColor.g = (byte)(color.g * rate);
+            newColor.b = (byte)(color.b * rate);
             return newColor;
         }
 
         public static Color32 GetBlurColor(Color32 color, float a = 0.3f)
         {
             var newColor = color;
-            newColor.a = (byte) (a * 255);
+            newColor.a = (byte)(a * 255);
             return newColor;
         }
 
         public static Color32 GetSelectColor(Color32 color, float rate = 0.8f)
         {
             var newColor = color;
-            newColor.r = (byte) (color.r * rate);
-            newColor.g = (byte) (color.g * rate);
-            newColor.b = (byte) (color.b * rate);
+            newColor.r = (byte)(color.r * rate);
+            newColor.g = (byte)(color.g * rate);
+            newColor.b = (byte)(color.b * rate);
             return newColor;
         }
 
@@ -977,7 +989,7 @@ namespace XCharts.Runtime
             var posX = pos.x + rectTransform.rect.xMin * canvas.scaleFactor;
             var posY = pos.y + rectTransform.rect.yMin * canvas.scaleFactor;
             var rect = new Rect(posX, posY, width, height);
-            var tex = new Texture2D((int) width, (int) height, TextureFormat.RGBA32, false);
+            var tex = new Texture2D((int)width, (int)height, TextureFormat.RGBA32, false);
             tex.ReadPixels(rect, 0, 0);
             tex.Apply();
             byte[] bytes;

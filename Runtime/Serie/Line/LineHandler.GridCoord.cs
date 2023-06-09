@@ -276,11 +276,13 @@ namespace XCharts.Runtime
                 return;
 
             var axisLength = isY ? m_SerieGrid.context.height : m_SerieGrid.context.width;
-            var scaleWid = AxisHelper.GetDataWidth(axis, axisLength, showData.Count, dataZoom);
+
 
             int maxCount = serie.maxShow > 0 ?
                 (serie.maxShow > showData.Count ? showData.Count : serie.maxShow) :
                 showData.Count;
+            maxCount -= serie.context.dataZoomStartIndexOffset;
+            var scaleWid = AxisHelper.GetDataWidth(axis, axisLength, maxCount, dataZoom);
             int rate = LineHelper.GetDataAverageRate(serie, m_SerieGrid, maxCount, false);
             var totalAverage = serie.sampleAverage > 0 ?
                 serie.sampleAverage :
@@ -304,9 +306,10 @@ namespace XCharts.Runtime
                 SeriesHelper.UpdateStackDataList(chart.series, serie, dataZoom, m_StackSerieData);
             }
             var lp = Vector3.zero;
-            for (int i = serie.minShow; i < maxCount; i += rate)
+            for (int i = serie.minShow; i < showData.Count; i += rate)
             {
                 var serieData = showData[i];
+                var realIndex = i - serie.context.dataZoomStartIndexOffset;
                 var isIgnore = serie.IsIgnoreValue(serieData);
                 if (isIgnore)
                 {
@@ -320,7 +323,7 @@ namespace XCharts.Runtime
                 else
                 {
                     var np = Vector3.zero;
-                    var xValue = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
+                    var xValue = axis.IsCategory() ? realIndex : serieData.GetData(0, axis.inverse);
                     var relativedValue = DataHelper.SampleValue(ref showData, serie.sampleType, rate, serie.minShow,
                         maxCount, totalAverage, i, dataChangeDuration, ref dataChanging, relativedAxis, unscaledTime);
 
@@ -329,7 +332,7 @@ namespace XCharts.Runtime
                     serieData.context.isClip = false;
                     if (serie.clip && !m_SerieGrid.Contains(np))
                     {
-                        if (m_SerieGrid.BoundaryPoint(lp, np, ref np))
+                        //if (m_SerieGrid.BoundaryPoint(lp, np, ref np))
                         {
                             serieData.context.isClip = true;
                         }

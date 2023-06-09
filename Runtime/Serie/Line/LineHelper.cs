@@ -15,7 +15,7 @@ namespace XCharts.Runtime
             var rate = 0;
             var width = isYAxis ? grid.context.height : grid.context.width;
             if (sampleDist > 0)
-                rate = (int) ((maxCount - serie.minShow) / (width / sampleDist));
+                rate = (int)((maxCount - serie.minShow) / (width / sampleDist));
             if (rate < 1)
                 rate = 1;
             return rate;
@@ -86,8 +86,13 @@ namespace XCharts.Runtime
             var lastDataIsIgnore = false;
             for (int i = 0; i < points.Count; i++)
             {
-                var tp = points[i].position;
-                var isIgnore = points[i].isIgnoreBreak;
+                var pdata = points[i];
+                var tp = pdata.position;
+                if (serie.clip)
+                {
+                    grid.Clamp(ref tp);
+                }
+                var isIgnore = pdata.isIgnoreBreak;
                 var color = areaColor;
                 var toColor = areaToColor;
                 var lerp = areaLerp;
@@ -281,6 +286,7 @@ namespace XCharts.Runtime
 
             var lastDataIsIgnore = datas[0].isIgnoreBreak;
             var smooth = serie.lineType == LineType.Smooth;
+            var firstInGridPointIndex = serie.clip ? -1 : 1;
             for (int i = 1; i < dataCount; i++)
             {
                 var cdata = datas[i];
@@ -299,8 +305,16 @@ namespace XCharts.Runtime
                 }
                 serie.context.lineEndPostion = cp;
                 serie.context.lineEndValue = AxisHelper.GetAxisPositionValue(grid, relativedAxis, cp);
-
                 var handled = false;
+                var isClip = false;
+                if (serie.clip)
+                {
+                    if (!grid.Contains(cp))
+                        isClip = true;
+                    else if (firstInGridPointIndex <= 0)
+                        firstInGridPointIndex = i;
+                    if (isClip) isIgnore = true;
+                }
                 if (!smooth)
                 {
                     switch (serie.lineStyle.type)
@@ -341,8 +355,10 @@ namespace XCharts.Runtime
                     ref itp, ref ibp,
                     ref clp, ref crp,
                     ref bitp, ref bibp, i);
+
                 if (i == 1)
                 {
+                    if (isClip) lastDataIsIgnore = true;
                     AddLineVertToVertexHelper(vh, ltp, lbp, lineColor, isVisualMapGradient, isLineStyleGradient,
                         visualMap, serie.lineStyle, grid, axis, relativedAxis, false, lastDataIsIgnore, isIgnore);
                     if (dataCount == 2 || isBreak)
@@ -460,7 +476,7 @@ namespace XCharts.Runtime
         private static void UpdateNormalLineDrawPoints(Serie serie, Settings setting, VisualMap visualMap)
         {
             var isVisualMapGradient = VisualMapHelper.IsNeedGradient(visualMap);
-            if (isVisualMapGradient)
+            if (isVisualMapGradient || serie.clip)
             {
                 var dataPoints = serie.context.dataPoints;
                 if (dataPoints.Count > 1)
@@ -473,7 +489,7 @@ namespace XCharts.Runtime
 
                         var dir = (ep - sp).normalized;
                         var dist = Vector3.Distance(sp, ep);
-                        var segment = (int) (dist / setting.lineSegmentDistance);
+                        var segment = (int)(dist / setting.lineSegmentDistance);
                         serie.context.drawPoints.Add(new PointInfo(sp, ignore));
                         for (int j = 1; j < segment; j++)
                         {

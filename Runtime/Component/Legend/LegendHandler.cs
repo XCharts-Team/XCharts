@@ -11,6 +11,7 @@ namespace XCharts.Runtime
     internal sealed class LegendHandler : MainComponentHandler<Legend>
     {
         private static readonly string s_LegendObjectName = "legend";
+        private static readonly char[] s_NameSplit = new char[] { '_' };
 
         public override void InitComponent()
         {
@@ -48,7 +49,7 @@ namespace XCharts.Runtime
         private void InitLegend(Legend legend)
         {
             legend.painter = null;
-            legend.refreshComponent = delegate()
+            legend.refreshComponent = delegate ()
             {
                 legend.OnChanged();
                 var legendObject = ChartHelper.AddObject(s_LegendObjectName + legend.index, chart.transform, chart.chartMinAnchor,
@@ -99,7 +100,7 @@ namespace XCharts.Runtime
                     ChartHelper.AddEventListener(item.button.gameObject, EventTriggerType.PointerDown, (data) =>
                     {
                         if (data.selectedObject == null || legend.selectedMode == Legend.SelectedMode.None) return;
-                        var temp = data.selectedObject.name.Split('_');
+                        var temp = data.selectedObject.name.Split(s_NameSplit, 2);
                         string selectedName = temp[1];
                         int clickedIndex = int.Parse(temp[0]);
                         if (legend.selectedMode == Legend.SelectedMode.Multiple)
@@ -117,7 +118,7 @@ namespace XCharts.Runtime
                             {
                                 for (int n = 0; n < btnList.Length; n++)
                                 {
-                                    temp = btnList[n].name.Split('_');
+                                    temp = btnList[n].name.Split(s_NameSplit, 2);
                                     selectedName = btnList[n].legendName;
                                     var index = btnList[n].index;
                                     OnLegendButtonClick(legend, n, selectedName, index == clickedIndex ? true : false);
@@ -128,7 +129,7 @@ namespace XCharts.Runtime
                     ChartHelper.AddEventListener(item.button.gameObject, EventTriggerType.PointerEnter, (data) =>
                     {
                         if (item.button == null) return;
-                        var temp = item.button.name.Split('_');
+                        var temp = item.button.name.Split(s_NameSplit, 2);
                         string selectedName = temp[1];
                         int index = int.Parse(temp[0]);
                         OnLegendButtonEnter(legend, index, selectedName);
@@ -136,7 +137,7 @@ namespace XCharts.Runtime
                     ChartHelper.AddEventListener(item.button.gameObject, EventTriggerType.PointerExit, (data) =>
                     {
                         if (item.button == null) return;
-                        var temp = item.button.name.Split('_');
+                        var temp = item.button.name.Split(s_NameSplit, 2);
                         string selectedName = temp[1];
                         int index = int.Parse(temp[0]);
                         OnLegendButtonExit(legend, index, selectedName);

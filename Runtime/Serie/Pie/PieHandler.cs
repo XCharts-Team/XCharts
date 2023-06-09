@@ -233,10 +233,12 @@ namespace XCharts.Runtime
                     serieData.context.currentAngle = serieData.context.toAngle;
                 }
                 var halfDegree = (serieData.context.toAngle - startDegree) / 2;
+                var halfRadius = serie.context.insideRadius + (serieData.context.outsideRadius - serie.context.insideRadius) / 2;
                 serieData.context.halfAngle = startDegree + halfDegree;
                 serieData.context.angle = startDegree + halfDegree;
                 serieData.context.offsetCenter = serie.context.center;
                 serieData.context.insideRadius = serie.context.insideRadius;
+                serieData.context.position = ChartHelper.GetPosition(serie.context.center, serieData.context.halfAngle, halfRadius);
                 if (offset > 0)
                 {
                     var currRad = serieData.context.halfAngle * Mathf.Deg2Rad;

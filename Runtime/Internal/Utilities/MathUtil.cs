@@ -39,6 +39,8 @@ namespace XCharts.Runtime
 
         public static bool IsInteger(double value)
         {
+            if (value == 0) return true;
+            if (value >= -1 && value <= 1) return false;
             return Math.Abs(value % 1) <= (Double.Epsilon * 100);
         }
 

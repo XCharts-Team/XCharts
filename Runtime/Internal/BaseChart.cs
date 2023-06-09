@@ -11,7 +11,7 @@ namespace XCharts.Runtime
 {
     [AddComponentMenu("XCharts/EmptyChart", 10)]
     [ExecuteInEditMode]
-    [RequireComponent(typeof(RectTransform),typeof(CanvasRenderer))]
+    [RequireComponent(typeof(RectTransform), typeof(CanvasRenderer))]
     [DisallowMultipleComponent]
     public partial class BaseChart : BaseGraph, ISerializationCallbackReceiver
     {
@@ -131,7 +131,7 @@ namespace XCharts.Runtime
         {
             if (m_Settings == null)
                 m_Settings = Settings.DefaultSettings;
-            CheckTheme();
+            CheckTheme(true);
             base.Awake();
             InitComponentHandlers();
             InitSerieHandlers();
@@ -244,11 +244,15 @@ namespace XCharts.Runtime
             painter.SetActive(flag, m_DebugInfo.showAllChartObject);
         }
 
-        protected virtual void CheckTheme()
+        protected virtual void CheckTheme(bool firstInit = false)
         {
             if (m_Theme.sharedTheme == null)
             {
                 m_Theme.sharedTheme = XCThemeMgr.GetTheme(ThemeType.Default);
+            }
+            if (firstInit)
+            {
+                m_CheckTheme = m_Theme.themeType;
             }
             if (m_Theme.sharedTheme != null && m_CheckTheme != m_Theme.themeType)
             {

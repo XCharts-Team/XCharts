@@ -347,9 +347,13 @@ namespace XCharts.Runtime
         public virtual string GetFormatterContent(int labelIndex, double value, double minValue, double maxValue, bool isLog = false)
         {
             var newNumericFormatter = numericFormatter;
-            if (string.IsNullOrEmpty(newNumericFormatter) && !isLog)
+            if (value == 0)
             {
-                newNumericFormatter = MathUtil.IsInteger(maxValue) ? "0" : "f" + MathUtil.GetPrecision(maxValue);
+                newNumericFormatter = "f0";
+            }
+            else if (string.IsNullOrEmpty(newNumericFormatter) && !isLog)
+            {
+                newNumericFormatter = MathUtil.IsInteger(maxValue) ? "f0" : "f" + MathUtil.GetPrecision(maxValue);
             }
             if (string.IsNullOrEmpty(m_Formatter))
             {

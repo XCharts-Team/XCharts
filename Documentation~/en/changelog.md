@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.7.0](#v370)  
 [v3.6.0](#v360)  
 [v3.5.0](#v350)  
 [v3.4.0](#v340)  
@@ -60,6 +61,34 @@
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.7.0
+
+Highlights:
+
+* Added `HelpDoc` official website help document redirection
+* Added support for `Clip` for `Line`
+* Optimize the range Settings of `Axis`
+* Other optimizations and fixes
+
+Log details:
+
+* (2022.06.08) Release v3.7.0
+* (2023.06.04) Added `HelpDoc` help document skip
+* (2023.05.30) Fix to Serie name with `_` line causing `Legend` to not fire (#252) (by __svr2kos2__)
+* (2023.05.10) Added `MinMaxAuto` range type for `Axis`
+* (2023.05.10) Added support for `Clip` for `Line`
+* (2023.05.04) Fixed `Axis` setting` CeilRate `not taking effect in range -1 to 1
+* (2023.05.04) Optimizes MinMax type range calculations for Axis
+* (2023.05.04) Fix to AxisLabel displaying `Label` formatting incorrectly when the data is all floating point numbers less than 1
+* (2023.05.04) Fix to `Theme` being reset after modifying default theme parameters
+* (2023.05.04) Added `Warning` when `Symbol` selects `Custom` type
+* (2023.04.15) Fix to `DataZoom` may be abnormal in multiple charts (#252)
+* (2023.04.14) Fix to `Tooltip` may be abnormal when there is only one data
+* (2023.04.14) added `BaseChart`s `TriggerTooltip()` interface to try to trigger `ToolTip`
+* (2023.04.12) Optimizes` RadarCood `setting` startAngle `with text following the adjustment position
+* (2023.04.12) Added `Radar` support for wildcard `{b}`
+* (2023.04.11) Fixed an issue where Inspector could be abnormal when dynamically adding components
 
 ## v3.6.0
 

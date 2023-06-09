@@ -421,6 +421,7 @@ namespace XCharts.Runtime
                     currLabel != null &&
                     currLabel.show &&
                     serieData.context.canShowLabel &&
+                    !serieData.context.isClip &&
                     !isIgnore)
                 {
                     if (serie.multiDimensionLabel)

@@ -38,17 +38,18 @@ namespace XCharts.Runtime
             if (dataIndex < 0)
                 return;
 
+            var radar = chart.GetChartComponent<RadarCoord>(serie.radarIndex);
+            if (radar == null)
+                return;
+
             if (serie.radarType == RadarType.Single)
             {
                 var colorIndex1 = serie.colorByData ? dataIndex : serie.context.colorIndex;
+                category = radar.GetIndicatorName(dataIndex);
                 UpdateItemSerieParams(ref paramList, ref title, dataIndex, category,
                     marker, itemFormatter, numericFormatter, ignoreDataDefaultContent, 1, colorIndex1);
                 return;
             }
-
-            var radar = chart.GetChartComponent<RadarCoord>(serie.radarIndex);
-            if (radar == null)
-                return;
 
             var serieData = serie.GetSerieData(dataIndex);
             if (serieData == null)
@@ -72,6 +73,7 @@ namespace XCharts.Runtime
                 param.value = serieData.GetData(i);
                 param.total = indicator.max;
                 param.color = color;
+                param.category = radar.GetIndicatorName(i);
                 param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
                 param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
                 param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);

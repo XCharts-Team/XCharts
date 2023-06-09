@@ -174,6 +174,32 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
+        /// chart local point to screen point.
+        /// |图表内坐标转屏幕坐标。
+        /// </summary>
+        /// <param name="localPoint">图表内的坐标</param>
+        /// <returns>屏幕坐标</returns>
+        [Since("v3.7.0")]
+        public Vector2 LocalPointToScreenPoint(Vector2 localPoint)
+        {
+            var cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
+            var wordPoint = rectTransform.TransformPoint(localPoint);
+            return RectTransformUtility.WorldToScreenPoint(cam, wordPoint);
+        }
+
+        /// <summary>
+        /// chart local point to world point.
+        /// |图表内坐标转世界坐标。
+        /// </summary>
+        /// <param name="localPoint">图表内的坐标</param>
+        /// <returns>世界坐标</returns>
+        [Since("v3.7.0")]
+        public Vector2 LocalPointToWorldPoint(Vector2 localPoint)
+        {
+            return rectTransform.TransformPoint(localPoint);
+        }
+
+        /// <summary>
         /// 保存图表为图片。
         /// </summary>
         /// <param name="imageType">type of image: png, jpg, exr</param>

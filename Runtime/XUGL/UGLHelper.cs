@@ -133,8 +133,8 @@ namespace XUGL
                 cp2 = ep - (nep - sp).normalized * diff;
                 if (limit) cp2.y = ep.y;
             }
-            int segment = (int) (dist / (smoothness <= 0 ? 2f : smoothness));
-            if (segment < 1) segment = (int) (dist / 0.5f);
+            int segment = (int)(dist / (smoothness <= 0 ? 2f : smoothness));
+            if (segment < 1) segment = (int)(dist / 0.5f);
             if (segment < 4) segment = 4;
             GetBezierList2(ref posList, sp, ep, segment, cp1, cp2);
             if (posList.Count < 2)
@@ -154,7 +154,7 @@ namespace XUGL
             Vector3 cp2 = sp + dist / k * dir * (k - 1);
             cp1.x = sp.x;
             cp2.x = ep.x;
-            int segment = (int) (dist / (smoothness <= 0 ? 2f : smoothness));
+            int segment = (int)(dist / (smoothness <= 0 ? 2f : smoothness));
             GetBezierList2(ref posList, sp, ep, segment, cp1, cp2);
             if (posList.Count < 2)
             {
@@ -169,7 +169,7 @@ namespace XUGL
             List<Vector3> list = new List<Vector3>();
             for (int i = 0; i < segment; i++)
             {
-                list.Add(GetBezier(i / (float) segment, sp, cp, ep));
+                list.Add(GetBezier(i / (float)segment, sp, cp, ep));
             }
             list.Add(ep);
             return list;
@@ -185,7 +185,7 @@ namespace XUGL
             }
             for (int i = 0; i < segment; i++)
             {
-                posList.Add((GetBezier2(i / (float) segment, sp, cp, cp2, ep)));
+                posList.Add((GetBezier2(i / (float)segment, sp, cp, cp2, ep)));
             }
             posList.Add(ep);
         }
@@ -255,12 +255,10 @@ namespace XUGL
         /// <param name="p2">线段1终点</param>
         /// <param name="p3">线段2起点</param>
         /// <param name="p4">线段2终点</param>
-        /// <param name="intersection">相交点。当不想交时默认为 Vector3.zero </param>
+        /// <param name="intersection">相交点。当不相交时为初始值</param>
         /// <returns>相交则返回 true, 否则返回 false</returns>
         public static bool GetIntersection(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4, ref Vector3 intersection)
         {
-            intersection = Vector3.zero;
-
             var d = (p2.x - p1.x) * (p4.y - p3.y) - (p2.y - p1.y) * (p4.x - p3.x);
             if (d == 0)
                 return false;
@@ -272,6 +270,30 @@ namespace XUGL
 
             intersection.x = p1.x + u * (p2.x - p1.x);
             intersection.y = p1.y + u * (p2.y - p1.y);
+            return true;
+        }
+
+        /// <summary>
+        /// 获得两直线的交点
+        /// </summary>
+        /// <param name="p1">线段1起点</param>
+        /// <param name="p2">线段1终点</param>
+        /// <param name="p3">线段2起点</param>
+        /// <param name="p4">线段2终点</param>
+        /// <param name="intersection">相交点。当不相交时为初始值</param>
+        /// <returns>相交则返回 true, 否则返回 false</returns>
+        public static bool GetIntersection(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4, ref List<Vector3> intersection)
+        {
+            var d = (p2.x - p1.x) * (p4.y - p3.y) - (p2.y - p1.y) * (p4.x - p3.x);
+            if (d == 0)
+                return false;
+
+            var u = ((p3.x - p1.x) * (p4.y - p3.y) - (p3.y - p1.y) * (p4.x - p3.x)) / d;
+            var v = ((p3.x - p1.x) * (p2.y - p1.y) - (p3.y - p1.y) * (p2.x - p1.x)) / d;
+            if (u < 0 || u > 1 || v < 0 || v > 1)
+                return false;
+
+            intersection.Add(new Vector3(p1.x + u * (p2.x - p1.x), p1.y + u * (p2.y - p1.y)));
             return true;
         }
 
@@ -317,8 +339,8 @@ namespace XUGL
 
             if (Vector3.Cross(dir1, dir2) == Vector3.zero && np != cp)
             {
-                itp = ntp;
-                ibp = nbp;
+                itp = clp;
+                ibp = crp;
                 return;
             }
 

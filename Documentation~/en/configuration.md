@@ -2,6 +2,7 @@
 sidebar_position: 31
 slug: /configuration
 ---
+import APITable from '@site/src/components/APITable';
 
 # Chart Configuration
 
@@ -163,13 +164,20 @@ slug: /configuration
 - [TitleStyle](#titlestyle)
 
 
-## Other Component
+## Other
 
 - [BaseSerie](#baseserie)
 - [ChartText](#charttext)
 - [ChildComponent](#childcomponent)
 - [DebugInfo](#debuginfo)
 - [Indicator](#indicator)
+- [INeedSerieContainer](#ineedseriecontainer)
+- [IPropertyChanged](#ipropertychanged)
+- [ISerieComponent](#iseriecomponent)
+- [ISerieContainer](#iseriecontainer)
+- [ISerieDataComponent](#iseriedatacomponent)
+- [ISimplifiedSerie](#isimplifiedserie)
+- [IUpdateRuntimeData](#iupdateruntimedata)
 - [Lang](#lang)
 - [LangCandlestick](#langcandlestick)
 - [LangTime](#langtime)
@@ -180,24 +188,37 @@ slug: /configuration
 
 ## AngleAxis
 
-Inherits or Implemented: [Axis](#axis)
+> XCharts.Runtime.AngleAxis : [Axis](#axis)
 
 Angle axis of Polar Coordinate.
+
+```mdx-code-block
+<APITable name="AngleAxis">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
 |startAngle|0||Starting angle of axis. 0 degrees by default, standing for right position of center.
 
+```mdx-code-block
+</APITable>
+```
+
 ## AngleAxisTheme
 
-Inherits or Implemented: [BaseAxisTheme](#baseaxistheme)
-
+> XCharts.Runtime.AngleAxisTheme : [BaseAxisTheme](#baseaxistheme)
 
 ## AnimationStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.AnimationStyle : [ChildComponent](#childcomponent)
 
 the animation of serie.
+
+```mdx-code-block
+<APITable name="AnimationStyle">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -214,11 +235,20 @@ the animation of serie.
 |actualDuration|||The milliseconds actual duration of the first animation.
 |unscaledTime||v3.4.0|Animation updates independently of Time.timeScale.
 
+```mdx-code-block
+</APITable>
+```
+
 ## AreaStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> XCharts.Runtime.AreaStyle : [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 The style of area.
+
+```mdx-code-block
+<APITable name="AreaStyle">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -230,9 +260,18 @@ The style of area.
 |innerFill||v3.2.0|Whether to fill only polygonal areas. Currently, only convex polygons are supported.
 |toTop|true|v3.6.0|Whether to fill the gradient color to the top. The default is true, which means that the gradient color is filled to the top. If it is false, the gradient color is filled to the actual position.
 
+```mdx-code-block
+</APITable>
+```
+
 ## ArrowStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.ArrowStyle : [ChildComponent](#childcomponent)
+
+```mdx-code-block
+<APITable name="ArrowStyle">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -242,17 +281,26 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |dent|3||The dent of arrow.
 |color|Color.clear||the color of arrow.
 
+```mdx-code-block
+</APITable>
+```
+
 ## Axis
 
-Inherits or Implemented: [MainComponent](#maincomponent)
+> XCharts.Runtime.Axis : [MainComponent](#maincomponent) / Subclasses: [AngleAxis](#angleaxis), [ParallelAxis](#parallelaxis), [RadiusAxis](#radiusaxis), [SingleAxis](#singleaxis), [XAxis](#xaxis), [YAxis](#yaxis)
 
 The axis in rectangular coordinate.
+
+```mdx-code-block
+<APITable name="Axis">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Whether to show axis.
 |type|||the type of axis.<br/>`Axis.AxisType`:<br/>- `Value`: Numerical axis, suitable for continuous data.<br/>- `Category`: Category axis, suitable for discrete category data. Data should only be set via data for this type.<br/>- `Log`: Log axis, suitable for log data.<br/>- `Time`: Time axis, suitable for continuous time series data.<br/>|
-|minMaxType|||the type of axis minmax.<br/>`Axis.AxisMinMaxType`:<br/>- `Default`: 0 - maximum.<br/>- `MinMax`: minimum - maximum.<br/>- `Custom`: Customize the minimum and maximum.<br/>|
+|minMaxType|||the type of axis minmax.<br/>`Axis.AxisMinMaxType`:<br/>- `Default`: 0 - maximum.<br/>- `MinMax`: minimum - maximum.<br/>- `Custom`: Customize the minimum and maximum.<br/>- `MinMaxAuto`: [since("v3.7.0")]minimum - maximum, automatically calculate the appropriate values.<br/>|
 |gridIndex|||The index of the grid on which the axis are located, by default, is in the first grid.
 |polarIndex|||The index of the polar on which the axis are located, by default, is in the first polar.
 |parallelIndex|||The index of the parallel on which the axis are located, by default, is in the first parallel.
@@ -282,11 +330,20 @@ The axis in rectangular coordinate.
 |minorSplitLine||v3.2.0|axis minor split line. [AxisMinorSplitLine](#axisminorsplitline)|
 |indicatorLabel||v3.4.0|Style of axis tooltip indicator label. [LabelStyle](#labelstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## AxisLabel
 
-Inherits or Implemented: [LabelStyle](#labelstyle)
+> XCharts.Runtime.AxisLabel : [LabelStyle](#labelstyle)
 
 Settings related to axis label.
+
+```mdx-code-block
+<APITable name="AxisLabel">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -298,11 +355,20 @@ Settings related to axis label.
 |showEndLabel|true||Whether to display the last label.
 |textLimit|||文本限制。 [TextLimit](#textlimit)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## AxisLine
 
-Inherits or Implemented: [BaseLine](#baseline)
+> XCharts.Runtime.AxisLine : [BaseLine](#baseline)
 
 Settings related to axis line.
+
+```mdx-code-block
+<APITable name="AxisLine">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -310,37 +376,64 @@ Settings related to axis line.
 |showArrow|||Whether to show the arrow symbol of axis.
 |arrow|||the arrow of line. [ArrowStyle](#arrowstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## AxisMinorSplitLine
 
-Inherits or Implemented: [BaseLine](#baseline)
+> XCharts.Runtime.AxisMinorSplitLine : [BaseLine](#baseline)
 
 > Since `v3.2.0`
 
 Minor split line of axis in grid area.
+
+```mdx-code-block
+<APITable name="AxisMinorSplitLine">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
 |distance|||The distance between the split line and axis line.
 |autoColor|||auto color.
 
+```mdx-code-block
+</APITable>
+```
+
 ## AxisMinorTick
 
-Inherits or Implemented: [BaseLine](#baseline)
+> XCharts.Runtime.AxisMinorTick : [BaseLine](#baseline)
 
 > Since `v3.2.0`
 
 Settings related to axis minor tick.
+
+```mdx-code-block
+<APITable name="AxisMinorTick">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
 |splitNumber|5||Number of segments that the axis is split into.
 |autoColor|||
 
+```mdx-code-block
+</APITable>
+```
+
 ## AxisName
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.AxisName : [ChildComponent](#childcomponent)
 
 the name of axis.
+
+```mdx-code-block
+<APITable name="AxisName">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -349,22 +442,40 @@ the name of axis.
 |onZero||v3.1.0|Whether the axis name position are the same with 0 position of YAxis.
 |labelStyle|||The text style of axis name. [LabelStyle](#labelstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## AxisSplitArea
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.AxisSplitArea : [ChildComponent](#childcomponent)
 
 Split area of axis in grid area, not shown by default.
+
+```mdx-code-block
+<APITable name="AxisSplitArea">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
 |show|||Set this to true to show the splitArea.
 |color|||Color of split area. SplitArea color could also be set in color array, which the split lines would take as their colors in turns. Dark and light colors in turns are used by default.
 
+```mdx-code-block
+</APITable>
+```
+
 ## AxisSplitLine
 
-Inherits or Implemented: [BaseLine](#baseline)
+> XCharts.Runtime.AxisSplitLine : [BaseLine](#baseline)
 
 Split line of axis in grid area.
+
+```mdx-code-block
+<APITable name="AxisSplitLine">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -374,16 +485,24 @@ Split line of axis in grid area.
 |showStartLine|true|v3.3.0|Whether to show the first split line.
 |showEndLine|true|v3.3.0|Whether to show the last split line.
 
+```mdx-code-block
+</APITable>
+```
+
 ## AxisTheme
 
-Inherits or Implemented: [BaseAxisTheme](#baseaxistheme)
-
+> XCharts.Runtime.AxisTheme : [BaseAxisTheme](#baseaxistheme)
 
 ## AxisTick
 
-Inherits or Implemented: [BaseLine](#baseline)
+> XCharts.Runtime.AxisTick : [BaseLine](#baseline)
 
 Settings related to axis tick.
+
+```mdx-code-block
+<APITable name="AxisTick">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -395,11 +514,20 @@ Settings related to axis tick.
 |splitNumber|0||Number of segments that the axis is split into.
 |autoColor|||
 
+```mdx-code-block
+</APITable>
+```
+
 ## Background
 
-Inherits or Implemented: [MainComponent](#maincomponent)
+> XCharts.Runtime.Background : [MainComponent](#maincomponent)
 
 Background component.
+
+```mdx-code-block
+<APITable name="Background">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -409,14 +537,22 @@ Background component.
 |imageColor|||背景图颜色。
 |autoColor|true||Whether to use theme background color for component color when the background component is on.
 
+```mdx-code-block
+</APITable>
+```
+
 ## Bar
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
-
+> XCharts.Runtime.Bar : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
 
 ## BaseAxisTheme
 
-Inherits or Implemented: [ComponentTheme](#componenttheme)
+> XCharts.Runtime.BaseAxisTheme : [ComponentTheme](#componenttheme) / Subclasses: [AxisTheme](#axistheme), [RadiusAxisTheme](#radiusaxistheme), [AngleAxisTheme](#angleaxistheme), [PolarAxisTheme](#polaraxistheme), [RadarAxisTheme](#radaraxistheme)
+
+```mdx-code-block
+<APITable name="BaseAxisTheme">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -434,55 +570,72 @@ Inherits or Implemented: [ComponentTheme](#componenttheme)
 |tickColor|||the color of tick.
 |splitAreaColors|||the colors of split area.
 
+```mdx-code-block
+</APITable>
+```
+
 ## BaseLine
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.BaseLine : [ChildComponent](#childcomponent) / Subclasses: [AxisLine](#axisline), [AxisMinorSplitLine](#axisminorsplitline), [AxisMinorTick](#axisminortick), [AxisSplitLine](#axissplitline), [AxisTick](#axistick)
 
 Settings related to base line.
+
+```mdx-code-block
+<APITable name="BaseLine">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
 |show|||Set this to false to prevent the axis line from showing.
 |lineStyle|||线条样式 [LineStyle](#linestyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## BaseScatter
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
-
+> XCharts.Runtime.BaseScatter : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer) / Subclasses: [EffectScatter](#effectscatter), [Scatter](#scatter)
 
 ## BaseSerie
 
+> XCharts.Runtime.BaseSerie / Subclasses: [Serie](#serie)
 
 ## BlurStyle
 
-Inherits or Implemented: [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> XCharts.Runtime.BlurStyle : [StateStyle](#statestyle), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 > Since `v3.2.0`
 
 Configurations of blur state.
 
-
 ## CalendarCoord
 
-Inherits or Implemented: [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
-
+> XCharts.Runtime.CalendarCoord : [CoordSystem](#coordsystem), [IUpdateRuntimeData](#iupdateruntimedata), [ISerieContainer](#iseriecontainer)
 
 ## Candlestick
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
-
+> XCharts.Runtime.Candlestick : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
 
 ## ChartText
 
+> XCharts.Runtime.ChartText
 
 ## ChildComponent
 
+> XCharts.Runtime.ChildComponent / Subclasses: [AnimationStyle](#animationstyle), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
 
 ## Comment
 
-Inherits or Implemented: [MainComponent](#maincomponent),[IPropertyChanged](#ipropertychanged)
+> XCharts.Runtime.Comment : [MainComponent](#maincomponent), [IPropertyChanged](#ipropertychanged)
 
 comment of chart.
+
+```mdx-code-block
+<APITable name="Comment">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -491,11 +644,20 @@ comment of chart.
 |markStyle|||The text style of all comments. [CommentMarkStyle](#commentmarkstyle)|
 |items|||The items of comment.
 
+```mdx-code-block
+</APITable>
+```
+
 ## CommentItem
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.CommentItem : [ChildComponent](#childcomponent)
 
 comment of chart.
+
+```mdx-code-block
+<APITable name="CommentItem">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -506,20 +668,38 @@ comment of chart.
 |labelStyle|||The text style of all comments. [LabelStyle](#labelstyle)|
 |location||v3.5.0|The location of comment. [Location](#location)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## CommentMarkStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.CommentMarkStyle : [ChildComponent](#childcomponent)
 
 the comment mark style.
+
+```mdx-code-block
+<APITable name="CommentMarkStyle">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Set this to false to prevent this comment item from showing.
 |lineStyle|||line style of comment mark area. [LineStyle](#linestyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## ComponentTheme
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.ComponentTheme : [ChildComponent](#childcomponent) / Subclasses: [BaseAxisTheme](#baseaxistheme), [DataZoomTheme](#datazoomtheme), [LegendTheme](#legendtheme), [SubTitleTheme](#subtitletheme), [TitleTheme](#titletheme), [TooltipTheme](#tooltiptheme), [VisualMapTheme](#visualmaptheme)
+
+```mdx-code-block
+<APITable name="ComponentTheme">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -529,18 +709,26 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |fontSize|18||the font size of text.
 |tMPFont|||the font of chart text。
 
+```mdx-code-block
+</APITable>
+```
+
 ## CoordSystem
 
-Inherits or Implemented: [MainComponent](#maincomponent)
+> XCharts.Runtime.CoordSystem : [MainComponent](#maincomponent) / Subclasses: [RadarCoord](#radarcoord), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [ParallelCoord](#parallelcoord), [PolarCoord](#polarcoord), [SingleAxisCoord](#singleaxiscoord)
 
 Coordinate system component.
 
-
 ## DataZoom
 
-Inherits or Implemented: [MainComponent](#maincomponent),[IUpdateRuntimeData](#iupdateruntimedata)
+> XCharts.Runtime.DataZoom : [MainComponent](#maincomponent), [IUpdateRuntimeData](#iupdateruntimedata)
 
 DataZoom component is used for zooming a specific area, which enables user to investigate data in detail, or get an overview of the data, or get rid of outlier points.
+
+```mdx-code-block
+<APITable name="DataZoom">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -567,7 +755,7 @@ DataZoom component is used for zooming a specific area, which enables user to in
 |rangeMode|||Use absolute value or percent value in DataZoom.start and DataZoom.end.<br/>`DataZoom.RangeMode`:<br/>- `//Value`: The value type of start and end.取值类型<br/>- `Percent`: percent value.<br/>|
 |start|||The start percentage of the window out of the data extent, in the range of 0 ~ 100.
 |end|||The end percentage of the window out of the data extent, in the range of 0 ~ 100.
-|minShowNum|1||Minimum number of display data. Minimum number of data displayed when DataZoom is enlarged to maximum.
+|minShowNum|2||Minimum number of display data. Minimum number of data displayed when DataZoom is enlarged to maximum.
 |scrollSensitivity|1.1f||The sensitivity of dataZoom scroll. The larger the number, the more sensitive it is.
 |orient|||Specify whether the layout of dataZoom component is horizontal or vertical. What's more, it indicates whether the horizontal axis or vertical axis is controlled by default in catesian coordinate system.<br/>`Orient`:<br/>- `Horizonal`: 水平<br/>- `Vertical`: 垂直<br/>|
 |labelStyle|||label style. [LabelStyle](#labelstyle)|
@@ -577,9 +765,18 @@ DataZoom component is used for zooming a specific area, which enables user to in
 |startLock||v3.6.0|Lock start value.
 |endLock||v3.6.0|Lock end value.
 
+```mdx-code-block
+</APITable>
+```
+
 ## DataZoomTheme
 
-Inherits or Implemented: [ComponentTheme](#componenttheme)
+> XCharts.Runtime.DataZoomTheme : [ComponentTheme](#componenttheme)
+
+```mdx-code-block
+<APITable name="DataZoomTheme">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -591,7 +788,18 @@ Inherits or Implemented: [ComponentTheme](#componenttheme)
 |dataAreaColor|||the color of data area line.
 |backgroundColor|||the background color of datazoom.
 
+```mdx-code-block
+</APITable>
+```
+
 ## DebugInfo
+
+> XCharts.Runtime.DebugInfo
+
+```mdx-code-block
+<APITable name="DebugInfo">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -601,18 +809,26 @@ Inherits or Implemented: [ComponentTheme](#componenttheme)
 |foldSeries|false||Whether to fold series in inspector view.
 |labelStyle||| [LabelStyle](#labelstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## EffectScatter
 
-Inherits or Implemented: [BaseScatter](#basescatter)
-
+> XCharts.Runtime.EffectScatter : [BaseScatter](#basescatter)
 
 ## EmphasisStyle
 
-Inherits or Implemented: [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> XCharts.Runtime.EmphasisStyle : [StateStyle](#statestyle), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 > Since `v3.2.0`
 
 Configurations of emphasis state.
+
+```mdx-code-block
+<APITable name="EmphasisStyle">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -620,16 +836,24 @@ Configurations of emphasis state.
 |focus|||When the data is highlighted, whether to fade out of other data to focus the highlighted.<br/>`EmphasisStyle.FocusType`:<br/>- `None`: Do not fade out other data, it's by default.<br/>- `Self`: Only focus (not fade out) the element of the currently highlighted data.<br/>- `Series`: Focus on all elements of the series which the currently highlighted data belongs to.<br/>|
 |blurScope|||The range of fade out when focus is enabled.<br/>`EmphasisStyle.BlurScope`:<br/>- `GridCoord`: coordinate system.<br/>- `Series`: series.<br/>- `Global`: global.<br/>|
 
+```mdx-code-block
+</APITable>
+```
+
 ## EndLabelStyle
 
-Inherits or Implemented: [LabelStyle](#labelstyle)
-
+> XCharts.Runtime.EndLabelStyle : [LabelStyle](#labelstyle)
 
 ## GridCoord
 
-Inherits or Implemented: [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
+> XCharts.Runtime.GridCoord : [CoordSystem](#coordsystem), [IUpdateRuntimeData](#iupdateruntimedata), [ISerieContainer](#iseriecontainer)
 
 Grid component.
+
+```mdx-code-block
+<APITable name="GridCoord">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -643,23 +867,41 @@ Grid component.
 |borderWidth|0f||Border width of grid.
 |borderColor|||The color of grid border.
 
+```mdx-code-block
+</APITable>
+```
+
 ## Heatmap
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
+> XCharts.Runtime.Heatmap : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
+
+```mdx-code-block
+<APITable name="Heatmap">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
 |heatmapType||v3.3.0|The mapping type of heatmap.<br/>`HeatmapType`:<br/>- `Data`: Data mapping type.By default, the second dimension data is used as the color map.<br/>- `Count`: Number mapping type.The number of occurrences of a statistic in a divided grid, as a color map.<br/>|
 
+```mdx-code-block
+</APITable>
+```
+
 ## IconStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.IconStyle : [ChildComponent](#childcomponent)
+
+```mdx-code-block
+<APITable name="IconStyle">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
 |show|false||Whether the data icon is show.
 |layer|||显示在上层还是在下层。<br/>`IconStyle.Layer`:<br/>- `UnderText`: The icon is display under the label text. 图标在标签文字下<br/>- `AboveText`: The icon is display above the label text. 图标在标签文字上<br/>|
-|align|||水平方向对齐方式。<br/>`Align`:<br/>- `Center`: 对齐方式<br/>- `Left`: 对齐方式<br/>- `Right`: 对齐方式<br/>|
+|align|||水平方向对齐方式。<br/>`Align`:<br/>- `Center`: Alignment mode.<br/>- `Left`: Alignment mode.<br/>- `Right`: Alignment mode.<br/>|
 |sprite|||The image of icon.
 |type|||How to display the icon.
 |color|||图标颜色。
@@ -668,9 +910,18 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |offset|||图标偏移。
 |autoHideWhenLabelEmpty|false||当label内容为空时是否自动隐藏图标
 
+```mdx-code-block
+</APITable>
+```
+
 ## ImageStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> XCharts.Runtime.ImageStyle : [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
+
+```mdx-code-block
+<APITable name="ImageStyle">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -682,9 +933,20 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#is
 |width|0||图标宽。
 |height|0||图标高。
 
+```mdx-code-block
+</APITable>
+```
+
 ## Indicator
 
+> XCharts.Runtime.Indicator
+
 Indicator of radar chart, which is used to assign multiple variables(dimensions) in radar chart.
+
+```mdx-code-block
+<APITable name="Indicator">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -712,11 +974,50 @@ Indicator of radar chart, which is used to assign multiple variables(dimensions)
 |startAngle||v3.4.0|起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
 |indicatorList|||the indicator list.
 
+```mdx-code-block
+</APITable>
+```
+
+## INeedSerieContainer
+
+> XCharts.Runtime.INeedSerieContainer / Subclasses: [Bar](#bar), [SimplifiedBar](#simplifiedbar), [Candlestick](#candlestick), [SimplifiedCandlestick](#simplifiedcandlestick), [Heatmap](#heatmap), [Line](#line), [SimplifiedLine](#simplifiedline), [Parallel](#parallel), [Radar](#radar), [BaseScatter](#basescatter)
+
+## IPropertyChanged
+
+> XCharts.Runtime.IPropertyChanged / Subclasses: [Location](#location), [Comment](#comment), [Legend](#legend), [Title](#title)
+
+属性变更接口
+
+## ISerieComponent
+
+> XCharts.Runtime.ISerieComponent / Subclasses: [AreaStyle](#areastyle), [ImageStyle](#imagestyle), [LineArrow](#linearrow), [LabelLine](#labelline), [LabelStyle](#labelstyle), [BlurStyle](#blurstyle), [EmphasisStyle](#emphasisstyle), [SelectStyle](#selectstyle), [TitleStyle](#titlestyle)
+
+The interface for serie component.
+
+## ISerieContainer
+
+> XCharts.Runtime.ISerieContainer / Subclasses: [RadarCoord](#radarcoord), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [ParallelCoord](#parallelcoord), [PolarCoord](#polarcoord)
+
+## ISerieDataComponent
+
+> XCharts.Runtime.ISerieDataComponent / Subclasses: [AreaStyle](#areastyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [LineStyle](#linestyle), [SerieSymbol](#seriesymbol), [LabelLine](#labelline), [LabelStyle](#labelstyle), [BlurStyle](#blurstyle), [EmphasisStyle](#emphasisstyle), [SelectStyle](#selectstyle), [TitleStyle](#titlestyle)
+
+The interface for serie data component.
+
+## ISimplifiedSerie
+
+> XCharts.Runtime.ISimplifiedSerie / Subclasses: [SimplifiedBar](#simplifiedbar), [SimplifiedCandlestick](#simplifiedcandlestick), [SimplifiedLine](#simplifiedline)
+
 ## ItemStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieDataComponent](#iseriedatacomponent)
+> XCharts.Runtime.ItemStyle : [ChildComponent](#childcomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 图形样式。
+
+```mdx-code-block
+<APITable name="ItemStyle">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -741,17 +1042,30 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieDataComponent]
 |numericFormatter|||Standard numeric format strings.
 |cornerRadius|||The radius of rounded corner. Its unit is px. Use array to respectively specify the 4 corner radiuses((clockwise upper left, upper right, bottom right and bottom left)).
 
+```mdx-code-block
+</APITable>
+```
+
+## IUpdateRuntimeData
+
+> XCharts.Runtime.IUpdateRuntimeData / Subclasses: [SingleAxis](#singleaxis), [DataZoom](#datazoom), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [ParallelCoord](#parallelcoord)
+
 ## LabelLine
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> XCharts.Runtime.LabelLine : [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 标签的引导线
+
+```mdx-code-block
+<APITable name="LabelLine">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Whether the label line is showed.
 |lineType|||the type of visual guide line.<br/>`LabelLine.LineType`:<br/>- `BrokenLine`: 折线<br/>- `Curves`: 曲线<br/>- `HorizontalLine`: 水平线<br/>|
-|lineColor|ChartConst.clearColor32||the color of visual guild line.
+|lineColor|Color32(0,0,0,0)||the color of visual guild line.
 |lineAngle|0||the angle of visual guild line.
 |lineWidth|1.0f||the width of visual guild line.
 |lineGap|1.0f||the gap of container and guild line.
@@ -760,11 +1074,20 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#is
 |startSymbol|||The symbol of the start point of labelline. [SymbolStyle](#symbolstyle)|
 |endSymbol|||The symbol of the end point of labelline. [SymbolStyle](#symbolstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## LabelStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> XCharts.Runtime.LabelStyle : [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent) / Subclasses: [AxisLabel](#axislabel), [EndLabelStyle](#endlabelstyle), [TitleStyle](#titlestyle)
 
 Text label of chart, to explain some data information about graphic item like value, name and so on.
+
+```mdx-code-block
+<APITable name="LabelStyle">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -784,24 +1107,34 @@ Text label of chart, to explain some data information about graphic item like va
 |textPadding|||the text padding of label. [TextPadding](#textpadding)|
 |textStyle|||the sytle of text. [TextStyle](#textstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## Lang
 
-Inherits or Implemented: [ScriptableObject](#scriptableobject)
+> XCharts.Runtime.Lang : [ScriptableObject](https://docs.unity3d.com/ScriptReference/30_search.html?q=ScriptableObject)
 
 Language.
 
-
 ## LangCandlestick
 
+> XCharts.Runtime.LangCandlestick
 
 ## LangTime
 
+> XCharts.Runtime.LangTime
 
 ## Legend
 
-Inherits or Implemented: [MainComponent](#maincomponent),[IPropertyChanged](#ipropertychanged)
+> XCharts.Runtime.Legend : [MainComponent](#maincomponent), [IPropertyChanged](#ipropertychanged)
 
 Legend component.The legend component shows different sets of tags, colors, and names. You can control which series are not displayed by clicking on the legend.
+
+```mdx-code-block
+<APITable name="Legend">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -825,17 +1158,35 @@ Legend component.The legend component shows different sets of tags, colors, and 
 |padding||v3.1.0|the paddinng of item and background. [Padding](#padding)|
 |positions||v3.6.0|the custom positions of legend item.
 
+```mdx-code-block
+</APITable>
+```
+
 ## LegendTheme
 
-Inherits or Implemented: [ComponentTheme](#componenttheme)
+> XCharts.Runtime.LegendTheme : [ComponentTheme](#componenttheme)
+
+```mdx-code-block
+<APITable name="LegendTheme">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
 |unableColor|||the color of text.
 
+```mdx-code-block
+</APITable>
+```
+
 ## Level
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.Level : [ChildComponent](#childcomponent)
+
+```mdx-code-block
+<APITable name="Level">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -843,23 +1194,40 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |upperLabel|||上方的文本标签样式。 [LabelStyle](#labelstyle)|
 |itemStyle|||数据项样式。 [ItemStyle](#itemstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## LevelStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.LevelStyle : [ChildComponent](#childcomponent)
+
+```mdx-code-block
+<APITable name="LevelStyle">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
 |show|false||是否启用LevelStyle
 |levels|||各层节点对应的配置。当enableLevels为true时生效，levels[0]对应的第一层的配置，levels[1]对应第二层，依次类推。当levels中没有对应层时用默认的设置。
 
+```mdx-code-block
+</APITable>
+```
+
 ## Line
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
-
+> XCharts.Runtime.Line : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
 
 ## LineArrow
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent)
+> XCharts.Runtime.LineArrow : [ChildComponent](#childcomponent), [ISerieComponent](#iseriecomponent)
+
+```mdx-code-block
+<APITable name="LineArrow">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -867,11 +1235,20 @@ Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieComponent](#is
 |position|||The position of arrow.<br/>`LineArrow.Position`:<br/>- `End`: 末端箭头<br/>- `Start`: 头端箭头<br/>|
 |arrow|||the arrow of line. [ArrowStyle](#arrowstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## LineStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[ISerieDataComponent](#iseriedatacomponent)
+> XCharts.Runtime.LineStyle : [ChildComponent](#childcomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 The style of line.
+
+```mdx-code-block
+<APITable name="LineStyle">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -884,11 +1261,20 @@ The style of line.
 |length|0||the length of line.
 |opacity|1||Opacity of the line. Supports value from 0 to 1, and the line will not be drawn when set to 0.
 
+```mdx-code-block
+</APITable>
+```
+
 ## Location
 
-Inherits or Implemented: [ChildComponent](#childcomponent),[IPropertyChanged](#ipropertychanged)
+> XCharts.Runtime.Location : [ChildComponent](#childcomponent), [IPropertyChanged](#ipropertychanged)
 
 Location type. Quick to set the general location.
+
+```mdx-code-block
+<APITable name="Location">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -898,16 +1284,24 @@ Location type. Quick to set the general location.
 |top|||Distance between component and the left side of the container.
 |bottom|||Distance between component and the left side of the container.
 
+```mdx-code-block
+</APITable>
+```
+
 ## MainComponent
 
-Inherits or Implemented: [IComparable](#icomparable)
-
+> XCharts.Runtime.MainComponent : [IComparable](https://docs.unity3d.com/ScriptReference/30_search.html?q=IComparable) / Subclasses: [Axis](#axis), [Background](#background), [Comment](#comment), [DataZoom](#datazoom), [Legend](#legend), [MarkArea](#markarea), [MarkLine](#markline), [Settings](#settings), [Title](#title), [Tooltip](#tooltip), [VisualMap](#visualmap), [CoordSystem](#coordsystem)
 
 ## MarkArea
 
-Inherits or Implemented: [MainComponent](#maincomponent)
+> XCharts.Runtime.MarkArea : [MainComponent](#maincomponent)
 
 Used to mark an area in chart. For example, mark a time interval.
+
+```mdx-code-block
+<APITable name="MarkArea">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -919,11 +1313,20 @@ Used to mark an area in chart. For example, mark a time interval.
 |itemStyle|||标域样式。 [ItemStyle](#itemstyle)|
 |label|||标域文本样式。 [LabelStyle](#labelstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## MarkAreaData
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.MarkAreaData : [ChildComponent](#childcomponent)
 
 标域的数据。
+
+```mdx-code-block
+<APITable name="MarkAreaData">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -935,11 +1338,20 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |xValue|||The value specified on the X-axis. A value specified when the X-axis is the category axis represents the index of the category axis data, otherwise a specific value.
 |yValue|||That's the value on the Y-axis. The value specified when the Y axis is the category axis represents the index of the category axis data, otherwise the specific value.
 
+```mdx-code-block
+</APITable>
+```
+
 ## MarkLine
 
-Inherits or Implemented: [MainComponent](#maincomponent)
+> XCharts.Runtime.MarkLine : [MainComponent](#maincomponent)
 
 Use a line in the chart to illustrate.
+
+```mdx-code-block
+<APITable name="MarkLine">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -948,11 +1360,20 @@ Use a line in the chart to illustrate.
 |animation|||The animation of markline. [AnimationStyle](#animationstyle)|
 |data|||A list of marked data. When the group of data item is 0, each data item represents a line; When the group is not 0, two data items of the same group represent the starting point and the ending point of the line respectively to form a line. In this case, the relevant style parameters of the line are the parameters of the starting point.
 
+```mdx-code-block
+</APITable>
+```
+
 ## MarkLineData
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.MarkLineData : [ChildComponent](#childcomponent)
 
 Data of marking line.
+
+```mdx-code-block
+<APITable name="MarkLineData">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -970,13 +1391,22 @@ Data of marking line.
 |lineStyle|||The line style of markline. [LineStyle](#linestyle)|
 |label|||Text styles of label. You can set position to Start, Middle, and End to display text in different locations. [LabelStyle](#labelstyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## MarqueeStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.MarqueeStyle : [ChildComponent](#childcomponent)
 
 > Since `v3.5.0`
 
 Marquee style. It can be used for the DataZoom component. 选取框样式。可用于DataZoom组件。
+
+```mdx-code-block
+<APITable name="MarqueeStyle">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -985,11 +1415,20 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 |areaStyle||v3.5.0|The area style of marquee. [AreaStyle](#areastyle)|
 |lineStyle||v3.5.0|The line style of marquee border. [LineStyle](#linestyle)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## Padding
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.Padding : [ChildComponent](#childcomponent) / Subclasses: [TextPadding](#textpadding)
 
 padding setting of item or text.
+
+```mdx-code-block
+<APITable name="Padding">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -999,21 +1438,28 @@ padding setting of item or text.
 |left|2f||padding of left.
 |bottom|0||padding of bottom.
 
+```mdx-code-block
+</APITable>
+```
+
 ## Parallel
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
-
+> XCharts.Runtime.Parallel : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
 
 ## ParallelAxis
 
-Inherits or Implemented: [Axis](#axis)
-
+> XCharts.Runtime.ParallelAxis : [Axis](#axis)
 
 ## ParallelCoord
 
-Inherits or Implemented: [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
+> XCharts.Runtime.ParallelCoord : [CoordSystem](#coordsystem), [IUpdateRuntimeData](#iupdateruntimedata), [ISerieContainer](#iseriecontainer)
 
 Grid component.
+
+```mdx-code-block
+<APITable name="ParallelCoord">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1025,21 +1471,28 @@ Grid component.
 |bottom|0.12f||Distance between grid component and the bottom side of the container.
 |backgroundColor|||Background color of grid, which is transparent by default.
 
+```mdx-code-block
+</APITable>
+```
+
 ## Pie
 
-Inherits or Implemented: [Serie](#serie)
-
+> XCharts.Runtime.Pie : [Serie](#serie)
 
 ## PolarAxisTheme
 
-Inherits or Implemented: [BaseAxisTheme](#baseaxistheme)
-
+> XCharts.Runtime.PolarAxisTheme : [BaseAxisTheme](#baseaxistheme)
 
 ## PolarCoord
 
-Inherits or Implemented: [CoordSystem](#coordsystem),[ISerieContainer](#iseriecontainer)
+> XCharts.Runtime.PolarCoord : [CoordSystem](#coordsystem), [ISerieContainer](#iseriecontainer)
 
 Polar coordinate can be used in scatter and line chart. Every polar coordinate has an angleAxis and a radiusAxis.
+
+```mdx-code-block
+<APITable name="PolarCoord">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1048,62 +1501,73 @@ Polar coordinate can be used in scatter and line chart. Every polar coordinate h
 |radius|||the radius of polar.
 |backgroundColor|||Background color of polar, which is transparent by default.
 
+```mdx-code-block
+</APITable>
+```
+
 ## Radar
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
+> XCharts.Runtime.Radar : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
+
+```mdx-code-block
+<APITable name="Radar">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
 |smooth|false|v3.2.0|Whether use smooth curve.
 
+```mdx-code-block
+</APITable>
+```
+
 ## RadarAxisTheme
 
-Inherits or Implemented: [BaseAxisTheme](#baseaxistheme)
-
+> XCharts.Runtime.RadarAxisTheme : [BaseAxisTheme](#baseaxistheme)
 
 ## RadarCoord
 
-Inherits or Implemented: [CoordSystem](#coordsystem),[ISerieContainer](#iseriecontainer)
+> XCharts.Runtime.RadarCoord : [CoordSystem](#coordsystem), [ISerieContainer](#iseriecontainer)
 
 Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适用于雷达图。
 
-
 ## RadiusAxis
 
-Inherits or Implemented: [Axis](#axis)
+> XCharts.Runtime.RadiusAxis : [Axis](#axis)
 
 Radial axis of polar coordinate.
 
-
 ## RadiusAxisTheme
 
-Inherits or Implemented: [BaseAxisTheme](#baseaxistheme)
-
+> XCharts.Runtime.RadiusAxisTheme : [BaseAxisTheme](#baseaxistheme)
 
 ## Ring
 
-Inherits or Implemented: [Serie](#serie)
-
+> XCharts.Runtime.Ring : [Serie](#serie)
 
 ## Scatter
 
-Inherits or Implemented: [BaseScatter](#basescatter)
-
+> XCharts.Runtime.Scatter : [BaseScatter](#basescatter)
 
 ## SelectStyle
 
-Inherits or Implemented: [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> XCharts.Runtime.SelectStyle : [StateStyle](#statestyle), [ISerieComponent](#iseriecomponent), [ISerieDataComponent](#iseriedatacomponent)
 
 > Since `v3.2.0`
 
 Configurations of select state.
 
-
 ## Serie
 
-Inherits or Implemented: [BaseSerie](#baseserie),[IComparable](#icomparable)
+> XCharts.Runtime.Serie : [BaseSerie](#baseserie), [IComparable](https://docs.unity3d.com/ScriptReference/30_search.html?q=IComparable) / Subclasses: [SerieHandler&lt;T&gt;](#seriehandlert), [Bar](#bar), [SimplifiedBar](#simplifiedbar), [Candlestick](#candlestick), [SimplifiedCandlestick](#simplifiedcandlestick), [Heatmap](#heatmap), [Line](#line), [SimplifiedLine](#simplifiedline), [Parallel](#parallel), [Pie](#pie), [Radar](#radar), [Ring](#ring), [BaseScatter](#basescatter)
 
-系列。
+系列。系列一般由数据和配置组成，用来表示具体的图表图形，如折线图的一条折线，柱图的一组柱子等。一个图表中可以包含多个不同类型的系列。
+
+```mdx-code-block
+<APITable name="Serie">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1113,7 +1577,7 @@ Inherits or Implemented: [BaseSerie](#baseserie),[IComparable](#icomparable)
 |serieType|||the type of serie.
 |serieName|||Series name used for displaying in tooltip and filtering with legend.
 |state||v3.2.0|The default state of a serie.<br/>`SerieState`:<br/>- `Normal`: Normal state.<br/>- `Emphasis`: Emphasis state.<br/>- `Blur`: Blur state.<br/>- `Select`: Select state.<br/>- `Auto`: Auto state.<br/>|
-|colorBy||v3.2.0|The policy to take color from theme.<br/>`SerieColorBy`:<br/>- `Default`: Select state.<br/>- `Serie`: assigns the colors in the palette by serie, so that all data in the same series are in the same color;.<br/>- `Data`: assigns colors in the palette according to data items, with each data item using a different color..<br/>|
+|colorBy||v3.2.0|The policy to take color from theme.<br/>`SerieColorBy`:<br/>- `Default`: Select state.<br/>- `Serie`: assigns the colors in the palette by serie, so that all data in the same series are in the same color.<br/>- `Data`: assigns colors in the palette according to data items, with each data item using a different color.<br/>|
 |stack|||If stack the value. On the same category axis, the series with the same stack name would be put on top of each other.
 |xAxisIndex|0||the index of XAxis.
 |yAxisIndex|0||the index of YAxis.
@@ -1160,13 +1624,13 @@ Inherits or Implemented: [BaseSerie](#baseserie),[IComparable](#icomparable)
 |ignoreLineBreak|false||忽略数据时折线是断开还是连接。默认false为连接。
 |showAsPositiveNumber|false||Show negative number as positive number.
 |large|true||是否开启大数据量优化，在数据图形特别多而出现卡顿时候可以开启。 开启后配合 largeThreshold 在数据量大于指定阈值的时候对绘制进行优化。 缺点：优化后不能自定义设置单个数据项的样式，不能显示Label。
-|largeThreshold|200||开启大数量优化的阈值。只有当开启了large并且数据量大于该阀值时才进入性能模式。
-|avoidLabelOverlap|false||在饼图且标签外部显示的情况下，是否启用防止标签重叠策略，默认关闭，在标签拥挤重叠的情况下会挪动各个标签的位置，防止标签间的重叠。
+|largeThreshold|200||Turn on the threshold for mass optimization. Enter performance mode only when large is enabled and the amount of data is greater than the threshold.
+|avoidLabelOverlap|false||If the pie chart and labels are displayed externally, whether to enable the label overlap prevention policy is disabled by default. If labels are crowded and overlapped, the positions of labels are moved to prevent label overlap.
 |radarType|||雷达图类型。<br/>`RadarType`:<br/>- `Multiple`: multiple radar.<br/>- `Single`: single radar.<br/>|
 |placeHolder|false||占位模式。占位模式时，数据有效但不参与渲染和显示。
-|dataSortType|||组件的数据排序。<br/>`SerieDataSortType`:<br/>- `None`: 按 data 的顺序<br/>- `Ascending`: 升序<br/>- `Descending`: 降序<br/>|
+|dataSortType|||组件的数据排序。<br/>`SerieDataSortType`:<br/>- `None`: In the order of data.<br/>- `Ascending`: Sort data in ascending order.<br/>- `Descending`: Sort data in descending order.<br/>|
 |orient|||组件的朝向。<br/>`Orient`:<br/>- `Horizonal`: 水平<br/>- `Vertical`: 垂直<br/>|
-|align|||组件水平方向对齐方式。<br/>`Align`:<br/>- `Center`: 对齐方式<br/>- `Left`: 对齐方式<br/>- `Right`: 对齐方式<br/>|
+|align|||组件水平方向对齐方式。<br/>`Align`:<br/>- `Center`: Alignment mode.<br/>- `Left`: Alignment mode.<br/>- `Right`: Alignment mode.<br/>|
 |left|||Distance between component and the left side of the container.
 |right|||Distance between component and the right side of the container.
 |top|||Distance between component and the top side of the container.
@@ -1178,11 +1642,20 @@ Inherits or Implemented: [BaseSerie](#baseserie),[IComparable](#icomparable)
 |itemStyle|||The style of data item. [ItemStyle](#itemstyle)|
 |data|||系列中的数据内容数组。SerieData可以设置1到n维数据。
 
+```mdx-code-block
+</APITable>
+```
+
 ## SerieData
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.SerieData : [ChildComponent](#childcomponent)
 
 A data item of serie.
+
+```mdx-code-block
+<APITable name="SerieData">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1196,11 +1669,20 @@ A data item of serie.
 |state||v3.2.0|the state of serie data.<br/>`SerieState`:<br/>- `Normal`: Normal state.<br/>- `Emphasis`: Emphasis state.<br/>- `Blur`: Blur state.<br/>- `Select`: Select state.<br/>- `Auto`: Auto state.<br/>|
 |data|||An arbitrary dimension data list of data item.
 
+```mdx-code-block
+</APITable>
+```
+
 ## SerieSymbol
 
-Inherits or Implemented: [SymbolStyle](#symbolstyle),[ISerieDataComponent](#iseriedatacomponent)
+> XCharts.Runtime.SerieSymbol : [SymbolStyle](#symbolstyle), [ISerieDataComponent](#iseriedatacomponent)
 
 系列数据项的标记的图形
+
+```mdx-code-block
+<APITable name="SerieSymbol">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1215,9 +1697,18 @@ Inherits or Implemented: [SymbolStyle](#symbolstyle),[ISerieDataComponent](#iser
 |minSize|0f|v3.3.0|Minimum symbol size.
 |maxSize|0f|v3.3.0|Maximum symbol size.
 
+```mdx-code-block
+</APITable>
+```
+
 ## SerieTheme
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.SerieTheme : [ChildComponent](#childcomponent)
+
+```mdx-code-block
+<APITable name="SerieTheme">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1233,11 +1724,20 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |candlestickBorderColor|Color32(235, 84, 84, 255)||K线图阳线（跌）边框色
 |candlestickBorderColor0|Color32(71, 178, 98, 255)||K线图阴线（跌）边框色
 
+```mdx-code-block
+</APITable>
+```
+
 ## Settings
 
-Inherits or Implemented: [MainComponent](#maincomponent)
+> XCharts.Runtime.Settings : [MainComponent](#maincomponent)
 
 Global parameter setting component. The default value can be used in general, and can be adjusted when necessary.
+
+```mdx-code-block
+<APITable name="Settings">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1256,26 +1756,32 @@ Global parameter setting component. The default value can be used in general, an
 |legendIconCornerRadius|||The radius of rounded corner. Its unit is px. Use array to respectively specify the 4 corner radiuses((clockwise upper left, upper right, bottom right and bottom left)).
 |axisMaxSplitNumber|50|v3.1.0|the max splitnumber of axis.
 
+```mdx-code-block
+</APITable>
+```
+
 ## SimplifiedBar
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer),[ISimplifiedSerie](#isimplifiedserie)
-
+> XCharts.Runtime.SimplifiedBar : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer), [ISimplifiedSerie](#isimplifiedserie)
 
 ## SimplifiedCandlestick
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer),[ISimplifiedSerie](#isimplifiedserie)
-
+> XCharts.Runtime.SimplifiedCandlestick : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer), [ISimplifiedSerie](#isimplifiedserie)
 
 ## SimplifiedLine
 
-Inherits or Implemented: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer),[ISimplifiedSerie](#isimplifiedserie)
-
+> XCharts.Runtime.SimplifiedLine : [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer), [ISimplifiedSerie](#isimplifiedserie)
 
 ## SingleAxis
 
-Inherits or Implemented: [Axis](#axis),[IUpdateRuntimeData](#iupdateruntimedata)
+> XCharts.Runtime.SingleAxis : [Axis](#axis), [IUpdateRuntimeData](#iupdateruntimedata)
 
 Single axis.
+
+```mdx-code-block
+<APITable name="SingleAxis">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1287,27 +1793,44 @@ Single axis.
 |width|0||width of axis.
 |height|50||height of axis.
 
+```mdx-code-block
+</APITable>
+```
+
 ## SingleAxisCoord
 
-Inherits or Implemented: [CoordSystem](#coordsystem)
-
+> XCharts.Runtime.SingleAxisCoord : [CoordSystem](#coordsystem)
 
 ## StageColor
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.StageColor : [ChildComponent](#childcomponent)
+
+```mdx-code-block
+<APITable name="StageColor">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
 |percent|||结束位置百分比。
 |color|||颜色。
 
+```mdx-code-block
+</APITable>
+```
+
 ## StateStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.StateStyle : [ChildComponent](#childcomponent) / Subclasses: [BlurStyle](#blurstyle), [EmphasisStyle](#emphasisstyle), [SelectStyle](#selectstyle)
 
 > Since `v3.2.0`
 
 the state style of serie.
+
+```mdx-code-block
+<APITable name="StateStyle">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1319,16 +1842,24 @@ the state style of serie.
 |areaStyle|||区域样式。 [AreaStyle](#areastyle)|
 |symbol|||标记样式。 [SerieSymbol](#seriesymbol)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## SubTitleTheme
 
-Inherits or Implemented: [ComponentTheme](#componenttheme)
-
+> XCharts.Runtime.SubTitleTheme : [ComponentTheme](#componenttheme)
 
 ## SymbolStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.SymbolStyle : [ChildComponent](#childcomponent) / Subclasses: [SerieSymbol](#seriesymbol)
 
 系列数据项的标记的图形
+
+```mdx-code-block
+<APITable name="SymbolStyle">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1343,11 +1874,20 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |imageType|||the fill type of image.
 |color|||图形的颜色。
 
+```mdx-code-block
+</APITable>
+```
+
 ## TextLimit
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.TextLimit : [ChildComponent](#childcomponent)
 
 Text character limitation and adaptation component. When the length of the text exceeds the set length, it is cropped and suffixes are appended to the end.Only valid in the category axis.
+
+```mdx-code-block
+<APITable name="TextLimit">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1356,18 +1896,26 @@ Text character limitation and adaptation component. When the length of the text 
 |gap|1||White pixel distance at both ends.
 |suffix|||Suffixes when the length exceeds.
 
+```mdx-code-block
+</APITable>
+```
+
 ## TextPadding
 
-Inherits or Implemented: [Padding](#padding)
+> XCharts.Runtime.TextPadding : [Padding](#padding)
 
 Settings related to text.
-
 
 ## TextStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.TextStyle : [ChildComponent](#childcomponent)
 
 Settings related to text.
+
+```mdx-code-block
+<APITable name="TextStyle">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1387,11 +1935,20 @@ Settings related to text.
 |tMPAlignment|||
 |tMPSpriteAsset||v3.1.0|
 
+```mdx-code-block
+</APITable>
+```
+
 ## Theme
 
-Inherits or Implemented: [ScriptableObject](#scriptableobject)
+> XCharts.Runtime.Theme : [ScriptableObject](https://docs.unity3d.com/ScriptReference/30_search.html?q=ScriptableObject)
 
 Theme.
+
+```mdx-code-block
+<APITable name="Theme">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1412,11 +1969,20 @@ Theme.
 |visualMap||| [VisualMapTheme](#visualmaptheme)|
 |serie||| [SerieTheme](#serietheme)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## ThemeStyle
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.ThemeStyle : [ChildComponent](#childcomponent)
 
 Theme.
+
+```mdx-code-block
+<APITable name="ThemeStyle">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1428,11 +1994,20 @@ Theme.
 |customBackgroundColor|||the custom background color of chart.
 |customColorPalette|||
 
+```mdx-code-block
+</APITable>
+```
+
 ## Title
 
-Inherits or Implemented: [MainComponent](#maincomponent),[IPropertyChanged](#ipropertychanged)
+> XCharts.Runtime.Title : [MainComponent](#maincomponent), [IPropertyChanged](#ipropertychanged)
 
 Title component, including main title and subtitle.
+
+```mdx-code-block
+<APITable name="Title">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1444,23 +2019,30 @@ Title component, including main title and subtitle.
 |itemGap|0||[default:8] The gap between the main title and subtitle.
 |location|||The location of title component. [Location](#location)|
 
+```mdx-code-block
+</APITable>
+```
+
 ## TitleStyle
 
-Inherits or Implemented: [LabelStyle](#labelstyle),[ISerieDataComponent](#iseriedatacomponent),[ISerieComponent](#iseriecomponent)
+> XCharts.Runtime.TitleStyle : [LabelStyle](#labelstyle), [ISerieDataComponent](#iseriedatacomponent), [ISerieComponent](#iseriecomponent)
 
 the title of serie.
 
-
 ## TitleTheme
 
-Inherits or Implemented: [ComponentTheme](#componenttheme)
-
+> XCharts.Runtime.TitleTheme : [ComponentTheme](#componenttheme)
 
 ## Tooltip
 
-Inherits or Implemented: [MainComponent](#maincomponent)
+> XCharts.Runtime.Tooltip : [MainComponent](#maincomponent)
 
 Tooltip component.
+
+```mdx-code-block
+<APITable name="Tooltip">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1496,9 +2078,18 @@ Tooltip component.
 |titleLabelStyle|||the textstyle of title. [LabelStyle](#labelstyle)|
 |contentLabelStyles|||the textstyle list of content.
 
+```mdx-code-block
+</APITable>
+```
+
 ## TooltipTheme
 
-Inherits or Implemented: [ComponentTheme](#componenttheme)
+> XCharts.Runtime.TooltipTheme : [ComponentTheme](#componenttheme)
+
+```mdx-code-block
+<APITable name="TooltipTheme">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1509,9 +2100,18 @@ Inherits or Implemented: [ComponentTheme](#componenttheme)
 |labelTextColor|||the text color of tooltip cross indicator's axis label.
 |labelBackgroundColor|||the background color of tooltip cross indicator's axis label.
 
+```mdx-code-block
+</APITable>
+```
+
 ## UIComponentTheme
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.UIComponentTheme : [ChildComponent](#childcomponent)
+
+```mdx-code-block
+<APITable name="UIComponentTheme">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1519,11 +2119,20 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |sharedTheme|||the asset of theme. [Theme](#theme)|
 |transparentBackground|false||
 
+```mdx-code-block
+</APITable>
+```
+
 ## VisualMap
 
-Inherits or Implemented: [MainComponent](#maincomponent)
+> XCharts.Runtime.VisualMap : [MainComponent](#maincomponent)
 
 VisualMap component. Mapping data to visual elements such as colors.
+
+```mdx-code-block
+<APITable name="VisualMap">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1554,9 +2163,18 @@ VisualMap component. Mapping data to visual elements such as colors.
 |outOfRange|||Defines a visual color outside of the selected range.
 |inRange|||分段式每一段的相关配置。
 
+```mdx-code-block
+</APITable>
+```
+
 ## VisualMapRange
 
-Inherits or Implemented: [ChildComponent](#childcomponent)
+> XCharts.Runtime.VisualMapRange : [ChildComponent](#childcomponent)
+
+```mdx-code-block
+<APITable name="VisualMapRange">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1565,9 +2183,18 @@ Inherits or Implemented: [ChildComponent](#childcomponent)
 |label|||文字描述
 |color|||颜色
 
+```mdx-code-block
+</APITable>
+```
+
 ## VisualMapTheme
 
-Inherits or Implemented: [ComponentTheme](#componenttheme)
+> XCharts.Runtime.VisualMapTheme : [ComponentTheme](#componenttheme)
+
+```mdx-code-block
+<APITable name="VisualMapTheme">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1576,19 +2203,28 @@ Inherits or Implemented: [ComponentTheme](#componenttheme)
 |backgroundColor|||the background color of visualmap.
 |triangeLen|20f||可视化组件的调节三角形边长。
 
+```mdx-code-block
+</APITable>
+```
+
 ## XAxis
 
-Inherits or Implemented: [Axis](#axis)
+> XCharts.Runtime.XAxis : [Axis](#axis)
 
 The x axis in cartesian(rectangular) coordinate.
 
-
 ## XCResourcesImporter
 
+> XCharts.Runtime.XCResourcesImporter
 
 ## XCSettings
 
-Inherits or Implemented: [ScriptableObject](#scriptableobject)
+> XCharts.Runtime.XCSettings : [ScriptableObject](https://docs.unity3d.com/ScriptReference/30_search.html?q=ScriptableObject)
+
+```mdx-code-block
+<APITable name="XCSettings">
+```
+
 
 |field|default|since|comment|
 |--|--|--|--|
@@ -1630,10 +2266,13 @@ Inherits or Implemented: [ScriptableObject](#scriptableobject)
 |pieSelectedOffset|8f||
 |customThemes|||
 
+```mdx-code-block
+</APITable>
+```
+
 ## YAxis
 
-Inherits or Implemented: [Axis](#axis)
+> XCharts.Runtime.YAxis : [Axis](#axis)
 
 The x axis in cartesian(rectangular) coordinate.
-
 

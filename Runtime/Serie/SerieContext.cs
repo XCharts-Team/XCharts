@@ -35,6 +35,7 @@ namespace XCharts.Runtime
         public List<int> pointerAxisDataIndexs = new List<int>();
         public bool isTriggerByAxis = false;
         public int dataZoomStartIndex = 0;
+        public int dataZoomStartIndexOffset = 0;
 
         /// <summary>
         /// 中心点

@@ -760,14 +760,19 @@ namespace XCharts.Runtime
             }
         }
 
-        private static List<SerieData> emptyFilter = new List<SerieData>();
         /// <summary>
         /// 根据dataZoom更新数据列表缓存
         /// </summary>
         /// <param name="dataZoom"></param>
         public static void UpdateFilterData(Serie serie, DataZoom dataZoom)
         {
-            if (dataZoom == null || !dataZoom.enable) return;
+            if (dataZoom == null || !dataZoom.enable)
+            {
+                serie.m_NeedUpdateFilterData = true;
+                serie.context.dataZoomStartIndex = 0;
+                serie.context.dataZoomStartIndexOffset = 0;
+                return;
+            }
             if (dataZoom.IsContainsXAxis(serie.xAxisIndex))
             {
                 if (dataZoom.IsXAxisIndexValue(serie.xAxisIndex))
@@ -822,7 +827,10 @@ namespace XCharts.Runtime
             }
             else if (endValue == 0)
             {
-                serie.m_FilterData = emptyFilter;
+                if (serie.m_FilterData == null)
+                    serie.m_FilterData = new List<SerieData>();
+                else if (serie.m_FilterData.Count > 0)
+                    serie.m_FilterData.Clear();
             }
         }
 
@@ -863,24 +871,54 @@ namespace XCharts.Runtime
                     if (start >= 0)
                     {
                         serie.context.dataZoomStartIndex = start;
+                        serie.context.dataZoomStartIndexOffset = 0;
                         serie.m_FilterData = data.GetRange(start, range);
+                        var nowCount = serie.m_FilterData.Count;
+                        if (nowCount > 0)
+                        {
+                            if (serie.IsIgnoreValue(serie.m_FilterData[nowCount - 1]))
+                            {
+                                for (int i = start + range; i < data.Count; i++)
+                                {
+                                    serie.m_FilterData.Add(data[i]);
+                                    if (!serie.IsIgnoreValue(data[i]))
+                                        break;
+                                }
+                            }
+                            if (serie.IsIgnoreValue(serie.m_FilterData[0]))
+                            {
+                                for (int i = start - 1; i >= 0; i--)
+                                {
+                                    serie.m_FilterData.Insert(0, data[i]);
+                                    serie.context.dataZoomStartIndexOffset++;
+                                    if (!serie.IsIgnoreValue(data[i]))
+                                        break;
+                                }
+                            }
+                        }
                     }
                     else
                     {
                         serie.context.dataZoomStartIndex = 0;
+                        serie.context.dataZoomStartIndexOffset = 0;
                         serie.m_FilterData = data;
                     }
                 }
                 else
                 {
                     serie.context.dataZoomStartIndex = 0;
+                    serie.context.dataZoomStartIndexOffset = 0;
                     serie.m_FilterData = data;
                 }
             }
             else if (end == 0)
             {
                 serie.context.dataZoomStartIndex = 0;
-                serie.m_FilterData = emptyFilter;
+                serie.context.dataZoomStartIndexOffset = 0;
+                if (serie.m_FilterData == null)
+                    serie.m_FilterData = new List<SerieData>();
+                else if (serie.m_FilterData.Count > 0)
+                    serie.m_FilterData.Clear();
             }
         }
 

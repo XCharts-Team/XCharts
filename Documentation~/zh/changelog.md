@@ -66,6 +66,8 @@ slug: /changelog
 
 ## master
 
+* (2023.06.12) 修复`AxisLabel`的`formatterFunction`在数值轴时`value`不对的问题
+
 ## v3.7.0
 
 版本要点：

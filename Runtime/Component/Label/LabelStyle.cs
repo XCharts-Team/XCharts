@@ -413,7 +413,7 @@ namespace XCharts.Runtime
         protected string GetFormatterFunctionContent(int labelIndex, double value, string currentContent)
         {
             return m_FormatterFunction == null ? currentContent :
-                m_FormatterFunction(labelIndex, labelIndex, null, currentContent);
+                m_FormatterFunction(labelIndex, value, null, currentContent);
         }
     }
 }

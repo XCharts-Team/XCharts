@@ -56,6 +56,7 @@ namespace XCharts.Runtime
         protected override void Awake()
         {
             raycastTarget = false;
+            SetActive(true);
         }
 
         public void SetTextPadding(TextPadding padding)

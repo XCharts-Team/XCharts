@@ -66,6 +66,7 @@ slug: /changelog
 
 ## master
 
+* (2023.06.30) 修复`Axis`的`IndicatorLabel`无法自定义`color`的问题
 * (2023.06.12) 修复`AxisLabel`的`formatterFunction`在数值轴时`value`不对的问题
 
 ## v3.7.0

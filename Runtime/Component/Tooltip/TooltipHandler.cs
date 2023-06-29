@@ -210,7 +210,11 @@ namespace XCharts.Runtime
                 label.color = textColor;
             else
                 label.color = axis.indicatorLabel.background.color;
-            label.SetTextColor(Color.white);
+
+            if (ChartHelper.IsClearColor(axis.indicatorLabel.textStyle.color))
+                label.SetTextColor(Color.white);
+            else
+                label.SetTextColor(axis.indicatorLabel.textStyle.color);
         }
 
         private ISerieContainer GetPointerContainerAndSeries(Tooltip tooltip, List<Serie> list)

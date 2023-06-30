@@ -57,9 +57,10 @@ namespace XCharts.Runtime
                     if (com is Axis)
                     {
                         var axis = com as Axis;
+                        var aligment = (com is AngleAxis) ? TextAnchor.MiddleCenter : axis.context.aligment;
                         var labelName = ChartCached.GetComponentObjectName(axis);
                         var item = ChartHelper.AddTooltipIndicatorLabel(component, labelName, m_LabelRoot.transform,
-                            chart.theme, axis.context.aligment, axis.indicatorLabel);
+                            chart.theme, aligment, axis.indicatorLabel);
                         item.SetActive(false);
                         m_IndicatorLabels[labelName] = item;
                     }

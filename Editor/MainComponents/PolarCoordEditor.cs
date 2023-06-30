@@ -12,6 +12,7 @@ namespace XCharts.Editor
             PropertyTwoFiled("m_Center");
             PropertyTwoFiled("m_Radius");
             PropertyField("m_BackgroundColor");
+            PropertyField("m_IndicatorLabelOffset");
             --EditorGUI.indentLevel;
         }
     }

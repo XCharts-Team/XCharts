@@ -66,6 +66,7 @@ slug: /changelog
 
 ## master
 
+* (2023.06.30) 增加`PolarCood`的`indicatorLabelOffset`设置指示文本偏移的支持
 * (2023.06.30) 修复`Axis`的`IndicatorLabel`的背景颜色可能不正常的问题
 * (2023.06.30) 增加`Axis`的`IndicatorLabel`可自定义`color`的支持
 * (2023.06.12) 修复`AxisLabel`的`formatterFunction`在数值轴时`value`不对的问题

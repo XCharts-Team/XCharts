@@ -234,6 +234,8 @@ import APITable from '@site/src/components/APITable';
 |dataChangeDuration|500||数据变更的动画时长（毫秒）。
 |actualDuration|||实际的动画时长（毫秒）。
 |unscaledTime||v3.4.0|动画是否受TimeScaled的影响。默认为 false 受TimeScaled的影响。
+|dataAddEnable|true|v3.8.0|是否开启数据增加动画。
+|dataAddDuration|500|v3.8.0|数据增加的动画时长（毫秒）。
 
 ```mdx-code-block
 </APITable>
@@ -1500,6 +1502,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |center|||极坐标的中心点。数组的第一项是横坐标，第二项是纵坐标。 当值为0-1之间时表示百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
 |radius|||半径。radius[0]表示内径，radius[1]表示外径。
 |backgroundColor|||极坐标的背景色，默认透明。
+|indicatorLabelOffset|30f|v3.8.0|指示器标签的偏移量。
 
 ```mdx-code-block
 </APITable>

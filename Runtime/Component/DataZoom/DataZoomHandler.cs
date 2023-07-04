@@ -543,13 +543,14 @@ namespace XCharts.Runtime
                 var totalAverage = serie.sampleAverage > 0 ? serie.sampleAverage :
                     DataHelper.DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);
                 var dataChanging = false;
-                var animationDuration = serie.animation.GetUpdateAnimationDuration();
+                var animationDuration = serie.animation.GetDataChangeDuration();
+                var dataAddDuration = serie.animation.GetDataAddDuration();
                 var unscaledTime = serie.animation.unscaledTime;
 
                 for (int i = 0; i < maxCount; i += rate)
                 {
                     double value = DataHelper.SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
-                        animationDuration, ref dataChanging, axis, unscaledTime);
+                        dataAddDuration, animationDuration, ref dataChanging, axis, unscaledTime);
                     float pX = dataZoom.context.x + i * scaleWid;
                     float dataHig = (float)((maxValue - minValue) == 0 ? 0 :
                         (value - minValue) / (maxValue - minValue) * dataZoom.context.height);
@@ -634,13 +635,14 @@ namespace XCharts.Runtime
                 var totalAverage = serie.sampleAverage > 0 ? serie.sampleAverage :
                     DataHelper.DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);
                 var dataChanging = false;
-                var animationDuration = serie.animation.GetUpdateAnimationDuration();
+                var animationDuration = serie.animation.GetDataChangeDuration();
+                var dataAddDuration = serie.animation.GetDataAddDuration();
                 var unscaledTime = serie.animation.unscaledTime;
 
                 for (int i = 0; i < maxCount; i += rate)
                 {
                     double value = DataHelper.SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
-                        animationDuration, ref dataChanging, axis, unscaledTime);
+                        dataAddDuration, animationDuration, ref dataChanging, axis, unscaledTime);
                     float pY = dataZoom.context.y + i * scaleWid;
                     float dataHig = (maxValue - minValue) == 0 ? 0 :
                         (float)((value - minValue) / (maxValue - minValue) * dataZoom.context.width);

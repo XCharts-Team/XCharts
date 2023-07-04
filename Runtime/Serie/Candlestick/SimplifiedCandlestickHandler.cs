@@ -99,7 +99,8 @@ namespace XCharts.Runtime
                 showData.Count;
 
             bool dataChanging = false;
-            float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            float dataChangeDuration = serie.animation.GetDataChangeDuration();
+            var dataAddDuration = serie.animation.GetDataAddDuration();
             var unscaledTime = serie.animation.unscaledTime;
             double yMinValue = yAxis.context.minValue;
             double yMaxValue = yAxis.context.maxValue;
@@ -118,10 +119,10 @@ namespace XCharts.Runtime
                     continue;
                 }
                 var startDataIndex = serieData.data.Count > 4 ? 1 : 0;
-                var open = serieData.GetCurrData(startDataIndex, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
-                var close = serieData.GetCurrData(startDataIndex + 1, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
-                var lowest = serieData.GetCurrData(startDataIndex + 2, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
-                var heighest = serieData.GetCurrData(startDataIndex + 3, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
+                var open = serieData.GetCurrData(startDataIndex, dataAddDuration, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
+                var close = serieData.GetCurrData(startDataIndex + 1, dataAddDuration, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
+                var lowest = serieData.GetCurrData(startDataIndex + 2, dataAddDuration, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
+                var heighest = serieData.GetCurrData(startDataIndex + 3, dataAddDuration, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
                 var isRise = yAxis.inverse ? close<open : close> open;
                 var borderWidth = open == 0 ? 0f :
                     (itemStyle.runtimeBorderWidth == 0 ? theme.serie.candlestickBorderWidth :

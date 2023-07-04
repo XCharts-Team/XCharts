@@ -234,6 +234,8 @@ the animation of serie.
 |dataChangeDuration|500||The milliseconds duration of the data change animation.
 |actualDuration|||The milliseconds actual duration of the first animation.
 |unscaledTime||v3.4.0|Animation updates independently of Time.timeScale.
+|dataAddEnable|true|v3.8.0|Whether to enable data add animation.
+|dataAddDuration|500|v3.8.0|The milliseconds duration of the data add animation.
 
 ```mdx-code-block
 </APITable>
@@ -1500,6 +1502,7 @@ Polar coordinate can be used in scatter and line chart. Every polar coordinate h
 |center|||The center of ploar. The center[0] is the x-coordinate, and the center[1] is the y-coordinate. When value between 0 and 1 represents a percentage  relative to the chart.
 |radius|||the radius of polar.
 |backgroundColor|||Background color of polar, which is transparent by default.
+|indicatorLabelOffset|30f|v3.8.0|The offset of indicator label.
 
 ```mdx-code-block
 </APITable>

@@ -184,7 +184,8 @@ namespace XCharts.Runtime
                 showData.Count;
             var isPercentStack = SeriesHelper.IsPercentStack<Bar>(chart.series, serie.stack);
             bool dataChanging = false;
-            float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            float dataChangeDuration = serie.animation.GetDataChangeDuration();
+            var dataAddDuration = serie.animation.GetDataAddDuration();
             double yMinValue = relativedAxis.context.minValue;
             double yMaxValue = relativedAxis.context.maxValue;
 
@@ -211,7 +212,7 @@ namespace XCharts.Runtime
                 var state = SerieHelper.GetSerieState(serie, serieData);
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, state);
                 var value = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
-                var relativedValue = serieData.GetCurrData(1, dataChangeDuration, relativedAxis.inverse, yMinValue, yMaxValue, serie.animation.unscaledTime);
+                var relativedValue = serieData.GetCurrData(1, dataAddDuration, dataChangeDuration, relativedAxis.inverse, yMinValue, yMaxValue, serie.animation.unscaledTime);
                 var borderWidth = relativedValue == 0 ? 0 : itemStyle.runtimeBorderWidth;
                 var borderGap = relativedValue == 0 ? 0 : itemStyle.borderGap;
                 var borderGapAndWidth = borderWidth + borderGap;
@@ -236,7 +237,6 @@ namespace XCharts.Runtime
                 {
                     barHig = AxisHelper.GetAxisValueLength(m_SerieGrid, relativedAxis, categoryWidth, relativedValue);
                 }
-
                 float currHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, barHig);
                 Vector3 plb, plt, prt, prb, top;
                 UpdateRectPosition(m_SerieGrid, isY, relativedValue, pX, pY, gap, borderWidth, barWidth, currHig,

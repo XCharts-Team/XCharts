@@ -237,8 +237,6 @@ namespace XCharts.Runtime
             var rate = serie.animation.GetCurrRate();
             var dataChanging = false;
             var interacting = false;
-            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            var unscaledTime = serie.animation.unscaledTime;
             SerieHelper.GetAllMinMaxData(serie, m_RadarCoord.ceilRate);
             Color32 areaColor, areaToColor;
             var startAngle = m_RadarCoord.startAngle * Mathf.PI / 180;
@@ -265,7 +263,7 @@ namespace XCharts.Runtime
                     if (n >= serieData.data.Count) break;
                     var min = m_RadarCoord.GetIndicatorMin(n);
                     var max = m_RadarCoord.GetIndicatorMax(n);
-                    var value = serieData.GetCurrData(n, dataChangeDuration, unscaledTime);
+                    var value = serieData.GetCurrData(n, serie.animation);
                     if (serieData.IsDataChanged()) dataChanging = true;
                     if (max == 0)
                     {
@@ -379,8 +377,6 @@ namespace XCharts.Runtime
 
             var rate = serie.animation.GetCurrRate();
             var dataChanging = false;
-            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            var unscaledTime = serie.animation.unscaledTime;
             var startIndex = GetStartShowIndex(serie);
             var endIndex = GetEndShowIndex(serie);
             var startAngle = m_RadarCoord.startAngle * Mathf.PI / 180;
@@ -404,7 +400,7 @@ namespace XCharts.Runtime
                 var index = serieData.index;
                 var p = m_RadarCoord.context.center;
                 var max = m_RadarCoord.GetIndicatorMax(index);
-                var value = serieData.GetCurrData(1, dataChangeDuration, unscaledTime);
+                var value = serieData.GetCurrData(1, serie.animation);
                 if (serieData.IsDataChanged()) dataChanging = true;
                 if (max == 0)
                 {

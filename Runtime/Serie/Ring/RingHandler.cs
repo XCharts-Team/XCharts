@@ -100,7 +100,7 @@ namespace XCharts.Runtime
             param.color = color;
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
             param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
-            param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);;
+            param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter); ;
             param.columns.Clear();
 
             param.columns.Add(param.marker);
@@ -180,8 +180,6 @@ namespace XCharts.Runtime
             var data = serie.data;
             serie.animation.InitProgress(serie.startAngle, serie.startAngle + 360);
             SerieHelper.UpdateCenter(serie, chart.chartPosition, chart.chartWidth, chart.chartHeight);
-            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            var unscaledTime = serie.animation.unscaledTime;
             var ringWidth = serie.context.outsideRadius - serie.context.insideRadius;
             var dataChanging = false;
             for (int j = 0; j < data.Count; j++)
@@ -189,16 +187,18 @@ namespace XCharts.Runtime
                 var serieData = data[j];
                 if (!serieData.show) continue;
                 if (serieData.IsDataChanged()) dataChanging = true;
-                var value = serieData.GetFirstData(unscaledTime, dataChangeDuration);
+                var outsideRadius = serie.context.outsideRadius - j * (ringWidth + serie.gap);
+                if (outsideRadius < 0) continue;
+                var value = serieData.GetCurrData(0, serie.animation, false, false);
                 var max = serieData.GetLastData();
-                var degree = (float) (360 * value / max);
+                var degree = (float)(360 * value / max);
                 var startDegree = GetStartAngle(serie);
                 var toDegree = GetToAngle(serie, degree);
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
                 var colorIndex = chart.GetLegendRealShowNameIndex(serieData.legendName);
                 Color32 itemColor, itemToColor;
                 SerieHelper.GetItemColor(out itemColor, out itemToColor, serie, serieData, chart.theme, colorIndex);
-                var outsideRadius = serie.context.outsideRadius - j * (ringWidth + serie.gap);
+
                 var insideRadius = outsideRadius - ringWidth;
                 var borderWidth = itemStyle.borderWidth;
                 var borderColor = itemStyle.borderColor;

@@ -401,7 +401,8 @@ namespace XCharts.Runtime
             if (!m_InitedLabel)
                 return;
 
-            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            var dataChangeDuration = serie.animation.GetDataChangeDuration();
+            var dataAddDuration = serie.animation.GetDataAddDuration();
             var unscaledTime = serie.animation.unscaledTime;
             var needCheck = serie.context.dataIndexs.Count > 0;
             foreach (var serieData in serie.data)
@@ -432,7 +433,7 @@ namespace XCharts.Runtime
                         {
                             if (i >= serieData.context.dataPoints.Count) continue;
                             var labelObject = serieData.context.dataLabels[i];
-                            var value = serieData.GetCurrData(i, dataChangeDuration, unscaledTime);
+                            var value = serieData.GetCurrData(i, dataAddDuration, dataChangeDuration, unscaledTime);
                             var content = string.IsNullOrEmpty(currLabel.formatter) ?
                                 ChartCached.NumberToStr(value, currLabel.numericFormatter) :
                                 SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,
@@ -452,7 +453,7 @@ namespace XCharts.Runtime
                     }
                     else
                     {
-                        var value = serieData.GetCurrData(defaultDimension, dataChangeDuration, unscaledTime);
+                        var value = serieData.GetCurrData(defaultDimension, dataAddDuration, dataChangeDuration, unscaledTime);
                         var total = serie.GetDataTotal(defaultDimension, serieData);
                         var color = chart.GetItemColor(serie, serieData);
                         var content = string.IsNullOrEmpty(currLabel.formatter) ?

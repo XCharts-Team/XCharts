@@ -288,7 +288,8 @@ namespace XCharts.Runtime
                 serie.sampleAverage :
                 DataHelper.DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);
             var dataChanging = false;
-            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            var dataChangeDuration = serie.animation.GetDataChangeDuration();
+            var dataAddDuration = serie.animation.GetDataAddDuration();
             var unscaledTime = serie.animation.unscaledTime;
 
             var interacting = false;
@@ -325,7 +326,7 @@ namespace XCharts.Runtime
                     var np = Vector3.zero;
                     var xValue = axis.IsCategory() ? realIndex : serieData.GetData(0, axis.inverse);
                     var relativedValue = DataHelper.SampleValue(ref showData, serie.sampleType, rate, serie.minShow,
-                        maxCount, totalAverage, i, dataChangeDuration, ref dataChanging, relativedAxis, unscaledTime);
+                        maxCount, totalAverage, i, 0, dataChangeDuration, ref dataChanging, relativedAxis, unscaledTime);
 
                     serieData.context.stackHeight = GetDataPoint(isY, axis, relativedAxis, m_SerieGrid, xValue, relativedValue,
                         i, scaleWid, isStack, ref np);

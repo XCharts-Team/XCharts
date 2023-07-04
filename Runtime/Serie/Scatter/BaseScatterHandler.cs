@@ -133,7 +133,7 @@ namespace XCharts.Runtime
                 serie.dataCount;
             serie.animation.InitProgress(0, 1);
             var rate = serie.animation.GetCurrRate();
-            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            var dataChangeDuration = serie.animation.GetDataChangeDuration();
             var unscaledTime = serie.animation.unscaledTime;
             var dataChanging = false;
             var interacting = false;
@@ -157,8 +157,8 @@ namespace XCharts.Runtime
 
                 SerieHelper.GetItemColor(out color, out toColor, out emptyColor, serie, serieData, chart.theme, colorIndex, state);
                 SerieHelper.GetSymbolInfo(out borderColor, out symbolBorder, out cornerRadius, serie, serieData, chart.theme, state);
-                double xValue = serieData.GetCurrData(0, dataChangeDuration, unscaledTime, xAxis.inverse);
-                double yValue = serieData.GetCurrData(1, dataChangeDuration, unscaledTime, yAxis.inverse);
+                double xValue = serieData.GetCurrData(0, 0, dataChangeDuration, unscaledTime, xAxis.inverse);
+                double yValue = serieData.GetCurrData(1, 0, dataChangeDuration, unscaledTime, yAxis.inverse);
 
                 if (serieData.IsDataChanged())
                     dataChanging = true;
@@ -237,7 +237,7 @@ namespace XCharts.Runtime
             serie.animation.InitProgress(0, 1);
 
             var rate = serie.animation.GetCurrRate();
-            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            var dataChangeDuration = serie.animation.GetDataChangeDuration();
             var unscaledTime = serie.animation.unscaledTime;
             var dataChanging = false;
             var dataList = serie.GetDataList(xDataZoom);
@@ -264,7 +264,7 @@ namespace XCharts.Runtime
                     dataChanging = true;
 
                 var pos = Vector3.zero;
-                var xValue = serieData.GetCurrData(0, dataChangeDuration, unscaledTime, axis.inverse);
+                var xValue = serieData.GetCurrData(0, 0, dataChangeDuration, unscaledTime, axis.inverse);
 
                 if (axis.orient == Orient.Horizonal)
                 {

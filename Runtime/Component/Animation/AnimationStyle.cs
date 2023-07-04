@@ -43,6 +43,52 @@ namespace XCharts.Runtime
         Linear,
     }
 
+    [Since("v3.8.0")]
+    [System.Serializable]
+    public class AnimationInfo
+    {
+        [SerializeField][Since("v3.8.0")] private bool m_Enable = true;
+        [SerializeField][Since("v3.8.0")] private float m_Delay = 0;
+        [SerializeField][Since("v3.8.0")] private float m_Duration = 1000;
+
+        public bool enable { get { return m_Enable; } set { m_Enable = value; } }
+        public float delay { get { return m_Delay; } set { m_Delay = value; } }
+        public float duration { get { return m_Duration; } set { m_Duration = value; } }
+
+        public Action OnAnimationStart { get; set; }
+        public Action OnAnimationEnd { get; set; }
+
+        public AnimationDelayFunction delayFunction { get; set; }
+        public AnimationDurationFunction durationFunction { get; set; }
+
+        internal bool start { get; set; }
+        internal bool end { get; set; }
+    }
+
+    [Since("v3.8.0")]
+    [System.Serializable]
+    public class AnimationFadeIn : AnimationInfo
+    {
+    }
+
+    [Since("v3.8.0")]
+    [System.Serializable]
+    public class AnimationFadeOut : AnimationInfo
+    {
+    }
+
+    [Since("v3.8.0")]
+    [System.Serializable]
+    public class AnimationUpdated : AnimationInfo
+    {
+    }
+
+    [Since("v3.8.0")]
+    [System.Serializable]
+    public class AnimationAdded : AnimationInfo
+    {
+    }
+
     /// <summary>
     /// the animation of serie.
     /// |动画表现。
@@ -54,30 +100,24 @@ namespace XCharts.Runtime
         [SerializeField] private AnimationType m_Type;
         [SerializeField] private AnimationEasing m_Easting;
         [SerializeField] private int m_Threshold = 2000;
-        [SerializeField] private float m_FadeInDuration = 1000;
-        [SerializeField] private float m_FadeInDelay = 0;
-        [SerializeField] private float m_FadeOutDuration = 1000f;
-        [SerializeField] private float m_FadeOutDelay = 0;
-        [SerializeField] private bool m_DataChangeEnable = true;
-        [SerializeField] private float m_DataChangeDuration = 500;
-        [SerializeField] private float m_ActualDuration;
         [SerializeField][Since("v3.4.0")] private bool m_UnscaledTime;
-        /// <summary>
-        /// 自定义渐入动画延时函数。返回ms值。
-        /// </summary>
+        [SerializeField][Since("v3.8.0")] private AnimationFadeIn m_FadeIn = new AnimationFadeIn();
+        [SerializeField][Since("v3.8.0")] private AnimationFadeOut m_FadeOut = new AnimationFadeOut();
+        [SerializeField][Since("v3.8.0")] private AnimationUpdated m_Updated = new AnimationUpdated() { duration = 500 };
+        [SerializeField][Since("v3.8.0")] private AnimationAdded m_Added = new AnimationAdded() { duration = 500 };
+
+        [Obsolete("Use animation.fadeIn.delayFunction instead.", true)]
         public AnimationDelayFunction fadeInDelayFunction;
-        /// <summary>
-        /// 自定义渐入动画时长函数。返回ms值。
-        /// </summary>
+        [Obsolete("Use animation.fadeIn.durationFunction instead.", true)]
         public AnimationDurationFunction fadeInDurationFunction;
-        /// <summary>
-        /// 自定义渐出动画延时函数。返回ms值。
-        /// </summary>
+        [Obsolete("Use animation.fadeOut.delayFunction instead.", true)]
         public AnimationDelayFunction fadeOutDelayFunction;
-        /// <summary>
-        /// 自定义渐出动画时长函数。返回ms值。
-        /// </summary>
+        [Obsolete("Use animation.fadeOut.durationFunction instead.", true)]
         public AnimationDurationFunction fadeOutDurationFunction;
+        [Obsolete("Use animation.fadeIn.OnAnimationEnd() instead.", true)]
+        public Action fadeInFinishCallback { get; set; }
+        [Obsolete("Use animation.fadeOut.OnAnimationEnd() instead.", true)]
+        public Action fadeOutFinishCallback { get; set; }
         public AnimationStyleContext context = new AnimationStyleContext();
 
         /// <summary>
@@ -91,68 +131,40 @@ namespace XCharts.Runtime
         /// </summary>
         public AnimationType type { get { return m_Type; } set { m_Type = value; } }
         /// <summary>
-        /// Easing method used for the first animation.
-        /// |动画的缓动效果。
-        /// </summary>
-        //public Easing easting { get { return m_Easting; } set { m_Easting = value; } }
-        /// <summary>
-        /// The milliseconds duration of the fadeIn animation.
-        /// |设定的渐入动画时长（毫秒）。如果要设置单个数据项的渐入时长，可以用代码定制：customFadeInDuration。
-        /// </summary>
-        public float fadeInDuration { get { return m_FadeInDuration; } set { m_FadeInDuration = value < 0 ? 0 : value; } }
-        /// <summary>
-        /// The milliseconds duration of the fadeOut animation.
-        /// |设定的渐出动画时长（毫秒）。如果要设置单个数据项的渐出时长，可以用代码定制：customFadeOutDuration。
-        /// </summary>
-        public float fadeOutDuration { get { return m_FadeOutDuration; } set { m_FadeOutDuration = value < 0 ? 0 : value; } }
-        /// <summary>
-        /// The milliseconds actual duration of the first animation.
-        /// |实际的动画时长（毫秒）。
-        /// </summary>
-        public float actualDuration { get { return m_ActualDuration; } }
-        /// <summary>
         /// Whether to set graphic number threshold to animation. Animation will be disabled when graphic number is larger than threshold.
         /// |是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。
         /// </summary>
         public int threshold { get { return m_Threshold; } set { m_Threshold = value; } }
-        /// <summary>
-        /// The milliseconds delay before updating the first animation.
-        /// |渐入动画延时（毫秒）。如果要设置单个数据项的延时，可以用代码定制：customFadeInDelay。
-        /// </summary>
-        public float fadeInDelay { get { return m_FadeInDelay; } set { m_FadeInDelay = value < 0 ? 0 : value; } }
-        /// <summary>
-        /// 渐出动画延时（毫秒）。如果要设置单个数据项的延时，可以用代码定制：customFadeOutDelay。
-        /// </summary>
-        public float fadeOutDelay { get { return m_FadeOutDelay; } set { m_FadeInDelay = value < 0 ? 0 : value; } }
-        /// <summary>
-        /// 是否开启数据变更动画。
-        /// </summary>
-        public bool dataChangeEnable { get { return m_DataChangeEnable; } set { m_DataChangeEnable = value; } }
-        /// <summary>
-        /// The milliseconds duration of the data change animation.
-        /// |数据变更的动画时长（毫秒）。
-        /// </summary>
-        public float dataChangeDuration { get { return m_DataChangeDuration; } set { m_DataChangeDuration = value < 0 ? 0 : value; } }
         /// <summary>
         /// Animation updates independently of Time.timeScale.
         /// |动画是否受TimeScaled的影响。默认为 false 受TimeScaled的影响。
         /// </summary>
         public bool unscaledTime { get { return m_UnscaledTime; } set { m_UnscaledTime = value; } }
         /// <summary>
-        /// 渐入动画完成回调
+        /// Fade in animation configuration.
+        /// |渐入动画配置。
         /// </summary>
-        public Action fadeInFinishCallback { get; set; }
+        public AnimationFadeIn fadeIn { get { return m_FadeIn; } }
         /// <summary>
-        /// 渐出动画完成回调
+        /// Fade out animation configuration.
+        /// |渐出动画配置。
         /// </summary>
-        public Action fadeOutFinishCallback { get; set; }
+        public AnimationFadeOut fadeOut { get { return m_FadeOut; } }
+        /// <summary>
+        /// Update data animation configuration.
+        /// |更新数据动画配置。
+        /// </summary>
+        public AnimationUpdated updated { get { return m_Updated; } }
+        /// <summary>
+        /// Add data animation configuration.
+        /// |添加数据动画配置。
+        /// </summary>
+        public AnimationAdded added { get { return m_Added; } }
+
         private Dictionary<int, float> m_ItemCurrProgress = new Dictionary<int, float>();
         private Dictionary<int, float> m_ItemDestProgress = new Dictionary<int, float>();
-        private bool m_FadeIn = false;
         private bool m_IsEnd = true;
         private bool m_IsPause = false;
-        private bool m_FadeOut = false;
-        private bool m_FadeOuted = false;
         private bool m_IsInit = false;
 
         private float startTime { get; set; }
@@ -164,7 +176,7 @@ namespace XCharts.Runtime
 
         public void FadeIn()
         {
-            if (m_FadeOut)
+            if (m_FadeOut.start)
                 return;
 
             if (m_IsPause)
@@ -173,15 +185,15 @@ namespace XCharts.Runtime
                 return;
             }
 
-            if (m_FadeIn)
+            if (m_FadeIn.start)
                 return;
 
             startTime = Time.time;
-            m_FadeIn = true;
+            m_FadeIn.start = true;
             m_IsEnd = false;
             m_IsInit = false;
             m_IsPause = false;
-            m_FadeOuted = false;
+            m_FadeOut.end = false;
             m_CurrDetailProgress = 0;
             m_DestDetailProgress = 1;
             m_CurrSymbolProgress = 0;
@@ -203,9 +215,9 @@ namespace XCharts.Runtime
                 return;
             }
 
-            m_FadeOut = true;
+            m_FadeOut.start = true;
             startTime = Time.time;
-            m_FadeIn = true;
+            m_FadeIn.start = true;
             m_IsEnd = false;
             m_IsInit = false;
             m_IsPause = false;
@@ -237,37 +249,36 @@ namespace XCharts.Runtime
             if (m_IsEnd)
                 return;
 
-            m_ActualDuration = (int) ((Time.time - startTime) * 1000) - (m_FadeOut ? fadeOutDelay : fadeInDelay);
             m_IsEnd = true;
             m_IsInit = false;
 
-            if (m_FadeIn)
+            if (m_FadeIn.start)
             {
-                m_FadeIn = false;
-                if (fadeInFinishCallback != null)
+                m_FadeIn.start = false;
+                if (m_FadeIn.OnAnimationEnd != null)
                 {
-                    fadeInFinishCallback();
+                    m_FadeIn.OnAnimationEnd();
                 }
             }
-            if (m_FadeOut)
+            if (m_FadeOut.start)
             {
-                m_FadeOut = false;
-                m_FadeOuted = true;
-                if (fadeOutFinishCallback != null)
+                m_FadeOut.start = false;
+                m_FadeOut.end = true;
+                if (m_FadeOut.OnAnimationEnd != null)
                 {
-                    fadeOutFinishCallback();
+                    m_FadeOut.OnAnimationEnd();
                 }
             }
         }
 
         public void Reset()
         {
-            m_FadeIn = false;
+            m_FadeIn.start = false;
             m_IsEnd = true;
             m_IsInit = false;
             m_IsPause = false;
-            m_FadeOut = false;
-            m_FadeOuted = false;
+            m_FadeOut.start = false;
+            m_FadeOut.end = false;
             m_ItemCurrProgress.Clear();
         }
 
@@ -279,7 +290,7 @@ namespace XCharts.Runtime
             m_IsInit = true;
             m_TotalDetailProgress = dest - curr;
 
-            if (m_FadeOut)
+            if (m_FadeOut.start)
             {
                 m_CurrDetailProgress = dest;
                 m_DestDetailProgress = curr;
@@ -356,7 +367,7 @@ namespace XCharts.Runtime
                 return true;
             if (IsIndexAnimation())
             {
-                if (m_FadeOut) return m_CurrDetailProgress <= m_DestDetailProgress;
+                if (m_FadeOut.start) return m_CurrDetailProgress <= m_DestDetailProgress;
                 else return m_CurrDetailProgress > m_DestDetailProgress;
             }
             if (IsItemAnimation())
@@ -366,15 +377,15 @@ namespace XCharts.Runtime
 
         public bool IsInFadeOut()
         {
-            return m_FadeOut;
+            return m_FadeOut.start;
         }
 
         public bool IsInDelay()
         {
-            if (m_FadeOut)
-                return (fadeOutDelay > 0 && Time.time - startTime < fadeOutDelay / 1000);
+            if (m_FadeOut.start)
+                return (m_FadeOut.delay > 0 && Time.time - startTime < m_FadeOut.delay / 1000);
             else
-                return (fadeInDelay > 0 && Time.time - startTime < fadeInDelay / 1000);
+                return (m_FadeIn.delay > 0 && Time.time - startTime < m_FadeIn.delay / 1000);
         }
 
         public bool IsItemAnimation()
@@ -391,10 +402,10 @@ namespace XCharts.Runtime
 
         public float GetIndexDelay(int dataIndex)
         {
-            if (m_FadeOut && fadeOutDelayFunction != null)
-                return fadeOutDelayFunction(dataIndex);
-            else if (m_FadeIn && fadeInDelayFunction != null)
-                return fadeInDelayFunction(dataIndex);
+            if (m_FadeOut.start && m_FadeOut.delayFunction != null)
+                return m_FadeOut.delayFunction(dataIndex);
+            else if (m_FadeIn.start && m_FadeIn.delayFunction != null)
+                return m_FadeIn.delayFunction(dataIndex);
             else
                 return 0;
         }
@@ -466,10 +477,9 @@ namespace XCharts.Runtime
             if (IsInDelay())
                 return;
 
-            m_ActualDuration = (int) ((Time.time - startTime) * 1000) - fadeInDelay;
             var duration = GetCurrAnimationDuration();
-            var delta = (float) (total / duration * (m_UnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime));
-            if (m_FadeOut)
+            var delta = (float)(total / duration * (m_UnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime));
+            if (m_FadeOut.start)
             {
                 m_CurrDetailProgress -= delta;
                 if (m_CurrDetailProgress <= m_DestDetailProgress)
@@ -493,31 +503,31 @@ namespace XCharts.Runtime
         {
             if (dataIndex >= 0)
             {
-                if (m_FadeOut && fadeOutDurationFunction != null)
-                    return fadeOutDurationFunction(dataIndex) / 1000f;
-                if (m_FadeIn && fadeInDurationFunction != null)
-                    return fadeInDurationFunction(dataIndex) / 1000f;
+                if (m_FadeOut.start && m_FadeOut.durationFunction != null)
+                    return m_FadeOut.durationFunction(dataIndex) / 1000f;
+                if (m_FadeIn.start && m_FadeIn.durationFunction != null)
+                    return m_FadeIn.durationFunction(dataIndex) / 1000f;
             }
 
-            if (m_FadeOut)
-                return m_FadeOutDuration > 0 ? m_FadeOutDuration / 1000 : 1f;
+            if (m_FadeOut.start)
+                return m_FadeOut.delay > 0 ? m_FadeOut.delay / 1000 : 1f;
             else
-                return m_FadeInDuration > 0 ? m_FadeInDuration / 1000 : 1f;
+                return m_FadeIn.delay > 0 ? m_FadeIn.delay / 1000 : 1f;
         }
 
         internal float CheckItemProgress(int dataIndex, float destProgress, ref bool isEnd, float startProgress = 0)
         {
             isEnd = false;
-            var initHig = m_FadeOut ? destProgress : startProgress;
-            var destHig = m_FadeOut ? startProgress : destProgress;
+            var initHig = m_FadeOut.start ? destProgress : startProgress;
+            var destHig = m_FadeOut.start ? startProgress : destProgress;
             var currHig = GetDataCurrProgress(dataIndex, initHig, destHig, ref isEnd);
             if (isEnd || IsFinish())
             {
-                return m_FadeOuted ? startProgress : destProgress;
+                return m_FadeOut.end ? startProgress : destProgress;
             }
             else if (IsInDelay() || IsInIndexDelay(dataIndex))
             {
-                return m_FadeOut ? destProgress : startProgress;
+                return m_FadeOut.start ? destProgress : startProgress;
             }
             else if (m_IsPause)
             {
@@ -527,8 +537,8 @@ namespace XCharts.Runtime
             {
                 var duration = GetCurrAnimationDuration(dataIndex);
                 var delta = (destProgress - startProgress) / duration * (m_UnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime);
-                currHig = currHig + (m_FadeOut ? -delta : delta);
-                if (m_FadeOut)
+                currHig = currHig + (m_FadeOut.start ? -delta : delta);
+                if (m_FadeOut.start)
                 {
                     if ((initHig > 0 && currHig <= 0) || (initHig < 0 && currHig >= 0))
                     {
@@ -560,7 +570,7 @@ namespace XCharts.Runtime
 
             var duration = GetCurrAnimationDuration();
             var delta = dest / duration * (m_UnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime);
-            if (m_FadeOut)
+            if (m_FadeOut.start)
             {
                 m_CurrSymbolProgress -= delta;
                 if (m_CurrSymbolProgress < 0)
@@ -584,7 +594,7 @@ namespace XCharts.Runtime
                 return dest;
 
             if (m_IsEnd)
-                return m_FadeOut ? 0 : dest;
+                return m_FadeOut.start ? 0 : dest;
 
             return m_CurrSymbolProgress;
         }
@@ -617,20 +627,28 @@ namespace XCharts.Runtime
 #endif
             if (!enable || m_IsEnd)
                 return -1;
-            return (int) m_CurrDetailProgress;
+            return (int)m_CurrDetailProgress;
         }
 
-        public float GetUpdateAnimationDuration()
+        public float GetDataChangeDuration()
         {
-            if (m_Enable && m_DataChangeEnable)
-                return m_DataChangeDuration;
+            if (m_Enable && m_Updated.enable)
+                return m_Updated.duration;
+            else
+                return 0;
+        }
+
+        public float GetDataAddDuration()
+        {
+            if (m_Enable && m_Added.enable)
+                return m_Added.duration;
             else
                 return 0;
         }
 
         public bool HasFadeOut()
         {
-            return enable && m_FadeOuted && m_IsEnd;
+            return enable && m_FadeOut.end && m_IsEnd;
         }
     }
 }

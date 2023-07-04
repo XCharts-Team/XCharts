@@ -346,7 +346,8 @@ namespace XCharts.Runtime
                     if ((isPolar && serie.polarIndex != axisIndex) ||
                         (!isPolar && serie.yAxisIndex != axisIndex) ||
                         !serie.show) continue;
-                    var updateDuration = serie.animation.enable ? serie.animation.dataChangeDuration : 0;
+                    var updateDuration = serie.animation.GetDataChangeDuration();
+                    var dataAddDuration = serie.animation.GetDataAddDuration();
                     var unscaledTime = serie.animation.unscaledTime;
                     if (isPercentStack && SeriesHelper.IsPercentStack<Bar>(series, serie.serieName))
                     {
@@ -372,7 +373,7 @@ namespace XCharts.Runtime
                             foreach (var data in showData)
                             {
                                 var currData = performanceMode ? data.GetData(yValue ? 1 : 0, inverse) :
-                                    data.GetCurrData(yValue ? 1 : 0, updateDuration, unscaledTime, inverse);
+                                    data.GetCurrData(yValue ? 1 : 0, dataAddDuration, updateDuration, unscaledTime, inverse);
                                 if (!serie.IsIgnoreValue(data, currData))
                                 {
                                     if (currData > max) max = currData;

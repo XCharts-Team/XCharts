@@ -66,6 +66,13 @@ slug: /changelog
 
 ## master
 
+版本要点：
+
+* 新增数据动画
+
+日志详情：
+
+* (2023.07.03) 增加`Animation`的添加动画支持
 * (2023.06.30) 增加`PolarCood`的`indicatorLabelOffset`设置指示文本偏移的支持
 * (2023.06.30) 修复`Axis`的`IndicatorLabel`的背景颜色可能不正常的问题
 * (2023.06.30) 增加`Axis`的`IndicatorLabel`可自定义`color`的支持

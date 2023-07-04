@@ -1176,12 +1176,13 @@ namespace XCharts.Runtime
                 }
                 else
                 {
-                    var duration = animation.GetUpdateAnimationDuration();
+                    var duration = animation.GetDataChangeDuration();
+                    var dataAddDuration = animation.GetDataAddDuration();
                     var unscaledTime = animation.unscaledTime;
                     foreach (var sdata in data)
                     {
                         if (sdata.show && !IsIgnoreValue(sdata, sdata.data[1]))
-                            total += sdata.GetCurrData(1, duration, unscaledTime);
+                            total += sdata.GetCurrData(1, dataAddDuration, duration, unscaledTime);
                     }
                 }
                 return total;
@@ -1301,6 +1302,7 @@ namespace XCharts.Runtime
                 m_Data.Insert(0, serieData);
             else
                 m_Data.Add(serieData);
+            serieData.OnAdd(animation);
             SetVerticesDirty();
             dataDirty = true;
             m_NeedUpdateFilterData = true;
@@ -1535,7 +1537,7 @@ namespace XCharts.Runtime
             var serieData = GetDataList(dataZoom);
             if (index < serieData.Count)
             {
-                var value = serieData[index].GetCurrData(1, animation.GetUpdateAnimationDuration(), animation.unscaledTime);
+                var value = serieData[index].GetCurrData(1, 0, animation.GetDataChangeDuration(), animation.unscaledTime);
                 if (showAsPositiveNumber)
                     value = Math.Abs(value);
                 return value;
@@ -1697,7 +1699,7 @@ namespace XCharts.Runtime
             if (index >= 0 && index < m_Data.Count)
             {
                 var animationOpen = animation.enable;
-                var animationDuration = animation.GetUpdateAnimationDuration();
+                var animationDuration = animation.GetDataChangeDuration();
                 var unscaledTime = animation.unscaledTime;
                 var flag = m_Data[index].UpdateData(dimension, value, animationOpen, unscaledTime, animationDuration);
                 if (flag)
@@ -1724,7 +1726,7 @@ namespace XCharts.Runtime
             {
                 var serieData = m_Data[index];
                 var animationOpen = animation.enable;
-                var animationDuration = animation.GetUpdateAnimationDuration();
+                var animationDuration = animation.GetDataChangeDuration();
                 var unscaledTime = animation.unscaledTime;
                 for (int i = 0; i < values.Count; i++)
                     serieData.UpdateData(i, values[i], animationOpen, unscaledTime, animationDuration);

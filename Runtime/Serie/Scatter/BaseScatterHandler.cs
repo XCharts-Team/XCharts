@@ -106,7 +106,7 @@ namespace XCharts.Runtime
 
         protected virtual void DrawScatterSerie(VertexHelper vh, BaseScatter serie)
         {
-            if (serie.animation.HasFadeOut())
+            if (serie.animation.HasFadeout())
                 return;
 
             if (!serie.show)
@@ -133,7 +133,7 @@ namespace XCharts.Runtime
                 serie.dataCount;
             serie.animation.InitProgress(0, 1);
             var rate = serie.animation.GetCurrRate();
-            var dataChangeDuration = serie.animation.GetDataChangeDuration();
+            var dataChangeDuration = serie.animation.GetChangeDuration();
             var unscaledTime = serie.animation.unscaledTime;
             var dataChanging = false;
             var interacting = false;
@@ -216,7 +216,7 @@ namespace XCharts.Runtime
 
         protected virtual void DrawSingAxisScatterSerie(VertexHelper vh, BaseScatter serie)
         {
-            if (serie.animation.HasFadeOut())
+            if (serie.animation.HasFadeout())
                 return;
 
             if (!serie.show)
@@ -237,7 +237,7 @@ namespace XCharts.Runtime
             serie.animation.InitProgress(0, 1);
 
             var rate = serie.animation.GetCurrRate();
-            var dataChangeDuration = serie.animation.GetDataChangeDuration();
+            var dataChangeDuration = serie.animation.GetChangeDuration();
             var unscaledTime = serie.animation.unscaledTime;
             var dataChanging = false;
             var dataList = serie.GetDataList(xDataZoom);

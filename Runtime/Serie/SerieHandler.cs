@@ -401,8 +401,8 @@ namespace XCharts.Runtime
             if (!m_InitedLabel)
                 return;
 
-            var dataChangeDuration = serie.animation.GetDataChangeDuration();
-            var dataAddDuration = serie.animation.GetDataAddDuration();
+            var dataChangeDuration = serie.animation.GetChangeDuration();
+            var dataAddDuration = serie.animation.GetAdditionDuration();
             var unscaledTime = serie.animation.unscaledTime;
             var needCheck = serie.context.dataIndexs.Count > 0;
             foreach (var serieData in serie.data)

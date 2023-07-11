@@ -152,7 +152,6 @@ namespace XCharts
                 else
                     dataZoom.SetYAxisIndexValueInfo(axisIndex, ref tempMinValue, ref tempMaxValue);
             }
-
             if (tempMinValue != axis.context.minValue ||
                 tempMaxValue != axis.context.maxValue ||
                 m_LastInterval != axis.interval ||

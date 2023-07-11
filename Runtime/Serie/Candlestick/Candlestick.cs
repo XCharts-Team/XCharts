@@ -4,7 +4,7 @@ namespace XCharts.Runtime
 {
     [System.Serializable]
     [SerieHandler(typeof(CandlestickHandler), true)]
-    [DefaultAnimation(AnimationType.LeftToRight)]
+    [DefaultAnimation(AnimationType.LeftToRight, false)]
     [SerieComponent()]
     [SerieDataComponent(typeof(ItemStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataExtraField()]

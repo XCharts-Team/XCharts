@@ -1176,8 +1176,8 @@ namespace XCharts.Runtime
                 }
                 else
                 {
-                    var duration = animation.GetDataChangeDuration();
-                    var dataAddDuration = animation.GetDataAddDuration();
+                    var duration = animation.GetChangeDuration();
+                    var dataAddDuration = animation.GetAdditionDuration();
                     var unscaledTime = animation.unscaledTime;
                     foreach (var sdata in data)
                     {
@@ -1537,7 +1537,7 @@ namespace XCharts.Runtime
             var serieData = GetDataList(dataZoom);
             if (index < serieData.Count)
             {
-                var value = serieData[index].GetCurrData(1, 0, animation.GetDataChangeDuration(), animation.unscaledTime);
+                var value = serieData[index].GetCurrData(1, 0, animation.GetChangeDuration(), animation.unscaledTime);
                 if (showAsPositiveNumber)
                     value = Math.Abs(value);
                 return value;
@@ -1699,7 +1699,7 @@ namespace XCharts.Runtime
             if (index >= 0 && index < m_Data.Count)
             {
                 var animationOpen = animation.enable;
-                var animationDuration = animation.GetDataChangeDuration();
+                var animationDuration = animation.GetChangeDuration();
                 var unscaledTime = animation.unscaledTime;
                 var flag = m_Data[index].UpdateData(dimension, value, animationOpen, unscaledTime, animationDuration);
                 if (flag)
@@ -1726,7 +1726,7 @@ namespace XCharts.Runtime
             {
                 var serieData = m_Data[index];
                 var animationOpen = animation.enable;
-                var animationDuration = animation.GetDataChangeDuration();
+                var animationDuration = animation.GetChangeDuration();
                 var unscaledTime = animation.unscaledTime;
                 for (int i = 0; i < values.Count; i++)
                     serieData.UpdateData(i, values[i], animationOpen, unscaledTime, animationDuration);
@@ -1907,18 +1907,32 @@ namespace XCharts.Runtime
         /// <summary>
         /// 渐入动画
         /// </summary>
+        public void AnimationFadein()
+        {
+            if (animation.enable) animation.Fadein();
+            SetVerticesDirty();
+        }
+
+        [Obsolete("Use Serie.AnimationFadein() instead.", true)]
         public void AnimationFadeIn()
         {
-            if (animation.enable) animation.FadeIn();
+            if (animation.enable) animation.Fadein();
             SetVerticesDirty();
         }
 
         /// <summary>
         /// 渐出动画
         /// </summary>
+        public void AnimationFadeout()
+        {
+            if (animation.enable) animation.Fadeout();
+            SetVerticesDirty();
+        }
+
+        [Obsolete("Use Serie.AnimationFadeout() instead.", true)]
         public void AnimationFadeOut()
         {
-            if (animation.enable) animation.FadeOut();
+            if (animation.enable) animation.Fadeout();
             SetVerticesDirty();
         }
 

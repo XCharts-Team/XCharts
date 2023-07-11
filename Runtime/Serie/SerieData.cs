@@ -240,13 +240,19 @@ namespace XCharts.Runtime
 
         public void OnAdd(AnimationStyle animation, double startValue = 0)
         {
+            if (!animation.enable) return;
+            if (!animation.context.enableSerieDataAddedAnimation)
+            {
+                animation.Addition();
+                return;
+            }
 #if UNITY_EDITOR
             if (!Application.isPlaying)
                 return;
 #endif
             m_DataAddTime.Clear();
             m_DataAddFlag.Clear();
-            if (animation.GetDataAddDuration() > 0)
+            if (animation.GetAdditionDuration() > 0)
             {
                 for (int i = 0; i < m_Data.Count; i++)
                 {
@@ -506,7 +512,7 @@ namespace XCharts.Runtime
             if (animation == null || !animation.enable)
                 return GetData(index, inverse);
             else
-                return GetCurrData(index, animation.GetDataAddDuration(), animation.GetDataChangeDuration(),
+                return GetCurrData(index, animation.GetAdditionDuration(), animation.GetChangeDuration(),
                     inverse, 0, 0, animation.unscaledTime, loop);
         }
 
@@ -515,7 +521,7 @@ namespace XCharts.Runtime
             if (animation == null || !animation.enable)
                 return GetData(index, inverse);
             else
-                return GetCurrData(index, animation.GetDataAddDuration(), animation.GetDataChangeDuration(),
+                return GetCurrData(index, animation.GetAdditionDuration(), animation.GetChangeDuration(),
                     inverse, min, max, animation.unscaledTime, loop);
         }
 

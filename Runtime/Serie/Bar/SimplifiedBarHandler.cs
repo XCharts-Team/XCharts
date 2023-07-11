@@ -97,7 +97,7 @@ namespace XCharts.Runtime
 
         private void DrawBarSerie(VertexHelper vh, SimplifiedBar serie, int colorIndex)
         {
-            if (!serie.show || serie.animation.HasFadeOut())
+            if (!serie.show || serie.animation.HasFadeout())
                 return;
 
             Axis axis;
@@ -134,8 +134,8 @@ namespace XCharts.Runtime
                 showData.Count;
 
             bool dataChanging = false;
-            float dataChangeDuration = serie.animation.GetDataChangeDuration();
-            var dataAddDuration = serie.animation.GetDataAddDuration();
+            float dataChangeDuration = serie.animation.GetChangeDuration();
+            var dataAddDuration = serie.animation.GetAdditionDuration();
             double yMinValue = relativedAxis.context.minValue;
             double yMaxValue = relativedAxis.context.maxValue;
 

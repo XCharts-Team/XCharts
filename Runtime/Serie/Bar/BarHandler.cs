@@ -142,7 +142,7 @@ namespace XCharts.Runtime
 
         private void DrawBarSerie(VertexHelper vh, Bar serie)
         {
-            if (!serie.show || serie.animation.HasFadeOut())
+            if (!serie.show || serie.animation.HasFadeout())
                 return;
 
             Axis axis;
@@ -184,8 +184,8 @@ namespace XCharts.Runtime
                 showData.Count;
             var isPercentStack = SeriesHelper.IsPercentStack<Bar>(chart.series, serie.stack);
             bool dataChanging = false;
-            float dataChangeDuration = serie.animation.GetDataChangeDuration();
-            var dataAddDuration = serie.animation.GetDataAddDuration();
+            float dataChangeDuration = serie.animation.GetChangeDuration();
+            var dataAddDuration = serie.animation.GetAdditionDuration();
             double yMinValue = relativedAxis.context.minValue;
             double yMaxValue = relativedAxis.context.maxValue;
 

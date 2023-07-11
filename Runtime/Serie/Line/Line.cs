@@ -6,7 +6,7 @@ namespace XCharts.Runtime
     [SerieHandler(typeof(LineHandler), true)]
     [SerieConvert(typeof(Bar), typeof(Pie))]
     [CoordOptions(typeof(GridCoord), typeof(PolarCoord))]
-    [DefaultAnimation(AnimationType.LeftToRight)]
+    [DefaultAnimation(AnimationType.LeftToRight, false)]
     [SerieComponent(
         typeof(LabelStyle),
         typeof(EndLabelStyle),

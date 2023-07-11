@@ -81,7 +81,7 @@ namespace XCharts.Runtime
         private void DrawCandlestickSerie(VertexHelper vh, SimplifiedCandlestick serie)
         {
             if (!serie.show) return;
-            if (serie.animation.HasFadeOut()) return;
+            if (serie.animation.HasFadeout()) return;
             XAxis xAxis;
             YAxis yAxis;
             GridCoord grid;
@@ -99,8 +99,8 @@ namespace XCharts.Runtime
                 showData.Count;
 
             bool dataChanging = false;
-            float dataChangeDuration = serie.animation.GetDataChangeDuration();
-            var dataAddDuration = serie.animation.GetDataAddDuration();
+            float dataChangeDuration = serie.animation.GetChangeDuration();
+            var dataAddDuration = serie.animation.GetAdditionDuration();
             var unscaledTime = serie.animation.unscaledTime;
             double yMinValue = yAxis.context.minValue;
             double yMaxValue = yAxis.context.maxValue;

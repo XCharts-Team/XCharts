@@ -136,7 +136,7 @@ namespace XCharts.Runtime
             InitComponentHandlers();
             InitSerieHandlers();
             AnimationReset();
-            AnimationFadeIn();
+            AnimationFadein();
             XChartsMgr.AddChart(this);
         }
 
@@ -416,7 +416,7 @@ namespace XCharts.Runtime
             if (!m_CheckAnimation)
             {
                 m_CheckAnimation = true;
-                AnimationFadeIn();
+                AnimationFadein();
             }
         }
 
@@ -590,7 +590,7 @@ namespace XCharts.Runtime
                 serie.context.dataIndexs.Clear();
                 serie.context.dataIgnores.Clear();
                 serie.animation.context.isAllItemAnimationEnd = true;
-                if (serie.show && !serie.animation.HasFadeOut())
+                if (serie.show && !serie.animation.HasFadeout())
                 {
                     if (!serie.context.pointerEnter)
                         serie.ResetInteract();

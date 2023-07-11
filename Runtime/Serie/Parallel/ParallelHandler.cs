@@ -21,7 +21,7 @@ namespace XCharts.Runtime
         private void DrawParallelSerie(VertexHelper vh, Parallel serie)
         {
             if (!serie.show) return;
-            if (serie.animation.HasFadeOut()) return;
+            if (serie.animation.HasFadeout()) return;
 
             var parallel = chart.GetChartComponent<ParallelCoord>(serie.parallelIndex);
             if (parallel == null)

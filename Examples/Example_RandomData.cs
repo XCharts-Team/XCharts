@@ -12,8 +12,16 @@ namespace XCharts.Example
     //[ExecuteInEditMode]
     public class Example_RandomData : MonoBehaviour
     {
-        public int initDataNum = 3;
+        public bool loopAdd = false;
+        public float loopAddTime = 1f;
+        public bool loopUpdate = false;
+        public float loopUpadteTime = 1f;
+        public int maxCache = 0;
+
         BaseChart chart;
+        float lastAddTime;
+        float lastUpdateTime;
+        int dataCount;
 
         void Awake()
         {
@@ -22,9 +30,11 @@ namespace XCharts.Example
 
         void Start()
         {
-            //chart.ClearData();
-            // for (int i = 0; i < initDataNum; i++)
-            //     AddData();
+            if (maxCache > 0)
+            {
+                chart.SetMaxCache(maxCache);
+            }
+            dataCount = chart.GetSerie(0).dataCount;
         }
 
         void Update()
@@ -35,6 +45,19 @@ namespace XCharts.Example
             }
             else if (Input.GetKeyDown(KeyCode.U))
             {
+                UpdateData();
+            }
+            lastAddTime += Time.deltaTime;
+            if (loopAdd && lastAddTime >= loopAddTime)
+            {
+                lastAddTime = 0;
+                AddData();
+            }
+
+            lastUpdateTime += Time.deltaTime;
+            if (loopUpdate && lastUpdateTime >= loopUpadteTime)
+            {
+                lastUpdateTime = 0;
                 UpdateData();
             }
         }
@@ -90,7 +113,10 @@ namespace XCharts.Example
                 }
                 else
                 {
-                    chart.AddData(serie.index, Random.Range(10, 90), Random.Range(10, 90), "data" + serie.dataCount);
+                    if (serie is Line)
+                        chart.AddData(serie.index, dataCount++, Random.Range(10, 90), "data" + serie.dataCount);
+                    else
+                        chart.AddData(serie.index, Random.Range(10, 90), Random.Range(10, 90), "data" + serie.dataCount);
                 }
             }
             else if (serie is Ring)
@@ -123,7 +149,7 @@ namespace XCharts.Example
             var index = Random.Range(0, serie.dataCount);
             if (serie is Ring)
             {
-                chart.UpdateData(serie.index, index, Random.Range(10, 90), 100);
+                chart.UpdateData(serie.index, index, 0, Random.Range(10, 90));
             }
             else if (serie is Radar)
             {

@@ -698,7 +698,7 @@ namespace XCharts.Runtime
                 var symbol = stateStyle.symbol;
                 size = symbol.GetSize(serieData == null ? null : serieData.data, defaultSize);
             }
-            size = (float)serieData.GetAddAnimationData(0, size, serie.animation.GetDataAddDuration());
+            size = (float)serieData.GetAddAnimationData(0, size, serie.animation.GetAdditionDuration());
             return size;
         }
 

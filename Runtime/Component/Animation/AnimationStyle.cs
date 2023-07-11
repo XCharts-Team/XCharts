@@ -43,55 +43,9 @@ namespace XCharts.Runtime
         Linear,
     }
 
-    [Since("v3.8.0")]
-    [System.Serializable]
-    public class AnimationInfo
-    {
-        [SerializeField][Since("v3.8.0")] private bool m_Enable = true;
-        [SerializeField][Since("v3.8.0")] private float m_Delay = 0;
-        [SerializeField][Since("v3.8.0")] private float m_Duration = 1000;
-
-        public bool enable { get { return m_Enable; } set { m_Enable = value; } }
-        public float delay { get { return m_Delay; } set { m_Delay = value; } }
-        public float duration { get { return m_Duration; } set { m_Duration = value; } }
-
-        public Action OnAnimationStart { get; set; }
-        public Action OnAnimationEnd { get; set; }
-
-        public AnimationDelayFunction delayFunction { get; set; }
-        public AnimationDurationFunction durationFunction { get; set; }
-
-        internal bool start { get; set; }
-        internal bool end { get; set; }
-    }
-
-    [Since("v3.8.0")]
-    [System.Serializable]
-    public class AnimationFadeIn : AnimationInfo
-    {
-    }
-
-    [Since("v3.8.0")]
-    [System.Serializable]
-    public class AnimationFadeOut : AnimationInfo
-    {
-    }
-
-    [Since("v3.8.0")]
-    [System.Serializable]
-    public class AnimationUpdated : AnimationInfo
-    {
-    }
-
-    [Since("v3.8.0")]
-    [System.Serializable]
-    public class AnimationAdded : AnimationInfo
-    {
-    }
-
     /// <summary>
-    /// the animation of serie.
-    /// |动画表现。
+    /// the animation of serie. support animation type: fadeIn, fadeOut, change, addition.
+    /// |动画表现。支持配置四种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画）。
     /// </summary>
     [System.Serializable]
     public class AnimationStyle : ChildComponent
@@ -101,10 +55,10 @@ namespace XCharts.Runtime
         [SerializeField] private AnimationEasing m_Easting;
         [SerializeField] private int m_Threshold = 2000;
         [SerializeField][Since("v3.4.0")] private bool m_UnscaledTime;
-        [SerializeField][Since("v3.8.0")] private AnimationFadeIn m_FadeIn = new AnimationFadeIn();
-        [SerializeField][Since("v3.8.0")] private AnimationFadeOut m_FadeOut = new AnimationFadeOut();
-        [SerializeField][Since("v3.8.0")] private AnimationUpdated m_Updated = new AnimationUpdated() { duration = 500 };
-        [SerializeField][Since("v3.8.0")] private AnimationAdded m_Added = new AnimationAdded() { duration = 500 };
+        [SerializeField][Since("v3.8.0")] private AnimationFadeIn m_Fadein = new AnimationFadeIn();
+        [SerializeField][Since("v3.8.0")] private AnimationFadeOut m_Fadeout = new AnimationFadeOut() { reverse = true };
+        [SerializeField][Since("v3.8.0")] private AnimationChange m_Change = new AnimationChange() { duration = 500 };
+        [SerializeField][Since("v3.8.0")] private AnimationAddition m_Addition = new AnimationAddition() { duration = 500 };
 
         [Obsolete("Use animation.fadeIn.delayFunction instead.", true)]
         public AnimationDelayFunction fadeInDelayFunction;
@@ -144,168 +98,146 @@ namespace XCharts.Runtime
         /// Fade in animation configuration.
         /// |渐入动画配置。
         /// </summary>
-        public AnimationFadeIn fadeIn { get { return m_FadeIn; } }
+        public AnimationFadeIn fadein { get { return m_Fadein; } }
         /// <summary>
         /// Fade out animation configuration.
         /// |渐出动画配置。
         /// </summary>
-        public AnimationFadeOut fadeOut { get { return m_FadeOut; } }
+        public AnimationFadeOut fadeout { get { return m_Fadeout; } }
         /// <summary>
         /// Update data animation configuration.
-        /// |更新数据动画配置。
+        /// |数据变更动画配置。
         /// </summary>
-        public AnimationUpdated updated { get { return m_Updated; } }
+        public AnimationChange change { get { return m_Change; } }
         /// <summary>
         /// Add data animation configuration.
-        /// |添加数据动画配置。
+        /// |数据新增动画配置。
         /// </summary>
-        public AnimationAdded added { get { return m_Added; } }
+        public AnimationAddition addition { get { return m_Addition; } }
 
-        private Dictionary<int, float> m_ItemCurrProgress = new Dictionary<int, float>();
-        private Dictionary<int, float> m_ItemDestProgress = new Dictionary<int, float>();
-        private bool m_IsEnd = true;
-        private bool m_IsPause = false;
-        private bool m_IsInit = false;
-
-        private float startTime { get; set; }
-        private float m_CurrDetailProgress;
-        private float m_DestDetailProgress;
-        private float m_TotalDetailProgress;
-        private float m_CurrSymbolProgress;
         private Vector3 m_LinePathLastPos;
-
-        public void FadeIn()
+        private List<AnimationInfo> m_Animations;
+        private List<AnimationInfo> animations
         {
-            if (m_FadeOut.start)
-                return;
-
-            if (m_IsPause)
+            get
             {
-                m_IsPause = false;
-                return;
+                if (m_Animations == null)
+                {
+                    m_Animations = new List<AnimationInfo>();
+                    m_Animations.Add(m_Fadein);
+                    m_Animations.Add(m_Fadeout);
+                    m_Animations.Add(m_Change);
+                    m_Animations.Add(m_Addition);
+                }
+                return m_Animations;
             }
+        }
 
-            if (m_FadeIn.start)
-                return;
+        public AnimationInfo activedAnimation
+        {
+            get
+            {
+                foreach (var anim in animations)
+                {
+                    if (anim.context.start) return anim;
+                }
+                return null;
+            }
+        }
 
-            startTime = Time.time;
-            m_FadeIn.start = true;
-            m_IsEnd = false;
-            m_IsInit = false;
-            m_IsPause = false;
-            m_FadeOut.end = false;
-            m_CurrDetailProgress = 0;
-            m_DestDetailProgress = 1;
-            m_CurrSymbolProgress = 0;
-            m_ItemCurrProgress.Clear();
-            m_ItemDestProgress.Clear();
+        public void Fadein()
+        {
+            if (m_Fadeout.context.start) return;
+            m_Fadein.Start();
         }
 
         public void Restart()
         {
+            var anim = activedAnimation;
             Reset();
-            FadeIn();
+            if (anim != null)
+            {
+                anim.Start();
+            }
         }
 
-        public void FadeOut()
+        public void Fadeout()
         {
-            if (m_IsPause)
-            {
-                m_IsPause = false;
-                return;
-            }
+            m_Fadeout.Start();
+        }
 
-            m_FadeOut.start = true;
-            startTime = Time.time;
-            m_FadeIn.start = true;
-            m_IsEnd = false;
-            m_IsInit = false;
-            m_IsPause = false;
-            m_CurrDetailProgress = 0;
-            m_DestDetailProgress = 1;
-            m_CurrSymbolProgress = 0;
-            m_ItemCurrProgress.Clear();
-            m_ItemDestProgress.Clear();
+        public void Addition()
+        {
+            if (!enable) return;
+            if (!m_Fadein.context.start && !m_Fadeout.context.start)
+            {
+                m_Addition.Start(false);
+            }
         }
 
         public void Pause()
         {
-            if (!m_IsPause)
+            foreach (var anim in animations)
             {
-                m_IsPause = true;
+                anim.Pause();
             }
         }
 
         public void Resume()
         {
-            if (m_IsPause)
+            foreach (var anim in animations)
             {
-                m_IsPause = false;
-            }
-        }
-
-        private void End()
-        {
-            if (m_IsEnd)
-                return;
-
-            m_IsEnd = true;
-            m_IsInit = false;
-
-            if (m_FadeIn.start)
-            {
-                m_FadeIn.start = false;
-                if (m_FadeIn.OnAnimationEnd != null)
-                {
-                    m_FadeIn.OnAnimationEnd();
-                }
-            }
-            if (m_FadeOut.start)
-            {
-                m_FadeOut.start = false;
-                m_FadeOut.end = true;
-                if (m_FadeOut.OnAnimationEnd != null)
-                {
-                    m_FadeOut.OnAnimationEnd();
-                }
+                anim.Resume();
             }
         }
 
         public void Reset()
         {
-            m_FadeIn.start = false;
-            m_IsEnd = true;
-            m_IsInit = false;
-            m_IsPause = false;
-            m_FadeOut.start = false;
-            m_FadeOut.end = false;
-            m_ItemCurrProgress.Clear();
+            m_Fadein.Reset();
+            m_Fadeout.Reset();
         }
 
         public void InitProgress(float curr, float dest)
         {
-            if (m_IsInit || m_IsEnd)
-                return;
-
-            m_IsInit = true;
-            m_TotalDetailProgress = dest - curr;
-
-            if (m_FadeOut.start)
+            var anim = activedAnimation;
+            if (anim == null) return;
+            var isAddedAnim = anim is AnimationAddition;
+            if (IsIndexAnimation())
             {
-                m_CurrDetailProgress = dest;
-                m_DestDetailProgress = curr;
+                if (isAddedAnim)
+                {
+                    anim.Init(anim.context.currPointIndex, dest, (int)dest - 1);
+                }
+                else
+                {
+                    m_Addition.context.currPointIndex = (int)dest - 1;
+                    anim.Init(curr, dest, (int)dest - 1);
+                }
             }
             else
             {
-                m_CurrDetailProgress = curr;
-                m_DestDetailProgress = dest;
+                anim.Init(curr, dest, 0);
             }
         }
 
         public void InitProgress(List<Vector3> paths, bool isY)
         {
             if (paths.Count < 1) return;
-            var sp = paths[0];
+            var anim = activedAnimation;
+            if (anim == null) return;
+            var isAddedAnim = anim is AnimationAddition;
+            var startIndex = 0;
+            if (isAddedAnim)
+            {
+                startIndex = anim.context.currPointIndex == paths.Count - 1 ?
+                    paths.Count - 2 :
+                    anim.context.currPointIndex;
+            }
+            else
+            {
+                m_Addition.context.currPointIndex = paths.Count - 1;
+            }
+            var sp = paths[startIndex];
             var ep = paths[paths.Count - 1];
             var currDetailProgress = isY ? sp.y : sp.x;
             var totalDetailProgress = isY ? ep.y : ep.x;
@@ -319,43 +251,25 @@ namespace XCharts.Runtime
                     var np = paths[i];
                     totalDetailProgress += Vector3.Distance(np, lp);
                     lp = np;
+                    if (startIndex > 0 && i == startIndex)
+                        currDetailProgress = totalDetailProgress;
                 }
                 m_LinePathLastPos = sp;
                 context.currentPathDistance = 0;
             }
-            InitProgress(currDetailProgress, totalDetailProgress);
+            anim.Init(currDetailProgress, totalDetailProgress, paths.Count - 1);
         }
 
-        private void SetDataCurrProgress(int index, float state)
+        public bool IsEnd()
         {
-            m_ItemCurrProgress[index] = state;
+            foreach (var animation in animations)
+            {
+                if (animation.context.start)
+                    return animation.context.end;
+            }
+            return m_Fadein.context.end;
         }
 
-        private float GetDataCurrProgress(int index, float initValue, float destValue, ref bool isBarEnd)
-        {
-            if (IsInDelay())
-            {
-                isBarEnd = false;
-                return initValue;
-            }
-            var c1 = !m_ItemCurrProgress.ContainsKey(index);
-            var c2 = !m_ItemDestProgress.ContainsKey(index);
-            if (c1 || c2)
-            {
-                if (c1)
-                    m_ItemCurrProgress.Add(index, initValue);
-
-                if (c2)
-                    m_ItemDestProgress.Add(index, destValue);
-
-                isBarEnd = false;
-            }
-            else
-            {
-                isBarEnd = m_ItemCurrProgress[index] == m_ItemDestProgress[index];
-            }
-            return m_ItemCurrProgress[index];
-        }
 
         public bool IsFinish()
         {
@@ -363,29 +277,34 @@ namespace XCharts.Runtime
             if (!Application.isPlaying)
                 return true;
 #endif
-            if (!m_Enable || m_IsEnd)
+            if (!m_Enable)
                 return true;
+            foreach (var animation in animations)
+            {
+                if (animation.context.start && animation.context.end)
+                {
+                    return true;
+                }
+            }
             if (IsIndexAnimation())
             {
-                if (m_FadeOut.start) return m_CurrDetailProgress <= m_DestDetailProgress;
-                else return m_CurrDetailProgress > m_DestDetailProgress;
+                if (m_Fadeout.context.start) return m_Fadeout.context.currProgress <= m_Fadeout.context.destProgress;
+                else if (m_Addition.context.start) return m_Addition.context.currProgress >= m_Addition.context.destProgress;
+                else return m_Fadein.context.currProgress >= m_Fadein.context.destProgress;
             }
-            if (IsItemAnimation())
+            else if (IsItemAnimation())
+            {
                 return false;
+            }
             return true;
-        }
-
-        public bool IsInFadeOut()
-        {
-            return m_FadeOut.start;
         }
 
         public bool IsInDelay()
         {
-            if (m_FadeOut.start)
-                return (m_FadeOut.delay > 0 && Time.time - startTime < m_FadeOut.delay / 1000);
-            else
-                return (m_FadeIn.delay > 0 && Time.time - startTime < m_FadeIn.delay / 1000);
+            var anim = activedAnimation;
+            if (anim != null)
+                return anim.IsInDelay();
+            return false;
         }
 
         public bool IsItemAnimation()
@@ -396,41 +315,19 @@ namespace XCharts.Runtime
         public bool IsIndexAnimation()
         {
             return context.type == AnimationType.LeftToRight ||
-                context.type == AnimationType.Clockwise ||
-                context.type == AnimationType.AlongPath;
-        }
-
-        public float GetIndexDelay(int dataIndex)
-        {
-            if (m_FadeOut.start && m_FadeOut.delayFunction != null)
-                return m_FadeOut.delayFunction(dataIndex);
-            else if (m_FadeIn.start && m_FadeIn.delayFunction != null)
-                return m_FadeIn.delayFunction(dataIndex);
-            else
-                return 0;
-        }
-
-        public bool IsInIndexDelay(int dataIndex)
-        {
-            return Time.time - startTime < GetIndexDelay(dataIndex) / 1000f;
-        }
-
-        public bool IsAllOutDelay(int dataCount)
-        {
-            var nowTime = Time.time - startTime;
-            for (int i = 0; i < dataCount; i++)
-            {
-                if (nowTime < GetIndexDelay(i) / 1000)
-                    return false;
-            }
-            return true;
+                context.type == AnimationType.AlongPath || context.type == AnimationType.Clockwise;
         }
 
         public bool CheckDetailBreak(float detail)
         {
             if (!IsIndexAnimation())
                 return false;
-            return !IsFinish() && detail > m_CurrDetailProgress;
+            foreach (var animation in animations)
+            {
+                if (animation.context.start)
+                    return !IsFinish() && detail > animation.context.currProgress;
+            }
+            return false;
         }
 
         public bool CheckDetailBreak(Vector3 pos, bool isYAxis)
@@ -450,9 +347,9 @@ namespace XCharts.Runtime
             else
             {
                 if (isYAxis)
-                    return pos.y > m_CurrDetailProgress;
+                    return pos.y > GetCurrDetail();
                 else
-                    return pos.x > m_CurrDetailProgress;
+                    return pos.x > GetCurrDetail();
             }
         }
 
@@ -460,128 +357,40 @@ namespace XCharts.Runtime
         {
             if (IsItemAnimation() && context.isAllItemAnimationEnd)
             {
-                End();
+                foreach (var animation in animations)
+                {
+                    animation.End();
+                }
                 return;
             }
-            CheckProgress(m_TotalDetailProgress);
+            foreach (var animation in animations)
+            {
+                animation.CheckProgress(animation.context.totalProgress, m_UnscaledTime);
+            }
         }
 
         public void CheckProgress(double total)
         {
             if (IsFinish())
                 return;
-
-            if (!m_IsInit || m_IsPause || m_IsEnd)
-                return;
-
-            if (IsInDelay())
-                return;
-
-            var duration = GetCurrAnimationDuration();
-            var delta = (float)(total / duration * (m_UnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime));
-            if (m_FadeOut.start)
+            foreach (var animation in animations)
             {
-                m_CurrDetailProgress -= delta;
-                if (m_CurrDetailProgress <= m_DestDetailProgress)
-                {
-                    m_CurrDetailProgress = m_DestDetailProgress;
-                    End();
-                }
+                animation.CheckProgress(total, m_UnscaledTime);
             }
-            else
-            {
-                m_CurrDetailProgress += delta;
-                if (m_CurrDetailProgress >= m_DestDetailProgress)
-                {
-                    m_CurrDetailProgress = m_DestDetailProgress;
-                    End();
-                }
-            }
-        }
-
-        internal float GetCurrAnimationDuration(int dataIndex = -1)
-        {
-            if (dataIndex >= 0)
-            {
-                if (m_FadeOut.start && m_FadeOut.durationFunction != null)
-                    return m_FadeOut.durationFunction(dataIndex) / 1000f;
-                if (m_FadeIn.start && m_FadeIn.durationFunction != null)
-                    return m_FadeIn.durationFunction(dataIndex) / 1000f;
-            }
-
-            if (m_FadeOut.start)
-                return m_FadeOut.delay > 0 ? m_FadeOut.delay / 1000 : 1f;
-            else
-                return m_FadeIn.delay > 0 ? m_FadeIn.delay / 1000 : 1f;
         }
 
         internal float CheckItemProgress(int dataIndex, float destProgress, ref bool isEnd, float startProgress = 0)
         {
             isEnd = false;
-            var initHig = m_FadeOut.start ? destProgress : startProgress;
-            var destHig = m_FadeOut.start ? startProgress : destProgress;
-            var currHig = GetDataCurrProgress(dataIndex, initHig, destHig, ref isEnd);
-            if (isEnd || IsFinish())
-            {
-                return m_FadeOut.end ? startProgress : destProgress;
-            }
-            else if (IsInDelay() || IsInIndexDelay(dataIndex))
-            {
-                return m_FadeOut.start ? destProgress : startProgress;
-            }
-            else if (m_IsPause)
-            {
-                return currHig;
-            }
-            else
-            {
-                var duration = GetCurrAnimationDuration(dataIndex);
-                var delta = (destProgress - startProgress) / duration * (m_UnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime);
-                currHig = currHig + (m_FadeOut.start ? -delta : delta);
-                if (m_FadeOut.start)
-                {
-                    if ((initHig > 0 && currHig <= 0) || (initHig < 0 && currHig >= 0))
-                    {
-                        currHig = 0;
-                        isEnd = true;
-                    }
-                }
-                else
-                {
-                    if ((destProgress - startProgress > 0 && currHig > destProgress) ||
-                        (destProgress - startProgress < 0 && currHig < destProgress))
-                    {
-                        currHig = destProgress;
-                        isEnd = true;
-                    }
-                }
-                SetDataCurrProgress(dataIndex, currHig);
-                return currHig;
-            }
+            var anim = activedAnimation;
+            if (anim == null) return destProgress;
+            return anim.CheckItemProgress(dataIndex, destProgress, ref isEnd, startProgress, m_UnscaledTime);
         }
 
         public void CheckSymbol(float dest)
         {
-            if (!enable || m_IsEnd || m_IsPause || !m_IsInit)
-                return;
-
-            if (IsInDelay())
-                return;
-
-            var duration = GetCurrAnimationDuration();
-            var delta = dest / duration * (m_UnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime);
-            if (m_FadeOut.start)
-            {
-                m_CurrSymbolProgress -= delta;
-                if (m_CurrSymbolProgress < 0)
-                    m_CurrSymbolProgress = 0;
-            }
-            else
-            {
-                m_CurrSymbolProgress += delta;
-                if (m_CurrSymbolProgress > dest)
-                    m_CurrSymbolProgress = dest;
-            }
+            m_Fadein.CheckSymbol(dest, m_UnscaledTime);
+            m_Fadeout.CheckSymbol(dest, m_UnscaledTime);
         }
 
         public float GetSysmbolSize(float dest)
@@ -593,19 +402,30 @@ namespace XCharts.Runtime
             if (!enable)
                 return dest;
 
-            if (m_IsEnd)
-                return m_FadeOut.start ? 0 : dest;
+            if (IsEnd())
+                return m_Fadeout.context.start ? 0 : dest;
 
-            return m_CurrSymbolProgress;
+            return m_Fadeout.context.start ? m_Fadeout.context.sizeProgress : m_Fadein.context.sizeProgress;
         }
 
         public float GetCurrDetail()
         {
 #if UNITY_EDITOR
             if (!Application.isPlaying)
-                return m_DestDetailProgress;
+            {
+                foreach (var animation in animations)
+                {
+                    if (animation.context.start)
+                        return animation.context.destProgress;
+                }
+            }
 #endif
-            return m_CurrDetailProgress;
+            foreach (var animation in animations)
+            {
+                if (animation.context.start)
+                    return animation.context.currProgress;
+            }
+            return m_Fadein.context.currProgress;
         }
 
         public float GetCurrRate()
@@ -614,9 +434,9 @@ namespace XCharts.Runtime
             if (!Application.isPlaying)
                 return 1;
 #endif
-            if (!enable || m_IsEnd)
+            if (!enable || IsEnd())
                 return 1;
-            return m_CurrDetailProgress;
+            return m_Fadeout.context.start ? m_Fadeout.context.currProgress : m_Fadein.context.currProgress;
         }
 
         public int GetCurrIndex()
@@ -625,30 +445,33 @@ namespace XCharts.Runtime
             if (!Application.isPlaying)
                 return -1;
 #endif
-            if (!enable || m_IsEnd)
+            if (!enable)
                 return -1;
-            return (int)m_CurrDetailProgress;
+            var anim = activedAnimation;
+            if (anim == null)
+                return -1;
+            return (int)anim.context.currProgress;
         }
 
-        public float GetDataChangeDuration()
+        public float GetChangeDuration()
         {
-            if (m_Enable && m_Updated.enable)
-                return m_Updated.duration;
+            if (m_Enable && m_Change.enable)
+                return m_Change.duration;
             else
                 return 0;
         }
 
-        public float GetDataAddDuration()
+        public float GetAdditionDuration()
         {
-            if (m_Enable && m_Added.enable)
-                return m_Added.duration;
+            if (m_Enable && m_Addition.enable)
+                return m_Addition.duration;
             else
                 return 0;
         }
 
-        public bool HasFadeOut()
+        public bool HasFadeout()
         {
-            return enable && m_FadeOut.end && m_IsEnd;
+            return enable && m_Fadeout.context.end;
         }
     }
 }

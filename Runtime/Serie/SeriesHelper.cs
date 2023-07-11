@@ -346,8 +346,8 @@ namespace XCharts.Runtime
                     if ((isPolar && serie.polarIndex != axisIndex) ||
                         (!isPolar && serie.yAxisIndex != axisIndex) ||
                         !serie.show) continue;
-                    var updateDuration = serie.animation.GetDataChangeDuration();
-                    var dataAddDuration = serie.animation.GetDataAddDuration();
+                    var updateDuration = serie.animation.GetChangeDuration();
+                    var dataAddDuration = serie.animation.GetAdditionDuration();
                     var unscaledTime = serie.animation.unscaledTime;
                     if (isPercentStack && SeriesHelper.IsPercentStack<Bar>(series, serie.serieName))
                     {
@@ -406,6 +406,9 @@ namespace XCharts.Runtime
                         }
                         else
                         {
+                            var updateDuration = serie.animation.GetChangeDuration();
+                            var dataAddDuration = serie.animation.GetAdditionDuration();
+                            var unscaledTime = serie.animation.unscaledTime;
                             for (int j = 0; j < showData.Count; j++)
                             {
                                 if (!_serieTotalValueForMinMax.ContainsKey(j))
@@ -417,9 +420,10 @@ namespace XCharts.Runtime
                                 }
                                 else
                                 {
-                                    currData = yValue ? showData[j].GetData(1) : showData[j].GetData(0);
+                                    //currData = yValue ? showData[j].GetData(1) : showData[j].GetData(0);
+                                    currData = showData[j].GetCurrData(yValue ? 1 : 0, dataAddDuration, updateDuration, unscaledTime, inverse);
                                 }
-                                if (inverse) currData = -currData;
+                                //if (inverse) currData = -currData;
                                 if (!serie.IsIgnoreValue(showData[j], currData))
                                     _serieTotalValueForMinMax[j] = _serieTotalValueForMinMax[j] + currData;
                             }

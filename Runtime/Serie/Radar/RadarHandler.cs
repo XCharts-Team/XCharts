@@ -230,7 +230,7 @@ namespace XCharts.Runtime
             var angle = 2 * Mathf.PI / indicatorNum;
             var centerPos = m_RadarCoord.context.center;
             serie.animation.InitProgress(0, 1);
-            if (!serie.show || serie.animation.HasFadeOut())
+            if (!serie.show || serie.animation.HasFadeout())
             {
                 return;
             }
@@ -365,7 +365,7 @@ namespace XCharts.Runtime
             var angle = 2 * Mathf.PI / indicatorNum;
             var centerPos = m_RadarCoord.context.center;
             serie.animation.InitProgress(0, 1);
-            if (!serie.show || serie.animation.HasFadeOut())
+            if (!serie.show || serie.animation.HasFadeout())
             {
                 return;
             }

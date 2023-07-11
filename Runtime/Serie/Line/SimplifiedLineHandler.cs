@@ -139,7 +139,7 @@ namespace XCharts.Runtime
         {
             if (!serie.show)
                 return;
-            if (serie.animation.HasFadeOut())
+            if (serie.animation.HasFadeout())
                 return;
 
             Axis axis;
@@ -172,8 +172,8 @@ namespace XCharts.Runtime
                 serie.sampleAverage :
                 DataHelper.DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);
             var dataChanging = false;
-            var dataChangeDuration = serie.animation.GetDataChangeDuration();
-            var dataAddDuration = serie.animation.GetDataAddDuration();
+            var dataChangeDuration = serie.animation.GetChangeDuration();
+            var dataAddDuration = serie.animation.GetAdditionDuration();
             var unscaledTime = serie.animation.unscaledTime;
 
             var interacting = false;

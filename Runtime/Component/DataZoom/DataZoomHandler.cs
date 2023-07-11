@@ -543,8 +543,8 @@ namespace XCharts.Runtime
                 var totalAverage = serie.sampleAverage > 0 ? serie.sampleAverage :
                     DataHelper.DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);
                 var dataChanging = false;
-                var animationDuration = serie.animation.GetDataChangeDuration();
-                var dataAddDuration = serie.animation.GetDataAddDuration();
+                var animationDuration = serie.animation.GetChangeDuration();
+                var dataAddDuration = serie.animation.GetAdditionDuration();
                 var unscaledTime = serie.animation.unscaledTime;
 
                 for (int i = 0; i < maxCount; i += rate)
@@ -635,8 +635,8 @@ namespace XCharts.Runtime
                 var totalAverage = serie.sampleAverage > 0 ? serie.sampleAverage :
                     DataHelper.DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);
                 var dataChanging = false;
-                var animationDuration = serie.animation.GetDataChangeDuration();
-                var dataAddDuration = serie.animation.GetDataAddDuration();
+                var animationDuration = serie.animation.GetChangeDuration();
+                var dataAddDuration = serie.animation.GetAdditionDuration();
                 var unscaledTime = serie.animation.unscaledTime;
 
                 for (int i = 0; i < maxCount; i += rate)

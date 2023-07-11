@@ -7,7 +7,7 @@ namespace XCharts.Runtime
     [SerieHandler(typeof(SimplifiedLineHandler), true)]
     [SerieConvert(typeof(SimplifiedBar), typeof(Line))]
     [CoordOptions(typeof(GridCoord))]
-    [DefaultAnimation(AnimationType.LeftToRight)]
+    [DefaultAnimation(AnimationType.LeftToRight, false)]
     [SerieComponent(typeof(AreaStyle))]
     [SerieDataComponent()]
     [SerieDataExtraField()]

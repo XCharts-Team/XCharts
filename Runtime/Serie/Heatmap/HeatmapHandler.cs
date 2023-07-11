@@ -185,7 +185,7 @@ namespace XCharts.Runtime
 
         private void DrawDataHeatmapSerie(VertexHelper vh, Heatmap serie)
         {
-            if (!serie.show || serie.animation.HasFadeOut()) return;
+            if (!serie.show || serie.animation.HasFadeout()) return;
             XAxis xAxis;
             YAxis yAxis;
             if (!chart.TryGetChartComponent<XAxis>(out xAxis, serie.xAxisIndex)) return;
@@ -209,8 +209,8 @@ namespace XCharts.Runtime
 
             serie.animation.InitProgress(0, xCount);
             var animationIndex = serie.animation.GetCurrIndex();
-            var dataChangeDuration = serie.animation.GetDataChangeDuration();
-            var dataAddDuration = serie.animation.GetDataAddDuration();
+            var dataChangeDuration = serie.animation.GetChangeDuration();
+            var dataAddDuration = serie.animation.GetAdditionDuration();
             var unscaledTime = serie.animation.unscaledTime;
             var dataChanging = false;
             serie.containerIndex = m_SerieGrid.index;
@@ -332,7 +332,7 @@ namespace XCharts.Runtime
 
         private void DrawCountHeatmapSerie(VertexHelper vh, Heatmap serie)
         {
-            if (!serie.show || serie.animation.HasFadeOut()) return;
+            if (!serie.show || serie.animation.HasFadeout()) return;
             XAxis xAxis;
             YAxis yAxis;
             if (!chart.TryGetChartComponent<XAxis>(out xAxis, serie.xAxisIndex)) return;

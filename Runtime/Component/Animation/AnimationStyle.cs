@@ -56,7 +56,7 @@ namespace XCharts.Runtime
         [SerializeField] private int m_Threshold = 2000;
         [SerializeField][Since("v3.4.0")] private bool m_UnscaledTime;
         [SerializeField][Since("v3.8.0")] private AnimationFadeIn m_Fadein = new AnimationFadeIn();
-        [SerializeField][Since("v3.8.0")] private AnimationFadeOut m_Fadeout = new AnimationFadeOut() { reverse = true };
+        [SerializeField][Since("v3.8.0")] private AnimationFadeout m_Fadeout = new AnimationFadeout() { reverse = true };
         [SerializeField][Since("v3.8.0")] private AnimationChange m_Change = new AnimationChange() { duration = 500 };
         [SerializeField][Since("v3.8.0")] private AnimationAddition m_Addition = new AnimationAddition() { duration = 500 };
 
@@ -103,7 +103,7 @@ namespace XCharts.Runtime
         /// Fade out animation configuration.
         /// |渐出动画配置。
         /// </summary>
-        public AnimationFadeOut fadeout { get { return m_Fadeout; } }
+        public AnimationFadeout fadeout { get { return m_Fadeout; } }
         /// <summary>
         /// Update data animation configuration.
         /// |数据变更动画配置。
@@ -133,6 +133,10 @@ namespace XCharts.Runtime
             }
         }
 
+        /// <summary>
+        /// The actived animation.
+        /// |当前激活的动画。
+        /// </summary>
         public AnimationInfo activedAnimation
         {
             get
@@ -145,12 +149,20 @@ namespace XCharts.Runtime
             }
         }
 
+        /// <summary>
+        /// Start fadein animation.
+        /// |开始渐入动画。
+        /// </summary>
         public void Fadein()
         {
             if (m_Fadeout.context.start) return;
             m_Fadein.Start();
         }
 
+        /// <summary>
+        /// Restart the actived animation.
+        /// |重启当前激活的动画。
+        /// </summary>
         public void Restart()
         {
             var anim = activedAnimation;
@@ -161,11 +173,19 @@ namespace XCharts.Runtime
             }
         }
 
+        /// <summary>
+        /// Start fadeout animation.
+        /// |开始渐出动画。
+        /// </summary>
         public void Fadeout()
         {
             m_Fadeout.Start();
         }
 
+        /// <summary>
+        /// Start additon animation.
+        /// |开始数据新增动画。
+        /// </summary>
         public void Addition()
         {
             if (!enable) return;
@@ -175,6 +195,10 @@ namespace XCharts.Runtime
             }
         }
 
+        /// <summary>
+        /// Pause all animations.
+        /// |暂停所有动画。
+        /// </summary>
         public void Pause()
         {
             foreach (var anim in animations)
@@ -183,6 +207,10 @@ namespace XCharts.Runtime
             }
         }
 
+        /// <summary>
+        /// Resume all animations.
+        /// |恢复所有动画。
+        /// </summary>
         public void Resume()
         {
             foreach (var anim in animations)
@@ -191,12 +219,23 @@ namespace XCharts.Runtime
             }
         }
 
+        /// <summary>
+        /// Reset all animations.
+        /// </summary>
         public void Reset()
         {
-            m_Fadein.Reset();
-            m_Fadeout.Reset();
+            foreach (var anim in animations)
+            {
+                anim.Reset();
+            }
         }
 
+        /// <summary>
+        /// Initialize animation configuration.
+        /// |初始化动画配置。
+        /// </summary>
+        /// <param name="curr">当前进度</param>
+        /// <param name="dest">目标进度</param>
         public void InitProgress(float curr, float dest)
         {
             var anim = activedAnimation;
@@ -220,6 +259,12 @@ namespace XCharts.Runtime
             }
         }
 
+        /// <summary>
+        /// Initialize animation configuration.
+        /// |初始化动画配置。
+        /// </summary>
+        /// <param name="paths">路径坐标点列表</param>
+        /// <param name="isY">是Y轴还是X轴</param>
         public void InitProgress(List<Vector3> paths, bool isY)
         {
             if (paths.Count < 1) return;

@@ -382,8 +382,8 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// Whether series animation enabel.
-        /// |启用或关闭起始动画。
+        /// Whether enable serie animations.
+        /// |是否启用Serie动画。
         /// </summary>
         /// <param name="flag"></param>
         public void AnimationEnable(bool flag)
@@ -392,24 +392,24 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// fadeIn animation.
-        /// |开始渐入动画。
+        /// Start all serie fadein animations.
+        /// |开始所有Serie的渐入动画。
         /// </summary>
+        /// <param name="reset">reset animation</param>
         public void AnimationFadein(bool reset = true)
         {
-            if (reset)
-                AnimationReset();
+            if (reset) AnimationReset();
             foreach (var serie in m_Series) serie.AnimationFadein();
         }
-        
+
         [Obsolete("Use AnimationFadein() instead.", true)]
         public void AnimationFadeIn(bool reset = true)
         {
         }
 
         /// <summary>
-        /// fadeIn animation.
-        /// |开始渐出动画。
+        /// Start all serie fadeout animations.
+        /// |开始所有Serie的渐出动画。
         /// </summary>
         public void AnimationFadeout()
         {
@@ -422,8 +422,8 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// Pause animation.
-        /// |暂停动画。
+        /// Pause all animations.
+        /// |暂停所有Serie的动画。
         /// </summary>
         public void AnimationPause()
         {
@@ -431,8 +431,8 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// Stop play animation.
-        /// |继续动画。
+        /// Resume all animations.
+        /// |继续所有Serie的动画。
         /// </summary>
         public void AnimationResume()
         {
@@ -440,8 +440,8 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// Reset animation.
-        /// |重置动画。
+        /// Reset all animations.
+        /// |重置所有Serie的动画。
         /// </summary>
         public void AnimationReset()
         {

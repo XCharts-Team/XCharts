@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace XCharts.Runtime
 {
+    /// <summary>
+    /// the animation info.
+    /// |动画配置参数。
+    /// </summary>
     [Since("v3.8.0")]
     [System.Serializable]
     public class AnimationInfo
@@ -14,17 +18,53 @@ namespace XCharts.Runtime
         [SerializeField][Since("v3.8.0")] private float m_Duration = 1000;
         public AnimationInfoContext context = new AnimationInfoContext();
 
+        /// <summary>
+        /// whether enable animation.
+        /// |是否开启动画效果。
+        /// </summary>
         public bool enable { get { return m_Enable; } set { m_Enable = value; } }
+        /// <summary>
+        /// whether enable reverse animation.
+        /// |是否开启反向动画效果。
+        /// </summary>
         public bool reverse { get { return m_Reverse; } set { m_Reverse = value; } }
+        /// <summary>
+        /// the delay time before animation start.
+        /// |动画开始前的延迟时间。
+        /// </summary>
         public float delay { get { return m_Delay; } set { m_Delay = value; } }
+        /// <summary>
+        /// the duration of animation.
+        /// |动画的时长。
+        /// </summary>
         public float duration { get { return m_Duration; } set { m_Duration = value; } }
 
+        /// <summary>
+        /// the callback function of animation start.
+        /// |动画开始的回调。
+        /// </summary>
         public Action OnAnimationStart { get; set; }
+        /// <summary>
+        /// the callback function of animation end.
+        /// |动画结束的回调。
+        /// </summary>
         public Action OnAnimationEnd { get; set; }
 
+        /// <summary>
+        /// the delegate function of animation delay.
+        /// |动画延迟的委托函数。
+        /// </summary>
         public AnimationDelayFunction delayFunction { get; set; }
+        /// <summary>
+        /// the delegate function of animation duration.
+        /// |动画时长的委托函数。
+        /// </summary>
         public AnimationDurationFunction durationFunction { get; set; }
 
+        /// <summary>
+        /// Reset animation.
+        /// |重置动画。
+        /// </summary>
         public void Reset()
         {
             if (!enable) return;
@@ -36,6 +76,11 @@ namespace XCharts.Runtime
             context.itemCurrProgress.Clear();
         }
 
+        /// <summary>
+        /// Start animation.
+        /// |开始动画。
+        /// </summary>
+        /// <param name="reset">是否重置上一次的参数</param>
         public void Start(bool reset = true)
         {
             if (!enable) return;
@@ -65,6 +110,10 @@ namespace XCharts.Runtime
             }
         }
 
+        /// <summary>
+        /// Pause animation.
+        /// |暂停动画。
+        /// </summary>
         public void Pause()
         {
             if (!enable) return;
@@ -72,6 +121,10 @@ namespace XCharts.Runtime
             context.pause = true;
         }
 
+        /// <summary>
+        /// Resume animation.
+        /// |恢复动画。
+        /// </summary>
         public void Resume()
         {
             if (!enable) return;
@@ -79,6 +132,10 @@ namespace XCharts.Runtime
             context.pause = false;
         }
 
+        /// <summary>
+        /// End animation.
+        /// |结束动画。
+        /// </summary>
         public void End()
         {
             if (!enable) return;
@@ -93,6 +150,14 @@ namespace XCharts.Runtime
             }
         }
 
+        /// <summary>
+        /// Initialize animation.
+        /// |初始化动画。
+        /// </summary>
+        /// <param name="curr">当前进度</param>
+        /// <param name="dest">目标进度</param>
+        /// <param name="totalPointIndex">目标索引</param>
+        /// <returns></returns>
         public bool Init(float curr, float dest, int totalPointIndex)
         {
             if (!enable || !context.start) return false;
@@ -113,6 +178,10 @@ namespace XCharts.Runtime
             return true;
         }
 
+        /// <summary>
+        /// Whether animation is finish.
+        /// |动画是否结束。
+        /// </summary>
         public bool IsFinish()
         {
             if (!context.start) return true;
@@ -121,6 +190,10 @@ namespace XCharts.Runtime
             return context.currProgress == context.destProgress;
         }
 
+        /// <summary>
+        /// Whether animation is in delay.
+        /// |动画是否在延迟中。
+        /// </summary>
         public bool IsInDelay()
         {
             if (!context.start)
@@ -129,6 +202,12 @@ namespace XCharts.Runtime
                 return (m_Delay > 0 && Time.time - context.startTime < m_Delay / 1000);
         }
 
+        /// <summary>
+        /// Whether animation is in index delay.
+        /// |动画是否在索引延迟中。
+        /// </summary>
+        /// <param name="dataIndex"></param>
+        /// <returns></returns>
         public bool IsInIndexDelay(int dataIndex)
         {
             if (context.start)
@@ -137,6 +216,12 @@ namespace XCharts.Runtime
                 return false;
         }
 
+        /// <summary>
+        /// Get animation delay.
+        /// |获取动画延迟。
+        /// </summary>
+        /// <param name="dataIndex"></param>
+        /// <returns></returns>
         public float GetIndexDelay(int dataIndex)
         {
             if (!context.start) return 0;
@@ -279,24 +364,40 @@ namespace XCharts.Runtime
         }
     }
 
+    /// <summary>
+    /// Fade in animation.
+    /// |淡入动画。
+    /// </summary>
     [Since("v3.8.0")]
     [System.Serializable]
     public class AnimationFadeIn : AnimationInfo
     {
     }
 
+    /// <summary>
+    /// Fade out animation.
+    /// |淡出动画。
+    /// </summary>
     [Since("v3.8.0")]
     [System.Serializable]
-    public class AnimationFadeOut : AnimationInfo
+    public class AnimationFadeout : AnimationInfo
     {
     }
 
+    /// <summary>
+    /// Data change animation.
+    /// |数据变更动画。
+    /// </summary>
     [Since("v3.8.0")]
     [System.Serializable]
     public class AnimationChange : AnimationInfo
     {
     }
 
+    /// <summary>
+    /// Data addition animation.
+    /// |数据新增动画。
+    /// </summary>
     [Since("v3.8.0")]
     [System.Serializable]
     public class AnimationAddition : AnimationInfo

@@ -7,6 +7,7 @@ slug: /api
 
 ## 所有类
 
+- [AnimationInfoContext](#animationinfocontext)
 - [AnimationStyleHelper](#animationstylehelper)
 - [AxisContext](#axiscontext)
 - [AxisHandler&lt;T&gt;](#axishandlert)
@@ -111,6 +112,10 @@ slug: /api
 - [XCThemeMgr](#xcthememgr)
 
 
+## AnimationInfoContext
+
+> XCharts.Runtime.AnimationInfoContext
+
 ## AnimationStyleHelper
 
 > XCharts.Runtime.AnimationStyleHelper
@@ -119,7 +124,7 @@ slug: /api
 |--|--|--|
 |CheckDataAnimation()||public static float CheckDataAnimation(BaseChart chart, Serie serie, int dataIndex, float destProgress, float startPorgress = 0)|
 |GetAnimationPosition()||public static bool GetAnimationPosition(AnimationStyle animation, bool isY, Vector3 lp, Vector3 cp, float progress, ref Vector3 ip)|
-|UpdateAnimationType()||public static void UpdateAnimationType(AnimationStyle animation, AnimationType defaultType)|
+|UpdateAnimationType()||public static void UpdateAnimationType(AnimationStyle animation, AnimationType defaultType, bool enableSerieDataAnimation)|
 |UpdateSerieAnimation()||public static void UpdateSerieAnimation(Serie serie)|
 
 ## AxisContext
@@ -206,12 +211,14 @@ slug: /api
 |AddXAxisIcon()||public void AddXAxisIcon(Sprite icon, int xAxisIndex = 0)<br/>添加一个图标到指定的x轴。 |
 |AddYAxisData()||public void AddYAxisData(string category, int yAxisIndex = 0)<br/>添加一个类目数据到指定的y轴。 |
 |AddYAxisIcon()||public void AddYAxisIcon(Sprite icon, int yAxisIndex = 0)<br/>添加一个图标到指定的y轴。 |
-|AnimationEnable()||public void AnimationEnable(bool flag)<br/>启用或关闭起始动画。 |
-|AnimationFadeIn()||public void AnimationFadeIn(bool reset = true)<br/>开始渐入动画。 |
-|AnimationFadeOut()||public void AnimationFadeOut()<br/>开始渐出动画。 |
-|AnimationPause()||public void AnimationPause()<br/>暂停动画。 |
-|AnimationReset()||public void AnimationReset()<br/>重置动画。 |
-|AnimationResume()||public void AnimationResume()<br/>继续动画。 |
+|AnimationEnable()||public void AnimationEnable(bool flag)<br/>是否启用Serie动画。 |
+|AnimationFadein()||public void AnimationFadein(bool reset = true)<br/>开始所有Serie的渐入动画。 |
+|AnimationFadeIn()||public void AnimationFadeIn(bool reset = true)|
+|AnimationFadeout()||public void AnimationFadeout()<br/>开始所有Serie的渐出动画。 |
+|AnimationFadeOut()||public void AnimationFadeOut()|
+|AnimationPause()||public void AnimationPause()<br/>暂停所有Serie的动画。 |
+|AnimationReset()||public void AnimationReset()<br/>重置所有Serie的动画。 |
+|AnimationResume()||public void AnimationResume()<br/>继续所有Serie的动画。 |
 |CanAddChartComponent()||public bool CanAddChartComponent(Type type)|
 |CanAddSerie()||public bool CanAddSerie(Type type)|
 |CanAddSerie&lt;T&gt;()||public bool CanAddSerie&lt;T&gt;() where T : Serie|
@@ -599,6 +606,7 @@ slug: /api
 |public method|since|description|
 |--|--|--|
 |DefaultAnimationAttribute()||public DefaultAnimationAttribute(AnimationType handler)|
+|DefaultAnimationAttribute()||public DefaultAnimationAttribute(AnimationType handler, bool enableSerieDataAddedAnimation)|
 
 ## DefineSymbolsUtil
 

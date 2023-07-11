@@ -166,6 +166,11 @@ import APITable from '@site/src/components/APITable';
 
 ## Other
 
+- [AnimationAddition](#animationaddition)
+- [AnimationChange](#animationchange)
+- [AnimationFadeIn](#animationfadein)
+- [AnimationFadeout](#animationfadeout)
+- [AnimationInfo](#animationinfo)
 - [BaseSerie](#baseserie)
 - [ChartText](#charttext)
 - [ChildComponent](#childcomponent)
@@ -209,11 +214,67 @@ Angle axis of Polar Coordinate.
 
 > XCharts.Runtime.AngleAxisTheme : [BaseAxisTheme](#baseaxistheme)
 
+## AnimationAddition
+
+> XCharts.Runtime.AnimationAddition : [AnimationInfo](#animationinfo)
+
+> Since `v3.8.0`
+
+Data addition animation.
+
+## AnimationChange
+
+> XCharts.Runtime.AnimationChange : [AnimationInfo](#animationinfo)
+
+> Since `v3.8.0`
+
+Data change animation.
+
+## AnimationFadeIn
+
+> XCharts.Runtime.AnimationFadeIn : [AnimationInfo](#animationinfo)
+
+> Since `v3.8.0`
+
+Fade in animation.
+
+## AnimationFadeout
+
+> XCharts.Runtime.AnimationFadeout : [AnimationInfo](#animationinfo)
+
+> Since `v3.8.0`
+
+Fade out animation.
+
+## AnimationInfo
+
+> XCharts.Runtime.AnimationInfo / Subclasses: [AnimationFadeIn](#animationfadein), [AnimationFadeout](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition)
+
+> Since `v3.8.0`
+
+the animation info.
+
+```mdx-code-block
+<APITable name="AnimationInfo">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|enable|true|v3.8.0|whether enable animation.
+|reverse|false|v3.8.0|whether enable reverse animation.
+|delay|0|v3.8.0|the delay time before animation start.
+|duration|1000|v3.8.0|the duration of animation.
+
+```mdx-code-block
+</APITable>
+```
+
 ## AnimationStyle
 
 > XCharts.Runtime.AnimationStyle : [ChildComponent](#childcomponent)
 
-the animation of serie.
+the animation of serie. support animation type: fadeIn, fadeOut, change, addition.
 
 ```mdx-code-block
 <APITable name="AnimationStyle">
@@ -224,18 +285,13 @@ the animation of serie.
 |--|--|--|--|
 |enable|true||Whether to enable animation.
 |type|||The type of animation.<br/>`AnimationType`:<br/>- `Default`: he default. An animation playback mode will be selected according to the actual situation.<br/>- `LeftToRight`: Play the animation from left to right.<br/>- `BottomToTop`: Play the animation from bottom to top.<br/>- `InsideOut`: Play animations from the inside out.<br/>- `AlongPath`: Play the animation along the path.<br/>- `Clockwise`: Play the animation clockwise.<br/>|
-|easting|||Easing method used for the first animation.<br/>`AnimationEasing`:<br/>- `Linear`: <br/>|
+|easting|||<br/>`AnimationEasing`:<br/>- `Linear`: <br/>|
 |threshold|2000||Whether to set graphic number threshold to animation. Animation will be disabled when graphic number is larger than threshold.
-|fadeInDuration|1000||The milliseconds duration of the fadeIn animation.
-|fadeInDelay|0||The milliseconds delay before updating the first animation.
-|fadeOutDuration|1000f||The milliseconds duration of the fadeOut animation.
-|fadeOutDelay|0||渐出动画延时（毫秒）。如果要设置单个数据项的延时，可以用代码定制：customFadeOutDelay。
-|dataChangeEnable|true||是否开启数据变更动画。
-|dataChangeDuration|500||The milliseconds duration of the data change animation.
-|actualDuration|||The milliseconds actual duration of the first animation.
 |unscaledTime||v3.4.0|Animation updates independently of Time.timeScale.
-|dataAddEnable|true|v3.8.0|Whether to enable data add animation.
-|dataAddDuration|500|v3.8.0|The milliseconds duration of the data add animation.
+|fadein||v3.8.0|Fade in animation configuration. [AnimationFadeIn](#animationfadein)|
+|fadeout||v3.8.0|Fade out animation configuration. [AnimationFadeout](#animationfadeout)|
+|change||v3.8.0|Update data animation configuration. [AnimationChange](#animationchange)|
+|addition||v3.8.0|Add data animation configuration. [AnimationAddition](#animationaddition)|
 
 ```mdx-code-block
 </APITable>

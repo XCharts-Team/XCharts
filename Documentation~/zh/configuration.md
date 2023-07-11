@@ -166,6 +166,11 @@ import APITable from '@site/src/components/APITable';
 
 ## Other 其他
 
+- [AnimationAddition](#animationaddition)
+- [AnimationChange](#animationchange)
+- [AnimationFadeIn](#animationfadein)
+- [AnimationFadeout](#animationfadeout)
+- [AnimationInfo](#animationinfo)
 - [BaseSerie](#baseserie)
 - [ChartText](#charttext)
 - [ChildComponent](#childcomponent)
@@ -209,11 +214,67 @@ import APITable from '@site/src/components/APITable';
 
 > XCharts.Runtime.AngleAxisTheme : [BaseAxisTheme](#baseaxistheme)
 
+## AnimationAddition
+
+> XCharts.Runtime.AnimationAddition : [AnimationInfo](#animationinfo)
+
+> 从 `v3.8.0` 开始支持
+
+数据新增动画。
+
+## AnimationChange
+
+> XCharts.Runtime.AnimationChange : [AnimationInfo](#animationinfo)
+
+> 从 `v3.8.0` 开始支持
+
+数据变更动画。
+
+## AnimationFadeIn
+
+> XCharts.Runtime.AnimationFadeIn : [AnimationInfo](#animationinfo)
+
+> 从 `v3.8.0` 开始支持
+
+淡入动画。
+
+## AnimationFadeout
+
+> XCharts.Runtime.AnimationFadeout : [AnimationInfo](#animationinfo)
+
+> 从 `v3.8.0` 开始支持
+
+淡出动画。
+
+## AnimationInfo
+
+> XCharts.Runtime.AnimationInfo / Subclasses: [AnimationFadeIn](#animationfadein), [AnimationFadeout](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition)
+
+> 从 `v3.8.0` 开始支持
+
+动画配置参数。
+
+```mdx-code-block
+<APITable name="AnimationInfo">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|enable|true|v3.8.0|是否开启动画效果。
+|reverse|false|v3.8.0|是否开启反向动画效果。
+|delay|0|v3.8.0|动画开始前的延迟时间。
+|duration|1000|v3.8.0|动画的时长。
+
+```mdx-code-block
+</APITable>
+```
+
 ## AnimationStyle
 
 > XCharts.Runtime.AnimationStyle : [ChildComponent](#childcomponent)
 
-动画表现。
+动画表现。支持配置四种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画）。
 
 ```mdx-code-block
 <APITable name="AnimationStyle">
@@ -224,18 +285,13 @@ import APITable from '@site/src/components/APITable';
 |--|--|--|--|
 |enable|true||是否开启动画效果。
 |type|||动画类型。<br/>`AnimationType`:<br/>- `Default`: 默认。内部会根据实际情况选择一种动画播放方式。<br/>- `LeftToRight`: 从左往右播放动画。<br/>- `BottomToTop`: 从下往上播放动画。<br/>- `InsideOut`: 由内到外播放动画。<br/>- `AlongPath`: 沿着路径播放动画。当折线图从左到右无序或有折返时，可以使用该模式。<br/>- `Clockwise`: 顺时针播放动画。<br/>|
-|easting|||动画的缓动效果。<br/>`AnimationEasing`:<br/>- `Linear`: <br/>|
+|easting|||<br/>`AnimationEasing`:<br/>- `Linear`: <br/>|
 |threshold|2000||是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。
-|fadeInDuration|1000||设定的渐入动画时长（毫秒）。如果要设置单个数据项的渐入时长，可以用代码定制：customFadeInDuration。
-|fadeInDelay|0||渐入动画延时（毫秒）。如果要设置单个数据项的延时，可以用代码定制：customFadeInDelay。
-|fadeOutDuration|1000f||设定的渐出动画时长（毫秒）。如果要设置单个数据项的渐出时长，可以用代码定制：customFadeOutDuration。
-|fadeOutDelay|0||渐出动画延时（毫秒）。如果要设置单个数据项的延时，可以用代码定制：customFadeOutDelay。
-|dataChangeEnable|true||是否开启数据变更动画。
-|dataChangeDuration|500||数据变更的动画时长（毫秒）。
-|actualDuration|||实际的动画时长（毫秒）。
 |unscaledTime||v3.4.0|动画是否受TimeScaled的影响。默认为 false 受TimeScaled的影响。
-|dataAddEnable|true|v3.8.0|是否开启数据增加动画。
-|dataAddDuration|500|v3.8.0|数据增加的动画时长（毫秒）。
+|fadein||v3.8.0|渐入动画配置。 [AnimationFadeIn](#animationfadein)|
+|fadeout||v3.8.0|渐出动画配置。 [AnimationFadeout](#animationfadeout)|
+|change||v3.8.0|数据变更动画配置。 [AnimationChange](#animationchange)|
+|addition||v3.8.0|数据新增动画配置。 [AnimationAddition](#animationaddition)|
 
 ```mdx-code-block
 </APITable>

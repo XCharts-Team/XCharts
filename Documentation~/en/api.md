@@ -7,6 +7,7 @@ slug: /api
 
 ## All Class
 
+- [AnimationInfoContext](#animationinfocontext)
 - [AnimationStyleHelper](#animationstylehelper)
 - [AxisContext](#axiscontext)
 - [AxisHandler&lt;T&gt;](#axishandlert)
@@ -111,6 +112,10 @@ slug: /api
 - [XCThemeMgr](#xcthememgr)
 
 
+## AnimationInfoContext
+
+> XCharts.Runtime.AnimationInfoContext
+
 ## AnimationStyleHelper
 
 > XCharts.Runtime.AnimationStyleHelper
@@ -119,7 +124,7 @@ slug: /api
 |--|--|--|
 |CheckDataAnimation()||public static float CheckDataAnimation(BaseChart chart, Serie serie, int dataIndex, float destProgress, float startPorgress = 0)|
 |GetAnimationPosition()||public static bool GetAnimationPosition(AnimationStyle animation, bool isY, Vector3 lp, Vector3 cp, float progress, ref Vector3 ip)|
-|UpdateAnimationType()||public static void UpdateAnimationType(AnimationStyle animation, AnimationType defaultType)|
+|UpdateAnimationType()||public static void UpdateAnimationType(AnimationStyle animation, AnimationType defaultType, bool enableSerieDataAnimation)|
 |UpdateSerieAnimation()||public static void UpdateSerieAnimation(Serie serie)|
 
 ## AxisContext
@@ -206,12 +211,14 @@ slug: /api
 |AddXAxisIcon()||public void AddXAxisIcon(Sprite icon, int xAxisIndex = 0)<br/>Add an icon to xAxis. |
 |AddYAxisData()||public void AddYAxisData(string category, int yAxisIndex = 0)<br/>Add a category data to yAxis. |
 |AddYAxisIcon()||public void AddYAxisIcon(Sprite icon, int yAxisIndex = 0)<br/>Add an icon to yAxis. |
-|AnimationEnable()||public void AnimationEnable(bool flag)<br/>Whether series animation enabel. |
-|AnimationFadeIn()||public void AnimationFadeIn(bool reset = true)<br/>fadeIn animation. |
-|AnimationFadeOut()||public void AnimationFadeOut()<br/>fadeIn animation. |
-|AnimationPause()||public void AnimationPause()<br/>Pause animation. |
-|AnimationReset()||public void AnimationReset()<br/>Reset animation. |
-|AnimationResume()||public void AnimationResume()<br/>Stop play animation. |
+|AnimationEnable()||public void AnimationEnable(bool flag)<br/>Whether enable serie animations. |
+|AnimationFadein()||public void AnimationFadein(bool reset = true)<br/>Start all serie fadein animations. |
+|AnimationFadeIn()||public void AnimationFadeIn(bool reset = true)|
+|AnimationFadeout()||public void AnimationFadeout()<br/>Start all serie fadeout animations. |
+|AnimationFadeOut()||public void AnimationFadeOut()|
+|AnimationPause()||public void AnimationPause()<br/>Pause all animations. |
+|AnimationReset()||public void AnimationReset()<br/>Reset all animations. |
+|AnimationResume()||public void AnimationResume()<br/>Resume all animations. |
 |CanAddChartComponent()||public bool CanAddChartComponent(Type type)|
 |CanAddSerie()||public bool CanAddSerie(Type type)|
 |CanAddSerie&lt;T&gt;()||public bool CanAddSerie&lt;T&gt;() where T : Serie|
@@ -599,6 +606,7 @@ slug: /api
 |public method|since|description|
 |--|--|--|
 |DefaultAnimationAttribute()||public DefaultAnimationAttribute(AnimationType handler)|
+|DefaultAnimationAttribute()||public DefaultAnimationAttribute(AnimationType handler, bool enableSerieDataAddedAnimation)|
 
 ## DefineSymbolsUtil
 

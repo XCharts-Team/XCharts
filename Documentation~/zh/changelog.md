@@ -7,6 +7,7 @@ slug: /changelog
 
 [master](#master)  
 [v3.7.0](#v370)  
+[v3.6.0](#v360)  
 [v3.5.0](#v350)  
 [v3.4.0](#v340)  
 [v3.3.0](#v330)  
@@ -72,7 +73,7 @@ slug: /changelog
 
 日志详情：
 
-* (2023.07.03) 增加`Animation`的添加动画支持
+* (2023.07.11) 重构`Animation`动画系统，增加`Addition`新增动画支持
 * (2023.06.30) 增加`PolarCood`的`indicatorLabelOffset`设置指示文本偏移的支持
 * (2023.06.30) 修复`Axis`的`IndicatorLabel`的背景颜色可能不正常的问题
 * (2023.06.30) 增加`Axis`的`IndicatorLabel`可自定义`color`的支持

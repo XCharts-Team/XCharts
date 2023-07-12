@@ -396,29 +396,19 @@ namespace XCharts.Runtime
         /// |开始所有Serie的渐入动画。
         /// </summary>
         /// <param name="reset">reset animation</param>
-        public void AnimationFadein(bool reset = true)
-        {
-            if (reset) AnimationReset();
-            foreach (var serie in m_Series) serie.AnimationFadein();
-        }
-
-        [Obsolete("Use AnimationFadein() instead.", true)]
         public void AnimationFadeIn(bool reset = true)
         {
+            if (reset) AnimationReset();
+            foreach (var serie in m_Series) serie.AnimationFadeIn();
         }
 
         /// <summary>
         /// Start all serie fadeout animations.
         /// |开始所有Serie的渐出动画。
         /// </summary>
-        public void AnimationFadeout()
-        {
-            foreach (var serie in m_Series) serie.AnimationFadeout();
-        }
-
-        [Obsolete("Use AnimationFadeout() instead.", true)]
         public void AnimationFadeOut()
         {
+            foreach (var serie in m_Series) serie.AnimationFadeOut();
         }
 
         /// <summary>

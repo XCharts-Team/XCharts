@@ -300,7 +300,7 @@ namespace XCharts.Runtime
 
         private void DrawPie(VertexHelper vh, Serie serie)
         {
-            if (!serie.show || serie.animation.HasFadeout())
+            if (!serie.show || serie.animation.HasFadeOut())
             {
                 return;
             }

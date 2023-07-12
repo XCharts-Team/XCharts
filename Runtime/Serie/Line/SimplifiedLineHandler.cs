@@ -139,7 +139,7 @@ namespace XCharts.Runtime
         {
             if (!serie.show)
                 return;
-            if (serie.animation.HasFadeout())
+            if (serie.animation.HasFadeOut())
                 return;
 
             Axis axis;

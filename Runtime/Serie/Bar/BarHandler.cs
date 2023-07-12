@@ -142,7 +142,7 @@ namespace XCharts.Runtime
 
         private void DrawBarSerie(VertexHelper vh, Bar serie)
         {
-            if (!serie.show || serie.animation.HasFadeout())
+            if (!serie.show || serie.animation.HasFadeOut())
                 return;
 
             Axis axis;

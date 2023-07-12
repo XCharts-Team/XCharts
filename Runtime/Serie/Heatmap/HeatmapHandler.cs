@@ -185,7 +185,7 @@ namespace XCharts.Runtime
 
         private void DrawDataHeatmapSerie(VertexHelper vh, Heatmap serie)
         {
-            if (!serie.show || serie.animation.HasFadeout()) return;
+            if (!serie.show || serie.animation.HasFadeOut()) return;
             XAxis xAxis;
             YAxis yAxis;
             if (!chart.TryGetChartComponent<XAxis>(out xAxis, serie.xAxisIndex)) return;
@@ -332,7 +332,7 @@ namespace XCharts.Runtime
 
         private void DrawCountHeatmapSerie(VertexHelper vh, Heatmap serie)
         {
-            if (!serie.show || serie.animation.HasFadeout()) return;
+            if (!serie.show || serie.animation.HasFadeOut()) return;
             XAxis xAxis;
             YAxis yAxis;
             if (!chart.TryGetChartComponent<XAxis>(out xAxis, serie.xAxisIndex)) return;

@@ -176,7 +176,7 @@ namespace XCharts.Runtime
 
         public override void DrawSerie(VertexHelper vh)
         {
-            if (!serie.show || serie.animation.HasFadeout()) return;
+            if (!serie.show || serie.animation.HasFadeOut()) return;
             var data = serie.data;
             serie.animation.InitProgress(serie.startAngle, serie.startAngle + 360);
             SerieHelper.UpdateCenter(serie, chart.chartPosition, chart.chartWidth, chart.chartHeight);

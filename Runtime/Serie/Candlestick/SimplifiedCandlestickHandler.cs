@@ -81,7 +81,7 @@ namespace XCharts.Runtime
         private void DrawCandlestickSerie(VertexHelper vh, SimplifiedCandlestick serie)
         {
             if (!serie.show) return;
-            if (serie.animation.HasFadeout()) return;
+            if (serie.animation.HasFadeOut()) return;
             XAxis xAxis;
             YAxis yAxis;
             GridCoord grid;

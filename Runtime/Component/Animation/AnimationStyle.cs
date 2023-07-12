@@ -45,7 +45,7 @@ namespace XCharts.Runtime
 
     /// <summary>
     /// the animation of serie. support animation type: fadeIn, fadeOut, change, addition.
-    /// |动画表现。支持配置四种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画）。
+    /// |动画系统。支持配置四种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画）。
     /// </summary>
     [System.Serializable]
     public class AnimationStyle : ChildComponent
@@ -55,8 +55,8 @@ namespace XCharts.Runtime
         [SerializeField] private AnimationEasing m_Easting;
         [SerializeField] private int m_Threshold = 2000;
         [SerializeField][Since("v3.4.0")] private bool m_UnscaledTime;
-        [SerializeField][Since("v3.8.0")] private AnimationFadeIn m_Fadein = new AnimationFadeIn();
-        [SerializeField][Since("v3.8.0")] private AnimationFadeout m_Fadeout = new AnimationFadeout() { reverse = true };
+        [SerializeField][Since("v3.8.0")] private AnimationFadeIn m_FadeIn = new AnimationFadeIn();
+        [SerializeField][Since("v3.8.0")] private AnimationFadeOut m_FadeOut = new AnimationFadeOut() { reverse = true };
         [SerializeField][Since("v3.8.0")] private AnimationChange m_Change = new AnimationChange() { duration = 500 };
         [SerializeField][Since("v3.8.0")] private AnimationAddition m_Addition = new AnimationAddition() { duration = 500 };
 
@@ -98,12 +98,12 @@ namespace XCharts.Runtime
         /// Fade in animation configuration.
         /// |渐入动画配置。
         /// </summary>
-        public AnimationFadeIn fadein { get { return m_Fadein; } }
+        public AnimationFadeIn fadein { get { return m_FadeIn; } }
         /// <summary>
         /// Fade out animation configuration.
         /// |渐出动画配置。
         /// </summary>
-        public AnimationFadeout fadeout { get { return m_Fadeout; } }
+        public AnimationFadeOut fadeout { get { return m_FadeOut; } }
         /// <summary>
         /// Update data animation configuration.
         /// |数据变更动画配置。
@@ -124,8 +124,8 @@ namespace XCharts.Runtime
                 if (m_Animations == null)
                 {
                     m_Animations = new List<AnimationInfo>();
-                    m_Animations.Add(m_Fadein);
-                    m_Animations.Add(m_Fadeout);
+                    m_Animations.Add(m_FadeIn);
+                    m_Animations.Add(m_FadeOut);
                     m_Animations.Add(m_Change);
                     m_Animations.Add(m_Addition);
                 }
@@ -153,10 +153,10 @@ namespace XCharts.Runtime
         /// Start fadein animation.
         /// |开始渐入动画。
         /// </summary>
-        public void Fadein()
+        public void FadeIn()
         {
-            if (m_Fadeout.context.start) return;
-            m_Fadein.Start();
+            if (m_FadeOut.context.start) return;
+            m_FadeIn.Start();
         }
 
         /// <summary>
@@ -177,9 +177,9 @@ namespace XCharts.Runtime
         /// Start fadeout animation.
         /// |开始渐出动画。
         /// </summary>
-        public void Fadeout()
+        public void FadeOut()
         {
-            m_Fadeout.Start();
+            m_FadeOut.Start();
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace XCharts.Runtime
         public void Addition()
         {
             if (!enable) return;
-            if (!m_Fadein.context.start && !m_Fadeout.context.start)
+            if (!m_FadeIn.context.start && !m_FadeOut.context.start)
             {
                 m_Addition.Start(false);
             }
@@ -312,7 +312,7 @@ namespace XCharts.Runtime
                 if (animation.context.start)
                     return animation.context.end;
             }
-            return m_Fadein.context.end;
+            return m_FadeIn.context.end;
         }
 
 
@@ -333,9 +333,9 @@ namespace XCharts.Runtime
             }
             if (IsIndexAnimation())
             {
-                if (m_Fadeout.context.start) return m_Fadeout.context.currProgress <= m_Fadeout.context.destProgress;
+                if (m_FadeOut.context.start) return m_FadeOut.context.currProgress <= m_FadeOut.context.destProgress;
                 else if (m_Addition.context.start) return m_Addition.context.currProgress >= m_Addition.context.destProgress;
-                else return m_Fadein.context.currProgress >= m_Fadein.context.destProgress;
+                else return m_FadeIn.context.currProgress >= m_FadeIn.context.destProgress;
             }
             else if (IsItemAnimation())
             {
@@ -434,8 +434,8 @@ namespace XCharts.Runtime
 
         public void CheckSymbol(float dest)
         {
-            m_Fadein.CheckSymbol(dest, m_UnscaledTime);
-            m_Fadeout.CheckSymbol(dest, m_UnscaledTime);
+            m_FadeIn.CheckSymbol(dest, m_UnscaledTime);
+            m_FadeOut.CheckSymbol(dest, m_UnscaledTime);
         }
 
         public float GetSysmbolSize(float dest)
@@ -448,9 +448,9 @@ namespace XCharts.Runtime
                 return dest;
 
             if (IsEnd())
-                return m_Fadeout.context.start ? 0 : dest;
+                return m_FadeOut.context.start ? 0 : dest;
 
-            return m_Fadeout.context.start ? m_Fadeout.context.sizeProgress : m_Fadein.context.sizeProgress;
+            return m_FadeOut.context.start ? m_FadeOut.context.sizeProgress : m_FadeIn.context.sizeProgress;
         }
 
         public float GetCurrDetail()
@@ -470,7 +470,7 @@ namespace XCharts.Runtime
                 if (animation.context.start)
                     return animation.context.currProgress;
             }
-            return m_Fadein.context.currProgress;
+            return m_FadeIn.context.currProgress;
         }
 
         public float GetCurrRate()
@@ -481,7 +481,7 @@ namespace XCharts.Runtime
 #endif
             if (!enable || IsEnd())
                 return 1;
-            return m_Fadeout.context.start ? m_Fadeout.context.currProgress : m_Fadein.context.currProgress;
+            return m_FadeOut.context.start ? m_FadeOut.context.currProgress : m_FadeIn.context.currProgress;
         }
 
         public int GetCurrIndex()
@@ -514,9 +514,9 @@ namespace XCharts.Runtime
                 return 0;
         }
 
-        public bool HasFadeout()
+        public bool HasFadeOut()
         {
-            return enable && m_Fadeout.context.end;
+            return enable && m_FadeOut.context.end;
         }
     }
 }

@@ -649,7 +649,7 @@ namespace XCharts.Runtime
             serie.show = active;
             serie.RefreshLabel();
             serie.AnimationReset();
-            if (active) serie.AnimationFadein();
+            if (active) serie.AnimationFadeIn();
             UpdateLegendColor(serie.serieName, active);
         }
 

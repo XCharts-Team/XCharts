@@ -106,7 +106,7 @@ namespace XCharts.Runtime
 
         protected virtual void DrawScatterSerie(VertexHelper vh, BaseScatter serie)
         {
-            if (serie.animation.HasFadeout())
+            if (serie.animation.HasFadeOut())
                 return;
 
             if (!serie.show)
@@ -216,7 +216,7 @@ namespace XCharts.Runtime
 
         protected virtual void DrawSingAxisScatterSerie(VertexHelper vh, BaseScatter serie)
         {
-            if (serie.animation.HasFadeout())
+            if (serie.animation.HasFadeOut())
                 return;
 
             if (!serie.show)

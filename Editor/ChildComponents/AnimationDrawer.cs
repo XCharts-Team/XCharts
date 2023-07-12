@@ -62,8 +62,8 @@ namespace XCharts.Editor
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Type");
                 PropertyField(prop, "m_UnscaledTime");
-                PropertyField(prop, "m_Fadein");
-                PropertyField(prop, "m_Fadeout");
+                PropertyField(prop, "m_FadeIn");
+                PropertyField(prop, "m_FadeOut");
                 PropertyField(prop, "m_Change");
                 PropertyField(prop, "m_Addition");
                 --EditorGUI.indentLevel;

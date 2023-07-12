@@ -1907,32 +1907,18 @@ namespace XCharts.Runtime
         /// <summary>
         /// 渐入动画
         /// </summary>
-        public void AnimationFadein()
-        {
-            if (animation.enable) animation.Fadein();
-            SetVerticesDirty();
-        }
-
-        [Obsolete("Use Serie.AnimationFadein() instead.", true)]
         public void AnimationFadeIn()
         {
-            if (animation.enable) animation.Fadein();
+            if (animation.enable) animation.FadeIn();
             SetVerticesDirty();
         }
 
         /// <summary>
         /// 渐出动画
         /// </summary>
-        public void AnimationFadeout()
-        {
-            if (animation.enable) animation.Fadeout();
-            SetVerticesDirty();
-        }
-
-        [Obsolete("Use Serie.AnimationFadeout() instead.", true)]
         public void AnimationFadeOut()
         {
-            if (animation.enable) animation.Fadeout();
+            if (animation.enable) animation.FadeOut();
             SetVerticesDirty();
         }
 

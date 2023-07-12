@@ -380,7 +380,7 @@ namespace XCharts.Runtime
     /// </summary>
     [Since("v3.8.0")]
     [System.Serializable]
-    public class AnimationFadeout : AnimationInfo
+    public class AnimationFadeOut : AnimationInfo
     {
     }
 

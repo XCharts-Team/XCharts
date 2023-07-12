@@ -45,7 +45,8 @@ namespace XCharts.Runtime
 
     /// <summary>
     /// the animation of serie. support animation type: fadeIn, fadeOut, change, addition.
-    /// |动画系统。支持配置四种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画）。
+    /// |动画组件，用于控制图表的动画播放。支持配置四种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画）。
+    /// 按作用的对象可以分为两类：SerieAnimation（系列动画）和DataAnimation（数据动画）。
     /// </summary>
     [System.Serializable]
     public class AnimationStyle : ChildComponent
@@ -241,7 +242,7 @@ namespace XCharts.Runtime
             var anim = activedAnimation;
             if (anim == null) return;
             var isAddedAnim = anim is AnimationAddition;
-            if (IsIndexAnimation())
+            if (IsSerieAnimation())
             {
                 if (isAddedAnim)
                 {
@@ -331,13 +332,13 @@ namespace XCharts.Runtime
                     return true;
                 }
             }
-            if (IsIndexAnimation())
+            if (IsSerieAnimation())
             {
                 if (m_FadeOut.context.start) return m_FadeOut.context.currProgress <= m_FadeOut.context.destProgress;
                 else if (m_Addition.context.start) return m_Addition.context.currProgress >= m_Addition.context.destProgress;
                 else return m_FadeIn.context.currProgress >= m_FadeIn.context.destProgress;
             }
-            else if (IsItemAnimation())
+            else if (IsDataAnimation())
             {
                 return false;
             }
@@ -352,12 +353,20 @@ namespace XCharts.Runtime
             return false;
         }
 
-        public bool IsItemAnimation()
+        /// <summary>
+        /// whther animaiton is data animation. BottomToTop and InsideOut are data animation.
+        /// |是否为数据动画。BottomToTop和InsideOut类型的为数据动画。
+        /// </summary>
+        public bool IsDataAnimation()
         {
             return context.type == AnimationType.BottomToTop || context.type == AnimationType.InsideOut;
         }
 
-        public bool IsIndexAnimation()
+        /// <summary>
+        /// whther animaiton is serie animation. LeftToRight, AlongPath and Clockwise are serie animation.
+        /// |是否为系列动画。LeftToRight、AlongPath和Clockwise类型的为系列动画。
+        /// </summary>
+        public bool IsSerieAnimation()
         {
             return context.type == AnimationType.LeftToRight ||
                 context.type == AnimationType.AlongPath || context.type == AnimationType.Clockwise;
@@ -365,7 +374,7 @@ namespace XCharts.Runtime
 
         public bool CheckDetailBreak(float detail)
         {
-            if (!IsIndexAnimation())
+            if (!IsSerieAnimation())
                 return false;
             foreach (var animation in animations)
             {
@@ -377,7 +386,7 @@ namespace XCharts.Runtime
 
         public bool CheckDetailBreak(Vector3 pos, bool isYAxis)
         {
-            if (!IsIndexAnimation())
+            if (!IsSerieAnimation())
                 return false;
 
             if (IsFinish())
@@ -400,7 +409,7 @@ namespace XCharts.Runtime
 
         public void CheckProgress()
         {
-            if (IsItemAnimation() && context.isAllItemAnimationEnd)
+            if (IsDataAnimation() && context.isAllItemAnimationEnd)
             {
                 foreach (var animation in animations)
                 {

@@ -7,7 +7,7 @@ namespace XCharts.Runtime
     {
         public static float CheckDataAnimation(BaseChart chart, Serie serie, int dataIndex, float destProgress, float startPorgress = 0)
         {
-            if (!serie.animation.IsItemAnimation())
+            if (!serie.animation.IsDataAnimation())
             {
                 serie.animation.context.isAllItemAnimationEnd = false;
                 return destProgress;

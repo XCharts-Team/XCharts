@@ -73,7 +73,7 @@ namespace XCharts.Runtime
             context.pause = false;
             context.end = false;
             context.startTime = 0;
-            context.itemCurrProgress.Clear();
+            context.dataCurrProgress.Clear();
         }
 
         /// <summary>
@@ -101,8 +101,8 @@ namespace XCharts.Runtime
                 context.destProgress = 1;
                 context.totalProgress = 0;
                 context.sizeProgress = 0;
-                context.itemCurrProgress.Clear();
-                context.itemDestProgress.Clear();
+                context.dataCurrProgress.Clear();
+                context.dataDestProgress.Clear();
             }
             if (OnAnimationStart != null)
             {
@@ -242,7 +242,7 @@ namespace XCharts.Runtime
 
         internal void SetDataCurrProgress(int index, float state)
         {
-            context.itemCurrProgress[index] = state;
+            context.dataCurrProgress[index] = state;
         }
 
 
@@ -253,23 +253,23 @@ namespace XCharts.Runtime
                 isBarEnd = false;
                 return initValue;
             }
-            var c1 = !context.itemCurrProgress.ContainsKey(index);
-            var c2 = !context.itemDestProgress.ContainsKey(index);
+            var c1 = !context.dataCurrProgress.ContainsKey(index);
+            var c2 = !context.dataDestProgress.ContainsKey(index);
             if (c1 || c2)
             {
                 if (c1)
-                    context.itemCurrProgress.Add(index, initValue);
+                    context.dataCurrProgress.Add(index, initValue);
 
                 if (c2)
-                    context.itemDestProgress.Add(index, destValue);
+                    context.dataDestProgress.Add(index, destValue);
 
                 isBarEnd = false;
             }
             else
             {
-                isBarEnd = context.itemCurrProgress[index] == context.itemDestProgress[index];
+                isBarEnd = context.dataCurrProgress[index] == context.dataDestProgress[index];
             }
-            return context.itemCurrProgress[index];
+            return context.dataCurrProgress[index];
         }
 
         internal void CheckProgress(double total, bool m_UnscaledTime)

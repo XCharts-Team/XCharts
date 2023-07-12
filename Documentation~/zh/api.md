@@ -212,10 +212,8 @@ slug: /api
 |AddYAxisData()||public void AddYAxisData(string category, int yAxisIndex = 0)<br/>添加一个类目数据到指定的y轴。 |
 |AddYAxisIcon()||public void AddYAxisIcon(Sprite icon, int yAxisIndex = 0)<br/>添加一个图标到指定的y轴。 |
 |AnimationEnable()||public void AnimationEnable(bool flag)<br/>是否启用Serie动画。 |
-|AnimationFadein()||public void AnimationFadein(bool reset = true)<br/>开始所有Serie的渐入动画。 |
-|AnimationFadeIn()||public void AnimationFadeIn(bool reset = true)|
-|AnimationFadeout()||public void AnimationFadeout()<br/>开始所有Serie的渐出动画。 |
-|AnimationFadeOut()||public void AnimationFadeOut()|
+|AnimationFadeIn()||public void AnimationFadeIn(bool reset = true)<br/>开始所有Serie的渐入动画。 |
+|AnimationFadeOut()||public void AnimationFadeOut()<br/>开始所有Serie的渐出动画。 |
 |AnimationPause()||public void AnimationPause()<br/>暂停所有Serie的动画。 |
 |AnimationReset()||public void AnimationReset()<br/>重置所有Serie的动画。 |
 |AnimationResume()||public void AnimationResume()<br/>继续所有Serie的动画。 |

@@ -212,10 +212,8 @@ slug: /api
 |AddYAxisData()||public void AddYAxisData(string category, int yAxisIndex = 0)<br/>Add a category data to yAxis. |
 |AddYAxisIcon()||public void AddYAxisIcon(Sprite icon, int yAxisIndex = 0)<br/>Add an icon to yAxis. |
 |AnimationEnable()||public void AnimationEnable(bool flag)<br/>Whether enable serie animations. |
-|AnimationFadein()||public void AnimationFadein(bool reset = true)<br/>Start all serie fadein animations. |
-|AnimationFadeIn()||public void AnimationFadeIn(bool reset = true)|
-|AnimationFadeout()||public void AnimationFadeout()<br/>Start all serie fadeout animations. |
-|AnimationFadeOut()||public void AnimationFadeOut()|
+|AnimationFadeIn()||public void AnimationFadeIn(bool reset = true)<br/>Start all serie fadein animations. |
+|AnimationFadeOut()||public void AnimationFadeOut()<br/>Start all serie fadeout animations. |
 |AnimationPause()||public void AnimationPause()<br/>Pause all animations. |
 |AnimationReset()||public void AnimationReset()<br/>Reset all animations. |
 |AnimationResume()||public void AnimationResume()<br/>Resume all animations. |

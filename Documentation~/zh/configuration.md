@@ -169,7 +169,7 @@ import APITable from '@site/src/components/APITable';
 - [AnimationAddition](#animationaddition)
 - [AnimationChange](#animationchange)
 - [AnimationFadeIn](#animationfadein)
-- [AnimationFadeout](#animationfadeout)
+- [AnimationFadeOut](#animationfadeout)
 - [AnimationInfo](#animationinfo)
 - [BaseSerie](#baseserie)
 - [ChartText](#charttext)
@@ -238,9 +238,9 @@ import APITable from '@site/src/components/APITable';
 
 淡入动画。
 
-## AnimationFadeout
+## AnimationFadeOut
 
-> XCharts.Runtime.AnimationFadeout : [AnimationInfo](#animationinfo)
+> XCharts.Runtime.AnimationFadeOut : [AnimationInfo](#animationinfo)
 
 > 从 `v3.8.0` 开始支持
 
@@ -248,7 +248,7 @@ import APITable from '@site/src/components/APITable';
 
 ## AnimationInfo
 
-> XCharts.Runtime.AnimationInfo / Subclasses: [AnimationFadeIn](#animationfadein), [AnimationFadeout](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition)
+> XCharts.Runtime.AnimationInfo / Subclasses: [AnimationFadeIn](#animationfadein), [AnimationFadeOut](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition)
 
 > 从 `v3.8.0` 开始支持
 
@@ -274,7 +274,7 @@ import APITable from '@site/src/components/APITable';
 
 > XCharts.Runtime.AnimationStyle : [ChildComponent](#childcomponent)
 
-动画表现。支持配置四种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画）。
+动画组件，用于控制图表的动画播放。支持配置四种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画）。 按作用的对象可以分为两类：SerieAnimation（系列动画）和DataAnimation（数据动画）。
 
 ```mdx-code-block
 <APITable name="AnimationStyle">
@@ -288,8 +288,8 @@ import APITable from '@site/src/components/APITable';
 |easting|||<br/>`AnimationEasing`:<br/>- `Linear`: <br/>|
 |threshold|2000||是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。
 |unscaledTime||v3.4.0|动画是否受TimeScaled的影响。默认为 false 受TimeScaled的影响。
-|fadein||v3.8.0|渐入动画配置。 [AnimationFadeIn](#animationfadein)|
-|fadeout||v3.8.0|渐出动画配置。 [AnimationFadeout](#animationfadeout)|
+|fadeIn||v3.8.0|渐入动画配置。 [AnimationFadeIn](#animationfadein)|
+|fadeOut||v3.8.0|渐出动画配置。 [AnimationFadeOut](#animationfadeout)|
 |change||v3.8.0|数据变更动画配置。 [AnimationChange](#animationchange)|
 |addition||v3.8.0|数据新增动画配置。 [AnimationAddition](#animationaddition)|
 

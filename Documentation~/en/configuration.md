@@ -169,7 +169,7 @@ import APITable from '@site/src/components/APITable';
 - [AnimationAddition](#animationaddition)
 - [AnimationChange](#animationchange)
 - [AnimationFadeIn](#animationfadein)
-- [AnimationFadeout](#animationfadeout)
+- [AnimationFadeOut](#animationfadeout)
 - [AnimationInfo](#animationinfo)
 - [BaseSerie](#baseserie)
 - [ChartText](#charttext)
@@ -238,9 +238,9 @@ Data change animation.
 
 Fade in animation.
 
-## AnimationFadeout
+## AnimationFadeOut
 
-> XCharts.Runtime.AnimationFadeout : [AnimationInfo](#animationinfo)
+> XCharts.Runtime.AnimationFadeOut : [AnimationInfo](#animationinfo)
 
 > Since `v3.8.0`
 
@@ -248,7 +248,7 @@ Fade out animation.
 
 ## AnimationInfo
 
-> XCharts.Runtime.AnimationInfo / Subclasses: [AnimationFadeIn](#animationfadein), [AnimationFadeout](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition)
+> XCharts.Runtime.AnimationInfo / Subclasses: [AnimationFadeIn](#animationfadein), [AnimationFadeOut](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition)
 
 > Since `v3.8.0`
 
@@ -288,8 +288,8 @@ the animation of serie. support animation type: fadeIn, fadeOut, change, additio
 |easting|||<br/>`AnimationEasing`:<br/>- `Linear`: <br/>|
 |threshold|2000||Whether to set graphic number threshold to animation. Animation will be disabled when graphic number is larger than threshold.
 |unscaledTime||v3.4.0|Animation updates independently of Time.timeScale.
-|fadein||v3.8.0|Fade in animation configuration. [AnimationFadeIn](#animationfadein)|
-|fadeout||v3.8.0|Fade out animation configuration. [AnimationFadeout](#animationfadeout)|
+|fadeIn||v3.8.0|Fade in animation configuration. [AnimationFadeIn](#animationfadein)|
+|fadeOut||v3.8.0|Fade out animation configuration. [AnimationFadeOut](#animationfadeout)|
 |change||v3.8.0|Update data animation configuration. [AnimationChange](#animationchange)|
 |addition||v3.8.0|Add data animation configuration. [AnimationAddition](#animationaddition)|
 

@@ -66,14 +66,13 @@ namespace XCharts.Runtime
             }
             m_LastCheckContextFlag = needCheck;
             var themeSymbolSize = chart.theme.serie.lineSymbolSize;
-            var themeSymbolSelectedSize = chart.theme.serie.lineSymbolSelectedSize;
             lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
 
             var needInteract = false;
             if (m_LegendEnter)
             {
                 serie.context.pointerEnter = true;
-                serie.interact.SetValue(ref needInteract, lineWidth, true, chart.theme.serie.selectedRate);
+                serie.interact.SetValue(ref needInteract, lineWidth, true, serie.animation.interaction.widthRate);
                 for (int i = 0; i < serie.dataCount; i++)
                 {
                     var serieData = serie.data[i];
@@ -85,7 +84,7 @@ namespace XCharts.Runtime
             else if (serie.context.isTriggerByAxis)
             {
                 serie.context.pointerEnter = true;
-                serie.interact.SetValue(ref needInteract, lineWidth, true, chart.theme.serie.selectedRate);
+                serie.interact.SetValue(ref needInteract, lineWidth, true, serie.animation.interaction.widthRate);
                 for (int i = 0; i < serie.dataCount; i++)
                 {
                     var serieData = serie.data[i];

@@ -18,7 +18,7 @@ namespace XCharts.Runtime
 
         public void SetValue(ref bool needInteract, float size, bool highlight, float rate = 1.3f)
         {
-            size = highlight ? size * rate : size;
+            size = highlight && rate != 0 ? size * rate : size;
             SetValue(ref needInteract, size);
         }
 
@@ -81,7 +81,7 @@ namespace XCharts.Runtime
 
         public bool TryGetValue(ref float value, ref bool interacting, float animationDuration = 250)
         {
-            if (!IsValueEnable() || m_PreviousValue == 0)
+            if (!IsValueEnable() || m_PreviousValue == 0 || animationDuration == 0)
                 return false;
             if (m_UpdateFlag)
             {
@@ -106,7 +106,7 @@ namespace XCharts.Runtime
 
         public bool TryGetColor(ref Color32 color, ref bool interacting, float animationDuration = 250)
         {
-            if (!IsValueEnable())
+            if (!IsValueEnable() || animationDuration == 0)
                 return false;
             if (m_UpdateFlag)
             {
@@ -131,7 +131,7 @@ namespace XCharts.Runtime
 
         public bool TryGetColor(ref Color32 color, ref Color32 toColor, ref bool interacting, float animationDuration = 250)
         {
-            if (!IsValueEnable())
+            if (!IsValueEnable() || animationDuration == 0)
                 return false;
             if (m_UpdateFlag)
             {
@@ -157,7 +157,7 @@ namespace XCharts.Runtime
         }
         public bool TryGetValueAndColor(ref float value, ref Color32 color, ref Color32 toColor, ref bool interacting, float animationDuration = 250)
         {
-            if (!IsValueEnable())
+            if (!IsValueEnable() || animationDuration == 0)
                 return false;
             if (m_UpdateFlag)
             {

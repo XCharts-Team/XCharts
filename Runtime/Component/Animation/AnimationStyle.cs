@@ -45,7 +45,7 @@ namespace XCharts.Runtime
 
     /// <summary>
     /// the animation of serie. support animation type: fadeIn, fadeOut, change, addition.
-    /// |动画组件，用于控制图表的动画播放。支持配置四种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画）。
+    /// |动画组件，用于控制图表的动画播放。支持配置五种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画），Interaction（交互动画）。
     /// 按作用的对象可以分为两类：SerieAnimation（系列动画）和DataAnimation（数据动画）。
     /// </summary>
     [System.Serializable]
@@ -60,6 +60,7 @@ namespace XCharts.Runtime
         [SerializeField][Since("v3.8.0")] private AnimationFadeOut m_FadeOut = new AnimationFadeOut() { reverse = true };
         [SerializeField][Since("v3.8.0")] private AnimationChange m_Change = new AnimationChange() { duration = 500 };
         [SerializeField][Since("v3.8.0")] private AnimationAddition m_Addition = new AnimationAddition() { duration = 500 };
+        [SerializeField][Since("v3.8.0")] private AnimationInteraction m_Interaction = new AnimationInteraction() { duration = 250 };
 
         [Obsolete("Use animation.fadeIn.delayFunction instead.", true)]
         public AnimationDelayFunction fadeInDelayFunction;
@@ -99,12 +100,12 @@ namespace XCharts.Runtime
         /// Fade in animation configuration.
         /// |渐入动画配置。
         /// </summary>
-        public AnimationFadeIn fadein { get { return m_FadeIn; } }
+        public AnimationFadeIn fadeIn { get { return m_FadeIn; } }
         /// <summary>
         /// Fade out animation configuration.
         /// |渐出动画配置。
         /// </summary>
-        public AnimationFadeOut fadeout { get { return m_FadeOut; } }
+        public AnimationFadeOut fadeOut { get { return m_FadeOut; } }
         /// <summary>
         /// Update data animation configuration.
         /// |数据变更动画配置。
@@ -115,6 +116,11 @@ namespace XCharts.Runtime
         /// |数据新增动画配置。
         /// </summary>
         public AnimationAddition addition { get { return m_Addition; } }
+        /// <summary>
+        /// Interaction animation configuration.
+        /// |交互动画配置。
+        /// </summary>
+        public AnimationInteraction interaction { get { return m_Interaction; } }
 
         private Vector3 m_LinePathLastPos;
         private List<AnimationInfo> m_Animations;
@@ -278,6 +284,7 @@ namespace XCharts.Runtime
                 startIndex = anim.context.currPointIndex == paths.Count - 1 ?
                     paths.Count - 2 :
                     anim.context.currPointIndex;
+                if (startIndex < 0 || startIndex > paths.Count - 2) startIndex = 0;
             }
             else
             {
@@ -519,6 +526,14 @@ namespace XCharts.Runtime
         {
             if (m_Enable && m_Addition.enable)
                 return m_Addition.duration;
+            else
+                return 0;
+        }
+
+        public float GetInteractionDuration()
+        {
+            if (m_Enable && m_Interaction.enable)
+                return m_Interaction.duration;
             else
                 return 0;
         }

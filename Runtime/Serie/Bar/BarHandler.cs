@@ -183,11 +183,12 @@ namespace XCharts.Runtime
                 (serie.maxShow > showData.Count ? showData.Count : serie.maxShow) :
                 showData.Count;
             var isPercentStack = SeriesHelper.IsPercentStack<Bar>(chart.series, serie.stack);
-            bool dataChanging = false;
-            float dataChangeDuration = serie.animation.GetChangeDuration();
+            var dataChanging = false;
+            var dataChangeDuration = serie.animation.GetChangeDuration();
             var dataAddDuration = serie.animation.GetAdditionDuration();
-            double yMinValue = relativedAxis.context.minValue;
-            double yMaxValue = relativedAxis.context.maxValue;
+            var interactDuration = serie.animation.GetInteractionDuration();
+            var yMinValue = relativedAxis.context.minValue;
+            var yMaxValue = relativedAxis.context.maxValue;
 
             var areaColor = ColorUtil.clearColor32;
             var areaToColor = ColorUtil.clearColor32;
@@ -218,7 +219,7 @@ namespace XCharts.Runtime
                 var borderGapAndWidth = borderWidth + borderGap;
                 var backgroundColor = itemStyle.backgroundColor;
 
-                if (!serieData.interact.TryGetColor(ref areaColor, ref areaToColor, ref interacting))
+                if (!serieData.interact.TryGetColor(ref areaColor, ref areaToColor, ref interacting, interactDuration))
                 {
                     SerieHelper.GetItemColor(out areaColor, out areaToColor, serie, serieData, chart.theme);
                     serieData.interact.SetColor(ref interacting, areaColor, areaToColor);

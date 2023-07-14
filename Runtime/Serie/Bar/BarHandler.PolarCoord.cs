@@ -53,7 +53,7 @@ namespace XCharts.Runtime
             if (m_LegendEnter)
             {
                 serie.context.pointerEnter = true;
-                serie.interact.SetValue(ref needInteract, lineWidth, true, chart.theme.serie.selectedRate);
+                serie.interact.SetValue(ref needInteract, lineWidth, true, serie.animation.interaction.widthRate);
                 for (int i = 0; i < serie.dataCount; i++)
                 {
                     var serieData = serie.data[i];
@@ -139,6 +139,7 @@ namespace XCharts.Runtime
             var areaColor = ColorUtil.clearColor32;
             var areaToColor = ColorUtil.clearColor32;
             var interacting = false;
+            var interactDuration = serie.animation.GetInteractionDuration();
 
             float start, end;
             float inside, outside;
@@ -184,7 +185,7 @@ namespace XCharts.Runtime
                 serieData.context.toAngle = end;
                 serieData.context.halfAngle = (start + end) / 2;
 
-                if (!serieData.interact.TryGetColor(ref areaColor, ref areaToColor, ref interacting))
+                if (!serieData.interact.TryGetColor(ref areaColor, ref areaToColor, ref interacting, interactDuration))
                 {
                     SerieHelper.GetItemColor(out areaColor, out areaToColor, serie, serieData, chart.theme);
                     serieData.interact.SetColor(ref interacting, areaColor, areaToColor);

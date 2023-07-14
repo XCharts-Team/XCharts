@@ -171,6 +171,7 @@ import APITable from '@site/src/components/APITable';
 - [AnimationFadeIn](#animationfadein)
 - [AnimationFadeOut](#animationfadeout)
 - [AnimationInfo](#animationinfo)
+- [AnimationInteraction](#animationinteraction)
 - [BaseSerie](#baseserie)
 - [ChartText](#charttext)
 - [ChildComponent](#childcomponent)
@@ -248,7 +249,7 @@ import APITable from '@site/src/components/APITable';
 
 ## AnimationInfo
 
-> XCharts.Runtime.AnimationInfo / Subclasses: [AnimationFadeIn](#animationfadein), [AnimationFadeOut](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition)
+> XCharts.Runtime.AnimationInfo / Subclasses: [AnimationFadeIn](#animationfadein), [AnimationFadeOut](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition), [AnimationInteraction](#animationinteraction)
 
 > 从 `v3.8.0` 开始支持
 
@@ -270,11 +271,33 @@ import APITable from '@site/src/components/APITable';
 </APITable>
 ```
 
+## AnimationInteraction
+
+> XCharts.Runtime.AnimationInteraction : [AnimationInfo](#animationinfo)
+
+> 从 `v3.8.0` 开始支持
+
+交互动画。
+
+```mdx-code-block
+<APITable name="AnimationInteraction">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|widthRate|1.3f|v3.8.0|宽度的放大倍率。
+|radiusRate|1.3f|v3.8.0|半径的放大倍率。
+
+```mdx-code-block
+</APITable>
+```
+
 ## AnimationStyle
 
 > XCharts.Runtime.AnimationStyle : [ChildComponent](#childcomponent)
 
-动画组件，用于控制图表的动画播放。支持配置四种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画）。 按作用的对象可以分为两类：SerieAnimation（系列动画）和DataAnimation（数据动画）。
+动画组件，用于控制图表的动画播放。支持配置五种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画），Interaction（交互动画）。 按作用的对象可以分为两类：SerieAnimation（系列动画）和DataAnimation（数据动画）。
 
 ```mdx-code-block
 <APITable name="AnimationStyle">
@@ -292,6 +315,7 @@ import APITable from '@site/src/components/APITable';
 |fadeOut||v3.8.0|渐出动画配置。 [AnimationFadeOut](#animationfadeout)|
 |change||v3.8.0|数据变更动画配置。 [AnimationChange](#animationchange)|
 |addition||v3.8.0|数据新增动画配置。 [AnimationAddition](#animationaddition)|
+|interaction||v3.8.0|交互动画配置。 [AnimationInteraction](#animationinteraction)|
 
 ```mdx-code-block
 </APITable>
@@ -1775,7 +1799,6 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 |lineSymbolSize|||折线图的Symbol大小。
 |scatterSymbolSize|||散点图的Symbol大小。
 |pieTooltipExtraRadius|||饼图鼠标移到高亮时的额外半径
-|selectedRate|1.3f||折线图或散点图在被选中时的放大倍数。
 |pieSelectedOffset|||饼图选中时的中心点偏移。
 |candlestickColor|Color32(235, 84, 84, 255)||K线图阳线（涨）填充色
 |candlestickColor0|Color32(71, 178, 98, 255)||K线图阴线（跌）填充色

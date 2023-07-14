@@ -53,7 +53,7 @@ namespace XCharts.Runtime
             if (m_LegendEnter)
             {
                 serie.context.pointerEnter = true;
-                serie.interact.SetValue(ref needInteract, lineWidth, true, chart.theme.serie.selectedRate);
+                serie.interact.SetValue(ref needInteract, lineWidth, true, serie.animation.interaction.widthRate);
                 for (int i = 0; i < serie.dataCount; i++)
                 {
                     var serieData = serie.data[i];

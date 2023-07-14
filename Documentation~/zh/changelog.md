@@ -69,11 +69,13 @@ slug: /changelog
 
 版本要点：
 
-* 新增数据动画
+* 重构和完善动画系统，增加新增动画和交互动画的配置支持
 
 日志详情：
 
-* (2023.07.11) 重构`Animation`动画系统，增加`Addition`新增动画支持
+* (2023.07.14) 增加`Animation`的`Interaction`交互动画配置支持
+* (2023.07.11) 增加`Animation`的`Addition`新增动画配置支持
+* (2023.07.11) 重构`Animation`动画系统，完善动画体验
 * (2023.06.30) 增加`PolarCood`的`indicatorLabelOffset`设置指示文本偏移的支持
 * (2023.06.30) 修复`Axis`的`IndicatorLabel`的背景颜色可能不正常的问题
 * (2023.06.30) 增加`Axis`的`IndicatorLabel`可自定义`color`的支持

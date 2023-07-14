@@ -675,6 +675,7 @@ namespace XCharts.Runtime
 
         public static float GetSysmbolSize(Serie serie, SerieData serieData, ThemeStyle theme, float defaultSize, SerieState state = SerieState.Auto)
         {
+            if (serie == null) return defaultSize;
             if (state == SerieState.Auto)
                 state = GetSerieState(serie, serieData);
             var stateStyle = GetStateStyle(serie, serieData, state);
@@ -687,7 +688,7 @@ namespace XCharts.Runtime
                 {
                     case SerieState.Emphasis:
                     case SerieState.Select:
-                        size *= theme.serie.selectedRate;
+                        size *= serie.animation.interaction.radiusRate;
                         break;
                     default:
                         break;
@@ -698,7 +699,10 @@ namespace XCharts.Runtime
                 var symbol = stateStyle.symbol;
                 size = symbol.GetSize(serieData == null ? null : serieData.data, defaultSize);
             }
-            size = (float)serieData.GetAddAnimationData(0, size, serie.animation.GetAdditionDuration());
+            if (serieData != null)
+            {
+                size = (float)serieData.GetAddAnimationData(0, size, serie.animation.GetAdditionDuration());
+            }
             return size;
         }
 

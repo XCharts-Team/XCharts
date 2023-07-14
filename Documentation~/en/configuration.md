@@ -171,6 +171,7 @@ import APITable from '@site/src/components/APITable';
 - [AnimationFadeIn](#animationfadein)
 - [AnimationFadeOut](#animationfadeout)
 - [AnimationInfo](#animationinfo)
+- [AnimationInteraction](#animationinteraction)
 - [BaseSerie](#baseserie)
 - [ChartText](#charttext)
 - [ChildComponent](#childcomponent)
@@ -248,7 +249,7 @@ Fade out animation.
 
 ## AnimationInfo
 
-> XCharts.Runtime.AnimationInfo / Subclasses: [AnimationFadeIn](#animationfadein), [AnimationFadeOut](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition)
+> XCharts.Runtime.AnimationInfo / Subclasses: [AnimationFadeIn](#animationfadein), [AnimationFadeOut](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition), [AnimationInteraction](#animationinteraction)
 
 > Since `v3.8.0`
 
@@ -265,6 +266,28 @@ the animation info.
 |reverse|false|v3.8.0|whether enable reverse animation.
 |delay|0|v3.8.0|the delay time before animation start.
 |duration|1000|v3.8.0|the duration of animation.
+
+```mdx-code-block
+</APITable>
+```
+
+## AnimationInteraction
+
+> XCharts.Runtime.AnimationInteraction : [AnimationInfo](#animationinfo)
+
+> Since `v3.8.0`
+
+Interactive animation of charts.
+
+```mdx-code-block
+<APITable name="AnimationInteraction">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|widthRate|1.3f|v3.8.0|the size rate of the width.
+|radiusRate|1.3f|v3.8.0|the size rate of the radius.
 
 ```mdx-code-block
 </APITable>
@@ -292,6 +315,7 @@ the animation of serie. support animation type: fadeIn, fadeOut, change, additio
 |fadeOut||v3.8.0|Fade out animation configuration. [AnimationFadeOut](#animationfadeout)|
 |change||v3.8.0|Update data animation configuration. [AnimationChange](#animationchange)|
 |addition||v3.8.0|Add data animation configuration. [AnimationAddition](#animationaddition)|
+|interaction||v3.8.0|Interaction animation configuration. [AnimationInteraction](#animationinteraction)|
 
 ```mdx-code-block
 </APITable>
@@ -1775,7 +1799,6 @@ A data item of serie.
 |lineSymbolSize|||the symbol size of line serie.
 |scatterSymbolSize|||the symbol size of scatter serie.
 |pieTooltipExtraRadius|||the extra radius of pie when actived by tooltip.
-|selectedRate|1.3f||the rate of symbol size of line or scatter serie.
 |pieSelectedOffset|||the center offset of pie if selected.
 |candlestickColor|Color32(235, 84, 84, 255)||K线图阳线（涨）填充色
 |candlestickColor0|Color32(71, 178, 98, 255)||K线图阴线（跌）填充色

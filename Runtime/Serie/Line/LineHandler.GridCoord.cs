@@ -61,7 +61,7 @@ namespace XCharts.Runtime
             if (m_LegendEnter)
             {
                 serie.context.pointerEnter = true;
-                serie.interact.SetValue(ref needInteract, lineWidth, true, chart.theme.serie.selectedRate);
+                serie.interact.SetValue(ref needInteract, lineWidth, true, serie.animation.interaction.widthRate);
                 for (int i = 0; i < serie.dataCount; i++)
                 {
                     var serieData = serie.data[i];
@@ -73,7 +73,7 @@ namespace XCharts.Runtime
             else if (serie.context.isTriggerByAxis)
             {
                 serie.context.pointerEnter = false;
-                serie.interact.SetValue(ref needInteract, lineWidth, true, chart.theme.serie.selectedRate);
+                serie.interact.SetValue(ref needInteract, lineWidth, true, serie.animation.interaction.widthRate);
                 for (int i = 0; i < serie.dataCount; i++)
                 {
                     var serieData = serie.data[i];
@@ -116,7 +116,7 @@ namespace XCharts.Runtime
                     needInteract = true;
                 }
                 if (serie.context.pointerItemDataIndex >= 0)
-                    serie.interact.SetValue(ref needInteract, lineWidth, true, chart.theme.serie.selectedRate);
+                    serie.interact.SetValue(ref needInteract, lineWidth, true, serie.animation.interaction.widthRate);
                 else
                     serie.interact.SetValue(ref needInteract, lineWidth);
             }
@@ -144,6 +144,7 @@ namespace XCharts.Runtime
             var lineArrow = serie.lineArrow;
             var visualMap = chart.GetVisualMapOfSerie(serie);
             var isVisualMapGradient = VisualMapHelper.IsNeedLineGradient(visualMap);
+            var interactDuration = serie.animation.GetInteractionDuration();
 
             Axis axis;
             Axis relativedAxis;
@@ -176,7 +177,7 @@ namespace XCharts.Runtime
                     continue;
 
                 var symbolSize = 0f;
-                if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting))
+                if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting, interactDuration))
                 {
                     symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, chart.theme.serie.lineSymbolSize, state);
                     serieData.interact.SetValue(ref interacting, symbolSize);

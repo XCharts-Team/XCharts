@@ -77,7 +77,6 @@ namespace XCharts.Runtime
             serie.context.pointerItemDataIndex = -1;
             serie.context.pointerEnter = false;
             var themeSymbolSize = chart.theme.serie.scatterSymbolSize;
-            var themeSymbolSelectedSize = chart.theme.serie.scatterSymbolSelectedSize;
             var needInteract = false;
             for (int i = serie.dataCount - 1; i >= 0; i--)
             {
@@ -134,6 +133,7 @@ namespace XCharts.Runtime
             serie.animation.InitProgress(0, 1);
             var rate = serie.animation.GetCurrRate();
             var dataChangeDuration = serie.animation.GetChangeDuration();
+            var interactDuration = serie.animation.GetInteractionDuration();
             var unscaledTime = serie.animation.unscaledTime;
             var dataChanging = false;
             var interacting = false;
@@ -177,7 +177,7 @@ namespace XCharts.Runtime
                 serieData.context.position = pos;
                 var datas = serieData.data;
                 var symbolSize = 0f;
-                if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting))
+                if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting, interactDuration))
                 {
                     symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, chart.theme.serie.scatterSymbolSize, state);
                     serieData.interact.SetValue(ref interacting, symbolSize);

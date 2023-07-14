@@ -240,6 +240,7 @@ namespace XCharts.Runtime
             SerieHelper.GetAllMinMaxData(serie, m_RadarCoord.ceilRate);
             Color32 areaColor, areaToColor;
             var startAngle = m_RadarCoord.startAngle * Mathf.PI / 180;
+            var interactDuration = serie.animation.GetInteractionDuration();
             for (int j = 0; j < serie.data.Count; j++)
             {
                 var serieData = serie.data[j];
@@ -331,7 +332,7 @@ namespace XCharts.Runtime
                     {
                         var point = serieData.context.dataPoints[m];
                         var symbolSize = 0f;
-                        if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting))
+                        if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting, interactDuration))
                         {
                             symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, chart.theme.serie.lineSymbolSize, serieState);
                             serieData.interact.SetValue(ref interacting, symbolSize);

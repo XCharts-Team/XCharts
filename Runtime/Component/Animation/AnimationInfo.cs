@@ -403,4 +403,27 @@ namespace XCharts.Runtime
     public class AnimationAddition : AnimationInfo
     {
     }
+
+    /// <summary>
+    /// Interactive animation of charts.
+    /// |交互动画。
+    /// </summary>
+    [Since("v3.8.0")]
+    [System.Serializable]
+    public class AnimationInteraction : AnimationInfo
+    {
+        [SerializeField][Since("v3.8.0")] private float m_WidthRate = 1.3f;
+        [SerializeField][Since("v3.8.0")] private float m_RadiusRate = 1.3f;
+
+        /// <summary>
+        /// the size rate of the width.
+        /// |宽度的放大倍率。
+        /// </summary>
+        public float widthRate { get { return m_WidthRate; } set { m_WidthRate = value; } }
+        /// <summary>
+        /// the size rate of the radius.
+        /// |半径的放大倍率。
+        /// </summary>
+        public float radiusRate { get { return m_RadiusRate; } set { m_RadiusRate = value; } }
+    }
 }

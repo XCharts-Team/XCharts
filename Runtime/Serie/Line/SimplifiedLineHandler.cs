@@ -76,7 +76,7 @@ namespace XCharts.Runtime
                 for (int i = 0; i < serie.dataCount; i++)
                 {
                     var serieData = serie.data[i];
-                    var size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize, SerieState.Emphasis);
+                    var size = SerieHelper.GetSysmbolSize(serie, serieData, themeSymbolSize, SerieState.Emphasis);
                     serieData.context.highlight = true;
                     serieData.interact.SetValue(ref needInteract, size);
                 }
@@ -91,7 +91,7 @@ namespace XCharts.Runtime
                     var highlight = i == serie.context.pointerItemDataIndex;
                     serieData.context.highlight = highlight;
                     var state = SerieHelper.GetSerieState(serie, serieData, true);
-                    var size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize, state);
+                    var size = SerieHelper.GetSysmbolSize(serie, serieData, themeSymbolSize, state);
                     serieData.interact.SetValue(ref needInteract, size);
                     if (highlight)
                     {
@@ -109,11 +109,11 @@ namespace XCharts.Runtime
                 {
                     var serieData = serie.data[i];
                     var dist = Vector3.Distance(chart.pointerPos, serieData.context.position);
-                    var size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize);
+                    var size = SerieHelper.GetSysmbolSize(serie, serieData, themeSymbolSize);
                     var highlight = dist <= size;
                     serieData.context.highlight = highlight;
                     var state = SerieHelper.GetSerieState(serie, serieData, true);
-                    size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize, state);
+                    size = SerieHelper.GetSysmbolSize(serie, serieData, themeSymbolSize, state);
                     serieData.interact.SetValue(ref needInteract, size);
                     if (highlight)
                     {

@@ -673,7 +673,7 @@ namespace XCharts.Runtime
             }
         }
 
-        public static float GetSysmbolSize(Serie serie, SerieData serieData, ThemeStyle theme, float defaultSize, SerieState state = SerieState.Auto)
+        public static float GetSysmbolSize(Serie serie, SerieData serieData, float defaultSize, SerieState state = SerieState.Auto)
         {
             if (serie == null) return defaultSize;
             if (state == SerieState.Auto)

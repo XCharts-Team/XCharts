@@ -538,6 +538,14 @@ namespace XCharts.Runtime
                 return 0;
         }
 
+        public float GetInteractionRadius(float radius){
+
+            if (m_Enable && m_Interaction.enable)
+                return m_Interaction.GetRadius(radius);
+            else
+                return radius;
+        }
+
         public bool HasFadeOut()
         {
             return enable && m_FadeOut.context.end;

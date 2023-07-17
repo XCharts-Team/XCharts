@@ -108,19 +108,27 @@ namespace XCharts.Runtime
             {
                 if (m_LastCheckContextFlag != needCheck)
                 {
-                    m_LastCheckContextFlag = needCheck;
                     serie.context.pointerItemDataIndex = -1;
                     serie.context.pointerEnter = false;
+                    
                     foreach (var serieData in serie.data)
                     {
                         var colorIndex = chart.GetLegendRealShowNameIndex(serieData.legendName);
                         SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, colorIndex, SerieState.Normal);
+                        Debug.LogError("end:"+serieData.interact);
                         serieData.context.highlight = false;
                         serieData.interact.SetValueAndColor(ref needInteract, serieData.context.outsideRadius, color, toColor);
                     }
-                    if (needInteract)
+                    if (needInteract){
                         chart.RefreshPainter(serie);
+                        Debug.LogError("PieHandler update:" + needInteract + "," + m_LastCheckContextFlag + "," + needCheck);
+                    }else{
+                        m_LastCheckContextFlag = needCheck;
+                        serie.ResetInteract();
+                        Debug.LogError("PieHandler end:" + needInteract + "," + m_LastCheckContextFlag + "," + needCheck);
+                    }
                 }
+                
                 return;
             }
             m_LastCheckContextFlag = needCheck;
@@ -128,32 +136,36 @@ namespace XCharts.Runtime
             var dataIndex = GetPiePosIndex(serie, chart.pointerPos);
             serie.context.pointerItemDataIndex = -1;
             serie.context.pointerEnter = dataIndex >= 0;
+
+            bool isAllZeroValue = SerieHelper.IsAllZeroValue(serie, 1);
+            var zeroReplaceValue = isAllZeroValue ? 360 / serie.dataCount : 0;
+
             for (int i = 0; i < serie.dataCount; i++)
             {
                 var serieData = serie.data[i];
+                var value = isAllZeroValue ? zeroReplaceValue : serieData.GetCurrData(1, serie.animation);
+                var state = SerieState.Normal;
                 if (dataIndex == i || (m_LegendEnter && m_LegendEnterIndex == i))
                 {
                     serie.context.pointerItemDataIndex = i;
                     serieData.context.highlight = true;
-
-                    var colorIndex = chart.GetLegendRealShowNameIndex(serieData.legendName);
-                    SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, colorIndex, SerieState.Emphasis);
-                    var value = serieData.context.outsideRadius + chart.theme.serie.pieTooltipExtraRadius;
-                    serieData.interact.SetValueAndColor(ref needInteract, value, color, toColor);
+                    state = SerieState.Emphasis;
                 }
                 else
                 {
                     serieData.context.highlight = false;
-                    var colorIndex = chart.GetLegendRealShowNameIndex(serieData.legendName);
-                    SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, colorIndex, SerieState.Normal);
-                    serieData.interact.SetValueAndColor(ref needInteract, serieData.context.outsideRadius, color, toColor);
                 }
+                UpdateSerieDataRadius(serieData, value);
+                var colorIndex = chart.GetLegendRealShowNameIndex(serieData.legendName);
+                SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, colorIndex, state);
+                serieData.interact.SetValueAndColor(ref needInteract, serieData.context.outsideRadius, color, toColor);
+
             }
             if (lastPointerItemDataIndex != serie.context.pointerItemDataIndex)
             {
                 needInteract = true;
             }
-            if (needInteract)
+            //if (needInteract)
             {
                 chart.RefreshPainter(serie);
             }
@@ -207,20 +219,11 @@ namespace XCharts.Runtime
                     (float)(totalDegree * value / dataTotalFilterMinAngle);
                 if (serie.minAngle > 0 && degree < serie.minAngle) degree = serie.minAngle;
                 serieData.context.toAngle = startDegree + degree;
-                if (serieData.radius > 0)
-                    serieData.context.outsideRadius = ChartHelper.GetActualValue(serieData.radius, Mathf.Min(chart.chartWidth, chart.chartHeight));
-                else
-                    serieData.context.outsideRadius = serie.pieRoseType > 0 ?
-                    serie.context.insideRadius + (float)((serie.context.outsideRadius - serie.context.insideRadius) * value / serie.context.dataMax) :
-                    serie.context.outsideRadius;
-                if (serieData.context.highlight)
-                {
-                    serieData.context.outsideRadius += chart.theme.serie.pieTooltipExtraRadius;
-                }
+                UpdateSerieDataRadius(serieData, value);
                 var offset = 0f;
                 if (serie.pieClickOffset && (serieData.selected || serieData.context.selected))
                 {
-                    offset += chart.theme.serie.pieSelectedOffset;
+                    offset += serie.animation.interaction.offset;
                 }
                 if (serie.animation.CheckDetailBreak(serieData.context.toAngle))
                 {
@@ -247,12 +250,12 @@ namespace XCharts.Runtime
                     serieData.context.outsideRadius -= serieData.context.offsetRadius;
                     if (serie.pieClickOffset && (serieData.selected || serieData.context.selected))
                     {
-                        serieData.context.offsetRadius += chart.theme.serie.pieSelectedOffset;
+                        serieData.context.offsetRadius += serie.animation.interaction.offset;
                         if (serieData.context.insideRadius > 0)
                         {
-                            serieData.context.insideRadius += chart.theme.serie.pieSelectedOffset;
+                            serieData.context.insideRadius += serie.animation.interaction.offset;
                         }
-                        serieData.context.outsideRadius += chart.theme.serie.pieSelectedOffset;
+                        serieData.context.outsideRadius += serie.animation.interaction.offset;
                     }
                     serieData.context.offsetCenter = new Vector3(
                         serie.context.center.x + serieData.context.offsetRadius * currSin,
@@ -263,6 +266,20 @@ namespace XCharts.Runtime
                 SerieLabelHelper.UpdatePieLabelPosition(serie, serieData);
             }
             SerieLabelHelper.AvoidLabelOverlap(serie, chart.theme.common);
+        }
+
+        private void UpdateSerieDataRadius(SerieData serieData, double value)
+        {
+            if (serieData.radius > 0)
+                serieData.context.outsideRadius = ChartHelper.GetActualValue(serieData.radius, Mathf.Min(chart.chartWidth, chart.chartHeight));
+            else
+                serieData.context.outsideRadius = serie.pieRoseType > 0 ?
+                serie.context.insideRadius + (float)((serie.context.outsideRadius - serie.context.insideRadius) * value / serie.context.dataMax) :
+                serie.context.outsideRadius;
+            if (serieData.context.highlight)
+            {
+                serieData.context.outsideRadius = serie.animation.GetInteractionRadius(serieData.context.outsideRadius);
+            }
         }
 
         private double GetTotalAngle(Serie serie, double dataTotal, ref float totalAngle)
@@ -308,6 +325,7 @@ namespace XCharts.Runtime
             var interacting = false;
             var color = ColorUtil.clearColor32;
             var toColor = ColorUtil.clearColor32;
+            var interactDuration = serie.animation.GetInteractionDuration();
             var data = serie.data;
             serie.animation.InitProgress(0, 360);
             for (int n = 0; n < data.Count; n++)
@@ -330,13 +348,12 @@ namespace XCharts.Runtime
                 var progress = AnimationStyleHelper.CheckDataAnimation(chart, serie, n, 1);
                 var insideRadius = serieData.context.insideRadius * progress;
 
-                //if (!serieData.interact.TryGetValueAndColor(ref outsideRadius, ref color, ref toColor, ref interacting))
+                if (!serieData.interact.TryGetValueAndColor(ref outsideRadius, ref color, ref toColor, ref interacting, interactDuration))
                 {
                     SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, colorIndex);
                     outsideRadius = serieData.context.outsideRadius * progress;
                     serieData.interact.SetValueAndColor(ref interacting, outsideRadius, color, toColor);
                 }
-
                 if (serie.pieClickOffset && (serieData.selected || serieData.context.selected))
                 {
                     var drawEndDegree = serieData.context.currentAngle;
@@ -514,7 +531,7 @@ namespace XCharts.Runtime
                 return -1;
 
             var dist = Vector2.Distance(local, serie.context.center);
-            var maxRadius = serie.context.outsideRadius + 3 * chart.theme.serie.pieSelectedOffset;
+            var maxRadius = serie.context.outsideRadius + 3 * serie.animation.interaction.offset;
             if (dist < serie.context.insideRadius || dist > maxRadius)
                 return -1;
 

@@ -62,6 +62,7 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_Duration");
                 PropertyField(prop, "m_WidthRate");
                 PropertyField(prop, "m_RadiusRate");
+                PropertyField(prop, "m_Offset");
                 --EditorGUI.indentLevel;
             }
         }

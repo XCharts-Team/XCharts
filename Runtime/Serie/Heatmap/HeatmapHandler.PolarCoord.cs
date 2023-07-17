@@ -57,7 +57,7 @@ namespace XCharts.Runtime
                 for (int i = 0; i < serie.dataCount; i++)
                 {
                     var serieData = serie.data[i];
-                    var size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize, SerieState.Emphasis);
+                    var size = SerieHelper.GetSysmbolSize(serie, serieData, themeSymbolSize, SerieState.Emphasis);
                     serieData.context.highlight = true;
                     serieData.interact.SetValue(ref needInteract, size);
                 }

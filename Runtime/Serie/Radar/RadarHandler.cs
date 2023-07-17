@@ -173,7 +173,7 @@ namespace XCharts.Runtime
                     for (int i = 0; i < serie.data.Count; i++)
                     {
                         var serieData = serie.data[i];
-                        var size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize);
+                        var size = SerieHelper.GetSysmbolSize(serie, serieData, themeSymbolSize);
                         if (Vector3.Distance(chart.pointerPos, serieData.context.position) < size * 2)
                         {
                             serie.context.pointerEnter = true;
@@ -334,7 +334,7 @@ namespace XCharts.Runtime
                         var symbolSize = 0f;
                         if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting, interactDuration))
                         {
-                            symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, chart.theme.serie.lineSymbolSize, serieState);
+                            symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme.serie.lineSymbolSize, serieState);
                             serieData.interact.SetValue(ref interacting, symbolSize);
                             symbolSize = serie.animation.GetSysmbolSize(symbolSize);
                         }
@@ -481,7 +481,7 @@ namespace XCharts.Runtime
                     var serieData = serie.data[j];
                     if (!serieData.show) continue;
                     var state = SerieHelper.GetSerieState(serie, serieData);
-                    var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, chart.theme.serie.lineSymbolSize, state);
+                    var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme.serie.lineSymbolSize, state);
                     var colorIndex = serie.colorByData ? serieData.index : serie.context.colorIndex;
                     SerieHelper.GetItemColor(out symbolColor, out symbolToColor, out symbolEmptyColor, serie, serieData, chart.theme, colorIndex, state);
                     SerieHelper.GetSymbolInfo(out borderColor, out symbolBorder, out cornerRadius, serie, serieData, chart.theme, state);

@@ -100,7 +100,7 @@ namespace XCharts.Runtime
 
         public override int GetPointerItemDataIndex()
         {
-            var symbolSize = SerieHelper.GetSysmbolSize(serie, null, chart.theme, chart.theme.serie.lineSymbolSize) * 1.5f;
+            var symbolSize = SerieHelper.GetSysmbolSize(serie, null, chart.theme.serie.lineSymbolSize) * 1.5f;
             var count = serie.context.dataPoints.Count;
             for (int i = 0; i < count; i++)
             {

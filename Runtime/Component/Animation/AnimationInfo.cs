@@ -413,7 +413,8 @@ namespace XCharts.Runtime
     public class AnimationInteraction : AnimationInfo
     {
         [SerializeField][Since("v3.8.0")] private float m_WidthRate = 1.3f;
-        [SerializeField][Since("v3.8.0")] private float m_RadiusRate = 1.3f;
+        [SerializeField][Since("v3.8.0")] private float m_RadiusRate = 1.1f;
+        [SerializeField][Since("v3.8.0")] private float m_Offset = 8f;
 
         /// <summary>
         /// the size rate of the width.
@@ -425,5 +426,16 @@ namespace XCharts.Runtime
         /// |半径的放大倍率。
         /// </summary>
         public float radiusRate { get { return m_RadiusRate; } set { m_RadiusRate = value; } }
+        /// <summary>
+        /// the offset when interaction. Such as the offset of the pie chart when the sector is selected.
+        /// |交互时的偏移。如饼图的扇形选中时的偏移。
+        /// </summary>
+        public float offset { get { return m_Offset; } set { m_Offset = value; } }
+
+
+        public float GetRadius(float radius)
+        {
+            return radius * radiusRate;
+        }
     }
 }

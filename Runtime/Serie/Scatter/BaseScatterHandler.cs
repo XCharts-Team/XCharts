@@ -81,7 +81,7 @@ namespace XCharts.Runtime
             for (int i = serie.dataCount - 1; i >= 0; i--)
             {
                 var serieData = serie.data[i];
-                var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize);
+                var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, themeSymbolSize);
                 if (m_LegendEnter ||
                     (!needHideAll && Vector3.Distance(serieData.context.position, chart.pointerPos) <= symbolSize))
                 {
@@ -94,7 +94,7 @@ namespace XCharts.Runtime
                     serieData.context.highlight = false;
                 }
                 var state = SerieHelper.GetSerieState(serie, serieData, true);
-                symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize, state);
+                symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, themeSymbolSize, state);
                 serieData.interact.SetValue(ref needInteract, symbolSize);
             }
             if (needInteract)
@@ -179,7 +179,7 @@ namespace XCharts.Runtime
                 var symbolSize = 0f;
                 if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting, interactDuration))
                 {
-                    symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, chart.theme.serie.scatterSymbolSize, state);
+                    symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme.serie.scatterSymbolSize, state);
                     serieData.interact.SetValue(ref interacting, symbolSize);
                 }
 
@@ -283,7 +283,7 @@ namespace XCharts.Runtime
                 serieData.context.position = pos;
 
                 var datas = serieData.data;
-                var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, chart.theme.serie.scatterSymbolSize, state);
+                var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme.serie.scatterSymbolSize, state);
                 symbolSize *= rate;
 
                 if (isEffectScatter)

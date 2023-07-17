@@ -161,6 +161,7 @@ namespace XCharts.Runtime
             }
             if (!serieData.show) return;
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
+            if (serieLabel == null) return;
             var isOutside = serieLabel.position == LabelStyle.Position.Outside ||
                 serieLabel.position == LabelStyle.Position.Default;
             if (!serieLabel.show) return;
@@ -187,11 +188,11 @@ namespace XCharts.Runtime
                     var angle = ChartHelper.GetAngle360(Vector2.up, newPos - serie.context.center);
                     if (angle >= 180 && angle <= 270)
                     {
-                        serieData.context.labelPosition = new Vector3(isLeft?(++lastX): (--lastX), y1);
+                        serieData.context.labelPosition = new Vector3(isLeft ? (++lastX) : (--lastX), y1);
                     }
                     else if (angle < 180 && angle >= 90)
                     {
-                        serieData.context.labelPosition = new Vector3(isLeft?(++lastX): (--lastX), y1);
+                        serieData.context.labelPosition = new Vector3(isLeft ? (++lastX) : (--lastX), y1);
                     }
                     else
                     {

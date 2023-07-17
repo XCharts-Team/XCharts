@@ -284,7 +284,7 @@ namespace XCharts.Runtime
                     }
                     else
                     {
-                        var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, defaultSymbolSize, state);
+                        var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, defaultSymbolSize, state);
                         rectWid = symbolSize;
                         rectHig = symbolSize;
                     }
@@ -298,7 +298,7 @@ namespace XCharts.Runtime
                 }
                 else
                 {
-                    var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, defaultSymbolSize, state);
+                    var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, defaultSymbolSize, state);
                     var emptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, serie.context.colorIndex, state);
                     serieData.context.rect = new Rect(pos.x - symbolSize / 2, pos.y - symbolSize / 2, symbolSize, symbolSize);
                     chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, pos,
@@ -398,7 +398,7 @@ namespace XCharts.Runtime
             }
             var state = SerieHelper.GetSerieState(serie, null, true);
             var symbol = SerieHelper.GetSerieSymbol(serie, null, state);
-            var symbolSize = SerieHelper.GetSysmbolSize(serie, null, chart.theme, defaultSymbolSize, state);
+            var symbolSize = SerieHelper.GetSysmbolSize(serie, null, defaultSymbolSize, state);
             var isRectSymbol = symbol.type == SymbolType.Rect;
             float symbolBorder = 0f;
             float[] cornerRadius = null;

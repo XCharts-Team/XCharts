@@ -15,6 +15,15 @@ namespace XCharts.Runtime
         private bool m_ValueEnable = false;
 
         internal float targetVaue { get { return m_TargetValue; } }
+        internal float previousValue { get { return m_PreviousValue; } }
+        internal bool valueEnable { get { return m_ValueEnable; } }
+        internal bool updateFlag { get { return m_UpdateFlag; } }
+
+        public override string ToString()
+        {
+            return string.Format("m_PreviousValue:{0},m_TargetValue:{1},m_UpdateTime:{2},m_UpdateFlag:{3},m_ValueEnable:{4}",
+            m_PreviousValue, m_TargetValue, m_UpdateTime, m_UpdateFlag, m_ValueEnable);
+        }
 
         public void SetValue(ref bool needInteract, float size, bool highlight, float rate = 1.3f)
         {
@@ -33,6 +42,10 @@ namespace XCharts.Runtime
                 m_PreviousValue = m_TargetValue;
                 m_TargetValue = size;
             }
+            else if (m_UpdateFlag)
+            {
+                needInteract = true;
+            }
         }
 
         public void SetColor(ref bool needInteract, Color32 color)
@@ -48,6 +61,10 @@ namespace XCharts.Runtime
                     m_PreviousColor = m_TargetColor;
                 }
                 m_TargetColor = color;
+            }
+            else if (m_UpdateFlag)
+            {
+                needInteract = true;
             }
         }
         public void SetColor(ref bool needInteract, Color32 color, Color32 toColor)
@@ -186,6 +203,7 @@ namespace XCharts.Runtime
 
         public void Reset()
         {
+            Debug.LogError("Reset:"+this);
             m_UpdateFlag = false;
             m_ValueEnable = false;
             m_PreviousValue = float.NaN;

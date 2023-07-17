@@ -9,8 +9,6 @@ namespace XCharts.Runtime
         [SerializeField] protected float m_LineWidth;
         [SerializeField] protected float m_LineSymbolSize;
         [SerializeField] protected float m_ScatterSymbolSize;
-        [SerializeField] protected float m_PieTooltipExtraRadius;
-        [SerializeField] protected float m_PieSelectedOffset;
         [SerializeField] protected Color32 m_CandlestickColor = new Color32(235, 84, 84, 255);
         [SerializeField] protected Color32 m_CandlestickColor0 = new Color32(71, 178, 98, 255);
         [SerializeField] protected float m_CandlestickBorderWidth = 1;
@@ -43,24 +41,6 @@ namespace XCharts.Runtime
         {
             get { return m_ScatterSymbolSize; }
             set { if (PropertyUtil.SetStruct(ref m_ScatterSymbolSize, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the extra radius of pie when actived by tooltip.
-        /// |饼图鼠标移到高亮时的额外半径
-        /// </summary>
-        public float pieTooltipExtraRadius
-        {
-            get { return m_PieTooltipExtraRadius; }
-            set { if (PropertyUtil.SetStruct(ref m_PieTooltipExtraRadius, value < 0 ? 0f : value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the center offset of pie if selected.
-        /// |饼图选中时的中心点偏移。
-        /// </summary>
-        public float pieSelectedOffset
-        {
-            get { return m_PieSelectedOffset; }
-            set { if (PropertyUtil.SetStruct(ref m_PieSelectedOffset, value < 0 ? 0f : value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// K线图阳线（涨）填充色
@@ -109,8 +89,6 @@ namespace XCharts.Runtime
             m_LineWidth = theme.lineWidth;
             m_LineSymbolSize = theme.lineSymbolSize;
             m_ScatterSymbolSize = theme.scatterSymbolSize;
-            m_PieTooltipExtraRadius = theme.pieTooltipExtraRadius;
-            m_PieSelectedOffset = theme.pieSelectedOffset;
             m_CandlestickColor = theme.candlestickColor;
             m_CandlestickColor0 = theme.candlestickColor0;
             m_CandlestickBorderColor = theme.candlestickBorderColor;
@@ -123,8 +101,6 @@ namespace XCharts.Runtime
             m_LineWidth = XCSettings.serieLineWidth;
             m_LineSymbolSize = XCSettings.serieLineSymbolSize;
             m_ScatterSymbolSize = XCSettings.serieScatterSymbolSize;
-            m_PieTooltipExtraRadius = XCSettings.pieTooltipExtraRadius;
-            m_PieSelectedOffset = XCSettings.pieSelectedOffset;
             m_CandlestickBorderWidth = XCSettings.serieCandlestickBorderWidth;
             switch (theme)
             {

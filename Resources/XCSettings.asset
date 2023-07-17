@@ -45,8 +45,6 @@ MonoBehaviour:
   m_LineSegmentDistance: 3
   m_CicleSmoothness: 2
   m_VisualMapTriangeLen: 20
-  m_PieTooltipExtraRadius: 8
-  m_PieSelectedOffset: 8
   m_CustomThemes:
   - {fileID: 11400000, guid: 289d2fc7f4ce24f73b9ed8ec52639f72, type: 2}
   - {fileID: 11400000, guid: e1dc23a10de1e4c5dbfbaf74c4dfd218, type: 2}

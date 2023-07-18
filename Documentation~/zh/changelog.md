@@ -73,6 +73,7 @@ slug: /changelog
 
 日志详情：
 
+* (2023.07.18) 完善`Pie`饼图的交互动画效果
 * (2023.07.14) 增加`Animation`的`Interaction`交互动画配置支持
 * (2023.07.11) 增加`Animation`的`Addition`新增动画配置支持
 * (2023.07.11) 重构`Animation`动画系统，完善动画体验

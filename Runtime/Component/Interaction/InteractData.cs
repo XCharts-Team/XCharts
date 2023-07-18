@@ -203,7 +203,6 @@ namespace XCharts.Runtime
 
         public void Reset()
         {
-            Debug.LogError("Reset:"+this);
             m_UpdateFlag = false;
             m_ValueEnable = false;
             m_PreviousValue = float.NaN;

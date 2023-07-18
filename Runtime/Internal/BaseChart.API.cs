@@ -183,8 +183,6 @@ namespace XCharts.Runtime
         /// </summary>
         public void RefreshChart()
         {
-            foreach (var serie in m_Series)
-                serie.ResetInteract();
             m_RefreshChart = true;
             if (m_Painter) m_Painter.Refresh();
             foreach (var painter in m_PainterList) painter.Refresh();
@@ -213,7 +211,7 @@ namespace XCharts.Runtime
         public void RefreshChart(Serie serie)
         {
             if (serie == null) return;
-            serie.ResetInteract();
+            // serie.ResetInteract();
             RefreshPainter(serie);
         }
 

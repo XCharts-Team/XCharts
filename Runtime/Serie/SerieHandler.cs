@@ -58,6 +58,7 @@ namespace XCharts.Runtime
         protected bool m_RefreshLabel;
         protected bool m_LastCheckContextFlag = false;
         protected bool m_LegendEnter = false;
+        protected bool m_LegendExiting = false;
         protected int m_LegendEnterIndex;
         protected ChartLabel m_EndLabel;
 
@@ -195,7 +196,8 @@ namespace XCharts.Runtime
         {
             if (serie.colorByData && serie.IsSerieDataLegendName(legendName))
             {
-                LegendHelper.CheckDataHighlighted(serie, legendName, true);
+                m_LegendEnterIndex = LegendHelper.CheckDataHighlighted(serie, legendName, true);
+                m_LegendEnter = true;
                 chart.RefreshPainter(serie);
             }
             else if (serie.IsLegendName(legendName))
@@ -210,11 +212,14 @@ namespace XCharts.Runtime
             if (serie.colorByData && serie.IsSerieDataLegendName(legendName))
             {
                 LegendHelper.CheckDataHighlighted(serie, legendName, false);
+                m_LegendEnter = false;
+                m_LegendExiting = true;
                 chart.RefreshPainter(serie);
             }
             else if (serie.IsLegendName(legendName))
             {
                 m_LegendEnter = false;
+                m_LegendExiting = true;
                 chart.RefreshPainter(serie);
             }
         }

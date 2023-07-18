@@ -1909,6 +1909,7 @@ namespace XCharts.Runtime
         /// </summary>
         public void AnimationFadeIn()
         {
+            ResetInteract();
             if (animation.enable) animation.FadeIn();
             SetVerticesDirty();
         }
@@ -1918,6 +1919,7 @@ namespace XCharts.Runtime
         /// </summary>
         public void AnimationFadeOut()
         {
+            ResetInteract();
             if (animation.enable) animation.FadeOut();
             SetVerticesDirty();
         }

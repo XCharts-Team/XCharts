@@ -51,30 +51,30 @@ namespace XCharts.Runtime
             return serie.context.center;
         }
 
-        public override void OnLegendButtonClick(int index, string legendName, bool show)
-        {
-            if (!serie.IsLegendName(legendName))
-                return;
-            LegendHelper.CheckDataShow(serie, legendName, show);
-            chart.UpdateLegendColor(legendName, show);
-            chart.RefreshPainter(serie);
-        }
+        // public override void OnLegendButtonClick(int index, string legendName, bool show)
+        // {
+        //     if (!serie.IsLegendName(legendName))
+        //         return;
+        //     LegendHelper.CheckDataShow(serie, legendName, show);
+        //     chart.UpdateLegendColor(legendName, show);
+        //     chart.RefreshPainter(serie);
+        // }
 
-        public override void OnLegendButtonEnter(int index, string legendName)
-        {
-            if (!serie.IsLegendName(legendName))
-                return;
-            LegendHelper.CheckDataHighlighted(serie, legendName, true);
-            chart.RefreshPainter(serie);
-        }
+        // public override void OnLegendButtonEnter(int index, string legendName)
+        // {
+        //     if (!serie.IsLegendName(legendName))
+        //         return;
+        //     LegendHelper.CheckDataHighlighted(serie, legendName, true);
+        //     chart.RefreshPainter(serie);
+        // }
 
-        public override void OnLegendButtonExit(int index, string legendName)
-        {
-            if (!serie.IsLegendName(legendName))
-                return;
-            LegendHelper.CheckDataHighlighted(serie, legendName, false);
-            chart.RefreshPainter(serie);
-        }
+        // public override void OnLegendButtonExit(int index, string legendName)
+        // {
+        //     if (!serie.IsLegendName(legendName))
+        //         return;
+        //     LegendHelper.CheckDataHighlighted(serie, legendName, false);
+        //     chart.RefreshPainter(serie);
+        // }
 
         public override void OnPointerDown(PointerEventData eventData)
         {
@@ -101,8 +101,9 @@ namespace XCharts.Runtime
 
         public override void UpdateSerieContext()
         {
-            var needCheck = m_LegendEnter || (chart.isPointerInChart && PointerIsInPieSerie(serie, chart.pointerPos));
+            var needCheck = m_LegendEnter || m_LegendExiting || (chart.isPointerInChart && PointerIsInPieSerie(serie, chart.pointerPos));
             var needInteract = false;
+            var interactEnable = serie.animation.enable && serie.animation.interaction.enable;
             Color32 color, toColor;
             if (!needCheck)
             {
@@ -110,25 +111,32 @@ namespace XCharts.Runtime
                 {
                     serie.context.pointerItemDataIndex = -1;
                     serie.context.pointerEnter = false;
-                    
+                    bool isAllZeroValue1 = SerieHelper.IsAllZeroValue(serie, 1);
+                    var zeroReplaceValue1 = isAllZeroValue1 ? 360 / serie.dataCount : 0;
                     foreach (var serieData in serie.data)
                     {
-                        var colorIndex = chart.GetLegendRealShowNameIndex(serieData.legendName);
-                        SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, colorIndex, SerieState.Normal);
-                        Debug.LogError("end:"+serieData.interact);
                         serieData.context.highlight = false;
-                        serieData.interact.SetValueAndColor(ref needInteract, serieData.context.outsideRadius, color, toColor);
+                        if (interactEnable)
+                        {
+                            var value = isAllZeroValue1 ? zeroReplaceValue1 : serieData.GetCurrData(1, serie.animation);
+                            var colorIndex = chart.GetLegendRealShowNameIndex(serieData.legendName);
+                            SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, colorIndex, SerieState.Normal);
+                            UpdateSerieDataRadius(serieData, value);
+                            serieData.interact.SetValueAndColor(ref needInteract, serieData.context.outsideRadius, color, toColor);
+                        }
                     }
-                    if (needInteract){
+                    if (needInteract)
+                    {
                         chart.RefreshPainter(serie);
-                        Debug.LogError("PieHandler update:" + needInteract + "," + m_LastCheckContextFlag + "," + needCheck);
-                    }else{
+                    }
+                    else
+                    {
                         m_LastCheckContextFlag = needCheck;
+                        m_LegendExiting = false;
                         serie.ResetInteract();
-                        Debug.LogError("PieHandler end:" + needInteract + "," + m_LastCheckContextFlag + "," + needCheck);
+                        chart.RefreshPainter(serie);
                     }
                 }
-                
                 return;
             }
             m_LastCheckContextFlag = needCheck;
@@ -155,17 +163,19 @@ namespace XCharts.Runtime
                 {
                     serieData.context.highlight = false;
                 }
-                UpdateSerieDataRadius(serieData, value);
-                var colorIndex = chart.GetLegendRealShowNameIndex(serieData.legendName);
-                SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, colorIndex, state);
-                serieData.interact.SetValueAndColor(ref needInteract, serieData.context.outsideRadius, color, toColor);
-
+                if (interactEnable)
+                {
+                    UpdateSerieDataRadius(serieData, value);
+                    var colorIndex = chart.GetLegendRealShowNameIndex(serieData.legendName);
+                    SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, colorIndex, state);
+                    serieData.interact.SetValueAndColor(ref needInteract, serieData.context.outsideRadius, color, toColor);
+                }
             }
             if (lastPointerItemDataIndex != serie.context.pointerItemDataIndex)
             {
                 needInteract = true;
             }
-            //if (needInteract)
+            if (needInteract)
             {
                 chart.RefreshPainter(serie);
             }
@@ -246,8 +256,6 @@ namespace XCharts.Runtime
                     var currSin = Mathf.Sin(currRad);
                     var currCos = Mathf.Cos(currRad);
                     serieData.context.offsetRadius = 0;
-                    serieData.context.insideRadius -= serieData.context.offsetRadius;
-                    serieData.context.outsideRadius -= serieData.context.offsetRadius;
                     if (serie.pieClickOffset && (serieData.selected || serieData.context.selected))
                     {
                         serieData.context.offsetRadius += serie.animation.interaction.offset;
@@ -255,7 +263,6 @@ namespace XCharts.Runtime
                         {
                             serieData.context.insideRadius += serie.animation.interaction.offset;
                         }
-                        serieData.context.outsideRadius += serie.animation.interaction.offset;
                     }
                     serieData.context.offsetCenter = new Vector3(
                         serie.context.center.x + serieData.context.offsetRadius * currSin,
@@ -276,6 +283,16 @@ namespace XCharts.Runtime
                 serieData.context.outsideRadius = serie.pieRoseType > 0 ?
                 serie.context.insideRadius + (float)((serie.context.outsideRadius - serie.context.insideRadius) * value / serie.context.dataMax) :
                 serie.context.outsideRadius;
+
+            var offset = 0f;
+            if (serie.pieClickOffset && (serieData.selected || serieData.context.selected))
+            {
+                offset += serie.animation.interaction.offset;
+            }
+            if (offset > 0)
+            {
+                serieData.context.outsideRadius += serie.animation.interaction.offset;
+            }
             if (serieData.context.highlight)
             {
                 serieData.context.outsideRadius = serie.animation.GetInteractionRadius(serieData.context.outsideRadius);
@@ -326,6 +343,7 @@ namespace XCharts.Runtime
             var color = ColorUtil.clearColor32;
             var toColor = ColorUtil.clearColor32;
             var interactDuration = serie.animation.GetInteractionDuration();
+            var interactEnable = serie.animation.enable && serie.animation.interaction.enable;
             var data = serie.data;
             serie.animation.InitProgress(0, 360);
             for (int n = 0; n < data.Count; n++)
@@ -348,11 +366,14 @@ namespace XCharts.Runtime
                 var progress = AnimationStyleHelper.CheckDataAnimation(chart, serie, n, 1);
                 var insideRadius = serieData.context.insideRadius * progress;
 
-                if (!serieData.interact.TryGetValueAndColor(ref outsideRadius, ref color, ref toColor, ref interacting, interactDuration))
+                if (!interactEnable || !serieData.interact.TryGetValueAndColor(ref outsideRadius, ref color, ref toColor, ref interacting, interactDuration))
                 {
                     SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, colorIndex);
                     outsideRadius = serieData.context.outsideRadius * progress;
-                    serieData.interact.SetValueAndColor(ref interacting, outsideRadius, color, toColor);
+                    if (interactEnable)
+                    {
+                        serieData.interact.SetValueAndColor(ref interacting, outsideRadius, color, toColor);
+                    }
                 }
                 if (serie.pieClickOffset && (serieData.selected || serieData.context.selected))
                 {
@@ -383,7 +404,7 @@ namespace XCharts.Runtime
                 serie.animation.CheckSymbol(serie.symbol.GetSize(null, chart.theme.serie.lineSymbolSize));
                 chart.RefreshPainter(serie);
             }
-            if (dataChanging)
+            if (dataChanging || interacting)
             {
                 chart.RefreshPainter(serie);
             }

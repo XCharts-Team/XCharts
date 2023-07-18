@@ -592,8 +592,6 @@ namespace XCharts.Runtime
                 serie.animation.context.isAllItemAnimationEnd = true;
                 if (serie.show && !serie.animation.HasFadeOut())
                 {
-                    if (!serie.context.pointerEnter)
-                        serie.ResetInteract();
                     if (m_OnDrawSerieBefore != null)
                     {
                         m_OnDrawSerieBefore.Invoke(vh, serie);

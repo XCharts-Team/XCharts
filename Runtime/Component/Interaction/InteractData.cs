@@ -33,7 +33,11 @@ namespace XCharts.Runtime
 
         public void SetValue(ref bool needInteract, float size)
         {
-            if (m_TargetValue != size)
+            if (m_PreviousValue == float.NaN)
+            {
+                m_PreviousValue = size;
+            }
+            else if (m_TargetValue != size)
             {
                 needInteract = true;
                 m_UpdateFlag = true;
@@ -100,7 +104,9 @@ namespace XCharts.Runtime
         {
             if (!IsValueEnable() || m_PreviousValue == 0 || animationDuration == 0)
                 return false;
-            if (m_UpdateFlag)
+            if (float.IsNaN(m_TargetValue))
+                return false;
+            if (m_UpdateFlag && !float.IsNaN(m_PreviousValue))
             {
                 var time = Time.time - m_UpdateTime;
                 var total = animationDuration / 1000;
@@ -176,7 +182,9 @@ namespace XCharts.Runtime
         {
             if (!IsValueEnable() || animationDuration == 0)
                 return false;
-            if (m_UpdateFlag)
+            if (float.IsNaN(m_TargetValue))
+                return false;
+            if (m_UpdateFlag && !float.IsNaN(m_PreviousValue))
             {
                 var time = Time.time - m_UpdateTime;
                 var total = animationDuration / 1000;
@@ -205,6 +213,7 @@ namespace XCharts.Runtime
         {
             m_UpdateFlag = false;
             m_ValueEnable = false;
+            m_TargetValue = float.NaN;
             m_PreviousValue = float.NaN;
             m_TargetColor = ColorUtil.clearColor32;
             m_TargetToColor = ColorUtil.clearColor32;

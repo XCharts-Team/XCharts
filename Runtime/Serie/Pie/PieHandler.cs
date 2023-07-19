@@ -343,7 +343,8 @@ namespace XCharts.Runtime
             var color = ColorUtil.clearColor32;
             var toColor = ColorUtil.clearColor32;
             var interactDuration = serie.animation.GetInteractionDuration();
-            var interactEnable = serie.animation.enable && serie.animation.interaction.enable;
+            var interactEnable = serie.animation.enable && serie.animation.interaction.enable
+                && !serie.animation.IsFadeIn() && !serie.animation.IsFadeOut();
             var data = serie.data;
             serie.animation.InitProgress(0, 360);
             for (int n = 0; n < data.Count; n++)

@@ -5,7 +5,10 @@ namespace XCharts.Runtime
     public class InteractData
     {
         private float m_PreviousValue = 0;
+        private float m_CurrentValue = 0;
         private float m_TargetValue = 0;
+        private Vector3 m_PreviousPosition;
+        private Vector3 m_TargetPosition;
         private Color32 m_PreviousColor;
         private Color32 m_TargetColor;
         private Color32 m_PreviousToColor;
@@ -21,30 +24,27 @@ namespace XCharts.Runtime
 
         public override string ToString()
         {
-            return string.Format("m_PreviousValue:{0},m_TargetValue:{1},m_UpdateTime:{2},m_UpdateFlag:{3},m_ValueEnable:{4}",
-            m_PreviousValue, m_TargetValue, m_UpdateTime, m_UpdateFlag, m_ValueEnable);
+            return string.Format("m_PreviousValue:{0},m_TargetValue:{1},m_UpdateTime:{2},m_UpdateFlag:{3},m_ValueEnable:{4},m_PreviousPosition:{5},m_TargetPosition:{6}",
+            m_PreviousValue, m_TargetValue, m_UpdateTime, m_UpdateFlag, m_ValueEnable, m_PreviousPosition, m_TargetPosition);
         }
 
-        public void SetValue(ref bool needInteract, float size, bool highlight, float rate = 1.3f)
+        public void SetValue(ref bool needInteract, float value, bool highlight, float rate = 1.3f)
         {
-            size = highlight && rate != 0 ? size * rate : size;
-            SetValue(ref needInteract, size);
+            value = highlight && rate != 0 ? value * rate : value;
+            SetValue(ref needInteract, value);
         }
 
-        public void SetValue(ref bool needInteract, float size)
+        public void SetValue(ref bool needInteract, float value)
         {
-            if (m_PreviousValue == float.NaN)
-            {
-                m_PreviousValue = size;
-            }
-            else if (m_TargetValue != size)
+            if (m_TargetValue != value)
             {
                 needInteract = true;
-                m_UpdateFlag = true;
-                m_ValueEnable = true;
-                m_UpdateTime = Time.time;
-                m_PreviousValue = m_TargetValue;
-                m_TargetValue = size;
+                if (!m_ValueEnable)
+                    m_PreviousValue = value;
+                else
+                    m_PreviousValue = m_CurrentValue;
+                UpdateStart();
+                m_TargetValue = value;
             }
             else if (m_UpdateFlag)
             {
@@ -52,18 +52,24 @@ namespace XCharts.Runtime
             }
         }
 
+        public void SetPosition(ref bool needInteract, Vector3 pos)
+        {
+            if (m_TargetPosition != pos)
+            {
+                needInteract = true;
+                UpdateStart();
+                m_PreviousPosition = m_TargetPosition == Vector3.one ? pos : m_TargetPosition;
+                m_TargetPosition = pos;
+            }
+        }
+
         public void SetColor(ref bool needInteract, Color32 color)
         {
             if (!ChartHelper.IsValueEqualsColor(color, m_TargetColor))
             {
-                if (!ChartHelper.IsClearColor(m_TargetColor))
-                {
-                    needInteract = true;
-                    m_UpdateFlag = true;
-                    m_ValueEnable = true;
-                    m_UpdateTime = Time.time;
-                    m_PreviousColor = m_TargetColor;
-                }
+                needInteract = true;
+                UpdateStart();
+                m_PreviousColor = ChartHelper.IsClearColor(m_TargetColor) ? color : m_TargetColor;
                 m_TargetColor = color;
             }
             else if (m_UpdateFlag)
@@ -76,14 +82,9 @@ namespace XCharts.Runtime
             SetColor(ref needInteract, color);
             if (!ChartHelper.IsValueEqualsColor(toColor, m_TargetToColor))
             {
-                if (!ChartHelper.IsClearColor(m_TargetToColor))
-                {
-                    needInteract = true;
-                    m_UpdateFlag = true;
-                    m_ValueEnable = true;
-                    m_UpdateTime = Time.time;
-                    m_PreviousToColor = m_TargetToColor;
-                }
+                needInteract = true;
+                UpdateStart();
+                m_PreviousToColor = ChartHelper.IsClearColor(m_TargetToColor) ? color : m_TargetToColor;
                 m_TargetToColor = toColor;
             }
         }
@@ -102,28 +103,52 @@ namespace XCharts.Runtime
 
         public bool TryGetValue(ref float value, ref bool interacting, float animationDuration = 250)
         {
-            if (!IsValueEnable() || m_PreviousValue == 0 || animationDuration == 0)
+            if (!IsValueEnable() || animationDuration == 0)
                 return false;
             if (float.IsNaN(m_TargetValue))
                 return false;
             if (m_UpdateFlag && !float.IsNaN(m_PreviousValue))
             {
-                var time = Time.time - m_UpdateTime;
-                var total = animationDuration / 1000;
-                var rate = time / total;
-                if (rate > 1) rate = 1;
+                var rate = GetRate(animationDuration);
                 if (rate < 1)
                 {
                     interacting = true;
                     value = Mathf.Lerp(m_PreviousValue, m_TargetValue, rate);
+                    m_CurrentValue = value;
                     return true;
                 }
                 else
                 {
-                    m_UpdateFlag = false;
+                    UpdateEnd();
                 }
             }
             value = m_TargetValue;
+            return true;
+        }
+
+        public bool TryGetPosition(ref Vector3 pos, ref bool interacting, float animationDuration = 250)
+        {
+            if (!IsValueEnable() || animationDuration == 0)
+                return false;
+            if (m_TargetPosition == Vector3.one)
+            {
+                return false;
+            }
+            if (m_UpdateFlag && m_PreviousPosition != Vector3.one)
+            {
+                var rate = GetRate(animationDuration);
+                if (rate < 1)
+                {
+                    interacting = true;
+                    pos = Vector3.Lerp(m_PreviousPosition, m_TargetPosition, rate);
+                    return true;
+                }
+                else
+                {
+                    UpdateEnd();
+                }
+            }
+            pos = m_TargetPosition;
             return true;
         }
 
@@ -133,10 +158,7 @@ namespace XCharts.Runtime
                 return false;
             if (m_UpdateFlag)
             {
-                var time = Time.time - m_UpdateTime;
-                var total = animationDuration / 1000;
-                var rate = time / total;
-                if (rate > 1) rate = 1;
+                var rate = GetRate(animationDuration);
                 if (rate < 1)
                 {
                     interacting = true;
@@ -145,7 +167,7 @@ namespace XCharts.Runtime
                 }
                 else
                 {
-                    m_UpdateFlag = false;
+                    UpdateEnd();
                 }
             }
             color = m_TargetColor;
@@ -158,10 +180,7 @@ namespace XCharts.Runtime
                 return false;
             if (m_UpdateFlag)
             {
-                var time = Time.time - m_UpdateTime;
-                var total = animationDuration / 1000;
-                var rate = time / total;
-                if (rate > 1) rate = 1;
+                var rate = GetRate(animationDuration);
                 if (rate < 1)
                 {
                     interacting = true;
@@ -171,7 +190,7 @@ namespace XCharts.Runtime
                 }
                 else
                 {
-                    m_UpdateFlag = false;
+                    UpdateEnd();
                 }
             }
             color = m_TargetColor;
@@ -186,21 +205,19 @@ namespace XCharts.Runtime
                 return false;
             if (m_UpdateFlag && !float.IsNaN(m_PreviousValue))
             {
-                var time = Time.time - m_UpdateTime;
-                var total = animationDuration / 1000;
-                var rate = time / total;
-                if (rate > 1) rate = 1;
+                var rate = GetRate(animationDuration);
                 if (rate < 1)
                 {
                     interacting = true;
                     value = Mathf.Lerp(m_PreviousValue, m_TargetValue, rate);
                     color = Color32.Lerp(m_PreviousColor, m_TargetColor, rate);
                     toColor = Color32.Lerp(m_PreviousToColor, m_TargetToColor, rate);
+                    m_CurrentValue = value;
                     return true;
                 }
                 else
                 {
-                    m_UpdateFlag = false;
+                    UpdateEnd();
                 }
             }
             value = m_TargetValue;
@@ -209,12 +226,56 @@ namespace XCharts.Runtime
             return true;
         }
 
+        private float GetRate(float animationDuration)
+        {
+            var time = Time.time - m_UpdateTime;
+            var total = animationDuration / 1000;
+            var rate = time / total;
+            if (rate > 1) rate = 1;
+            return rate;
+        }
+
+        private void UpdateStart()
+        {
+            m_ValueEnable = true;
+            m_UpdateFlag = true;
+            m_UpdateTime = Time.time;
+        }
+
+        private void UpdateEnd()
+        {
+            if (!m_UpdateFlag) return;
+            m_UpdateFlag = false;
+            m_PreviousColor = m_TargetColor;
+            m_PreviousToColor = m_TargetToColor;
+            m_PreviousValue = m_TargetValue;
+            m_CurrentValue = m_TargetValue;
+            m_PreviousPosition = m_TargetPosition;
+        }
+
+        public bool TryGetValueAndColor(ref float value, ref Vector3 pos, ref Color32 color, ref Color32 toColor, ref bool interacting, float animationDuration = 250)
+        {
+            var flag = TryGetValueAndColor(ref value, ref color, ref toColor, ref interacting, animationDuration);
+            flag |= TryGetPosition(ref pos, ref interacting, animationDuration);
+            return flag;
+        }
+
+        public bool TryGetValueAndColor(ref float value, ref Vector3 pos, ref bool interacting, float animationDuration = 250)
+        {
+            var flag = TryGetValue(ref value, ref interacting, animationDuration);
+            flag |= TryGetPosition(ref pos, ref interacting, animationDuration);
+            return flag;
+        }
+
         public void Reset()
         {
             m_UpdateFlag = false;
             m_ValueEnable = false;
             m_TargetValue = float.NaN;
             m_PreviousValue = float.NaN;
+            m_CurrentValue = float.NaN;
+            m_PreviousPosition = Vector3.one;
+            m_TargetPosition = Vector3.one;
             m_TargetColor = ColorUtil.clearColor32;
             m_TargetToColor = ColorUtil.clearColor32;
             m_PreviousColor = ColorUtil.clearColor32;

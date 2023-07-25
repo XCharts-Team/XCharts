@@ -412,9 +412,9 @@ namespace XCharts.Runtime
     [System.Serializable]
     public class AnimationInteraction : AnimationInfo
     {
-        [SerializeField][Since("v3.8.0")] private float m_WidthRate = 1.3f;
+        [SerializeField][Since("v3.8.0")] private float m_WidthRate = 1.1f;
         [SerializeField][Since("v3.8.0")] private float m_RadiusRate = 1.1f;
-        [SerializeField][Since("v3.8.0")] private float m_Offset = 8f;
+        [SerializeField][Since("v3.8.0")] private float m_Offset = 5f;
 
         /// <summary>
         /// the size rate of the width.

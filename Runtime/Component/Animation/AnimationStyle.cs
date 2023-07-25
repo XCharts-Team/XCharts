@@ -540,7 +540,6 @@ namespace XCharts.Runtime
 
         public float GetInteractionRadius(float radius)
         {
-
             if (m_Enable && m_Interaction.enable)
                 return m_Interaction.GetRadius(radius);
             else

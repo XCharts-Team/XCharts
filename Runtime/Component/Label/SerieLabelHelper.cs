@@ -82,6 +82,9 @@ namespace XCharts.Runtime
             var outsideRadius = serieData.context.outsideRadius;
             var serieLabel = SerieHelper.GetSerieLabel(serie, serieData);
             var labelLine = SerieHelper.GetSerieLabelLine(serie, serieData);
+            var center = serieData.context.offsetCenter;
+            var interact = false;
+            serieData.interact.TryGetValueAndColor(ref outsideRadius, ref center, ref interact, serie.animation.GetInteractionDuration());
             switch (serieLabel.position)
             {
                 case LabelStyle.Position.Center:
@@ -89,8 +92,8 @@ namespace XCharts.Runtime
                     break;
                 case LabelStyle.Position.Inside:
                     var labelRadius = offsetRadius + insideRadius + (outsideRadius - insideRadius) / 2 + serieLabel.distance;
-                    var labelCenter = new Vector2(serie.context.center.x + labelRadius * Mathf.Sin(currRad),
-                        serie.context.center.y + labelRadius * Mathf.Cos(currRad));
+                    var labelCenter = new Vector2(center.x + labelRadius * Mathf.Sin(currRad),
+                        center.y + labelRadius * Mathf.Cos(currRad));
                     serieData.context.labelPosition = labelCenter;
                     break;
                 default:
@@ -101,7 +104,7 @@ namespace XCharts.Runtime
                         var radius3 = insideRadius + (outsideRadius - insideRadius) / 2;
                         var currSin = Mathf.Sin(currRad);
                         var currCos = Mathf.Cos(currRad);
-                        var pos0 = new Vector3(serie.context.center.x + radius3 * currSin, serie.context.center.y + radius3 * currCos);
+                        var pos0 = new Vector3(center.x + radius3 * currSin, center.y + radius3 * currCos);
                         if ((currAngle - startAngle) % 360 > 180)
                         {
                             currSin = Mathf.Sin((360 - currAngle) * Mathf.Deg2Rad);
@@ -115,8 +118,8 @@ namespace XCharts.Runtime
                     else
                     {
                         labelRadius = serie.context.outsideRadius + (labelLine == null ? 0 : labelLine.lineLength1);
-                        labelCenter = new Vector2(serie.context.center.x + labelRadius * Mathf.Sin(currRad),
-                            serie.context.center.y + labelRadius * Mathf.Cos(currRad));
+                        labelCenter = new Vector2(center.x + labelRadius * Mathf.Sin(currRad),
+                            center.y + labelRadius * Mathf.Cos(currRad));
                         serieData.context.labelPosition = labelCenter;
                     }
                     break;

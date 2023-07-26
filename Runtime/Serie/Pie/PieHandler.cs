@@ -229,23 +229,24 @@ namespace XCharts.Runtime
                 serie.context.outsideRadius;
 
             var offset = 0f;
+            var interactOffset = serie.animation.interaction.GetOffset(serie.context.outsideRadius);
             if (serie.pieClickOffset && (serieData.selected || serieData.context.selected))
             {
-                offset += serie.animation.interaction.offset;
+                offset += interactOffset;
             }
             if (offset > 0)
             {
-                serieData.context.outsideRadius += serie.animation.interaction.offset;
+                serieData.context.outsideRadius += interactOffset;
                 var currRad = serieData.context.halfAngle * Mathf.Deg2Rad;
                 var currSin = Mathf.Sin(currRad);
                 var currCos = Mathf.Cos(currRad);
                 serieData.context.offsetRadius = 0;
                 if (serie.pieClickOffset && (serieData.selected || serieData.context.selected))
                 {
-                    serieData.context.offsetRadius += serie.animation.interaction.offset;
+                    serieData.context.offsetRadius += interactOffset;
                     if (serieData.context.insideRadius > 0)
                     {
-                        serieData.context.insideRadius += serie.animation.interaction.offset;
+                        serieData.context.insideRadius += interactOffset;
                     }
                 }
                 serieData.context.offsetCenter = new Vector3(
@@ -512,7 +513,8 @@ namespace XCharts.Runtime
                 return -1;
 
             var dist = Vector2.Distance(local, serie.context.center);
-            var maxRadius = serie.context.outsideRadius + 3 * serie.animation.interaction.offset;
+            var interactOffset = serie.animation.interaction.GetOffset(serie.context.outsideRadius);
+            var maxRadius = serie.context.outsideRadius + 2 * interactOffset;
             if (dist < serie.context.insideRadius || dist > maxRadius)
                 return -1;
 

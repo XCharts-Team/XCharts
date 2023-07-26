@@ -688,7 +688,7 @@ namespace XCharts.Runtime
                 {
                     case SerieState.Emphasis:
                     case SerieState.Select:
-                        size *= serie.animation.interaction.radiusRate;
+                        size = serie.animation.interaction.GetRadius(size);
                         break;
                     default:
                         break;

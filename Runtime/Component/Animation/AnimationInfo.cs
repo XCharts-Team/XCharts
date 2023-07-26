@@ -412,30 +412,44 @@ namespace XCharts.Runtime
     [System.Serializable]
     public class AnimationInteraction : AnimationInfo
     {
-        [SerializeField][Since("v3.8.0")] private float m_WidthRate = 1.1f;
-        [SerializeField][Since("v3.8.0")] private float m_RadiusRate = 1.1f;
-        [SerializeField][Since("v3.8.0")] private float m_Offset = 5f;
+        [SerializeField][Since("v3.8.0")] private MLValue m_Width = new MLValue(1.1f);
+        [SerializeField][Since("v3.8.0")] private MLValue m_Radius = new MLValue(1.1f);
+        [SerializeField][Since("v3.8.0")] private MLValue m_Offset = new MLValue(MLValue.Type.Absolute, 5f);
 
         /// <summary>
-        /// the size rate of the width.
-        /// |宽度的放大倍率。
+        /// the mlvalue of width.
+        /// |宽度的多样式数值。
         /// </summary>
-        public float widthRate { get { return m_WidthRate; } set { m_WidthRate = value; } }
+        public MLValue width { get { return m_Width; } set { m_Width = value; } }
         /// <summary>
-        /// the size rate of the radius.
-        /// |半径的放大倍率。
+        /// the mlvalue of radius.
+        /// |半径的多样式数值。
         /// </summary>
-        public float radiusRate { get { return m_RadiusRate; } set { m_RadiusRate = value; } }
+        public MLValue radius { get { return m_Radius; } set { m_Radius = value; } }
         /// <summary>
-        /// the offset when interaction. Such as the offset of the pie chart when the sector is selected.
-        /// |交互时的偏移。如饼图的扇形选中时的偏移。
+        /// the mlvalue of offset. Such as the offset of the pie chart when the sector is selected.
+        /// |交互的多样式数值。如饼图的扇形选中时的偏移。
         /// </summary>
-        public float offset { get { return m_Offset; } set { m_Offset = value; } }
-
+        public MLValue offset { get { return m_Offset; } set { m_Offset = value; } }
 
         public float GetRadius(float radius)
         {
-            return radius * radiusRate;
+            return m_Radius.GetValue(radius);
+        }
+
+        public float GetWidth(float width)
+        {
+            return m_Width.GetValue(width);
+        }
+
+        public float GetOffset(float total)
+        {
+            return m_Offset.GetValue(total);
+        }
+
+        public float GetOffset()
+        {
+            return m_Offset.value;
         }
     }
 }

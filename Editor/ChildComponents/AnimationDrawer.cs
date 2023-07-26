@@ -60,8 +60,8 @@ namespace XCharts.Editor
             {
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Duration");
-                PropertyField(prop, "m_WidthRate");
-                PropertyField(prop, "m_RadiusRate");
+                PropertyField(prop, "m_Width");
+                PropertyField(prop, "m_Radius");
                 PropertyField(prop, "m_Offset");
                 --EditorGUI.indentLevel;
             }

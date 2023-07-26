@@ -72,7 +72,7 @@ namespace XCharts.Runtime
             if (m_LegendEnter)
             {
                 serie.context.pointerEnter = true;
-                serie.interact.SetValue(ref needInteract, lineWidth, true, serie.animation.interaction.widthRate);
+                serie.interact.SetValue(ref needInteract, lineWidth, true, serie.animation.interaction.GetWidth(lineWidth));
                 for (int i = 0; i < serie.dataCount; i++)
                 {
                     var serieData = serie.data[i];
@@ -84,7 +84,7 @@ namespace XCharts.Runtime
             else if (serie.context.isTriggerByAxis)
             {
                 serie.context.pointerEnter = true;
-                serie.interact.SetValue(ref needInteract, lineWidth, true, serie.animation.interaction.widthRate);
+                serie.interact.SetValue(ref needInteract, lineWidth, true, serie.animation.interaction.GetWidth(lineWidth));
                 for (int i = 0; i < serie.dataCount; i++)
                 {
                     var serieData = serie.data[i];

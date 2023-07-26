@@ -127,7 +127,7 @@ namespace XCharts.Runtime
                         if (m_LegendEnter)
                         {
                             serieData.context.highlight = true;
-                            serieData.interact.SetValue(ref needInteract, symbolSize, serieData.context.highlight);
+                            serieData.interact.SetValue(ref needInteract, serie.animation.interaction.GetRadius(symbolSize));
                         }
                         else
                         {
@@ -164,7 +164,10 @@ namespace XCharts.Runtime
                                     }
                                 }
                             }
-                            serieData.interact.SetValue(ref needInteract, symbolSize, serieData.context.highlight);
+                            if (serieData.context.highlight)
+                                serieData.interact.SetValue(ref needInteract, serie.animation.interaction.GetRadius(symbolSize));
+                            else
+                                serieData.interact.SetValue(ref needInteract, symbolSize);
                         }
                     }
                     break;

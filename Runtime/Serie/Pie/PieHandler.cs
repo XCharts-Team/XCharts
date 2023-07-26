@@ -221,13 +221,23 @@ namespace XCharts.Runtime
 
         private void UpdateSerieDataRadius(SerieData serieData, double value)
         {
+            var minChartWidth = Mathf.Min(chart.chartWidth, chart.chartHeight);
+            var minRadius = serie.minRadius > 0 ? ChartHelper.GetActualValue(serie.minRadius, minChartWidth) : 0;
             if (serieData.radius > 0)
-                serieData.context.outsideRadius = ChartHelper.GetActualValue(serieData.radius, Mathf.Min(chart.chartWidth, chart.chartHeight));
+            {
+                serieData.context.outsideRadius = ChartHelper.GetActualValue(serieData.radius, minChartWidth);
+            }
             else
+            {
+                var minInsideRadius = minRadius > 0 ? minRadius : serie.context.insideRadius;
                 serieData.context.outsideRadius = serie.pieRoseType > 0 ?
-                serie.context.insideRadius + (float)((serie.context.outsideRadius - serie.context.insideRadius) * value / serie.context.dataMax) :
+                minInsideRadius + (float)((serie.context.outsideRadius - minInsideRadius) * value / serie.context.dataMax) :
                 serie.context.outsideRadius;
-
+            }
+            if (minRadius > 0 && serieData.context.outsideRadius < minRadius)
+            {
+                serieData.context.outsideRadius = minRadius;
+            }
             var offset = 0f;
             var interactOffset = serie.animation.interaction.GetOffset(serie.context.outsideRadius);
             if (serie.pieClickOffset && (serieData.selected || serieData.context.selected))
@@ -424,7 +434,7 @@ namespace XCharts.Runtime
                 var outSideRadius = serieData.context.outsideRadius;
                 var center = serieData.context.offsetCenter;
                 var interact = false;
-                serieData.interact.TryGetValueAndColor(ref outSideRadius,ref center,ref interact, serie.animation.GetInteractionDuration());
+                serieData.interact.TryGetValueAndColor(ref outSideRadius, ref center, ref interact, serie.animation.GetInteractionDuration());
                 var currAngle = serieData.context.halfAngle;
                 if (!ChartHelper.IsClearColor(labelLine.lineColor))
                     color = labelLine.lineColor;

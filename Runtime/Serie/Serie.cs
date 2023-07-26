@@ -279,6 +279,7 @@ namespace XCharts.Runtime
         [SerializeField] private float m_Gap;
         [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.48f };
         [SerializeField] private float[] m_Radius = new float[2] { 0, 0.28f };
+        [SerializeField][Since("v3.8.0")] private float m_MinRadius = 0f;
 
         [SerializeField][Range(2, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
@@ -677,6 +678,15 @@ namespace XCharts.Runtime
         {
             get { return m_Radius; }
             set { if (value != null && value.Length == 2) { m_Radius = value; SetVerticesDirty(); } }
+        }
+        /// <summary>
+        /// the min radius of chart. It can be used to limit the minimum radius of the rose chart.
+        /// |最小半径。可用于限制玫瑰图的最小半径。
+        /// </summary>
+        public float minRadius
+        {
+            get { return m_MinRadius; }
+            set { if (PropertyUtil.SetStruct(ref m_MinRadius, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 最小值。

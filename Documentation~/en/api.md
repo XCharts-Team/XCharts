@@ -57,6 +57,7 @@ slug: /api
 - [MainComponentHandler](#maincomponenthandler)
 - [MainComponentHandler&lt;T&gt;](#maincomponenthandlert)
 - [MathUtil](#mathutil)
+- [MonoBehaviour](#monobehaviour)
 - [Painter](#painter)
 - [ParallelChart](#parallelchart)
 - [ParallelCoordContext](#parallelcoordcontext)
@@ -110,6 +111,7 @@ slug: /api
 - [XChartsMgr](#xchartsmgr)
 - [XCResourceImporterWindow](#xcresourceimporterwindow)
 - [XCThemeMgr](#xcthememgr)
+- [XLog](#xlog)
 
 
 ## AnimationInfoContext
@@ -665,14 +667,19 @@ slug: /api
 |Reset()||public void Reset()|
 |SetColor()||public void SetColor(ref bool needInteract, Color32 color)|
 |SetColor()||public void SetColor(ref bool needInteract, Color32 color, Color32 toColor)|
-|SetValue()||public void SetValue(ref bool needInteract, float size)|
-|SetValue()||public void SetValue(ref bool needInteract, float size, bool highlight, float rate = 1.3f)|
+|SetPosition()||public void SetPosition(ref bool needInteract, Vector3 pos)|
+|SetValue()||public void SetValue(ref bool needInteract, float value)|
+|SetValue()||public void SetValue(ref bool needInteract, float value, bool highlight, float rate = 1.3f)|
 |SetValueAndColor()||public void SetValueAndColor(ref bool needInteract, float value, Color32 color)|
 |SetValueAndColor()||public void SetValueAndColor(ref bool needInteract, float value, Color32 color, Color32 toColor)|
+|ToString()||public override string ToString()|
 |TryGetColor()||public bool TryGetColor(ref Color32 color, ref bool interacting, float animationDuration = 250)|
 |TryGetColor()||public bool TryGetColor(ref Color32 color, ref Color32 toColor, ref bool interacting, float animationDuration = 250)|
+|TryGetPosition()||public bool TryGetPosition(ref Vector3 pos, ref bool interacting, float animationDuration = 250)|
 |TryGetValue()||public bool TryGetValue(ref float value, ref bool interacting, float animationDuration = 250)|
 |TryGetValueAndColor()||public bool TryGetValueAndColor(ref float value, ref Color32 color, ref Color32 toColor, ref bool interacting, float animationDuration = 250)|
+|TryGetValueAndColor()||public bool TryGetValueAndColor(ref float value, ref Vector3 pos, ref bool interacting, float animationDuration = 250)|
+|TryGetValueAndColor()||public bool TryGetValueAndColor(ref float value, ref Vector3 pos, ref Color32 color, ref Color32 toColor, ref bool interacting, float animationDuration = 250)|
 
 ## IPropertyChanged
 
@@ -720,7 +727,7 @@ The interface for serie data component.
 
 |public method|since|description|
 |--|--|--|
-|CheckDataHighlighted()||public static bool CheckDataHighlighted(Serie serie, string legendName, bool heighlight)|
+|CheckDataHighlighted()||public static int CheckDataHighlighted(Serie serie, string legendName, bool heighlight)|
 |CheckDataShow()||public static bool CheckDataShow(Serie serie, string legendName, bool show)|
 |GetContentColor()||public static Color GetContentColor(BaseChart chart, int legendIndex, string legendName, Legend legend, ThemeStyle theme, bool active)|
 |GetIconColor()||public static Color GetIconColor(BaseChart chart, Legend legend, int readIndex, string legendName, bool active)|
@@ -825,6 +832,10 @@ The interface for serie data component.
 |GetPrecision()||public static int GetPrecision(double value)|
 |IsInteger()||public static bool IsInteger(double value)|
 |Lerp()||public static double Lerp(double a, double b, double t)|
+
+## MonoBehaviour
+
+> .MonoBehaviour / Subclasses: [XLog](#xlog) 
 
 ## ObjectPool&lt;T&gt; where T
 
@@ -1131,7 +1142,7 @@ the data of serie event.
 |GetSerieState()||public static SerieState GetSerieState(SerieData serieData)|
 |GetSerieSymbol()||public static SerieSymbol GetSerieSymbol(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)|
 |GetStateStyle()||public static StateStyle GetStateStyle(Serie serie, SerieData serieData, SerieState state)|
-|GetSysmbolSize()||public static float GetSysmbolSize(Serie serie, SerieData serieData, ThemeStyle theme, float defaultSize, SerieState state = SerieState.Auto)|
+|GetSysmbolSize()||public static float GetSysmbolSize(Serie serie, SerieData serieData, float defaultSize, SerieState state = SerieState.Auto)|
 |GetTitleStyle()||public static TitleStyle GetTitleStyle(Serie serie, SerieData serieData)|
 |IsAllZeroValue()||public static bool IsAllZeroValue(Serie serie, int dimension = 1)<br/>Whether the data for the specified dimension of serie are all 0. |
 |IsDownPoint()||public static bool IsDownPoint(Serie serie, int index)|
@@ -1415,4 +1426,27 @@ UI帮助类。
 |LoadTheme()||public static Theme LoadTheme(ThemeType type)|
 |ReloadThemeList()||public static void ReloadThemeList()<br/>重新加载主题列表 |
 |SwitchTheme()||public static void SwitchTheme(BaseChart chart, string themeName)|
+
+## XLog
+
+> XCharts.Runtime.XLog : [MonoBehaviour](#monobehaviour)
+Log system. Used to output logs with date and log type, support output to file, support custom output log type.
+
+|public method|since|description|
+|--|--|--|
+|CanLog()||public static bool CanLog(int level)|
+|ClearAllLog()||public static void ClearAllLog()|
+|Debug()||public static void Debug(string log)|
+|EnableLog()||public static void EnableLog(int logType)|
+|Error()||public static void Error(string log)|
+|FlushLog()||public static void FlushLog()|
+|GetNowTime()||public static string GetNowTime(string formatter = null)|
+|GetTimestamp()||public static ulong GetTimestamp()|
+|Info()||public static void Info(string log)|
+|Log()||public static void Log(string log)|
+|LogError()||public static void LogError(string log)|
+|LogWarning()||public static void LogWarning(string log)|
+|Proto()||public static void Proto(string log)|
+|Vital()||public static void Vital(string log)|
+|Warning()||public static void Warning(string log)|
 

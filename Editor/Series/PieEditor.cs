@@ -15,6 +15,7 @@ namespace XCharts.Editor
             PropertyFiledMore(() =>
             {
                 PropertyField("m_MinAngle");
+                PropertyField("m_MinRadius");
                 PropertyField("m_RoundCap");
                 PropertyField("m_Ignore");
                 PropertyField("m_IgnoreValue");

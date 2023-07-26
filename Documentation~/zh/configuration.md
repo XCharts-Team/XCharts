@@ -112,6 +112,7 @@ import APITable from '@site/src/components/APITable';
 - [MarkAreaData](#markareadata)
 - [MarkLineData](#marklinedata)
 - [MarqueeStyle](#marqueestyle)
+- [MLValue](#mlvalue)
 - [Padding](#padding)
 - [PolarAxisTheme](#polaraxistheme)
 - [RadarAxisTheme](#radaraxistheme)
@@ -170,6 +171,7 @@ import APITable from '@site/src/components/APITable';
 - [AnimationChange](#animationchange)
 - [AnimationFadeIn](#animationfadein)
 - [AnimationFadeOut](#animationfadeout)
+- [AnimationHiding](#animationhiding)
 - [AnimationInfo](#animationinfo)
 - [AnimationInteraction](#animationinteraction)
 - [BaseSerie](#baseserie)
@@ -247,9 +249,17 @@ import APITable from '@site/src/components/APITable';
 
 淡出动画。
 
+## AnimationHiding
+
+> XCharts.Runtime.AnimationHiding : [AnimationInfo](#animationinfo)
+
+> 从 `v3.8.0` 开始支持
+
+数据隐藏动画。
+
 ## AnimationInfo
 
-> XCharts.Runtime.AnimationInfo / Subclasses: [AnimationFadeIn](#animationfadein), [AnimationFadeOut](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition), [AnimationInteraction](#animationinteraction)
+> XCharts.Runtime.AnimationInfo / Subclasses: [AnimationFadeIn](#animationfadein), [AnimationFadeOut](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition), [AnimationHiding](#animationhiding), [AnimationInteraction](#animationinteraction)
 
 > 从 `v3.8.0` 开始支持
 
@@ -286,8 +296,9 @@ import APITable from '@site/src/components/APITable';
 
 |field|default|since|comment|
 |--|--|--|--|
-|widthRate|1.3f|v3.8.0|宽度的放大倍率。
-|radiusRate|1.3f|v3.8.0|半径的放大倍率。
+|width||v3.8.0|宽度的多样式数值。 [MLValue](#mlvalue)|
+|radius||v3.8.0|半径的多样式数值。 [MLValue](#mlvalue)|
+|offset||v3.8.0|交互的多样式数值。如饼图的扇形选中时的偏移。 [MLValue](#mlvalue)|
 
 ```mdx-code-block
 </APITable>
@@ -315,6 +326,7 @@ import APITable from '@site/src/components/APITable';
 |fadeOut||v3.8.0|渐出动画配置。 [AnimationFadeOut](#animationfadeout)|
 |change||v3.8.0|数据变更动画配置。 [AnimationChange](#animationchange)|
 |addition||v3.8.0|数据新增动画配置。 [AnimationAddition](#animationaddition)|
+|hiding||v3.8.0|数据隐藏动画配置。 [AnimationHiding](#animationhiding)|
 |interaction||v3.8.0|交互动画配置。 [AnimationInteraction](#animationinteraction)|
 
 ```mdx-code-block
@@ -706,7 +718,7 @@ import APITable from '@site/src/components/APITable';
 
 ## ChildComponent
 
-> XCharts.Runtime.ChildComponent / Subclasses: [AnimationStyle](#animationstyle), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
+> XCharts.Runtime.ChildComponent / Subclasses: [AnimationStyle](#animationstyle), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
 
 ## Comment
 
@@ -1501,6 +1513,28 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 </APITable>
 ```
 
+## MLValue
+
+> XCharts.Runtime.MLValue : [ChildComponent](#childcomponent)
+
+> 从 `v3.8.0` 开始支持
+
+多样式数值。
+
+```mdx-code-block
+<APITable name="MLValue">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|type|||<br/>`MLValue.Type`:<br/>- `Percent`: 百分比形式。<br/>- `Absolute`: 绝对值形式。<br/>- `Extra`: 额外形式。<br/>|
+|value|||
+
+```mdx-code-block
+</APITable>
+```
+
 ## Padding
 
 > XCharts.Runtime.Padding : [ChildComponent](#childcomponent) / Subclasses: [TextPadding](#textpadding)
@@ -1699,6 +1733,7 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 |gap|||间距。
 |center|||中心点。
 |radius|||半径。radius[0]表示内径，radius[1]表示外径。
+|minRadius|0f|v3.8.0|最小半径。可用于限制玫瑰图的最小半径。
 |showDataDimension|||数据项里的数据维数。
 |showDataName|||在Editor的inpsector上是否显示name参数
 |clip|false||是否裁剪超出坐标系部分的图形。
@@ -1798,8 +1833,6 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 |lineWidth|||文本颜色。
 |lineSymbolSize|||折线图的Symbol大小。
 |scatterSymbolSize|||散点图的Symbol大小。
-|pieTooltipExtraRadius|||饼图鼠标移到高亮时的额外半径
-|pieSelectedOffset|||饼图选中时的中心点偏移。
 |candlestickColor|Color32(235, 84, 84, 255)||K线图阳线（涨）填充色
 |candlestickColor0|Color32(71, 178, 98, 255)||K线图阴线（跌）填充色
 |candlestickBorderWidth|1||K线图边框宽度
@@ -2344,8 +2377,6 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 |lineSegmentDistance|3f||
 |cicleSmoothness|2f||
 |visualMapTriangeLen|20f||
-|pieTooltipExtraRadius|8f||
-|pieSelectedOffset|8f||
 |customThemes|||
 
 ```mdx-code-block

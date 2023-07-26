@@ -112,6 +112,7 @@ import APITable from '@site/src/components/APITable';
 - [MarkAreaData](#markareadata)
 - [MarkLineData](#marklinedata)
 - [MarqueeStyle](#marqueestyle)
+- [MLValue](#mlvalue)
 - [Padding](#padding)
 - [PolarAxisTheme](#polaraxistheme)
 - [RadarAxisTheme](#radaraxistheme)
@@ -170,6 +171,7 @@ import APITable from '@site/src/components/APITable';
 - [AnimationChange](#animationchange)
 - [AnimationFadeIn](#animationfadein)
 - [AnimationFadeOut](#animationfadeout)
+- [AnimationHiding](#animationhiding)
 - [AnimationInfo](#animationinfo)
 - [AnimationInteraction](#animationinteraction)
 - [BaseSerie](#baseserie)
@@ -247,9 +249,17 @@ Fade in animation.
 
 Fade out animation.
 
+## AnimationHiding
+
+> XCharts.Runtime.AnimationHiding : [AnimationInfo](#animationinfo)
+
+> Since `v3.8.0`
+
+Data hiding animation.
+
 ## AnimationInfo
 
-> XCharts.Runtime.AnimationInfo / Subclasses: [AnimationFadeIn](#animationfadein), [AnimationFadeOut](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition), [AnimationInteraction](#animationinteraction)
+> XCharts.Runtime.AnimationInfo / Subclasses: [AnimationFadeIn](#animationfadein), [AnimationFadeOut](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition), [AnimationHiding](#animationhiding), [AnimationInteraction](#animationinteraction)
 
 > Since `v3.8.0`
 
@@ -286,8 +296,9 @@ Interactive animation of charts.
 
 |field|default|since|comment|
 |--|--|--|--|
-|widthRate|1.3f|v3.8.0|the size rate of the width.
-|radiusRate|1.3f|v3.8.0|the size rate of the radius.
+|width||v3.8.0|the mlvalue of width. [MLValue](#mlvalue)|
+|radius||v3.8.0|the mlvalue of radius. [MLValue](#mlvalue)|
+|offset||v3.8.0|the mlvalue of offset. Such as the offset of the pie chart when the sector is selected. [MLValue](#mlvalue)|
 
 ```mdx-code-block
 </APITable>
@@ -315,6 +326,7 @@ the animation of serie. support animation type: fadeIn, fadeOut, change, additio
 |fadeOut||v3.8.0|Fade out animation configuration. [AnimationFadeOut](#animationfadeout)|
 |change||v3.8.0|Update data animation configuration. [AnimationChange](#animationchange)|
 |addition||v3.8.0|Add data animation configuration. [AnimationAddition](#animationaddition)|
+|hiding||v3.8.0|Data hiding animation configuration. [AnimationHiding](#animationhiding)|
 |interaction||v3.8.0|Interaction animation configuration. [AnimationInteraction](#animationinteraction)|
 
 ```mdx-code-block
@@ -706,7 +718,7 @@ Configurations of blur state.
 
 ## ChildComponent
 
-> XCharts.Runtime.ChildComponent / Subclasses: [AnimationStyle](#animationstyle), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
+> XCharts.Runtime.ChildComponent / Subclasses: [AnimationStyle](#animationstyle), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
 
 ## Comment
 
@@ -1501,6 +1513,28 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 </APITable>
 ```
 
+## MLValue
+
+> XCharts.Runtime.MLValue : [ChildComponent](#childcomponent)
+
+> Since `v3.8.0`
+
+多样式数值。
+
+```mdx-code-block
+<APITable name="MLValue">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|type|||<br/>`MLValue.Type`:<br/>- `Percent`: Percent value form.<br/>- `Absolute`: Absolute value form.<br/>- `Extra`: Extra value form.<br/>|
+|value|||
+
+```mdx-code-block
+</APITable>
+```
+
 ## Padding
 
 > XCharts.Runtime.Padding : [ChildComponent](#childcomponent) / Subclasses: [TextPadding](#textpadding)
@@ -1699,6 +1733,7 @@ Configurations of select state.
 |gap|||gap of item.
 |center|||the center of chart.
 |radius|||the radius of chart.
+|minRadius|0f|v3.8.0|the min radius of chart. It can be used to limit the minimum radius of the rose chart.
 |showDataDimension|||数据项里的数据维数。
 |showDataName|||在Editor的inpsector上是否显示name参数
 |clip|false||If clip the overflow on the coordinate system.
@@ -1798,8 +1833,6 @@ A data item of serie.
 |lineWidth|||the color of text.
 |lineSymbolSize|||the symbol size of line serie.
 |scatterSymbolSize|||the symbol size of scatter serie.
-|pieTooltipExtraRadius|||the extra radius of pie when actived by tooltip.
-|pieSelectedOffset|||the center offset of pie if selected.
 |candlestickColor|Color32(235, 84, 84, 255)||K线图阳线（涨）填充色
 |candlestickColor0|Color32(71, 178, 98, 255)||K线图阴线（跌）填充色
 |candlestickBorderWidth|1||K线图边框宽度
@@ -2344,8 +2377,6 @@ The x axis in cartesian(rectangular) coordinate.
 |lineSegmentDistance|3f||
 |cicleSmoothness|2f||
 |visualMapTriangeLen|20f||
-|pieTooltipExtraRadius|8f||
-|pieSelectedOffset|8f||
 |customThemes|||
 
 ```mdx-code-block

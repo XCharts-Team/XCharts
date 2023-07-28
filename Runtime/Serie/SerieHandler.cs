@@ -29,9 +29,9 @@ namespace XCharts.Runtime
         public virtual void OnBeginDrag(PointerEventData eventData) { }
         public virtual void OnEndDrag(PointerEventData eventData) { }
         public virtual void OnScroll(PointerEventData eventData) { }
-        public virtual void OnValidate() { }
         public virtual void RefreshLabelNextFrame() { }
         public virtual void RefreshLabelInternal() { }
+        public virtual void ForceUpdateSerieContext() { }
         public virtual void UpdateSerieContext() { }
         public virtual void UpdateTooltipSerieParams(int dataIndex, bool showCategory,
             string category, string marker,
@@ -64,6 +64,9 @@ namespace XCharts.Runtime
         protected int m_LegendEnterIndex;
         protected ChartLabel m_EndLabel;
 
+        private float[] m_LastRadius = new float[2] { 0, 0 };
+        private float[] m_LastCenter = new float[2] { 0, 0 };
+
         public T serie { get; internal set; }
         public GameObject labelObject { get { return m_SerieLabelRoot; } }
 
@@ -75,13 +78,9 @@ namespace XCharts.Runtime
             AnimationStyleHelper.UpdateSerieAnimation(serie);
         }
 
-        public override void OnValidate()
-        {
-            m_ForceUpdateSerieContext = true;
-        }
-
         public override void Update()
         {
+            CheckConfigurationChanged();
             if (m_NeedInitComponent)
             {
                 m_NeedInitComponent = false;
@@ -134,6 +133,27 @@ namespace XCharts.Runtime
                 serie.ClearVerticesDirty();
             }
             UpdateSerieContextInternal();
+        }
+
+        public override void ForceUpdateSerieContext()
+        {
+            m_ForceUpdateSerieContext = true;
+        }
+
+        private void CheckConfigurationChanged()
+        {
+            if (m_LastRadius[0] != serie.radius[0] || m_LastRadius[1] != serie.radius[1])
+            {
+                m_LastRadius[0] = serie.radius[0];
+                m_LastRadius[1] = serie.radius[1];
+                serie.SetVerticesDirty();
+            }
+            if (m_LastCenter[0] != serie.center[0] || m_LastCenter[1] != serie.center[1])
+            {
+                m_LastCenter[0] = serie.center[0];
+                m_LastCenter[1] = serie.center[1];
+                serie.SetVerticesDirty();
+            }
         }
 
         private void UpdateSerieContextInternal()

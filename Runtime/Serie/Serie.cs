@@ -1041,6 +1041,12 @@ namespace XCharts.Runtime
             titleDirty = true;
         }
 
+        public override void SetVerticesDirty()
+        {
+            base.SetVerticesDirty();
+            handler.ForceUpdateSerieContext();
+        }
+
         private bool AnySerieDataVerticesDirty()
         {
             if (IsPerformanceMode())

@@ -172,6 +172,12 @@ namespace XCharts.Runtime
             DefaultChart();
             Awake();
         }
+
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+            foreach (var handler in m_SerieHandlers) handler.OnValidate();
+        }
 #endif
 
         protected override void Start()

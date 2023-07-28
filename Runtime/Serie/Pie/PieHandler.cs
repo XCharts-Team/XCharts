@@ -76,13 +76,13 @@ namespace XCharts.Runtime
 
         public override void UpdateSerieContext()
         {
-            var needCheck = m_LegendEnter || m_LegendExiting || (chart.isPointerInChart && PointerIsInPieSerie(serie, chart.pointerPos));
+            var needCheck = m_LegendEnter || m_LegendExiting || m_ForceUpdateSerieContext || (chart.isPointerInChart && PointerIsInPieSerie(serie, chart.pointerPos));
             var needInteract = false;
             var interactEnable = serie.animation.enable && serie.animation.interaction.enable;
             Color32 color, toColor;
             if (!needCheck)
             {
-                if (m_LastCheckContextFlag != needCheck)
+                if (m_LastCheckContextFlag != needCheck || m_ForceUpdateSerieContext)
                 {
                     serie.context.pointerItemDataIndex = -1;
                     serie.context.pointerEnter = false;

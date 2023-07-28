@@ -29,6 +29,7 @@ namespace XCharts.Runtime
         public virtual void OnBeginDrag(PointerEventData eventData) { }
         public virtual void OnEndDrag(PointerEventData eventData) { }
         public virtual void OnScroll(PointerEventData eventData) { }
+        public virtual void OnValidate() { }
         public virtual void RefreshLabelNextFrame() { }
         public virtual void RefreshLabelInternal() { }
         public virtual void UpdateSerieContext() { }
@@ -59,6 +60,7 @@ namespace XCharts.Runtime
         protected bool m_LastCheckContextFlag = false;
         protected bool m_LegendEnter = false;
         protected bool m_LegendExiting = false;
+        protected bool m_ForceUpdateSerieContext = false;
         protected int m_LegendEnterIndex;
         protected ChartLabel m_EndLabel;
 
@@ -71,6 +73,11 @@ namespace XCharts.Runtime
             this.serie.context.param.serieType = typeof(T);
             m_NeedInitComponent = true;
             AnimationStyleHelper.UpdateSerieAnimation(serie);
+        }
+
+        public override void OnValidate()
+        {
+            m_ForceUpdateSerieContext = true;
         }
 
         public override void Update()
@@ -134,6 +141,7 @@ namespace XCharts.Runtime
             var lastEnter = serie.context.pointerEnter;
             var lastDataIndex = serie.context.pointerItemDataIndex;
             UpdateSerieContext();
+            m_ForceUpdateSerieContext = false;
             if (lastEnter != serie.context.pointerEnter || lastDataIndex != serie.context.pointerItemDataIndex)
             {
                 if (chart.onSerieEnter != null || chart.onSerieExit != null || serie.onEnter != null || serie.onExit != null)

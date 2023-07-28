@@ -52,6 +52,19 @@ namespace XCharts.Runtime
             }
         }
 
+        public void SetValue(float value)
+        {
+            if (m_TargetValue != value)
+            {
+                if (!m_ValueEnable)
+                    m_PreviousValue = value;
+                else
+                    m_PreviousValue = m_CurrentValue;
+                UpdateStart();
+                m_TargetValue = value;
+            }
+        }
+
         public void SetPosition(ref bool needInteract, Vector3 pos)
         {
             if (m_TargetPosition != pos)

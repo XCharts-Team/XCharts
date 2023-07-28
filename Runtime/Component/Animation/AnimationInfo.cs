@@ -405,6 +405,16 @@ namespace XCharts.Runtime
     }
 
     /// <summary>
+    /// Data hiding animation.
+    /// |数据隐藏动画。
+    /// </summary>
+    [Since("v3.8.0")]
+    [System.Serializable]
+    public class AnimationHiding : AnimationInfo
+    {
+    }
+
+    /// <summary>
     /// Interactive animation of charts.
     /// |交互动画。
     /// </summary>

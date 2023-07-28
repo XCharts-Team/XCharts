@@ -60,6 +60,7 @@ namespace XCharts.Runtime
         [SerializeField][Since("v3.8.0")] private AnimationFadeOut m_FadeOut = new AnimationFadeOut() { reverse = true };
         [SerializeField][Since("v3.8.0")] private AnimationChange m_Change = new AnimationChange() { duration = 500 };
         [SerializeField][Since("v3.8.0")] private AnimationAddition m_Addition = new AnimationAddition() { duration = 500 };
+        [SerializeField][Since("v3.8.0")] private AnimationHiding m_Hiding = new AnimationHiding() { duration = 500 };
         [SerializeField][Since("v3.8.0")] private AnimationInteraction m_Interaction = new AnimationInteraction() { duration = 250 };
 
         [Obsolete("Use animation.fadeIn.delayFunction instead.", true)]
@@ -117,6 +118,12 @@ namespace XCharts.Runtime
         /// </summary>
         public AnimationAddition addition { get { return m_Addition; } }
         /// <summary>
+        /// Data hiding animation configuration.
+        /// |数据隐藏动画配置。
+        /// </summary>
+        /// <value></value>
+        public AnimationHiding hiding { get { return m_Hiding; } }
+        /// <summary>
         /// Interaction animation configuration.
         /// |交互动画配置。
         /// </summary>
@@ -135,6 +142,7 @@ namespace XCharts.Runtime
                     m_Animations.Add(m_FadeOut);
                     m_Animations.Add(m_Change);
                     m_Animations.Add(m_Addition);
+                    m_Animations.Add(m_Hiding);
                 }
                 return m_Animations;
             }
@@ -559,6 +567,12 @@ namespace XCharts.Runtime
         public bool IsFadeOut()
         {
             return enable && m_FadeOut.context.start;
+        }
+
+        public bool CanCheckInteract()
+        {
+            return enable && interaction.enable
+                && !IsFadeIn() && !IsFadeOut();
         }
     }
 }

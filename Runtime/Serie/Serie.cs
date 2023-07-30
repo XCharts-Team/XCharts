@@ -1044,7 +1044,7 @@ namespace XCharts.Runtime
         public override void SetVerticesDirty()
         {
             base.SetVerticesDirty();
-            handler.ForceUpdateSerieContext();
+            interactDirty = true;
         }
 
         private bool AnySerieDataVerticesDirty()
@@ -1082,6 +1082,7 @@ namespace XCharts.Runtime
         public bool labelDirty { get; set; }
         public bool titleDirty { get; set; }
         public bool dataDirty { get; set; }
+        public bool interactDirty { get; set; }
 
         private void SetSerieNameDirty()
         {

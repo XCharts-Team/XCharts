@@ -31,6 +31,7 @@ namespace XCharts.Runtime
         {
             var serie = chart.AddSerie<Line>(serieName);
             serie.symbol.show = true;
+            serie.animation.interaction.radius.value = 1.5f;
             for (int i = 0; i < 5; i++)
             {
                 chart.AddData(serie.index, UnityEngine.Random.Range(10, 90));

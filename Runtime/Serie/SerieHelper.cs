@@ -646,7 +646,7 @@ namespace XCharts.Runtime
             if (stateStyle == null)
             {
                 var itemStyle = GetItemStyle(serie, serieData, SerieState.Normal);
-                border = itemStyle.borderWidth != 0 ? itemStyle.borderWidth : serie.lineStyle.GetWidth(theme.serie.lineWidth);
+                border = itemStyle.borderWidth != 0 ? itemStyle.borderWidth : serie.lineStyle.GetWidth(theme.serie.lineWidth) * 1.8f;
                 cornerRadius = itemStyle.cornerRadius;
                 GetColor(ref borderColor, itemStyle.borderColor, itemStyle.borderColor, 1, theme, -1);
                 switch (state)
@@ -667,7 +667,7 @@ namespace XCharts.Runtime
             else
             {
                 var itemStyle = stateStyle.itemStyle;
-                border = itemStyle.borderWidth != 0 ? itemStyle.borderWidth : stateStyle.lineStyle.GetWidth(theme.serie.lineWidth);
+                border = itemStyle.borderWidth != 0 ? itemStyle.borderWidth : stateStyle.lineStyle.GetWidth(theme.serie.lineWidth) * 1.8f;
                 cornerRadius = itemStyle.cornerRadius;
                 GetColor(ref borderColor, stateStyle.itemStyle.borderColor, ColorUtil.clearColor32, 1, theme, -1);
             }

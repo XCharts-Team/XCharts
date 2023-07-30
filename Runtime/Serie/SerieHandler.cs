@@ -132,6 +132,11 @@ namespace XCharts.Runtime
                 serie.ResetInteract();
                 serie.ClearVerticesDirty();
             }
+            if (serie.interactDirty)
+            {
+                serie.interactDirty = false;
+                m_ForceUpdateSerieContext = true;
+            }
             UpdateSerieContextInternal();
         }
 

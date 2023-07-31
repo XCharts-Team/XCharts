@@ -74,6 +74,7 @@ slug: /changelog
 
 日志详情：
 
+* (2023.07.31) 增加`Symbol`的`EmptyTriangle`和`EmptyDiamond`的支持，优化`Symbol`表现效果
 * (2023.07.31) 优化`Line`的默认配置效果
 * (2023.07.27) 增加`Serie`的`minRadius`可设置最小半径
 * (2023.07.26) 增加`MLValue`多样式数值

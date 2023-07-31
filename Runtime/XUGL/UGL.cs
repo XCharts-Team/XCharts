@@ -443,10 +443,15 @@ namespace XUGL
         /// <param name="toColor">渐变色2</param>
         public static void DrawDiamond(VertexHelper vh, Vector3 center, float size, Color32 color, Color32 toColor)
         {
-            var p1 = new Vector2(center.x - size, center.y);
-            var p2 = new Vector2(center.x, center.y + size);
-            var p3 = new Vector2(center.x + size, center.y);
-            var p4 = new Vector2(center.x, center.y - size);
+            DrawDiamond(vh, center, size, size, color, toColor);
+        }
+
+        public static void DrawDiamond(VertexHelper vh, Vector3 center, float xRadius, float yRadius, Color32 color, Color32 toColor)
+        {
+            var p1 = new Vector2(center.x - xRadius, center.y);
+            var p2 = new Vector2(center.x, center.y + yRadius);
+            var p3 = new Vector2(center.x + xRadius, center.y);
+            var p4 = new Vector2(center.x, center.y - yRadius);
             DrawTriangle(vh, p4, p1, p2, color, color, toColor);
             DrawTriangle(vh, p3, p4, p2, color, color, toColor);
         }
@@ -1327,7 +1332,7 @@ namespace XUGL
             if (gap > 0 && isCircle) gap = 0;
             radius -= borderWidth;
             smoothness = (smoothness < 0 ? 2f : smoothness);
-            int segments = (int) ((2 * Mathf.PI * radius) * (Mathf.Abs(toDegree - startDegree) / 360) / smoothness);
+            int segments = (int)((2 * Mathf.PI * radius) * (Mathf.Abs(toDegree - startDegree) / 360) / smoothness);
             if (segments < 1) segments = 1;
             float startAngle = startDegree * Mathf.Deg2Rad;
             float toAngle = toDegree * Mathf.Deg2Rad;
@@ -1520,7 +1525,7 @@ namespace XUGL
             var needSpace = gap != 0;
             var diffAngle = Mathf.Abs(toDegree - startDegree) * Mathf.Deg2Rad;
 
-            int segments = (int) ((2 * Mathf.PI * outsideRadius) * (diffAngle * Mathf.Rad2Deg / 360) / smoothness);
+            int segments = (int)((2 * Mathf.PI * outsideRadius) * (diffAngle * Mathf.Rad2Deg / 360) / smoothness);
             if (segments < 1) segments = 1;
             float startAngle = startDegree * Mathf.Deg2Rad;
             float toAngle = toDegree * Mathf.Deg2Rad;
@@ -1779,7 +1784,7 @@ namespace XUGL
             float lineWidth, Color32 lineColor, float smoothness, Direction dire = Direction.XAxis)
         {
             var dist = Vector3.Distance(sp, ep);
-            var segment = (int) (dist / (smoothness <= 0 ? 2f : smoothness));
+            var segment = (int)(dist / (smoothness <= 0 ? 2f : smoothness));
             UGLHelper.GetBezierList2(ref s_CurvesPosList, sp, ep, segment, cp1, cp2);
             DrawCurvesInternal(vh, s_CurvesPosList, lineWidth, lineColor, dire);
         }
@@ -1801,15 +1806,15 @@ namespace XUGL
             bool closed = false)
         {
             var count = points.Count;
-            var size = (closed?count : count - 1);
+            var size = (closed ? count : count - 1);
             if (closed)
                 dire = Direction.Random;
             for (int i = 0; i < size; i++)
             {
                 var sp = points[i];
-                var ep = closed?(i == size - 1 ? points[0] : points[i + 1]) : points[i + 1];
-                var lsp = i > 0 ? points[i - 1] : (closed?points[count - 1] : sp);
-                var nep = i < points.Count - 2 ? points[i + 2] : (closed?points[(i + 2) % count] : ep);
+                var ep = closed ? (i == size - 1 ? points[0] : points[i + 1]) : points[i + 1];
+                var lsp = i > 0 ? points[i - 1] : (closed ? points[count - 1] : sp);
+                var nep = i < points.Count - 2 ? points[i + 2] : (closed ? points[(i + 2) % count] : ep);
                 var smoothness2 = smoothness;
                 if (currProgress != float.NaN)
                 {

@@ -31,7 +31,7 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_Show = true;
         [SerializeField] private LineType m_LineType = LineType.BrokenLine;
         [SerializeField] private Color32 m_LineColor = ChartConst.clearColor32;
-        [SerializeField] private float m_LineAngle = 0;
+        [SerializeField] private float m_LineAngle = 60;
         [SerializeField] private float m_LineWidth = 1.0f;
         [SerializeField] private float m_LineGap = 1.0f;
         [SerializeField] private float m_LineLength1 = 25f;
@@ -44,7 +44,7 @@ namespace XCharts.Runtime
             m_Show = false;
             m_LineType = LineType.BrokenLine;
             m_LineColor = Color.clear;
-            m_LineAngle = 0;
+            m_LineAngle = 60;
             m_LineWidth = 1.0f;
             m_LineGap = 1.0f;
             m_LineLength1 = 25f;

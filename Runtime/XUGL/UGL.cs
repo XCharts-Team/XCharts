@@ -1971,5 +1971,40 @@ namespace XUGL
                 vh.AddTriangle(cv, cv + i - 1, cv + i);
             }
         }
+
+        /// <summary>
+        /// Draw plus sign.
+        /// |绘制加号
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        /// <param name="tickness"></param>
+        /// <param name="color"></param>
+        public static void DrawPlus(VertexHelper vh, Vector3 center, float radius, float tickness, Color32 color)
+        {
+            var xPos1 = new Vector3(center.x - radius, center.y);
+            var xPos2 = new Vector3(center.x + radius, center.y);
+            var yPos1 = new Vector3(center.x, center.y - radius);
+            var yPos2 = new Vector3(center.x, center.y + radius);
+            UGL.DrawLine(vh, xPos1, xPos2, tickness, color);
+            UGL.DrawLine(vh, yPos1, yPos2, tickness, color);
+        }
+
+        /// <summary>
+        /// Draw minus sign.
+        /// |绘制减号
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        /// <param name="tickness"></param>
+        /// <param name="color"></param>
+        public static void DrawMinus(VertexHelper vh, Vector3 center, float radius, float tickness, Color32 color)
+        {
+            var xPos1 = new Vector3(center.x - radius, center.y);
+            var xPos2 = new Vector3(center.x + radius, center.y);
+            UGL.DrawLine(vh, xPos1, xPos2, tickness, color);
+        }
     }
 }

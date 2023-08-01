@@ -136,6 +136,20 @@ namespace XCharts.Runtime
                             arrowOffset, arrowDent, backgroundColor);
                     }
                     break;
+                case SymbolType.Plus:
+                    if (gap > 0)
+                    {
+                        UGL.DrawPlus(vh, pos, symbolSize + gap, tickness + gap, backgroundColor);
+                    }
+                    UGL.DrawPlus(vh, pos, symbolSize, tickness, color);
+                    break;
+                case SymbolType.Minus:
+                    if (gap > 0)
+                    {
+                        UGL.DrawMinus(vh, pos, symbolSize + gap, tickness + gap, backgroundColor);
+                    }
+                    UGL.DrawMinus(vh, pos, symbolSize, tickness, color);
+                    break;
             }
         }
 

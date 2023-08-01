@@ -57,7 +57,15 @@ namespace XCharts.Runtime
         /// <summary>
         /// 空心箭头。
         /// </summary>
-        EmptyArrow
+        EmptyArrow,
+        /// <summary>
+        /// 加号。
+        /// </summary>
+        Plus,
+        /// <summary>
+        /// 减号。
+        /// </summary>
+        Minus,
     }
 
     /// <summary>

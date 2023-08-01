@@ -1160,7 +1160,7 @@ The interface for serie data component.
 |show|true||Whether the label line is showed.
 |lineType|||the type of visual guide line.<br/>`LabelLine.LineType`:<br/>- `BrokenLine`: 折线<br/>- `Curves`: 曲线<br/>- `HorizontalLine`: 水平线<br/>|
 |lineColor|Color32(0,0,0,0)||the color of visual guild line.
-|lineAngle|0||the angle of visual guild line.
+|lineAngle|60||the angle of visual guild line.
 |lineWidth|1.0f||the width of visual guild line.
 |lineGap|1.0f||the gap of container and guild line.
 |lineLength1|25f||The length of the first segment of visual guide line.
@@ -1979,7 +1979,7 @@ the state style of serie.
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Whether the symbol is showed.
-|type|||the type of symbol.<br/>`SymbolType`:<br/>- `None`: 不显示标记。<br/>- `Custom`: 自定义标记。<br/>- `Circle`: 圆形。<br/>- `EmptyCircle`: 空心圆。<br/>- `Rect`: 正方形。可通过设置`itemStyle`的`cornerRadius`变成圆角矩形。<br/>- `EmptyRect`: 空心正方形。<br/>- `Triangle`: 三角形。<br/>- `EmptyTriangle`: 空心三角形。<br/>- `Diamond`: 菱形。<br/>- `EmptyDiamond`: 空心菱形。<br/>- `Arrow`: 箭头。<br/>- `EmptyArrow`: 空心箭头。<br/>|
+|type|||the type of symbol.<br/>`SymbolType`:<br/>- `None`: 不显示标记。<br/>- `Custom`: 自定义标记。<br/>- `Circle`: 圆形。<br/>- `EmptyCircle`: 空心圆。<br/>- `Rect`: 正方形。可通过设置`itemStyle`的`cornerRadius`变成圆角矩形。<br/>- `EmptyRect`: 空心正方形。<br/>- `Triangle`: 三角形。<br/>- `EmptyTriangle`: 空心三角形。<br/>- `Diamond`: 菱形。<br/>- `EmptyDiamond`: 空心菱形。<br/>- `Arrow`: 箭头。<br/>- `EmptyArrow`: 空心箭头。<br/>- `Plus`: 加号。<br/>- `Minus`: 减号。<br/>|
 |size|0f||the size of symbol.
 |gap|0||the gap of symbol and line segment.
 |width|0f||图形的宽。

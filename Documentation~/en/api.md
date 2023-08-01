@@ -668,6 +668,7 @@ slug: /api
 |SetColor()||public void SetColor(ref bool needInteract, Color32 color)|
 |SetColor()||public void SetColor(ref bool needInteract, Color32 color, Color32 toColor)|
 |SetPosition()||public void SetPosition(ref bool needInteract, Vector3 pos)|
+|SetValue()||public void SetValue(float value)|
 |SetValue()||public void SetValue(ref bool needInteract, float value)|
 |SetValue()||public void SetValue(ref bool needInteract, float value, bool highlight, float rate = 1.3f)|
 |SetValueAndColor()||public void SetValueAndColor(ref bool needInteract, float value, Color32 color)|
@@ -1051,6 +1052,7 @@ the data of serie event.
 |DrawSerie()||public virtual void DrawSerie(VertexHelper vh) { }|
 |DrawTop()||public virtual void DrawTop(VertexHelper vh) { }|
 |DrawUpper()||public virtual void DrawUpper(VertexHelper vh) { }|
+|ForceUpdateSerieContext()||public virtual void ForceUpdateSerieContext() { }|
 |InitComponent()||public virtual void InitComponent() { }|
 |OnBeginDrag()||public virtual void OnBeginDrag(PointerEventData eventData) { }|
 |OnDrag()||public virtual void OnDrag(PointerEventData eventData) { }|
@@ -1081,6 +1083,7 @@ the data of serie event.
 |public method|since|description|
 |--|--|--|
 |DrawLabelLineSymbol()||public void DrawLabelLineSymbol(VertexHelper vh, LabelLine labelLine, Vector3 startPos, Vector3 endPos, Color32 defaultColor)|
+|ForceUpdateSerieContext()||public override void ForceUpdateSerieContext()|
 |GetPointerItemDataDimension()||public override int GetPointerItemDataDimension()|
 |GetPointerItemDataIndex()||public override int GetPointerItemDataIndex()|
 |GetSerieDataAutoColor()||public virtual Color GetSerieDataAutoColor(SerieData serieData)|
@@ -1297,10 +1300,13 @@ UGUI Graphics Library.
 |--|--|--|
 |DrawDiamond()||public static void DrawDiamond(VertexHelper vh, Vector3 center, float size, Color32 color)<br/>Draw a diamond. 画菱形（钻石形状） |
 |DrawDiamond()||public static void DrawDiamond(VertexHelper vh, Vector3 center, float size, Color32 color, Color32 toColor)<br/>Draw a diamond. 画菱形（钻石形状） |
+|DrawDiamond()||public static void DrawDiamond(VertexHelper vh, Vector3 center, float xRadius, float yRadius, Color32 color, Color32 toColor)|
 |DrawEllipse()||public static void DrawEllipse(VertexHelper vh, Vector3 center, float w, float h, Color32 color, float smoothness = 1)|
 |DrawLine()||public static void DrawLine(VertexHelper vh, List&lt;Vector3&gt; points, float width, Color32 color, bool smooth, bool closepath = false)|
 |DrawLine()||public static void DrawLine(VertexHelper vh, Vector3 startPoint, Vector3 endPoint, float width, Color32 color)<br/>Draw a line. 画直线 |
 |DrawLine()||public static void DrawLine(VertexHelper vh, Vector3 startPoint, Vector3 endPoint, float width, Color32 color, Color32 toColor)<br/>Draw a line. 画直线 |
+|DrawMinus()||public static void DrawMinus(VertexHelper vh, Vector3 center, float radius, float tickness, Color32 color)<br/>Draw minus sign. |
+|DrawPlus()||public static void DrawPlus(VertexHelper vh, Vector3 center, float radius, float tickness, Color32 color)<br/>Draw plus sign. |
 |DrawPolygon()||public static void DrawPolygon(VertexHelper vh, List&lt;Vector3&gt; points, Color32 color)<br/>填充任意多边形（目前只支持凸多边形） |
 |DrawRectangle()||public static void DrawRectangle(VertexHelper vh, Rect rect, Color32 color)|
 |DrawRectangle()||public static void DrawRectangle(VertexHelper vh, Rect rect, Color32 color, Color32 toColor)|

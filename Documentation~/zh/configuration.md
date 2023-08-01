@@ -1160,7 +1160,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |show|true||是否显示视觉引导线。
 |lineType|||视觉引导线类型。<br/>`LabelLine.LineType`:<br/>- `BrokenLine`: 折线<br/>- `Curves`: 曲线<br/>- `HorizontalLine`: 水平线<br/>|
 |lineColor|Color32(0,0,0,0)||视觉引导线颜色。默认和serie一致取自调色板。
-|lineAngle|0||视觉引导线的固定角度。对折线和曲线有效。
+|lineAngle|60||视觉引导线的固定角度。对折线和曲线有效。
 |lineWidth|1.0f||视觉引导线的宽度。
 |lineGap|1.0f||视觉引导线和容器的间距。
 |lineLength1|25f||视觉引导线第一段的长度。
@@ -1979,7 +1979,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否显示标记。
-|type|||标记类型。<br/>`SymbolType`:<br/>- `None`: 不显示标记。<br/>- `Custom`: 自定义标记。<br/>- `Circle`: 圆形。<br/>- `EmptyCircle`: 空心圆。<br/>- `Rect`: 正方形。可通过设置`itemStyle`的`cornerRadius`变成圆角矩形。<br/>- `EmptyRect`: 空心正方形。<br/>- `Triangle`: 三角形。<br/>- `EmptyTriangle`: 空心三角形。<br/>- `Diamond`: 菱形。<br/>- `EmptyDiamond`: 空心菱形。<br/>- `Arrow`: 箭头。<br/>- `EmptyArrow`: 空心箭头。<br/>|
+|type|||标记类型。<br/>`SymbolType`:<br/>- `None`: 不显示标记。<br/>- `Custom`: 自定义标记。<br/>- `Circle`: 圆形。<br/>- `EmptyCircle`: 空心圆。<br/>- `Rect`: 正方形。可通过设置`itemStyle`的`cornerRadius`变成圆角矩形。<br/>- `EmptyRect`: 空心正方形。<br/>- `Triangle`: 三角形。<br/>- `EmptyTriangle`: 空心三角形。<br/>- `Diamond`: 菱形。<br/>- `EmptyDiamond`: 空心菱形。<br/>- `Arrow`: 箭头。<br/>- `EmptyArrow`: 空心箭头。<br/>- `Plus`: 加号。<br/>- `Minus`: 减号。<br/>|
 |size|0f||标记的大小。
 |gap|0||图形标记和线条的间隙距离。
 |width|0f||图形的宽。

@@ -17,6 +17,7 @@ namespace XCharts.Runtime
         public virtual void CheckComponent(StringBuilder sb) { }
         public virtual void BeforeUpdate() { }
         public virtual void Update() { }
+        public virtual void AfterUpdate() { }
         public virtual void DrawBase(VertexHelper vh) { }
         public virtual void DrawSerie(VertexHelper vh) { }
         public virtual void DrawUpper(VertexHelper vh) { }
@@ -69,6 +70,7 @@ namespace XCharts.Runtime
         private float[] m_LastCenter = new float[2] { 0, 0 };
         private bool m_LastPointerEnter;
         private int m_LastPointerDataIndex;
+        private int m_LastPointerDataDimension;
 
         public T serie { get; internal set; }
         public GameObject labelObject { get { return m_SerieLabelRoot; } }
@@ -85,6 +87,9 @@ namespace XCharts.Runtime
         {
             m_LastPointerEnter = serie.context.pointerEnter;
             m_LastPointerDataIndex = serie.context.pointerItemDataIndex;
+            m_LastPointerDataDimension = GetPointerItemDataDimension();
+            serie.context.pointerEnter = false;
+            serie.context.pointerItemDataIndex = -1;
         }
 
         public override void Update()
@@ -146,6 +151,10 @@ namespace XCharts.Runtime
                 serie.interactDirty = false;
                 m_ForceUpdateSerieContext = true;
             }
+        }
+
+        public override void AfterUpdate()
+        {
             UpdateSerieContextInternal();
         }
 
@@ -176,25 +185,34 @@ namespace XCharts.Runtime
             m_ForceUpdateSerieContext = false;
             if (m_LastPointerEnter != serie.context.pointerEnter || m_LastPointerDataIndex != serie.context.pointerItemDataIndex)
             {
-
                 if (chart.onSerieEnter != null || chart.onSerieExit != null || serie.onEnter != null || serie.onExit != null)
                 {
-                    var dataIndex = GetPointerItemDataIndex();
-                    var dimension = GetPointerItemDataDimension();
-                    var value = serie.GetData(dataIndex, dimension);
-                    var data = SerieEventDataPool.Get(chart.pointerPos, serie.index, dataIndex, dimension, value);
                     if (serie.context.pointerEnter)
                     {
-                        if (serie.onEnter != null) serie.onEnter(data);
-                        if (chart.onSerieEnter != null) chart.onSerieEnter(data);
+                        if ((serie.onExit != null || chart.onSerieExit != null) && m_LastPointerDataIndex >= 0)
+                        {
+                            var dataValue = serie.GetData(m_LastPointerDataIndex, m_LastPointerDataDimension);
+                            var exitEventData = SerieEventDataPool.Get(chart.pointerPos, serie.index, m_LastPointerDataIndex, m_LastPointerDataDimension, dataValue);
+                            if (serie.onExit != null) serie.onExit(exitEventData);
+                            if (chart.onSerieExit != null) chart.onSerieExit(exitEventData);
+                            SerieEventDataPool.Release(exitEventData);
+                        }
+                        var dataIndex = GetPointerItemDataIndex();
+                        var dimension = GetPointerItemDataDimension();
+                        var value = serie.GetData(dataIndex, dimension);
+                        var enterEventData = SerieEventDataPool.Get(chart.pointerPos, serie.index, dataIndex, dimension, value);
+                        if (serie.onEnter != null) serie.onEnter(enterEventData);
+                        if (chart.onSerieEnter != null) chart.onSerieEnter(enterEventData);
+                        SerieEventDataPool.Release(enterEventData);
                     }
-                    else
+                    else if (m_LastPointerDataIndex >= 0)
                     {
-                        data.dataIndex = m_LastPointerDataIndex;
-                        if (serie.onExit != null) serie.onExit(data);
-                        if (chart.onSerieExit != null) chart.onSerieExit(data);
+                        var dataValue = serie.GetData(m_LastPointerDataIndex, m_LastPointerDataDimension);
+                        var exitEventData = SerieEventDataPool.Get(chart.pointerPos, serie.index, m_LastPointerDataIndex, m_LastPointerDataDimension, dataValue);
+                        if (serie.onExit != null) serie.onExit(exitEventData);
+                        if (chart.onSerieExit != null) chart.onSerieExit(exitEventData);
+                        SerieEventDataPool.Release(exitEventData);
                     }
-                    SerieEventDataPool.Release(data);
                 }
             }
         }

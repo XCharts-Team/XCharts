@@ -13,9 +13,8 @@ namespace XCharts.Runtime
         private GridCoord m_SerieGrid;
         private float[] m_CapusleDefaultCornerRadius = new float[] { 1, 1, 1, 1 };
 
-        public override void Update()
+        public override void UpdateSerieContext()
         {
-            base.Update();
             if (serie.IsUseCoord<GridCoord>())
                 UpdateSerieGridContext();
             else if (serie.IsUseCoord<PolarCoord>())

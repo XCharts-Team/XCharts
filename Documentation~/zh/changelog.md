@@ -72,9 +72,11 @@ slug: /changelog
 * 重构和完善动画系统，增加`新增动画`和`交互动画`的支持
 * 完善`PieChart`的动画交互表现
 * 增加`Symbol`的`EmptyTriangle`、`EmptyDiamond`、`Plus`、`Minus`四种新标记
+* 完善图表的交互回调
 
 日志详情：
 
+* (2023.08.03) 完善`Chart`的`onSerieEnter`，`onSerieExit`和`onSerieClick`回调
 * (2023.08.02) 修复`BarChart`的`onSerieEnter`和`onSerieExit`回调无效的问题
 * (2023.08.02) 增加`Symbol`的`Plus`加号和`Minus`减号的支持
 * (2023.07.31) 增加`Symbol`的`EmptyTriangle`和`EmptyDiamond`的支持，优化`Symbol`表现效果

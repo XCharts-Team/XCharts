@@ -502,7 +502,9 @@ namespace XCharts.Runtime
                     var axis = component as Axis;
                     if (axis.gridIndex == gridIndex && axis.IsCategory())
                     {
-                        dataIndex = axis.context.dataZoomStartIndex + (int)axis.context.pointerValue;
+                        dataIndex = double.IsNaN(axis.context.pointerValue)
+                            ? axis.context.dataZoomStartIndex
+                            : axis.context.dataZoomStartIndex + (int)axis.context.pointerValue;
                         category = axis.GetData(dataIndex);
                         return true;
                     }

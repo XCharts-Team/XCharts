@@ -15,6 +15,7 @@ namespace XCharts.Runtime
         public virtual void InitComponent() { }
         public virtual void RemoveComponent() { }
         public virtual void CheckComponent(StringBuilder sb) { }
+        public virtual void BeforeUpdate() { }
         public virtual void Update() { }
         public virtual void DrawBase(VertexHelper vh) { }
         public virtual void DrawSerie(VertexHelper vh) { }
@@ -66,6 +67,8 @@ namespace XCharts.Runtime
 
         private float[] m_LastRadius = new float[2] { 0, 0 };
         private float[] m_LastCenter = new float[2] { 0, 0 };
+        private bool m_LastPointerEnter;
+        private int m_LastPointerDataIndex;
 
         public T serie { get; internal set; }
         public GameObject labelObject { get { return m_SerieLabelRoot; } }
@@ -76,6 +79,12 @@ namespace XCharts.Runtime
             this.serie.context.param.serieType = typeof(T);
             m_NeedInitComponent = true;
             AnimationStyleHelper.UpdateSerieAnimation(serie);
+        }
+
+        public override void BeforeUpdate()
+        {
+            m_LastPointerEnter = serie.context.pointerEnter;
+            m_LastPointerDataIndex = serie.context.pointerItemDataIndex;
         }
 
         public override void Update()
@@ -163,12 +172,11 @@ namespace XCharts.Runtime
 
         private void UpdateSerieContextInternal()
         {
-            var lastEnter = serie.context.pointerEnter;
-            var lastDataIndex = serie.context.pointerItemDataIndex;
             UpdateSerieContext();
             m_ForceUpdateSerieContext = false;
-            if (lastEnter != serie.context.pointerEnter || lastDataIndex != serie.context.pointerItemDataIndex)
+            if (m_LastPointerEnter != serie.context.pointerEnter || m_LastPointerDataIndex != serie.context.pointerItemDataIndex)
             {
+
                 if (chart.onSerieEnter != null || chart.onSerieExit != null || serie.onEnter != null || serie.onExit != null)
                 {
                     var dataIndex = GetPointerItemDataIndex();
@@ -182,7 +190,7 @@ namespace XCharts.Runtime
                     }
                     else
                     {
-                        data.dataIndex = lastDataIndex;
+                        data.dataIndex = m_LastPointerDataIndex;
                         if (serie.onExit != null) serie.onExit(data);
                         if (chart.onSerieExit != null) chart.onSerieExit(data);
                     }

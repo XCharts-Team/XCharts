@@ -1165,6 +1165,7 @@ The interface for serie data component.
 |lineGap|1.0f||the gap of container and guild line.
 |lineLength1|25f||The length of the first segment of visual guide line.
 |lineLength2|15f||The length of the second segment of visual guide line.
+|lineEndX|0f|v3.8.0|The fixed x position of the end point of visual guide line.
 |startSymbol|||The symbol of the start point of labelline. [SymbolStyle](#symbolstyle)|
 |endSymbol|||The symbol of the end point of labelline. [SymbolStyle](#symbolstyle)|
 

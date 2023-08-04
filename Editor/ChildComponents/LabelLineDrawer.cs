@@ -21,6 +21,7 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_LineGap");
                 PropertyField(prop, "m_LineLength1");
                 PropertyField(prop, "m_LineLength2");
+                PropertyField(prop, "m_LineEndX");
                 PropertyField(prop, "m_StartSymbol");
                 PropertyField(prop, "m_EndSymbol");
                 --EditorGUI.indentLevel;

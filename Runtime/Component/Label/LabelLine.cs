@@ -36,6 +36,7 @@ namespace XCharts.Runtime
         [SerializeField] private float m_LineGap = 1.0f;
         [SerializeField] private float m_LineLength1 = 25f;
         [SerializeField] private float m_LineLength2 = 15f;
+        [SerializeField][Since("v3.8.0")] private float m_LineEndX = 0f;
         [SerializeField] private SymbolStyle m_StartSymbol = new SymbolStyle() { show = false, type = SymbolType.Circle, size = 3 };
         [SerializeField] private SymbolStyle m_EndSymbol = new SymbolStyle() { show = false, type = SymbolType.Circle, size = 3 };
 
@@ -49,6 +50,7 @@ namespace XCharts.Runtime
             m_LineGap = 1.0f;
             m_LineLength1 = 25f;
             m_LineLength2 = 15f;
+            m_LineEndX = 0;
         }
 
         /// <summary>
@@ -124,6 +126,15 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_LineLength2, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// The fixed x position of the end point of visual guide line.
+        /// |视觉引导线结束点的固定x位置。当不为0时，会代替lineLength2设定引导线的x位置。
+        /// </summary>
+        public float lineEndX
+        {
+            get { return m_LineEndX; }
+            set { if (PropertyUtil.SetStruct(ref m_LineEndX, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
         /// The symbol of the start point of labelline.
         /// |起始点的图形标记。
         /// </summary>
@@ -144,12 +155,12 @@ namespace XCharts.Runtime
 
         public Vector3 GetStartSymbolOffset()
         {
-            return m_StartSymbol != null && m_StartSymbol.show? m_StartSymbol.offset3 : Vector3.zero;
+            return m_StartSymbol != null && m_StartSymbol.show ? m_StartSymbol.offset3 : Vector3.zero;
         }
 
         public Vector3 GetEndSymbolOffset()
         {
-            return m_EndSymbol != null && m_EndSymbol.show? m_EndSymbol.offset3 : Vector3.zero;
+            return m_EndSymbol != null && m_EndSymbol.show ? m_EndSymbol.offset3 : Vector3.zero;
         }
     }
 }

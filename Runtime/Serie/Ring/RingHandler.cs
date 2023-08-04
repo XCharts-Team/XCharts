@@ -445,7 +445,6 @@ namespace XCharts.Runtime
                     ChartHelper.GetHighlightColor(defaltColor, 0.9f) :
                     labelLine.lineColor;
                 var isRight = !serie.clockwise;
-                var dire = isRight ? Vector3.right : Vector3.left;
                 var rad = Mathf.Deg2Rad * (isRight ? labelLine.lineAngle : 180 - labelLine.lineAngle);
                 var lineLength1 = ChartHelper.GetActualValue(labelLine.lineLength1, serie.context.outsideRadius);
                 var pos1 = serieData.context.labelLinePosition;

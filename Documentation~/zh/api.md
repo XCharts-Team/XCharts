@@ -1047,6 +1047,8 @@ serie事件的数据。
 
 |public method|since|description|
 |--|--|--|
+|AfterUpdate()||public virtual void AfterUpdate() { }|
+|BeforeUpdate()||public virtual void BeforeUpdate() { }|
 |CheckComponent()||public virtual void CheckComponent(StringBuilder sb) { }|
 |DrawBase()||public virtual void DrawBase(VertexHelper vh) { }|
 |DrawSerie()||public virtual void DrawSerie(VertexHelper vh) { }|
@@ -1082,6 +1084,8 @@ serie事件的数据。
 
 |public method|since|description|
 |--|--|--|
+|AfterUpdate()||public override void AfterUpdate()|
+|BeforeUpdate()||public override void BeforeUpdate()|
 |DrawLabelLineSymbol()||public void DrawLabelLineSymbol(VertexHelper vh, LabelLine labelLine, Vector3 startPos, Vector3 endPos, Color32 defaultColor)|
 |ForceUpdateSerieContext()||public override void ForceUpdateSerieContext()|
 |GetPointerItemDataDimension()||public override int GetPointerItemDataDimension()|

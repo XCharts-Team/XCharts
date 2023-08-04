@@ -76,6 +76,8 @@ slug: /changelog
 
 日志详情：
 
+* (2023.08.04) 增加`LabelLine`的`lineEndX`可设置引导线固定X位置的支持
+* (2023.08.04) 增加`Ring`的`avoidLabelOverlap`避免文本堆叠的支持 (#247)
 * (2023.08.03) 完善`Chart`的`onSerieEnter`，`onSerieExit`和`onSerieClick`回调
 * (2023.08.02) 修复`BarChart`的`onSerieEnter`和`onSerieExit`回调无效的问题
 * (2023.08.02) 增加`Symbol`的`Plus`加号和`Minus`减号的支持

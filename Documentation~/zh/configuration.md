@@ -1165,6 +1165,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |lineGap|1.0f||视觉引导线和容器的间距。
 |lineLength1|25f||视觉引导线第一段的长度。
 |lineLength2|15f||视觉引导线第二段的长度。
+|lineEndX|0f|v3.8.0|视觉引导线结束点的固定x位置。当不为0时，会代替lineLength2设定引导线的x位置。
 |startSymbol|||起始点的图形标记。 [SymbolStyle](#symbolstyle)|
 |endSymbol|||结束点的图形标记。 [SymbolStyle](#symbolstyle)|
 

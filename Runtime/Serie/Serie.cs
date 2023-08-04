@@ -1463,7 +1463,8 @@ namespace XCharts.Runtime
             serieData.name = name;
             serieData.index = m_Data.Count;
             serieData.id = id;
-            serieData.data = new List<double>() { m_Data.Count, value };
+            serieData.data.Add(m_Data.Count);
+            serieData.data.Add(value);
             AddChildData(parent, serieData);
             return serieData;
         }
@@ -1474,7 +1475,7 @@ namespace XCharts.Runtime
             serieData.name = name;
             serieData.index = m_Data.Count;
             serieData.id = id;
-            serieData.data = new List<double>(value);
+            serieData.data.AddRange(value);
             AddChildData(parent, serieData);
             return serieData;
         }

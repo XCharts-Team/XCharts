@@ -53,7 +53,7 @@ namespace XCharts.Example
             legend.orient = Orient.Vertical;
 
             chart.RemoveData();
-            serie = chart.AddSerie<Bar>("访问来源");
+            serie = chart.AddSerie<Pie>("访问来源");
             serie.radius[0] = 0;
             serie.radius[1] = 110;
             serie.center[0] = 0.5f;

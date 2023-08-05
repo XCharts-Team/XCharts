@@ -9,7 +9,7 @@ using Input = XCharts.Runtime.InputHelper;
 namespace XCharts.Example
 {
     [DisallowMultipleComponent]
-    //[ExecuteInEditMode]
+    [RequireComponent(typeof(BaseChart))]
     public class Example_RandomData : MonoBehaviour
     {
         public bool loopAdd = false;

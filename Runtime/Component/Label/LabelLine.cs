@@ -81,8 +81,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_LineColor, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// the angle of visual guild line.
-        /// |视觉引导线的固定角度。对折线和曲线有效。
+        /// the angle of visual guild line. Valid for broken line and curve line. Invalid in Pie.
+        /// |视觉引导线的固定角度。对折线和曲线有效。在Pie中无效。
         /// </summary>
         public float lineAngle
         {

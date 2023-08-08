@@ -111,6 +111,8 @@ namespace XCharts.Runtime
 
         private Vector3 GetLabelLineEndPosition(Serie serie, SerieData serieData, LabelLine labelLine)
         {
+            if (labelLine == null || !labelLine.show) 
+                return serieData.context.labelLinePosition;
             var isRight = !serie.clockwise;
             var dire = isRight ? Vector3.right : Vector3.left;
             var rad = Mathf.Deg2Rad * (isRight ? labelLine.lineAngle : 180 - labelLine.lineAngle);

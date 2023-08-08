@@ -564,7 +564,7 @@ namespace XCharts.Runtime
             m_EndLabel.isAnimationEnd = serie.animation.IsFinish();
         }
 
-        private void UpdateLabelPosition(SerieData serieData, LabelStyle currLabel)
+        protected void UpdateLabelPosition(SerieData serieData, LabelStyle currLabel)
         {
             var labelPosition = GetSerieDataLabelPosition(serieData, currLabel);
             var offset = GetSerieDataLabelOffset(serieData, currLabel);

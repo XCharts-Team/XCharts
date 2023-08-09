@@ -387,7 +387,8 @@ namespace XCharts
                     new Vector2(textWidth, textHeight),
                     axis, chart.theme.axis, labelName,
                     Color.clear,
-                    defaultAlignment);
+                    defaultAlignment,
+                    chart.theme.GetColor(i));
 
                 if (i == 0)
                     axis.axisLabel.SetRelatedText(label.text, labelWidth);

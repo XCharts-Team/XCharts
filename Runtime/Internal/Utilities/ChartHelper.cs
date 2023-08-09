@@ -370,12 +370,12 @@ namespace XCharts.Runtime
 
         public static ChartLabel AddAxisLabelObject(int total, int index, string name, Transform parent,
             Vector2 sizeDelta, Axis axis, ComponentTheme theme,
-            string content, Color autoColor, TextAnchor autoAlignment = TextAnchor.MiddleCenter)
+            string content, Color autoColor, TextAnchor autoAlignment = TextAnchor.MiddleCenter, Color32 iconDefaultColor = default(Color32))
         {
             var textStyle = axis.axisLabel.textStyle;
             var label = AddChartLabel(name, parent, axis.axisLabel, theme, content, autoColor, autoAlignment);
             var labelShow = axis.IsNeedShowLabel(index, total);
-            label.UpdateIcon(axis.axisLabel.icon, axis.GetIcon(index));
+            label.UpdateIcon(axis.axisLabel.icon, axis.GetIcon(index), iconDefaultColor);
             label.text.SetActive(labelShow);
             return label;
         }

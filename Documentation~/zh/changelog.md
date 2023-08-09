@@ -76,6 +76,7 @@ slug: /changelog
 
 日志详情：
 
+* (2023.08.09) 增加`Axis`可通过设置`IconStyle`的`color`为`clear`来实现动态图标颜色的支持
 * (2023.08.08) 增加`Pie`对`LabelLine`的`lineEndX`的支持
 * (2023.08.05) 整理`Examples`的代码，删除不必要的用例
 * (2023.08.04) 增加`LabelLine`的`lineEndX`可设置引导线固定X位置的支持

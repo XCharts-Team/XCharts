@@ -71,16 +71,15 @@ namespace XCharts.Runtime
                 case SymbolType.EmptyTriangle:
                     if (gap > 0)
                     {
-                        UGL.DrawTriangle(vh, pos, symbolSize * 1.4f + gap * 2f, backgroundColor);
-                        UGL.DrawTriangle(vh, pos, symbolSize * 1.4f, color, toColor);
+                        UGL.DrawEmptyTriangle(vh, pos, symbolSize * 1.4f + gap * 2, gap * 2, backgroundColor);
+                    }
+                    if (type == SymbolType.EmptyTriangle)
+                    {
+                        UGL.DrawEmptyTriangle(vh, pos, symbolSize * 1.4f, tickness * 2f, color, emptyColor);
                     }
                     else
                     {
                         UGL.DrawTriangle(vh, pos, symbolSize * 1.4f, color, toColor);
-                    }
-                    if (type == SymbolType.EmptyTriangle)
-                    {
-                        UGL.DrawTriangle(vh, pos, symbolSize * 1.4f - tickness * 2, backgroundColor);
                     }
                     break;
                 case SymbolType.Diamond:
@@ -89,16 +88,15 @@ namespace XCharts.Runtime
                     var yRadius = symbolSize * 1.5f;
                     if (gap > 0)
                     {
-                        UGL.DrawDiamond(vh, pos, xRadius + gap, yRadius + gap, backgroundColor, backgroundColor);
-                        UGL.DrawDiamond(vh, pos, xRadius, yRadius, color, toColor);
+                        UGL.DrawEmptyDiamond(vh, pos, xRadius + gap, yRadius + gap, gap, backgroundColor);
+                    }
+                    if (type == SymbolType.EmptyDiamond)
+                    {
+                        UGL.DrawEmptyDiamond(vh, pos, xRadius, yRadius, tickness, color, emptyColor);
                     }
                     else
                     {
                         UGL.DrawDiamond(vh, pos, xRadius, yRadius, color, toColor);
-                    }
-                    if (type == SymbolType.EmptyDiamond)
-                    {
-                        UGL.DrawDiamond(vh, pos, xRadius - tickness, (symbolSize - tickness) * 1.5f, backgroundColor, backgroundColor);
                     }
                     break;
                 case SymbolType.Arrow:

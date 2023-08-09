@@ -456,6 +456,37 @@ namespace XUGL
             DrawTriangle(vh, p3, p4, p2, color, color, toColor);
         }
 
+        public static void DrawEmptyDiamond(VertexHelper vh, Vector3 center, float xRadius, float yRadius, float tickness, Color32 color)
+        {
+            DrawEmptyDiamond(vh, center, xRadius, yRadius, tickness, color, s_ClearColor32);
+        }
+
+        public static void DrawEmptyDiamond(VertexHelper vh, Vector3 center, float xRadius, float yRadius, float tickness, Color32 color, Color32 emptyColor)
+        {
+            var p1 = new Vector2(center.x - xRadius, center.y);
+            var p2 = new Vector2(center.x, center.y + yRadius);
+            var p3 = new Vector2(center.x + xRadius, center.y);
+            var p4 = new Vector2(center.x, center.y - yRadius);
+
+            var xRadius1 = xRadius - tickness;
+            var yRadius1 = yRadius - tickness * 1.5f;
+            var ip1 = new Vector2(center.x - xRadius1, center.y);
+            var ip2 = new Vector2(center.x, center.y + yRadius1);
+            var ip3 = new Vector2(center.x + xRadius1, center.y);
+            var ip4 = new Vector2(center.x, center.y - yRadius1);
+
+            if (!UGLHelper.IsClearColor(emptyColor))
+            {
+                DrawQuadrilateral(vh, ip1, ip2, ip3, ip4, emptyColor);
+            }
+
+            AddVertToVertexHelper(vh, p1, ip1, color, false);
+            AddVertToVertexHelper(vh, p2, ip2, color);
+            AddVertToVertexHelper(vh, p3, ip3, color);
+            AddVertToVertexHelper(vh, p4, ip4, color);
+            AddVertToVertexHelper(vh, p1, ip1, color);
+        }
+
         /// <summary>
         /// Draw a square. 画正方形
         /// </summary>
@@ -1227,6 +1258,38 @@ namespace XUGL
             vh.AddVert(v2);
             vh.AddVert(v3);
             vh.AddTriangle(startIndex, startIndex + 1, startIndex + 2);
+        }
+
+        public static void DrawEmptyTriangle(VertexHelper vh, Vector3 pos, float size, float tickness, Color32 color)
+        {
+            DrawEmptyTriangle(vh, pos, size, tickness, color, s_ClearColor32);
+        }
+
+        public static void DrawEmptyTriangle(VertexHelper vh, Vector3 pos, float size, float tickness, Color32 color, Color32 backgroundColor)
+        {
+            var cos30 = Mathf.Cos(30 * Mathf.PI / 180);
+            var sin30 = Mathf.Sin(30 * Mathf.PI / 180);
+            var x = size * cos30;
+            var y = size * sin30;
+            var outsideLeft = new Vector2(pos.x - x, pos.y - y);
+            var outsideTop = new Vector2(pos.x, pos.y + size);
+            var outsideRight = new Vector2(pos.x + x, pos.y - y);
+
+            var size2 = size - tickness;
+            var x1 = size2 * cos30;
+            var y1 = size2 * sin30;
+            var insideLeft = new Vector2(pos.x - x1, pos.y - y1);
+            var insideTop = new Vector2(pos.x, pos.y + size2);
+            var insideRight = new Vector2(pos.x + x1, pos.y - y1);
+
+            if (!UGLHelper.IsClearColor(backgroundColor))
+            {
+                DrawTriangle(vh, insideLeft, insideTop, insideRight, backgroundColor, backgroundColor, backgroundColor);
+            }
+            AddVertToVertexHelper(vh, outsideLeft, insideLeft, color, false);
+            AddVertToVertexHelper(vh, outsideTop, insideTop, color);
+            AddVertToVertexHelper(vh, outsideRight, insideRight, color);
+            AddVertToVertexHelper(vh, outsideLeft, insideLeft, color);
         }
 
         public static void DrawCricle(VertexHelper vh, Vector3 center, float radius, Color32 color,

@@ -436,14 +436,14 @@ namespace XCharts.Runtime
         public static ItemStyle GetItemStyle(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)
         {
             if (state == SerieState.Auto) state = GetSerieState(serie, serieData);
-            if (state == SerieState.Normal)
+            var stateStyle = GetStateStyle(serie, serieData, state);
+            if (stateStyle == null || !stateStyle.show)
             {
                 return serieData != null && serieData.itemStyle != null ? serieData.itemStyle : serie.itemStyle;
             }
             else
             {
-                var stateStyle = GetStateStyle(serie, serieData, state);
-                return stateStyle == null || !stateStyle.show ? serie.itemStyle : stateStyle.itemStyle;
+                return stateStyle.itemStyle;
             }
         }
 

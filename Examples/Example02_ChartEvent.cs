@@ -80,17 +80,17 @@ namespace XCharts.Example
 
         void OnDraw(VertexHelper vh)
         {
-            Debug.Log("OnDraw");
+            //Debug.Log("OnDraw");
         }
 
         void OnDrawBeforeSerie(VertexHelper vh, Serie serie)
         {
-            Debug.Log("OnDrawBeforeSerie: " + serie.index);
+            //Debug.Log("OnDrawBeforeSerie: " + serie.index);
         }
 
         void OnDrawAfterSerie(VertexHelper vh, Serie serie)
         {
-            Debug.Log("OnDrawAfterSerie: " + serie.index);
+            //Debug.Log("OnDrawAfterSerie: " + serie.index);
             if (serie.index != 0) return;
             var dataPoints = serie.context.dataPoints;
             if (dataPoints.Count > 0)
@@ -107,7 +107,7 @@ namespace XCharts.Example
 
         void OnDrawTop(VertexHelper vh)
         {
-            Debug.Log("OnDrawTop");
+            //Debug.Log("OnDrawTop");
         }
     }
 }

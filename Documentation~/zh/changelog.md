@@ -76,6 +76,7 @@ slug: /changelog
 
 日志详情：
 
+* (2023.08.10) 优化`BarChart`在`Tooltip`的`Trigger`为`Item`时的表现
 * (2023.08.09) 增加`Axis`可通过设置`IconStyle`的`color`为`clear`来实现动态图标颜色的支持
 * (2023.08.08) 增加`Pie`对`LabelLine`的`lineEndX`的支持
 * (2023.08.05) 整理`Examples`的代码，删除不必要的用例

@@ -454,10 +454,10 @@ namespace XCharts.Runtime
             tooltip.context.pointer = chart.pointerPos;
             if (m_PointerContainer is GridCoord)
             {
+                GetAxisCategory(m_PointerContainer.index, ref dataIndex, ref category);
                 if (tooltip.trigger == Tooltip.Trigger.Axis)
                 {
                     isTriggerByAxis = true;
-                    GetAxisCategory(m_PointerContainer.index, ref dataIndex, ref category);
                     if (series.Count <= 1)
                     {
                         showCategory = true;

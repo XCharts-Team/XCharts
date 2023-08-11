@@ -820,6 +820,10 @@ namespace XCharts.Runtime
                 serie.m_FilterMinShow = dataZoom.minShowNum;
                 serie.m_NeedUpdateFilterData = false;
 
+                if(ReferenceEquals(serie.m_FilterData,data))
+                {
+                    serie.m_FilterData = new List<SerieData>();
+                }
                 serie.m_FilterData.Clear();
                 foreach (var serieData in data)
                 {

@@ -76,6 +76,8 @@ slug: /changelog
 
 日志详情：
 
+* (2023.08.11) 修复`DataZoom`开启时可能会导致无法添加数据的问题
+* (2023.08.11) 修复`SerieData`单独设置`ItemStyle`的`itemFormatter`不生效的问题
 * (2023.08.10) 优化`BarChart`在`Tooltip`的`Trigger`为`Item`时的表现
 * (2023.08.09) 增加`Axis`可通过设置`IconStyle`的`color`为`clear`来实现动态图标颜色的支持
 * (2023.08.08) 增加`Pie`对`LabelLine`的`lineEndX`的支持

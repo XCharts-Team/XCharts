@@ -72,8 +72,7 @@ namespace XCharts.Runtime
             var ignoreColumn = string.IsNullOrEmpty(tooltip.ignoreDataDefaultContent);
 
             var titleActive = !string.IsNullOrEmpty(data.title);
-            if (titleActive != title.gameObject.activeSelf)
-                title.gameObject.SetActive(titleActive);
+            ChartHelper.SetActive(title, titleActive);
             title.SetText(data.title);
 
             m_ColumnMaxWidth.Clear();

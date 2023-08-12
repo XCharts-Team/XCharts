@@ -76,6 +76,7 @@ slug: /changelog
 
 日志详情：
 
+* (2023.08.12) 修复`Chart`在运行时被删除时会异常报错的问题 (#269)
 * (2023.08.11) 修复`DataZoom`开启时可能会导致无法添加数据的问题
 * (2023.08.11) 修复`SerieData`单独设置`ItemStyle`的`itemFormatter`不生效的问题
 * (2023.08.10) 优化`BarChart`在`Tooltip`的`Trigger`为`Item`时的表现

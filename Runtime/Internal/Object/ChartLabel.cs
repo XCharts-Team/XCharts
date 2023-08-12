@@ -55,8 +55,15 @@ namespace XCharts.Runtime
 
         protected override void Awake()
         {
+            base.Awake();
             raycastTarget = false;
             SetActive(true);
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            GraphicRegistry.UnregisterGraphicForCanvas(canvas, this);
         }
 
         public void SetTextPadding(TextPadding padding)

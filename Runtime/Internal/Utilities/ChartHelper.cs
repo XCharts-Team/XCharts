@@ -273,7 +273,7 @@ namespace XCharts.Runtime
                 chartText = new ChartText();
 #if dUI_TextMeshPro
             RemoveComponent<Text>(txtObj);
-            chartText.tmpText = GetOrAddComponent<TextMeshProUGUI>(txtObj);
+            chartText.tmpText = EnsureComponent<TextMeshProUGUI>(txtObj);
             chartText.tmpText.font = textStyle.tmpFont == null ? theme.tmpFont : textStyle.tmpFont;
             chartText.tmpText.fontStyle = textStyle.tmpFontStyle;
             chartText.tmpText.richText = true;

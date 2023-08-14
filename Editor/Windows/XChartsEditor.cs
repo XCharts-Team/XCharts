@@ -199,7 +199,9 @@ namespace XCharts.Editor
         const string SYMBOL_TMP = "dUI_TextMeshPro";
         const string ASMDEF_TMP = "Unity.TextMeshPro";
 
+#if !dUI_TextMeshPro
         [MenuItem("XCharts/TextMeshPro Enable")]
+#endif
         public static void EnableTextMeshPro()
         {
             if (!IsSpecifyAssemblyExist(ASMDEF_TMP))
@@ -207,19 +209,39 @@ namespace XCharts.Editor
                 Debug.LogError("TextMeshPro is not in the project, please import TextMeshPro package first.");
                 return;
             }
-            DefineSymbolsUtil.AddGlobalDefine(SYMBOL_TMP);
-            XChartsMgr.RemoveAllChartObject();
-            InsertSpecifyReferenceIntoAssembly(Platform.Editor, ASMDEF_TMP);
-            InsertSpecifyReferenceIntoAssembly(Platform.Runtime, ASMDEF_TMP);
+            if (EditorUtility.DisplayDialog("TextMeshPro Enable", "TextMeshPro is disabled, do you want to enable it?", "Yes", "Cancel"))
+            {
+                DefineSymbolsUtil.AddGlobalDefine(SYMBOL_TMP);
+                XChartsMgr.RemoveAllChartObject();
+                CheckAsmdefTmpReference(true);
+            }
         }
 
+#if dUI_TextMeshPro
         [MenuItem("XCharts/TextMeshPro Disable")]
+#endif
         public static void DisableTextMeshPro()
         {
-            RemoveSpecifyReferenceFromAssembly(Platform.Editor, ASMDEF_TMP);
-            RemoveSpecifyReferenceFromAssembly(Platform.Runtime, ASMDEF_TMP);
-            DefineSymbolsUtil.RemoveGlobalDefine(SYMBOL_TMP);
-            XChartsMgr.RemoveAllChartObject();
+            if (EditorUtility.DisplayDialog("TextMeshPro Disable", "TextMeshPro is enabled, do you want to disable it?", "Yes", "Cancel"))
+            {
+                CheckAsmdefTmpReference(false);
+                DefineSymbolsUtil.RemoveGlobalDefine(SYMBOL_TMP);
+                XChartsMgr.RemoveAllChartObject();
+            }
+        }
+
+        public static void CheckAsmdefTmpReference(bool enable)
+        {
+            if (enable)
+            {
+                InsertSpecifyReferenceIntoAssembly(Platform.Editor, ASMDEF_TMP);
+                InsertSpecifyReferenceIntoAssembly(Platform.Runtime, ASMDEF_TMP);
+            }
+            else
+            {
+                RemoveSpecifyReferenceFromAssembly(Platform.Editor, ASMDEF_TMP);
+                RemoveSpecifyReferenceFromAssembly(Platform.Runtime, ASMDEF_TMP);
+            }
         }
 #endif
         #endregion
@@ -229,7 +251,10 @@ namespace XCharts.Editor
         //As InputSystem is released in 2019.1+ ,when unity version is 2019.1+ , enable InputSystem Support
         const string SYMBOL_I_S = "INPUT_SYSTEM_ENABLED";
         const string ASMDEF_I_S = "Unity.InputSystem";
+
+#if !INPUT_SYSTEM_ENABLED
         [MenuItem("XCharts/InputSystem Enable")]
+#endif
         public static void EnableInputSystem()
         {
             if (!IsSpecifyAssemblyExist(ASMDEF_I_S))
@@ -237,20 +262,37 @@ namespace XCharts.Editor
                 Debug.LogError("InputSystem is not in the project, please import InputSystem package first.");
                 return;
             }
-            // insert input system package into editor and runtime assembly
-            InsertSpecifyReferenceIntoAssembly(Platform.Editor, ASMDEF_I_S);
-            InsertSpecifyReferenceIntoAssembly(Platform.Runtime, ASMDEF_I_S);
-            // add scripting define symbols
-            DefineSymbolsUtil.AddGlobalDefine(SYMBOL_I_S);
+            if (EditorUtility.DisplayDialog("InputSystem Enable", "InputSystem is disabled, do you want to enable it?", "Yes", "Cancel"))
+            {
+                CheckAsmdefInputSystemReference(true);
+                DefineSymbolsUtil.AddGlobalDefine(SYMBOL_I_S);
+            }
         }
+
+#if INPUT_SYSTEM_ENABLED
         [MenuItem("XCharts/InputSystem Disable")]
+#endif
         public static void DisableInputSystem()
         {
-            // remove input system package into editor and runtime assembly
-            RemoveSpecifyReferenceFromAssembly(Platform.Editor, ASMDEF_I_S);
-            RemoveSpecifyReferenceFromAssembly(Platform.Runtime, ASMDEF_I_S);
-            // remove scripting define symbols
-            DefineSymbolsUtil.RemoveGlobalDefine(SYMBOL_I_S);
+            if (EditorUtility.DisplayDialog("InputSystem Disable", "InputSystem is enabled, do you want to disable it?", "Yes", "Cancel"))
+            {
+                CheckAsmdefInputSystemReference(false);
+                DefineSymbolsUtil.RemoveGlobalDefine(SYMBOL_I_S);
+            }
+        }
+
+        public static void CheckAsmdefInputSystemReference(bool enable)
+        {
+            if(enable)
+            {
+                InsertSpecifyReferenceIntoAssembly(Platform.Editor, ASMDEF_I_S);
+                InsertSpecifyReferenceIntoAssembly(Platform.Runtime, ASMDEF_I_S);
+            }
+            else
+            {
+                RemoveSpecifyReferenceFromAssembly(Platform.Editor, ASMDEF_I_S);
+                RemoveSpecifyReferenceFromAssembly(Platform.Runtime, ASMDEF_I_S);
+            }
         }
 #endif
         #endregion

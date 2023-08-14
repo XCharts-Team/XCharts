@@ -1,7 +1,9 @@
 {
     "name": "XCharts.Editor",
     "references": [
-        "XCharts.Runtime"
+        "XCharts.Runtime",
+        "Unity.TextMeshPro",
+        "Unity.InputSystem"
     ],
     "includePlatforms": [
         "Editor"

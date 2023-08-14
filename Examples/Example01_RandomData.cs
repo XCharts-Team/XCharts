@@ -10,7 +10,7 @@ namespace XCharts.Example
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(BaseChart))]
-    public class Example_RandomData : MonoBehaviour
+    public class Example01_RandomData : MonoBehaviour
     {
         public bool loopAdd = false;
         public float loopAddTime = 1f;

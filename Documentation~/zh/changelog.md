@@ -69,13 +69,16 @@ slug: /changelog
 
 版本要点：
 
-* 重构和完善动画系统，增加`新增动画`和`交互动画`的支持
+* 重构`Animation`动画系统，增加`新增动画`和`交互动画`的支持
 * 完善`PieChart`的动画交互表现
 * 增加`Symbol`的`EmptyTriangle`、`EmptyDiamond`、`Plus`、`Minus`四种新标记
-* 完善图表的交互回调
+* 完善`Chart`的鼠标交互回调
+* 增加`LabelLine`可固定横坐标的功能
+* 修复千年老问题：开启TMP后更新版本会报错的问题
 
 日志详情：
 
+* (2023.08.14) 修复`XCharts`本地开启`TextMeshPro`和 `NewInputSystem`后更新版本会报错的问题 (#272)
 * (2023.08.12) 修复`Chart`在运行时被删除时会异常报错的问题 (#269)
 * (2023.08.11) 修复`DataZoom`开启时可能会导致无法添加数据的问题
 * (2023.08.11) 修复`SerieData`单独设置`ItemStyle`的`itemFormatter`不生效的问题

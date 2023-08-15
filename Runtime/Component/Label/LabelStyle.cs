@@ -353,7 +353,14 @@ namespace XCharts.Runtime
             }
             else if (string.IsNullOrEmpty(newNumericFormatter) && !isLog)
             {
-                newNumericFormatter = MathUtil.IsInteger(maxValue) ? "f0" : "f" + MathUtil.GetPrecision(maxValue);
+                if (Math.Abs(maxValue) >= Math.Abs(minValue))
+                {
+                    newNumericFormatter = MathUtil.IsInteger(maxValue) ? "f0" : "f" + MathUtil.GetPrecision(maxValue);
+                }
+                else
+                {
+                    newNumericFormatter = MathUtil.IsInteger(minValue) ? "f0" : "f" + MathUtil.GetPrecision(minValue);
+                }
             }
             if (string.IsNullOrEmpty(m_Formatter))
             {

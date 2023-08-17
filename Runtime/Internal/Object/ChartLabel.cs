@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace XCharts.Runtime
@@ -55,15 +55,8 @@ namespace XCharts.Runtime
 
         protected override void Awake()
         {
-            base.Awake();
             raycastTarget = false;
             SetActive(true);
-        }
-
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            GraphicRegistry.UnregisterGraphicForCanvas(canvas, this);
         }
 
         public void SetTextPadding(TextPadding padding)
@@ -200,11 +193,6 @@ namespace XCharts.Runtime
         public Vector3 GetPosition()
         {
             return transform.localPosition;
-        }
-
-        public override bool IsActive()
-        {
-            return m_Active;
         }
 
         public void SetActive(bool flag)

@@ -195,6 +195,11 @@ namespace XCharts.Runtime
             return transform.localPosition;
         }
 
+        public bool IsActiveByScale()
+        {
+            return m_Active;
+        }
+
         public void SetActive(bool flag)
         {
             m_Active = flag;

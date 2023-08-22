@@ -294,7 +294,7 @@ namespace XCharts.Runtime
             for (int i = 0; i <= currSerie.index; i++)
             {
                 var serie = series[i];
-                if (serie.GetType() == currSerie.GetType() && ChartHelper.IsValueEqualsString(serie.stack, currSerie.stack))
+                if (serie.show && serie.GetType() == currSerie.GetType() && ChartHelper.IsValueEqualsString(serie.stack, currSerie.stack))
                 {
                     dataList.Add(serie.GetDataList(dataZoom));
                 }

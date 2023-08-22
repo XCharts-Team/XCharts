@@ -782,7 +782,7 @@ namespace XCharts.Runtime
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series[i];
-                if (serie is T)
+                if (serie.show && serie is T)
                 {
                     if (serie.barGap != 0)
                     {
@@ -935,6 +935,7 @@ namespace XCharts.Runtime
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series[i];
+                if (!serie.show) continue;
                 if (!(serie is T)) continue;
                 if (string.IsNullOrEmpty(serie.stack))
                 {
@@ -981,7 +982,7 @@ namespace XCharts.Runtime
                 return;
             }
             var attribute = serie.GetType().GetAttribute<SerieHandlerAttribute>();
-            var handler = (SerieHandler) Activator.CreateInstance(attribute.handler);
+            var handler = (SerieHandler)Activator.CreateInstance(attribute.handler);
             handler.attribute = attribute;
             handler.chart = this;
             handler.defaultDimension = 1;

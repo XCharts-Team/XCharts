@@ -406,18 +406,39 @@ namespace XUGL
             if (dist < 0.1f) return;
             if (zebraWidth == 0) zebraWidth = 3 * width;
             if (zebraGap == 0) zebraGap = 3 * width;
-            var allSegment = Mathf.CeilToInt(maxDistance / (zebraWidth + zebraGap));
-            var segment = Mathf.CeilToInt(dist / maxDistance * allSegment);
+            var segment = Mathf.CeilToInt(dist / (zebraWidth + zebraGap)) + 1;
             var dir = (endPoint - startPoint).normalized;
             var sp = startPoint;
             var np = Vector3.zero;
             var isGradient = !color.Equals(toColor);
-            zebraWidth = (maxDistance - zebraGap * (allSegment - 1)) / allSegment;
-            for (int i = 1; i <= segment; i++)
+            var currDist = 0f;
+            for (int i = 0; i <= segment; i++)
             {
-                np = sp + dir * zebraWidth;
-                DrawLine(vh, sp, np, width, isGradient ? Color32.Lerp(color, toColor, i * 1.0f / allSegment) : color);
-                sp = np + dir * zebraGap;
+                if (currDist + zebraWidth + zebraGap <= dist)
+                {
+                    currDist += (zebraWidth + zebraGap);
+                    np = sp + dir * zebraWidth;
+                    DrawLine(vh, sp, np, width, isGradient ? Color32.Lerp(color, toColor, currDist / maxDistance) : color);
+                    sp = np + dir * zebraGap;
+                }
+                else
+                {
+                    if (currDist + zebraWidth <= dist)
+                    {
+                        currDist += zebraWidth;
+                        np = sp + dir * zebraWidth;
+                        DrawLine(vh, sp, np, width, isGradient ? Color32.Lerp(color, toColor, currDist / maxDistance) : color);
+                        if (dist - currDist > 6)
+                        {
+                            DrawLine(vh, endPoint - dir * 2f, endPoint, width, isGradient ? Color32.Lerp(color, toColor, dist / maxDistance) : color);
+                        }
+                    }
+                    else
+                    {
+                        DrawLine(vh, sp, endPoint, width, isGradient ? Color32.Lerp(color, toColor, dist / maxDistance) : color);
+                    }
+                    break;
+                }
             }
         }
 

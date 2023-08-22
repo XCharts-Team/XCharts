@@ -673,7 +673,7 @@ namespace XCharts.Runtime
             }
         }
 
-        public static float GetSysmbolSize(Serie serie, SerieData serieData, float defaultSize, SerieState state = SerieState.Auto)
+        public static float GetSysmbolSize(Serie serie, SerieData serieData, float defaultSize, SerieState state = SerieState.Auto, bool checkAnimation = false)
         {
             if (serie == null) return defaultSize;
             if (state == SerieState.Auto)
@@ -699,7 +699,7 @@ namespace XCharts.Runtime
                 var symbol = stateStyle.symbol;
                 size = symbol.GetSize(serieData == null ? null : serieData.data, defaultSize);
             }
-            if (serieData != null)
+            if (serieData != null && checkAnimation)
             {
                 size = (float)serieData.GetAddAnimationData(0, size, serie.animation.GetAdditionDuration());
             }

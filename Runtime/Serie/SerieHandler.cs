@@ -143,7 +143,6 @@ namespace XCharts.Runtime
             if (serie.vertsDirty)
             {
                 chart.RefreshPainter(serie);
-                serie.ResetInteract();
                 serie.ClearVerticesDirty();
             }
             if (serie.interactDirty)

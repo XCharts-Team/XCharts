@@ -180,7 +180,8 @@ namespace XCharts.Runtime
                 if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting, interactDuration))
                 {
                     symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme.serie.scatterSymbolSize, state);
-                    serieData.interact.SetValue(ref interacting, symbolSize);
+                    serieData.interact.SetValue(ref interacting, symbolSize, true);
+                    serieData.interact.TryGetValue(ref symbolSize, ref interacting, interactDuration);
                 }
 
                 symbolSize *= rate;
@@ -198,7 +199,6 @@ namespace XCharts.Runtime
                 }
                 else
                 {
-                    if (symbolSize > 100) symbolSize = 100;
                     chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, pos,
                         color, toColor, emptyColor, borderColor, symbol.gap, cornerRadius);
                 }

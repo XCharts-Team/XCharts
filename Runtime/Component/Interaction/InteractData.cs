@@ -34,13 +34,13 @@ namespace XCharts.Runtime
             SetValue(ref needInteract, value);
         }
 
-        public void SetValue(ref bool needInteract, float value)
+        public void SetValue(ref bool needInteract, float value, bool previousValueZero = false)
         {
             if (m_TargetValue != value)
             {
                 needInteract = true;
                 if (!m_ValueEnable)
-                    m_PreviousValue = value;
+                    m_PreviousValue = previousValueZero ? 0 : value;
                 else
                     m_PreviousValue = m_CurrentValue;
                 UpdateStart();
@@ -49,19 +49,6 @@ namespace XCharts.Runtime
             else if (m_UpdateFlag)
             {
                 needInteract = true;
-            }
-        }
-
-        public void SetValue(float value)
-        {
-            if (m_TargetValue != value)
-            {
-                if (!m_ValueEnable)
-                    m_PreviousValue = value;
-                else
-                    m_PreviousValue = m_CurrentValue;
-                UpdateStart();
-                m_TargetValue = value;
             }
         }
 

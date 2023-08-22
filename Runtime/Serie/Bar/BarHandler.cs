@@ -25,7 +25,7 @@ namespace XCharts.Runtime
             string marker, string itemFormatter, string numericFormatter, string ignoreDataDefaultContent,
             ref List<SerieParams> paramList, ref string title)
         {
-            UpdateCoordSerieParams(ref paramList, ref title, dataIndex, true, category,
+            UpdateCoordSerieParams(ref paramList, ref title, dataIndex, showCategory, category,
                 marker, itemFormatter, numericFormatter, ignoreDataDefaultContent);
         }
 

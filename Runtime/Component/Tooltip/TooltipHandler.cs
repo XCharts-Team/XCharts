@@ -449,6 +449,7 @@ namespace XCharts.Runtime
             string category = null;
             var showCategory = false;
             var isTriggerByAxis = false;
+            var isTriggerByItem = false;
             var dataIndex = -1;
             tooltip.context.data.param.Clear();
             tooltip.context.pointer = chart.pointerPos;
@@ -466,12 +467,18 @@ namespace XCharts.Runtime
                     else
                         tooltip.context.data.title = category;
                 }
+                else if (tooltip.trigger == Tooltip.Trigger.Item)
+                {
+                    isTriggerByItem = true;
+                    showCategory = series.Count <= 1;
+                }
             }
 
             for (int i = 0; i < series.Count; i++)
             {
                 var serie = series[i];
                 if (!serie.show) continue;
+                if (isTriggerByItem && serie.context.pointerItemDataIndex < 0) continue;
                 serie.context.isTriggerByAxis = isTriggerByAxis;
                 if (isTriggerByAxis && dataIndex >= 0 && serie.context.pointerItemDataIndex < 0)
                     serie.context.pointerItemDataIndex = dataIndex;

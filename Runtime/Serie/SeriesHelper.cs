@@ -306,12 +306,12 @@ namespace XCharts.Runtime
         /// </summary>
         /// <param name="dataZoom"></param>
         /// <param name="axisIndex"></param>
-        /// <param name="minVaule"></param>
+        /// <param name="minValue"></param>
         /// <param name="maxValue"></param>
         public static void GetXMinMaxValue(BaseChart chart, int axisIndex, bool isValueAxis,
-            bool inverse, out double minVaule, out double maxValue, bool isPolar = false, bool filterByDataZoom = true)
+            bool inverse, out double minValue, out double maxValue, bool isPolar = false, bool filterByDataZoom = true)
         {
-            GetMinMaxValue(chart, axisIndex, isValueAxis, inverse, false, out minVaule, out maxValue, isPolar, filterByDataZoom);
+            GetMinMaxValue(chart, axisIndex, isValueAxis, inverse, false, out minValue, out maxValue, isPolar, filterByDataZoom);
         }
 
         /// <summary>
@@ -319,19 +319,19 @@ namespace XCharts.Runtime
         /// </summary>
         /// <param name="dataZoom"></param>
         /// <param name="axisIndex"></param>
-        /// <param name="minVaule"></param>
+        /// <param name="minValue"></param>
         /// <param name="maxValue"></param>
         public static void GetYMinMaxValue(BaseChart chart, int axisIndex, bool isValueAxis,
-            bool inverse, out double minVaule, out double maxValue, bool isPolar = false, bool filterByDataZoom = true)
+            bool inverse, out double minValue, out double maxValue, bool isPolar = false, bool filterByDataZoom = true)
         {
-            GetMinMaxValue(chart, axisIndex, isValueAxis, inverse, true, out minVaule, out maxValue, isPolar, filterByDataZoom);
+            GetMinMaxValue(chart, axisIndex, isValueAxis, inverse, true, out minValue, out maxValue, isPolar, filterByDataZoom);
         }
 
         private static Dictionary<int, List<Serie>> _stackSeriesForMinMax = new Dictionary<int, List<Serie>>();
         private static Dictionary<int, double> _serieTotalValueForMinMax = new Dictionary<int, double>();
         private static DataZoom xDataZoom, yDataZoom;
         public static void GetMinMaxValue(BaseChart chart, int axisIndex, bool isValueAxis,
-            bool inverse, bool yValue, out double minVaule, out double maxValue, bool isPolar = false,
+            bool inverse, bool yValue, out double minValue, out double maxValue, bool isPolar = false,
             bool filterByDataZoom = true)
         {
             double min = double.MaxValue;
@@ -442,12 +442,17 @@ namespace XCharts.Runtime
             }
             if (max == double.MinValue && min == double.MaxValue)
             {
-                minVaule = 0;
+                minValue = 0;
                 maxValue = 0;
+            }
+            else if (min == 0 && max == 0)
+            {
+                minValue = 0;
+                maxValue = 1;
             }
             else
             {
-                minVaule = min;
+                minValue = min;
                 maxValue = max;
             }
         }

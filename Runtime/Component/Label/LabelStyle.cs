@@ -355,11 +355,11 @@ namespace XCharts.Runtime
             {
                 if (Math.Abs(maxValue) >= Math.Abs(minValue))
                 {
-                    newNumericFormatter = MathUtil.IsInteger(maxValue) ? "f0" : "f" + MathUtil.GetPrecision(maxValue);
+                    newNumericFormatter = MathUtil.IsInteger(maxValue) ? "0.#" : "f" + MathUtil.GetPrecision(maxValue);
                 }
                 else
                 {
-                    newNumericFormatter = MathUtil.IsInteger(minValue) ? "f0" : "f" + MathUtil.GetPrecision(minValue);
+                    newNumericFormatter = MathUtil.IsInteger(minValue) ? "0.#" : "f" + MathUtil.GetPrecision(minValue);
                 }
             }
             if (string.IsNullOrEmpty(m_Formatter))

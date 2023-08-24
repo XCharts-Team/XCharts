@@ -36,7 +36,7 @@ namespace XCharts.Runtime
                     if (data.runtimeLabel != null)
                     {
                         var pos = MarkLineHelper.GetLabelPosition(data);
-                        data.runtimeLabel.SetActive(data.label.show && pos != Vector3.zero);
+                        data.runtimeLabel.SetActive(data.label.show && data.runtimeInGrid);
                         data.runtimeLabel.SetPosition(pos);
                         data.runtimeLabel.SetText(MarkLineHelper.GetFormatterContent(serie, data));
                     }
@@ -49,7 +49,7 @@ namespace XCharts.Runtime
             var serie = chart.GetSerie(markLine.serieIndex);
             if (!serie.show || !markLine.show) return;
             ResetTempMarkLineGroupData(markLine);
-            var serieColor = (Color) chart.GetItemColor(serie);
+            var serieColor = (Color)chart.GetItemColor(serie);
             if (m_TempGroupData.Count > 0)
             {
                 foreach (var kv in m_TempGroupData)
@@ -71,7 +71,7 @@ namespace XCharts.Runtime
         private void InitMarkLineLabel(Serie serie, MarkLineData data, Color serieColor)
         {
             data.painter = chart.m_PainterUpper;
-            data.refreshComponent = delegate()
+            data.refreshComponent = delegate ()
             {
                 var textName = string.Format("markLine_{0}_{1}", serie.index, data.index);
                 var content = MarkLineHelper.GetFormatterContent(serie, data);
@@ -79,7 +79,7 @@ namespace XCharts.Runtime
                     content, Color.clear, TextAnchor.MiddleCenter);
                 var pos = MarkLineHelper.GetLabelPosition(data);
                 label.SetIconActive(false);
-                label.SetActive(data.label.show && pos != Vector3.zero);
+                label.SetActive(data.label.show && data.runtimeInGrid);
                 label.SetPosition(pos);
                 data.runtimeLabel = label;
             };
@@ -218,9 +218,17 @@ namespace XCharts.Runtime
         {
             if (!animation.IsFinish())
                 ep = Vector3.Lerp(sp, ep, animation.GetCurrDetail());
+            if ((!chart.IsInChart(sp) && !chart.IsInChart(ep)) ||
+                (serie.clip && !grid.Contains(sp) && !grid.Contains(ep)))
+            {
+                data.runtimeInGrid = false;
+                m_RefreshLabel = true;
+                return;
+            }
             data.runtimeCurrentEndPosition = ep;
             if (sp != Vector3.zero || ep != Vector3.zero)
             {
+                data.runtimeInGrid = true;
                 m_RefreshLabel = true;
                 chart.ClampInChart(ref sp);
                 chart.ClampInChart(ref ep);
@@ -247,7 +255,7 @@ namespace XCharts.Runtime
             Color32 borderColor;
             SerieHelper.GetSymbolInfo(out borderColor, out tickness, out cornerRadius, serie, null, chart.theme);
             chart.DrawClipSymbol(vh, symbol.type, symbol.size, tickness, pos, lineColor, lineColor,
-                ColorUtil.clearColor32, borderColor, symbol.gap, true, cornerRadius, grid, startPos);
+                ColorUtil.clearColor32, borderColor, symbol.gap, serie.clip, cornerRadius, grid, startPos);
         }
 
         private void GetStartEndPos(Axis xAxis, Axis yAxis, GridCoord grid, double value, ref Vector3 sp, ref Vector3 ep)

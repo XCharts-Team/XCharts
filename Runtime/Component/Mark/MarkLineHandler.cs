@@ -73,7 +73,7 @@ namespace XCharts.Runtime
             data.painter = chart.m_PainterUpper;
             data.refreshComponent = delegate ()
             {
-                var textName = string.Format("markLine_{0}_{1}", serie.index, data.index);
+                var textName = string.Format("markLine_{0}_{1}", component.index, data.index);
                 var content = MarkLineHelper.GetFormatterContent(serie, data);
                 var label = ChartHelper.AddChartLabel(textName, m_MarkLineLabelRoot.transform, data.label, chart.theme.axis,
                     content, Color.clear, TextAnchor.MiddleCenter);
@@ -154,7 +154,7 @@ namespace XCharts.Runtime
                             sp = new Vector3(grid.context.x, pY);
                             ep = new Vector3(grid.context.x + grid.context.width, pY);
                         }
-                        else if (data.yValue != 0)
+                        else if (data.yValue != 0 || (data.xValue == 0 && data.yValue == 0 && yAxis.IsValue()))
                         {
                             data.runtimeValue = data.yValue;
                             if (yAxis.IsCategory())

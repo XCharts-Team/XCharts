@@ -20,6 +20,7 @@ namespace XCharts.Runtime
         [SerializeField] private int m_Row = 2;
         [SerializeField] private int m_Column = 2;
         [SerializeField] private Vector2 m_Spacing = Vector2.zero;
+        [SerializeField] protected bool m_Inverse = false;
 
         public GridLayoutContext context = new GridLayoutContext();
 
@@ -95,6 +96,15 @@ namespace XCharts.Runtime
             get { return m_Spacing; }
             set { if (PropertyUtil.SetStruct(ref m_Spacing, value)) SetAllDirty(); }
         }
+        /// <summary>
+        /// Whether to inverse the grid layout.
+        /// |是否反转网格布局。
+        /// </summary>
+        public bool inverse
+        {
+            get { return m_Inverse; }
+            set { if (PropertyUtil.SetStruct(ref m_Inverse, value)) SetAllDirty(); }
+        }
 
         public void UpdateRuntimeData(BaseChart chart)
         {
@@ -102,29 +112,37 @@ namespace XCharts.Runtime
             var chartY = chart.chartY;
             var chartWidth = chart.chartWidth;
             var chartHeight = chart.chartHeight;
-            context.left = left <= 1 ? left * chartWidth : left;
-            context.bottom = bottom <= 1 ? bottom * chartHeight : bottom;
-            context.top = top <= 1 ? top * chartHeight : top;
-            context.right = right <= 1 ? right * chartWidth : right;
-            context.x = chartX + context.left;
-            context.y = chartY + context.bottom;
-            context.width = chartWidth - context.left - context.right;
-            context.height = chartHeight - context.top - context.bottom;
+            var actualLeft = left <= 1 ? left * chartWidth : left;
+            var actualBottom = bottom <= 1 ? bottom * chartHeight : bottom;
+            var actualTop = top <= 1 ? top * chartHeight : top;
+            var actualRight = right <= 1 ? right * chartWidth : right;
+            context.x = chartX + actualLeft;
+            context.y = chartY + actualBottom;
+            context.width = chartWidth - actualLeft - actualRight;
+            context.height = chartHeight - actualTop - actualBottom;
             context.eachWidth = (context.width - spacing.x * (column - 1)) / column;
             context.eachHeight = (context.height - spacing.y * (row - 1)) / row;
         }
 
-        internal void UpdateGridContext(int index, ref GridCoordContext gridContext)
+        internal void UpdateGridContext(int index, ref float x, ref float y, ref float width, ref float height)
         {
             var row = index / m_Column;
             var column = index % m_Column;
 
-            gridContext.x = context.x + column * (context.eachWidth + spacing.x);
-            gridContext.y = context.y + row * (context.eachHeight + spacing.y);
-            gridContext.width = context.eachWidth;
-            gridContext.height = context.eachHeight;
-            gridContext.position = new Vector3(gridContext.x, gridContext.y);
-            gridContext.center = new Vector3(gridContext.x + gridContext.width / 2, gridContext.y + gridContext.height / 2);
+            x = context.x + column * (context.eachWidth + spacing.x);
+            if(m_Inverse)
+                y = context.y + row * (context.eachHeight + spacing.y);
+            else
+                y = context.y + context.height - (row + 1) * context.eachHeight - row * spacing.y;
+            width = context.eachWidth;
+            height = context.eachHeight;
+        }
+
+        internal void UpdateGridContext(int index, ref Vector3 position, ref float width, ref float height)
+        {
+            float x = 0, y = 0;
+            UpdateGridContext(index, ref x, ref y, ref width, ref height);
+            position = new Vector3(x, y);
         }
     }
 }

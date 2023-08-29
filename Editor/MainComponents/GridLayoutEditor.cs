@@ -16,6 +16,7 @@ namespace XCharts.Editor
             PropertyField("m_Row");
             PropertyField("m_Column");
             PropertyField("m_Spacing");
+            PropertyField("m_Inverse");
             --EditorGUI.indentLevel;
         }
     }

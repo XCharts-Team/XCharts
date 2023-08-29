@@ -39,7 +39,7 @@ namespace XCharts.Runtime
             radar.painter = chart.GetPainter(radar.index);
             radar.refreshComponent = delegate()
             {
-                radar.UpdateRadarCenter(chart.chartPosition, chart.chartWidth, chart.chartHeight);
+                radar.UpdateRadarCenter(chart);
                 var radarObject = ChartHelper.AddObject("Radar" + radar.index, chart.transform, chart.chartMinAnchor,
                     chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
                 radar.gameObject = radarObject;
@@ -64,7 +64,7 @@ namespace XCharts.Runtime
         private void DrawRadarCoord(VertexHelper vh, RadarCoord radar)
         {
             if (!radar.show) return;
-            radar.UpdateRadarCenter(chart.chartPosition, chart.chartWidth, chart.chartHeight);
+            radar.UpdateRadarCenter(chart);
             if (radar.shape == RadarCoord.Shape.Circle)
             {
                 DrawCricleRadar(vh, radar);

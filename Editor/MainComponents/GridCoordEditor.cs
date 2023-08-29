@@ -9,12 +9,15 @@ namespace XCharts.Editor
         public override void OnInspectorGUI()
         {
             ++EditorGUI.indentLevel;
+            var layoutIndex = baseProperty.FindPropertyRelative("m_LayoutIndex").intValue;
             PropertyField("m_LayoutIndex");
-            
-            PropertyField("m_Left");
-            PropertyField("m_Right");
-            PropertyField("m_Top");
-            PropertyField("m_Bottom");
+            if (layoutIndex < 0)
+            {
+                PropertyField("m_Left");
+                PropertyField("m_Right");
+                PropertyField("m_Top");
+                PropertyField("m_Bottom");
+            }
             PropertyField("m_BackgroundColor");
             PropertyField("m_ShowBorder");
             PropertyField("m_BorderWidth");

@@ -621,7 +621,8 @@ namespace XCharts.Runtime
             var startY = grid.context.y + xAxis.offset;
             if (xAxis.IsTop())
                 startY += grid.context.height;
-            else if (xAxis.axisLine.onZero && relativedAxis.IsValue() && relativedAxis.gridIndex == xAxis.gridIndex)
+            else if (xAxis.axisLine.onZero && relativedAxis != null && relativedAxis.IsValue()
+                && relativedAxis.gridIndex == xAxis.gridIndex)
                 startY += relativedAxis.context.offset;
             return startY;
         }
@@ -631,7 +632,8 @@ namespace XCharts.Runtime
             var startX = grid.context.x + yAxis.offset;
             if (yAxis.IsRight())
                 startX += grid.context.width;
-            else if (yAxis.axisLine.onZero && relativedAxis.IsValue() && relativedAxis.gridIndex == yAxis.gridIndex)
+            else if (yAxis.axisLine.onZero && relativedAxis != null && relativedAxis.IsValue() 
+                && relativedAxis.gridIndex == yAxis.gridIndex)
                 startX += relativedAxis.context.offset;
             return startX;
         }

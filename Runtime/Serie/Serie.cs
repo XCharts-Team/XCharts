@@ -478,7 +478,7 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_ParallelIndex, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// Index of layout component that serie uses.
+        /// Index of layout component that serie uses. Default is -1 means not use layout, otherwise use the first layout component.
         /// |所使用的 layout 组件的 index。 默认为-1不指定index, 当为大于或等于0时, 为第一个layout组件的第index个格子。
         /// </summary>
         public int gridIndex

@@ -953,7 +953,7 @@ Grid component.
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Whether to show the grid in rectangular coordinate.
-|layoutIndex|-1|v3.8.0|
+|layoutIndex|-1|v3.8.0|The index of the grid layout component to which the grid belongs. The default is -1, which means that it does not belong to any grid layout component. When this value is set, the left, right, top, and bottom properties will be invalid.
 |left|0.1f||Distance between grid component and the left side of the container.
 |right|0.08f||Distance between grid component and the right side of the container.
 |top|0.22f||Distance between grid component and the top side of the container.
@@ -990,6 +990,7 @@ Grid layout component. Used to manage the layout of multiple `GridCoord`, and th
 |row|2||the row count of grid layout.
 |column|2||the column count of grid layout.
 |spacing|Vector2.zero||the spacing of grid layout.
+|inverse|false||Whether to inverse the grid layout.
 
 ```mdx-code-block
 </APITable>
@@ -1096,6 +1097,7 @@ Indicator of radar chart, which is used to assign multiple variables(dimensions)
 |connectCenter|false||Whether serie data connect to radar center with line.
 |lineGradient|true||Whether need gradient for data line.
 |startAngle||v3.4.0|起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
+|gridIndex|-1|v3.8.0|Index of layout component that serie uses. Default is -1 means not use layout, otherwise use the first layout component.
 |indicatorList|||the indicator list.
 
 ```mdx-code-block
@@ -1734,7 +1736,7 @@ Configurations of select state.
 |polarIndex|0||Index of polar component that serie uses.
 |singleAxisIndex|0||Index of single axis component that serie uses.
 |parallelIndex|0||Index of parallel coord component that serie uses.
-|gridIndex|-1|v3.8.0|Index of layout component that serie uses.
+|gridIndex|-1|v3.8.0|Index of layout component that serie uses. Default is -1 means not use layout, otherwise use the first layout component.
 |minShow|||The min number of data to show in chart.
 |maxShow|||The max number of data to show in chart.
 |maxCache|||The max number of serie data cache. The first data will be remove when the size of serie data is larger then maxCache.

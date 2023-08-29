@@ -953,7 +953,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否显示直角坐标系网格。
-|layoutIndex|-1|v3.8.0|
+|layoutIndex|-1|v3.8.0|网格所属的网格布局组件的索引。默认为-1，表示不属于任何网格布局组件。当设置了该值时，left、right、top、bottom属性将失效。
 |left|0.1f||grid 组件离容器左侧的距离。
 |right|0.08f||grid 组件离容器右侧的距离。
 |top|0.22f||grid 组件离容器上侧的距离。
@@ -990,6 +990,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |row|2||网格布局的行数。
 |column|2||网格布局的列数。
 |spacing|Vector2.zero||网格布局的间距。
+|inverse|false||是否反转网格布局。
 
 ```mdx-code-block
 </APITable>
@@ -1096,6 +1097,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |connectCenter|false||数值是否连线到中心点。
 |lineGradient|true||数值线段是否需要渐变。
 |startAngle||v3.4.0|起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
+|gridIndex|-1|v3.8.0|所使用的 layout 组件的 index。 默认为-1不指定index, 当为大于或等于0时, 为第一个layout组件的第index个格子。
 |indicatorList|||指示器列表。
 
 ```mdx-code-block

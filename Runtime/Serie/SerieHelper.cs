@@ -221,12 +221,10 @@ namespace XCharts.Runtime
             var chartHeight = chart.chartHeight;
             if (serie.gridIndex >= 0)
             {
-                var grid = chart.GetChartComponent<GridCoord>(serie.gridIndex);
-                if (grid != null)
+                var layout = chart.GetChartComponent<GridLayout>(0);
+                if (layout != null)
                 {
-                    chartPosition = grid.context.position;
-                    chartWidth = grid.context.width;
-                    chartHeight = grid.context.height;
+                    layout.UpdateGridContext(serie.gridIndex, ref chartPosition, ref chartWidth, ref chartHeight);
                 }
             }
             var centerX = serie.center[0] <= 1 ? chartWidth * serie.center[0] : serie.center[0];

@@ -7,6 +7,7 @@ namespace XCharts.Editor
     {
         public override void OnCustomInspectorGUI()
         {
+            PropertyField("m_GridIndex");
             PropertyTwoFiled("m_Center");
             PropertyTwoFiled("m_Radius");
             PropertyField("m_StartAngle");

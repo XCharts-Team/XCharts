@@ -74,11 +74,14 @@ slug: /changelog
 * 增加`Symbol`的`EmptyTriangle`、`EmptyDiamond`、`Plus`、`Minus`四种新标记
 * 完善`Chart`的鼠标交互回调
 * 增加`LabelLine`可固定横坐标的功能
+* 增加`GridLayout`网格布局组件
 * 修复千年老问题：开启TMP后更新版本会报错的问题
 
 日志详情：
 
-* (2023.08.29) 增加`Pie`和`Radar`的`gridIndex`支持设置指定网格
+* (2023.08.29) 增加`Ring`的`gridIndex`支持设置指定网格
+* (2023.08.29) 增加`Radar`的`gridIndex`支持设置指定网格
+* (2023.08.29) 增加`Pie`的`gridIndex`支持设置指定网格
 * (2023.08.29) 增加`GridLayout`网格布局组件用于管理多个`GridCoord`的布局
 * (2023.08.25) 修复`MarkLine`多个时只显示一个`Label`的问题
 * (2023.08.25) 修复`MarkLine`在开启`Clip`后还绘制在坐标系外的问题

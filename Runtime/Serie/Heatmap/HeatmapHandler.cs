@@ -190,10 +190,11 @@ namespace XCharts.Runtime
             YAxis yAxis;
             if (!chart.TryGetChartComponent<XAxis>(out xAxis, serie.xAxisIndex)) return;
             if (!chart.TryGetChartComponent<YAxis>(out yAxis, serie.yAxisIndex)) return;
+            var visualMap = chart.GetVisualMapOfSerie(serie);
+            if (visualMap == null) return;
             m_SerieGrid = chart.GetChartComponent<GridCoord>(xAxis.gridIndex);
             xAxis.boundaryGap = true;
             yAxis.boundaryGap = true;
-            var visualMap = chart.GetVisualMapOfSerie(serie);
             var emphasisStyle = serie.emphasisStyle;
             var xCount = AxisHelper.GetTotalSplitGridNum(xAxis);
             var yCount = AxisHelper.GetTotalSplitGridNum(yAxis);

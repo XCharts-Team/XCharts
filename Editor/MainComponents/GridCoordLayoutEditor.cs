@@ -3,22 +3,19 @@ using XCharts.Runtime;
 
 namespace XCharts.Editor
 {
-    [ComponentEditor(typeof(GridCoord))]
-    public class GridCoordEditor : MainComponentEditor<GridCoord>
+    [ComponentEditor(typeof(GridLayout))]
+    public class GridLayoutEditor : MainComponentEditor<GridLayout>
     {
         public override void OnInspectorGUI()
         {
             ++EditorGUI.indentLevel;
-            PropertyField("m_LayoutIndex");
-            
             PropertyField("m_Left");
             PropertyField("m_Right");
             PropertyField("m_Top");
             PropertyField("m_Bottom");
-            PropertyField("m_BackgroundColor");
-            PropertyField("m_ShowBorder");
-            PropertyField("m_BorderWidth");
-            PropertyField("m_BorderColor");
+            PropertyField("m_Row");
+            PropertyField("m_Column");
+            PropertyField("m_Spacing");
             --EditorGUI.indentLevel;
         }
     }

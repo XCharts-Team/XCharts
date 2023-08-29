@@ -4,24 +4,24 @@ using UnityEngine;
 namespace XCharts.Runtime
 {
     /// <summary>
-    /// Grid component.
-    /// |Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart can be drawn in grid.
-    /// |网格组件。
-    /// 直角坐标系内绘图网格。可以在网格上绘制折线图，柱状图，散点图。
+    /// Grid layout component. Used to manage the layout of multiple `GridCoord`, and the number of rows and columns of the grid can be controlled by `row` and `column`.
+    /// |网格布局组件。用于管理多个`GridCoord`的布局，可以通过`row`和`column`来控制网格的行列数。
     /// </summary>
+    [Since("v3.8.0")]
     [Serializable]
-    [ComponentHandler(typeof(ParallelCoordHandler), true)]
-    public class ParallelCoord : CoordSystem, IUpdateRuntimeData, ISerieContainer
+    [ComponentHandler(typeof(GridLayoutHandler), true)]
+    public class GridLayout : MainComponent, IUpdateRuntimeData
     {
         [SerializeField] private bool m_Show = true;
-        [SerializeField] protected Orient m_Orient = Orient.Vertical;
         [SerializeField] private float m_Left = 0.1f;
         [SerializeField] private float m_Right = 0.08f;
         [SerializeField] private float m_Top = 0.22f;
         [SerializeField] private float m_Bottom = 0.12f;
-        [SerializeField] private Color m_BackgroundColor;
+        [SerializeField] private int m_Row = 2;
+        [SerializeField] private int m_Column = 2;
+        [SerializeField] private Vector2 m_Spacing = Vector2.zero;
 
-        public ParallelCoordContext context = new ParallelCoordContext();
+        public GridLayoutContext context = new GridLayoutContext();
 
         /// <summary>
         /// Whether to show the grid in rectangular coordinate.
@@ -31,15 +31,6 @@ namespace XCharts.Runtime
         {
             get { return m_Show; }
             set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// Orientation of the axis. By default, it's 'Vertical'. You can set it to be 'Horizonal' to make a vertical axis.
-        /// |坐标轴朝向。默认为垂直朝向。
-        /// </summary>
-        public Orient orient
-        {
-            get { return m_Orient; }
-            set { if (PropertyUtil.SetStruct(ref m_Orient, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Distance between grid component and the left side of the container.
@@ -78,18 +69,31 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_Bottom, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// Background color of grid, which is transparent by default.
-        /// |网格背景色，默认透明。
+        /// the row count of grid layout.
+        /// |网格布局的行数。
         /// </summary>
-        public Color backgroundColor
+        public int row
         {
-            get { return m_BackgroundColor; }
-            set { if (PropertyUtil.SetColor(ref m_BackgroundColor, value)) SetVerticesDirty(); }
+            get { return m_Row; }
+            set { if (PropertyUtil.SetStruct(ref m_Row, value)) SetAllDirty(); }
         }
-
-        public bool IsPointerEnter()
+        /// <summary>
+        /// the column count of grid layout.
+        /// |网格布局的列数。
+        /// </summary>
+        public int column
         {
-            return context.runtimeIsPointerEnter;
+            get { return m_Column; }
+            set { if (PropertyUtil.SetStruct(ref m_Column, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// the spacing of grid layout.
+        /// |网格布局的间距。
+        /// </summary>
+        public Vector2 spacing
+        {
+            get { return m_Spacing; }
+            set { if (PropertyUtil.SetStruct(ref m_Spacing, value)) SetAllDirty(); }
         }
 
         public void UpdateRuntimeData(BaseChart chart)
@@ -106,22 +110,21 @@ namespace XCharts.Runtime
             context.y = chartY + context.bottom;
             context.width = chartWidth - context.left - context.right;
             context.height = chartHeight - context.top - context.bottom;
-            context.position = new Vector3(context.x, context.y);
+            context.eachWidth = (context.width - spacing.x * (column - 1)) / column;
+            context.eachHeight = (context.height - spacing.y * (row - 1)) / row;
         }
 
-        public bool Contains(Vector3 pos)
+        internal void UpdateGridContext(int index, ref GridCoordContext gridContext)
         {
-            return Contains(pos.x, pos.y);
-        }
+            var row = index / m_Column;
+            var column = index % m_Column;
 
-        public bool Contains(float x, float y)
-        {
-            if (x < context.x - 1 || x > context.x + context.width + 1 ||
-                y < context.y - 1 || y > context.y + context.height + 1)
-            {
-                return false;
-            }
-            return true;
+            gridContext.x = context.x + column * (context.eachWidth + spacing.x);
+            gridContext.y = context.y + row * (context.eachHeight + spacing.y);
+            gridContext.width = context.eachWidth;
+            gridContext.height = context.eachHeight;
+            gridContext.position = new Vector3(gridContext.x, gridContext.y);
+            gridContext.center = new Vector3(gridContext.x + gridContext.width / 2, gridContext.y + gridContext.height / 2);
         }
     }
 }

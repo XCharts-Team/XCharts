@@ -25,6 +25,8 @@ namespace XCharts.Runtime
         [SerializeField][ListForComponent(typeof(Background))] private List<Background> m_Backgrounds = new List<Background>();
         [SerializeField][ListForComponent(typeof(DataZoom))] private List<DataZoom> m_DataZooms = new List<DataZoom>();
         [SerializeField][ListForComponent(typeof(GridCoord))] private List<GridCoord> m_Grids = new List<GridCoord>();
+        [SerializeField][ListForComponent(typeof(GridLayout))] private List<GridLayout> m_GridsLayout = new List<GridLayout>();
+
         [SerializeField][ListForComponent(typeof(Legend))] private List<Legend> m_Legends = new List<Legend>();
         [SerializeField][ListForComponent(typeof(MarkLine))] private List<MarkLine> m_MarkLines = new List<MarkLine>();
         [SerializeField][ListForComponent(typeof(MarkArea))] private List<MarkArea> m_MarkAreas = new List<MarkArea>();
@@ -460,7 +462,7 @@ namespace XCharts.Runtime
                 if (component is Axis)
                     component.SetAllDirty();
                 if (component is IUpdateRuntimeData)
-                    (component as IUpdateRuntimeData).UpdateRuntimeData(m_ChartX, m_ChartY, m_ChartWidth, m_ChartHeight);
+                    (component as IUpdateRuntimeData).UpdateRuntimeData(this);
             }
         }
 

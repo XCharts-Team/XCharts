@@ -66,7 +66,7 @@ namespace XCharts.Runtime
             }
             component.SetDefaultValue();
             if (component is IUpdateRuntimeData)
-                (component as IUpdateRuntimeData).UpdateRuntimeData(chartX, chartY, chartWidth, chartHeight);
+                (component as IUpdateRuntimeData).UpdateRuntimeData(this);
             AddComponent(component);
             m_Components.Sort();
             CreateComponentHandler(component);

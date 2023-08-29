@@ -213,9 +213,22 @@ namespace XCharts.Runtime
         /// </summary>
         /// <param name="chartWidth"></param>
         /// <param name="chartHeight"></param>
-        public static void UpdateCenter(Serie serie, Vector3 chartPosition, float chartWidth, float chartHeight)
+        public static void UpdateCenter(Serie serie, BaseChart chart)
         {
             if (serie.center.Length < 2) return;
+            var chartPosition = chart.chartPosition;
+            var chartWidth = chart.chartWidth;
+            var chartHeight = chart.chartHeight;
+            if (serie.gridIndex >= 0)
+            {
+                var grid = chart.GetChartComponent<GridCoord>(serie.gridIndex);
+                if (grid != null)
+                {
+                    chartPosition = grid.context.position;
+                    chartWidth = grid.context.width;
+                    chartHeight = grid.context.height;
+                }
+            }
             var centerX = serie.center[0] <= 1 ? chartWidth * serie.center[0] : serie.center[0];
             var centerY = serie.center[1] <= 1 ? chartHeight * serie.center[1] : serie.center[1];
             serie.context.center = chartPosition + new Vector3(centerX, centerY);
@@ -820,7 +833,7 @@ namespace XCharts.Runtime
                 serie.m_FilterMinShow = dataZoom.minShowNum;
                 serie.m_NeedUpdateFilterData = false;
 
-                if(ReferenceEquals(serie.m_FilterData,data))
+                if (ReferenceEquals(serie.m_FilterData, data))
                 {
                     serie.m_FilterData = new List<SerieData>();
                 }

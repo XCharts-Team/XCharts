@@ -56,6 +56,7 @@ import APITable from '@site/src/components/APITable';
 - [CoordSystem](#coordsystem)
 - [DataZoom](#datazoom)
 - [GridCoord](#gridcoord)
+- [GridLayout](#gridlayout)
 - [Legend](#legend)
 - [MarkArea](#markarea)
 - [MarkLine](#markline)
@@ -952,6 +953,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||是否显示直角坐标系网格。
+|layoutIndex|-1|v3.8.0|
 |left|0.1f||grid 组件离容器左侧的距离。
 |right|0.08f||grid 组件离容器右侧的距离。
 |top|0.22f||grid 组件离容器上侧的距离。
@@ -960,6 +962,34 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |showBorder|false||是否显示网格边框。
 |borderWidth|0f||网格边框宽。
 |borderColor|||网格边框颜色。
+
+```mdx-code-block
+</APITable>
+```
+
+## GridLayout
+
+> XCharts.Runtime.GridLayout : [MainComponent](#maincomponent), [IUpdateRuntimeData](#iupdateruntimedata)
+
+> 从 `v3.8.0` 开始支持
+
+网格布局组件。用于管理多个`GridCoord`的布局，可以通过`row`和`column`来控制网格的行列数。
+
+```mdx-code-block
+<APITable name="GridLayout">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|show|true||是否显示直角坐标系网格。
+|left|0.1f||grid 组件离容器左侧的距离。
+|right|0.08f||grid 组件离容器右侧的距离。
+|top|0.22f||grid 组件离容器上侧的距离。
+|bottom|0.12f||grid 组件离容器下侧的距离。
+|row|2||网格布局的行数。
+|column|2||网格布局的列数。
+|spacing|Vector2.zero||网格布局的间距。
 
 ```mdx-code-block
 </APITable>
@@ -1142,7 +1172,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## IUpdateRuntimeData
 
-> XCharts.Runtime.IUpdateRuntimeData / Subclasses: [SingleAxis](#singleaxis), [DataZoom](#datazoom), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [ParallelCoord](#parallelcoord)
+> XCharts.Runtime.IUpdateRuntimeData / Subclasses: [SingleAxis](#singleaxis), [DataZoom](#datazoom), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [GridLayout](#gridlayout), [ParallelCoord](#parallelcoord)
 
 ## LabelLine
 
@@ -1160,7 +1190,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |show|true||是否显示视觉引导线。
 |lineType|||视觉引导线类型。<br/>`LabelLine.LineType`:<br/>- `BrokenLine`: 折线<br/>- `Curves`: 曲线<br/>- `HorizontalLine`: 水平线<br/>|
 |lineColor|Color32(0,0,0,0)||视觉引导线颜色。默认和serie一致取自调色板。
-|lineAngle|60||视觉引导线的固定角度。对折线和曲线有效。
+|lineAngle|60||视觉引导线的固定角度。对折线和曲线有效。在Pie中无效。
 |lineWidth|1.0f||视觉引导线的宽度。
 |lineGap|1.0f||视觉引导线和容器的间距。
 |lineLength1|25f||视觉引导线第一段的长度。
@@ -1385,7 +1415,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## MainComponent
 
-> XCharts.Runtime.MainComponent : [IComparable](https://docs.unity3d.com/ScriptReference/30_search.html?q=IComparable) / Subclasses: [Axis](#axis), [Background](#background), [Comment](#comment), [DataZoom](#datazoom), [Legend](#legend), [MarkArea](#markarea), [MarkLine](#markline), [Settings](#settings), [Title](#title), [Tooltip](#tooltip), [VisualMap](#visualmap), [CoordSystem](#coordsystem)
+> XCharts.Runtime.MainComponent : [IComparable](https://docs.unity3d.com/ScriptReference/30_search.html?q=IComparable) / Subclasses: [Axis](#axis), [Background](#background), [Comment](#comment), [DataZoom](#datazoom), [Legend](#legend), [MarkArea](#markarea), [MarkLine](#markline), [Settings](#settings), [Title](#title), [Tooltip](#tooltip), [VisualMap](#visualmap), [GridLayout](#gridlayout), [CoordSystem](#coordsystem)
 
 ## MarkArea
 
@@ -1704,6 +1734,7 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 |polarIndex|0||所使用的 polar 组件的 index。
 |singleAxisIndex|0||所使用的 singleAxis 组件的 index。
 |parallelIndex|0||所使用的 parallel coord 组件的 index。
+|gridIndex|-1|v3.8.0|所使用的 layout 组件的 index。 默认为-1不指定index, 当为大于或等于0时, 为第一个layout组件的第index个格子。
 |minShow|||系列所显示数据的最小索引
 |maxShow|||系列所显示数据的最大索引
 |maxCache|||系列中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。

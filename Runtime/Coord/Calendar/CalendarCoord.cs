@@ -12,7 +12,8 @@ namespace XCharts.Runtime
             return false;
         }
 
-        public void UpdateRuntimeData(float chartX, float chartY, float chartWidth, float chartHeight)
-        { }
+        public void UpdateRuntimeData(BaseChart chart)
+        {
+        }
     }
 }

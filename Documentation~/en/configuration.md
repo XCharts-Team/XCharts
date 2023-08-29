@@ -56,6 +56,7 @@ import APITable from '@site/src/components/APITable';
 - [CoordSystem](#coordsystem)
 - [DataZoom](#datazoom)
 - [GridCoord](#gridcoord)
+- [GridLayout](#gridlayout)
 - [Legend](#legend)
 - [MarkArea](#markarea)
 - [MarkLine](#markline)
@@ -952,6 +953,7 @@ Grid component.
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Whether to show the grid in rectangular coordinate.
+|layoutIndex|-1|v3.8.0|
 |left|0.1f||Distance between grid component and the left side of the container.
 |right|0.08f||Distance between grid component and the right side of the container.
 |top|0.22f||Distance between grid component and the top side of the container.
@@ -960,6 +962,34 @@ Grid component.
 |showBorder|false||Whether to show the grid border.
 |borderWidth|0f||Border width of grid.
 |borderColor|||The color of grid border.
+
+```mdx-code-block
+</APITable>
+```
+
+## GridLayout
+
+> XCharts.Runtime.GridLayout : [MainComponent](#maincomponent), [IUpdateRuntimeData](#iupdateruntimedata)
+
+> Since `v3.8.0`
+
+Grid layout component. Used to manage the layout of multiple `GridCoord`, and the number of rows and columns of the grid can be controlled by `row` and `column`.
+
+```mdx-code-block
+<APITable name="GridLayout">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|show|true||Whether to show the grid in rectangular coordinate.
+|left|0.1f||Distance between grid component and the left side of the container.
+|right|0.08f||Distance between grid component and the right side of the container.
+|top|0.22f||Distance between grid component and the top side of the container.
+|bottom|0.12f||Distance between grid component and the bottom side of the container.
+|row|2||the row count of grid layout.
+|column|2||the column count of grid layout.
+|spacing|Vector2.zero||the spacing of grid layout.
 
 ```mdx-code-block
 </APITable>
@@ -1142,7 +1172,7 @@ The interface for serie data component.
 
 ## IUpdateRuntimeData
 
-> XCharts.Runtime.IUpdateRuntimeData / Subclasses: [SingleAxis](#singleaxis), [DataZoom](#datazoom), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [ParallelCoord](#parallelcoord)
+> XCharts.Runtime.IUpdateRuntimeData / Subclasses: [SingleAxis](#singleaxis), [DataZoom](#datazoom), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [GridLayout](#gridlayout), [ParallelCoord](#parallelcoord)
 
 ## LabelLine
 
@@ -1160,7 +1190,7 @@ The interface for serie data component.
 |show|true||Whether the label line is showed.
 |lineType|||the type of visual guide line.<br/>`LabelLine.LineType`:<br/>- `BrokenLine`: 折线<br/>- `Curves`: 曲线<br/>- `HorizontalLine`: 水平线<br/>|
 |lineColor|Color32(0,0,0,0)||the color of visual guild line.
-|lineAngle|60||the angle of visual guild line.
+|lineAngle|60||the angle of visual guild line. Valid for broken line and curve line. Invalid in Pie.
 |lineWidth|1.0f||the width of visual guild line.
 |lineGap|1.0f||the gap of container and guild line.
 |lineLength1|25f||The length of the first segment of visual guide line.
@@ -1385,7 +1415,7 @@ Location type. Quick to set the general location.
 
 ## MainComponent
 
-> XCharts.Runtime.MainComponent : [IComparable](https://docs.unity3d.com/ScriptReference/30_search.html?q=IComparable) / Subclasses: [Axis](#axis), [Background](#background), [Comment](#comment), [DataZoom](#datazoom), [Legend](#legend), [MarkArea](#markarea), [MarkLine](#markline), [Settings](#settings), [Title](#title), [Tooltip](#tooltip), [VisualMap](#visualmap), [CoordSystem](#coordsystem)
+> XCharts.Runtime.MainComponent : [IComparable](https://docs.unity3d.com/ScriptReference/30_search.html?q=IComparable) / Subclasses: [Axis](#axis), [Background](#background), [Comment](#comment), [DataZoom](#datazoom), [Legend](#legend), [MarkArea](#markarea), [MarkLine](#markline), [Settings](#settings), [Title](#title), [Tooltip](#tooltip), [VisualMap](#visualmap), [GridLayout](#gridlayout), [CoordSystem](#coordsystem)
 
 ## MarkArea
 
@@ -1704,6 +1734,7 @@ Configurations of select state.
 |polarIndex|0||Index of polar component that serie uses.
 |singleAxisIndex|0||Index of single axis component that serie uses.
 |parallelIndex|0||Index of parallel coord component that serie uses.
+|gridIndex|-1|v3.8.0|Index of layout component that serie uses.
 |minShow|||The min number of data to show in chart.
 |maxShow|||The max number of data to show in chart.
 |maxCache|||The max number of serie data cache. The first data will be remove when the size of serie data is larger then maxCache.

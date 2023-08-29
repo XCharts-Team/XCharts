@@ -310,7 +310,7 @@ namespace XCharts.Runtime
             m_SerieLabelRoot.hideFlags = chart.chartHideFlags;
             SerieLabelPool.ReleaseAll(m_SerieLabelRoot.transform);
             int count = 0;
-            SerieHelper.UpdateCenter(serie, chart.chartPosition, chart.chartWidth, chart.chartHeight);
+            SerieHelper.UpdateCenter(serie, chart);
             for (int j = 0; j < serie.data.Count; j++)
             {
                 var serieData = serie.data[j];
@@ -402,7 +402,7 @@ namespace XCharts.Runtime
             SerieLabelPool.ReleaseAll(serieTitleRoot.transform);
             ChartHelper.RemoveComponent<Text>(serieTitleRoot);
 
-            SerieHelper.UpdateCenter(serie, chart.chartPosition, chart.chartWidth, chart.chartHeight);
+            SerieHelper.UpdateCenter(serie, chart);
 
             if (serie.titleJustForSerie)
             {

@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +14,7 @@ namespace XCharts.Runtime
             grid.painter = chart.painter;
             grid.refreshComponent = delegate()
             {
-                grid.UpdateRuntimeData(chart.chartX, chart.chartY, chart.chartWidth, chart.chartHeight);
+                grid.UpdateRuntimeData(chart);
                 chart.OnCoordinateChanged();
             };
             grid.refreshComponent();

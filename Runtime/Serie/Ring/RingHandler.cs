@@ -193,7 +193,7 @@ namespace XCharts.Runtime
         private void UpdateRuntimeData()
         {
             var data = serie.data;
-            SerieHelper.UpdateCenter(serie, chart.chartPosition, chart.chartWidth, chart.chartHeight);
+            SerieHelper.UpdateCenter(serie, chart);
             var ringWidth = serie.context.outsideRadius - serie.context.insideRadius;
             for (int j = 0; j < data.Count; j++)
             {

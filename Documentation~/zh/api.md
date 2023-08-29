@@ -34,6 +34,7 @@ slug: /api
 - [DefineSymbolsUtil](#definesymbolsutil)
 - [FormatterHelper](#formatterhelper)
 - [GridCoordContext](#gridcoordcontext)
+- [GridLayoutContext](#gridlayoutcontext)
 - [HeatmapChart](#heatmapchart)
 - [IgnoreDoc](#ignoredoc)
 - [INeedSerieContainer](#ineedseriecontainer)
@@ -500,7 +501,7 @@ slug: /api
 |GetTextHeight()||public float GetTextHeight()|
 |GetTextWidth()||public float GetTextWidth()|
 |GetWidth()||public float GetWidth()|
-|IsActive()||public override bool IsActive()|
+|IsActiveByScale()||public bool IsActiveByScale()|
 |SetActive()||public void SetActive(bool flag)|
 |SetIcon()||public void SetIcon(Image image)|
 |SetIconActive()||public void SetIconActive(bool flag)|
@@ -516,7 +517,7 @@ slug: /api
 |SetTextColor()||public void SetTextColor(Color color)|
 |SetTextPadding()||public void SetTextPadding(TextPadding padding)|
 |SetTextRotate()||public void SetTextRotate(float rotate)|
-|UpdateIcon()||public void UpdateIcon(IconStyle iconStyle, Sprite sprite = null)|
+|UpdateIcon()||public void UpdateIcon(IconStyle iconStyle, Sprite sprite = null, Color color = default(Color))|
 
 ## ChartObject
 
@@ -633,6 +634,10 @@ slug: /api
 
 > XCharts.Runtime.GridCoordContext : [MainComponentContext](#maincomponentcontext)
 
+## GridLayoutContext
+
+> XCharts.Runtime.GridLayoutContext : [MainComponentContext](#maincomponentcontext)
+
 ## HeatmapChart
 
 > XCharts.Runtime.HeatmapChart : [BaseChart](#basechart)
@@ -668,9 +673,8 @@ slug: /api
 |SetColor()||public void SetColor(ref bool needInteract, Color32 color)|
 |SetColor()||public void SetColor(ref bool needInteract, Color32 color, Color32 toColor)|
 |SetPosition()||public void SetPosition(ref bool needInteract, Vector3 pos)|
-|SetValue()||public void SetValue(float value)|
-|SetValue()||public void SetValue(ref bool needInteract, float value)|
 |SetValue()||public void SetValue(ref bool needInteract, float value, bool highlight, float rate = 1.3f)|
+|SetValue()||public void SetValue(ref bool needInteract, float value, bool previousValueZero = false)|
 |SetValueAndColor()||public void SetValueAndColor(ref bool needInteract, float value, Color32 color)|
 |SetValueAndColor()||public void SetValueAndColor(ref bool needInteract, float value, Color32 color, Color32 toColor)|
 |ToString()||public override string ToString()|
@@ -707,7 +711,7 @@ slug: /api
 
 ## IUpdateRuntimeData
 
-> XCharts.Runtime.IUpdateRuntimeData / Subclasses: [SingleAxis](#singleaxis),[DataZoom](#datazoom),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[ParallelCoord](#parallelcoord) 
+> XCharts.Runtime.IUpdateRuntimeData / Subclasses: [SingleAxis](#singleaxis),[DataZoom](#datazoom),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[GridLayout](#gridlayout),[ParallelCoord](#parallelcoord) 
 
 ## LayerHelper
 
@@ -790,7 +794,7 @@ slug: /api
 
 ## MainComponentContext
 
-> XCharts.Runtime.MainComponentContext / Subclasses: [AxisContext](#axiscontext),[DataZoomContext](#datazoomcontext),[LegendContext](#legendcontext),[RadarCoordContext](#radarcoordcontext),[VisualMapContext](#visualmapcontext),[GridCoordContext](#gridcoordcontext),[ParallelCoordContext](#parallelcoordcontext),[PolarCoordContext](#polarcoordcontext) 
+> XCharts.Runtime.MainComponentContext / Subclasses: [AxisContext](#axiscontext),[DataZoomContext](#datazoomcontext),[LegendContext](#legendcontext),[RadarCoordContext](#radarcoordcontext),[VisualMapContext](#visualmapcontext),[GridCoordContext](#gridcoordcontext),[GridLayoutContext](#gridlayoutcontext),[ParallelCoordContext](#parallelcoordcontext),[PolarCoordContext](#polarcoordcontext) 
 
 ## MainComponentHandler
 
@@ -1149,11 +1153,11 @@ serie事件的数据。
 |GetSerieState()||public static SerieState GetSerieState(SerieData serieData)|
 |GetSerieSymbol()||public static SerieSymbol GetSerieSymbol(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)|
 |GetStateStyle()||public static StateStyle GetStateStyle(Serie serie, SerieData serieData, SerieState state)|
-|GetSysmbolSize()||public static float GetSysmbolSize(Serie serie, SerieData serieData, float defaultSize, SerieState state = SerieState.Auto)|
+|GetSysmbolSize()||public static float GetSysmbolSize(Serie serie, SerieData serieData, float defaultSize, SerieState state = SerieState.Auto, bool checkAnimation = false)|
 |GetTitleStyle()||public static TitleStyle GetTitleStyle(Serie serie, SerieData serieData)|
 |IsAllZeroValue()||public static bool IsAllZeroValue(Serie serie, int dimension = 1)<br/>系列指定维数的数据是否全部为0。 |
 |IsDownPoint()||public static bool IsDownPoint(Serie serie, int index)|
-|UpdateCenter()||public static void UpdateCenter(Serie serie, Vector3 chartPosition, float chartWidth, float chartHeight)<br/>更新运行时中心点和半径 |
+|UpdateCenter()||public static void UpdateCenter(Serie serie, BaseChart chart)<br/>更新运行时中心点和半径 |
 |UpdateFilterData()||public static void UpdateFilterData(Serie serie, DataZoom dataZoom)<br/>根据dataZoom更新数据列表缓存 |
 |UpdateMinMaxData()||public static void UpdateMinMaxData(Serie serie, int dimension, double ceilRate = 0, DataZoom dataZoom = null)<br/>获得指定维数的最大最小值 |
 |UpdateRect()||public static void UpdateRect(Serie serie, Vector3 chartPosition, float chartWidth, float chartHeight)|
@@ -1165,12 +1169,9 @@ serie事件的数据。
 
 |public method|since|description|
 |--|--|--|
-|AvoidLabelOverlap()||public static void AvoidLabelOverlap(Serie serie, ComponentTheme theme)|
 |CanShowLabel()||public static bool CanShowLabel(Serie serie, SerieData serieData, LabelStyle label, int dimesion)|
 |GetLabelColor()||public static Color GetLabelColor(Serie serie, ThemeStyle theme, int index)|
-|GetRealLabelPosition()||public static Vector3 GetRealLabelPosition(Serie serie, SerieData serieData, LabelStyle label, LabelLine labelLine)|
 |SetGaugeLabelText()||public static void SetGaugeLabelText(Serie serie)|
-|UpdatePieLabelPosition()||public static void UpdatePieLabelPosition(Serie serie, SerieData serieData)|
 
 ## SerieLabelPool
 
@@ -1306,6 +1307,10 @@ UGUI 图形库
 |DrawDiamond()||public static void DrawDiamond(VertexHelper vh, Vector3 center, float size, Color32 color, Color32 toColor)<br/>Draw a diamond. 画菱形（钻石形状） |
 |DrawDiamond()||public static void DrawDiamond(VertexHelper vh, Vector3 center, float xRadius, float yRadius, Color32 color, Color32 toColor)|
 |DrawEllipse()||public static void DrawEllipse(VertexHelper vh, Vector3 center, float w, float h, Color32 color, float smoothness = 1)|
+|DrawEmptyDiamond()||public static void DrawEmptyDiamond(VertexHelper vh, Vector3 center, float xRadius, float yRadius, float tickness, Color32 color)|
+|DrawEmptyDiamond()||public static void DrawEmptyDiamond(VertexHelper vh, Vector3 center, float xRadius, float yRadius, float tickness, Color32 color, Color32 emptyColor)|
+|DrawEmptyTriangle()||public static void DrawEmptyTriangle(VertexHelper vh, Vector3 pos, float size, float tickness, Color32 color)|
+|DrawEmptyTriangle()||public static void DrawEmptyTriangle(VertexHelper vh, Vector3 pos, float size, float tickness, Color32 color, Color32 backgroundColor)|
 |DrawLine()||public static void DrawLine(VertexHelper vh, List&lt;Vector3&gt; points, float width, Color32 color, bool smooth, bool closepath = false)|
 |DrawLine()||public static void DrawLine(VertexHelper vh, Vector3 startPoint, Vector3 endPoint, float width, Color32 color)<br/>Draw a line. 画直线 |
 |DrawLine()||public static void DrawLine(VertexHelper vh, Vector3 startPoint, Vector3 endPoint, float width, Color32 color, Color32 toColor)<br/>Draw a line. 画直线 |

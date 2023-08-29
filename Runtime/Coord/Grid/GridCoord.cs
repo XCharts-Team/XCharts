@@ -16,6 +16,7 @@ namespace XCharts.Runtime
     public class GridCoord : CoordSystem, IUpdateRuntimeData, ISerieContainer
     {
         [SerializeField] private bool m_Show = true;
+        [SerializeField][Since("v3.8.0")] private int m_LayoutIndex = -1;
         [SerializeField] private float m_Left = 0.1f;
         [SerializeField] private float m_Right = 0.08f;
         [SerializeField] private float m_Top = 0.22f;
@@ -35,6 +36,11 @@ namespace XCharts.Runtime
         {
             get { return m_Show; }
             set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+        }
+        public int layoutIndex
+        {
+            get { return m_LayoutIndex; }
+            set { if (PropertyUtil.SetStruct(ref m_LayoutIndex, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Distance between grid component and the left side of the container.
@@ -114,8 +120,22 @@ namespace XCharts.Runtime
             return context.isPointerEnter;
         }
 
-        public void UpdateRuntimeData(float chartX, float chartY, float chartWidth, float chartHeight)
+        public void UpdateRuntimeData(BaseChart chart)
         {
+            if (layoutIndex >= 0)
+            {
+                var layout = chart.GetChartComponent<GridLayout>(layoutIndex);
+                if (layout != null)
+                {
+                    layout.UpdateRuntimeData(chart);
+                    layout.UpdateGridContext(index, ref context);
+                    return;
+                }
+            }
+            var chartX = chart.chartX;
+            var chartY = chart.chartY;
+            var chartWidth = chart.chartWidth;
+            var chartHeight = chart.chartHeight;
             context.left = left <= 1 ? left * chartWidth : left;
             context.bottom = bottom <= 1 ? bottom * chartHeight : bottom;
             context.top = top <= 1 ? top * chartHeight : top;

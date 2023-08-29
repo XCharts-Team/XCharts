@@ -189,8 +189,7 @@ namespace XCharts.Runtime
             serie.context.dataMax = serie.yMax;
             serie.context.startAngle = GetStartAngle(serie);
             var runtimePieDataTotal = serie.yTotal;
-
-            SerieHelper.UpdateCenter(serie, chart.chartPosition, chart.chartWidth, chart.chartHeight);
+            SerieHelper.UpdateCenter(serie, chart);
             float startDegree = serie.context.startAngle;
             float totalDegree = 0;
             float zeroReplaceValue = 0;

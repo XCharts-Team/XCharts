@@ -662,8 +662,12 @@ namespace XCharts.Runtime
             if (m_EndLabel != null) m_EndLabel.SetPosition(pos);
         }
 
-        public void UpdateRuntimeData(float chartX, float chartY, float chartWidth, float chartHeight)
+        public void UpdateRuntimeData(BaseChart chart)
         {
+            var chartX = chart.chartX;
+            var chartY = chart.chartY;
+            var chartWidth = chart.chartWidth;
+            var chartHeight = chart.chartHeight;
             var runtimeLeft = left <= 1 ? left * chartWidth : left;
             var runtimeBottom = bottom <= 1 ? bottom * chartHeight : bottom;
             var runtimeTop = top <= 1 ? top * chartHeight : top;

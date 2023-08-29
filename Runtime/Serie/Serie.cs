@@ -246,6 +246,7 @@ namespace XCharts.Runtime
         [SerializeField] private int m_PolarIndex = 0;
         [SerializeField] private int m_SingleAxisIndex = 0;
         [SerializeField] private int m_ParallelIndex = 0;
+        [SerializeField][Since("v3.8.0")] private int m_GridIndex = -1;
         [SerializeField] protected int m_MinShow;
         [SerializeField] protected int m_MaxShow;
         [SerializeField] protected int m_MaxCache;
@@ -475,6 +476,15 @@ namespace XCharts.Runtime
         {
             get { return m_ParallelIndex; }
             set { if (PropertyUtil.SetStruct(ref m_ParallelIndex, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// Index of layout component that serie uses.
+        /// |所使用的 layout 组件的 index。 默认为-1不指定index, 当为大于或等于0时, 为第一个layout组件的第index个格子。
+        /// </summary>
+        public int gridIndex
+        {
+            get { return m_GridIndex; }
+            set { if (PropertyUtil.SetStruct(ref m_GridIndex, value)) SetAllDirty(); }
         }
         /// <summary>
         /// The min number of data to show in chart.

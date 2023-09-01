@@ -53,7 +53,7 @@ namespace XCharts.Runtime
 
                     var label = ChartHelper.AddChartLabel(objName, radarObject.transform, radar.axisName.labelStyle,
                         chart.theme.common, radar.GetFormatterIndicatorContent(i), Color.clear, TextAnchor.MiddleCenter);
-                    label.SetActive(radar.indicator && radar.axisName.labelStyle.show);
+                    label.SetActive(radar.axisName.show && radar.indicator && radar.axisName.labelStyle.show);
                     AxisHelper.AdjustCircleLabelPos(label, pos, radar.context.center, txtHig, radar.axisName.labelStyle.offset);
                 }
                 chart.RefreshBasePainter();

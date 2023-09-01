@@ -23,6 +23,7 @@ namespace XCharts.Runtime
     [System.Serializable]
     [SerieHandler(typeof(HeatmapHandler), true)]
     [DefaultAnimation(AnimationType.LeftToRight, false)]
+    [DefaultTooltip(Tooltip.Type.None, Tooltip.Trigger.Axis)]
     [RequireChartComponent(typeof(VisualMap))]
     [CoordOptions(typeof(GridCoord), typeof(PolarCoord))]
     [SerieComponent(typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]

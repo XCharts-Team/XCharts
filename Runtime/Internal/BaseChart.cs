@@ -146,10 +146,9 @@ namespace XCharts.Runtime
         {
             RemoveAllChartComponent();
             OnBeforeSerialize();
-            AddChartComponentWhenNoExist<Title>();
-            AddChartComponentWhenNoExist<Tooltip>();
-
-            GetChartComponent<Title>().text = GetType().Name;
+            EnsureChartComponent<Title>();
+            EnsureChartComponent<Tooltip>();
+            EnsureChartComponent<Title>().text = GetType().Name;
 
             if (m_Theme.sharedTheme != null)
                 m_Theme.sharedTheme.CopyTheme(ThemeType.Default);

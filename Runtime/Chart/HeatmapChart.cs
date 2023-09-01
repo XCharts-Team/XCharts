@@ -12,10 +12,6 @@ namespace XCharts.Runtime
     {
         protected override void DefaultChart()
         {
-            var tooltip = GetChartComponent<Tooltip>();
-            tooltip.type = Tooltip.Type.None;
-            tooltip.trigger = Tooltip.Trigger.Axis;
-
             var grid = EnsureChartComponent<GridCoord>();
             grid.left = 0.12f;
 

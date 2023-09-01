@@ -5,6 +5,7 @@ namespace XCharts.Runtime
     [System.Serializable]
     [SerieHandler(typeof(ScatterHandler), true)]
     [CoordOptions(typeof(GridCoord), typeof(SingleAxisCoord))]
+    [DefaultTooltip(Tooltip.Type.None, Tooltip.Trigger.Item)]
     [SerieComponent(typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataExtraField("m_Radius")]

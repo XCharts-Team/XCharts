@@ -79,6 +79,7 @@ slug: /changelog
 
 日志详情：
 
+* (2023.09.01) 增加`Tooltip`的`Auto`自动设置显示类型和触发类型
 * (2023.08.29) 增加`Ring`的`gridIndex`支持设置指定网格
 * (2023.08.29) 增加`Radar`的`gridIndex`支持设置指定网格
 * (2023.08.29) 增加`Pie`的`gridIndex`支持设置指定网格

@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
-using XUGL;
 
 namespace XCharts.Runtime
 {
@@ -39,7 +37,12 @@ namespace XCharts.Runtime
             /// crosshair indicator, which is actually the shortcut of enable two axisPointers of two orthometric axes.
             /// |十字准星指示器。坐标轴显示Label和交叉线。
             /// </summary>
-            Corss
+            Corss,
+            /// <summary>
+            /// Auto select indicator according to serie type.
+            /// |根据serie的类型自动选择显示指示器。
+            /// </summary>
+            Auto
         }
 
         /// <summary>
@@ -62,7 +65,12 @@ namespace XCharts.Runtime
             /// Trigger nothing.
             /// |什么都不触发。
             /// </summary>
-            None
+            None,
+            /// <summary>
+            /// Auto select trigger according to serie type.
+            /// |根据serie的类型自动选择触发类型。
+            /// </summary>
+            Auto
         }
         /// <summary>
         /// Position type.
@@ -92,8 +100,8 @@ namespace XCharts.Runtime
         }
 
         [SerializeField] private bool m_Show = true;
-        [SerializeField] private Type m_Type;
-        [SerializeField] private Trigger m_Trigger = Trigger.Item;
+        [SerializeField] private Type m_Type = Type.Auto;
+        [SerializeField] private Trigger m_Trigger = Trigger.Auto;
         [SerializeField][Since("v3.3.0")] private Position m_Position = Position.Auto;
         [SerializeField] private string m_ItemFormatter;
         [SerializeField] private string m_TitleFormatter;
@@ -429,7 +437,7 @@ namespace XCharts.Runtime
         /// |当前提示框所指示的数据项索引。
         /// </summary>
         public List<int> runtimeDataIndex { get { return m_RuntimeDateIndex; } internal set { m_RuntimeDateIndex = value; } }
-        private List<int> m_RuntimeDateIndex = new List<int>() {-1, -1 };
+        private List<int> m_RuntimeDateIndex = new List<int>() { -1, -1 };
 
         /// <summary>
         /// Keep Tooltiop displayed at the top.
@@ -569,12 +577,12 @@ namespace XCharts.Runtime
 
         public bool IsTriggerItem()
         {
-            return trigger == Trigger.Item;
+            return trigger == Trigger.Auto ? context.trigger == Trigger.Item : trigger == Trigger.Item;
         }
 
         public bool IsTriggerAxis()
         {
-            return trigger == Trigger.Axis;
+            return trigger == Trigger.Auto ? context.trigger == Trigger.Axis : trigger == Trigger.Axis;
         }
 
         public LabelStyle GetContentLabelStyle(int index)

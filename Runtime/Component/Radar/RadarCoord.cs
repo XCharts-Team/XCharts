@@ -357,7 +357,7 @@ namespace XCharts.Runtime
             if (center.Length < 2) return;
             var chartPosition = chart.chartPosition;
             var chartWidth = chart.chartWidth;
-            var chartHeight = chart.chartWidth;
+            var chartHeight = chart.chartHeight;
             if (gridIndex >= 0)
             {
                 var layout = chart.GetChartComponent<GridLayout>(0);

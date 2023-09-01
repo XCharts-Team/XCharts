@@ -31,6 +31,7 @@ slug: /api
 - [DataZoomHelper](#datazoomhelper)
 - [DateTimeUtil](#datetimeutil)
 - [DefaultAnimationAttribute](#defaultanimationattribute)
+- [DefaultTooltipAttribute](#defaulttooltipattribute)
 - [DefineSymbolsUtil](#definesymbolsutil)
 - [FormatterHelper](#formatterhelper)
 - [GridCoordContext](#gridcoordcontext)
@@ -608,6 +609,14 @@ slug: /api
 |--|--|--|
 |DefaultAnimationAttribute()||public DefaultAnimationAttribute(AnimationType handler)|
 |DefaultAnimationAttribute()||public DefaultAnimationAttribute(AnimationType handler, bool enableSerieDataAddedAnimation)|
+
+## DefaultTooltipAttribute
+
+> XCharts.Runtime.DefaultTooltipAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+
+|public method|since|description|
+|--|--|--|
+|DefaultTooltipAttribute()||public DefaultTooltipAttribute(Tooltip.Type type, Tooltip.Trigger trigger)|
 
 ## DefineSymbolsUtil
 

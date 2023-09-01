@@ -5,6 +5,7 @@ namespace XCharts.Runtime
     [SerieConvert(typeof(Line), typeof(Pie))]
     [CoordOptions(typeof(GridCoord), typeof(PolarCoord))]
     [DefaultAnimation(AnimationType.BottomToTop)]
+    [DefaultTooltip(Tooltip.Type.Shadow, Tooltip.Trigger.Axis)]
     [SerieComponent(typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataExtraField("m_Ignore")]

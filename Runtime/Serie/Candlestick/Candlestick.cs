@@ -5,6 +5,7 @@ namespace XCharts.Runtime
     [System.Serializable]
     [SerieHandler(typeof(CandlestickHandler), true)]
     [DefaultAnimation(AnimationType.LeftToRight, false)]
+    [DefaultTooltip(Tooltip.Type.Shadow, Tooltip.Trigger.Axis)]
     [SerieComponent()]
     [SerieDataComponent(typeof(ItemStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataExtraField()]

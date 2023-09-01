@@ -11,11 +11,7 @@ namespace XCharts.Runtime
     {
         protected override void DefaultChart()
         {
-            AddChartComponentWhenNoExist<GridCoord>();
-
-            var tooltip = EnsureChartComponent<Tooltip>();
-            tooltip.type = Tooltip.Type.None;
-            tooltip.trigger = Tooltip.Trigger.Item;
+            EnsureChartComponent<GridCoord>();
 
             var xAxis = EnsureChartComponent<XAxis>();
             xAxis.type = Axis.AxisType.Value;

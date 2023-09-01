@@ -8,6 +8,7 @@ namespace XCharts.Runtime
     [SerieConvert(typeof(SimplifiedLine), typeof(Bar))]
     [CoordOptions(typeof(GridCoord))]
     [DefaultAnimation(AnimationType.LeftToRight, false)]
+    [DefaultTooltip(Tooltip.Type.Shadow, Tooltip.Trigger.Axis)]
     [SerieComponent()]
     [SerieDataComponent()]
     [SerieDataExtraField()]

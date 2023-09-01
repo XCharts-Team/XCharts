@@ -976,6 +976,15 @@ namespace XCharts.Runtime
             if (serie == null)
                 throw new ArgumentNullException("serie is null");
 
+            if (serie.GetType().IsDefined(typeof(DefaultTooltipAttribute), false))
+            {
+                var attribute1 = serie.GetType().GetAttribute<DefaultTooltipAttribute>();
+                if (attribute1 != null)
+                {
+                    serie.context.tooltipTrigger = attribute1.trigger;
+                    serie.context.tooltipType = attribute1.type;
+                }
+            }
             if (!serie.GetType().IsDefined(typeof(SerieHandlerAttribute), false))
             {
                 Debug.LogError("Serie no Handler:" + serie.GetType());

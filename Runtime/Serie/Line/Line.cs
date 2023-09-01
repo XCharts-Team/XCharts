@@ -7,22 +7,10 @@ namespace XCharts.Runtime
     [SerieConvert(typeof(Bar), typeof(Pie))]
     [CoordOptions(typeof(GridCoord), typeof(PolarCoord))]
     [DefaultAnimation(AnimationType.LeftToRight, false)]
-    [SerieComponent(
-        typeof(LabelStyle),
-        typeof(EndLabelStyle),
-        typeof(LineArrow),
-        typeof(AreaStyle),
-        typeof(EmphasisStyle),
-        typeof(BlurStyle),
-        typeof(SelectStyle))]
-    [SerieDataComponent(
-        typeof(ItemStyle),
-        typeof(LabelStyle),
-        typeof(SerieSymbol),
-        typeof(EmphasisStyle),
-        typeof(BlurStyle),
-        typeof(SelectStyle))]
+    [DefaultTooltip(Tooltip.Type.Line, Tooltip.Trigger.Axis)]
     [SerieDataExtraField("m_State", "m_Ignore")]
+    [SerieComponent(typeof(LabelStyle), typeof(EndLabelStyle), typeof(LineArrow), typeof(AreaStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieDataComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(SerieSymbol), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     public class Line : Serie, INeedSerieContainer
     {
         public int containerIndex { get; internal set; }

@@ -19,6 +19,8 @@ namespace XCharts.Runtime
         public float width;
         public float height;
         public float angle;
+        public Tooltip.Type type;
+        public Tooltip.Trigger trigger;
         public TooltipData data = new TooltipData();
     }
 }

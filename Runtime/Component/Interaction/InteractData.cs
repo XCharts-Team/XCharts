@@ -5,14 +5,14 @@ namespace XCharts.Runtime
     public class InteractData
     {
         private float m_PreviousValue = 0;
-        private float m_CurrentValue = 0;
-        private float m_TargetValue = 0;
-        private Vector3 m_PreviousPosition;
-        private Vector3 m_TargetPosition;
-        private Color32 m_PreviousColor;
-        private Color32 m_TargetColor;
-        private Color32 m_PreviousToColor;
-        private Color32 m_TargetToColor;
+        private float m_CurrentValue = float.NaN;
+        private float m_TargetValue = float.NaN;
+        private Vector3 m_PreviousPosition = Vector3.one;
+        private Vector3 m_TargetPosition = Vector3.one;
+        private Color32 m_PreviousColor = ColorUtil.clearColor32;
+        private Color32 m_TargetColor = ColorUtil.clearColor32;
+        private Color32 m_PreviousToColor = ColorUtil.clearColor32;
+        private Color32 m_TargetToColor = ColorUtil.clearColor32;
         private float m_UpdateTime = 0;
         private bool m_UpdateFlag = false;
         private bool m_ValueEnable = false;

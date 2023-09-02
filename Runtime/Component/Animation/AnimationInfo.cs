@@ -73,7 +73,15 @@ namespace XCharts.Runtime
             context.pause = false;
             context.end = false;
             context.startTime = 0;
+            context.currProgress = 0;
+            context.destProgress = 0;
+            context.totalProgress = 0;
+            context.sizeProgress = 0;
+            context.currPointIndex = 0;
+            context.currPoint = Vector3.zero;
+            context.destPoint = Vector3.zero;
             context.dataCurrProgress.Clear();
+            context.dataDestProgress.Clear();
         }
 
         /// <summary>
@@ -84,8 +92,7 @@ namespace XCharts.Runtime
         public void Start(bool reset = true)
         {
             if (!enable) return;
-            if (context.start) return;
-            if (context.pause)
+            if (context.start)
             {
                 context.pause = false;
                 return;
@@ -187,7 +194,9 @@ namespace XCharts.Runtime
             if (!context.start) return true;
             if (context.end) return true;
             if (context.pause) return false;
-            return context.currProgress == context.destProgress;
+            if (!context.init) return false;
+            return m_Reverse ? context.currProgress <= context.destProgress
+                : context.currProgress >= context.destProgress;
         }
 
         /// <summary>

@@ -38,8 +38,7 @@ namespace XCharts.Runtime
         public virtual void UpdateTooltipSerieParams(int dataIndex, bool showCategory,
             string category, string marker,
             string itemFormatter, string numericFormatter, string ignoreDataDefaultContent,
-            ref List<SerieParams> paramList, ref string title)
-        { }
+            ref List<SerieParams> paramList, ref string title) { }
         public virtual void OnLegendButtonClick(int index, string legendName, bool show) { }
         public virtual void OnLegendButtonEnter(int index, string legendName) { }
         public virtual void OnLegendButtonExit(int index, string legendName) { }
@@ -77,7 +76,7 @@ namespace XCharts.Runtime
 
         internal override void SetSerie(Serie serie)
         {
-            this.serie = (T)serie;
+            this.serie = (T) serie;
             this.serie.context.param.serieType = typeof(T);
             m_NeedInitComponent = true;
             AnimationStyleHelper.UpdateSerieAnimation(serie);
@@ -224,6 +223,7 @@ namespace XCharts.Runtime
         public override void InitComponent()
         {
             m_InitedLabel = false;
+            serie.context.totalDataIndex = serie.dataCount - 1;
             InitRoot();
             InitSerieLabel();
             InitSerieTitle();
@@ -386,7 +386,7 @@ namespace XCharts.Runtime
                 return;
             }
             InitRoot();
-            var dataAutoColor = (Color)chart.GetLegendRealShowNameColor(serie.legendName);
+            var dataAutoColor = (Color) chart.GetLegendRealShowNameColor(serie.legendName);
             m_EndLabel = ChartHelper.AddChartLabel(s_SerieEndLabelObjectName, m_SerieRoot.transform, serie.endLabel,
                 chart.theme.common, "", dataAutoColor, TextAnchor.MiddleLeft);
             m_EndLabel.SetActive(serie.endLabel.show);
@@ -599,7 +599,7 @@ namespace XCharts.Runtime
             var colorIndex = serie.colorByData ? serieData.index : serie.index;
             Color32 color, toColor;
             SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, colorIndex, SerieState.Normal, false);
-            return (Color)color;
+            return (Color) color;
         }
 
         protected void UpdateCoordSerieParams(ref List<SerieParams> paramList, ref string title,

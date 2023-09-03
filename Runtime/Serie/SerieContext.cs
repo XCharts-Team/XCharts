@@ -118,5 +118,6 @@ namespace XCharts.Runtime
 
         public Tooltip.Type tooltipType;
         public Tooltip.Trigger tooltipTrigger;
+        public int totalDataIndex;
     }
 }

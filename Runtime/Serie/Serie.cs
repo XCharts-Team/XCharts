@@ -1330,6 +1330,7 @@ namespace XCharts.Runtime
             else
                 m_Data.Add(serieData);
             serieData.OnAdd(animation);
+            context.totalDataIndex++;
             SetVerticesDirty();
             dataDirty = true;
             m_NeedUpdateFilterData = true;

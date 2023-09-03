@@ -15,6 +15,7 @@ namespace XCharts.Editor
             PropertyField("m_AvoidLabelOverlap");
             PropertyFiledMore(() =>
             {
+                PropertyField("m_MaxCache");
                 PropertyField("m_MinAngle");
                 PropertyField("m_MinRadius");
                 PropertyField("m_RoundCap");

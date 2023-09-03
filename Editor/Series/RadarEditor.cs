@@ -10,6 +10,7 @@ namespace XCharts.Editor
             PropertyField("m_ColorBy");
             PropertyField("m_RadarType");
             PropertyField("m_RadarIndex");
+            PropertyField("m_MaxCache");
             PropertyField("m_Smooth");
 
             PropertyField("m_Symbol");

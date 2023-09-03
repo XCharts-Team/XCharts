@@ -12,6 +12,7 @@ namespace XCharts.Editor
             PropertyTwoFiled("m_Radius");
             PropertyField("m_StartAngle");
             PropertyField("m_Gap");
+            PropertyField("m_MaxCache");
             PropertyField("m_RoundCap");
             PropertyField("m_Clockwise");
             PropertyField("m_AvoidLabelOverlap");

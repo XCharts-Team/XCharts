@@ -350,13 +350,9 @@ namespace XCharts.Runtime
 #endif
             if (!m_Enable)
                 return true;
-            foreach (var animation in animations)
-            {
-                if (animation.context.start && animation.context.end)
-                {
-                    return true;
-                }
-            }
+            var animation = activedAnimation;
+            if (animation != null && animation.context.end)
+                return true;
             if (IsSerieAnimation())
             {
                 if (m_FadeOut.context.start) return m_FadeOut.context.currProgress <= m_FadeOut.context.destProgress;
@@ -365,7 +361,8 @@ namespace XCharts.Runtime
             }
             else if (IsDataAnimation())
             {
-                return false;
+                if (animation == null) return true;
+                else return animation.context.end;
             }
             return true;
         }
@@ -462,7 +459,11 @@ namespace XCharts.Runtime
         {
             isEnd = false;
             var anim = activedAnimation;
-            if (anim == null) return destProgress;
+            if (anim == null)
+            {
+                isEnd = true;
+                return destProgress;
+            }
             return anim.CheckItemProgress(dataIndex, destProgress, ref isEnd, startProgress, m_UnscaledTime);
         }
 

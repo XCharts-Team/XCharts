@@ -134,6 +134,7 @@ namespace XCharts.Runtime
             var rate = serie.animation.GetCurrRate();
             var dataChangeDuration = serie.animation.GetChangeDuration();
             var interactDuration = serie.animation.GetInteractionDuration();
+            var isFadeOut = serie.animation.IsFadeOut();
             var unscaledTime = serie.animation.unscaledTime;
             var dataChanging = false;
             var interacting = false;
@@ -157,8 +158,8 @@ namespace XCharts.Runtime
 
                 SerieHelper.GetItemColor(out color, out toColor, out emptyColor, serie, serieData, chart.theme, colorIndex, state);
                 SerieHelper.GetSymbolInfo(out borderColor, out symbolBorder, out cornerRadius, serie, serieData, chart.theme, state);
-                double xValue = serieData.GetCurrData(0, 0, dataChangeDuration, unscaledTime, xAxis.inverse);
-                double yValue = serieData.GetCurrData(1, 0, dataChangeDuration, unscaledTime, yAxis.inverse);
+                double xValue = serieData.GetCurrData(0, 0, isFadeOut ? 0 : dataChangeDuration, unscaledTime, xAxis.inverse);
+                double yValue = serieData.GetCurrData(1, 0, isFadeOut ? 0 : dataChangeDuration, unscaledTime, yAxis.inverse);
 
                 if (serieData.IsDataChanged())
                     dataChanging = true;
@@ -177,13 +178,15 @@ namespace XCharts.Runtime
                 serieData.context.position = pos;
                 var datas = serieData.data;
                 var symbolSize = 0f;
-                if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting, interactDuration))
+                if (isFadeOut || !serieData.interact.TryGetValue(ref symbolSize, ref interacting, interactDuration))
                 {
                     symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme.serie.scatterSymbolSize, state);
-                    serieData.interact.SetValue(ref interacting, symbolSize, true);
-                    serieData.interact.TryGetValue(ref symbolSize, ref interacting, interactDuration);
+                    if (!isFadeOut)
+                    {
+                        serieData.interact.SetValue(ref interacting, symbolSize, true);
+                        serieData.interact.TryGetValue(ref symbolSize, ref interacting, interactDuration);
+                    }
                 }
-
                 symbolSize *= rate;
 
                 if (isEffectScatter)

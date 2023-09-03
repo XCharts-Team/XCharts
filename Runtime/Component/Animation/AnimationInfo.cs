@@ -309,14 +309,20 @@ namespace XCharts.Runtime
 
         internal float CheckItemProgress(int dataIndex, float destProgress, ref bool isEnd, float startProgress, bool m_UnscaledTime)
         {
+            if (m_Reverse)
+            {
+                var temp = startProgress;
+                startProgress = destProgress;
+                destProgress = temp;
+            }
             var currHig = GetDataCurrProgress(dataIndex, startProgress, destProgress, ref isEnd);
             if (IsFinish())
             {
-                return reverse ? startProgress : destProgress;
+                return destProgress;
             }
             else if (IsInDelay() || IsInIndexDelay(dataIndex))
             {
-                return reverse ? destProgress : startProgress;
+                return startProgress;
             }
             else if (context.pause)
             {
@@ -326,7 +332,7 @@ namespace XCharts.Runtime
             {
                 var duration = GetCurrAnimationDuration(dataIndex);
                 var delta = (destProgress - startProgress) / duration * (m_UnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime);
-                currHig = currHig + (reverse ? -delta : delta);
+                currHig += delta;
                 if (reverse)
                 {
                     if ((destProgress > 0 && currHig <= 0) || (destProgress < 0 && currHig >= 0))

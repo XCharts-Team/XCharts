@@ -138,6 +138,14 @@ namespace XCharts.Example
                 var heighest = Random.Range(50, 100);
                 chart.AddData(serie.index, serie.dataCount, open, close, lowest, heighest);
             }
+            else if (serie is Heatmap)
+            {
+                var yAxis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
+                for (int i = 0; i < yAxis.data.Count; i++)
+                {
+                    chart.AddData(serie.index, xAxis.data.Count - 1, i, Random.Range(0, 150));
+                }
+            }
             else
             {
                 chart.AddData(serie.index, Random.Range(10, 90), "data" + serie.dataCount);

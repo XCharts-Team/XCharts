@@ -109,6 +109,7 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_ConnectCenter = false;
         [SerializeField] private bool m_LineGradient = true;
         [SerializeField][Since("v3.4.0")] private float m_StartAngle;
+        [SerializeField][Since("v3.8.0")] private int m_GridIndex = -1;
         [SerializeField] private List<Indicator> m_IndicatorList = new List<Indicator>();
 
         public RadarCoordContext context = new RadarCoordContext();
@@ -119,6 +120,15 @@ namespace XCharts.Runtime
         /// |是否显示雷达坐标系组件。
         /// </summary>
         public bool show { get { return m_Show; } set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetComponentDirty(); } }
+        /// <summary>
+        /// Index of layout component that serie uses. Default is -1 means not use layout, otherwise use the first layout component.
+        /// |所使用的 layout 组件的 index。 默认为-1不指定index, 当为大于或等于0时, 为第一个layout组件的第index个格子。
+        /// </summary>
+        public int gridIndex
+        {
+            get { return m_GridIndex; }
+            set { if (PropertyUtil.SetStruct(ref m_GridIndex, value)) SetVerticesDirty(); }
+        }
         /// <summary>
         /// Radar render type, in which 'Polygon' and 'Circle' are supported.
         /// |雷达图绘制类型，支持 'Polygon' 和 'Circle'。
@@ -286,6 +296,7 @@ namespace XCharts.Runtime
         public override void SetDefaultValue()
         {
             m_Show = true;
+            m_GridIndex = -1;
             m_Shape = Shape.Polygon;
             m_Radius = 0.35f;
             m_SplitNumber = 5;
@@ -341,9 +352,21 @@ namespace XCharts.Runtime
             return 0;
         }
 
-        internal void UpdateRadarCenter(Vector3 chartPosition, float chartWidth, float chartHeight)
+        internal void UpdateRadarCenter(BaseChart chart)
         {
             if (center.Length < 2) return;
+            var chartPosition = chart.chartPosition;
+            var chartWidth = chart.chartWidth;
+            var chartHeight = chart.chartHeight;
+            if (gridIndex >= 0)
+            {
+                var layout = chart.GetChartComponent<GridLayout>(0);
+                if (layout != null)
+                {
+                    layout.UpdateRuntimeData(chart);
+                    layout.UpdateGridContext(gridIndex, ref chartPosition, ref chartWidth, ref chartHeight);
+                }
+            }
             var centerX = center[0] <= 1 ? chartWidth * center[0] : center[0];
             var centerY = center[1] <= 1 ? chartHeight * center[1] : center[1];
             context.center = chartPosition + new Vector3(centerX, centerY);

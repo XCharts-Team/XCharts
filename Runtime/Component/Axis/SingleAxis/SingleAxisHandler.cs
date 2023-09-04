@@ -33,10 +33,7 @@ namespace XCharts.Runtime
             axis.painter = chart.painter;
             axis.refreshComponent = delegate()
             {
-                axis.UpdateRuntimeData(chart.chartX,
-                    chart.chartY,
-                    chart.chartWidth,
-                    chart.chartHeight);
+                axis.UpdateRuntimeData(chart);
 
                 InitAxis(null,
                     axis.orient,

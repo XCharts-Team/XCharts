@@ -6,7 +6,7 @@ using Input = XCharts.Runtime.InputHelper;
 namespace XCharts.Example
 {
     [DisallowMultipleComponent]
-    public class Example_DynamicChart : MonoBehaviour
+    public class Example05_DynamicChart : MonoBehaviour
     {
         BaseChart chart;
 
@@ -14,7 +14,7 @@ namespace XCharts.Example
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.P))
             {
                 AddPieChart("Dynamic PieChart");
             }

@@ -8,6 +8,7 @@ namespace XCharts.Runtime
     {
         public Vector3 labelPosition;
         public Vector3 labelLinePosition;
+        public Vector3 labelLinePosition2;
         /// <summary>
         /// 开始角度
         /// </summary>

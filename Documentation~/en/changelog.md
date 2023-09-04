@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.8.0](#v380)  
 [v3.7.0](#v370)  
 [v3.6.0](#v360)  
 [v3.5.0](#v350)  
@@ -62,6 +63,62 @@
 
 ## master
 
+## v3.8.0
+
+Highlights:
+
+* Refactoring `Animation` animation system, adding support for `New Animation` and `Interactive animation`
+* Improved `PieChart` animation interactive representation
+* Added four new markers for `Symbol` : `EmptyTriangle`, `EmptyDiamond`, `Plus` and `Minus`
+* Improved `Chart` mouse interaction callback
+* Added the function of `LabelLine` to fix the horizontal coordinate
+* Added `GridLayout` grid layout component
+* Added `Auto` type for `Tooltip`
+* Optimizes and fixes several other issues
+
+Log details:
+
+* (2023.09.03) Release `v3.8.0`
+* (2023.09.01) Added `Tooltip` Auto to automatically set display type and trigger type
+* (2023.08.29) Added gridIndex support for `Ring` to set the specified grid
+* (2023.08.29) Added gridIndex support for Radar to set the specified grid
+* (2023.08.29) Added gridIndex support for `Pie` to set specified grids
+* (2023.08.29) Added the GridLayout component for managing multiple GridCoord layouts
+* (2023.08.25) Fixed display only one Label when there are multiple Marklines
+* (2023.08.25) Fixed MarkLine drawing outside the coordinate system after opening Clip
+* (2023.08.24) Optimizes `YAxis` to default 0-1 range when all data is 0
+* (2023.08.23) Fixed an issue where `Label` of `YAxis` could duplicate
+* (2023.08.22) Fixed `Bar` display hidden drawing performance exception
+* (2023.08.22) Improved Zebra histogram rendering performance (#276)
+* (2023.08.16) Added Daemon daemon to resolve an error after TMP is enabled locally
+* (2023.08.15) Fixed `Data` displaying axes incorrectly when data is between -1 and 1 (#273) (by __Ambitroc__)
+* (2023.08.14) Fixed `XCharts` updating error after` TextMeshPro `and` NewInputSystem `are enabled locally (#272)
+* (2023.08.12) Fixed `Chart` error when deleted at runtime (#269)
+* (2023.08.11) Fixed an issue where data could not be added when DataZoom was enabled
+* (2023.08.11) Fixed `itemFormatter` not working when `SerieData` sets ItemStyle separately
+* (2023.08.10) Improved BarChart`s performance when Tooltip`s Trigger is an Item
+* (2023.08.09) Added `Axis` to support dynamic icon colors by setting `color` of `IconStyle` to `clear`
+* (2023.08.08) Added support for `Pie` for `LabelLine`s` lineEndX `
+* (2023.08.05) Clean up the code for `Examples` and remove unnecessary use cases
+* (2023.08.04) Added support for `LabelLine`'s `lineEndX` to set the boot line to fixed X position
+* (2023.08.04) Added support for Ring`s avoidLabelOverlap to avoid text stacking (#247)
+* (2023.08.03) Improved Chart`s onSerieEnter, onSerieExit, and onSerieClick callbacks
+* (2023.08.02) Fixed invalid `onSerieEnter` and `onSerieExit` callbacks for `BarChart`
+* (2023.08.02) Added support for Symbol's `Plus` and `Minus` signs
+* (2023.07.31) Added support for Symbol's `EmptyTriangle` and `EmptyDiamond`, improved `Symbol` performance
+* (2023.07.31) Improved the default configuration effect of `Line`
+* (2023.07.27) Add `Serie` to `minRadius` to set minimum radius
+* (2023.07.26) Added `MLValue` multiple values
+* (2023.07.25) Added `XLog` log system
+* (2023.07.18) Improved the interactive animation effect of `Pie` pie chart
+* (2023.07.14) Added support for `Animation` `Interaction` interactive animation configuration
+* (2023.07.11) Added `Animation` `Addition` new animation configuration support
+* (2023.07.11) Reconstructs `Animation` animation system to improve animation experience
+* (2023.06.30) Added support for PolarCood`s indicatorLabelOffset setting indicating text offsets
+* (2023.06.30) Fixed an issue where the background color of Axis `IndicatorLabel` could be abnormal
+* (2023.06.30) Added support for Axis `IndicatorLabel` customizable `color`
+* (2023.06.12) Fixed an issue where AxisLabel's formatterFunction had the wrong value on the value axis
+
 ## v3.7.0
 
 Highlights:
@@ -75,17 +132,17 @@ Log details:
 
 * (2022.06.08) Release v3.7.0
 * (2023.06.04) Added `HelpDoc` help document skip
-* (2023.05.30) Fix to Serie name with `_` line causing `Legend` to not fire (#252) (by __svr2kos2__)
+* (2023.05.30) Fixed Serie name with `_` line causing `Legend` to not fire (#252) (by __svr2kos2__)
 * (2023.05.10) Added `MinMaxAuto` range type for `Axis`
 * (2023.05.10) Added support for `Clip` for `Line`
 * (2023.05.04) Fixed `Axis` setting` CeilRate `not taking effect in range -1 to 1
 * (2023.05.04) Optimizes MinMax type range calculations for Axis
-* (2023.05.04) Fix to AxisLabel displaying `Label` formatting incorrectly when the data is all floating point numbers less than 1
-* (2023.05.04) Fix to `Theme` being reset after modifying default theme parameters
+* (2023.05.04) Fixed AxisLabel displaying `Label` formatting incorrectly when the data is all floating point numbers less than 1
+* (2023.05.04) Fixed `Theme` being reset after modifying default theme parameters
 * (2023.05.04) Added `Warning` when `Symbol` selects `Custom` type
-* (2023.04.15) Fix to `DataZoom` may be abnormal in multiple charts (#252)
-* (2023.04.14) Fix to `Tooltip` may be abnormal when there is only one data
-* (2023.04.14) added `BaseChart`s `TriggerTooltip()` interface to try to trigger `ToolTip`
+* (2023.04.15) Fixed `DataZoom` may be abnormal in multiple charts (#252)
+* (2023.04.14) Fixed `Tooltip` may be abnormal when there is only one data
+* (2023.04.14) Added `BaseChart`s `TriggerTooltip()` interface to try to trigger `ToolTip`
 * (2023.04.12) Optimizes` RadarCood `setting` startAngle `with text following the adjustment position
 * (2023.04.12) Added `Radar` support for wildcard `{b}`
 * (2023.04.11) Fixed an issue where Inspector could be abnormal when dynamically adding components
@@ -153,7 +210,7 @@ Log details:
 * (2022.11.26) Fixed an exception when selecting `DataZoom` from right to left
 * (2022.11.20) Rename `UdpateXAxisIcon()` interface to `UpdateXAxisIcon()` (#235)
 * (2022.11.12) Added `Pie` `LabelLine` support `Symbol`
-* (2022.11.12) added `DataZoom` `MarqueeStyle` support box selection area
+* (2022.11.12) Added `DataZoom` `MarqueeStyle` support box selection area
 * (2022.11.10) Optimized area color fill effect for `Radar` when type is` Single `
 * (2022.11.04) Fixed exception after itemFormatter `Tooltip` set wildcard `{d}`
 
@@ -217,7 +274,7 @@ Details:
 * (2022.09.06) Added support for `SerieSymbol` `minSize` and `maxSize` parameters to set maximum and minimum sizes
 * (2022.09.06) Added support for `showStartLine` and `showEndLine` parameters for `AxisSplitLine` to set whether to display the first splitter
 * (2022.09.06) Added `Heatmap` support for different patterns via `symbol`
-* (2022.09.05) added `Heatmap` `heatmapType` support for setting `Data` and `Count` two different mapping methods of Heatmap
+* (2022.09.05) Added `Heatmap` `heatmapType` support for setting `Data` and `Count` two different mapping methods of Heatmap
 * (2022.09.05) Optimizes `Tooltip` when indicating numerical axis in thermograph
 * (2022.09.02) Added `onPointerEnterPie` callback support
 * (2022.09.02) Optimize the HeatmapChart `
@@ -227,7 +284,7 @@ Details:
 * (2022.08.29) optimizes `YAxis` Max/min calculations when `DataZoom` is enabled
 * (2022.08.29) optimized `CandlestickChart` massive data rendering
 * (2022.08.28) fixed an issue where `LineChart` does not appear properly in the case of stacking and custom Y-axis range
-* (2022.08.26) added `Legend` new icon type `Candlestick`
+* (2022.08.26) Added `Legend` new icon type `Candlestick`
 * (2022.08.26) optimizes` CandlestickChart `performance and adjusts related` AddData() `interface parameters
 * (2022.08.26) Added support for setting different display positions in Tooltip's `position` parameter
 * (2022.08.26) Delete the `fixedXEnable` and `fixedYEnable` arguments of Tooltip
@@ -259,7 +316,7 @@ Details:
 * (2022.08.10) Optimized font synchronization for Theme
 * (2022.08.10) optimizes the default `layer` of Chart to `UI`
 * (2022.08.09) optimizes the `Time` timeline of `Axis`
-* (2022.08.09) added AreaStyle `innerFill` parameter to support filling convex polygons
+* (2022.08.09) Added AreaStyle `innerFill` parameter to support filling convex polygons
 * (2022.08.08) Optimized the maintenance of data item indexes in `Serie`, added detection and repair functions, and fixed related problems
 * (2022.07.29) Fixed `Unity` version compatibility: Chart creation exception after some versions import
 * (2022.07.29) Add `Axis` to` Time `timeline, support sub-scale and sub-divider
@@ -273,10 +330,10 @@ Details:
 * (2022.07.22) Omit the `Emphasis`,` EmphasisItemStyle `, `EmphasisLabelStyle`, `EmphasisLabelLine` component
 * (2022.07.20) Added `Since` feature support for classes
 * (2022.07.20) fixed the `showStartLabel` and `showEndLabel` parameter Settings for `AxisLabel` not taking effect when `Axis` is on the` Value `Axis
-* (2022.07.19) added `Axis` to` MinorSplitLine `to set the Axis degree divider
-* (2022.07.19) added `Axis` `MinorTick` to set the Axis sub-scale
+* (2022.07.19) Added `Axis` to` MinorSplitLine `to set the Axis degree divider
+* (2022.07.19) Added `Axis` `MinorTick` to set the Axis sub-scale
 * (2022.07.17) Add the `smooth` parameter for Radar to set the smooth curve
-* (2022.07.15) added DataZoom support for the `Time` timeline
+* (2022.07.15) Added DataZoom support for the `Time` timeline
 
 ## v3.1.0
 
@@ -287,7 +344,7 @@ Details:
 * (2022.07.04) Added the axisMaxSplitNumber parameter of `Settings` to set the maximum number of partitions for `Axis`
 * (2022.07.04) Fixed Axis` Tick `drawing position after setting `offset`(#209)
 * (2022.07.03) Optimize the `AxisLabel` formatterFunction custom delegate
-* (2022.07.03) added the `onZero` parameter of `AxisName` to support setting the coordinate AxisName and position to match the Y-axis 0 scale (#207)
+* (2022.07.03) Added the `onZero` parameter of `AxisName` to support setting the coordinate AxisName and position to match the Y-axis 0 scale (#207)
 * (2022.07.02) Fixed bug where `Legend` was not working when `PieChart` was being created dynamically with code (#206)
 * (2022.07.02) Fixed `YAxis` AxisLabel setting `onZero` not working
 * (2022.07.02) Fixed `AxisLabel` code refreshing after setting `distance` property

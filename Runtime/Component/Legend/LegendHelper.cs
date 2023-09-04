@@ -284,9 +284,9 @@ namespace XCharts.Runtime
             return needShow;
         }
 
-        public static bool CheckDataHighlighted(Serie serie, string legendName, bool heighlight)
+        public static int CheckDataHighlighted(Serie serie, string legendName, bool heighlight)
         {
-            bool show = false;
+            var highlightedDataIndex = 0;
             if (legendName.Equals(serie.serieName))
             {
                 serie.highlight = heighlight;
@@ -298,11 +298,14 @@ namespace XCharts.Runtime
                     if (legendName.Equals(data.name))
                     {
                         data.context.highlight = heighlight;
-                        if (data.context.highlight) show = true;
+                        if (data.context.highlight)
+                        {
+                            highlightedDataIndex = data.index;
+                        }
                     }
                 }
             }
-            return show;
+            return highlightedDataIndex;
         }
     }
 }

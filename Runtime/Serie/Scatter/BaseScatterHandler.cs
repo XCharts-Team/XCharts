@@ -77,12 +77,11 @@ namespace XCharts.Runtime
             serie.context.pointerItemDataIndex = -1;
             serie.context.pointerEnter = false;
             var themeSymbolSize = chart.theme.serie.scatterSymbolSize;
-            var themeSymbolSelectedSize = chart.theme.serie.scatterSymbolSelectedSize;
             var needInteract = false;
             for (int i = serie.dataCount - 1; i >= 0; i--)
             {
                 var serieData = serie.data[i];
-                var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize);
+                var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, themeSymbolSize);
                 if (m_LegendEnter ||
                     (!needHideAll && Vector3.Distance(serieData.context.position, chart.pointerPos) <= symbolSize))
                 {
@@ -95,7 +94,7 @@ namespace XCharts.Runtime
                     serieData.context.highlight = false;
                 }
                 var state = SerieHelper.GetSerieState(serie, serieData, true);
-                symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize, state);
+                symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, themeSymbolSize, state);
                 serieData.interact.SetValue(ref needInteract, symbolSize);
             }
             if (needInteract)
@@ -133,7 +132,9 @@ namespace XCharts.Runtime
                 serie.dataCount;
             serie.animation.InitProgress(0, 1);
             var rate = serie.animation.GetCurrRate();
-            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            var dataChangeDuration = serie.animation.GetChangeDuration();
+            var interactDuration = serie.animation.GetInteractionDuration();
+            var isFadeOut = serie.animation.IsFadeOut();
             var unscaledTime = serie.animation.unscaledTime;
             var dataChanging = false;
             var interacting = false;
@@ -157,8 +158,8 @@ namespace XCharts.Runtime
 
                 SerieHelper.GetItemColor(out color, out toColor, out emptyColor, serie, serieData, chart.theme, colorIndex, state);
                 SerieHelper.GetSymbolInfo(out borderColor, out symbolBorder, out cornerRadius, serie, serieData, chart.theme, state);
-                double xValue = serieData.GetCurrData(0, dataChangeDuration, unscaledTime, xAxis.inverse);
-                double yValue = serieData.GetCurrData(1, dataChangeDuration, unscaledTime, yAxis.inverse);
+                double xValue = serieData.GetCurrData(0, 0, isFadeOut ? 0 : dataChangeDuration, unscaledTime, xAxis.inverse);
+                double yValue = serieData.GetCurrData(1, 0, isFadeOut ? 0 : dataChangeDuration, unscaledTime, yAxis.inverse);
 
                 if (serieData.IsDataChanged())
                     dataChanging = true;
@@ -177,12 +178,15 @@ namespace XCharts.Runtime
                 serieData.context.position = pos;
                 var datas = serieData.data;
                 var symbolSize = 0f;
-                if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting))
+                if (isFadeOut || !serieData.interact.TryGetValue(ref symbolSize, ref interacting, interactDuration))
                 {
-                    symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, chart.theme.serie.scatterSymbolSize, state);
-                    serieData.interact.SetValue(ref interacting, symbolSize);
+                    symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme.serie.scatterSymbolSize, state);
+                    if (!isFadeOut)
+                    {
+                        serieData.interact.SetValue(ref interacting, symbolSize, true);
+                        serieData.interact.TryGetValue(ref symbolSize, ref interacting, interactDuration);
+                    }
                 }
-
                 symbolSize *= rate;
 
                 if (isEffectScatter)
@@ -198,7 +202,6 @@ namespace XCharts.Runtime
                 }
                 else
                 {
-                    if (symbolSize > 100) symbolSize = 100;
                     chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, pos,
                         color, toColor, emptyColor, borderColor, symbol.gap, cornerRadius);
                 }
@@ -237,7 +240,7 @@ namespace XCharts.Runtime
             serie.animation.InitProgress(0, 1);
 
             var rate = serie.animation.GetCurrRate();
-            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            var dataChangeDuration = serie.animation.GetChangeDuration();
             var unscaledTime = serie.animation.unscaledTime;
             var dataChanging = false;
             var dataList = serie.GetDataList(xDataZoom);
@@ -264,7 +267,7 @@ namespace XCharts.Runtime
                     dataChanging = true;
 
                 var pos = Vector3.zero;
-                var xValue = serieData.GetCurrData(0, dataChangeDuration, unscaledTime, axis.inverse);
+                var xValue = serieData.GetCurrData(0, 0, dataChangeDuration, unscaledTime, axis.inverse);
 
                 if (axis.orient == Orient.Horizonal)
                 {
@@ -283,7 +286,7 @@ namespace XCharts.Runtime
                 serieData.context.position = pos;
 
                 var datas = serieData.data;
-                var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, chart.theme.serie.scatterSymbolSize, state);
+                var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme.serie.scatterSymbolSize, state);
                 symbolSize *= rate;
 
                 if (isEffectScatter)

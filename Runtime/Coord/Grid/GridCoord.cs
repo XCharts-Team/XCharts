@@ -16,6 +16,7 @@ namespace XCharts.Runtime
     public class GridCoord : CoordSystem, IUpdateRuntimeData, ISerieContainer
     {
         [SerializeField] private bool m_Show = true;
+        [SerializeField][Since("v3.8.0")] private int m_LayoutIndex = -1;
         [SerializeField] private float m_Left = 0.1f;
         [SerializeField] private float m_Right = 0.08f;
         [SerializeField] private float m_Top = 0.22f;
@@ -35,6 +36,18 @@ namespace XCharts.Runtime
         {
             get { return m_Show; }
             set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// The index of the grid layout component to which the grid belongs. 
+        /// The default is -1, which means that it does not belong to any grid layout component. 
+        /// When this value is set, the left, right, top, and bottom properties will be invalid.
+        /// |网格所属的网格布局组件的索引。默认为-1，表示不属于任何网格布局组件。当设置了该值时，left、right、top、bottom属性将失效。
+        /// </summary>
+        /// <value></value>
+        public int layoutIndex
+        {
+            get { return m_LayoutIndex; }
+            set { if (PropertyUtil.SetStruct(ref m_LayoutIndex, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Distance between grid component and the left side of the container.
@@ -109,53 +122,108 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetColor(ref m_BorderColor, value)) SetVerticesDirty(); }
         }
 
+        public void UpdateRuntimeData(BaseChart chart)
+        {
+            var chartX = chart.chartX;
+            var chartY = chart.chartY;
+            var chartWidth = chart.chartWidth;
+            var chartHeight = chart.chartHeight;
+            if (layoutIndex >= 0)
+            {
+                var layout = chart.GetChartComponent<GridLayout>(layoutIndex);
+                if (layout != null)
+                {
+                    layout.UpdateRuntimeData(chart);
+                    layout.UpdateGridContext(index, ref chartX, ref chartY, ref chartWidth, ref chartHeight);
+                }
+            }
+            var actualLeft = left <= 1 ? left * chartWidth : left;
+            var actualBottom = bottom <= 1 ? bottom * chartHeight : bottom;
+            var actualTop = top <= 1 ? top * chartHeight : top;
+            var actualRight = right <= 1 ? right * chartWidth : right;
+            context.x = chartX + actualLeft;
+            context.y = chartY + actualBottom;
+            context.width = chartWidth - actualLeft - actualRight;
+            context.height = chartHeight - actualTop - actualBottom;
+            context.position = new Vector3(context.x, context.y);
+            context.center = new Vector3(context.x + context.width / 2, context.y + context.height / 2);
+        }
+
+        /// <summary>
+        /// Whether the pointer is in the grid.
+        /// |指针是否在网格内。
+        /// </summary>
+        /// <returns></returns>
         public bool IsPointerEnter()
         {
             return context.isPointerEnter;
         }
 
-        public void UpdateRuntimeData(float chartX, float chartY, float chartWidth, float chartHeight)
-        {
-            context.left = left <= 1 ? left * chartWidth : left;
-            context.bottom = bottom <= 1 ? bottom * chartHeight : bottom;
-            context.top = top <= 1 ? top * chartHeight : top;
-            context.right = right <= 1 ? right * chartWidth : right;
-            context.x = chartX + context.left;
-            context.y = chartY + context.bottom;
-            context.width = chartWidth - context.left - context.right;
-            context.height = chartHeight - context.top - context.bottom;
-            context.position = new Vector3(context.x, context.y);
-            context.center = new Vector3(context.x + context.width / 2, context.y + context.height / 2);
-        }
-
+        /// <summary>
+        /// Whether the given position is in the grid.
+        /// |给定的位置是否在网格内。
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <returns></returns>
         public bool Contains(Vector3 pos)
         {
             return Contains(pos.x, pos.y);
         }
 
+        /// <summary>
+        /// Whether the given position is in the grid.
+        /// |给定的位置是否在网格内。
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="isYAxis"></param>
+        /// <returns></returns>
         [Since("v3.7.0")]
         public bool Contains(Vector3 pos, bool isYAxis)
         {
             return isYAxis ? ContainsY(pos.y) : ContainsX(pos.x);
         }
 
+        /// <summary>
+        /// Whether the given position is in the grid.
+        /// |给定的位置是否在网格内。
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public bool Contains(float x, float y)
         {
             return ContainsX(x) && ContainsY(y);
         }
 
+        /// <summary>
+        /// Whether the given x is in the grid.
+        /// |给定的x是否在网格内。
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         [Since("v3.7.0")]
         public bool ContainsX(float x)
         {
             return x >= context.x && x <= context.x + context.width;
         }
 
+        /// <summary>
+        /// Whether the given y is in the grid.
+        /// |给定的y是否在网格内。
+        /// </summary>
+        /// <param name="y"></param>
+        /// <returns></returns>
         [Since("v3.7.0")]
         public bool ContainsY(float y)
         {
             return y >= context.y && y <= context.y + context.height;
         }
 
+        /// <summary>
+        /// Clamp the position of pos to the grid.
+        /// |将位置限制在网格内。
+        /// </summary>
+        /// <param name="pos"></param>
         [Since("v3.7.0")]
         public void Clamp(ref Vector3 pos)
         {
@@ -163,6 +231,11 @@ namespace XCharts.Runtime
             ClampY(ref pos);
         }
 
+        /// <summary>
+        /// Clamp the x position of pos to the grid.
+        /// |将位置的X限制在网格内。
+        /// </summary>
+        /// <param name="pos"></param>
         [Since("v3.7.0")]
         public void ClampX(ref Vector3 pos)
         {
@@ -170,6 +243,11 @@ namespace XCharts.Runtime
             else if (pos.x > context.x + context.width) pos.x = context.x + context.width;
         }
 
+        /// <summary>
+        /// Clamp the y position of pos to the grid.
+        /// |将位置的Y限制在网格内。
+        /// </summary>
+        /// <param name="pos"></param>
         [Since("v3.7.0")]
         public void ClampY(ref Vector3 pos)
         {

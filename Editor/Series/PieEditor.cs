@@ -7,6 +7,7 @@ namespace XCharts.Editor
     {
         public override void OnCustomInspectorGUI()
         {
+            PropertyField("m_GridIndex");
             PropertyField("m_RoseType");
             PropertyField("m_Gap");
             PropertyTwoFiled("m_Center");
@@ -14,7 +15,9 @@ namespace XCharts.Editor
             PropertyField("m_AvoidLabelOverlap");
             PropertyFiledMore(() =>
             {
+                PropertyField("m_MaxCache");
                 PropertyField("m_MinAngle");
+                PropertyField("m_MinRadius");
                 PropertyField("m_RoundCap");
                 PropertyField("m_Ignore");
                 PropertyField("m_IgnoreValue");

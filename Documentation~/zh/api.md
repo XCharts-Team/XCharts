@@ -7,6 +7,7 @@ slug: /api
 
 ## 所有类
 
+- [AnimationInfoContext](#animationinfocontext)
 - [AnimationStyleHelper](#animationstylehelper)
 - [AxisContext](#axiscontext)
 - [AxisHandler&lt;T&gt;](#axishandlert)
@@ -30,9 +31,11 @@ slug: /api
 - [DataZoomHelper](#datazoomhelper)
 - [DateTimeUtil](#datetimeutil)
 - [DefaultAnimationAttribute](#defaultanimationattribute)
+- [DefaultTooltipAttribute](#defaulttooltipattribute)
 - [DefineSymbolsUtil](#definesymbolsutil)
 - [FormatterHelper](#formatterhelper)
 - [GridCoordContext](#gridcoordcontext)
+- [GridLayoutContext](#gridlayoutcontext)
 - [HeatmapChart](#heatmapchart)
 - [IgnoreDoc](#ignoredoc)
 - [INeedSerieContainer](#ineedseriecontainer)
@@ -56,6 +59,7 @@ slug: /api
 - [MainComponentHandler](#maincomponenthandler)
 - [MainComponentHandler&lt;T&gt;](#maincomponenthandlert)
 - [MathUtil](#mathutil)
+- [MonoBehaviour](#monobehaviour)
 - [Painter](#painter)
 - [ParallelChart](#parallelchart)
 - [ParallelCoordContext](#parallelcoordcontext)
@@ -109,7 +113,12 @@ slug: /api
 - [XChartsMgr](#xchartsmgr)
 - [XCResourceImporterWindow](#xcresourceimporterwindow)
 - [XCThemeMgr](#xcthememgr)
+- [XLog](#xlog)
 
+
+## AnimationInfoContext
+
+> XCharts.Runtime.AnimationInfoContext
 
 ## AnimationStyleHelper
 
@@ -119,7 +128,7 @@ slug: /api
 |--|--|--|
 |CheckDataAnimation()||public static float CheckDataAnimation(BaseChart chart, Serie serie, int dataIndex, float destProgress, float startPorgress = 0)|
 |GetAnimationPosition()||public static bool GetAnimationPosition(AnimationStyle animation, bool isY, Vector3 lp, Vector3 cp, float progress, ref Vector3 ip)|
-|UpdateAnimationType()||public static void UpdateAnimationType(AnimationStyle animation, AnimationType defaultType)|
+|UpdateAnimationType()||public static void UpdateAnimationType(AnimationStyle animation, AnimationType defaultType, bool enableSerieDataAnimation)|
 |UpdateSerieAnimation()||public static void UpdateSerieAnimation(Serie serie)|
 
 ## AxisContext
@@ -206,12 +215,12 @@ slug: /api
 |AddXAxisIcon()||public void AddXAxisIcon(Sprite icon, int xAxisIndex = 0)<br/>添加一个图标到指定的x轴。 |
 |AddYAxisData()||public void AddYAxisData(string category, int yAxisIndex = 0)<br/>添加一个类目数据到指定的y轴。 |
 |AddYAxisIcon()||public void AddYAxisIcon(Sprite icon, int yAxisIndex = 0)<br/>添加一个图标到指定的y轴。 |
-|AnimationEnable()||public void AnimationEnable(bool flag)<br/>启用或关闭起始动画。 |
-|AnimationFadeIn()||public void AnimationFadeIn(bool reset = true)<br/>开始渐入动画。 |
-|AnimationFadeOut()||public void AnimationFadeOut()<br/>开始渐出动画。 |
-|AnimationPause()||public void AnimationPause()<br/>暂停动画。 |
-|AnimationReset()||public void AnimationReset()<br/>重置动画。 |
-|AnimationResume()||public void AnimationResume()<br/>继续动画。 |
+|AnimationEnable()||public void AnimationEnable(bool flag)<br/>是否启用Serie动画。 |
+|AnimationFadeIn()||public void AnimationFadeIn(bool reset = true)<br/>开始所有Serie的渐入动画。 |
+|AnimationFadeOut()||public void AnimationFadeOut()<br/>开始所有Serie的渐出动画。 |
+|AnimationPause()||public void AnimationPause()<br/>暂停所有Serie的动画。 |
+|AnimationReset()||public void AnimationReset()<br/>重置所有Serie的动画。 |
+|AnimationResume()||public void AnimationResume()<br/>继续所有Serie的动画。 |
 |CanAddChartComponent()||public bool CanAddChartComponent(Type type)|
 |CanAddSerie()||public bool CanAddSerie(Type type)|
 |CanAddSerie&lt;T&gt;()||public bool CanAddSerie&lt;T&gt;() where T : Serie|
@@ -493,7 +502,7 @@ slug: /api
 |GetTextHeight()||public float GetTextHeight()|
 |GetTextWidth()||public float GetTextWidth()|
 |GetWidth()||public float GetWidth()|
-|IsActive()||public override bool IsActive()|
+|IsActiveByScale()||public bool IsActiveByScale()|
 |SetActive()||public void SetActive(bool flag)|
 |SetIcon()||public void SetIcon(Image image)|
 |SetIconActive()||public void SetIconActive(bool flag)|
@@ -509,7 +518,7 @@ slug: /api
 |SetTextColor()||public void SetTextColor(Color color)|
 |SetTextPadding()||public void SetTextPadding(TextPadding padding)|
 |SetTextRotate()||public void SetTextRotate(float rotate)|
-|UpdateIcon()||public void UpdateIcon(IconStyle iconStyle, Sprite sprite = null)|
+|UpdateIcon()||public void UpdateIcon(IconStyle iconStyle, Sprite sprite = null, Color color = default(Color))|
 
 ## ChartObject
 
@@ -599,6 +608,15 @@ slug: /api
 |public method|since|description|
 |--|--|--|
 |DefaultAnimationAttribute()||public DefaultAnimationAttribute(AnimationType handler)|
+|DefaultAnimationAttribute()||public DefaultAnimationAttribute(AnimationType handler, bool enableSerieDataAddedAnimation)|
+
+## DefaultTooltipAttribute
+
+> XCharts.Runtime.DefaultTooltipAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+
+|public method|since|description|
+|--|--|--|
+|DefaultTooltipAttribute()||public DefaultTooltipAttribute(Tooltip.Type type, Tooltip.Trigger trigger)|
 
 ## DefineSymbolsUtil
 
@@ -624,6 +642,10 @@ slug: /api
 ## GridCoordContext
 
 > XCharts.Runtime.GridCoordContext : [MainComponentContext](#maincomponentcontext)
+
+## GridLayoutContext
+
+> XCharts.Runtime.GridLayoutContext : [MainComponentContext](#maincomponentcontext)
 
 ## HeatmapChart
 
@@ -659,14 +681,19 @@ slug: /api
 |Reset()||public void Reset()|
 |SetColor()||public void SetColor(ref bool needInteract, Color32 color)|
 |SetColor()||public void SetColor(ref bool needInteract, Color32 color, Color32 toColor)|
-|SetValue()||public void SetValue(ref bool needInteract, float size)|
-|SetValue()||public void SetValue(ref bool needInteract, float size, bool highlight, float rate = 1.3f)|
+|SetPosition()||public void SetPosition(ref bool needInteract, Vector3 pos)|
+|SetValue()||public void SetValue(ref bool needInteract, float value, bool highlight, float rate = 1.3f)|
+|SetValue()||public void SetValue(ref bool needInteract, float value, bool previousValueZero = false)|
 |SetValueAndColor()||public void SetValueAndColor(ref bool needInteract, float value, Color32 color)|
 |SetValueAndColor()||public void SetValueAndColor(ref bool needInteract, float value, Color32 color, Color32 toColor)|
+|ToString()||public override string ToString()|
 |TryGetColor()||public bool TryGetColor(ref Color32 color, ref bool interacting, float animationDuration = 250)|
 |TryGetColor()||public bool TryGetColor(ref Color32 color, ref Color32 toColor, ref bool interacting, float animationDuration = 250)|
+|TryGetPosition()||public bool TryGetPosition(ref Vector3 pos, ref bool interacting, float animationDuration = 250)|
 |TryGetValue()||public bool TryGetValue(ref float value, ref bool interacting, float animationDuration = 250)|
 |TryGetValueAndColor()||public bool TryGetValueAndColor(ref float value, ref Color32 color, ref Color32 toColor, ref bool interacting, float animationDuration = 250)|
+|TryGetValueAndColor()||public bool TryGetValueAndColor(ref float value, ref Vector3 pos, ref bool interacting, float animationDuration = 250)|
+|TryGetValueAndColor()||public bool TryGetValueAndColor(ref float value, ref Vector3 pos, ref Color32 color, ref Color32 toColor, ref bool interacting, float animationDuration = 250)|
 
 ## IPropertyChanged
 
@@ -693,7 +720,7 @@ slug: /api
 
 ## IUpdateRuntimeData
 
-> XCharts.Runtime.IUpdateRuntimeData / Subclasses: [SingleAxis](#singleaxis),[DataZoom](#datazoom),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[ParallelCoord](#parallelcoord) 
+> XCharts.Runtime.IUpdateRuntimeData / Subclasses: [SingleAxis](#singleaxis),[DataZoom](#datazoom),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[GridLayout](#gridlayout),[ParallelCoord](#parallelcoord) 
 
 ## LayerHelper
 
@@ -714,7 +741,7 @@ slug: /api
 
 |public method|since|description|
 |--|--|--|
-|CheckDataHighlighted()||public static bool CheckDataHighlighted(Serie serie, string legendName, bool heighlight)|
+|CheckDataHighlighted()||public static int CheckDataHighlighted(Serie serie, string legendName, bool heighlight)|
 |CheckDataShow()||public static bool CheckDataShow(Serie serie, string legendName, bool show)|
 |GetContentColor()||public static Color GetContentColor(BaseChart chart, int legendIndex, string legendName, Legend legend, ThemeStyle theme, bool active)|
 |GetIconColor()||public static Color GetIconColor(BaseChart chart, Legend legend, int readIndex, string legendName, bool active)|
@@ -776,7 +803,7 @@ slug: /api
 
 ## MainComponentContext
 
-> XCharts.Runtime.MainComponentContext / Subclasses: [AxisContext](#axiscontext),[DataZoomContext](#datazoomcontext),[LegendContext](#legendcontext),[RadarCoordContext](#radarcoordcontext),[VisualMapContext](#visualmapcontext),[GridCoordContext](#gridcoordcontext),[ParallelCoordContext](#parallelcoordcontext),[PolarCoordContext](#polarcoordcontext) 
+> XCharts.Runtime.MainComponentContext / Subclasses: [AxisContext](#axiscontext),[DataZoomContext](#datazoomcontext),[LegendContext](#legendcontext),[RadarCoordContext](#radarcoordcontext),[VisualMapContext](#visualmapcontext),[GridCoordContext](#gridcoordcontext),[GridLayoutContext](#gridlayoutcontext),[ParallelCoordContext](#parallelcoordcontext),[PolarCoordContext](#polarcoordcontext) 
 
 ## MainComponentHandler
 
@@ -819,6 +846,10 @@ slug: /api
 |GetPrecision()||public static int GetPrecision(double value)|
 |IsInteger()||public static bool IsInteger(double value)|
 |Lerp()||public static double Lerp(double a, double b, double t)|
+
+## MonoBehaviour
+
+> .MonoBehaviour / Subclasses: [XLog](#xlog) 
 
 ## ObjectPool&lt;T&gt; where T
 
@@ -1029,11 +1060,14 @@ serie事件的数据。
 
 |public method|since|description|
 |--|--|--|
+|AfterUpdate()||public virtual void AfterUpdate() { }|
+|BeforeUpdate()||public virtual void BeforeUpdate() { }|
 |CheckComponent()||public virtual void CheckComponent(StringBuilder sb) { }|
 |DrawBase()||public virtual void DrawBase(VertexHelper vh) { }|
 |DrawSerie()||public virtual void DrawSerie(VertexHelper vh) { }|
 |DrawTop()||public virtual void DrawTop(VertexHelper vh) { }|
 |DrawUpper()||public virtual void DrawUpper(VertexHelper vh) { }|
+|ForceUpdateSerieContext()||public virtual void ForceUpdateSerieContext() { }|
 |InitComponent()||public virtual void InitComponent() { }|
 |OnBeginDrag()||public virtual void OnBeginDrag(PointerEventData eventData) { }|
 |OnDrag()||public virtual void OnDrag(PointerEventData eventData) { }|
@@ -1063,7 +1097,10 @@ serie事件的数据。
 
 |public method|since|description|
 |--|--|--|
+|AfterUpdate()||public override void AfterUpdate()|
+|BeforeUpdate()||public override void BeforeUpdate()|
 |DrawLabelLineSymbol()||public void DrawLabelLineSymbol(VertexHelper vh, LabelLine labelLine, Vector3 startPos, Vector3 endPos, Color32 defaultColor)|
+|ForceUpdateSerieContext()||public override void ForceUpdateSerieContext()|
 |GetPointerItemDataDimension()||public override int GetPointerItemDataDimension()|
 |GetPointerItemDataIndex()||public override int GetPointerItemDataIndex()|
 |GetSerieDataAutoColor()||public virtual Color GetSerieDataAutoColor(SerieData serieData)|
@@ -1125,11 +1162,11 @@ serie事件的数据。
 |GetSerieState()||public static SerieState GetSerieState(SerieData serieData)|
 |GetSerieSymbol()||public static SerieSymbol GetSerieSymbol(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)|
 |GetStateStyle()||public static StateStyle GetStateStyle(Serie serie, SerieData serieData, SerieState state)|
-|GetSysmbolSize()||public static float GetSysmbolSize(Serie serie, SerieData serieData, ThemeStyle theme, float defaultSize, SerieState state = SerieState.Auto)|
+|GetSysmbolSize()||public static float GetSysmbolSize(Serie serie, SerieData serieData, float defaultSize, SerieState state = SerieState.Auto, bool checkAnimation = false)|
 |GetTitleStyle()||public static TitleStyle GetTitleStyle(Serie serie, SerieData serieData)|
 |IsAllZeroValue()||public static bool IsAllZeroValue(Serie serie, int dimension = 1)<br/>系列指定维数的数据是否全部为0。 |
 |IsDownPoint()||public static bool IsDownPoint(Serie serie, int index)|
-|UpdateCenter()||public static void UpdateCenter(Serie serie, Vector3 chartPosition, float chartWidth, float chartHeight)<br/>更新运行时中心点和半径 |
+|UpdateCenter()||public static void UpdateCenter(Serie serie, BaseChart chart)<br/>更新运行时中心点和半径 |
 |UpdateFilterData()||public static void UpdateFilterData(Serie serie, DataZoom dataZoom)<br/>根据dataZoom更新数据列表缓存 |
 |UpdateMinMaxData()||public static void UpdateMinMaxData(Serie serie, int dimension, double ceilRate = 0, DataZoom dataZoom = null)<br/>获得指定维数的最大最小值 |
 |UpdateRect()||public static void UpdateRect(Serie serie, Vector3 chartPosition, float chartWidth, float chartHeight)|
@@ -1141,12 +1178,9 @@ serie事件的数据。
 
 |public method|since|description|
 |--|--|--|
-|AvoidLabelOverlap()||public static void AvoidLabelOverlap(Serie serie, ComponentTheme theme)|
 |CanShowLabel()||public static bool CanShowLabel(Serie serie, SerieData serieData, LabelStyle label, int dimesion)|
 |GetLabelColor()||public static Color GetLabelColor(Serie serie, ThemeStyle theme, int index)|
-|GetRealLabelPosition()||public static Vector3 GetRealLabelPosition(Serie serie, SerieData serieData, LabelStyle label, LabelLine labelLine)|
 |SetGaugeLabelText()||public static void SetGaugeLabelText(Serie serie)|
-|UpdatePieLabelPosition()||public static void UpdatePieLabelPosition(Serie serie, SerieData serieData)|
 
 ## SerieLabelPool
 
@@ -1280,10 +1314,17 @@ UGUI 图形库
 |--|--|--|
 |DrawDiamond()||public static void DrawDiamond(VertexHelper vh, Vector3 center, float size, Color32 color)<br/>Draw a diamond. 画菱形（钻石形状） |
 |DrawDiamond()||public static void DrawDiamond(VertexHelper vh, Vector3 center, float size, Color32 color, Color32 toColor)<br/>Draw a diamond. 画菱形（钻石形状） |
+|DrawDiamond()||public static void DrawDiamond(VertexHelper vh, Vector3 center, float xRadius, float yRadius, Color32 color, Color32 toColor)|
 |DrawEllipse()||public static void DrawEllipse(VertexHelper vh, Vector3 center, float w, float h, Color32 color, float smoothness = 1)|
+|DrawEmptyDiamond()||public static void DrawEmptyDiamond(VertexHelper vh, Vector3 center, float xRadius, float yRadius, float tickness, Color32 color)|
+|DrawEmptyDiamond()||public static void DrawEmptyDiamond(VertexHelper vh, Vector3 center, float xRadius, float yRadius, float tickness, Color32 color, Color32 emptyColor)|
+|DrawEmptyTriangle()||public static void DrawEmptyTriangle(VertexHelper vh, Vector3 pos, float size, float tickness, Color32 color)|
+|DrawEmptyTriangle()||public static void DrawEmptyTriangle(VertexHelper vh, Vector3 pos, float size, float tickness, Color32 color, Color32 backgroundColor)|
 |DrawLine()||public static void DrawLine(VertexHelper vh, List&lt;Vector3&gt; points, float width, Color32 color, bool smooth, bool closepath = false)|
 |DrawLine()||public static void DrawLine(VertexHelper vh, Vector3 startPoint, Vector3 endPoint, float width, Color32 color)<br/>Draw a line. 画直线 |
 |DrawLine()||public static void DrawLine(VertexHelper vh, Vector3 startPoint, Vector3 endPoint, float width, Color32 color, Color32 toColor)<br/>Draw a line. 画直线 |
+|DrawMinus()||public static void DrawMinus(VertexHelper vh, Vector3 center, float radius, float tickness, Color32 color)<br/>绘制减号 |
+|DrawPlus()||public static void DrawPlus(VertexHelper vh, Vector3 center, float radius, float tickness, Color32 color)<br/>绘制加号 |
 |DrawPolygon()||public static void DrawPolygon(VertexHelper vh, List&lt;Vector3&gt; points, Color32 color)<br/>填充任意多边形（目前只支持凸多边形） |
 |DrawRectangle()||public static void DrawRectangle(VertexHelper vh, Rect rect, Color32 color)|
 |DrawRectangle()||public static void DrawRectangle(VertexHelper vh, Rect rect, Color32 color, Color32 toColor)|
@@ -1409,4 +1450,27 @@ UI帮助类。
 |LoadTheme()||public static Theme LoadTheme(ThemeType type)|
 |ReloadThemeList()||public static void ReloadThemeList()<br/>重新加载主题列表 |
 |SwitchTheme()||public static void SwitchTheme(BaseChart chart, string themeName)|
+
+## XLog
+
+> XCharts.Runtime.XLog : [MonoBehaviour](#monobehaviour)
+日志系统。用于输出带日期和日志类型的日志，支持输出到文件，支持自定义输出的日志类型。
+
+|public method|since|description|
+|--|--|--|
+|CanLog()||public static bool CanLog(int level)|
+|ClearAllLog()||public static void ClearAllLog()|
+|Debug()||public static void Debug(string log)|
+|EnableLog()||public static void EnableLog(int logType)|
+|Error()||public static void Error(string log)|
+|FlushLog()||public static void FlushLog()|
+|GetNowTime()||public static string GetNowTime(string formatter = null)|
+|GetTimestamp()||public static ulong GetTimestamp()|
+|Info()||public static void Info(string log)|
+|Log()||public static void Log(string log)|
+|LogError()||public static void LogError(string log)|
+|LogWarning()||public static void LogWarning(string log)|
+|Proto()||public static void Proto(string log)|
+|Vital()||public static void Vital(string log)|
+|Warning()||public static void Warning(string log)|
 

@@ -27,7 +27,7 @@ namespace XCharts.Runtime
                     m_LastCheckContextFlag = needCheck;
                     serie.context.pointerItemDataIndex = -1;
                     serie.context.pointerEnter = false;
-                    serie.interact.SetValue(ref needAnimation1, lineWidth, false);
+                    serie.interact.SetValue(ref needAnimation1, lineWidth);
                     foreach (var serieData in serie.data)
                     {
                         var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
@@ -53,11 +53,11 @@ namespace XCharts.Runtime
             if (m_LegendEnter)
             {
                 serie.context.pointerEnter = true;
-                serie.interact.SetValue(ref needInteract, lineWidth, true, chart.theme.serie.selectedRate);
+                serie.interact.SetValue(ref needInteract, serie.animation.interaction.GetWidth(lineWidth));
                 for (int i = 0; i < serie.dataCount; i++)
                 {
                     var serieData = serie.data[i];
-                    var size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize, SerieState.Emphasis);
+                    var size = SerieHelper.GetSysmbolSize(serie, serieData, themeSymbolSize, SerieState.Emphasis);
                     serieData.context.highlight = true;
                     serieData.interact.SetValue(ref needInteract, size);
                 }

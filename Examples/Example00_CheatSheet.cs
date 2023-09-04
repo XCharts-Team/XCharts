@@ -6,6 +6,7 @@ using XCharts.Runtime;
 namespace XCharts.Example
 {
     [DisallowMultipleComponent]
+    [RequireComponent(typeof(LineChart))]
     public class Example00_CheatSheet : MonoBehaviour
     {
         private LineChart chart;
@@ -43,7 +44,6 @@ namespace XCharts.Example
         IEnumerator InitChart()
         {
             chart = gameObject.GetComponent<LineChart>();
-            if (chart == null) gameObject.AddComponent<LineChart>();
 
             chart.EnsureChartComponent<Title>().show = true;
             chart.EnsureChartComponent<Title>().text = "术语解析-组件";

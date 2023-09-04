@@ -133,8 +133,10 @@ namespace XCharts.Runtime
                 (serie.maxShow > showData.Count ? showData.Count : serie.maxShow) :
                 showData.Count;
 
-            bool dataChanging = false;
-            float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            var dataChanging = false;
+            var dataChangeDuration = serie.animation.GetChangeDuration();
+            var dataAddDuration = serie.animation.GetAdditionDuration();
+            var interactDuration = serie.animation.GetInteractionDuration();
             double yMinValue = relativedAxis.context.minValue;
             double yMaxValue = relativedAxis.context.maxValue;
 
@@ -161,10 +163,10 @@ namespace XCharts.Runtime
                 var highlight = serieData.context.highlight || serie.highlight;
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
                 var value = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
-                var relativedValue = serieData.GetCurrData(1, dataChangeDuration, relativedAxis.inverse, yMinValue, yMaxValue, serie.animation.unscaledTime);
+                var relativedValue = serieData.GetCurrData(1, dataAddDuration, dataChangeDuration, relativedAxis.inverse, yMinValue, yMaxValue, serie.animation.unscaledTime);
                 var borderWidth = relativedValue == 0 ? 0 : itemStyle.runtimeBorderWidth;
 
-                if (!serieData.interact.TryGetColor(ref areaColor, ref areaToColor, ref interacting))
+                if (!serieData.interact.TryGetColor(ref areaColor, ref areaToColor, ref interacting, interactDuration))
                 {
                     SerieHelper.GetItemColor(out areaColor, out areaToColor, serie, serieData, chart.theme);
                     serieData.interact.SetColor(ref interacting, areaColor, areaToColor);
@@ -216,7 +218,7 @@ namespace XCharts.Runtime
                 else
                 {
                     if (axis.context.minMaxRange <= 0) pY = grid.context.y;
-                    else pY = grid.context.y + (float) ((value - axis.context.minValue) / axis.context.minMaxRange) * (grid.context.height - barWidth);
+                    else pY = grid.context.y + (float)((value - axis.context.minValue) / axis.context.minMaxRange) * (grid.context.height - barWidth);
                 }
                 pX = AxisHelper.GetAxisValuePosition(grid, relativedAxis, categoryWidth, 0);
             }
@@ -229,7 +231,7 @@ namespace XCharts.Runtime
                 else
                 {
                     if (axis.context.minMaxRange <= 0) pX = grid.context.x;
-                    else pX = grid.context.x + (float) ((value - axis.context.minValue) / axis.context.minMaxRange) * (grid.context.width - barWidth);
+                    else pX = grid.context.x + (float)((value - axis.context.minValue) / axis.context.minMaxRange) * (grid.context.width - barWidth);
                 }
                 pY = AxisHelper.GetAxisValuePosition(grid, relativedAxis, categoryWidth, 0);
             }

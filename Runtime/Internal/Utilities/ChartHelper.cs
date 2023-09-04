@@ -273,7 +273,7 @@ namespace XCharts.Runtime
                 chartText = new ChartText();
 #if dUI_TextMeshPro
             RemoveComponent<Text>(txtObj);
-            chartText.tmpText = GetOrAddComponent<TextMeshProUGUI>(txtObj);
+            chartText.tmpText = EnsureComponent<TextMeshProUGUI>(txtObj);
             chartText.tmpText.font = textStyle.tmpFont == null ? theme.tmpFont : textStyle.tmpFont;
             chartText.tmpText.fontStyle = textStyle.tmpFontStyle;
             chartText.tmpText.richText = true;
@@ -370,12 +370,12 @@ namespace XCharts.Runtime
 
         public static ChartLabel AddAxisLabelObject(int total, int index, string name, Transform parent,
             Vector2 sizeDelta, Axis axis, ComponentTheme theme,
-            string content, Color autoColor, TextAnchor autoAlignment = TextAnchor.MiddleCenter)
+            string content, Color autoColor, TextAnchor autoAlignment = TextAnchor.MiddleCenter, Color32 iconDefaultColor = default(Color32))
         {
             var textStyle = axis.axisLabel.textStyle;
             var label = AddChartLabel(name, parent, axis.axisLabel, theme, content, autoColor, autoAlignment);
             var labelShow = axis.IsNeedShowLabel(index, total);
-            label.UpdateIcon(axis.axisLabel.icon, axis.GetIcon(index));
+            label.UpdateIcon(axis.axisLabel.icon, axis.GetIcon(index), iconDefaultColor);
             label.text.SetActive(labelShow);
             return label;
         }
@@ -682,19 +682,11 @@ namespace XCharts.Runtime
         public static double GetMaxDivisibleValue(double max, double ceilRate)
         {
             if (max == 0) return 0;
+			double pow = 1;
             if (max > -1 && max < 1)
             {
-                int count = 1;
-                int intvalue = (int)(max * Mathf.Pow(10, count));
-                while (intvalue == 0 && count < 12)
-                {
-                    count++;
-                    intvalue = (int)(max * Mathf.Pow(10, count));
-                }
-                var pow = Mathf.Pow(10, count);
-                var value = max > 0 ? (int)((max * (pow + 1))) / pow :
-                    (int)((max * (pow - 1))) / pow;
-                return GetMaxCeilRate(value, ceilRate);
+                pow = Mathf.Pow(10, MathUtil.GetPrecision(max));
+                max *= pow;
             }
             if (ceilRate == 0)
             {
@@ -720,11 +712,11 @@ namespace XCharts.Runtime
                 if (mmm >= (powmax - pown) && mmm < powmax)
                     mmm = powmax;
                 if (max < 0) return -Math.Ceiling(mmm > -max ? mmm : mm);
-                else return Math.Ceiling(mmm > max ? mmm : mm);
+                else return Math.Ceiling(mmm > max ? mmm : mm) / pow;
             }
             else
             {
-                return GetMaxCeilRate(max, ceilRate);
+                return GetMaxCeilRate(max, ceilRate) / pow;
             }
         }
 
@@ -747,19 +739,11 @@ namespace XCharts.Runtime
         public static double GetMinDivisibleValue(double min, double ceilRate)
         {
             if (min == 0) return 0;
+			double pow = 1;
             if (min > -1 && min < 1)
             {
-                int count = 1;
-                int intvalue = (int)(min * Mathf.Pow(10, count));
-                while (intvalue == 0 && count < 12)
-                {
-                    count++;
-                    intvalue = (int)(min * Mathf.Pow(10, count));
-                }
-                var pow = Mathf.Pow(10, count);
-                var value = min > 0 ? ((int)(min * (pow - 1))) / pow :
-                    ((int)(min * (pow + 1))) / pow;
-                return GetMinCeilRate(value, ceilRate);
+                pow = Mathf.Pow(10, MathUtil.GetPrecision(min));
+                min *= pow;
             }
             if (ceilRate == 0)
             {
@@ -775,12 +759,12 @@ namespace XCharts.Runtime
                     mm = bigger - bigger % (Mathf.Pow(10, n));
                     mm += min < 0 ? Mathf.Pow(10, n) : -Mathf.Pow(10, n);
                 }
-                if (min < 0) return -Math.Floor(mm);
-                else return Math.Floor(mm);
+                if (min < 0) return -Math.Floor(mm) / pow;
+                else return Math.Floor(mm) / pow;
             }
             else
             {
-                return GetMinCeilRate(min, ceilRate);
+                return GetMinCeilRate(min, ceilRate) / pow;
             }
         }
 

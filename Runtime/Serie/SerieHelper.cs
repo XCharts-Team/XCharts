@@ -213,9 +213,20 @@ namespace XCharts.Runtime
         /// </summary>
         /// <param name="chartWidth"></param>
         /// <param name="chartHeight"></param>
-        public static void UpdateCenter(Serie serie, Vector3 chartPosition, float chartWidth, float chartHeight)
+        public static void UpdateCenter(Serie serie, BaseChart chart)
         {
             if (serie.center.Length < 2) return;
+            var chartPosition = chart.chartPosition;
+            var chartWidth = chart.chartWidth;
+            var chartHeight = chart.chartHeight;
+            if (serie.gridIndex >= 0)
+            {
+                var layout = chart.GetChartComponent<GridLayout>(0);
+                if (layout != null)
+                {
+                    layout.UpdateGridContext(serie.gridIndex, ref chartPosition, ref chartWidth, ref chartHeight);
+                }
+            }
             var centerX = serie.center[0] <= 1 ? chartWidth * serie.center[0] : serie.center[0];
             var centerY = serie.center[1] <= 1 ? chartHeight * serie.center[1] : serie.center[1];
             serie.context.center = chartPosition + new Vector3(centerX, centerY);
@@ -436,14 +447,14 @@ namespace XCharts.Runtime
         public static ItemStyle GetItemStyle(Serie serie, SerieData serieData, SerieState state = SerieState.Auto)
         {
             if (state == SerieState.Auto) state = GetSerieState(serie, serieData);
-            if (state == SerieState.Normal)
+            var stateStyle = GetStateStyle(serie, serieData, state);
+            if (stateStyle == null || !stateStyle.show)
             {
                 return serieData != null && serieData.itemStyle != null ? serieData.itemStyle : serie.itemStyle;
             }
             else
             {
-                var stateStyle = GetStateStyle(serie, serieData, state);
-                return stateStyle == null || !stateStyle.show ? serie.itemStyle : stateStyle.itemStyle;
+                return stateStyle.itemStyle;
             }
         }
 
@@ -646,7 +657,7 @@ namespace XCharts.Runtime
             if (stateStyle == null)
             {
                 var itemStyle = GetItemStyle(serie, serieData, SerieState.Normal);
-                border = itemStyle.borderWidth != 0 ? itemStyle.borderWidth : serie.lineStyle.GetWidth(theme.serie.lineWidth);
+                border = itemStyle.borderWidth != 0 ? itemStyle.borderWidth : serie.lineStyle.GetWidth(theme.serie.lineWidth) * 1.8f;
                 cornerRadius = itemStyle.cornerRadius;
                 GetColor(ref borderColor, itemStyle.borderColor, itemStyle.borderColor, 1, theme, -1);
                 switch (state)
@@ -667,14 +678,15 @@ namespace XCharts.Runtime
             else
             {
                 var itemStyle = stateStyle.itemStyle;
-                border = itemStyle.borderWidth != 0 ? itemStyle.borderWidth : stateStyle.lineStyle.GetWidth(theme.serie.lineWidth);
+                border = itemStyle.borderWidth != 0 ? itemStyle.borderWidth : stateStyle.lineStyle.GetWidth(theme.serie.lineWidth) * 1.8f;
                 cornerRadius = itemStyle.cornerRadius;
                 GetColor(ref borderColor, stateStyle.itemStyle.borderColor, ColorUtil.clearColor32, 1, theme, -1);
             }
         }
 
-        public static float GetSysmbolSize(Serie serie, SerieData serieData, ThemeStyle theme, float defaultSize, SerieState state = SerieState.Auto)
+        public static float GetSysmbolSize(Serie serie, SerieData serieData, float defaultSize, SerieState state = SerieState.Auto, bool checkAnimation = false)
         {
+            if (serie == null) return defaultSize;
             if (state == SerieState.Auto)
                 state = GetSerieState(serie, serieData);
             var stateStyle = GetStateStyle(serie, serieData, state);
@@ -687,7 +699,7 @@ namespace XCharts.Runtime
                 {
                     case SerieState.Emphasis:
                     case SerieState.Select:
-                        size *= theme.serie.selectedRate;
+                        size = serie.animation.interaction.GetRadius(size);
                         break;
                     default:
                         break;
@@ -697,6 +709,10 @@ namespace XCharts.Runtime
             {
                 var symbol = stateStyle.symbol;
                 size = symbol.GetSize(serieData == null ? null : serieData.data, defaultSize);
+            }
+            if (serieData != null && checkAnimation)
+            {
+                size = (float)serieData.GetAddAnimationData(0, size, serie.animation.GetAdditionDuration());
             }
             return size;
         }
@@ -815,6 +831,10 @@ namespace XCharts.Runtime
                 serie.m_FilterMinShow = dataZoom.minShowNum;
                 serie.m_NeedUpdateFilterData = false;
 
+                if (ReferenceEquals(serie.m_FilterData, data))
+                {
+                    serie.m_FilterData = new List<SerieData>();
+                }
                 serie.m_FilterData.Clear();
                 foreach (var serieData in data)
                 {

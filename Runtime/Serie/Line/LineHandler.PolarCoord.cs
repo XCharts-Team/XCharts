@@ -27,7 +27,7 @@ namespace XCharts.Runtime
                     m_LastCheckContextFlag = needCheck;
                     serie.context.pointerItemDataIndex = -1;
                     serie.context.pointerEnter = false;
-                    serie.interact.SetValue(ref needAnimation1, lineWidth, false);
+                    serie.interact.SetValue(ref needAnimation1, lineWidth);
                     foreach (var serieData in serie.data)
                     {
                         var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
@@ -53,11 +53,11 @@ namespace XCharts.Runtime
             if (m_LegendEnter)
             {
                 serie.context.pointerEnter = true;
-                serie.interact.SetValue(ref needInteract, lineWidth, true, chart.theme.serie.selectedRate);
+                serie.interact.SetValue(ref needInteract, serie.animation.interaction.GetWidth(lineWidth));
                 for (int i = 0; i < serie.dataCount; i++)
                 {
                     var serieData = serie.data[i];
-                    var size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize, SerieState.Emphasis);
+                    var size = SerieHelper.GetSysmbolSize(serie, serieData, themeSymbolSize, SerieState.Emphasis);
                     serieData.context.highlight = true;
                     serieData.interact.SetValue(ref needInteract, size);
                 }
@@ -269,7 +269,7 @@ namespace XCharts.Runtime
                     if (!symbol.show || !symbol.ShowSymbol(i, count))
                         continue;
 
-                    var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, chart.theme.serie.lineSymbolSize, state);
+                    var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme.serie.lineSymbolSize, state);
                     SerieHelper.GetItemColor(out symbolColor, out symbolToColor, out symbolEmptyColor, serie, serieData, chart.theme, n);
                     SerieHelper.GetSymbolInfo(out borderColor, out symbolBorder, out cornerRadius, serie, null, chart.theme, state);
 

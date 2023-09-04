@@ -782,7 +782,7 @@ namespace XCharts.Runtime
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series[i];
-                if (serie is T)
+                if (serie.show && serie is T)
                 {
                     if (serie.barGap != 0)
                     {
@@ -935,6 +935,7 @@ namespace XCharts.Runtime
             for (int i = 0; i < m_Series.Count; i++)
             {
                 var serie = m_Series[i];
+                if (!serie.show) continue;
                 if (!(serie is T)) continue;
                 if (string.IsNullOrEmpty(serie.stack))
                 {
@@ -975,13 +976,22 @@ namespace XCharts.Runtime
             if (serie == null)
                 throw new ArgumentNullException("serie is null");
 
+            if (serie.GetType().IsDefined(typeof(DefaultTooltipAttribute), false))
+            {
+                var attribute1 = serie.GetType().GetAttribute<DefaultTooltipAttribute>();
+                if (attribute1 != null)
+                {
+                    serie.context.tooltipTrigger = attribute1.trigger;
+                    serie.context.tooltipType = attribute1.type;
+                }
+            }
             if (!serie.GetType().IsDefined(typeof(SerieHandlerAttribute), false))
             {
                 Debug.LogError("Serie no Handler:" + serie.GetType());
                 return;
             }
             var attribute = serie.GetType().GetAttribute<SerieHandlerAttribute>();
-            var handler = (SerieHandler) Activator.CreateInstance(attribute.handler);
+            var handler = (SerieHandler)Activator.CreateInstance(attribute.handler);
             handler.attribute = attribute;
             handler.chart = this;
             handler.defaultDimension = 1;

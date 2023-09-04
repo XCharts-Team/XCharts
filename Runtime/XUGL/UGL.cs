@@ -406,18 +406,39 @@ namespace XUGL
             if (dist < 0.1f) return;
             if (zebraWidth == 0) zebraWidth = 3 * width;
             if (zebraGap == 0) zebraGap = 3 * width;
-            var allSegment = Mathf.CeilToInt(maxDistance / (zebraWidth + zebraGap));
-            var segment = Mathf.CeilToInt(dist / maxDistance * allSegment);
+            var segment = Mathf.CeilToInt(dist / (zebraWidth + zebraGap)) + 1;
             var dir = (endPoint - startPoint).normalized;
             var sp = startPoint;
             var np = Vector3.zero;
             var isGradient = !color.Equals(toColor);
-            zebraWidth = (maxDistance - zebraGap * (allSegment - 1)) / allSegment;
-            for (int i = 1; i <= segment; i++)
+            var currDist = 0f;
+            for (int i = 0; i <= segment; i++)
             {
-                np = sp + dir * zebraWidth;
-                DrawLine(vh, sp, np, width, isGradient ? Color32.Lerp(color, toColor, i * 1.0f / allSegment) : color);
-                sp = np + dir * zebraGap;
+                if (currDist + zebraWidth + zebraGap <= dist)
+                {
+                    currDist += (zebraWidth + zebraGap);
+                    np = sp + dir * zebraWidth;
+                    DrawLine(vh, sp, np, width, isGradient ? Color32.Lerp(color, toColor, currDist / maxDistance) : color);
+                    sp = np + dir * zebraGap;
+                }
+                else
+                {
+                    if (currDist + zebraWidth <= dist)
+                    {
+                        currDist += zebraWidth;
+                        np = sp + dir * zebraWidth;
+                        DrawLine(vh, sp, np, width, isGradient ? Color32.Lerp(color, toColor, currDist / maxDistance) : color);
+                        if (dist - currDist > 6)
+                        {
+                            DrawLine(vh, endPoint - dir * 2f, endPoint, width, isGradient ? Color32.Lerp(color, toColor, dist / maxDistance) : color);
+                        }
+                    }
+                    else
+                    {
+                        DrawLine(vh, sp, endPoint, width, isGradient ? Color32.Lerp(color, toColor, dist / maxDistance) : color);
+                    }
+                    break;
+                }
             }
         }
 
@@ -443,12 +464,48 @@ namespace XUGL
         /// <param name="toColor">渐变色2</param>
         public static void DrawDiamond(VertexHelper vh, Vector3 center, float size, Color32 color, Color32 toColor)
         {
-            var p1 = new Vector2(center.x - size, center.y);
-            var p2 = new Vector2(center.x, center.y + size);
-            var p3 = new Vector2(center.x + size, center.y);
-            var p4 = new Vector2(center.x, center.y - size);
+            DrawDiamond(vh, center, size, size, color, toColor);
+        }
+
+        public static void DrawDiamond(VertexHelper vh, Vector3 center, float xRadius, float yRadius, Color32 color, Color32 toColor)
+        {
+            var p1 = new Vector2(center.x - xRadius, center.y);
+            var p2 = new Vector2(center.x, center.y + yRadius);
+            var p3 = new Vector2(center.x + xRadius, center.y);
+            var p4 = new Vector2(center.x, center.y - yRadius);
             DrawTriangle(vh, p4, p1, p2, color, color, toColor);
             DrawTriangle(vh, p3, p4, p2, color, color, toColor);
+        }
+
+        public static void DrawEmptyDiamond(VertexHelper vh, Vector3 center, float xRadius, float yRadius, float tickness, Color32 color)
+        {
+            DrawEmptyDiamond(vh, center, xRadius, yRadius, tickness, color, s_ClearColor32);
+        }
+
+        public static void DrawEmptyDiamond(VertexHelper vh, Vector3 center, float xRadius, float yRadius, float tickness, Color32 color, Color32 emptyColor)
+        {
+            var p1 = new Vector2(center.x - xRadius, center.y);
+            var p2 = new Vector2(center.x, center.y + yRadius);
+            var p3 = new Vector2(center.x + xRadius, center.y);
+            var p4 = new Vector2(center.x, center.y - yRadius);
+
+            var xRadius1 = xRadius - tickness;
+            var yRadius1 = yRadius - tickness * 1.5f;
+            var ip1 = new Vector2(center.x - xRadius1, center.y);
+            var ip2 = new Vector2(center.x, center.y + yRadius1);
+            var ip3 = new Vector2(center.x + xRadius1, center.y);
+            var ip4 = new Vector2(center.x, center.y - yRadius1);
+
+            if (!UGLHelper.IsClearColor(emptyColor))
+            {
+                DrawQuadrilateral(vh, ip1, ip2, ip3, ip4, emptyColor);
+            }
+
+            AddVertToVertexHelper(vh, p1, ip1, color, false);
+            AddVertToVertexHelper(vh, p2, ip2, color);
+            AddVertToVertexHelper(vh, p3, ip3, color);
+            AddVertToVertexHelper(vh, p4, ip4, color);
+            AddVertToVertexHelper(vh, p1, ip1, color);
         }
 
         /// <summary>
@@ -1224,6 +1281,38 @@ namespace XUGL
             vh.AddTriangle(startIndex, startIndex + 1, startIndex + 2);
         }
 
+        public static void DrawEmptyTriangle(VertexHelper vh, Vector3 pos, float size, float tickness, Color32 color)
+        {
+            DrawEmptyTriangle(vh, pos, size, tickness, color, s_ClearColor32);
+        }
+
+        public static void DrawEmptyTriangle(VertexHelper vh, Vector3 pos, float size, float tickness, Color32 color, Color32 backgroundColor)
+        {
+            var cos30 = Mathf.Cos(30 * Mathf.PI / 180);
+            var sin30 = Mathf.Sin(30 * Mathf.PI / 180);
+            var x = size * cos30;
+            var y = size * sin30;
+            var outsideLeft = new Vector2(pos.x - x, pos.y - y);
+            var outsideTop = new Vector2(pos.x, pos.y + size);
+            var outsideRight = new Vector2(pos.x + x, pos.y - y);
+
+            var size2 = size - tickness;
+            var x1 = size2 * cos30;
+            var y1 = size2 * sin30;
+            var insideLeft = new Vector2(pos.x - x1, pos.y - y1);
+            var insideTop = new Vector2(pos.x, pos.y + size2);
+            var insideRight = new Vector2(pos.x + x1, pos.y - y1);
+
+            if (!UGLHelper.IsClearColor(backgroundColor))
+            {
+                DrawTriangle(vh, insideLeft, insideTop, insideRight, backgroundColor, backgroundColor, backgroundColor);
+            }
+            AddVertToVertexHelper(vh, outsideLeft, insideLeft, color, false);
+            AddVertToVertexHelper(vh, outsideTop, insideTop, color);
+            AddVertToVertexHelper(vh, outsideRight, insideRight, color);
+            AddVertToVertexHelper(vh, outsideLeft, insideLeft, color);
+        }
+
         public static void DrawCricle(VertexHelper vh, Vector3 center, float radius, Color32 color,
             float smoothness = 2f)
         {
@@ -1327,7 +1416,7 @@ namespace XUGL
             if (gap > 0 && isCircle) gap = 0;
             radius -= borderWidth;
             smoothness = (smoothness < 0 ? 2f : smoothness);
-            int segments = (int) ((2 * Mathf.PI * radius) * (Mathf.Abs(toDegree - startDegree) / 360) / smoothness);
+            int segments = (int)((2 * Mathf.PI * radius) * (Mathf.Abs(toDegree - startDegree) / 360) / smoothness);
             if (segments < 1) segments = 1;
             float startAngle = startDegree * Mathf.Deg2Rad;
             float toAngle = toDegree * Mathf.Deg2Rad;
@@ -1520,7 +1609,7 @@ namespace XUGL
             var needSpace = gap != 0;
             var diffAngle = Mathf.Abs(toDegree - startDegree) * Mathf.Deg2Rad;
 
-            int segments = (int) ((2 * Mathf.PI * outsideRadius) * (diffAngle * Mathf.Rad2Deg / 360) / smoothness);
+            int segments = (int)((2 * Mathf.PI * outsideRadius) * (diffAngle * Mathf.Rad2Deg / 360) / smoothness);
             if (segments < 1) segments = 1;
             float startAngle = startDegree * Mathf.Deg2Rad;
             float toAngle = toDegree * Mathf.Deg2Rad;
@@ -1779,7 +1868,7 @@ namespace XUGL
             float lineWidth, Color32 lineColor, float smoothness, Direction dire = Direction.XAxis)
         {
             var dist = Vector3.Distance(sp, ep);
-            var segment = (int) (dist / (smoothness <= 0 ? 2f : smoothness));
+            var segment = (int)(dist / (smoothness <= 0 ? 2f : smoothness));
             UGLHelper.GetBezierList2(ref s_CurvesPosList, sp, ep, segment, cp1, cp2);
             DrawCurvesInternal(vh, s_CurvesPosList, lineWidth, lineColor, dire);
         }
@@ -1801,15 +1890,15 @@ namespace XUGL
             bool closed = false)
         {
             var count = points.Count;
-            var size = (closed?count : count - 1);
+            var size = (closed ? count : count - 1);
             if (closed)
                 dire = Direction.Random;
             for (int i = 0; i < size; i++)
             {
                 var sp = points[i];
-                var ep = closed?(i == size - 1 ? points[0] : points[i + 1]) : points[i + 1];
-                var lsp = i > 0 ? points[i - 1] : (closed?points[count - 1] : sp);
-                var nep = i < points.Count - 2 ? points[i + 2] : (closed?points[(i + 2) % count] : ep);
+                var ep = closed ? (i == size - 1 ? points[0] : points[i + 1]) : points[i + 1];
+                var lsp = i > 0 ? points[i - 1] : (closed ? points[count - 1] : sp);
+                var nep = i < points.Count - 2 ? points[i + 2] : (closed ? points[(i + 2) % count] : ep);
                 var smoothness2 = smoothness;
                 if (currProgress != float.NaN)
                 {
@@ -1965,6 +2054,41 @@ namespace XUGL
             {
                 vh.AddTriangle(cv, cv + i - 1, cv + i);
             }
+        }
+
+        /// <summary>
+        /// Draw plus sign.
+        /// |绘制加号
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        /// <param name="tickness"></param>
+        /// <param name="color"></param>
+        public static void DrawPlus(VertexHelper vh, Vector3 center, float radius, float tickness, Color32 color)
+        {
+            var xPos1 = new Vector3(center.x - radius, center.y);
+            var xPos2 = new Vector3(center.x + radius, center.y);
+            var yPos1 = new Vector3(center.x, center.y - radius);
+            var yPos2 = new Vector3(center.x, center.y + radius);
+            UGL.DrawLine(vh, xPos1, xPos2, tickness, color);
+            UGL.DrawLine(vh, yPos1, yPos2, tickness, color);
+        }
+
+        /// <summary>
+        /// Draw minus sign.
+        /// |绘制减号
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        /// <param name="tickness"></param>
+        /// <param name="color"></param>
+        public static void DrawMinus(VertexHelper vh, Vector3 center, float radius, float tickness, Color32 color)
+        {
+            var xPos1 = new Vector3(center.x - radius, center.y);
+            var xPos2 = new Vector3(center.x + radius, center.y);
+            UGL.DrawLine(vh, xPos1, xPos2, tickness, color);
         }
     }
 }

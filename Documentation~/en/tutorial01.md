@@ -1,85 +1,103 @@
-# 教程：5分钟上手 XCharts 3.0
+---
+title: Introductory tutorial: Get started with XCharts 3.0 in 5 minutes
+sidebar_position: 11
+slug: /tutorial01
+---
 
-## 获取和导入 XCharts
+# Tutorial: Get started with XCharts 3.0 in 5 minutes
 
-XCharts可通过以下任意一种方式导入到项目：
+> Note: This tutorial is for XCharts 3.x version only
 
-- 直接将XCharts源码到项目
+## What do I need to know before using XCharts
 
-   下载好XCharts源码后，直接将XCharts目录拷贝到Unity项目工程的Assets目录或Packages目录下，编译通过后即可使用。
+- Have used Unity, know the basic operation of Unity.
+- Understand UGUI and can use UGUI.
+- Understand MonoBehavior script usage in Unity, know how to hang scripts, manipulate scripts with code.
 
-- 通过`Assets/Import Package`导入XCharts
+## Get and import XCharts
 
-   下载好XCharts的.unitypackage文件后，打开Unity，菜单栏 Assets-->Import Package-->选中.unitypackage导入即可开始使用XCharts。
+XCharts can be imported into a project in any of the following ways:
 
-- 通过`Package Manager`导入XCharts
+- Source XCharts directly into the project
 
-   对于Unity 2018.3以上版本，可通过 Package Manager来导入XCharts，打开Package Manager后，通过 `Add package form git URL...`，输入XCharts3.0的GitHub URL: `https://github.com/XCharts-Team/XCharts.git#3.0` 稍等片刻后即可使用XCharts。
+    After downloading the XCharts source code, copy the XCharts directory directly to the Assets directory of the Unity project.
 
-   也可以直接将package加入到`manifest.json`文件：打开`Packages`目录下的`manifest.json`文件，在`dependencies`下加入：
+- Import XCharts through `Assets/Import Package`
+
+    After downloading the.unitypackage file for XCharts, open Unity and go to the menu bar Assets--&gt; Import Package--&gt; Select.unitypackage import to start using XCharts.
+
+- Import XCharts through the Package Manager
+
+    For Unity 2018.3 and later, XCharts can be imported through the Package Manager. After opening the Package Manager, run the `Add package form git URL...`, input XCharts dead simple URL: ` https://github.com/XCharts-Team/XCharts.git use XCharts after ` wait a moment.
+
+    You can also add the package directly to the manifest.json file: Open the manifest.json file in the Packages directory and add it under dependencies:
 
     ``` json
-        "com.monitor1394.xcharts": "https://github.com/XCharts-Team/XCharts.git#3.0",
+    "com.monitor1394.xcharts" : "https://github.com/XCharts-Team/XCharts.git",
     ```
 
-    如需更新`XCharts`，删除`manifest.json`文件（部分Unity版本可能是packages-lock.json文件）的`lock`下的`com.monitor1394.xcharts`相关内容即会重新下载编译。
+    To update XCharts, remove com.monitor1394.xcharts from the manifest.json file under lock (some versions of Unity may be packages-lock.json) and re-download and compile.
 
-## 添加一个简单图表
+- Recommended daemon into XCharts (not required)
 
-在`Hierarchy`视图下右键或菜单栏`GameObject`下拉选择`XCharts->LineChart`，即可快速创建一个默认的折线图出来：
+    [XCharts Daemon](https://github.com/XCharts-Team/XCharts-Daemon) can ensure update compilation is normal, when the local open TextMeshPro or NewInputSystem would be very useful. After importing Xchart-daemon into a project, when updating XCharts, the Daemon will automatically refresh asmdef according to the status of local TMP, etc., to ensure normal compilation and facilitate the execution of automated processes such as CI-CD.
+
+## Add a simple chart
+
+Right-click in `Hierarchy` view or menu bar `GameObject` drop down and select `XCharts->LineChart`, can quickly create a default line chart out:
 
 ![linechart1](img/tutorial01_linechart1.png)
 
-## 添加多个Seire
+## Add multiple Seire
 
-在`Inspector`视图，找到`LineChart`的面板，通过`Add Serie`按钮，可以添加第二条`Line`折线：
+In the Inspector view, locate LineChart's panel, and with the `Add Serie` button, you can add a second Line line:
 
 ![op_addserie](img/tutorial01_addserie.png)
 ![linechart2](img/tutorial01_linechart2.png)
 
-## 添加其他组件
+## Add other components
 
-默认图表没有`Legend`，需要`Legend`组件可通过`Add Component`按钮添加：
+The default chart does not have a `Legend`, and a `Legend` Component can be added via the `Add Component` button:
 
 ![op_addcomponent](img/tutorial01_addcomponent.png)
 
-## 添加Serie组件
+## Add Serie components
 
-Serie只自带了几个常见的组件，其他组件要根据需求额外添加，不同的Serie支持不同的额外组件。比如，需要给折线图区域填充颜色，可单独给`Serie`添加`AreaStyle`组件：
+Serie comes with only a few common components, and others are added as needed. For example, if you need to fill a line chart area with color, you can add a separate `AreaStyle` component to Serie:
 
 ![op_addseriecomponent](img/tutorial01_addseriecomponent.png)
 ![linechart3](img/tutorial01_linechart3.png)
 
-## 添加SerieData组件
+## Add the SerieData component
 
-如果需要个性化定制每个数据项的配置，可以单独给每个`SerieData`添加`Component`。比如我们给折线图的第二个数据单独显示`Label`：
+If you need to personalize the configuration of each data item, you can add a Component to each SerieData separately. For example, we give the second data of the line chart a separate display `Label`:
 
 ![op_addseriedatacomponent](img/tutorial01_addseriedatacomponent.png)
 ![linechart4](img/tutorial01_linechart4.png)
 
-## 更多组件和配置参数
+## More components and configuration parameters
 
-功能越丰富就越需要更多的组件和参数支持。XCharts有多达几十种的主组件和子组件，每个组件有几个至几十个不等的可配置参数，以支持各种灵活而复杂的功能。
+XCharts has been iteratively optimized and now has dozens of main and sub-components, each with a few to dozens of configurable parameters to support a variety of flexible and complex functions.
 
-首次接触XCharts者可在 `Inspector` 视图下可以添加和调整各个组件，`Game` 视图会实时反馈调整的效果，以熟悉各种组件实现的效果。各个组件的详细参数说明可查阅[XCharts配置项手册](configuration.md)。
+Using XCharts for the first time, you can add various charts in the `Inspector` view, add or adjust the components in the chart, and the `Game` view gives real-time feedback on the effects of adjustments to familiarize yourself with the use of various components. Detailed parameter descriptions of each component can be found in the [XCharts Configuration](Configuration.md).
 
-## 如何快速调整参数
+## How to adjust parameters quickly
 
-`XCharts`是配置参数驱动。想要什么效果，你只需要去调整对应组件下的配置参数就可以，不需要去改`Hierarchy`视图下的节点，因为那些节点是由`XCharts`内部根据配置参数生成的，即使改了也会在刷新时被还原回来。
+XCharts is configuration and data driven. Want what effect, only need to adjust the configuration parameters under the corresponding component can be, do not need to change the nodes under the `Hierarchy` view, because those nodes are generated by the `XCharts` internal according to the configuration and data, even if changed will be restored in the refresh.
 
-快速定位你想要改的效果对应的组件。这就需要对组件有一定的了解。比如我们想要让X轴的轴线末端显示箭头，如何定位？第一步，X轴定位到`XAxis0`；第二步，轴线定位到`AxisLine`；最后，再去看`AxisLine`组件下有没有这样的参数可以实现这个效果。
+How to quickly locate the component corresponding to the effect you want to change requires a certain understanding of the component. For example, if we want to show an arrow at the end of the X-axis, how do we position it? First, position the X-axis to `XAxis0`; Second, locate the axis to `AxisLine`; Finally, check to see if there are any parameters in the AxisLine component that can achieve this effect, and check [XCharts configuration](Configuration.md) for uncertain parameters.
 
-`XCharts`提供从全局`Theme`、系列`Serie`、单个数据项`SerieData`全方位的参数配置。优先级从大到小为：`SerieData`->`Serie`->`Theme`。以`ItemStyle`的颜色为例：
+`XCharts` provides a full range of parameter configuration from the global` Theme `, series` Serie `, and single data item `SerieData`. The priority in descending order is: `SerieData` -> `Serie` -> `Theme`. Take the color of `ItemStyle` for example:
 
-1. 如果`SerieData`的`ItemStyle`配置有非`0000`颜色值，则优先用这个颜色值。
-2. 如果`Serie`的`ItemStyle`配置有非`0000`颜色值，则优先用这个颜色值。
-3. 否则颜色值取自主题`Theme`的`Color Palette`。
+1. If the `ItemStyle` of `SerieData` has a color value other than `0000`, this color value is preferred.
+2. If the ItemStyle of `Serie` is configured with a color value other than `0000`, this color value takes precedence.
+3. Otherwise, the Color value is taken from the Color Palette of the Theme.
 
-通常配置的颜色值为0000时表示用主题默认颜色；配置参数的值为0或null时表示用主题默认配置。
+Usually, `0000` indicates the theme default color, and 0 or null indicates the theme default.
 
-## 用代码添加折线图
+## Add line charts with code
 
-给`gameObject`挂上`LineChart`脚本：
+Attach the `LineChart` script to the gameObject:
 
 ```C#
 var chart = gameObject.GetComponent<LineChart>();
@@ -89,22 +107,21 @@ if (chart == null)
     chart.Init();
 }
 ```
-用代码生成的Chart需要调用一次Init()。
 
-调整大小：
+Resize:
 
 ```C#
 chart.SetSize(580, 300);//代码动态设置尺寸，或直接操作chart.rectTransform，或直接在Inspector上改
 ```
 
-设置标题：
+Set the title:
 
 ```C#
 var title = chart.EnsureChartComponent<Title>();
 title.text = "Simple Line";
 ```
 
-设置提示框和图例是否显示：
+Set whether prompt boxes and legends are displayed:
 
 ```C#
 var tooltip = chart.EnsureChartComponent<Tooltip>();
@@ -114,7 +131,7 @@ var legend = chart.EnsureChartComponent<Legend>();
 legend.show = false;
 ```
 
-设置坐标轴：
+Set axes:
 
 ```C#
 var xAxis = chart.EnsureChartComponent<XAxis>();
@@ -126,14 +143,14 @@ var yAxis = chart.EnsureChartComponent<YAxis>();
 yAxis.type =  Axis.AxisType.Value;
 ```
 
-清空默认数据，添加`Line`类型的`Serie`用于接收数据：
+Clear default data and add `Line` type `Serie` for receiving data:
 
 ```C#
 chart.RemoveData();
 chart.AddSerie<Line>("line");
 ```
 
-添加10个数据：
+Add 10 data:
 
 ```C#
 for (int i = 0; i < 10; i++)
@@ -143,56 +160,59 @@ for (int i = 0; i < 10; i++)
 }
 ```
 
-这样一个简单的折线图就出来了：
+So a simple line chart comes out:
 
 ![tutorial01_linechart_simple](img/tutorial01_linechart_simple.png)
 
-如果一个Chart里面有多个系列时，则Axis的data只需要加一次，不要多个循环加重复了。记住：Axis的数据个数要和Serie的数据个数一致。
+If there are multiple series in a Chart, the data of Axis only needs to be added once, rather than repeated in multiple cycles. Remember: the number of data in Axis should be the same as the number in Serie.
 
-完整代码请查阅`Examples`：`Example13_LineSimple.cs`  
+See `Examples`: `Example13_LineSimple.cs` for the complete code
 
-你还可以用代码控制更多的参数，`Examples`下还有更多的其他例子，凡是`Inspector`上看到的可配置的参数，都可以通过代码来设置。[XCharts配置项手册](configuration.md)里面的所有参数都是可以通过代码控制的。
+You can also use code to control more parameters, there are more Examples under `Examples`, all the configurable parameters seen in the `Inspector` can be set by code. All parameters in [XCharts configuration](Configuration.md) can be controlled by code.
 
-另外，除非定制，建议调用`Chart`下提供的`public`接口，特别是数据相关操作部分。这些接口内部会做一些关联处理，比如刷新图表等。常见的接口有：
+In addition, unless customized, it is recommended to call the `public` interface provided under `Chart`, especially in the data-related operations section. These interfaces do some associated processing inside, such as refreshing charts. Common interfaces are:
 
-1. `chart.ClearData()`：清空图表数据（不移除Series）
-2. `chart.RemoveData()`：清除图表数据（会移除所有Serie）
-3. `chart.AddSerie()`：添加Serie
-4. `chart.AddXAxisData()`：添加X轴数据
-5. `chart.AddData()`：添加Serie数据
-6. `chart.UpdateData()`：更新Serie数据
-7. `chart.UpdateXAxisData()`：更新X轴数据
-8. `chart.UpdateDataName()`：更新Serie数据的名字
+1. `Chart.ClearData()` : Clear chart data (without removing Series)
+2. `Chart.RemoveData()` : Clear chart data (will remove all Serie)
+3. `chart.AddSerie()` : AddSerie
+4. `chart.AddXAxisData()` : Add X-axis data
+5. `chart.AddData()` : Adds Serie data
+6. `chart.UpdateData()` : Updates Serie data
+7. `chart.UpdateXAxisData()` : Updates the X-axis data
+8. `chart.UpdateDataName()` : Updates the Serie data name
 
-XCharts内部有自动刷新机制，但也是在一定条件下。如果自己调用了内部组件的接口，碰到组件没有刷新，确实找不到原因的话，可以用以下两个接口强制刷新：
+XCharts has an automatic refresh mechanism inside, but it only triggers under certain conditions. If you call the interface of the internal component, encounter the component did not refresh, and indeed can not find the reason, you can use the following two interfaces to force refresh:
 
-1. `chart.RefreshAllComponent()`：刷新图表组件，会重新初始化所有组件，不建议频繁使用。
-2. `chart.RefreshChart()`：刷新图表绘制，只刷新绘制部分，不会刷新组件文本，位置等部分。
+1. `chart.RefreshAllComponent()` : refresh chart component, to initialize all of the components, often is not recommended.
+2. `chart.RefreshChart()` : refreshes the chart drawing, only the drawing part is refreshed, and the component text, position, etc., is not refreshed.
+3. Individual components can also refresh only themselves by `SetAllDirty()`.
 
-## 使用TextMeshPro
+## Use TextMeshPro
 
-XCharts支持TextMeshPro，但默认是不开启的，需要自己手动切换。可通过以下方式开启和关闭：
+XCharts supports TextMeshPro, but it is disabled by default and needs to be switched manually. It can be turned on and off in the following ways:
 
 ![textmeshpro1](img/tutorial01_textmeshpro.png)
 
-开启后需要设置好TextMeshPro要用的全局字体，也可以在主题Theme里单独设置：
+After opening, you need to set the global font used by TextMeshPro, or you can set it separately in the Theme:
 
 ![textmeshpro-font](img/tutorial01_textmeshpro_font.png)
 
-建议在项目初就规划好是否使用TextMeshPro，并设置好字体。在已有很多图表的情况下切换TMP时，可能某些图表无法自动刷新，可以手动点击`Rebuild Chart Object`按钮来重建图表，即可正常初始化。
+It is recommended to plan whether to use TextMeshPro at the beginning of the project and set the font. When switching TMP with many existing charts, some charts may not refresh automatically. You can manually click the `Rebuild Chart Object` button to rebuild the chart, which can be initialized normally.
 
-开启了TMP项目在更新XCharts时，可能会碰到丢失了TMP引用而无法编译通过的问题，可通过以下两种方式解决：
+When updating XCharts for TMP projects, you may encounter problems with missing TMP references and failing to compile. These problems can be solved in one of two ways:
 
-1. 找到`XCharts.Runtime.asmdef`和`XCharts.Editor.asmdef`，手动加上 `TextMeshPro`的引用
-2. 移除`PlayerSetting`中`Scripting Define Symbols`的`dUI_TextMeshPro`宏
+1. Find `XCharts.Runtime.asmdef` and `XCharts.Editor.asmdef` and manually add references to `TextMeshPro`
+2. Remove the `dUI_TextMeshPro` macro for Scripting Define Symbols in PlayerSetting
 
-## 用代码改图表参数
+Version `3.8.0` after adding daemon[XCharts - Daemon](https://github.com/XCharts-Team/XCharts-Daemon), will be XCharts-Daemon import project, When updating XCharts, the daemon automatically refreshes the asmdef based on the locally enabled TMP to ensure proper compilation.
 
-`Inspector`上看到的所有参数都可以用代码来修改，关键是要定位好你要改的参数是在组件上、还是serie上、还是在具体的数据项上改。
+## Change chart parameters with code
 
-### 改主组件上的参数
+All parameters seen on Inspector can be modified with code, the key is to identify whether the parameters you want to change are on the component, on the Serie, or on the specific data item SerieData.
 
-需要先获取组件，再修改里面的参数：
+### Change the parameters on the main component
+
+You need to obtain the component first, and then modify the parameters in it:
 
 ```C#
 var title = chart.EnsureChartComponent<Title>();
@@ -205,9 +225,11 @@ xAxis.boundaryGap = true;
 xAxis.type = Axis.AxisType.Category;
 ```
 
-### 改Serie的参数
+> Note: When the earlier version does not have the EnsureChartComponent() interface, GetOrAddChartComponent() is used.
 
-新添加的Serie：
+### Change Serie parameters
+
+For newly added Serie:
 
 ```C#
 var serie = chart.AddSerie<Pie>();
@@ -219,7 +241,7 @@ serie.animation.dataChangeEnable = true;
 serie.roundCap = true;
 ```
 
-已存在的Serie：
+For existing Serie:
 
 ```C#
 var serie = chart.GetSerie<Pie>();
@@ -231,7 +253,7 @@ serie.animation.dataChangeEnable = true;
 serie.roundCap = true;
 ```
 
-给Serie添加额外组件：
+Add additional components to Serie:
 
 ```C#
 serie.EnsureComponent<AreaStyle>();
@@ -240,7 +262,7 @@ var label = serie1.EnsureComponent<LabelStyle>();
 label.offset = new Vector3(0,20,0);
 ```
 
-### 改数据项SerieData上的参数
+### Change the parameter on the data item SerieData
 
 ```C#
 var serieData = chart.AddData(0, 20);

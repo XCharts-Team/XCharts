@@ -7,7 +7,7 @@ namespace XCharts.Runtime
     {
         public static float CheckDataAnimation(BaseChart chart, Serie serie, int dataIndex, float destProgress, float startPorgress = 0)
         {
-            if (!serie.animation.IsItemAnimation())
+            if (!serie.animation.IsDataAnimation())
             {
                 serie.animation.context.isAllItemAnimationEnd = false;
                 return destProgress;
@@ -30,18 +30,22 @@ namespace XCharts.Runtime
         {
             var serieType = serie.GetType();
             var animationType = AnimationType.LeftToRight;
+            var enableSerieDataAnimation = true;
             if (serieType.IsDefined(typeof(DefaultAnimationAttribute), false))
             {
-                animationType = serieType.GetAttribute<DefaultAnimationAttribute>().type;
+                var attribute = serieType.GetAttribute<DefaultAnimationAttribute>();
+                animationType = attribute.type;
+                enableSerieDataAnimation = attribute.enableSerieDataAddedAnimation;
             }
-            UpdateAnimationType(serie.animation, animationType);
+            UpdateAnimationType(serie.animation, animationType,enableSerieDataAnimation);
         }
 
-        public static void UpdateAnimationType(AnimationStyle animation, AnimationType defaultType)
+        public static void UpdateAnimationType(AnimationStyle animation, AnimationType defaultType, bool enableSerieDataAnimation)
         {
             animation.context.type = animation.type == AnimationType.Default ?
                 defaultType :
                 animation.type;
+            animation.context.enableSerieDataAddedAnimation = enableSerieDataAnimation;
         }
 
         public static bool GetAnimationPosition(AnimationStyle animation, bool isY, Vector3 lp, Vector3 cp, float progress, ref Vector3 ip)

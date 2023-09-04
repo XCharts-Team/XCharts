@@ -25,6 +25,8 @@ namespace XCharts.Runtime
         [SerializeField][ListForComponent(typeof(Background))] private List<Background> m_Backgrounds = new List<Background>();
         [SerializeField][ListForComponent(typeof(DataZoom))] private List<DataZoom> m_DataZooms = new List<DataZoom>();
         [SerializeField][ListForComponent(typeof(GridCoord))] private List<GridCoord> m_Grids = new List<GridCoord>();
+        [SerializeField][ListForComponent(typeof(GridLayout))] private List<GridLayout> m_GridsLayout = new List<GridLayout>();
+
         [SerializeField][ListForComponent(typeof(Legend))] private List<Legend> m_Legends = new List<Legend>();
         [SerializeField][ListForComponent(typeof(MarkLine))] private List<MarkLine> m_MarkLines = new List<MarkLine>();
         [SerializeField][ListForComponent(typeof(MarkArea))] private List<MarkArea> m_MarkAreas = new List<MarkArea>();
@@ -144,10 +146,9 @@ namespace XCharts.Runtime
         {
             RemoveAllChartComponent();
             OnBeforeSerialize();
-            AddChartComponentWhenNoExist<Title>();
-            AddChartComponentWhenNoExist<Tooltip>();
-
-            GetChartComponent<Title>().text = GetType().Name;
+            EnsureChartComponent<Title>();
+            EnsureChartComponent<Tooltip>();
+            EnsureChartComponent<Title>().text = GetType().Name;
 
             if (m_Theme.sharedTheme != null)
                 m_Theme.sharedTheme.CopyTheme(ThemeType.Default);
@@ -172,6 +173,12 @@ namespace XCharts.Runtime
             DefaultChart();
             Awake();
         }
+
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+            foreach (var handler in m_SerieHandlers) handler.ForceUpdateSerieContext();
+        }
 #endif
 
         protected override void Start()
@@ -186,7 +193,9 @@ namespace XCharts.Runtime
             CheckPainter();
             CheckRefreshChart();
             Internal_CheckAnimation();
+            foreach (var handler in m_SerieHandlers) handler.BeforeUpdate();
             foreach (var handler in m_SerieHandlers) handler.Update();
+            foreach (var handler in m_SerieHandlers) handler.AfterUpdate();
             foreach (var handler in m_ComponentHandlers) handler.Update();
             m_DebugInfo.Update();
             if (m_OnUpdate != null)
@@ -315,6 +324,8 @@ namespace XCharts.Runtime
 
         protected override void OnDestroy()
         {
+            base.OnDestroy();
+            XChartsMgr.RemoveChart(chartName);
             for (int i = transform.childCount - 1; i >= 0; i--)
             {
                 DestroyImmediate(transform.GetChild(i).gameObject);
@@ -450,7 +461,7 @@ namespace XCharts.Runtime
                 if (component is Axis)
                     component.SetAllDirty();
                 if (component is IUpdateRuntimeData)
-                    (component as IUpdateRuntimeData).UpdateRuntimeData(m_ChartX, m_ChartY, m_ChartWidth, m_ChartHeight);
+                    (component as IUpdateRuntimeData).UpdateRuntimeData(this);
             }
         }
 
@@ -592,8 +603,6 @@ namespace XCharts.Runtime
                 serie.animation.context.isAllItemAnimationEnd = true;
                 if (serie.show && !serie.animation.HasFadeOut())
                 {
-                    if (!serie.context.pointerEnter)
-                        serie.ResetInteract();
                     if (m_OnDrawSerieBefore != null)
                     {
                         m_OnDrawSerieBefore.Invoke(vh, serie);

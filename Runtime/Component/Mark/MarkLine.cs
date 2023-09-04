@@ -129,6 +129,7 @@ namespace XCharts.Runtime
         public Vector3 runtimeCurrentEndPosition { get; internal set; }
         public ChartLabel runtimeLabel { get; internal set; }
         public double runtimeValue { get; internal set; }
+        public bool runtimeInGrid { get; internal set; }
 
         /// <summary>
         /// Name of the marker, which will display as a label.

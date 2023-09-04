@@ -6,6 +6,6 @@ namespace XCharts.Runtime
 {
     public interface IUpdateRuntimeData
     {
-        void UpdateRuntimeData(float chartX, float chartY, float chartWidth, float chartHeight);
+        void UpdateRuntimeData(BaseChart chart);
     }
 }

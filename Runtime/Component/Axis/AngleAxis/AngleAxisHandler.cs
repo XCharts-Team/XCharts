@@ -168,7 +168,7 @@ namespace XCharts.Runtime
             var dir = (chart.pointerPos - new Vector2(polar.context.center.x, polar.context.center.y)).normalized;
             var angle = ChartHelper.GetAngle360(Vector2.up, dir);
             axis.context.pointerValue = (angle - component.context.startAngle + 360) % 360;
-            axis.context.pointerLabelPosition = polar.context.center + new Vector3(dir.x, dir.y) * (polar.context.outsideRadius + 25);
+            axis.context.pointerLabelPosition = polar.context.center + new Vector3(dir.x, dir.y) * (polar.context.outsideRadius + polar.indicatorLabelOffset);
         }
     }
 }

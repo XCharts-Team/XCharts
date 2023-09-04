@@ -98,26 +98,26 @@ namespace XCharts.Runtime
             }
         }
 
-        public override int GetPointerItemDataIndex()
-        {
-            var symbolSize = SerieHelper.GetSysmbolSize(serie, null, chart.theme, chart.theme.serie.lineSymbolSize) * 1.5f;
-            var count = serie.context.dataPoints.Count;
-            for (int i = 0; i < count; i++)
-            {
-                var index = serie.context.dataIndexs[i];
-                var serieData = serie.GetSerieData(index);
-                if (serieData == null)
-                    continue;
-                if (serieData.context.isClip)
-                    continue;
+        // public override int GetPointerItemDataIndex()
+        // {
+        //     var symbolSize = SerieHelper.GetSysmbolSize(serie, null, chart.theme.serie.lineSymbolSize) * 1.5f;
+        //     var count = serie.context.dataPoints.Count;
+        //     for (int i = 0; i < count; i++)
+        //     {
+        //         var index = serie.context.dataIndexs[i];
+        //         var serieData = serie.GetSerieData(index);
+        //         if (serieData == null)
+        //             continue;
+        //         if (serieData.context.isClip)
+        //             continue;
 
-                var pos = serie.context.dataPoints[i];
-                if (Vector2.Distance(pos, chart.pointerPos) < symbolSize)
-                {
-                    return i;
-                }
-            }
-            return -1;
-        }
+        //         var pos = serie.context.dataPoints[i];
+        //         if (Vector2.Distance(pos, chart.pointerPos) < symbolSize)
+        //         {
+        //             return i;
+        //         }
+        //     }
+        //     return -1;
+        // }
     }
 }

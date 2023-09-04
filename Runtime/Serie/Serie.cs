@@ -246,6 +246,7 @@ namespace XCharts.Runtime
         [SerializeField] private int m_PolarIndex = 0;
         [SerializeField] private int m_SingleAxisIndex = 0;
         [SerializeField] private int m_ParallelIndex = 0;
+        [SerializeField][Since("v3.8.0")] private int m_GridIndex = -1;
         [SerializeField] protected int m_MinShow;
         [SerializeField] protected int m_MaxShow;
         [SerializeField] protected int m_MaxCache;
@@ -279,6 +280,7 @@ namespace XCharts.Runtime
         [SerializeField] private float m_Gap;
         [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.48f };
         [SerializeField] private float[] m_Radius = new float[2] { 0, 0.28f };
+        [SerializeField][Since("v3.8.0")] private float m_MinRadius = 0f;
 
         [SerializeField][Range(2, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
@@ -474,6 +476,15 @@ namespace XCharts.Runtime
         {
             get { return m_ParallelIndex; }
             set { if (PropertyUtil.SetStruct(ref m_ParallelIndex, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// Index of layout component that serie uses. Default is -1 means not use layout, otherwise use the first layout component.
+        /// |所使用的 layout 组件的 index。 默认为-1不指定index, 当为大于或等于0时, 为第一个layout组件的第index个格子。
+        /// </summary>
+        public int gridIndex
+        {
+            get { return m_GridIndex; }
+            set { if (PropertyUtil.SetStruct(ref m_GridIndex, value)) SetAllDirty(); }
         }
         /// <summary>
         /// The min number of data to show in chart.
@@ -677,6 +688,15 @@ namespace XCharts.Runtime
         {
             get { return m_Radius; }
             set { if (value != null && value.Length == 2) { m_Radius = value; SetVerticesDirty(); } }
+        }
+        /// <summary>
+        /// the min radius of chart. It can be used to limit the minimum radius of the rose chart.
+        /// |最小半径。可用于限制玫瑰图的最小半径。
+        /// </summary>
+        public float minRadius
+        {
+            get { return m_MinRadius; }
+            set { if (PropertyUtil.SetStruct(ref m_MinRadius, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 最小值。
@@ -1031,6 +1051,12 @@ namespace XCharts.Runtime
             titleDirty = true;
         }
 
+        public override void SetVerticesDirty()
+        {
+            base.SetVerticesDirty();
+            interactDirty = true;
+        }
+
         private bool AnySerieDataVerticesDirty()
         {
             if (IsPerformanceMode())
@@ -1066,6 +1092,7 @@ namespace XCharts.Runtime
         public bool labelDirty { get; set; }
         public bool titleDirty { get; set; }
         public bool dataDirty { get; set; }
+        public bool interactDirty { get; set; }
 
         private void SetSerieNameDirty()
         {
@@ -1176,12 +1203,13 @@ namespace XCharts.Runtime
                 }
                 else
                 {
-                    var duration = animation.GetUpdateAnimationDuration();
+                    var duration = animation.GetChangeDuration();
+                    var dataAddDuration = animation.GetAdditionDuration();
                     var unscaledTime = animation.unscaledTime;
                     foreach (var sdata in data)
                     {
                         if (sdata.show && !IsIgnoreValue(sdata, sdata.data[1]))
-                            total += sdata.GetCurrData(1, duration, unscaledTime);
+                            total += sdata.GetCurrData(1, dataAddDuration, duration, unscaledTime);
                     }
                 }
                 return total;
@@ -1301,6 +1329,8 @@ namespace XCharts.Runtime
                 m_Data.Insert(0, serieData);
             else
                 m_Data.Add(serieData);
+            serieData.OnAdd(animation);
+            context.totalDataIndex++;
             SetVerticesDirty();
             dataDirty = true;
             m_NeedUpdateFilterData = true;
@@ -1444,7 +1474,8 @@ namespace XCharts.Runtime
             serieData.name = name;
             serieData.index = m_Data.Count;
             serieData.id = id;
-            serieData.data = new List<double>() { m_Data.Count, value };
+            serieData.data.Add(m_Data.Count);
+            serieData.data.Add(value);
             AddChildData(parent, serieData);
             return serieData;
         }
@@ -1455,7 +1486,7 @@ namespace XCharts.Runtime
             serieData.name = name;
             serieData.index = m_Data.Count;
             serieData.id = id;
-            serieData.data = new List<double>(value);
+            serieData.data.AddRange(value);
             AddChildData(parent, serieData);
             return serieData;
         }
@@ -1535,7 +1566,7 @@ namespace XCharts.Runtime
             var serieData = GetDataList(dataZoom);
             if (index < serieData.Count)
             {
-                var value = serieData[index].GetCurrData(1, animation.GetUpdateAnimationDuration(), animation.unscaledTime);
+                var value = serieData[index].GetCurrData(1, 0, animation.GetChangeDuration(), animation.unscaledTime);
                 if (showAsPositiveNumber)
                     value = Math.Abs(value);
                 return value;
@@ -1697,7 +1728,7 @@ namespace XCharts.Runtime
             if (index >= 0 && index < m_Data.Count)
             {
                 var animationOpen = animation.enable;
-                var animationDuration = animation.GetUpdateAnimationDuration();
+                var animationDuration = animation.GetChangeDuration();
                 var unscaledTime = animation.unscaledTime;
                 var flag = m_Data[index].UpdateData(dimension, value, animationOpen, unscaledTime, animationDuration);
                 if (flag)
@@ -1724,7 +1755,7 @@ namespace XCharts.Runtime
             {
                 var serieData = m_Data[index];
                 var animationOpen = animation.enable;
-                var animationDuration = animation.GetUpdateAnimationDuration();
+                var animationDuration = animation.GetChangeDuration();
                 var unscaledTime = animation.unscaledTime;
                 for (int i = 0; i < values.Count; i++)
                     serieData.UpdateData(i, values[i], animationOpen, unscaledTime, animationDuration);
@@ -1907,6 +1938,7 @@ namespace XCharts.Runtime
         /// </summary>
         public void AnimationFadeIn()
         {
+            ResetInteract();
             if (animation.enable) animation.FadeIn();
             SetVerticesDirty();
         }
@@ -1916,6 +1948,7 @@ namespace XCharts.Runtime
         /// </summary>
         public void AnimationFadeOut()
         {
+            ResetInteract();
             if (animation.enable) animation.FadeOut();
             SetVerticesDirty();
         }

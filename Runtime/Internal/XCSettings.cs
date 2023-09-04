@@ -60,8 +60,6 @@ namespace XCharts.Runtime
         [SerializeField][Range(1f, 20)] protected float m_LineSegmentDistance = 3f;
         [SerializeField][Range(1, 10)] protected float m_CicleSmoothness = 2f;
         [SerializeField][Range(10, 50)] protected float m_VisualMapTriangeLen = 20f;
-        [SerializeField][Range(1, 20)] protected float m_PieTooltipExtraRadius = 8f;
-        [SerializeField][Range(1, 20)] protected float m_PieSelectedOffset = 8f;
         [SerializeField] protected List<Theme> m_CustomThemes = new List<Theme>();
 
         public static Lang lang { get { return Instance.m_Lang; } }
@@ -112,8 +110,6 @@ namespace XCharts.Runtime
         public static float lineSegmentDistance { get { return Instance.m_LineSegmentDistance; } }
         public static float cicleSmoothness { get { return Instance.m_CicleSmoothness; } }
         public static float visualMapTriangeLen { get { return Instance.m_VisualMapTriangeLen; } }
-        public static float pieTooltipExtraRadius { get { return Instance.m_PieTooltipExtraRadius; } }
-        public static float pieSelectedOffset { get { return Instance.m_PieSelectedOffset; } }
         #endregion
 
         public static List<Theme> customThemes { get { return Instance.m_CustomThemes; } }

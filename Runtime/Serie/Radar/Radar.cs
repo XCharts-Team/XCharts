@@ -30,7 +30,7 @@ namespace XCharts.Runtime
 
         public static Serie AddDefaultSerie(BaseChart chart, string serieName)
         {
-            chart.AddChartComponentWhenNoExist<RadarCoord>();
+            chart.EnsureChartComponent<RadarCoord>();
             var serie = chart.AddSerie<Radar>(serieName);
             serie.symbol.show = true;
             serie.symbol.type = SymbolType.Circle;

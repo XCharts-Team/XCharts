@@ -49,53 +49,104 @@ namespace XCharts.Runtime
                     {
                         if (tickness > 0)
                         {
-                            UGL.DrawRoundRectangle(vh, pos, symbolSize, symbolSize, color, color, 0, cornerRadius, true);
+                            UGL.DrawRoundRectangle(vh, pos, symbolSize * 2, symbolSize * 2, color, color, 0, cornerRadius, true);
                             UGL.DrawBorder(vh, pos, symbolSize, symbolSize, tickness, borderColor, 0, cornerRadius);
                         }
                         else
-                            UGL.DrawRoundRectangle(vh, pos, symbolSize, symbolSize, color, color, 0, cornerRadius, true);
+                            UGL.DrawRoundRectangle(vh, pos, symbolSize * 2, symbolSize * 2, color, color, 0, cornerRadius, true);
                     }
                     break;
                 case SymbolType.EmptyRect:
                     if (gap > 0)
                     {
                         UGL.DrawSquare(vh, pos, symbolSize + gap, backgroundColor);
-                        UGL.DrawBorder(vh, pos, symbolSize / 2, symbolSize / 2, tickness, color);
+                        UGL.DrawBorder(vh, pos, symbolSize * 2, symbolSize * 2, tickness, color);
                     }
                     else
                     {
-                        UGL.DrawBorder(vh, pos, symbolSize / 2, symbolSize / 2, tickness, color);
+                        UGL.DrawBorder(vh, pos, symbolSize * 2 - tickness * 2, symbolSize * 2 - tickness * 2, tickness, color);
                     }
                     break;
                 case SymbolType.Triangle:
+                case SymbolType.EmptyTriangle:
                     if (gap > 0)
                     {
-                        UGL.DrawTriangle(vh, pos, symbolSize + gap, backgroundColor);
-                        UGL.DrawTriangle(vh, pos, symbolSize, color, toColor);
+                        UGL.DrawEmptyTriangle(vh, pos, symbolSize * 1.4f + gap * 2, gap * 2, backgroundColor);
+                    }
+                    if (type == SymbolType.EmptyTriangle)
+                    {
+                        UGL.DrawEmptyTriangle(vh, pos, symbolSize * 1.4f, tickness * 2f, color, emptyColor);
                     }
                     else
                     {
-                        UGL.DrawTriangle(vh, pos, symbolSize, color, toColor);
+                        UGL.DrawTriangle(vh, pos, symbolSize * 1.4f, color, toColor);
                     }
                     break;
                 case SymbolType.Diamond:
+                case SymbolType.EmptyDiamond:
+                    var xRadius = symbolSize;
+                    var yRadius = symbolSize * 1.5f;
                     if (gap > 0)
                     {
-                        UGL.DrawDiamond(vh, pos, symbolSize + gap, backgroundColor);
-                        UGL.DrawDiamond(vh, pos, symbolSize, color, toColor);
+                        UGL.DrawEmptyDiamond(vh, pos, xRadius + gap, yRadius + gap, gap, backgroundColor);
+                    }
+                    if (type == SymbolType.EmptyDiamond)
+                    {
+                        UGL.DrawEmptyDiamond(vh, pos, xRadius, yRadius, tickness, color, emptyColor);
                     }
                     else
                     {
-                        UGL.DrawDiamond(vh, pos, symbolSize, color, toColor);
+                        UGL.DrawDiamond(vh, pos, xRadius, yRadius, color, toColor);
                     }
                     break;
                 case SymbolType.Arrow:
+                case SymbolType.EmptyArrow:
                     var arrowWidth = symbolSize * 2;
                     var arrowHeight = arrowWidth * 1.5f;
                     var arrowOffset = 0;
                     var arrowDent = arrowWidth / 3.3f;
+                    if (gap > 0)
+                    {
+                        arrowWidth = (symbolSize + gap) * 2;
+                        arrowHeight = arrowWidth * 1.5f;
+                        arrowOffset = 0;
+                        arrowDent = arrowWidth / 3.3f;
+                        var dir = (pos - startPos).normalized;
+                        var sharpPos = pos + gap * dir;
+                        UGL.DrawArrow(vh, startPos, sharpPos, arrowWidth, arrowHeight,
+                            arrowOffset, arrowDent, backgroundColor);
+                    }
+                    arrowWidth = symbolSize * 2;
+                    arrowHeight = arrowWidth * 1.5f;
+                    arrowOffset = 0;
+                    arrowDent = arrowWidth / 3.3f;
                     UGL.DrawArrow(vh, startPos, pos, arrowWidth, arrowHeight,
                         arrowOffset, arrowDent, color);
+                    if (type == SymbolType.EmptyArrow)
+                    {
+                        arrowWidth = (symbolSize - tickness) * 2;
+                        arrowHeight = arrowWidth * 1.5f;
+                        arrowOffset = 0;
+                        arrowDent = arrowWidth / 3.3f;
+                        var dir = (pos - startPos).normalized;
+                        var sharpPos = pos - tickness * dir;
+                        UGL.DrawArrow(vh, startPos, sharpPos, arrowWidth, arrowHeight,
+                            arrowOffset, arrowDent, backgroundColor);
+                    }
+                    break;
+                case SymbolType.Plus:
+                    if (gap > 0)
+                    {
+                        UGL.DrawPlus(vh, pos, symbolSize + gap, tickness + gap, backgroundColor);
+                    }
+                    UGL.DrawPlus(vh, pos, symbolSize, tickness, color);
+                    break;
+                case SymbolType.Minus:
+                    if (gap > 0)
+                    {
+                        UGL.DrawMinus(vh, pos, symbolSize + gap, tickness + gap, backgroundColor);
+                    }
+                    UGL.DrawMinus(vh, pos, symbolSize, tickness, color);
                     break;
             }
         }

@@ -11,13 +11,9 @@ namespace XCharts.Runtime
     {
         protected override void DefaultChart()
         {
-            AddChartComponentWhenNoExist<GridCoord>();
-            AddChartComponentWhenNoExist<XAxis>();
-            AddChartComponentWhenNoExist<YAxis>();
-
-            var tooltip = GetChartComponent<Tooltip>();
-            tooltip.type = Tooltip.Type.Line;
-            tooltip.trigger = Tooltip.Trigger.Axis;
+            EnsureChartComponent<GridCoord>();
+            EnsureChartComponent<XAxis>();
+            EnsureChartComponent<YAxis>();
 
             RemoveData();
             SimplifiedBar.AddDefaultSerie(this, GenerateDefaultSerieName());

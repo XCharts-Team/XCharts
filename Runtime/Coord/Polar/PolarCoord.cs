@@ -16,6 +16,7 @@ namespace XCharts.Runtime
         [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.45f };
         [SerializeField] private float[] m_Radius = new float[2] { 0, 0.35f };
         [SerializeField] private Color m_BackgroundColor;
+        [SerializeField][Since("v3.8.0")] private float m_IndicatorLabelOffset = 30f;
 
         public PolarCoordContext context = new PolarCoordContext();
 
@@ -56,6 +57,16 @@ namespace XCharts.Runtime
         {
             get { return m_BackgroundColor; }
             set { if (PropertyUtil.SetColor(ref m_BackgroundColor, value)) SetVerticesDirty(); }
+        }
+
+        /// <summary>
+        /// The offset of indicator label.
+        /// |指示器标签的偏移量。
+        /// </summary>
+        public float indicatorLabelOffset
+        {
+            get { return m_IndicatorLabelOffset; }
+            set { if (PropertyUtil.SetStruct(ref m_IndicatorLabelOffset, value)) SetVerticesDirty(); }
         }
 
         public bool IsPointerEnter()

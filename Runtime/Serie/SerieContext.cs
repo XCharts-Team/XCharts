@@ -115,5 +115,9 @@ namespace XCharts.Runtime
         public List<PointInfo> drawPoints = new List<PointInfo>();
         public SerieParams param = new SerieParams();
         public ChartLabel titleObject { get; set; }
+
+        public Tooltip.Type tooltipType;
+        public Tooltip.Trigger tooltipTrigger;
+        public int totalDataIndex;
     }
 }

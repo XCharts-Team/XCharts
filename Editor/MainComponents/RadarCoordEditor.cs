@@ -10,6 +10,7 @@ namespace XCharts.Editor
         public override void OnInspectorGUI()
         {
             ++EditorGUI.indentLevel;
+            PropertyField("m_GridIndex");
             PropertyField("m_Shape");
             PropertyField("m_PositionType");
             PropertyTwoFiled("m_Center");

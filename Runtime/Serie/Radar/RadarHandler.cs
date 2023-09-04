@@ -127,7 +127,7 @@ namespace XCharts.Runtime
                         if (m_LegendEnter)
                         {
                             serieData.context.highlight = true;
-                            serieData.interact.SetValue(ref needInteract, symbolSize, serieData.context.highlight);
+                            serieData.interact.SetValue(ref needInteract, serie.animation.interaction.GetRadius(symbolSize));
                         }
                         else
                         {
@@ -164,7 +164,10 @@ namespace XCharts.Runtime
                                     }
                                 }
                             }
-                            serieData.interact.SetValue(ref needInteract, symbolSize, serieData.context.highlight);
+                            if (serieData.context.highlight)
+                                serieData.interact.SetValue(ref needInteract, serie.animation.interaction.GetRadius(symbolSize));
+                            else
+                                serieData.interact.SetValue(ref needInteract, symbolSize);
                         }
                     }
                     break;
@@ -173,7 +176,7 @@ namespace XCharts.Runtime
                     for (int i = 0; i < serie.data.Count; i++)
                     {
                         var serieData = serie.data[i];
-                        var size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize);
+                        var size = SerieHelper.GetSysmbolSize(serie, serieData, themeSymbolSize);
                         if (Vector3.Distance(chart.pointerPos, serieData.context.position) < size * 2)
                         {
                             serie.context.pointerEnter = true;
@@ -237,11 +240,10 @@ namespace XCharts.Runtime
             var rate = serie.animation.GetCurrRate();
             var dataChanging = false;
             var interacting = false;
-            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            var unscaledTime = serie.animation.unscaledTime;
             SerieHelper.GetAllMinMaxData(serie, m_RadarCoord.ceilRate);
             Color32 areaColor, areaToColor;
             var startAngle = m_RadarCoord.startAngle * Mathf.PI / 180;
+            var interactDuration = serie.animation.GetInteractionDuration();
             for (int j = 0; j < serie.data.Count; j++)
             {
                 var serieData = serie.data[j];
@@ -265,7 +267,7 @@ namespace XCharts.Runtime
                     if (n >= serieData.data.Count) break;
                     var min = m_RadarCoord.GetIndicatorMin(n);
                     var max = m_RadarCoord.GetIndicatorMax(n);
-                    var value = serieData.GetCurrData(n, dataChangeDuration, unscaledTime);
+                    var value = serieData.GetCurrData(n, serie.animation);
                     if (serieData.IsDataChanged()) dataChanging = true;
                     if (max == 0)
                     {
@@ -333,9 +335,9 @@ namespace XCharts.Runtime
                     {
                         var point = serieData.context.dataPoints[m];
                         var symbolSize = 0f;
-                        if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting))
+                        if (!serieData.interact.TryGetValue(ref symbolSize, ref interacting, interactDuration))
                         {
-                            symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, chart.theme.serie.lineSymbolSize, serieState);
+                            symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme.serie.lineSymbolSize, serieState);
                             serieData.interact.SetValue(ref interacting, symbolSize);
                             symbolSize = serie.animation.GetSysmbolSize(symbolSize);
                         }
@@ -379,8 +381,6 @@ namespace XCharts.Runtime
 
             var rate = serie.animation.GetCurrRate();
             var dataChanging = false;
-            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            var unscaledTime = serie.animation.unscaledTime;
             var startIndex = GetStartShowIndex(serie);
             var endIndex = GetEndShowIndex(serie);
             var startAngle = m_RadarCoord.startAngle * Mathf.PI / 180;
@@ -404,7 +404,7 @@ namespace XCharts.Runtime
                 var index = serieData.index;
                 var p = m_RadarCoord.context.center;
                 var max = m_RadarCoord.GetIndicatorMax(index);
-                var value = serieData.GetCurrData(1, dataChangeDuration, unscaledTime);
+                var value = serieData.GetCurrData(1, serie.animation);
                 if (serieData.IsDataChanged()) dataChanging = true;
                 if (max == 0)
                 {
@@ -484,7 +484,7 @@ namespace XCharts.Runtime
                     var serieData = serie.data[j];
                     if (!serieData.show) continue;
                     var state = SerieHelper.GetSerieState(serie, serieData);
-                    var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, chart.theme.serie.lineSymbolSize, state);
+                    var symbolSize = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme.serie.lineSymbolSize, state);
                     var colorIndex = serie.colorByData ? serieData.index : serie.context.colorIndex;
                     SerieHelper.GetItemColor(out symbolColor, out symbolToColor, out symbolEmptyColor, serie, serieData, chart.theme, colorIndex, state);
                     SerieHelper.GetSymbolInfo(out borderColor, out symbolBorder, out cornerRadius, serie, serieData, chart.theme, state);

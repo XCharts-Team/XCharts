@@ -66,7 +66,7 @@ namespace XCharts.Runtime
             }
             component.SetDefaultValue();
             if (component is IUpdateRuntimeData)
-                (component as IUpdateRuntimeData).UpdateRuntimeData(chartX, chartY, chartWidth, chartHeight);
+                (component as IUpdateRuntimeData).UpdateRuntimeData(this);
             AddComponent(component);
             m_Components.Sort();
             CreateComponentHandler(component);
@@ -248,7 +248,11 @@ namespace XCharts.Runtime
 
         public List<MainComponent> GetChartComponents<T>() where T : MainComponent
         {
-            return m_ComponentMaps[typeof(T)];
+            var type = typeof(T);
+            if (m_ComponentMaps.ContainsKey(type))
+                return m_ComponentMaps[type];
+            else
+                return null;
         }
 
         [Obsolete("'GetOrAddChartComponent' is obsolete, Use 'EnsureChartComponent' instead.")]

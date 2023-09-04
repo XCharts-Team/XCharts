@@ -13,9 +13,8 @@ namespace XCharts.Runtime
         private GridCoord m_SerieGrid;
         private float[] m_CapusleDefaultCornerRadius = new float[] { 1, 1, 1, 1 };
 
-        public override void Update()
+        public override void UpdateSerieContext()
         {
-            base.Update();
             if (serie.IsUseCoord<GridCoord>())
                 UpdateSerieGridContext();
             else if (serie.IsUseCoord<PolarCoord>())
@@ -183,10 +182,12 @@ namespace XCharts.Runtime
                 (serie.maxShow > showData.Count ? showData.Count : serie.maxShow) :
                 showData.Count;
             var isPercentStack = SeriesHelper.IsPercentStack<Bar>(chart.series, serie.stack);
-            bool dataChanging = false;
-            float dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
-            double yMinValue = relativedAxis.context.minValue;
-            double yMaxValue = relativedAxis.context.maxValue;
+            var dataChanging = false;
+            var dataChangeDuration = serie.animation.GetChangeDuration();
+            var dataAddDuration = serie.animation.GetAdditionDuration();
+            var interactDuration = serie.animation.GetInteractionDuration();
+            var yMinValue = relativedAxis.context.minValue;
+            var yMaxValue = relativedAxis.context.maxValue;
 
             var areaColor = ColorUtil.clearColor32;
             var areaToColor = ColorUtil.clearColor32;
@@ -211,13 +212,13 @@ namespace XCharts.Runtime
                 var state = SerieHelper.GetSerieState(serie, serieData);
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, state);
                 var value = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
-                var relativedValue = serieData.GetCurrData(1, dataChangeDuration, relativedAxis.inverse, yMinValue, yMaxValue, serie.animation.unscaledTime);
+                var relativedValue = serieData.GetCurrData(1, dataAddDuration, dataChangeDuration, relativedAxis.inverse, yMinValue, yMaxValue, serie.animation.unscaledTime);
                 var borderWidth = relativedValue == 0 ? 0 : itemStyle.runtimeBorderWidth;
                 var borderGap = relativedValue == 0 ? 0 : itemStyle.borderGap;
                 var borderGapAndWidth = borderWidth + borderGap;
                 var backgroundColor = itemStyle.backgroundColor;
 
-                if (!serieData.interact.TryGetColor(ref areaColor, ref areaToColor, ref interacting))
+                if (!serieData.interact.TryGetColor(ref areaColor, ref areaToColor, ref interacting, interactDuration))
                 {
                     SerieHelper.GetItemColor(out areaColor, out areaToColor, serie, serieData, chart.theme);
                     serieData.interact.SetColor(ref interacting, areaColor, areaToColor);
@@ -236,7 +237,6 @@ namespace XCharts.Runtime
                 {
                     barHig = AxisHelper.GetAxisValueLength(m_SerieGrid, relativedAxis, categoryWidth, relativedValue);
                 }
-
                 float currHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, barHig);
                 Vector3 plb, plt, prt, prb, top;
                 UpdateRectPosition(m_SerieGrid, isY, relativedValue, pX, pY, gap, borderWidth, barWidth, currHig,

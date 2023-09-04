@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace XCharts.Runtime
@@ -56,6 +56,7 @@ namespace XCharts.Runtime
         protected override void Awake()
         {
             raycastTarget = false;
+            SetActive(true);
         }
 
         public void SetTextPadding(TextPadding padding)
@@ -129,7 +130,7 @@ namespace XCharts.Runtime
             if (m_IconRect != null) m_IconRect.sizeDelta = new Vector3(width, height);
         }
 
-        public void UpdateIcon(IconStyle iconStyle, Sprite sprite = null)
+        public void UpdateIcon(IconStyle iconStyle, Sprite sprite = null, Color color = default(Color))
         {
             if (m_IconImage == null || iconStyle == null)
                 return;
@@ -138,7 +139,7 @@ namespace XCharts.Runtime
             if (iconStyle.show)
             {
                 m_IconImage.sprite = sprite == null ? iconStyle.sprite : sprite;
-                m_IconImage.color = iconStyle.color;
+                m_IconImage.color = ChartHelper.IsClearColor(iconStyle.color) ? color : iconStyle.color;
                 m_IconImage.type = iconStyle.type;
                 m_IconRect.sizeDelta = new Vector2(iconStyle.width, iconStyle.height);
                 m_IconOffest = iconStyle.offset;
@@ -194,7 +195,7 @@ namespace XCharts.Runtime
             return transform.localPosition;
         }
 
-        public override bool IsActive()
+        public bool IsActiveByScale()
         {
             return m_Active;
         }

@@ -127,16 +127,21 @@ namespace XCharts.Runtime
         }
 
 #if UNITY_EDITOR
-        protected override void Reset() { }
+        protected override void Reset()
+        {
+            base.Reset();
+        }
 
         protected override void OnValidate()
         {
+            base.OnValidate();
             m_IsOnValidate = true;
         }
 #endif
 
         protected override void OnDestroy()
         {
+            base.OnDestroy();
             for (int i = transform.childCount - 1; i >= 0; i--)
             {
                 DestroyImmediate(transform.GetChild(i).gameObject);

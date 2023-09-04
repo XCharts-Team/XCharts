@@ -56,6 +56,7 @@ import APITable from '@site/src/components/APITable';
 - [CoordSystem](#coordsystem)
 - [DataZoom](#datazoom)
 - [GridCoord](#gridcoord)
+- [GridLayout](#gridlayout)
 - [Legend](#legend)
 - [MarkArea](#markarea)
 - [MarkLine](#markline)
@@ -112,6 +113,7 @@ import APITable from '@site/src/components/APITable';
 - [MarkAreaData](#markareadata)
 - [MarkLineData](#marklinedata)
 - [MarqueeStyle](#marqueestyle)
+- [MLValue](#mlvalue)
 - [Padding](#padding)
 - [PolarAxisTheme](#polaraxistheme)
 - [RadarAxisTheme](#radaraxistheme)
@@ -166,6 +168,13 @@ import APITable from '@site/src/components/APITable';
 
 ## Other
 
+- [AnimationAddition](#animationaddition)
+- [AnimationChange](#animationchange)
+- [AnimationFadeIn](#animationfadein)
+- [AnimationFadeOut](#animationfadeout)
+- [AnimationHiding](#animationhiding)
+- [AnimationInfo](#animationinfo)
+- [AnimationInteraction](#animationinteraction)
 - [BaseSerie](#baseserie)
 - [ChartText](#charttext)
 - [ChildComponent](#childcomponent)
@@ -209,11 +218,98 @@ Angle axis of Polar Coordinate.
 
 > XCharts.Runtime.AngleAxisTheme : [BaseAxisTheme](#baseaxistheme)
 
+## AnimationAddition
+
+> XCharts.Runtime.AnimationAddition : [AnimationInfo](#animationinfo)
+
+> Since `v3.8.0`
+
+Data addition animation.
+
+## AnimationChange
+
+> XCharts.Runtime.AnimationChange : [AnimationInfo](#animationinfo)
+
+> Since `v3.8.0`
+
+Data change animation.
+
+## AnimationFadeIn
+
+> XCharts.Runtime.AnimationFadeIn : [AnimationInfo](#animationinfo)
+
+> Since `v3.8.0`
+
+Fade in animation.
+
+## AnimationFadeOut
+
+> XCharts.Runtime.AnimationFadeOut : [AnimationInfo](#animationinfo)
+
+> Since `v3.8.0`
+
+Fade out animation.
+
+## AnimationHiding
+
+> XCharts.Runtime.AnimationHiding : [AnimationInfo](#animationinfo)
+
+> Since `v3.8.0`
+
+Data hiding animation.
+
+## AnimationInfo
+
+> XCharts.Runtime.AnimationInfo / Subclasses: [AnimationFadeIn](#animationfadein), [AnimationFadeOut](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition), [AnimationHiding](#animationhiding), [AnimationInteraction](#animationinteraction)
+
+> Since `v3.8.0`
+
+the animation info.
+
+```mdx-code-block
+<APITable name="AnimationInfo">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|enable|true|v3.8.0|whether enable animation.
+|reverse|false|v3.8.0|whether enable reverse animation.
+|delay|0|v3.8.0|the delay time before animation start.
+|duration|1000|v3.8.0|the duration of animation.
+
+```mdx-code-block
+</APITable>
+```
+
+## AnimationInteraction
+
+> XCharts.Runtime.AnimationInteraction : [AnimationInfo](#animationinfo)
+
+> Since `v3.8.0`
+
+Interactive animation of charts.
+
+```mdx-code-block
+<APITable name="AnimationInteraction">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|width||v3.8.0|the mlvalue of width. [MLValue](#mlvalue)|
+|radius||v3.8.0|the mlvalue of radius. [MLValue](#mlvalue)|
+|offset||v3.8.0|the mlvalue of offset. Such as the offset of the pie chart when the sector is selected. [MLValue](#mlvalue)|
+
+```mdx-code-block
+</APITable>
+```
+
 ## AnimationStyle
 
 > XCharts.Runtime.AnimationStyle : [ChildComponent](#childcomponent)
 
-the animation of serie.
+the animation of serie. support animation type: fadeIn, fadeOut, change, addition.
 
 ```mdx-code-block
 <APITable name="AnimationStyle">
@@ -224,16 +320,15 @@ the animation of serie.
 |--|--|--|--|
 |enable|true||Whether to enable animation.
 |type|||The type of animation.<br/>`AnimationType`:<br/>- `Default`: he default. An animation playback mode will be selected according to the actual situation.<br/>- `LeftToRight`: Play the animation from left to right.<br/>- `BottomToTop`: Play the animation from bottom to top.<br/>- `InsideOut`: Play animations from the inside out.<br/>- `AlongPath`: Play the animation along the path.<br/>- `Clockwise`: Play the animation clockwise.<br/>|
-|easting|||Easing method used for the first animation.<br/>`AnimationEasing`:<br/>- `Linear`: <br/>|
+|easting|||<br/>`AnimationEasing`:<br/>- `Linear`: <br/>|
 |threshold|2000||Whether to set graphic number threshold to animation. Animation will be disabled when graphic number is larger than threshold.
-|fadeInDuration|1000||The milliseconds duration of the fadeIn animation.
-|fadeInDelay|0||The milliseconds delay before updating the first animation.
-|fadeOutDuration|1000f||The milliseconds duration of the fadeOut animation.
-|fadeOutDelay|0||渐出动画延时（毫秒）。如果要设置单个数据项的延时，可以用代码定制：customFadeOutDelay。
-|dataChangeEnable|true||是否开启数据变更动画。
-|dataChangeDuration|500||The milliseconds duration of the data change animation.
-|actualDuration|||The milliseconds actual duration of the first animation.
 |unscaledTime||v3.4.0|Animation updates independently of Time.timeScale.
+|fadeIn||v3.8.0|Fade in animation configuration. [AnimationFadeIn](#animationfadein)|
+|fadeOut||v3.8.0|Fade out animation configuration. [AnimationFadeOut](#animationfadeout)|
+|change||v3.8.0|Update data animation configuration. [AnimationChange](#animationchange)|
+|addition||v3.8.0|Add data animation configuration. [AnimationAddition](#animationaddition)|
+|hiding||v3.8.0|Data hiding animation configuration. [AnimationHiding](#animationhiding)|
+|interaction||v3.8.0|Interaction animation configuration. [AnimationInteraction](#animationinteraction)|
 
 ```mdx-code-block
 </APITable>
@@ -624,7 +719,7 @@ Configurations of blur state.
 
 ## ChildComponent
 
-> XCharts.Runtime.ChildComponent / Subclasses: [AnimationStyle](#animationstyle), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
+> XCharts.Runtime.ChildComponent / Subclasses: [AnimationStyle](#animationstyle), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
 
 ## Comment
 
@@ -858,6 +953,7 @@ Grid component.
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Whether to show the grid in rectangular coordinate.
+|layoutIndex|-1|v3.8.0|The index of the grid layout component to which the grid belongs. The default is -1, which means that it does not belong to any grid layout component. When this value is set, the left, right, top, and bottom properties will be invalid.
 |left|0.1f||Distance between grid component and the left side of the container.
 |right|0.08f||Distance between grid component and the right side of the container.
 |top|0.22f||Distance between grid component and the top side of the container.
@@ -866,6 +962,35 @@ Grid component.
 |showBorder|false||Whether to show the grid border.
 |borderWidth|0f||Border width of grid.
 |borderColor|||The color of grid border.
+
+```mdx-code-block
+</APITable>
+```
+
+## GridLayout
+
+> XCharts.Runtime.GridLayout : [MainComponent](#maincomponent), [IUpdateRuntimeData](#iupdateruntimedata)
+
+> Since `v3.8.0`
+
+Grid layout component. Used to manage the layout of multiple `GridCoord`, and the number of rows and columns of the grid can be controlled by `row` and `column`.
+
+```mdx-code-block
+<APITable name="GridLayout">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|show|true||Whether to show the grid in rectangular coordinate.
+|left|0.1f||Distance between grid component and the left side of the container.
+|right|0.08f||Distance between grid component and the right side of the container.
+|top|0.22f||Distance between grid component and the top side of the container.
+|bottom|0.12f||Distance between grid component and the bottom side of the container.
+|row|2||the row count of grid layout.
+|column|2||the column count of grid layout.
+|spacing|Vector2.zero||the spacing of grid layout.
+|inverse|false||Whether to inverse the grid layout.
 
 ```mdx-code-block
 </APITable>
@@ -972,6 +1097,7 @@ Indicator of radar chart, which is used to assign multiple variables(dimensions)
 |connectCenter|false||Whether serie data connect to radar center with line.
 |lineGradient|true||Whether need gradient for data line.
 |startAngle||v3.4.0|起始角度。和时钟一样，12点钟位置是0度，顺时针到360度。
+|gridIndex|-1|v3.8.0|Index of layout component that serie uses. Default is -1 means not use layout, otherwise use the first layout component.
 |indicatorList|||the indicator list.
 
 ```mdx-code-block
@@ -1048,7 +1174,7 @@ The interface for serie data component.
 
 ## IUpdateRuntimeData
 
-> XCharts.Runtime.IUpdateRuntimeData / Subclasses: [SingleAxis](#singleaxis), [DataZoom](#datazoom), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [ParallelCoord](#parallelcoord)
+> XCharts.Runtime.IUpdateRuntimeData / Subclasses: [SingleAxis](#singleaxis), [DataZoom](#datazoom), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [GridLayout](#gridlayout), [ParallelCoord](#parallelcoord)
 
 ## LabelLine
 
@@ -1066,11 +1192,12 @@ The interface for serie data component.
 |show|true||Whether the label line is showed.
 |lineType|||the type of visual guide line.<br/>`LabelLine.LineType`:<br/>- `BrokenLine`: 折线<br/>- `Curves`: 曲线<br/>- `HorizontalLine`: 水平线<br/>|
 |lineColor|Color32(0,0,0,0)||the color of visual guild line.
-|lineAngle|0||the angle of visual guild line.
+|lineAngle|60||the angle of visual guild line. Valid for broken line and curve line. Invalid in Pie.
 |lineWidth|1.0f||the width of visual guild line.
 |lineGap|1.0f||the gap of container and guild line.
 |lineLength1|25f||The length of the first segment of visual guide line.
 |lineLength2|15f||The length of the second segment of visual guide line.
+|lineEndX|0f|v3.8.0|The fixed x position of the end point of visual guide line.
 |startSymbol|||The symbol of the start point of labelline. [SymbolStyle](#symbolstyle)|
 |endSymbol|||The symbol of the end point of labelline. [SymbolStyle](#symbolstyle)|
 
@@ -1290,7 +1417,7 @@ Location type. Quick to set the general location.
 
 ## MainComponent
 
-> XCharts.Runtime.MainComponent : [IComparable](https://docs.unity3d.com/ScriptReference/30_search.html?q=IComparable) / Subclasses: [Axis](#axis), [Background](#background), [Comment](#comment), [DataZoom](#datazoom), [Legend](#legend), [MarkArea](#markarea), [MarkLine](#markline), [Settings](#settings), [Title](#title), [Tooltip](#tooltip), [VisualMap](#visualmap), [CoordSystem](#coordsystem)
+> XCharts.Runtime.MainComponent : [IComparable](https://docs.unity3d.com/ScriptReference/30_search.html?q=IComparable) / Subclasses: [Axis](#axis), [Background](#background), [Comment](#comment), [DataZoom](#datazoom), [Legend](#legend), [MarkArea](#markarea), [MarkLine](#markline), [Settings](#settings), [Title](#title), [Tooltip](#tooltip), [VisualMap](#visualmap), [GridLayout](#gridlayout), [CoordSystem](#coordsystem)
 
 ## MarkArea
 
@@ -1419,6 +1546,28 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 </APITable>
 ```
 
+## MLValue
+
+> XCharts.Runtime.MLValue : [ChildComponent](#childcomponent)
+
+> Since `v3.8.0`
+
+多样式数值。
+
+```mdx-code-block
+<APITable name="MLValue">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|type|||<br/>`MLValue.Type`:<br/>- `Percent`: Percent value form.<br/>- `Absolute`: Absolute value form.<br/>- `Extra`: Extra value form.<br/>|
+|value|||
+
+```mdx-code-block
+</APITable>
+```
+
 ## Padding
 
 > XCharts.Runtime.Padding : [ChildComponent](#childcomponent) / Subclasses: [TextPadding](#textpadding)
@@ -1500,6 +1649,7 @@ Polar coordinate can be used in scatter and line chart. Every polar coordinate h
 |center|||The center of ploar. The center[0] is the x-coordinate, and the center[1] is the y-coordinate. When value between 0 and 1 represents a percentage  relative to the chart.
 |radius|||the radius of polar.
 |backgroundColor|||Background color of polar, which is transparent by default.
+|indicatorLabelOffset|30f|v3.8.0|The offset of indicator label.
 
 ```mdx-code-block
 </APITable>
@@ -1586,6 +1736,7 @@ Configurations of select state.
 |polarIndex|0||Index of polar component that serie uses.
 |singleAxisIndex|0||Index of single axis component that serie uses.
 |parallelIndex|0||Index of parallel coord component that serie uses.
+|gridIndex|-1|v3.8.0|Index of layout component that serie uses. Default is -1 means not use layout, otherwise use the first layout component.
 |minShow|||The min number of data to show in chart.
 |maxShow|||The max number of data to show in chart.
 |maxCache|||The max number of serie data cache. The first data will be remove when the size of serie data is larger then maxCache.
@@ -1616,6 +1767,7 @@ Configurations of select state.
 |gap|||gap of item.
 |center|||the center of chart.
 |radius|||the radius of chart.
+|minRadius|0f|v3.8.0|the min radius of chart. It can be used to limit the minimum radius of the rose chart.
 |showDataDimension|||数据项里的数据维数。
 |showDataName|||在Editor的inpsector上是否显示name参数
 |clip|false||If clip the overflow on the coordinate system.
@@ -1715,9 +1867,6 @@ A data item of serie.
 |lineWidth|||the color of text.
 |lineSymbolSize|||the symbol size of line serie.
 |scatterSymbolSize|||the symbol size of scatter serie.
-|pieTooltipExtraRadius|||the extra radius of pie when actived by tooltip.
-|selectedRate|1.3f||the rate of symbol size of line or scatter serie.
-|pieSelectedOffset|||the center offset of pie if selected.
 |candlestickColor|Color32(235, 84, 84, 255)||K线图阳线（涨）填充色
 |candlestickColor0|Color32(71, 178, 98, 255)||K线图阴线（跌）填充色
 |candlestickBorderWidth|1||K线图边框宽度
@@ -1864,7 +2013,7 @@ the state style of serie.
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Whether the symbol is showed.
-|type|||the type of symbol.<br/>`SymbolType`:<br/>- `None`: 不显示标记。<br/>- `Custom`: 自定义标记。<br/>- `Circle`: 圆形。<br/>- `EmptyCircle`: 空心圆。<br/>- `Rect`: 正方形。可通过设置`itemStyle`的`cornerRadius`变成圆角矩形。<br/>- `EmptyRect`: 空心正方形。<br/>- `Triangle`: 三角形。<br/>- `EmptyTriangle`: 空心三角形。<br/>- `Diamond`: 菱形。<br/>- `EmptyDiamond`: 空心菱形。<br/>- `Arrow`: 箭头。<br/>- `EmptyArrow`: 空心箭头。<br/>|
+|type|||the type of symbol.<br/>`SymbolType`:<br/>- `None`: 不显示标记。<br/>- `Custom`: 自定义标记。<br/>- `Circle`: 圆形。<br/>- `EmptyCircle`: 空心圆。<br/>- `Rect`: 正方形。可通过设置`itemStyle`的`cornerRadius`变成圆角矩形。<br/>- `EmptyRect`: 空心正方形。<br/>- `Triangle`: 三角形。<br/>- `EmptyTriangle`: 空心三角形。<br/>- `Diamond`: 菱形。<br/>- `EmptyDiamond`: 空心菱形。<br/>- `Arrow`: 箭头。<br/>- `EmptyArrow`: 空心箭头。<br/>- `Plus`: 加号。<br/>- `Minus`: 减号。<br/>|
 |size|0f||the size of symbol.
 |gap|0||the gap of symbol and line segment.
 |width|0f||图形的宽。
@@ -2047,8 +2196,8 @@ Tooltip component.
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Whether to show the tooltip component.
-|type|||Indicator type.<br/>`Tooltip.Type`:<br/>- `Line`: line indicator.<br/>- `Shadow`: shadow crosshair indicator.<br/>- `None`: no indicator displayed.<br/>- `Corss`: crosshair indicator, which is actually the shortcut of enable two axisPointers of two orthometric axes.<br/>|
-|trigger|||Type of triggering.<br/>`Tooltip.Trigger`:<br/>- `Item`: Triggered by data item, which is mainly used for charts that don't have a category axis like scatter charts or pie charts.<br/>- `Axis`: Triggered by axes, which is mainly used for charts that have category axes, like bar charts or line charts.<br/>- `None`: Trigger nothing.<br/>|
+|type|||Indicator type.<br/>`Tooltip.Type`:<br/>- `Line`: line indicator.<br/>- `Shadow`: shadow crosshair indicator.<br/>- `None`: no indicator displayed.<br/>- `Corss`: crosshair indicator, which is actually the shortcut of enable two axisPointers of two orthometric axes.<br/>- `Auto`: Auto select indicator according to serie type.<br/>|
+|trigger|||Type of triggering.<br/>`Tooltip.Trigger`:<br/>- `Item`: Triggered by data item, which is mainly used for charts that don't have a category axis like scatter charts or pie charts.<br/>- `Axis`: Triggered by axes, which is mainly used for charts that have category axes, like bar charts or line charts.<br/>- `None`: Trigger nothing.<br/>- `Auto`: Auto select trigger according to serie type.<br/>|
 |position||v3.3.0|Type of position.<br/>`Tooltip.Position`:<br/>- `Auto`: Auto. The mobile platform is displayed at the top, and the non-mobile platform follows the mouse position.<br/>- `Custom`: Custom. Fully customize display position (x,y).<br/>- `FixedX`: Just fix the coordinate X. Y follows the mouse position.<br/>- `FixedY`: <br/>|
 |itemFormatter|||a string template formatter for a single Serie or data item content. Support for wrapping lines with \n. Template variables are {.}, {a}, {b}, {c}, {d}.<br/> {.} is the dot of the corresponding color of a Serie that is currently indicated or whose index is 0.<br/> {a} is the series name of the serie that is currently indicated or whose index is 0.<br/> {b} is the name of the data item serieData that is currently indicated or whose index is 0, or a category value (such as the X-axis of a line chart).<br/> {c} is the value of a Y-dimension (dimesion is 1) from a Serie that is currently indicated or whose index is 0.<br/> {d} is the percentage value of Y-dimensions (dimesion is 1) from serie that is currently indicated or whose index is 0, with no % sign.<br/> {e} is the name of the data item serieData that is currently indicated or whose index is 0.<br/> {f} is sum of data.<br/> {.1} represents a dot from serie corresponding color that specifies index as 1.<br/> 1 in {a1}, {b1}, {c1} represents a serie that specifies an index of 1.<br/> {c1:2} represents the third data from serie's current indication data item indexed to 1 (a data item has multiple data, index 2 represents the third data).<br/> {c1:2-2} represents the third data item from serie's third data item indexed to 1 (i.e., which data item must be specified to specify).<br/> {d1:2: F2} indicates that a formatted string with a value specified separately is F2 (numericFormatter is used when numericFormatter is not specified).<br/> {d:0.##} indicates that a formatted string with a value specified separately is 0.##   (used for percentage, reserved 2 valid digits while avoiding the situation similar to "100.00%" when using f2 ).<br/> Example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1} : {c1:1-1: f1}"<br/>
 |titleFormatter|||The string template formatter for the tooltip title content. Support for wrapping lines with \n. The placeholder {I} can be set separately to indicate that the title is ignored and not displayed. Template see itemFormatter.
@@ -2262,8 +2411,6 @@ The x axis in cartesian(rectangular) coordinate.
 |lineSegmentDistance|3f||
 |cicleSmoothness|2f||
 |visualMapTriangeLen|20f||
-|pieTooltipExtraRadius|8f||
-|pieSelectedOffset|8f||
 |customThemes|||
 
 ```mdx-code-block

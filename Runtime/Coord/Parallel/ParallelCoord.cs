@@ -92,8 +92,12 @@ namespace XCharts.Runtime
             return context.runtimeIsPointerEnter;
         }
 
-        public void UpdateRuntimeData(float chartX, float chartY, float chartWidth, float chartHeight)
+        public void UpdateRuntimeData(BaseChart chart)
         {
+            var chartX = chart.chartX;
+            var chartY = chart.chartY;
+            var chartWidth = chart.chartWidth;
+            var chartHeight = chart.chartHeight;
             context.left = left <= 1 ? left * chartWidth : left;
             context.bottom = bottom <= 1 ? bottom * chartHeight : bottom;
             context.top = top <= 1 ? top * chartHeight : top;

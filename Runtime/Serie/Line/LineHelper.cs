@@ -410,7 +410,7 @@ namespace XCharts.Runtime
         public static float GetLineWidth(ref bool interacting, Serie serie, float defaultWidth)
         {
             var lineWidth = 0f;
-            if (!serie.interact.TryGetValue(ref lineWidth, ref interacting))
+            if (!serie.interact.TryGetValue(ref lineWidth, ref interacting, serie.animation.GetInteractionDuration()))
             {
                 lineWidth = serie.lineStyle.GetWidth(defaultWidth);
                 serie.interact.SetValue(ref interacting, lineWidth);

@@ -46,7 +46,7 @@ namespace XCharts.Runtime
                     m_LastCheckContextFlag = needCheck;
                     serie.context.pointerItemDataIndex = -1;
                     serie.context.pointerEnter = false;
-                    serie.interact.SetValue(ref needAnimation1, lineWidth, false);
+                    serie.interact.SetValue(ref needAnimation1, lineWidth);
                     foreach (var serieData in serie.data)
                     {
                         var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
@@ -66,18 +66,17 @@ namespace XCharts.Runtime
             }
             m_LastCheckContextFlag = needCheck;
             var themeSymbolSize = chart.theme.serie.lineSymbolSize;
-            var themeSymbolSelectedSize = chart.theme.serie.lineSymbolSelectedSize;
             lineWidth = serie.lineStyle.GetWidth(chart.theme.serie.lineWidth);
 
             var needInteract = false;
             if (m_LegendEnter)
             {
                 serie.context.pointerEnter = true;
-                serie.interact.SetValue(ref needInteract, lineWidth, true, chart.theme.serie.selectedRate);
+                serie.interact.SetValue(ref needInteract, serie.animation.interaction.GetWidth(lineWidth));
                 for (int i = 0; i < serie.dataCount; i++)
                 {
                     var serieData = serie.data[i];
-                    var size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize, SerieState.Emphasis);
+                    var size = SerieHelper.GetSysmbolSize(serie, serieData, themeSymbolSize, SerieState.Emphasis);
                     serieData.context.highlight = true;
                     serieData.interact.SetValue(ref needInteract, size);
                 }
@@ -85,14 +84,14 @@ namespace XCharts.Runtime
             else if (serie.context.isTriggerByAxis)
             {
                 serie.context.pointerEnter = true;
-                serie.interact.SetValue(ref needInteract, lineWidth, true, chart.theme.serie.selectedRate);
+                serie.interact.SetValue(ref needInteract, serie.animation.interaction.GetWidth(lineWidth));
                 for (int i = 0; i < serie.dataCount; i++)
                 {
                     var serieData = serie.data[i];
                     var highlight = i == serie.context.pointerItemDataIndex;
                     serieData.context.highlight = highlight;
                     var state = SerieHelper.GetSerieState(serie, serieData, true);
-                    var size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize, state);
+                    var size = SerieHelper.GetSysmbolSize(serie, serieData, themeSymbolSize, state);
                     serieData.interact.SetValue(ref needInteract, size);
                     if (highlight)
                     {
@@ -110,17 +109,17 @@ namespace XCharts.Runtime
                 {
                     var serieData = serie.data[i];
                     var dist = Vector3.Distance(chart.pointerPos, serieData.context.position);
-                    var size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize);
+                    var size = SerieHelper.GetSysmbolSize(serie, serieData, themeSymbolSize);
                     var highlight = dist <= size;
                     serieData.context.highlight = highlight;
                     var state = SerieHelper.GetSerieState(serie, serieData, true);
-                    size = SerieHelper.GetSysmbolSize(serie, serieData, chart.theme, themeSymbolSize, state);
+                    size = SerieHelper.GetSysmbolSize(serie, serieData, themeSymbolSize, state);
                     serieData.interact.SetValue(ref needInteract, size);
                     if (highlight)
                     {
                         serie.context.pointerEnter = true;
                         serie.context.pointerItemDataIndex = serieData.index;
-                        serie.interact.SetValue(ref needInteract, lineWidth, true);
+                        serie.interact.SetValue(ref needInteract, serie.animation.interaction.GetWidth(lineWidth));
                     }
                 }
                 if (lastIndex != serie.context.pointerItemDataIndex)
@@ -172,7 +171,8 @@ namespace XCharts.Runtime
                 serie.sampleAverage :
                 DataHelper.DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);
             var dataChanging = false;
-            var dataChangeDuration = serie.animation.GetUpdateAnimationDuration();
+            var dataChangeDuration = serie.animation.GetChangeDuration();
+            var dataAddDuration = serie.animation.GetAdditionDuration();
             var unscaledTime = serie.animation.unscaledTime;
 
             var interacting = false;
@@ -200,7 +200,7 @@ namespace XCharts.Runtime
                     var np = Vector3.zero;
                     var xValue = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
                     var relativedValue = DataHelper.SampleValue(ref showData, serie.sampleType, rate, serie.minShow,
-                        maxCount, totalAverage, i, dataChangeDuration, ref dataChanging, relativedAxis, unscaledTime);
+                        maxCount, totalAverage, i, dataAddDuration, dataChangeDuration, ref dataChanging, relativedAxis, unscaledTime);
 
                     serieData.context.stackHeight = GetDataPoint(isY, axis, relativedAxis, m_SerieGrid, xValue, relativedValue,
                         i, scaleWid, false, ref np);

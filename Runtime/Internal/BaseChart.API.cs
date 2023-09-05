@@ -671,11 +671,12 @@ namespace XCharts.Runtime
         /// |尝试触发指定数据项的Tooltip.
         /// </summary>
         /// <param name="dataIndex">数据项索引</param>
+        /// <param name="serieIndex">Serie索引，默认为第0个Serie</param>
         /// <returns></returns>
         [Since("v3.7.0")]
-        public bool TriggerTooltip(int dataIndex)
+        public bool TriggerTooltip(int dataIndex, int serieIndex = 0)
         {
-            var serie = GetSerie(0);
+            var serie = GetSerie(serieIndex);
             if (serie == null) return false;
             var dataPoints = serie.context.dataPoints;
             var dataPoint = Vector3.zero;

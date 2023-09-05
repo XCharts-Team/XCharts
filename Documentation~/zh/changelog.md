@@ -68,6 +68,7 @@ slug: /changelog
 
 ## master
 
+* (2023.09.05) 修复`Ring`的`TriggerTooltip()`接口无效的问题
 * (2023.09.05) 修复`Radar`数据全为0时绘制报错的问题
 
 ## v3.8.0

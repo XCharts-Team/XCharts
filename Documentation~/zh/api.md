@@ -340,7 +340,7 @@ slug: /api
 |SetSeriePainterMaterial()||public void SetSeriePainterMaterial(Material material)<br/>设置Serie Painter的材质球 |
 |SetTopPainterMaterial()||public void SetTopPainterMaterial(Material material)<br/>设置Top Painter的材质球 |
 |SetUpperPainterMaterial()||public void SetUpperPainterMaterial(Material material)<br/>设置Upper Painter的材质球 |
-|TriggerTooltip()|v3.7.0|public bool TriggerTooltip(int dataIndex)<br/>尝试触发指定数据项的Tooltip. |
+|TriggerTooltip()|v3.7.0|public bool TriggerTooltip(int dataIndex, int serieIndex = 0)<br/>尝试触发指定数据项的Tooltip. |
 |TriggerTooltip()|v3.7.0|public bool TriggerTooltip(Vector3 localPosition)<br/>在指定的位置尝试触发Tooltip. |
 |TryAddChartComponent()||public bool TryAddChartComponent(Type type)|
 |TryAddChartComponent&lt;T&gt;()||public bool TryAddChartComponent&lt;T&gt;() where T : MainComponent|

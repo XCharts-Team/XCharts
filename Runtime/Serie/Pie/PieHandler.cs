@@ -461,7 +461,7 @@ namespace XCharts.Runtime
                 : pos2 + dire * lineLength2 + labelLine.GetEndSymbolOffset();
             if (labelLine.lineEndX != 0)
             {
-                pos5.x = isLeft ? -Mathf.Abs(labelLine.lineEndX) : Mathf.Abs(labelLine.lineEndX);
+                pos5.x = serie.context.center.x + (isLeft ? -Mathf.Abs(labelLine.lineEndX) : Mathf.Abs(labelLine.lineEndX));
             }
             serieData.context.labelLinePosition2 = pos2;
             serieData.context.labelPosition = pos5;

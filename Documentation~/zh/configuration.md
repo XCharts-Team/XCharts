@@ -1628,6 +1628,19 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 > XCharts.Runtime.Pie : [Serie](#serie)
 
+```mdx-code-block
+<APITable name="Pie">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|radiusGradient|false|v3.8.1|是否开启半径方向的渐变效果。
+
+```mdx-code-block
+</APITable>
+```
+
 ## PolarAxisTheme
 
 > XCharts.Runtime.PolarAxisTheme : [BaseAxisTheme](#baseaxistheme)

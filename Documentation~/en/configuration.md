@@ -1628,6 +1628,19 @@ Grid component.
 
 > XCharts.Runtime.Pie : [Serie](#serie)
 
+```mdx-code-block
+<APITable name="Pie">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|radiusGradient|false|v3.8.1|Whether to use gradient color in pie chart.
+
+```mdx-code-block
+</APITable>
+```
+
 ## PolarAxisTheme
 
 > XCharts.Runtime.PolarAxisTheme : [BaseAxisTheme](#baseaxistheme)

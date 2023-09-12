@@ -1590,7 +1590,7 @@ namespace XUGL
 
         public static void DrawDoughnut(VertexHelper vh, Vector3 center, float insideRadius, float outsideRadius,
             Color32 color, Color32 toColor, Color32 emptyColor, float startDegree, float toDegree, float borderWidth,
-            Color32 borderColor, float gap, float smoothness, bool roundCap = false, bool clockwise = true)
+            Color32 borderColor, float gap, float smoothness, bool roundCap = false, bool clockwise = true, bool radiusGradient = true)
         {
             if (toDegree - startDegree == 0) return;
             if (gap > 0 && Mathf.Abs(toDegree - startDegree) >= 360) gap = 0;
@@ -1785,10 +1785,19 @@ namespace XUGL
                     center.y + insideRadius * Mathf.Cos(currAngle));
                 if (isGradient)
                 {
-                    var tcolor = Color32.Lerp(color, toColor, i * 1.0f / segments);
-                    if (i == 0 && (needSpace || needBorder))
-                        UGL.DrawTriangle(vh, p1, p2, p3, color, tcolor, tcolor);
-                    AddVertToVertexHelper(vh, p3, p4, tcolor, tcolor, i > 0);
+                    if (radiusGradient)
+                    {
+                        if (i == 0 && (needSpace || needBorder))
+                            UGL.DrawTriangle(vh, p1, p2, p3, color, toColor, toColor);
+                        AddVertToVertexHelper(vh, p3, p4, color, toColor, i > 0);
+                    }
+                    else
+                    {
+                        var tcolor = Color32.Lerp(color, toColor, i * 1.0f / segments);
+                        if (i == 0 && (needSpace || needBorder))
+                            UGL.DrawTriangle(vh, p1, p2, p3, color, tcolor, tcolor);
+                        AddVertToVertexHelper(vh, p3, p4, tcolor, tcolor, i > 0);
+                    }
                 }
                 else
                 {

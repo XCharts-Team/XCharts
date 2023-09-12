@@ -22,6 +22,7 @@ namespace XCharts.Editor
                 PropertyField("m_Ignore");
                 PropertyField("m_IgnoreValue");
                 PropertyField("m_ClickOffset");
+                PropertyField("m_RadiusGradient");
             });
             PropertyField("m_ItemStyle");
             PropertyField("m_Animation");

@@ -333,7 +333,7 @@ namespace XCharts.Runtime
             }
         }
 
-        private void DrawPie(VertexHelper vh, Serie serie)
+        private void DrawPie(VertexHelper vh, Pie serie)
         {
             if (!serie.show || serie.animation.HasFadeOut())
             {
@@ -387,7 +387,7 @@ namespace XCharts.Runtime
                 UGL.DrawDoughnut(vh, offsetCenter, insideRadius,
                     outsideRadius, color, toColor, Color.clear, serieData.context.startAngle,
                     drawEndDegree, borderWidth, borderColor, serie.gap / 2, chart.settings.cicleSmoothness,
-                    needRoundCap, true);
+                    needRoundCap, true, serie.radiusGradient);
                 DrawPieCenter(vh, serie, itemStyle, insideRadius);
 
                 if (serie.animation.CheckDetailBreak(serieData.context.toAngle))

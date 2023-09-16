@@ -68,6 +68,7 @@ slug: /changelog
 
 ## master
 
+* (2023.09.16) 修复`Pie`无数据时绘制异常的问题
 * (2023.09.12) 增加`Pie`的`radiusGradient`可设置半径方向的渐变效果
 * (2023.09.05) 优化`LabelLine`的`lineEndX`在`Pie`中的表现
 * (2023.09.05) 修复`TriggerTooltip()`接口对`Ring`无效的问题

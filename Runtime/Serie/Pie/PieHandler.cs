@@ -348,6 +348,16 @@ namespace XCharts.Runtime
                 && !serie.animation.IsFadeIn() && !serie.animation.IsFadeOut();
             var data = serie.data;
             serie.animation.InitProgress(0, 360);
+            if (data.Count == 0)
+            {
+                var itemStyle = SerieHelper.GetItemStyle(serie, null);
+                var fillColor = ChartHelper.IsClearColor(itemStyle.backgroundColor) ?
+                    (Color32)chart.theme.legend.unableColor : itemStyle.backgroundColor;
+                UGL.DrawDoughnut(vh, serie.context.center, serie.context.insideRadius,
+                    serie.context.outsideRadius, fillColor, fillColor, Color.clear, 0,
+                    360, itemStyle.borderWidth, itemStyle.borderColor, serie.gap / 2, chart.settings.cicleSmoothness,
+                    false, true, serie.radiusGradient);
+            }
             for (int n = 0; n < data.Count; n++)
             {
                 var serieData = data[n];

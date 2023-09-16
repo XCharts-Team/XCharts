@@ -201,6 +201,7 @@ namespace XCharts.Runtime
         /// <returns></returns>
         public static bool IsAllZeroValue(Serie serie, int dimension = 1)
         {
+            if (serie.dataCount == 0) return false;
             foreach (var serieData in serie.data)
             {
                 if (serieData.GetData(dimension) != 0) return false;

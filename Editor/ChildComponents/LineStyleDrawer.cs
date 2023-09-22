@@ -21,6 +21,9 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_Width");
                 PropertyField(prop, "m_Length");
                 PropertyField(prop, "m_Opacity");
+                PropertyField(prop, "m_DashLength");
+                PropertyField(prop, "m_DotLength");
+                PropertyField(prop, "m_GapLength");
                 --EditorGUI.indentLevel;
             }
         }

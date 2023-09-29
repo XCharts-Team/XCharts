@@ -67,7 +67,10 @@ namespace XCharts.Runtime
                 {
                     case LabelStyle.Position.Bottom:
                         var center = serieData.context.rect.center;
-                        return new Vector3(center.x, center.y - serieData.context.rect.height / 2);
+                        if(serie.context.isHorizontal)
+                            return new Vector3(center.x - serieData.context.rect.width/2, center.y);
+                        else
+                            return new Vector3(center.x, center.y - serieData.context.rect.height / 2);
                     case LabelStyle.Position.Center:
                     case LabelStyle.Position.Inside:
                         return serieData.context.rect.center;
@@ -193,6 +196,7 @@ namespace XCharts.Runtime
             var areaToColor = ColorUtil.clearColor32;
             var interacting = false;
 
+            serie.context.isHorizontal = isY;
             serie.containerIndex = m_SerieGrid.index;
             serie.containterInstanceId = m_SerieGrid.instanceId;
             serie.animation.InitProgress(axisXY, axisXY + axisLength);

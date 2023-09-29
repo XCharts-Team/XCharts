@@ -119,5 +119,9 @@ namespace XCharts.Runtime
         public Tooltip.Type tooltipType;
         public Tooltip.Trigger tooltipTrigger;
         public int totalDataIndex;
+        /// <summary>
+        /// 水平方向的
+        /// </summary>
+        public bool isHorizontal;
     }
 }

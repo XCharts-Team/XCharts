@@ -1387,6 +1387,9 @@ The style of line.
 |width|0||the width of line.
 |length|0||the length of line.
 |opacity|1||Opacity of the line. Supports value from 0 to 1, and the line will not be drawn when set to 0.
+|dashLength|4|v3.8.1|the length of dash line. default value is 0, which means the length of dash line is 12 times of line width. Represents a multiple of the number of segments in a line chart.
+|dotLength|2|v3.8.1|the length of dot line. default value is 0, which means the length of dot line is 2 times of line width. Represents a multiple of the number of segments in a line chart.
+|gapLength|2|v3.8.1|the length of gap line. default value is 0, which means the length of gap line is 3 times of line width. Represents a multiple of the number of segments in a line chart.
 
 ```mdx-code-block
 </APITable>
@@ -1627,6 +1630,19 @@ Grid component.
 ## Pie
 
 > XCharts.Runtime.Pie : [Serie](#serie)
+
+```mdx-code-block
+<APITable name="Pie">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|radiusGradient|false|v3.8.1|Whether to use gradient color in pie chart.
+
+```mdx-code-block
+</APITable>
+```
 
 ## PolarAxisTheme
 

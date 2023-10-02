@@ -283,7 +283,8 @@ namespace XCharts.Runtime
                             max = serie.context.dataMax;
                         }
                     }
-                    var radius = (float)(m_RadarCoord.context.dataRadius * (value - min) / (max - min));
+                    if (max - min == 0) continue;
+                    var radius = (float) (m_RadarCoord.context.dataRadius * (value - min) / (max - min));
                     var currAngle = startAngle + (n + (m_RadarCoord.positionType == RadarCoord.PositionType.Between ? 0.5f : 0)) * angle;
                     radius *= rate;
                     if (n == 0)
@@ -414,7 +415,7 @@ namespace XCharts.Runtime
                 {
                     lineColor = m_RadarCoord.outRangeColor;
                 }
-                var radius = (float)(max < 0 ? m_RadarCoord.context.dataRadius - m_RadarCoord.context.dataRadius * value / max :
+                var radius = (float) (max < 0 ? m_RadarCoord.context.dataRadius - m_RadarCoord.context.dataRadius * value / max :
                     m_RadarCoord.context.dataRadius * value / max);
                 var currAngle = startAngle + (index + (m_RadarCoord.positionType == RadarCoord.PositionType.Between ? 0.5f : 0)) * angle;
                 radius *= rate;

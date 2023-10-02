@@ -296,6 +296,7 @@ namespace XCharts.Runtime
             var lineWidth = LineHelper.GetLineWidth(ref interacting, serie, chart.theme.serie.lineWidth);
 
             axis.context.scaleWidth = scaleWid;
+            serie.context.isHorizontal = isY;
             serie.containerIndex = m_SerieGrid.index;
             serie.containterInstanceId = m_SerieGrid.instanceId;
 

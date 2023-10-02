@@ -99,7 +99,7 @@ namespace XCharts.Runtime
             param.color = color;
             param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
             param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
-            param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter); ;
+            param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
             param.columns.Clear();
 
             param.columns.Add(param.marker);
@@ -111,7 +111,7 @@ namespace XCharts.Runtime
 
         private Vector3 GetLabelLineEndPosition(Serie serie, SerieData serieData, LabelLine labelLine)
         {
-            if (labelLine == null || !labelLine.show) 
+            if (labelLine == null || !labelLine.show)
                 return serieData.context.labelLinePosition;
             var isRight = !serie.clockwise;
             var dire = isRight ? Vector3.right : Vector3.left;
@@ -207,10 +207,13 @@ namespace XCharts.Runtime
                 var startDegree = GetStartAngle(serie);
                 var toDegree = GetToAngle(serie, degree);
                 var insideRadius = outsideRadius - ringWidth;
+                var halfAngle = startDegree + (toDegree - startDegree) / 2;
+                var halfRadius = (outsideRadius + insideRadius) / 2;
                 serieData.context.startAngle = startDegree;
                 serieData.context.toAngle = toDegree;
                 serieData.context.insideRadius = insideRadius;
                 serieData.context.outsideRadius = serieData.radius > 0 ? serieData.radius : outsideRadius;
+                serieData.context.position = ChartHelper.GetPosition(serie.context.center, halfAngle, halfRadius);
                 UpdateLabelPosition(serieData);
             }
             AvoidLabelOverlap();

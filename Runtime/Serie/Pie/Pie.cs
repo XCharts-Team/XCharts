@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace XCharts.Runtime
 {
     [System.Serializable]
@@ -9,8 +11,20 @@ namespace XCharts.Runtime
     [SerieDataExtraField("m_Ignore", "m_Selected", "m_Radius")]
     public class Pie : Serie
     {
+        [SerializeField][Since("v3.8.1")] private bool m_RadiusGradient = false;
+
         public override SerieColorBy defaultColorBy { get { return SerieColorBy.Data; } }
         public override bool titleJustForSerie { get { return true; } }
+
+        /// <summary>
+        /// Whether to use gradient color in pie chart.
+        /// | 是否开启半径方向的渐变效果。
+        /// </summary>
+        public bool radiusGradient
+        {
+            get { return m_RadiusGradient; }
+            set { if (PropertyUtil.SetStruct(ref m_RadiusGradient, value)) { SetVerticesDirty(); } }
+        }
 
         public static Serie AddDefaultSerie(BaseChart chart, string serieName)
         {

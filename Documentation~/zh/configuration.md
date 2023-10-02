@@ -1387,6 +1387,9 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |width|0||线宽。
 |length|0||线长。
 |opacity|1||线的透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
+|dashLength|4|v3.8.1|虚线的长度。默认0时为线条宽度的12倍。在折线图中代表分割段数的倍数。
+|dotLength|2|v3.8.1|点线的长度。默认0时为线条宽度的3倍。在折线图中代表分割段数的倍数。
+|gapLength|2|v3.8.1|点线的长度。默认0时为线条宽度的3倍。在折线图中代表分割段数的倍数。
 
 ```mdx-code-block
 </APITable>
@@ -1627,6 +1630,19 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 ## Pie
 
 > XCharts.Runtime.Pie : [Serie](#serie)
+
+```mdx-code-block
+<APITable name="Pie">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|radiusGradient|false|v3.8.1|是否开启半径方向的渐变效果。
+
+```mdx-code-block
+</APITable>
+```
 
 ## PolarAxisTheme
 

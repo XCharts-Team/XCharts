@@ -47,6 +47,9 @@ namespace XCharts.Runtime
         [SerializeField] private float m_Width = 0;
         [SerializeField] private float m_Length = 0;
         [SerializeField][Range(0, 1)] private float m_Opacity = 1;
+        [SerializeField][Since("v3.8.1")] private float m_DashLength = 4;
+        [SerializeField][Since("v3.8.1")] private float m_DotLength = 2;
+        [SerializeField][Since("v3.8.1")] private float m_GapLength = 2;
 
         /// <summary>
         /// Whether show line.
@@ -121,6 +124,39 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_Opacity, value)) SetVerticesDirty(); }
         }
 
+        /// <summary>
+        /// the length of dash line. default value is 0, which means the length of dash line is 12 times of line width. 
+        /// Represents a multiple of the number of segments in a line chart.
+        /// |虚线的长度。默认0时为线条宽度的12倍。在折线图中代表分割段数的倍数。
+        /// </summary>
+        public float dashLength
+        {
+            get { return m_DashLength; }
+            set { if (PropertyUtil.SetStruct(ref m_DashLength, value)) SetVerticesDirty(); }
+        }
+
+        /// <summary>
+        /// the length of dot line. default value is 0, which means the length of dot line is 2 times of line width.
+        /// Represents a multiple of the number of segments in a line chart.
+        /// |点线的长度。默认0时为线条宽度的3倍。在折线图中代表分割段数的倍数。
+        /// </summary>
+        public float dotLength
+        {
+            get { return m_DotLength; }
+            set { if (PropertyUtil.SetStruct(ref m_DotLength, value)) SetVerticesDirty(); }
+        }
+
+        /// <summary>
+        /// the length of gap line. default value is 0, which means the length of gap line is 3 times of line width.
+        /// Represents a multiple of the number of segments in a line chart.
+        /// |点线的长度。默认0时为线条宽度的3倍。在折线图中代表分割段数的倍数。
+        /// </summary>
+        public float gapLength
+        {
+            get { return m_GapLength; }
+            set { if (PropertyUtil.SetStruct(ref m_GapLength, value)) SetVerticesDirty(); }
+        }
+
         public LineStyle()
         { }
 
@@ -150,6 +186,9 @@ namespace XCharts.Runtime
             lineStyle.toColor2 = toColor2;
             lineStyle.width = width;
             lineStyle.opacity = opacity;
+            lineStyle.dashLength = dashLength;
+            lineStyle.dotLength = dotLength;
+            lineStyle.gapLength = gapLength;
             return lineStyle;
         }
 
@@ -162,6 +201,14 @@ namespace XCharts.Runtime
             toColor2 = lineStyle.toColor2;
             width = lineStyle.width;
             opacity = lineStyle.opacity;
+            dashLength = lineStyle.dashLength;
+            dotLength = lineStyle.dotLength;
+            gapLength = lineStyle.gapLength;
+        }
+
+        public bool IsNotSolidLine()
+        {
+            return type != Type.Solid && type != Type.None;
         }
 
         public Color32 GetColor()
@@ -170,7 +217,7 @@ namespace XCharts.Runtime
                 return m_Color;
 
             var color = m_Color;
-            color.a = (byte) (color.a * m_Opacity);
+            color.a = (byte)(color.a * m_Opacity);
             return color;
         }
 
@@ -201,7 +248,7 @@ namespace XCharts.Runtime
             }
             if (m_Opacity != 1)
             {
-                color.a = (byte) (color.a * m_Opacity);
+                color.a = (byte)(color.a * m_Opacity);
             }
             return color;
         }
@@ -230,7 +277,7 @@ namespace XCharts.Runtime
             else
             {
                 var color = themeColor;
-                color.a = (byte) (color.a * opacity);
+                color.a = (byte)(color.a * opacity);
                 return color;
             }
         }

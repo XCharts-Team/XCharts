@@ -333,7 +333,7 @@ namespace XCharts.Runtime
             }
         }
 
-        private void DrawPie(VertexHelper vh, Serie serie)
+        private void DrawPie(VertexHelper vh, Pie serie)
         {
             if (!serie.show || serie.animation.HasFadeOut())
             {
@@ -348,6 +348,16 @@ namespace XCharts.Runtime
                 && !serie.animation.IsFadeIn() && !serie.animation.IsFadeOut();
             var data = serie.data;
             serie.animation.InitProgress(0, 360);
+            if (data.Count == 0)
+            {
+                var itemStyle = SerieHelper.GetItemStyle(serie, null);
+                var fillColor = ChartHelper.IsClearColor(itemStyle.backgroundColor) ?
+                    (Color32)chart.theme.legend.unableColor : itemStyle.backgroundColor;
+                UGL.DrawDoughnut(vh, serie.context.center, serie.context.insideRadius,
+                    serie.context.outsideRadius, fillColor, fillColor, Color.clear, 0,
+                    360, itemStyle.borderWidth, itemStyle.borderColor, serie.gap / 2, chart.settings.cicleSmoothness,
+                    false, true, serie.radiusGradient);
+            }
             for (int n = 0; n < data.Count; n++)
             {
                 var serieData = data[n];
@@ -387,7 +397,7 @@ namespace XCharts.Runtime
                 UGL.DrawDoughnut(vh, offsetCenter, insideRadius,
                     outsideRadius, color, toColor, Color.clear, serieData.context.startAngle,
                     drawEndDegree, borderWidth, borderColor, serie.gap / 2, chart.settings.cicleSmoothness,
-                    needRoundCap, true);
+                    needRoundCap, true, serie.radiusGradient);
                 DrawPieCenter(vh, serie, itemStyle, insideRadius);
 
                 if (serie.animation.CheckDetailBreak(serieData.context.toAngle))
@@ -461,7 +471,7 @@ namespace XCharts.Runtime
                 : pos2 + dire * lineLength2 + labelLine.GetEndSymbolOffset();
             if (labelLine.lineEndX != 0)
             {
-                pos5.x = isLeft ? -Mathf.Abs(labelLine.lineEndX) : Mathf.Abs(labelLine.lineEndX);
+                pos5.x = serie.context.center.x + (isLeft ? -Mathf.Abs(labelLine.lineEndX) : Mathf.Abs(labelLine.lineEndX));
             }
             serieData.context.labelLinePosition2 = pos2;
             serieData.context.labelPosition = pos5;

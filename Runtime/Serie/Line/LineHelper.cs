@@ -285,8 +285,11 @@ namespace XCharts.Runtime
             var lineColor = SerieHelper.GetLineColor(serie, null, theme, serie.context.colorIndex);
 
             var lastDataIsIgnore = datas[0].isIgnoreBreak;
-            var smooth = serie.lineType == LineType.Smooth;
             var firstInGridPointIndex = serie.clip ? -1 : 1;
+            var segmentCount = 0;
+            var dashLength = serie.lineStyle.dashLength;
+            var gapLength = serie.lineStyle.gapLength;
+            var dotLength = serie.lineStyle.dotLength;
             for (int i = 1; i < dataCount; i++)
             {
                 var cdata = datas[i];
@@ -315,31 +318,45 @@ namespace XCharts.Runtime
                         firstInGridPointIndex = i;
                     if (isClip) isIgnore = true;
                 }
-                if (!smooth)
+                if (serie.lineStyle.type == LineStyle.Type.None)
                 {
+                    handled = true;
+                    break;
+                }
+                {
+                    segmentCount++;
+                    var index = 0f;
                     switch (serie.lineStyle.type)
                     {
                         case LineStyle.Type.Dashed:
-                            UGL.DrawDashLine(vh, lp, cp, lineWidth, lineColor, lineColor, 0, 0);
-                            handled = true;
+                            index = segmentCount % (dashLength + gapLength);
+                            if (index >= dashLength)
+                                isIgnore = true;
                             break;
                         case LineStyle.Type.Dotted:
-                            UGL.DrawDotLine(vh, lp, cp, lineWidth, lineColor, lineColor, 0, 0);
-                            handled = true;
+                            index = segmentCount % (dotLength + gapLength);
+                            if (index >= dotLength)
+                                isIgnore = true;
                             break;
                         case LineStyle.Type.DashDot:
-                            UGL.DrawDashDotLine(vh, lp, cp, lineWidth, lineColor, 0, 0, 0);
-                            handled = true;
+                            index = segmentCount % (dashLength + dotLength + 2 * gapLength);
+                            if (index >= dashLength && index < dashLength + gapLength)
+                                isIgnore = true;
+                            else if (index >= dashLength + gapLength + dotLength)
+                                isIgnore = true;
                             break;
                         case LineStyle.Type.DashDotDot:
-                            UGL.DrawDashDotDotLine(vh, lp, cp, lineWidth, lineColor, 0, 0, 0);
-                            handled = true;
-                            break;
-                        case LineStyle.Type.None:
-                            handled = true;
+                            index = segmentCount % (dashLength + 2 * dotLength + 3 * gapLength);
+                            if (index >= dashLength && index < dashLength + gapLength)
+                                isIgnore = true;
+                            else if (index >= dashLength + gapLength + dotLength && index < dashLength + dotLength + 2 * gapLength)
+                                isIgnore = true;
+                            else if (index >= dashLength + 2 * gapLength + 2 * dotLength)
+                                isIgnore = true;
                             break;
                     }
                 }
+
                 if (handled)
                 {
                     lastDataIsIgnore = isIgnore;
@@ -476,7 +493,7 @@ namespace XCharts.Runtime
         private static void UpdateNormalLineDrawPoints(Serie serie, Settings setting, VisualMap visualMap)
         {
             var isVisualMapGradient = VisualMapHelper.IsNeedGradient(visualMap);
-            if (isVisualMapGradient || serie.clip)
+            if (isVisualMapGradient || serie.clip || (serie.lineStyle.IsNotSolidLine()))
             {
                 var dataPoints = serie.context.dataPoints;
                 if (dataPoints.Count > 1)

@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.8.1](#v381)  
 [v3.8.0](#v380)  
 [v3.7.0](#v370)  
 [v3.6.0](#v360)  
@@ -62,6 +63,18 @@
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.8.1
+
+* (2023.10.02) Release `v3.8.1` version
+* (2023.09.29) Fixed issue where `Bar` is set to `Bottom` when horizontal does not take effect
+* (2023.09.22) Added support for dashed lines in `Line`'s smooth curves
+* (2023.09.16) Fix to `Tooltip` reporting an exception when there is no data in the category axis (#279)
+* (2023.09.16) Fix to `Pie` drawing exception with no data (#278)
+* (2023.09.12) Added `Pie` `radiusGradient` to set the gradient effect in the radius direction
+* (2023.09.05) Improved the performance of LabelLine`s lineEndX in Pie
+* (2023.09.05) Fixed `TriggerTooltip()` interface not working for `Ring`
+* (2023.09.05) Fixed drawing error when `Radar` data is all zeros
 
 ## v3.8.0
 

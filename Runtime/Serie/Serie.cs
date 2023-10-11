@@ -833,7 +833,7 @@ namespace XCharts.Runtime
         /// <summary>
         /// 数据项里的数据维数。
         /// </summary>
-        public int showDataDimension { get { return m_ShowDataDimension; } set { m_ShowDataDimension = Mathf.Clamp(2, 10, value); } }
+        public int showDataDimension { get { return m_ShowDataDimension; } set { m_ShowDataDimension = Mathf.Clamp(value, 2, 10); } }
         /// <summary>
         /// 在Editor的inpsector上是否显示name参数
         /// </summary>

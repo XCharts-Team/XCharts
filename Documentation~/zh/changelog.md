@@ -69,6 +69,8 @@ slug: /changelog
 
 ## master
 
+* (2023.10.11) 修复`Serie`的`showDataDimension`设置无效的问题
+
 ## v3.8.1
 
 * (2023.10.02) 发布`v3.8.1`版本

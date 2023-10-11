@@ -68,9 +68,9 @@
 - __多图表组合__：支持内置图表的任意组合，同一图中可同时显示多个相同或不同类型的图表。
 - __多种坐标系__：支持直角坐标系、极坐标系、单轴等多种坐标系。
 - __丰富的组件__：支持标题、图例、提示框、标线、标域、数据区域缩放、视觉映射等常用组件。
-- __丰富的线图__：支持直线图、曲线图、虚线图、面积图、阶梯线图等多种线图。
-- __丰富的柱图__：支持并列柱图、堆叠柱图、堆积百分比柱图、斑马柱图、胶囊柱图等多种柱状图。
-- __丰富的饼图__：支持环形图、玫瑰图、环形玫瑰图等多种饼图。
+- __多样式线图__：支持直线图、曲线图、虚线图、面积图、阶梯线图等多种线图。
+- __多样式柱图__：支持并列柱图、堆叠柱图、堆积百分比柱图、斑马柱图、胶囊柱图等多种柱状图。
+- __多样式饼图__：支持环形图、玫瑰图、环形玫瑰图等多种饼图。
 - __丰富的线条__：支持实线、曲线、阶梯线、虚线、点线、点划线、双点划线等线条。
 - __自定义绘制__：支持自定义图表内容绘制，提供绘制点、线、面等其他图形的强大的绘图API。
 - __大数据绘制__：支持万级大数据量绘制；支持采样绘制；特殊的简化图表支持更优的性能。
@@ -87,10 +87,37 @@
 
 ## 注意
 
-- `XCharts3.0` 不完全兼容 `XCharts2.0` 版本，升级`3.0`可能需要调整部分代码，图表部分配置需要重新调整。建议旧项目可以继续使用`XCharts2.0`，新项目推荐使用`XCharts3.0`。
+- `XCharts3.0` 不完全兼容 `XCharts2.0` 版本，升级`3.0`时，部分代码和配置可能需要重新调整。建议旧项目可以继续使用`XCharts2.0`，新项目推荐使用`XCharts3.0`。
 - `XCharts2.0` 进入维护阶段，后续只修复严重`bug`，原则上不再加新功能。
 - `XCharts` 理论上支持`Unity 5.6`及以上版本，但由于版本测试有限难免疏漏，发现版本兼容问题可提`Issue`。
 - 本仓库只包含`XCharts`源码，不包含`Demo`示例部分。需要查看`Demo`示例源码请到[XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)仓库。也可以在浏览器查看`WebGL`下的运行效果 [在线Demo](https://xcharts-team.github.io/examples/) 。
+
+## 仓库
+
+- [XCharts](https://github.com/XCharts-Team/XCharts)：XCharts核心功能，完全免费。
+- [XCharts-Daemon](https://github.com/XCharts-Team/XCharts-Daemon)：XCharts的守护程序，用于确保XCharts更新时的编译正常。非必须，但建议使用。
+- [XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)：XCharts的官方示例，不包含扩展图表部分。订阅VIP的用户购买扩展图表后，可加入对应图表的示例。
+- [XCharts-Pro](https://github.com/XCharts-Team/XCharts-Pro)：XCharts完全版，包含所有扩展图表和扩展组件。订阅SVIP可访问。
+- [XCharts-Pro-Demo](https://github.com/XCharts-Team/XCharts-Pro-Demo)：XCharts完全版官方示例，包含所有扩展图表和扩展组件的示例。订阅SVIP可访问。
+- [XCharts-UI](https://github.com/XCharts-Team/XCharts-UI)：XCharts的扩展UI组件。订阅VIP可访问。
+- [XCharts-Bar3DChart](https://github.com/XCharts-Team/XCharts-Bar3DChart)：XCharts扩展图表：3D柱图。订阅VIP后可单独购买。
+- [XCharts-FunnelChart](https://github.com/XCharts-Team/XCharts-FunnelChart)：XCharts扩展图表：漏斗图。订阅VIP后可单独购买。
+- [XCharts-GanttChart](https://github.com/XCharts-Team/XCharts-GanttChart)：XCharts扩展图表：甘特图。订阅VIP后可单独购买。
+- [XCharts-GaugeChart](https://github.com/XCharts-Team/XCharts-GaugeChart)：XCharts扩展图表：仪表盘。订阅VIP后可单独购买。
+- [XCharts-LiquidChart](https://github.com/XCharts-Team/XCharts-LiquidChart)：XCharts扩展图表：水位图。订阅VIP后可单独购买。
+- [XCharts-PictorialBarChart](https://github.com/XCharts-Team/XCharts-PictorialBarChart)：XCharts扩展图表：象形住图。订阅VIP后可单独购买。
+- [XCharts-Pie3DChart](https://github.com/XCharts-Team/XCharts-Pie3DChart)：XCharts扩展图表：3D饼图。订阅VIP后可单独购买。
+- [XCharts-PyramidChart](https://github.com/XCharts-Team/XCharts-PyramidChart)：XCharts扩展图表：3D金字塔。订阅VIP后可单独购买。
+- [XCharts-TreemapChart](https://github.com/XCharts-Team/XCharts-TreemapChart)：XCharts扩展图表：矩形树图。订阅VIP后可单独购买。
+- [XCharts-Bar3DChart-Demo](https://github.com/XCharts-Team/XCharts-Bar3DChart-Demo)：3D柱图的示例。订阅VIP可访问，可导入XCharts-Demo使用。
+- [XCharts-FunnelChart-Demo](https://github.com/XCharts-Team/XCharts-FunnelChart-Demo)：漏斗图的示例。订阅VIP可访问，可导入XCharts-Demo使用。
+- [XCharts-GanttChart-Demo](https://github.com/XCharts-Team/XCharts-GanttChart-Demo)：甘特图的示例。订阅VIP可访问，可导入XCharts-Demo使用。
+- [XCharts-GaugeChart-Demo](https://github.com/XCharts-Team/XCharts-GaugeChart-Demo)：仪表盘的示例。订阅VIP可访问，可导入XCharts-Demo使用。
+- [XCharts-LiquidChart-Demo](https://github.com/XCharts-Team/XCharts-LiquidChart-Demo)：水位图的示例。订阅VIP可访问，可导入XCharts-Demo使用。
+- [XCharts-PictorialBarChart-Demo](https://github.com/XCharts-Team/XCharts-PictorialBarChart-Demo)：象形住图的示例。订阅VIP可访问，可导入XCharts-Demo使用。
+- [XCharts-Pie3DChart-Demo](https://github.com/XCharts-Team/XCharts-Pie3DChart-Demo)：3D饼图的示例。订阅VIP可访问，可导入XCharts-Demo使用。
+- [XCharts-PyramidChart-Demo](https://github.com/XCharts-Team/XCharts-PyramidChart-Demo)：3D金字塔的示例。订阅VIP可访问，可导入XCharts-Demo使用。
+- [XCharts-TreemapChart-Demo](https://github.com/XCharts-Team/XCharts-TreemapChart-Demo)：矩形树图的示例。订阅VIP可访问，可导入XCharts-Demo使用。
 
 ## 使用
 
@@ -136,14 +163,13 @@
 
 ## 订阅
 
-- `XCharts`核心库是开源的，可免费使用的。在此基础上，我们也提供多种订阅服务以满足不同用户的需求，订阅详情[☞ 请看这里](Documentation~/zh/support.md)
-- 订阅不是必须的，不影响`XCharts`的常用功能使用。
-- 订阅是按年付费制，部分订阅服务的首年费用比次年要高，是因为包含了购买部分源码。次年的费用基本都是服务费。
-- 订阅到期后，不要求必须续订，但中断订阅期间无法享受技术支持等服务。如需继续服务，可从当日继续续订即可。
+- `XCharts`核心库是开源的，可免费使用的。在此基础上，我们也提供多种订阅服务以满足不同用户的需求，订阅详情[☞ 请看这里](Documentation~/zh/support.md)。
+- 订阅不是必须的，不影响`XCharts`的核心功能使用。
+- 订阅是按年付费，订阅到期后，不要求必须续订，但中断订阅期间无法享受技术支持等服务。如需继续服务，可从当日起续订即可。
 
 ## 其他
 
 - 邮箱：`monitor1394@gmail.com`  
 - QQ群：XCharts交流群（`202030963`）  
-- VIP群：XCharts技术支持VIP群（`867291970`）  
+- VIP群：XCharts VIP群（`867291970`）  
 - 捐助、合作、订阅和技术支持：[☞ 看这里](Documentation~/zh/support.md)

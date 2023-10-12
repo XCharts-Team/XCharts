@@ -125,19 +125,19 @@ namespace XCharts.Runtime
                 {
                     case MarkLineType.Min:
                         data.runtimeValue = SerieHelper.GetMinData(serie, data.dimension, dataZoom);
-                        GetStartEndPos(xAxis, yAxis, grid, data.runtimeValue, ref sp, ref ep);
+                        GetStartEndPos(yAxis, grid, data.runtimeValue, ref sp, ref ep);
                         break;
                     case MarkLineType.Max:
                         data.runtimeValue = SerieHelper.GetMaxData(serie, data.dimension, dataZoom);
-                        GetStartEndPos(xAxis, yAxis, grid, data.runtimeValue, ref sp, ref ep);
+                        GetStartEndPos(yAxis, grid, data.runtimeValue, ref sp, ref ep);
                         break;
                     case MarkLineType.Average:
                         data.runtimeValue = SerieHelper.GetAverageData(serie, data.dimension, dataZoom);
-                        GetStartEndPos(xAxis, yAxis, grid, data.runtimeValue, ref sp, ref ep);
+                        GetStartEndPos(yAxis, grid, data.runtimeValue, ref sp, ref ep);
                         break;
                     case MarkLineType.Median:
                         data.runtimeValue = SerieHelper.GetMedianData(serie, data.dimension, dataZoom);
-                        GetStartEndPos(xAxis, yAxis, grid, data.runtimeValue, ref sp, ref ep);
+                        GetStartEndPos(yAxis, grid, data.runtimeValue, ref sp, ref ep);
                         break;
                     case MarkLineType.None:
                         if (data.xPosition != 0)
@@ -165,7 +165,7 @@ namespace XCharts.Runtime
                             }
                             else
                             {
-                                GetStartEndPos(xAxis, yAxis, grid, data.yValue, ref sp, ref ep);
+                                GetStartEndPos(yAxis, grid, data.yValue, ref sp, ref ep);
                             }
                         }
                         else
@@ -179,7 +179,7 @@ namespace XCharts.Runtime
                             }
                             else
                             {
-                                GetStartEndPos(xAxis, yAxis, grid, data.xValue, ref sp, ref ep);
+                                GetStartEndPos(xAxis, grid, data.xValue, ref sp, ref ep);
                             }
                         }
                         break;
@@ -258,11 +258,11 @@ namespace XCharts.Runtime
                 ColorUtil.clearColor32, borderColor, symbol.gap, serie.clip, cornerRadius, grid, startPos);
         }
 
-        private void GetStartEndPos(Axis xAxis, Axis yAxis, GridCoord grid, double value, ref Vector3 sp, ref Vector3 ep)
+        private void GetStartEndPos(Axis xAxis, GridCoord grid, double value, ref Vector3 sp, ref Vector3 ep)
         {
-            if (xAxis.IsCategory())
+            if (xAxis is YAxis)
             {
-                var pY = AxisHelper.GetAxisPosition(grid, yAxis, value);
+                var pY = AxisHelper.GetAxisPosition(grid, xAxis, value);
                 sp = new Vector3(grid.context.x, pY);
                 ep = new Vector3(grid.context.x + grid.context.width, pY);
             }

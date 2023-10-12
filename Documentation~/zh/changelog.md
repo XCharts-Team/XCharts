@@ -69,6 +69,7 @@ slug: /changelog
 
 ## master
 
+* (2023.10.11) 修复`MarkLine`指定`yValue`时对数值轴无效的问题
 * (2023.10.11) 修复`Serie`的`showDataDimension`设置无效的问题
 
 ## v3.8.1

@@ -304,12 +304,6 @@ namespace XCharts.Runtime
             }
             var sp = paths[startIndex];
             var ep = paths[paths.Count - 1];
-            if (sp == anim.context.currPoint && ep == anim.context.destPoint)
-            {
-                return;
-            }
-            anim.context.currPoint = sp;
-            anim.context.destPoint = ep;
             var currDetailProgress = isY ? sp.y : sp.x;
             var totalDetailProgress = isY ? ep.y : ep.x;
             if (context.type == AnimationType.AlongPath)
@@ -328,6 +322,12 @@ namespace XCharts.Runtime
                 m_LinePathLastPos = sp;
                 context.currentPathDistance = 0;
             }
+            if (sp == anim.context.currPoint && ep == anim.context.destPoint)
+            {
+                return;
+            }
+            anim.context.currPoint = sp;
+            anim.context.destPoint = ep;
             anim.Init(currDetailProgress, totalDetailProgress, paths.Count - 1);
         }
 

@@ -41,9 +41,23 @@ namespace XCharts.Runtime
             return true;
         }
 
+        [Since("v3.8.2")]
         public void SetDataDirty()
         {
             m_DataDirty = true;
+            m_RefreshChart = true;
+        }
+
+        public override void SetAllDirty()
+        {
+            base.SetAllDirty();
+            SetDataDirty();
+        }
+
+        public override void SetVerticesDirty()
+        {
+            base.SetVerticesDirty();
+            m_RefreshChart = true;
         }
 
         protected override void InitComponent()

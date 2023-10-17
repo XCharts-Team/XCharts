@@ -41,6 +41,11 @@ namespace XCharts.Runtime
             return true;
         }
 
+        public void SetDataDirty()
+        {
+            m_DataDirty = true;
+        }
+
         protected override void InitComponent()
         {
             base.InitComponent();

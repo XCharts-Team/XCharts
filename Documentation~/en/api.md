@@ -1377,6 +1377,9 @@ UI组件基类。
 
 |public method|since|description|
 |--|--|--|
+|SetAllDirty()||public override void SetAllDirty()|
+|SetDataDirty()|v3.8.2|public void SetDataDirty()|
+|SetVerticesDirty()||public override void SetVerticesDirty()|
 |UpdateTheme()||public bool UpdateTheme(ThemeType theme)<br/>Update chart theme. |
 
 ## UIHelper

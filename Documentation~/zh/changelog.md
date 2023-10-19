@@ -69,6 +69,7 @@ slug: /changelog
 
 ## master
 
+* (2023.10.19) 修复`Pie`设置玫瑰图时引导线异常的问题
 * (2023.10.15) 修复`Line`设置`Animation`为`AlongPath`时动画异常的问题 (#281)
 * (2023.10.12) 修复`MarkLine`指定`yValue`时对数值轴无效的问题
 * (2023.10.11) 修复`Serie`的`showDataDimension`设置无效的问题

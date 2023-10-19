@@ -464,10 +464,11 @@ namespace XCharts.Runtime
             var rad = Mathf.Deg2Rad * serieData.context.halfAngle;
             var lineLength1 = ChartHelper.GetActualValue(labelLine.lineLength1, serie.context.outsideRadius);
             var lineLength2 = ChartHelper.GetActualValue(labelLine.lineLength2, serie.context.outsideRadius);
+            var radius = lineLength1 + serie.context.outsideRadius - serieData.context.outsideRadius;
             var pos1 = startPosition;
-            var pos2 = pos1 + new Vector3(Mathf.Sin(rad) * lineLength1, Mathf.Cos(rad) * lineLength1);
+            var pos2 = pos1 + new Vector3(Mathf.Sin(rad) * radius, Mathf.Cos(rad) * radius);
             var pos5 = labelLine.lineType == LabelLine.LineType.HorizontalLine
-                ? pos1 + dire * (lineLength1 + lineLength2) + labelLine.GetEndSymbolOffset()
+                ? pos1 + dire * (radius + lineLength2) + labelLine.GetEndSymbolOffset()
                 : pos2 + dire * lineLength2 + labelLine.GetEndSymbolOffset();
             if (labelLine.lineEndX != 0)
             {

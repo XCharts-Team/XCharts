@@ -828,6 +828,8 @@ namespace XCharts.Runtime
 
         public double GetLogMinIndex()
         {
+            if (context.minValue <= 0 || context.minValue == 1)
+                return 0;
             return logBaseE ?
                 Math.Log(context.minValue) :
                 Math.Log(context.minValue, logBase);
@@ -835,6 +837,8 @@ namespace XCharts.Runtime
 
         public double GetLogMaxIndex()
         {
+            if (context.maxValue <= 0 || context.maxValue == 1)
+                return 0;
             return logBaseE ?
                 Math.Log(context.maxValue) :
                 Math.Log(context.maxValue, logBase);

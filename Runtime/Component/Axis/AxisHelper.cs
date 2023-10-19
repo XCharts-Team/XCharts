@@ -344,7 +344,8 @@ namespace XCharts.Runtime
                 int maxSplit = 0;
                 maxValue = ChartHelper.GetMaxLogValue(maxValue, axis.logBase, axis.logBaseE, out maxSplit);
                 minValue = ChartHelper.GetMinLogValue(minValue, axis.logBase, axis.logBaseE, out minSplit);
-                var splitNumber = (minSplit > 0 && maxSplit > 0) ? (maxSplit + minSplit - 1) : (maxSplit + minSplit);
+                
+                var splitNumber = maxSplit + minSplit;
                 if (splitNumber > 15)
                     splitNumber = 15;
                 axis.splitNumber = splitNumber;

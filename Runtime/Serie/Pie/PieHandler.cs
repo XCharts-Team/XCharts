@@ -46,9 +46,9 @@ namespace XCharts.Runtime
             if (labelLine != null && labelLine.show && serieData.labelObject != null)
             {
                 var currAngle = serieData.context.halfAngle - serie.context.startAngle;
-                var isRight = currAngle % 360 < 180;
+                var isLeft = currAngle > 180 || (currAngle == 0 && serieData.context.startAngle > 0);
                 var textOffset = serieData.labelObject.text.GetPreferredWidth() / 2;
-                return serieData.context.labelPosition + (isRight ? Vector3.right : Vector3.left) * textOffset;
+                return serieData.context.labelPosition + (isLeft ? Vector3.left : Vector3.right) * textOffset;
             }
             else
             {
@@ -62,9 +62,11 @@ namespace XCharts.Runtime
             if (label.autoOffset)
             {
                 var currAngle = serieData.context.halfAngle - serie.context.startAngle;
-                var isRight = currAngle % 360 < 180;
-                if (isRight) return offset;
-                else return new Vector3(-offset.x, offset.y, offset.z);
+                var isLeft = currAngle > 180 || (currAngle == 0 && serieData.context.startAngle > 0);
+                if (isLeft)
+                    return new Vector3(-offset.x, offset.y, offset.z);
+                else
+                    return offset;
             }
             else
             {

@@ -46,7 +46,8 @@ namespace XCharts.Runtime
             get
             {
                 if (m_TransparentBackground) return ColorUtil.clearColor32;
-                else return sharedTheme.backgroundColor;
+                else if (sharedTheme != null) return sharedTheme.backgroundColor;
+                else return ColorUtil.clearColor32;
             }
         }
     }

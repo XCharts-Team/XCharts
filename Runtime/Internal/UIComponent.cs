@@ -15,7 +15,10 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_DebugModel = false;
         [SerializeField] protected UIComponentTheme m_Theme = new UIComponentTheme();
         [SerializeField] private ImageStyle m_Background = new ImageStyle() { show = false };
+
         protected bool m_DataDirty;
+        private ThemeType m_CheckTheme = 0;
+
         public override HideFlags chartHideFlags { get { return m_DebugModel ? HideFlags.None : HideFlags.HideInHierarchy; } }
         public UIComponentTheme theme { get { return m_Theme; } set { m_Theme = value; } }
         /// <summary>
@@ -94,6 +97,12 @@ namespace XCharts.Runtime
             UIHelper.DrawBackground(vh, this);
         }
 
+        protected override void Awake()
+        {
+            CheckTheme(true);
+            base.Awake();
+        }
+
         protected override void Update()
         {
             base.Update();
@@ -104,8 +113,46 @@ namespace XCharts.Runtime
             }
         }
 
+#if UNITY_EDITOR
+        protected override void Reset()
+        {
+            base.Reset();
+            Awake();
+        }
+
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+        }
+#endif
+
         protected virtual void DataDirty()
         {
         }
+
+        protected virtual void CheckTheme(bool firstInit = false)
+        {
+            if (m_Theme.sharedTheme == null)
+            {
+                m_Theme.sharedTheme = XCThemeMgr.GetTheme(ThemeType.Default);
+            }
+            if (firstInit)
+            {
+                m_CheckTheme = m_Theme.themeType;
+            }
+            if (m_Theme.sharedTheme != null && m_CheckTheme != m_Theme.themeType)
+            {
+                m_CheckTheme = m_Theme.themeType;
+                m_Theme.sharedTheme.CopyTheme(m_CheckTheme);
+#if UNITY_EDITOR
+                UnityEditor.EditorUtility.SetDirty(this);
+#endif
+                SetAllDirty();
+                SetAllComponentDirty();
+                OnThemeChanged();
+            }
+        }
+
+        protected virtual void OnThemeChanged() { }
     }
 }

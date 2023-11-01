@@ -19,9 +19,16 @@ namespace XCharts.Runtime
             InitMarkLine(component);
         }
 
+        public override void DrawBase(VertexHelper vh)
+        {
+            if (!component.onTop)
+                DrawMarkLine(vh, component);
+        }
+
         public override void DrawUpper(VertexHelper vh)
         {
-            DrawMarkLine(vh, component);
+            if (component.onTop)
+                DrawMarkLine(vh, component);
         }
 
         public override void Update()

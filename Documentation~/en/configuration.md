@@ -1487,6 +1487,7 @@ Use a line in the chart to illustrate.
 |--|--|--|--|
 |show|true||Whether to display the marking line.
 |serieIndex|0||The serie index of markLine.
+|onTop|true|v3.8.2|whether the markline is on top.
 |animation|||The animation of markline. [AnimationStyle](#animationstyle)|
 |data|||A list of marked data. When the group of data item is 0, each data item represents a line; When the group is not 0, two data items of the same group represent the starting point and the ending point of the line respectively to form a line. In this case, the relevant style parameters of the line are the parameters of the starting point.
 
@@ -1497,6 +1498,8 @@ Use a line in the chart to illustrate.
 ## MarkLineData
 
 > XCharts.Runtime.MarkLineData : [ChildComponent](#childcomponent)
+
+> Since `v3.8.2`
 
 Data of marking line.
 

@@ -37,6 +37,7 @@ namespace XCharts.Runtime
     {
         [SerializeField] private bool m_Show = true;
         [SerializeField] private int m_SerieIndex = 0;
+        [SerializeField][Since("v3.8.2")] private bool m_OnTop = true;
         [SerializeField] private AnimationStyle m_Animation = new AnimationStyle();
         [SerializeField] private List<MarkLineData> m_Data = new List<MarkLineData>();
 
@@ -57,6 +58,15 @@ namespace XCharts.Runtime
         {
             get { return m_SerieIndex; }
             set { if (PropertyUtil.SetStruct(ref m_SerieIndex, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// whether the markline is on top.
+        /// |是否在最上层。
+        /// </summary> 
+        public bool onTop
+        {
+            get { return m_OnTop; }
+            set { if (PropertyUtil.SetStruct(ref m_OnTop, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The animation of markline.

@@ -11,6 +11,7 @@ namespace XCharts.Editor
         {
             ++EditorGUI.indentLevel;
             PropertyField("m_SerieIndex");
+            PropertyField("m_OnTop");
             PropertyField("m_Animation");
             PropertyListField("m_Data", true);
             --EditorGUI.indentLevel;

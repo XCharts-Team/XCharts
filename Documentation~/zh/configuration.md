@@ -1487,6 +1487,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |--|--|--|--|
 |show|true||是否显示标线。
 |serieIndex|0||标线影响的Serie索引。
+|onTop|true|v3.8.2|是否在最上层。
 |animation|||标线的动画样式。 [AnimationStyle](#animationstyle)|
 |data|||标线的数据列表。当数据项的group为0时，每个数据项表示一条标线；当group不为0时，相同group的两个数据项分别表 示标线的起始点和终止点来组成一条标线，此时标线的相关样式参数取起始点的参数。
 
@@ -1497,6 +1498,8 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 ## MarkLineData
 
 > XCharts.Runtime.MarkLineData : [ChildComponent](#childcomponent)
+
+> 从 `v3.8.2` 开始支持
 
 图表标线的数据。
 

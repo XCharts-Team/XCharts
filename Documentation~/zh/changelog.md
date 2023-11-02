@@ -69,6 +69,7 @@ slug: /changelog
 
 ## master
 
+* (2023.11.02) 优化`SerieData`设置`ignore`时`formatter`的忽略问题
 * (2023.11.01) 增加`MarkLine`的`onTop`设置是否显示在最上层
 * (2023.10.21) 修复`Pie`有0数据时`Label`的位置异常的问题
 * (2023.10.21) 增加`Axis`的对数轴支持子刻度

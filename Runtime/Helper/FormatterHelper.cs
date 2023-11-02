@@ -154,6 +154,7 @@ namespace XCharts.Runtime
                         numericFormatter = SerieHelper.GetNumericFormatter(serie, serie.GetSerieData(bIndex), "");
                     }
                     var value = serie.GetData(bIndex, dimensionIndex);
+                    var ignore = serie.IsIgnoreIndex(bIndex);
                     if (isPercent)
                     {
                         var total = serie.GetDataTotal(dimensionIndex, serie.GetSerieData(bIndex));
@@ -167,7 +168,10 @@ namespace XCharts.Runtime
                     }
                     else
                     {
-                        content = content.Replace(old, ChartCached.FloatToStr(value, numericFormatter));
+                        if (ignore)
+                            content = content.Replace(old, "-");
+                        else
+                            content = content.Replace(old, ChartCached.FloatToStr(value, numericFormatter));
                     }
                 }
             }
@@ -214,14 +218,21 @@ namespace XCharts.Runtime
                 }
                 else if (p == 'd' || p == 'D')
                 {
-                    var rate = pIndex >= 0 && serieData != null ?
-                        (value == 0 ? 0 : serieData.GetData(pIndex) / value * 100) :
-                        (total == 0 ? 0 : value / total * 100);
-                    content = content.Replace(old, ChartCached.NumberToStr(rate, numericFormatter));
+                    if (serieData != null && serieData.ignore)
+                        content = content.Replace(old, "-");
+                    else
+                    {
+                        var rate = pIndex >= 0 && serieData != null ?
+                            (value == 0 ? 0 : serieData.GetData(pIndex) / value * 100) :
+                            (total == 0 ? 0 : value / total * 100);
+                        content = content.Replace(old, ChartCached.NumberToStr(rate, numericFormatter));
+                    }
                 }
                 else if (p == 'c' || p == 'C')
                 {
-                    if (pIndex >= 0 && serieData != null)
+                    if (serieData != null && serieData.ignore)
+                        content = content.Replace(old, "-");
+                    else if (serieData != null && pIndex >= 0)
                         content = content.Replace(old, ChartCached.NumberToStr(serieData.GetData(pIndex), numericFormatter));
                     else
                         content = content.Replace(old, ChartCached.NumberToStr(value, numericFormatter));

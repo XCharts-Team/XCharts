@@ -67,8 +67,8 @@ namespace XCharts.Runtime
                 {
                     case LabelStyle.Position.Bottom:
                         var center = serieData.context.rect.center;
-                        if(serie.context.isHorizontal)
-                            return new Vector3(center.x - serieData.context.rect.width/2, center.y);
+                        if (serie.context.isHorizontal)
+                            return new Vector3(center.x - serieData.context.rect.width / 2, center.y);
                         else
                             return new Vector3(center.x, center.y - serieData.context.rect.height / 2);
                     case LabelStyle.Position.Center:
@@ -94,10 +94,13 @@ namespace XCharts.Runtime
                     m_LastCheckContextFlag = needCheck;
                     serie.context.pointerItemDataIndex = -1;
                     serie.context.pointerEnter = false;
+                    Color32 color1, toColor1;
                     foreach (var serieData in serie.data)
                     {
                         serieData.context.highlight = false;
-                        serieData.interact.Reset();
+                        var state = SerieHelper.GetSerieState(serie, serieData, true);
+                        SerieHelper.GetItemColor(out color1, out toColor1, serie, serieData, chart.theme, state);
+                        serieData.interact.SetColor(ref needInteract, color1, toColor1);
                     }
                     chart.RefreshPainter(serie);
                 }

@@ -69,6 +69,7 @@ slug: /changelog
 
 ## master
 
+* (2023.11.05) 修复`SerieEventData`的`value`一直是0的问题 (#287)
 * (2023.11.03) 修复`Bar`设置渐变色时鼠标移出效果异常的问题 (#285)
 * (2023.11.02) 优化`SerieData`设置`ignore`时`formatter`的忽略问题
 * (2023.11.01) 增加`MarkLine`的`onTop`设置是否显示在最上层

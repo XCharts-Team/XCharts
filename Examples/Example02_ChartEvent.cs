@@ -65,17 +65,17 @@ namespace XCharts.Example
 
         void OnSerieClick(SerieEventData data)
         {
-            Debug.Log("OnSerieClick: " + data.serieIndex + " " + data.dataIndex + " " + data.dimension);
+            Debug.Log("OnSerieClick: " + data.serieIndex + " " + data.dataIndex + " " + data.dimension + " " + data.value);
         }
 
         void OnSerieEnter(SerieEventData data)
         {
-            Debug.Log("OnSerieEnter: " + data.serieIndex + " " + data.dataIndex + " " + data.dimension);
+            Debug.Log("OnSerieEnter: " + data.serieIndex + " " + data.dataIndex + " " + data.dimension + " " + data.value);
         }
 
         void OnSerieExit(SerieEventData data)
         {
-            Debug.Log("OnSerieExit: " + data.serieIndex + " " + data.dataIndex + " " + data.dimension);
+            Debug.Log("OnSerieExit: " + data.serieIndex + " " + data.dataIndex + " " + data.dimension + " " + data.value);
         }
 
         void OnDraw(VertexHelper vh)

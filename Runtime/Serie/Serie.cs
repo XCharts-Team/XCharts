@@ -6,161 +6,161 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Whether to show as Nightingale chart, which distinguishs data through radius. 
-    /// |是否展示成南丁格尔图，通过半径区分数据大小。
+    /// ||是否展示成南丁格尔图，通过半径区分数据大小。
     /// </summary>
     public enum RoseType
     {
         /// <summary>
         /// Don't show as Nightingale chart.
-        /// |不展示成南丁格尔玫瑰图。
+        /// ||不展示成南丁格尔玫瑰图。
         /// </summary>
         None,
         /// <summary>
         /// Use central angle to show the percentage of data, radius to show data size.
-        /// |扇区圆心角展现数据的百分比，半径展现数据的大小。
+        /// ||扇区圆心角展现数据的百分比，半径展现数据的大小。
         /// </summary>
         Radius,
         /// <summary>
         /// All the sectors will share the same central angle, the data size is shown only through radiuses.
-        /// |所有扇区圆心角相同，仅通过半径展现数据大小。
+        /// ||所有扇区圆心角相同，仅通过半径展现数据大小。
         /// </summary>
         Area
     }
 
     /// <summary>
     /// the type of line chart.
-    /// |折线图样式类型
+    /// ||折线图样式类型
     /// </summary>
     public enum LineType
     {
         /// <summary>
         /// the normal line chart，
-        /// |普通折线图。
+        /// ||普通折线图。
         /// </summary>
         Normal,
         /// <summary>
         /// the smooth line chart，
-        /// |平滑曲线。
+        /// ||平滑曲线。
         /// </summary>
         Smooth,
         /// <summary>
         /// step line.
-        /// |阶梯线图：当前点。
+        /// ||阶梯线图：当前点。
         /// </summary>
         StepStart,
         /// <summary>
         /// step line.
-        /// |阶梯线图：当前点和下一个点的中间。
+        /// ||阶梯线图：当前点和下一个点的中间。
         /// </summary>
         StepMiddle,
         /// <summary>
         /// step line.
-        /// |阶梯线图：下一个拐点。
+        /// ||阶梯线图：下一个拐点。
         /// </summary>
         StepEnd
     }
 
     /// <summary>
     /// the type of bar. 
-    /// |柱状图类型。
+    /// ||柱状图类型。
     /// </summary>
     public enum BarType
     {
         /// <summary>
         /// normal bar.
-        /// |普通柱形图。
+        /// ||普通柱形图。
         /// </summary>
         Normal,
         /// <summary>
         /// zebra bar.
-        /// |斑马柱形图。
+        /// ||斑马柱形图。
         /// </summary>
         Zebra,
         /// <summary>
         /// capsule bar.
-        /// |胶囊柱形图。
+        /// ||胶囊柱形图。
         /// </summary>
         Capsule
     }
 
     /// <summary>
     /// the type of radar. 
-    /// |雷达图类型。
+    /// ||雷达图类型。
     /// </summary>
     public enum RadarType
     {
         /// <summary>
         /// multiple radar.
-        /// |多圈雷达图。此时可一个雷达里绘制多个圈，一个serieData就可组成一个圈（多维数据）。
+        /// ||多圈雷达图。此时可一个雷达里绘制多个圈，一个serieData就可组成一个圈（多维数据）。
         /// </summary>
         Multiple,
         /// <summary>
         /// single radar.
-        /// |单圈雷达图。此时一个雷达只能绘制一个圈，多个serieData组成一个圈，数据取自`data[1]`。
+        /// ||单圈雷达图。此时一个雷达只能绘制一个圈，多个serieData组成一个圈，数据取自`data[1]`。
         /// </summary>
         Single
     }
 
     /// <summary>
     /// sample type of line chart.
-    /// |采样类型，一般用于折线图。
+    /// ||采样类型，一般用于折线图。
     /// </summary>
     public enum SampleType
     {
         /// <summary>
         /// Take a peak. When the average value of the filter point is greater than or equal to 'sampleAverage', 
         /// take the maximum value; If you do it the other way around, you get the minimum.
-        /// |取峰值。
+        /// ||取峰值。
         /// </summary>
         Peak,
         /// <summary>
         /// Take the average of the filter points.
-        /// |取过滤点的平均值。
+        /// ||取过滤点的平均值。
         /// </summary>
         Average,
         /// <summary>
         /// Take the maximum value of the filter point.
-        /// |取过滤点的最大值。
+        /// ||取过滤点的最大值。
         /// </summary>
         Max,
         /// <summary>
         /// Take the minimum value of the filter point.
-        /// |取过滤点的最小值。
+        /// ||取过滤点的最小值。
         /// </summary>
         Min,
         /// <summary>
         /// Take the sum of the filter points.
-        /// |取过滤点的和。
+        /// ||取过滤点的和。
         /// </summary>
         Sum
     }
 
     /// <summary>
     /// the sort type of serie data.
-    /// |数据排序方式。
+    /// ||数据排序方式。
     /// </summary>
     public enum SerieDataSortType
     {
         /// <summary>
         /// In the order of data.
-        /// |按数据的顺序。
+        /// ||按数据的顺序。
         /// </summary>
         None,
         /// <summary>
         /// Sort data in ascending order.
-        /// |升序。
+        /// ||升序。
         /// </summary>
         Ascending,
         /// <summary>
         /// Sort data in descending order.
-        /// |降序。
+        /// ||降序。
         /// </summary>
         Descending,
     }
 
     /// <summary>
     /// Alignment mode.
-    /// |对齐方式。文本，图标，图形等的对齐方式。
+    /// ||对齐方式。文本，图标，图形等的对齐方式。
     /// </summary>
     public enum Align
     {
@@ -171,56 +171,56 @@ namespace XCharts.Runtime
 
     /// <summary>
     /// Serie state. Supports normal, emphasis, blur, and select states.
-    /// |Serie状态。支持正常、高亮、淡出、选中四种状态。
+    /// ||Serie状态。支持正常、高亮、淡出、选中四种状态。
     /// </summary>
     public enum SerieState
     {
         /// <summary>
         /// Normal state.
-        /// |正常状态。
+        /// ||正常状态。
         /// </summary>
         Normal,
         /// <summary>
         /// Emphasis state.
-        /// |高亮状态。
+        /// ||高亮状态。
         /// </summary>
         Emphasis,
         /// <summary>
         /// Blur state.
-        /// |淡出状态。
+        /// ||淡出状态。
         /// </summary>
         Blur,
         /// <summary>
         /// Select state.
-        /// |选中状态。
+        /// ||选中状态。
         /// </summary>
         Select,
         /// <summary>
         /// Auto state.
-        /// |自动保持和父节点一致。一般用在SerieData。
+        /// ||自动保持和父节点一致。一般用在SerieData。
         /// </summary>
         Auto
     }
 
     /// <summary>
     /// The policy to take color from theme.
-    /// |从主题中取色策略。
+    /// ||从主题中取色策略。
     /// </summary>
     public enum SerieColorBy
     {
         /// <summary>
         /// Select state.
-        /// |默认策略。每种Serie都有自己的默认的取颜色策略。比如Line默认是Series策略，Pie默认是Data策略。
+        /// ||默认策略。每种Serie都有自己的默认的取颜色策略。比如Line默认是Series策略，Pie默认是Data策略。
         /// </summary>
         Default,
         /// <summary>
         /// assigns the colors in the palette by serie, so that all data in the same series are in the same color.
-        /// |按照系列分配调色盘中的颜色，同一系列中的所有数据都是用相同的颜色。
+        /// ||按照系列分配调色盘中的颜色，同一系列中的所有数据都是用相同的颜色。
         /// </summary>
         Serie,
         /// <summary>
         /// assigns colors in the palette according to data items, with each data item using a different color.
-        /// |按照数据项分配调色盘中的颜色，每个数据项都使用不同的颜色。
+        /// ||按照数据项分配调色盘中的颜色，每个数据项都使用不同的颜色。
         /// </summary>
         Data
     }
@@ -321,33 +321,33 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// event callback when click serie.
-        /// |点击系列时的回调。
+        /// ||点击系列时的回调。
         /// </summary>
         public Action<SerieEventData> onClick { get; set; }
         /// <summary>
         /// event callback when mouse down on serie.
-        /// |鼠标按下时的回调。
+        /// ||鼠标按下时的回调。
         /// </summary>
         public Action<SerieEventData> onDown { get; set; }
         /// <summary>
         /// event callback when mouse enter serie.
-        /// |鼠标进入时的回调。
+        /// ||鼠标进入时的回调。
         /// </summary>
         public Action<SerieEventData> onEnter { get; set; }
         /// <summary>
         /// event callback when mouse leave serie.
-        /// |鼠标离开时的回调。
+        /// ||鼠标离开时的回调。
         /// </summary>
         public Action<SerieEventData> onExit { get; set; }
 
         /// <summary>
         /// The index of serie.
-        /// |系列索引。
+        /// ||系列索引。
         /// </summary>
         public int index { get { return m_Index; } internal set { m_Index = value; } }
         /// <summary>
         /// Whether to show serie in chart.
-        /// |系列是否显示在图表上。
+        /// ||系列是否显示在图表上。
         /// </summary>
         public bool show
         {
@@ -356,7 +356,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the chart coord system of serie.
-        /// |使用的坐标系。
+        /// ||使用的坐标系。
         /// </summary>
         public string coordSystem
         {
@@ -365,7 +365,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the type of serie.
-        /// |系列类型。
+        /// ||系列类型。
         /// </summary>
         public string serieType
         {
@@ -374,7 +374,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Series name used for displaying in tooltip and filtering with legend.
-        /// |系列名称，用于 tooltip 的显示，legend 的图例筛选。
+        /// ||系列名称，用于 tooltip 的显示，legend 的图例筛选。
         /// </summary>
         public string serieName
         {
@@ -383,12 +383,12 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Legend name. When the serie name is not empty, the legend name is the series name; Otherwise, it is index.
-        /// |图例名称。当系列名称不为空时，图例名称即为系列名称；反之则为索引index。
+        /// ||图例名称。当系列名称不为空时，图例名称即为系列名称；反之则为索引index。
         /// </summary>
         public string legendName { get { return string.IsNullOrEmpty(serieName) ? ChartCached.IntToStr(index) : serieName; } }
         /// <summary>
         /// The default state of a serie.
-        /// |系列的默认状态。
+        /// ||系列的默认状态。
         /// </summary>
         public SerieState state
         {
@@ -397,7 +397,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The policy to take color from theme.
-        /// |从主题中取色的策略。
+        /// ||从主题中取色的策略。
         /// </summary>
         public SerieColorBy colorBy
         {
@@ -407,7 +407,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// If stack the value. On the same category axis, the series with the same stack name would be put on top of each other.
-        /// |数据堆叠，同个类目轴上系列配置相同的stack值后，后一个系列的值会在前一个系列的值上相加。
+        /// ||数据堆叠，同个类目轴上系列配置相同的stack值后，后一个系列的值会在前一个系列的值上相加。
         /// </summary>
         public string stack
         {
@@ -416,7 +416,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the index of XAxis.
-        /// |使用X轴的index。
+        /// ||使用X轴的index。
         /// </summary>
         public int xAxisIndex
         {
@@ -425,7 +425,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the index of YAxis.
-        /// |使用Y轴的index。
+        /// ||使用Y轴的index。
         /// </summary>
         public int yAxisIndex
         {
@@ -434,7 +434,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Index of radar component that radar chart uses.
-        /// |雷达图所使用的 radar 组件的 index。
+        /// ||雷达图所使用的 radar 组件的 index。
         /// </summary>
         public int radarIndex
         {
@@ -443,7 +443,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Index of vesel component that liquid chart uses.
-        /// |水位图所使用的 vessel 组件的 index。
+        /// ||水位图所使用的 vessel 组件的 index。
         /// </summary>
         public int vesselIndex
         {
@@ -452,7 +452,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Index of polar component that serie uses.
-        /// |所使用的 polar 组件的 index。
+        /// ||所使用的 polar 组件的 index。
         /// </summary>
         public int polarIndex
         {
@@ -461,7 +461,7 @@ namespace XCharts.Runtime
         }
         /// <summary>s
         /// Index of single axis component that serie uses.
-        /// |所使用的 singleAxis 组件的 index。
+        /// ||所使用的 singleAxis 组件的 index。
         /// </summary>
         public int singleAxisIndex
         {
@@ -470,7 +470,7 @@ namespace XCharts.Runtime
         }
         /// <summary>s
         /// Index of parallel coord component that serie uses.
-        /// |所使用的 parallel coord 组件的 index。
+        /// ||所使用的 parallel coord 组件的 index。
         /// </summary>
         public int parallelIndex
         {
@@ -479,7 +479,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Index of layout component that serie uses. Default is -1 means not use layout, otherwise use the first layout component.
-        /// |所使用的 layout 组件的 index。 默认为-1不指定index, 当为大于或等于0时, 为第一个layout组件的第index个格子。
+        /// ||所使用的 layout 组件的 index。 默认为-1不指定index, 当为大于或等于0时, 为第一个layout组件的第index个格子。
         /// </summary>
         public int gridIndex
         {
@@ -488,7 +488,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The min number of data to show in chart.
-        /// |系列所显示数据的最小索引
+        /// ||系列所显示数据的最小索引
         /// </summary>
         public int minShow
         {
@@ -497,7 +497,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The max number of data to show in chart.
-        /// |系列所显示数据的最大索引
+        /// ||系列所显示数据的最大索引
         /// </summary>
         public int maxShow
         {
@@ -507,7 +507,7 @@ namespace XCharts.Runtime
         /// <summary>
         /// The max number of serie data cache.
         /// The first data will be remove when the size of serie data is larger then maxCache.
-        /// |系列中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
+        /// ||系列中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
         /// </summary>
         public int maxCache
         {
@@ -517,7 +517,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the symbol of serie data item.
-        /// |标记的图形。
+        /// ||标记的图形。
         /// </summary>
         public SerieSymbol symbol
         {
@@ -526,7 +526,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The type of line chart.
-        /// |折线图样式类型。
+        /// ||折线图样式类型。
         /// </summary>
         public LineType lineType
         {
@@ -536,7 +536,7 @@ namespace XCharts.Runtime
         /// <summary>
         /// Whether to restrict the curve. When true, the curve between two continuous data of the same value 
         /// is restricted to not exceed the data point, and is flat to the data point.
-        /// |是否限制曲线。当为true时，两个连续相同数值的数据间的曲线会限制为不超出数据点，和数据点是平直的。
+        /// ||是否限制曲线。当为true时，两个连续相同数值的数据间的曲线会限制为不超出数据点，和数据点是平直的。
         /// </summary>
         public bool smoothLimit
         {
@@ -545,7 +545,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the min pixel dist of sample.
-        /// |采样的最小像素距离，默认为0时不采样。当两个数据点间的水平距离小于改值时，开启采样，保证两点间的水平距离不小于改值。
+        /// ||采样的最小像素距离，默认为0时不采样。当两个数据点间的水平距离小于改值时，开启采样，保证两点间的水平距离不小于改值。
         /// </summary>
         public float sampleDist
         {
@@ -554,7 +554,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the type of sample.
-        /// |采样类型。当sampleDist大于0时有效。
+        /// ||采样类型。当sampleDist大于0时有效。
         /// </summary>
         public SampleType sampleType
         {
@@ -571,7 +571,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The style of line.
-        /// |线条样式。
+        /// ||线条样式。
         /// </summary>
         public LineStyle lineStyle
         {
@@ -596,7 +596,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The width of the bar. Adaptive when default 0.
-        /// |柱条的宽度，不设时自适应。支持设置成相对于类目宽度的百分比。
+        /// ||柱条的宽度，不设时自适应。支持设置成相对于类目宽度的百分比。
         /// </summary>
         public float barWidth
         {
@@ -605,7 +605,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The max width of the bar. Adaptive when default 0.
-        /// |柱条的最大宽度，默认为0为不限制最大宽度。支持设置成相对于类目宽度的百分比。
+        /// ||柱条的最大宽度，默认为0为不限制最大宽度。支持设置成相对于类目宽度的百分比。
         /// </summary>
         public float barMaxWidth
         {
@@ -618,7 +618,7 @@ namespace XCharts.Runtime
         /// In a single coodinate system, this attribute is shared by multiple 'bar' series.
         /// This attribute should be set on the last 'bar' series in the coodinate system, 
         /// then it will be adopted by all 'bar' series in the coordinate system.
-        /// |不同系列的柱间距离。为百分比（如 '0.3f'，表示柱子宽度的 30%）
+        /// ||不同系列的柱间距离。为百分比（如 '0.3f'，表示柱子宽度的 30%）
         /// 如果想要两个系列的柱子重叠，可以设置 barGap 为 '-1f'。这在用柱子做背景的时候有用。
         /// 在同一坐标系上，此属性会被多个 'bar' 系列共享。此属性应设置于此坐标系中最后一个 'bar' 系列上才会生效，并且是对此坐标系中所有 'bar' 系列生效。
         /// </summary>
@@ -646,7 +646,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether offset when mouse click pie chart item.
-        /// |鼠标点击时是否开启偏移，一般用在PieChart图表中。
+        /// ||鼠标点击时是否开启偏移，一般用在PieChart图表中。
         /// </summary>
         public bool pieClickOffset
         {
@@ -655,7 +655,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether to show as Nightingale chart.
-        /// |是否展示成南丁格尔图，通过半径区分数据大小。
+        /// ||是否展示成南丁格尔图，通过半径区分数据大小。
         /// </summary>
         public RoseType pieRoseType
         {
@@ -664,7 +664,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// gap of item.
-        /// |间距。
+        /// ||间距。
         /// </summary>
         public float gap
         {
@@ -673,7 +673,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the center of chart.
-        /// |中心点。
+        /// ||中心点。
         /// </summary>
         public float[] center
         {
@@ -682,7 +682,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the radius of chart.
-        /// |半径。radius[0]表示内径，radius[1]表示外径。
+        /// ||半径。radius[0]表示内径，radius[1]表示外径。
         /// </summary>
         public float[] radius
         {
@@ -691,7 +691,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the min radius of chart. It can be used to limit the minimum radius of the rose chart.
-        /// |最小半径。可用于限制玫瑰图的最小半径。
+        /// ||最小半径。可用于限制玫瑰图的最小半径。
         /// </summary>
         public float minRadius
         {
@@ -748,7 +748,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The minimum angle of sector(0-360). It prevents some sector from being too small when value is small.
-        /// |最小的扇区角度（0-360）。用于防止某个值过小导致扇区太小影响交互。
+        /// ||最小的扇区角度（0-360）。用于防止某个值过小导致扇区太小影响交互。
         /// </summary>
         public float minAngle
         {
@@ -814,7 +814,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The start animation.
-        /// |起始动画。
+        /// ||起始动画。
         /// </summary>
         public AnimationStyle animation
         {
@@ -823,7 +823,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The style of data item.
-        /// |图形样式。
+        /// ||图形样式。
         /// </summary>
         public ItemStyle itemStyle
         {
@@ -840,7 +840,7 @@ namespace XCharts.Runtime
         public bool showDataName { get { return m_ShowDataName; } set { m_ShowDataName = value; } }
         /// <summary>
         /// If clip the overflow on the coordinate system.
-        /// |是否裁剪超出坐标系部分的图形。
+        /// ||是否裁剪超出坐标系部分的图形。
         /// </summary>
         public bool clip
         {
@@ -849,7 +849,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Show negative number as positive number.
-        /// |将负数数值显示为正数。一般和`AxisLabel`的`showAsPositiveNumber`配合使用。仅在折线图和柱状图中有效。
+        /// ||将负数数值显示为正数。一般和`AxisLabel`的`showAsPositiveNumber`配合使用。仅在折线图和柱状图中有效。
         /// </summary>
         public bool showAsPositiveNumber
         {
@@ -868,7 +868,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Turn on the threshold for mass optimization. Enter performance mode only when large is enabled and the amount of data is greater than the threshold.
-        /// |开启大数量优化的阈值。只有当开启了large并且数据量大于该阀值时才进入性能模式。
+        /// ||开启大数量优化的阈值。只有当开启了large并且数据量大于该阀值时才进入性能模式。
         /// </summary>
         public int largeThreshold
         {
@@ -877,7 +877,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// If the pie chart and labels are displayed externally, whether to enable the label overlap prevention policy is disabled by default. If labels are crowded and overlapped, the positions of labels are moved to prevent label overlap.
-        /// |在饼图且标签外部显示的情况下，是否启用防止标签重叠策略，默认关闭，在标签拥挤重叠的情况下会挪动各个标签的位置，防止标签间的重叠。
+        /// ||在饼图且标签外部显示的情况下，是否启用防止标签重叠策略，默认关闭，在标签拥挤重叠的情况下会挪动各个标签的位置，防止标签间的重叠。
         /// </summary>
         public bool avoidLabelOverlap
         {
@@ -887,7 +887,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Distance between component and the left side of the container.
-        /// |组件离容器左侧的距离。
+        /// ||组件离容器左侧的距离。
         /// </summary>
         public float left
         {
@@ -896,7 +896,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between component and the right side of the container.
-        /// |组件离容器右侧的距离。
+        /// ||组件离容器右侧的距离。
         /// </summary>
         public float right
         {
@@ -905,7 +905,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between component and the top side of the container.
-        /// |组件离容器上侧的距离。
+        /// ||组件离容器上侧的距离。
         /// </summary>
         public float top
         {
@@ -914,7 +914,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between component and the bottom side of the container.
-        /// |组件离容器下侧的距离。
+        /// ||组件离容器下侧的距离。
         /// </summary>
         public float bottom
         {
@@ -923,7 +923,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether to add new data at the head or at the end of the list.
-        /// |添加新数据时是在列表的头部还是尾部加入。
+        /// ||添加新数据时是在列表的头部还是尾部加入。
         /// </summary>
         public bool insertDataToHead
         {
@@ -1080,12 +1080,12 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether the serie is highlighted.
-        /// |该系列是否高亮，一般由图例悬停触发。
+        /// ||该系列是否高亮，一般由图例悬停触发。
         /// </summary>
         public bool highlight { get; internal set; }
         /// <summary>
         /// the count of data list.
-        /// |数据项个数。
+        /// ||数据项个数。
         /// </summary>
         public int dataCount { get { return m_Data.Count; } }
         public bool nameDirty { get { return m_NameDirty; } }

@@ -7,33 +7,33 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// The base class of all graphs or components.
-    /// |所有图形的基类。
+    /// ||所有图形的基类。
     /// </summary>
     public partial class BaseGraph
     {
         /// <summary>
         /// The x of graph.
-        /// |图形的X
+        /// ||图形的X
         /// </summary>
         public float graphX { get { return m_GraphX; } }
         /// <summary>
         /// The y of graph.
-        /// |图形的Y
+        /// ||图形的Y
         /// </summary>
         public float graphY { get { return m_GraphY; } }
         /// <summary>
         /// The width of graph.
-        /// |图形的宽
+        /// ||图形的宽
         /// </summary>
         public float graphWidth { get { return m_GraphWidth; } }
         /// <summary>
         /// The height of graph.
-        /// |图形的高
+        /// ||图形的高
         /// </summary>
         public float graphHeight { get { return m_GraphHeight; } }
         /// <summary>
         /// The position of graph.
-        /// |图形的左下角起始坐标。
+        /// ||图形的左下角起始坐标。
         /// </summary>
         public Vector3 graphPosition { get { return m_GraphPosition; } }
         public Rect graphRect { get { return m_GraphRect; } }
@@ -44,12 +44,12 @@ namespace XCharts.Runtime
         public Vector2 graphAnchoredPosition { get { return m_GraphAnchoredPosition; } }
         /// <summary>
         /// The postion of pointer.
-        /// |鼠标位置。
+        /// ||鼠标位置。
         /// </summary>
         public Vector2 pointerPos { get; protected set; }
         /// <summary>
         /// Whether the mouse pointer is in the chart.
-        /// |鼠标是否在图表内。
+        /// ||鼠标是否在图表内。
         /// </summary>
         public bool isPointerInChart
         { get { return m_PointerEventData != null; } }
@@ -125,7 +125,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Redraw graph in next frame.
-        /// |在下一帧刷新图形。
+        /// ||在下一帧刷新图形。
         /// </summary>
         public virtual void RefreshGraph()
         {
@@ -175,7 +175,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// chart local point to screen point.
-        /// |图表内坐标转屏幕坐标。
+        /// ||图表内坐标转屏幕坐标。
         /// </summary>
         /// <param name="localPoint">图表内的坐标</param>
         /// <returns>屏幕坐标</returns>
@@ -189,7 +189,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// chart local point to world point.
-        /// |图表内坐标转世界坐标。
+        /// ||图表内坐标转世界坐标。
         /// </summary>
         /// <param name="localPoint">图表内的坐标</param>
         /// <returns>世界坐标</returns>

@@ -7,8 +7,8 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Grid component.
-    /// |Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart can be drawn in grid.
-    /// |网格组件。
+    /// ||Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart can be drawn in grid.
+    /// ||网格组件。
     /// 直角坐标系内绘图网格。可以在网格上绘制折线图，柱状图，散点图。
     /// </summary>
     [Serializable]
@@ -30,7 +30,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether to show the grid in rectangular coordinate.
-        /// |是否显示直角坐标系网格。
+        /// ||是否显示直角坐标系网格。
         /// </summary>
         public bool show
         {
@@ -41,7 +41,7 @@ namespace XCharts.Runtime
         /// The index of the grid layout component to which the grid belongs. 
         /// The default is -1, which means that it does not belong to any grid layout component. 
         /// When this value is set, the left, right, top, and bottom properties will be invalid.
-        /// |网格所属的网格布局组件的索引。默认为-1，表示不属于任何网格布局组件。当设置了该值时，left、right、top、bottom属性将失效。
+        /// ||网格所属的网格布局组件的索引。默认为-1，表示不属于任何网格布局组件。当设置了该值时，left、right、top、bottom属性将失效。
         /// </summary>
         /// <value></value>
         public int layoutIndex
@@ -51,7 +51,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between grid component and the left side of the container.
-        /// |grid 组件离容器左侧的距离。
+        /// ||grid 组件离容器左侧的距离。
         /// </summary>
         public float left
         {
@@ -60,7 +60,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between grid component and the right side of the container.
-        /// |grid 组件离容器右侧的距离。
+        /// ||grid 组件离容器右侧的距离。
         /// </summary>
         public float right
         {
@@ -69,7 +69,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between grid component and the top side of the container.
-        /// |grid 组件离容器上侧的距离。
+        /// ||grid 组件离容器上侧的距离。
         /// </summary>
         public float top
         {
@@ -78,7 +78,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between grid component and the bottom side of the container.
-        /// |grid 组件离容器下侧的距离。
+        /// ||grid 组件离容器下侧的距离。
         /// </summary>
         public float bottom
         {
@@ -87,7 +87,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Background color of grid, which is transparent by default.
-        /// |网格背景色，默认透明。
+        /// ||网格背景色，默认透明。
         /// </summary>
         public Color32 backgroundColor
         {
@@ -96,7 +96,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         ///  Whether to show the grid border.
-        /// |是否显示网格边框。
+        /// ||是否显示网格边框。
         /// </summary>
         public bool showBorder
         {
@@ -105,7 +105,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Border width of grid.
-        /// |网格边框宽。
+        /// ||网格边框宽。
         /// </summary>
         public float borderWidth
         {
@@ -114,7 +114,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The color of grid border.
-        /// |网格边框颜色。
+        /// ||网格边框颜色。
         /// </summary>
         public Color32 borderColor
         {
@@ -151,7 +151,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether the pointer is in the grid.
-        /// |指针是否在网格内。
+        /// ||指针是否在网格内。
         /// </summary>
         /// <returns></returns>
         public bool IsPointerEnter()
@@ -161,7 +161,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether the given position is in the grid.
-        /// |给定的位置是否在网格内。
+        /// ||给定的位置是否在网格内。
         /// </summary>
         /// <param name="pos"></param>
         /// <returns></returns>
@@ -172,7 +172,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether the given position is in the grid.
-        /// |给定的位置是否在网格内。
+        /// ||给定的位置是否在网格内。
         /// </summary>
         /// <param name="pos"></param>
         /// <param name="isYAxis"></param>
@@ -185,7 +185,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether the given position is in the grid.
-        /// |给定的位置是否在网格内。
+        /// ||给定的位置是否在网格内。
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
@@ -197,7 +197,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether the given x is in the grid.
-        /// |给定的x是否在网格内。
+        /// ||给定的x是否在网格内。
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
@@ -209,7 +209,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether the given y is in the grid.
-        /// |给定的y是否在网格内。
+        /// ||给定的y是否在网格内。
         /// </summary>
         /// <param name="y"></param>
         /// <returns></returns>
@@ -221,7 +221,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Clamp the position of pos to the grid.
-        /// |将位置限制在网格内。
+        /// ||将位置限制在网格内。
         /// </summary>
         /// <param name="pos"></param>
         [Since("v3.7.0")]
@@ -233,7 +233,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Clamp the x position of pos to the grid.
-        /// |将位置的X限制在网格内。
+        /// ||将位置的X限制在网格内。
         /// </summary>
         /// <param name="pos"></param>
         [Since("v3.7.0")]
@@ -245,7 +245,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Clamp the y position of pos to the grid.
-        /// |将位置的Y限制在网格内。
+        /// ||将位置的Y限制在网格内。
         /// </summary>
         /// <param name="pos"></param>
         [Since("v3.7.0")]

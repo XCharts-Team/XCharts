@@ -8,7 +8,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Location type. Quick to set the general location.
-    /// |位置类型。通过Align快速设置大体位置，再通过left，right，top，bottom微调具体位置。
+    /// ||位置类型。通过Align快速设置大体位置，再通过left，right，top，bottom微调具体位置。
     /// </summary>
     [Serializable]
     public class Location : ChildComponent, IPropertyChanged
@@ -53,7 +53,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between component and the left side of the container.
-        /// |离容器左侧的距离。
+        /// ||离容器左侧的距离。
         /// </summary>
         public float left
         {
@@ -62,7 +62,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between component and the left side of the container.
-        /// |离容器右侧的距离。
+        /// ||离容器右侧的距离。
         /// </summary>
         public float right
         {
@@ -71,7 +71,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between component and the left side of the container.
-        /// |离容器上侧的距离。
+        /// ||离容器上侧的距离。
         /// </summary>
         public float top
         {
@@ -80,7 +80,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between component and the left side of the container.
-        /// |离容器下侧的距离。
+        /// ||离容器下侧的距离。
         /// </summary>
         public float bottom
         {
@@ -90,7 +90,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the anchor of text.
-        /// |Location对应的Anchor锚点
+        /// ||Location对应的Anchor锚点
         /// </summary>
         /// <value></value>
         public TextAnchor runtimeTextAlignment { get { return m_TextAlignment; } }
@@ -100,17 +100,17 @@ namespace XCharts.Runtime
 #endif
         /// <summary>
         /// the minimum achor.
-        /// |Location对应的anchorMin。
+        /// ||Location对应的anchorMin。
         /// </summary>
         public Vector2 runtimeAnchorMin { get { return m_AnchorMin; } }
         /// <summary>
         /// the maximun achor.
-        /// |Location对应的anchorMax.
-        /// |</summary>
+        /// ||Location对应的anchorMax.
+        /// ||</summary>
         public Vector2 runtimeAnchorMax { get { return m_AnchorMax; } }
         /// <summary>
         /// the povot.
-        /// |Loation对应的中心点。
+        /// ||Loation对应的中心点。
         /// </summary>
         public Vector2 runtimePivot { get { return m_Pivot; } }
         public float runtimeLeft { get; private set; }

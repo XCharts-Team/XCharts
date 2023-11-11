@@ -6,7 +6,7 @@ namespace XUGL
 {
     /// <summary>
     /// UGUI Graphics Library.
-    /// |UGUI 图形库
+    /// ||UGUI 图形库
     /// </summary>
     public static class UGL
     {
@@ -2067,7 +2067,7 @@ namespace XUGL
 
         /// <summary>
         /// Draw plus sign.
-        /// |绘制加号
+        /// ||绘制加号
         /// </summary>
         /// <param name="vh"></param>
         /// <param name="center"></param>
@@ -2086,7 +2086,7 @@ namespace XUGL
 
         /// <summary>
         /// Draw minus sign.
-        /// |绘制减号
+        /// ||绘制减号
         /// </summary>
         /// <param name="vh"></param>
         /// <param name="center"></param>

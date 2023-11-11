@@ -184,7 +184,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Ensure that the transform has the specified component, add it if not.
-        /// |确保对象有指定的组件，如果没有则添加。
+        /// ||确保对象有指定的组件，如果没有则添加。
         /// </summary>
         /// <param name="transform"></param>
         /// <typeparam name="T"></typeparam>
@@ -196,7 +196,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Ensure that the game object has the specified component, add it if not.
-        /// | 确保对象有指定的组件，如果没有则添加。
+        /// || 确保对象有指定的组件，如果没有则添加。
         /// </summary>
         /// <param name="gameObject"></param>
         /// <typeparam name="T"></typeparam>

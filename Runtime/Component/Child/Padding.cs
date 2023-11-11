@@ -5,7 +5,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// padding setting of item or text.
-    /// |边距设置。
+    /// ||边距设置。
     /// </summary>
     [Serializable]
     public class Padding : ChildComponent
@@ -41,7 +41,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// padding of top.
-        /// |顶部间距。
+        /// ||顶部间距。
         /// </summary>
         public float top
         {
@@ -50,7 +50,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// padding of right.
-        /// |右部间距。
+        /// ||右部间距。
         /// </summary>
         public float right
         {
@@ -59,7 +59,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// padding of bottom.
-        /// |底部间距。
+        /// ||底部间距。
         /// </summary>
         public float bottom
         {
@@ -68,7 +68,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// padding of left.
-        /// |左边间距。
+        /// ||左边间距。
         /// </summary>
         public float left
         {

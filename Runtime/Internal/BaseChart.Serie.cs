@@ -221,8 +221,8 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Add a data to serie.
-        /// |If serieName doesn't exist in legend,will be add to legend.
-        /// |添加一个数据到指定的系列中。
+        /// ||If serieName doesn't exist in legend,will be add to legend.
+        /// ||添加一个数据到指定的系列中。
         /// </summary>
         /// <param name="serieName">the name of serie</param>
         /// <param name="data">the data to add</param>
@@ -243,7 +243,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Add a data to serie.
-        /// |添加一个数据到指定的系列中。
+        /// ||添加一个数据到指定的系列中。
         /// </summary>
         /// <param name="serieIndex">the index of serie</param>
         /// <param name="data">the data to add</param>
@@ -264,7 +264,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Add an arbitray dimension data to serie,such as (x,y,z,...).
-        /// |添加多维数据（x,y,z...）到指定的系列中。
+        /// ||添加多维数据（x,y,z...）到指定的系列中。
         /// </summary>
         /// <param name="serieName">the name of serie</param>
         /// <param name="multidimensionalData">the (x,y,z,...) data</param>
@@ -285,7 +285,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Add an arbitray dimension data to serie,such as (x,y,z,...).
-        /// |添加多维数据（x,y,z...）到指定的系列中。
+        /// ||添加多维数据（x,y,z...）到指定的系列中。
         /// </summary>
         /// <param name="serieIndex">the index of serie,index starts at 0</param>
         /// <param name="multidimensionalData">the (x,y,z,...) data</param>
@@ -307,7 +307,7 @@ namespace XCharts.Runtime
         [Since("v3.4.0")]
         /// <summary>
         /// Add an arbitray dimension data to serie,such as (x,y,z,...).
-        /// |添加多维数据（x,y,z...）到指定的系列中。
+        /// ||添加多维数据（x,y,z...）到指定的系列中。
         /// </summary>
         /// <param name="serieIndex">the index of serie</param>
         /// <param name="multidimensionalData">the (x,y,z,...) data</param>
@@ -327,7 +327,7 @@ namespace XCharts.Runtime
         [Since("v3.4.0")]
         /// <summary>
         /// Add an arbitray dimension data to serie,such as (x,y,z,...).
-        /// |添加多维数据（x,y,z...）到指定的系列中。
+        /// ||添加多维数据（x,y,z...）到指定的系列中。
         /// </summary>
         /// <param name="serieName">the name of serie</param>
         /// <param name="multidimensionalData">the (x,y,z,...) data</param>
@@ -346,7 +346,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Add a (x,y) data to serie.
-        /// |添加（x,y）数据到指定系列中。
+        /// ||添加（x,y）数据到指定系列中。
         /// </summary>
         /// <param name="serieName">the name of serie</param>
         /// <param name="xValue">x data</param>
@@ -368,7 +368,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Add a (x,y) data to serie.
-        /// |添加（x,y）数据到指定系列中。
+        /// ||添加（x,y）数据到指定系列中。
         /// </summary>
         /// <param name="serieIndex">the index of serie</param>
         /// <param name="xValue">x data</param>
@@ -389,7 +389,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Add a (time,y) data to serie.
-        /// |添加（time,y）数据到指定的系列中。
+        /// ||添加（time,y）数据到指定的系列中。
         /// </summary>
         /// <param name="serieName"></param>
         /// <param name="time"></param>
@@ -405,7 +405,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Add a (time,y) data to serie.
-        /// |添加（time,y）数据到指定的系列中。
+        /// ||添加（time,y）数据到指定的系列中。
         /// </summary>
         /// <param name="serieIndex"></param>
         /// <param name="time"></param>
@@ -444,7 +444,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Update serie data by serie name.
-        /// |更新指定系列中的指定索引数据。
+        /// ||更新指定系列中的指定索引数据。
         /// </summary>
         /// <param name="serieName">the name of serie</param>
         /// <param name="dataIndex">the index of data</param>
@@ -463,7 +463,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Update serie data by serie index.
-        /// |更新指定系列中的指定索引数据。
+        /// ||更新指定系列中的指定索引数据。
         /// </summary>
         /// <param name="serieIndex">the index of serie</param>
         /// <param name="dataIndex">the index of data</param>
@@ -556,7 +556,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Update serie data name.
-        /// |更新指定系列中的指定索引数据名称。
+        /// ||更新指定系列中的指定索引数据名称。
         /// </summary>
         /// <param name="serieName"></param>
         /// <param name="dataIndex"></param>
@@ -574,7 +574,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Update serie data name.
-        /// |更新指定系列中的指定索引数据名称。
+        /// ||更新指定系列中的指定索引数据名称。
         /// </summary>
         /// <param name="serieIndex"></param>
         /// <param name="dataName"></param>
@@ -620,7 +620,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether to show serie.
-        /// |设置指定系列是否显示。
+        /// ||设置指定系列是否显示。
         /// </summary>
         /// <param name="serieName">the name of serie</param>
         /// <param name="active">Active or not</param>
@@ -633,7 +633,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether to show serie.
-        /// |设置指定系列是否显示。
+        /// ||设置指定系列是否显示。
         /// </summary>
         /// <param name="serieIndex">the index of serie</param>
         /// <param name="active">Active or not</param>
@@ -655,7 +655,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Add a category data to xAxis.
-        /// |添加一个类目数据到指定的x轴。
+        /// ||添加一个类目数据到指定的x轴。
         /// </summary>
         /// <param name="category">the category data</param>
         /// <param name="xAxisIndex">which xAxis should category add to</param>
@@ -670,7 +670,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Update category data.
-        /// |更新X轴类目数据。
+        /// ||更新X轴类目数据。
         /// </summary>
         /// <param name="index">the index of category data</param>
         /// <param name="category"></param>
@@ -686,7 +686,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Add an icon to xAxis.
-        /// |添加一个图标到指定的x轴。
+        /// ||添加一个图标到指定的x轴。
         /// </summary>
         /// <param name="icon"></param>
         /// <param name="xAxisIndex"></param>
@@ -701,7 +701,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Update xAxis icon.
-        /// |更新X轴图标。
+        /// ||更新X轴图标。
         /// </summary>
         /// <param name="index"></param>
         /// <param name="icon"></param>
@@ -717,7 +717,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Add a category data to yAxis.
-        /// |添加一个类目数据到指定的y轴。
+        /// ||添加一个类目数据到指定的y轴。
         /// </summary>
         /// <param name="category">the category data</param>
         /// <param name="yAxisIndex">which yAxis should category add to</param>
@@ -732,7 +732,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Update category data.
-        /// |更新Y轴类目数据。
+        /// ||更新Y轴类目数据。
         /// </summary>
         /// <param name="index">the index of category data</param>
         /// <param name="category"></param>
@@ -748,7 +748,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Add an icon to yAxis.
-        /// |添加一个图标到指定的y轴。
+        /// ||添加一个图标到指定的y轴。
         /// </summary>
         /// <param name="icon"></param>
         /// <param name="yAxisIndex"></param>

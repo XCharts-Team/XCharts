@@ -5,7 +5,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Title component, including main title and subtitle.
-    /// |标题组件，包含主标题和副标题。
+    /// ||标题组件，包含主标题和副标题。
     /// </summary>
     [Serializable]
     [ComponentHandler(typeof(TitleHander), true)]
@@ -22,17 +22,17 @@ namespace XCharts.Runtime
         /// <summary>
         /// [default:true]
         /// Set this to false to prevent the title from showing.
-        /// |是否显示标题组件。
+        /// ||是否显示标题组件。
         /// </summary>
         public bool show { get { return m_Show; } set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetComponentDirty(); } }
         /// <summary>
         /// The main title text, supporting \n for newlines.
-        /// |主标题文本，支持使用 \n 换行。
+        /// ||主标题文本，支持使用 \n 换行。
         /// </summary>
         public string text { get { return m_Text; } set { if (PropertyUtil.SetClass(ref m_Text, value)) SetComponentDirty(); } }
         /// <summary>
         /// The text style of main title.
-        /// |主标题文本样式。
+        /// ||主标题文本样式。
         /// </summary>
         public LabelStyle labelStyle
         {
@@ -41,7 +41,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Subtitle text, supporting for \n for newlines.
-        /// |副标题文本，支持使用 \n 换行。
+        /// ||副标题文本，支持使用 \n 换行。
         /// </summary>
         public string subText
         {
@@ -50,7 +50,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The text style of sub title.
-        /// |副标题文本样式。
+        /// ||副标题文本样式。
         /// </summary>
         public LabelStyle subLabelStyle
         {
@@ -60,7 +60,7 @@ namespace XCharts.Runtime
         /// <summary>
         /// [default:8]
         /// The gap between the main title and subtitle.
-        /// |主副标题之间的间距。
+        /// ||主副标题之间的间距。
         /// </summary>
         public float itemGap
         {
@@ -69,7 +69,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The location of title component.
-        /// |标题显示位置。
+        /// ||标题显示位置。
         /// </summary>
         public Location location
         {

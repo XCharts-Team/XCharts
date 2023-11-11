@@ -5,7 +5,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// The attribute for serie data component.
-    /// |可添加到SerieData的组件。
+    /// ||可添加到SerieData的组件。
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public sealed class SerieDataComponentAttribute : Attribute

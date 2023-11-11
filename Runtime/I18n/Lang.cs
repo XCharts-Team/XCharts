@@ -6,7 +6,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Language.
-    /// |国际化语言表。
+    /// ||国际化语言表。
     /// </summary>
     [Serializable]
     [CreateAssetMenu(menuName = "XCharts/Export Lang")]

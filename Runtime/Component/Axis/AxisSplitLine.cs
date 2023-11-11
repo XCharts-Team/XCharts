@@ -5,7 +5,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Split line of axis in grid area.
-    /// |坐标轴在 grid 区域中的分隔线。
+    /// ||坐标轴在 grid 区域中的分隔线。
     /// </summary>
     [Serializable]
     public class AxisSplitLine : BaseLine
@@ -18,17 +18,17 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// The distance between the split line and axis line.
-        /// |刻度线与轴线的距离。
+        /// ||刻度线与轴线的距离。
         /// </summary>
         public float distance { get { return m_Distance; } set { m_Distance = value; } }
         /// <summary>
         /// auto color.
-        /// |自动设置颜色。
+        /// ||自动设置颜色。
         /// </summary>
         public bool autoColor { get { return m_AutoColor; } set { m_AutoColor = value; } }
         /// <summary>
         /// Interval of Axis splitLine.
-        /// |坐标轴分隔线的显示间隔。
+        /// ||坐标轴分隔线的显示间隔。
         /// </summary>
         public int interval
         {
@@ -37,7 +37,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether to show the first split line.
-        /// |是否显示第一条分割线。
+        /// ||是否显示第一条分割线。
         /// </summary>
         public bool showStartLine
         {
@@ -46,7 +46,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether to show the last split line.
-        /// |是否显示最后一条分割线。
+        /// ||是否显示最后一条分割线。
         /// </summary>
         public bool showEndLine
         {

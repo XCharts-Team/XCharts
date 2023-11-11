@@ -4,7 +4,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// The attribute for which serie types can be converted to.
-    /// |可转化为哪些Serie类型。
+    /// ||可转化为哪些Serie类型。
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public sealed class SerieConvertAttribute : Attribute

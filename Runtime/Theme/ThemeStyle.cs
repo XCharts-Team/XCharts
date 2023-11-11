@@ -34,7 +34,7 @@ namespace XCharts.Runtime
     [Serializable]
     /// <summary>
     /// Theme.
-    /// |主题相关配置。
+    /// ||主题相关配置。
     /// </summary>
     public class ThemeStyle : ChildComponent
     {
@@ -52,7 +52,7 @@ namespace XCharts.Runtime
         public bool show { get { return m_Show; } }
         /// <summary>
         /// the theme of chart.
-        /// |主题类型。
+        /// ||主题类型。
         /// </summary>
         public ThemeType themeType
         {
@@ -60,7 +60,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// theme name.
-        /// |主题名字。
+        /// ||主题名字。
         /// </summary>
         public string themeName
         {
@@ -68,7 +68,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the asset of theme.
-        /// |主题配置。
+        /// ||主题配置。
         /// </summary>
         public Theme sharedTheme
         {
@@ -77,7 +77,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the contrast color of chart.
-        /// |对比色。
+        /// ||对比色。
         /// </summary>
         public Color32 contrastColor
         {
@@ -85,7 +85,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the background color of chart.
-        /// |背景颜色。
+        /// ||背景颜色。
         /// </summary>
         public Color32 backgroundColor
         {
@@ -97,7 +97,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether the background color is transparent. When true, the background color is not drawn.
-        /// |是否透明背景颜色。当设置为true时，不绘制背景颜色。
+        /// ||是否透明背景颜色。当设置为true时，不绘制背景颜色。
         /// </summary>
         public bool transparentBackground
         {
@@ -107,7 +107,7 @@ namespace XCharts.Runtime
         /// <summary>
         /// Whether to customize theme colors. When set to true, 
         /// you can use 'sync color to custom' to synchronize the theme color to the custom color. It can also be set manually.
-        /// |是否自定义主题颜色。当设置为true时，可以用‘sync color to custom’同步主题的颜色到自定义颜色。也可以手动设置。
+        /// ||是否自定义主题颜色。当设置为true时，可以用‘sync color to custom’同步主题的颜色到自定义颜色。也可以手动设置。
         /// </summary>
         /// <value></value>
         public bool enableCustomTheme
@@ -117,7 +117,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the custom background color of chart.
-        /// |自定义的背景颜色。
+        /// ||自定义的背景颜色。
         /// </summary>
         public Color32 customBackgroundColor
         {
@@ -127,7 +127,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// The color list of palette. If no color is set in series, the colors would be adopted sequentially and circularly from this list as the colors of series.
-        /// |调色盘颜色列表。如果系列没有设置颜色，则会依次循环从该列表中取颜色作为系列颜色。
+        /// ||调色盘颜色列表。如果系列没有设置颜色，则会依次循环从该列表中取颜色作为系列颜色。
         /// </summary>
         public List<Color32> colorPalette
         {
@@ -146,7 +146,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Gets the color of the specified index from the palette.
-        /// |获得调色盘对应系列索引的颜色值。
+        /// ||获得调色盘对应系列索引的颜色值。
         /// </summary>
         /// <param name="index">编号索引</param>
         /// <returns>the color,or Color.clear when failed.颜色值，失败时返回Color.clear</returns>
@@ -206,7 +206,7 @@ namespace XCharts.Runtime
         Dictionary<int, string> _colorDic = new Dictionary<int, string>();
         /// <summary>
         /// Gets the hexadecimal color string of the specified index from the palette.
-        /// |获得指定索引的十六进制颜色值字符串。
+        /// ||获得指定索引的十六进制颜色值字符串。
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -227,7 +227,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Convert the html string to color.
-        /// |将字符串颜色值转成Color。
+        /// ||将字符串颜色值转成Color。
         /// </summary>
         /// <param name="hexColorStr"></param>
         /// <returns></returns>

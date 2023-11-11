@@ -55,7 +55,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether the label line is showed.
-        /// |是否显示视觉引导线。
+        /// ||是否显示视觉引导线。
         /// </summary>
         public bool show
         {
@@ -64,7 +64,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the type of visual guide line.
-        /// |视觉引导线类型。
+        /// ||视觉引导线类型。
         /// </summary>
         public LineType lineType
         {
@@ -73,7 +73,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the color of visual guild line.
-        /// |视觉引导线颜色。默认和serie一致取自调色板。
+        /// ||视觉引导线颜色。默认和serie一致取自调色板。
         /// </summary>
         public Color32 lineColor
         {
@@ -82,7 +82,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the angle of visual guild line. Valid for broken line and curve line. Invalid in Pie.
-        /// |视觉引导线的固定角度。对折线和曲线有效。在Pie中无效。
+        /// ||视觉引导线的固定角度。对折线和曲线有效。在Pie中无效。
         /// </summary>
         public float lineAngle
         {
@@ -91,7 +91,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the width of visual guild line.
-        /// |视觉引导线的宽度。
+        /// ||视觉引导线的宽度。
         /// </summary>
         public float lineWidth
         {
@@ -100,7 +100,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the gap of container and guild line.
-        /// |视觉引导线和容器的间距。
+        /// ||视觉引导线和容器的间距。
         /// </summary>
         public float lineGap
         {
@@ -109,7 +109,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The length of the first segment of visual guide line.
-        /// |视觉引导线第一段的长度。
+        /// ||视觉引导线第一段的长度。
         /// </summary>
         public float lineLength1
         {
@@ -118,7 +118,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The length of the second segment of visual guide line.
-        /// |视觉引导线第二段的长度。
+        /// ||视觉引导线第二段的长度。
         /// </summary>
         public float lineLength2
         {
@@ -127,7 +127,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The fixed x position of the end point of visual guide line.
-        /// |视觉引导线结束点的固定x位置。当不为0时，会代替lineLength2设定引导线的x位置。
+        /// ||视觉引导线结束点的固定x位置。当不为0时，会代替lineLength2设定引导线的x位置。
         /// </summary>
         public float lineEndX
         {
@@ -136,7 +136,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The symbol of the start point of labelline.
-        /// |起始点的图形标记。
+        /// ||起始点的图形标记。
         /// </summary>
         public SymbolStyle startSymbol
         {
@@ -145,7 +145,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The symbol of the end point of labelline.
-        /// |结束点的图形标记。
+        /// ||结束点的图形标记。
         /// </summary>
         public SymbolStyle endSymbol
         {

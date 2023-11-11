@@ -4,7 +4,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Configurations of emphasis state. 
-    /// |高亮状态样式。
+    /// ||高亮状态样式。
     /// </summary>
     [System.Serializable]
     [Since("v3.2.0")]
@@ -12,45 +12,45 @@ namespace XCharts.Runtime
     {
         /// <summary>
         /// focus type. 
-        /// |聚焦类型。
+        /// ||聚焦类型。
         /// </summary>
         public enum FocusType
         {
             /// <summary>
             /// Do not fade out other data, it's by default.
-            /// |不淡出其它图形，默认使用该配置。
+            /// ||不淡出其它图形，默认使用该配置。
             /// </summary>
             None,
             /// <summary>
             /// Only focus (not fade out) the element of the currently highlighted data.
-            /// |只聚焦（不淡出）当前高亮的数据的图形。
+            /// ||只聚焦（不淡出）当前高亮的数据的图形。
             /// </summary>
             Self,
             /// <summary>
             /// Focus on all elements of the series which the currently highlighted data belongs to.
-            /// |聚焦当前高亮的数据所在的系列的所有图形。
+            /// ||聚焦当前高亮的数据所在的系列的所有图形。
             /// </summary>
             Series
         }
         /// <summary>
         /// blur scope.
-        /// |淡出范围。
+        /// ||淡出范围。
         /// </summary>
         public enum BlurScope
         {
             /// <summary>
             /// coordinate system.
-            /// |淡出范围为坐标系，默认使用该配置。
+            /// ||淡出范围为坐标系，默认使用该配置。
             /// </summary>
             GridCoord,
             /// <summary>
             /// series.
-            /// |淡出范围为系列。
+            /// ||淡出范围为系列。
             /// </summary>
             Series,
             /// <summary>
             /// global.
-            /// |淡出范围为全局。
+            /// ||淡出范围为全局。
             /// </summary>
             Global
         }
@@ -61,7 +61,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether to scale to highlight the data in emphasis state.
-        /// |高亮时的缩放倍数。
+        /// ||高亮时的缩放倍数。
         /// </summary>
         public float scale
         {
@@ -70,7 +70,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// When the data is highlighted, whether to fade out of other data to focus the highlighted. 
-        /// |在高亮图形时，是否淡出其它数据的图形已达到聚焦的效果。
+        /// ||在高亮图形时，是否淡出其它数据的图形已达到聚焦的效果。
         /// </summary>
         public FocusType focus
         {
@@ -79,7 +79,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The range of fade out when focus is enabled.
-        /// |在开启focus的时候，可以通过blurScope配置淡出的范围。
+        /// ||在开启focus的时候，可以通过blurScope配置淡出的范围。
         /// </summary>
         public BlurScope blurScope
         {

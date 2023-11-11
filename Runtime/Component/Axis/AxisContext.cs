@@ -32,23 +32,23 @@ namespace XCharts.Runtime
         public float top;
         /// <summary>
         /// the current minimun value.
-        /// |当前最小值。
+        /// ||当前最小值。
         /// </summary>
         public double minValue;
         /// <summary>
         /// the current maximum value.
-        /// |当前最大值。
+        /// ||当前最大值。
         /// </summary>
         public double maxValue;
         /// <summary>
         /// the offset of zero position.
-        /// |坐标轴原点在坐标轴的偏移。
+        /// ||坐标轴原点在坐标轴的偏移。
         /// </summary>
         public float offset;
         public double minMaxRange;
         /// <summary>
         /// the tick value of value axis.
-        /// |数值轴时每个tick的数值。
+        /// ||数值轴时每个tick的数值。
         /// </summary>
         public double tickValue;
         public float scaleWidth;

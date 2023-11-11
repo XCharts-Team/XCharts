@@ -42,32 +42,32 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether show debug component.
-        /// |是否显示Debug组件。
+        /// ||是否显示Debug组件。
         /// </summary>
         public bool show { get { return m_Show; } set { m_Show = value; } }
         /// <summary>
         /// Whether show children components of chart in hierarchy view.
-        /// |是否在Hierarchy试图显示所有chart下的节点。
+        /// ||是否在Hierarchy试图显示所有chart下的节点。
         /// </summary>
         public bool showAllChartObject { get { return m_ShowAllChartObject; } set { m_ShowAllChartObject = value; } }
         /// <summary>
         /// Whether to fold series in inspector view.
-        /// |是否在Inspector上折叠Serie。
+        /// ||是否在Inspector上折叠Serie。
         /// </summary>
         public bool foldSeries { get { return m_FoldSeries; } set { m_FoldSeries = value; } }
         /// <summary>
         /// frame rate.
-        /// |当前帧率。
+        /// ||当前帧率。
         /// </summary>
         public float fps { get; private set; }
         /// <summary>
         /// The average frame rate.
-        /// |平均帧率。
+        /// ||平均帧率。
         /// </summary>
         public float avgFps { get; private set; }
         /// <summary>
         /// The fefresh count of chart per second.
-        /// |图表每秒刷新次数。
+        /// ||图表每秒刷新次数。
         /// </summary>
         public int refreshCount { get; internal set; }
         internal int clickChartCount { get; set; }

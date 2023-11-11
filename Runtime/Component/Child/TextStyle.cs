@@ -8,7 +8,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Settings related to text.
-    /// |文本的相关设置。
+    /// ||文本的相关设置。
     /// </summary>
     [Serializable]
     public class TextStyle : ChildComponent
@@ -37,7 +37,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Rotation of text.
-        /// |文本的旋转。
+        /// ||文本的旋转。
         /// [default: `0f`]
         /// </summary>
         public float rotate
@@ -55,7 +55,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the color of text.
-        /// |文本的颜色。
+        /// ||文本的颜色。
         /// [default: `Color.clear`]
         /// </summary>
         public Color color
@@ -65,7 +65,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the font of text. When `null`, the theme's font is used by default.
-        /// |文本字体。
+        /// ||文本字体。
         /// [default: null]
         /// </summary>
         public Font font
@@ -75,7 +75,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// font size.
-        /// |文本字体大小。
+        /// ||文本字体大小。
         /// [default: 18]
         /// </summary>
         public int fontSize
@@ -85,7 +85,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// font style.
-        /// |文本字体的风格。
+        /// ||文本字体的风格。
         /// [default: FontStyle.Normal]
         /// </summary>
         public FontStyle fontStyle
@@ -95,7 +95,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// text line spacing.
-        /// |行间距。
+        /// ||行间距。
         /// [default: 1f]
         /// </summary>
         public float lineSpacing
@@ -130,7 +130,7 @@ namespace XCharts.Runtime
 #if dUI_TextMeshPro
         /// <summary>
         /// the font of textmeshpro.
-        /// |TextMeshPro字体。
+        /// ||TextMeshPro字体。
         /// </summary>
         public TMP_FontAsset tmpFont
         {
@@ -139,7 +139,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the font style of TextMeshPro.
-        /// |TextMeshPro字体类型。
+        /// ||TextMeshPro字体类型。
         /// </summary>
         public FontStyles tmpFontStyle
         {
@@ -148,7 +148,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the text alignment of TextMeshPro.
-        /// |TextMeshPro字体对齐方式。
+        /// ||TextMeshPro字体对齐方式。
         /// </summary>
         public TextAlignmentOptions tmpAlignment
         {
@@ -157,7 +157,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the sprite asset of TextMeshPro.
-        /// |TextMeshPro的Sprite Asset。
+        /// ||TextMeshPro的Sprite Asset。
         /// </summary>
         public TMP_SpriteAsset tmpSpriteAsset
         {

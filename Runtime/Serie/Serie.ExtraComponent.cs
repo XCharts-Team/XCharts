@@ -32,49 +32,49 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// The style of area.
-        /// |区域填充样式。
+        /// ||区域填充样式。
         /// </summary>
         public AreaStyle areaStyle { get { return m_AreaStyles.Count > 0 ? m_AreaStyles[0] : null; } }
         /// <summary>
         /// Text label of graphic element,to explain some data information about graphic item like value, name and so on.
-        /// |图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
+        /// ||图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
         /// </summary>
         public LabelStyle label { get { return m_Labels.Count > 0 ? m_Labels[0] : null; } }
         public LabelStyle endLabel { get { return m_EndLabels.Count > 0 ? m_EndLabels[0] : null; } }
         /// <summary>
         /// The line of label.
-        /// |标签上的视觉引导线。
+        /// ||标签上的视觉引导线。
         /// </summary>
         public LabelLine labelLine { get { return m_LabelLines.Count > 0 ? m_LabelLines[0] : null; } }
         /// <summary>
         /// The arrow of line.
-        /// |折线图的箭头。
+        /// ||折线图的箭头。
         /// </summary>
         public LineArrow lineArrow { get { return m_LineArrows.Count > 0 ? m_LineArrows[0] : null; } }
         /// <summary>
         /// the icon of data.
-        /// |数据项标题样式。
+        /// ||数据项标题样式。
         /// </summary>
         public TitleStyle titleStyle { get { return m_TitleStyles.Count > 0 ? m_TitleStyles[0] : null; } }
         /// <summary>
         /// style of emphasis state.
-        /// |高亮状态的样式。
+        /// ||高亮状态的样式。
         /// </summary>
         public EmphasisStyle emphasisStyle { get { return m_EmphasisStyles.Count > 0 ? m_EmphasisStyles[0] : null; } }
         /// <summary>
         /// style of blur state.
-        /// |淡出状态的样式。
+        /// ||淡出状态的样式。
         /// </summary>
         public BlurStyle blurStyle { get { return m_BlurStyles.Count > 0 ? m_BlurStyles[0] : null; } }
         /// <summary>
         /// style of select state.
-        /// |选中状态的样式。
+        /// ||选中状态的样式。
         /// </summary>
         public SelectStyle selectStyle { get { return m_SelectStyles.Count > 0 ? m_SelectStyles[0] : null; } }
 
         /// <summary>
         /// Remove all extra components.
-        /// |移除所有额外组件。
+        /// ||移除所有额外组件。
         /// </summary>
         public void RemoveAllComponents()
         {
@@ -99,7 +99,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Ensure the serie has the component. If not, add it.
-        /// |确保系列有该组件。如果没有，则添加。
+        /// ||确保系列有该组件。如果没有，则添加。
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns>component or null</returns>

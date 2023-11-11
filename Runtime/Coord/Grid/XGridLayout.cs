@@ -5,7 +5,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Grid layout component. Used to manage the layout of multiple `GridCoord`, and the number of rows and columns of the grid can be controlled by `row` and `column`.
-    /// |网格布局组件。用于管理多个`GridCoord`的布局，可以通过`row`和`column`来控制网格的行列数。
+    /// ||网格布局组件。用于管理多个`GridCoord`的布局，可以通过`row`和`column`来控制网格的行列数。
     /// </summary>
     [Since("v3.8.0")]
     [Serializable]
@@ -26,7 +26,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether to show the grid in rectangular coordinate.
-        /// |是否显示直角坐标系网格。
+        /// ||是否显示直角坐标系网格。
         /// </summary>
         public bool show
         {
@@ -35,7 +35,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between grid component and the left side of the container.
-        /// |grid 组件离容器左侧的距离。
+        /// ||grid 组件离容器左侧的距离。
         /// </summary>
         public float left
         {
@@ -44,7 +44,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between grid component and the right side of the container.
-        /// |grid 组件离容器右侧的距离。
+        /// ||grid 组件离容器右侧的距离。
         /// </summary>
         public float right
         {
@@ -53,7 +53,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between grid component and the top side of the container.
-        /// |grid 组件离容器上侧的距离。
+        /// ||grid 组件离容器上侧的距离。
         /// </summary>
         public float top
         {
@@ -62,7 +62,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between grid component and the bottom side of the container.
-        /// |grid 组件离容器下侧的距离。
+        /// ||grid 组件离容器下侧的距离。
         /// </summary>
         public float bottom
         {
@@ -71,7 +71,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the row count of grid layout.
-        /// |网格布局的行数。
+        /// ||网格布局的行数。
         /// </summary>
         public int row
         {
@@ -80,7 +80,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the column count of grid layout.
-        /// |网格布局的列数。
+        /// ||网格布局的列数。
         /// </summary>
         public int column
         {
@@ -89,7 +89,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the spacing of grid layout.
-        /// |网格布局的间距。
+        /// ||网格布局的间距。
         /// </summary>
         public Vector2 spacing
         {
@@ -98,7 +98,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether to inverse the grid layout.
-        /// |是否反转网格布局。
+        /// ||是否反转网格布局。
         /// </summary>
         public bool inverse
         {

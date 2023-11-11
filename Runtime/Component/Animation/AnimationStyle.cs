@@ -8,32 +8,32 @@ namespace XCharts.Runtime
     {
         /// <summary>
         /// he default. An animation playback mode will be selected according to the actual situation.
-        /// |默认。内部会根据实际情况选择一种动画播放方式。
+        /// ||默认。内部会根据实际情况选择一种动画播放方式。
         /// </summary>
         Default,
         /// <summary>
         /// Play the animation from left to right.
-        /// |从左往右播放动画。
+        /// ||从左往右播放动画。
         /// </summary>
         LeftToRight,
         /// <summary>
         /// Play the animation from bottom to top.
-        /// |从下往上播放动画。
+        /// ||从下往上播放动画。
         /// </summary>
         BottomToTop,
         /// <summary>
         /// Play animations from the inside out.
-        /// |由内到外播放动画。
+        /// ||由内到外播放动画。
         /// </summary>
         InsideOut,
         /// <summary>
         /// Play the animation along the path.
-        /// |沿着路径播放动画。当折线图从左到右无序或有折返时，可以使用该模式。
+        /// ||沿着路径播放动画。当折线图从左到右无序或有折返时，可以使用该模式。
         /// </summary>
         AlongPath,
         /// <summary>
         /// Play the animation clockwise.
-        /// |顺时针播放动画。
+        /// ||顺时针播放动画。
         /// </summary>
         Clockwise,
     }
@@ -45,7 +45,7 @@ namespace XCharts.Runtime
 
     /// <summary>
     /// the animation of serie. support animation type: fadeIn, fadeOut, change, addition.
-    /// |动画组件，用于控制图表的动画播放。支持配置五种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画），Interaction（交互动画）。
+    /// ||动画组件，用于控制图表的动画播放。支持配置五种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画），Interaction（交互动画）。
     /// 按作用的对象可以分为两类：SerieAnimation（系列动画）和DataAnimation（数据动画）。
     /// </summary>
     [System.Serializable]
@@ -79,53 +79,53 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether to enable animation.
-        /// |是否开启动画效果。
+        /// ||是否开启动画效果。
         /// </summary>
         public bool enable { get { return m_Enable; } set { m_Enable = value; } }
         /// <summary>
         /// The type of animation.
-        /// |动画类型。
+        /// ||动画类型。
         /// </summary>
         public AnimationType type { get { return m_Type; } set { m_Type = value; } }
         /// <summary>
         /// Whether to set graphic number threshold to animation. Animation will be disabled when graphic number is larger than threshold.
-        /// |是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。
+        /// ||是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。
         /// </summary>
         public int threshold { get { return m_Threshold; } set { m_Threshold = value; } }
         /// <summary>
         /// Animation updates independently of Time.timeScale.
-        /// |动画是否受TimeScaled的影响。默认为 false 受TimeScaled的影响。
+        /// ||动画是否受TimeScaled的影响。默认为 false 受TimeScaled的影响。
         /// </summary>
         public bool unscaledTime { get { return m_UnscaledTime; } set { m_UnscaledTime = value; } }
         /// <summary>
         /// Fade in animation configuration.
-        /// |渐入动画配置。
+        /// ||渐入动画配置。
         /// </summary>
         public AnimationFadeIn fadeIn { get { return m_FadeIn; } }
         /// <summary>
         /// Fade out animation configuration.
-        /// |渐出动画配置。
+        /// ||渐出动画配置。
         /// </summary>
         public AnimationFadeOut fadeOut { get { return m_FadeOut; } }
         /// <summary>
         /// Update data animation configuration.
-        /// |数据变更动画配置。
+        /// ||数据变更动画配置。
         /// </summary>
         public AnimationChange change { get { return m_Change; } }
         /// <summary>
         /// Add data animation configuration.
-        /// |数据新增动画配置。
+        /// ||数据新增动画配置。
         /// </summary>
         public AnimationAddition addition { get { return m_Addition; } }
         /// <summary>
         /// Data hiding animation configuration.
-        /// |数据隐藏动画配置。
+        /// ||数据隐藏动画配置。
         /// </summary>
         /// <value></value>
         public AnimationHiding hiding { get { return m_Hiding; } }
         /// <summary>
         /// Interaction animation configuration.
-        /// |交互动画配置。
+        /// ||交互动画配置。
         /// </summary>
         public AnimationInteraction interaction { get { return m_Interaction; } }
 
@@ -150,7 +150,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// The actived animation.
-        /// |当前激活的动画。
+        /// ||当前激活的动画。
         /// </summary>
         public AnimationInfo activedAnimation
         {
@@ -166,7 +166,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Start fadein animation.
-        /// |开始渐入动画。
+        /// ||开始渐入动画。
         /// </summary>
         public void FadeIn()
         {
@@ -176,7 +176,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Restart the actived animation.
-        /// |重启当前激活的动画。
+        /// ||重启当前激活的动画。
         /// </summary>
         public void Restart()
         {
@@ -190,7 +190,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Start fadeout animation.
-        /// |开始渐出动画。
+        /// ||开始渐出动画。
         /// </summary>
         public void FadeOut()
         {
@@ -199,7 +199,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Start additon animation.
-        /// |开始数据新增动画。
+        /// ||开始数据新增动画。
         /// </summary>
         public void Addition()
         {
@@ -212,7 +212,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Pause all animations.
-        /// |暂停所有动画。
+        /// ||暂停所有动画。
         /// </summary>
         public void Pause()
         {
@@ -224,7 +224,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Resume all animations.
-        /// |恢复所有动画。
+        /// ||恢复所有动画。
         /// </summary>
         public void Resume()
         {
@@ -247,7 +247,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Initialize animation configuration.
-        /// |初始化动画配置。
+        /// ||初始化动画配置。
         /// </summary>
         /// <param name="curr">当前进度</param>
         /// <param name="dest">目标进度</param>
@@ -276,7 +276,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Initialize animation configuration.
-        /// |初始化动画配置。
+        /// ||初始化动画配置。
         /// </summary>
         /// <param name="paths">路径坐标点列表</param>
         /// <param name="isY">是Y轴还是X轴</param>
@@ -377,7 +377,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// whther animaiton is data animation. BottomToTop and InsideOut are data animation.
-        /// |是否为数据动画。BottomToTop和InsideOut类型的为数据动画。
+        /// ||是否为数据动画。BottomToTop和InsideOut类型的为数据动画。
         /// </summary>
         public bool IsDataAnimation()
         {
@@ -386,7 +386,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// whther animaiton is serie animation. LeftToRight, AlongPath and Clockwise are serie animation.
-        /// |是否为系列动画。LeftToRight、AlongPath和Clockwise类型的为系列动画。
+        /// ||是否为系列动画。LeftToRight、AlongPath和Clockwise类型的为系列动画。
         /// </summary>
         public bool IsSerieAnimation()
         {

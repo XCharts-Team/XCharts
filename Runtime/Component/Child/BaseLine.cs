@@ -4,7 +4,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Settings related to base line.
-    /// |线条基础配置。
+    /// ||线条基础配置。
     /// </summary>
     [System.Serializable]
     public class BaseLine : ChildComponent
@@ -14,7 +14,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Set this to false to prevent the axis line from showing.
-        /// |是否显示坐标轴轴线。
+        /// ||是否显示坐标轴轴线。
         /// </summary>
         public bool show
         {

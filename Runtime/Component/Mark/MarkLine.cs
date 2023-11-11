@@ -29,7 +29,7 @@ namespace XCharts.Runtime
 
     /// <summary>
     /// Use a line in the chart to illustrate.
-    /// |图表标线。
+    /// ||图表标线。
     /// </summary>
     [System.Serializable]
     [ComponentHandler(typeof(MarkLineHandler), true)]
@@ -43,7 +43,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether to display the marking line.
-        /// |是否显示标线。
+        /// ||是否显示标线。
         /// </summary>
         public bool show
         {
@@ -52,7 +52,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The serie index of markLine.
-        /// |标线影响的Serie索引。
+        /// ||标线影响的Serie索引。
         /// </summary>
         public int serieIndex
         {
@@ -61,7 +61,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// whether the markline is on top.
-        /// |是否在最上层。
+        /// ||是否在最上层。
         /// </summary> 
         public bool onTop
         {
@@ -70,7 +70,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The animation of markline.
-        /// |标线的动画样式。
+        /// ||标线的动画样式。
         /// </summary>
         public AnimationStyle animation
         {
@@ -82,7 +82,7 @@ namespace XCharts.Runtime
         /// When the group is not 0, two data items of the same group represent the starting point and 
         /// the ending point of the line respectively to form a line. In this case, the relevant style 
         /// parameters of the line are the parameters of the starting point.
-        /// |标线的数据列表。当数据项的group为0时，每个数据项表示一条标线；当group不为0时，相同group的两个数据项分别表
+        /// ||标线的数据列表。当数据项的group为0时，每个数据项表示一条标线；当group不为0时，相同group的两个数据项分别表
         /// 示标线的起始点和终止点来组成一条标线，此时标线的相关样式参数取起始点的参数。
         /// </summary>
         public List<MarkLineData> data
@@ -113,7 +113,7 @@ namespace XCharts.Runtime
     }
     /// <summary>
     /// Data of marking line. 
-    /// |图表标线的数据。
+    /// ||图表标线的数据。
     /// </summary>
     [System.Serializable]
     public class MarkLineData : ChildComponent
@@ -143,7 +143,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Name of the marker, which will display as a label.
-        /// |标线名称，将会作为文字显示。label的formatter可通过{b}显示名称，通过{c}显示数值。
+        /// ||标线名称，将会作为文字显示。label的formatter可通过{b}显示名称，通过{c}显示数值。
         /// </summary>
         public string name
         {
@@ -152,7 +152,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Special label types, are used to label maximum value, minimum value and so on.
-        /// |特殊的标线类型，用于标注最大值最小值等。
+        /// ||特殊的标线类型，用于标注最大值最小值等。
         /// </summary>
         public MarkLineType type
         {
@@ -161,7 +161,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// From which dimension of data to calculate the maximum and minimum value and so on.
-        /// |从哪个维度的数据计算最大最小值等。
+        /// ||从哪个维度的数据计算最大最小值等。
         /// </summary>
         public int dimension
         {
@@ -170,7 +170,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The x coordinate relative to the origin, in pixels.
-        /// |相对原点的 x 坐标，单位像素。当type为None时有效。
+        /// ||相对原点的 x 坐标，单位像素。当type为None时有效。
         /// </summary>
         public float xPosition
         {
@@ -179,7 +179,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The y coordinate relative to the origin, in pixels.
-        /// |相对原点的 y 坐标，单位像素。当type为None时有效。
+        /// ||相对原点的 y 坐标，单位像素。当type为None时有效。
         /// </summary>
         public float yPosition
         {
@@ -188,7 +188,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The value specified on the X-axis. A value specified when the X-axis is the category axis represents the index of the category axis data, otherwise a specific value.
-        /// |X轴上的指定值。当X轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为None时有效。
+        /// ||X轴上的指定值。当X轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为None时有效。
         /// </summary>
         public double xValue
         {
@@ -197,7 +197,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// That's the value on the Y-axis. The value specified when the Y axis is the category axis represents the index of the category axis data, otherwise the specific value.
-        /// |Y轴上的指定值。当Y轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为None时有效。
+        /// ||Y轴上的指定值。当Y轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为None时有效。
         /// </summary>
         public double yValue
         {
@@ -206,7 +206,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Grouping. When the group is not 0, it means that this data is the starting point or end point of the marking line. Data consistent with the group form a marking line.
-        /// |分组。当group不为0时，表示这个data是标线的起点或终点，group一致的data组成一条标线。
+        /// ||分组。当group不为0时，表示这个data是标线的起点或终点，group一致的data组成一条标线。
         /// </summary>
         public int group
         {
@@ -215,7 +215,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Is the origin of the coordinate system.
-        /// |是否为坐标系原点。
+        /// ||是否为坐标系原点。
         /// </summary>
         public bool zeroPosition
         {
@@ -224,7 +224,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The symbol of the start point of markline.
-        /// |起始点的图形标记。
+        /// ||起始点的图形标记。
         /// </summary>
         public SymbolStyle startSymbol
         {
@@ -233,7 +233,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The symbol of the end point of markline.
-        /// |结束点的图形标记。
+        /// ||结束点的图形标记。
         /// </summary>
         public SymbolStyle endSymbol
         {
@@ -242,7 +242,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The line style of markline.
-        /// |标线样式。
+        /// ||标线样式。
         /// </summary>
         public LineStyle lineStyle
         {
@@ -251,7 +251,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Text styles of label. You can set position to Start, Middle, and End to display text in different locations.
-        /// |文本样式。可设置position为Start、Middle和End在不同的位置显示文本。
+        /// ||文本样式。可设置position为Start、Middle和End在不同的位置显示文本。
         /// </summary>
         public LabelStyle label
         {

@@ -5,66 +5,66 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Text label of chart, to explain some data information about graphic item like value, name and so on.
-    /// |图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
+    /// ||图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
     /// </summary>
     [System.Serializable]
     public class LabelStyle : ChildComponent, ISerieComponent, ISerieDataComponent
     {
         /// <summary>
         /// The position of label.
-        /// |标签的位置。
+        /// ||标签的位置。
         /// </summary>
         public enum Position
         {
             Default,
             /// <summary>
             /// Outside of sectors of pie chart, which relates to corresponding sector through visual guide line.
-            /// |饼图扇区外侧，通过视觉引导线连到相应的扇区。
+            /// ||饼图扇区外侧，通过视觉引导线连到相应的扇区。
             /// </summary>
             Outside,
             /// <summary>
             /// Inside the sectors of pie chart.
-            /// |饼图扇区内部。
+            /// ||饼图扇区内部。
             /// </summary>
             Inside,
             /// <summary>
             /// In the center of pie chart.
-            /// |在饼图中心位置。
+            /// ||在饼图中心位置。
             /// </summary>
             Center,
             /// <summary>
             /// top of symbol.
-            /// |图形标志的顶部。
+            /// ||图形标志的顶部。
             /// </summary>
             Top,
             /// <summary>
             /// the bottom of symbol.
-            /// |图形标志的底部。
+            /// ||图形标志的底部。
             /// </summary>
             Bottom,
             /// <summary>
             /// the left of symbol.
-            /// |图形标志的左边。
+            /// ||图形标志的左边。
             /// </summary>
             Left,
             /// <summary>
             /// the right of symbol.
-            /// |图形标志的右边。
+            /// ||图形标志的右边。
             /// </summary>
             Right,
             /// <summary>
             /// the start of line.
-            /// |线的起始点。
+            /// ||线的起始点。
             /// </summary>
             Start,
             /// <summary>
             /// the middle of line.
-            /// |线的中点。
+            /// ||线的中点。
             /// </summary>
             Middle,
             /// <summary>
             /// the end of line.
-            /// |线的结束点。
+            /// ||线的结束点。
             /// </summary>
             End
         }
@@ -102,7 +102,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether the label is showed.
-        /// |是否显示文本标签。
+        /// ||是否显示文本标签。
         /// </summary>
         public bool show
         {
@@ -111,7 +111,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The position of label.
-        /// |标签的位置。
+        /// ||标签的位置。
         /// </summary>
         public Position position
         {
@@ -120,7 +120,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// formatter of label.
-        /// |标签内容字符串模版格式器。支持用 \n 换行。
+        /// ||标签内容字符串模版格式器。支持用 \n 换行。
         /// 模板变量有：
         /// {.}：圆点标记。
         /// {a}：系列名。
@@ -139,7 +139,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// offset to the host graphic element.
-        /// |距离图形元素的偏移
+        /// ||距离图形元素的偏移
         /// </summary>
         public Vector3 offset
         {
@@ -148,7 +148,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Rotation of label.
-        /// |文本的旋转。
+        /// ||文本的旋转。
         /// </summary>
         public float rotate
         {
@@ -157,7 +157,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// auto rotate of label.
-        /// |是否自动旋转。
+        /// ||是否自动旋转。
         /// </summary>
         public bool autoRotate
         {
@@ -174,7 +174,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the width of label. If set as default value 0, it means than the label width auto set as the text width.
-        /// |标签的宽度。一般不用指定，不指定时则自动是文字的宽度。
+        /// ||标签的宽度。一般不用指定，不指定时则自动是文字的宽度。
         /// </summary>
         /// <value></value>
         public float width
@@ -184,7 +184,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the height of label. If set as default value 0, it means than the label height auto set as the text height.
-        /// |标签的高度。一般不用指定，不指定时则自动是文字的高度。
+        /// ||标签的高度。一般不用指定，不指定时则自动是文字的高度。
         /// </summary>
         /// <value></value>
         public float height
@@ -194,7 +194,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the text padding of label. 
-        /// |文本的边距。
+        /// ||文本的边距。
         /// </summary>
         public TextPadding textPadding
         {
@@ -203,7 +203,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Standard numeric format strings.
-        /// |标准数字格式字符串。用于将数值格式化显示为字符串。
+        /// ||标准数字格式字符串。用于将数值格式化显示为字符串。
         /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
         /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
         /// </summary>
@@ -223,7 +223,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the sytle of background.
-        /// |背景图样式。
+        /// ||背景图样式。
         /// </summary>
         public ImageStyle background
         {
@@ -232,7 +232,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the sytle of icon.
-        /// |图标样式。
+        /// ||图标样式。
         /// </summary>
         public IconStyle icon
         {
@@ -241,7 +241,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the sytle of text.
-        /// |文本样式。
+        /// ||文本样式。
         /// </summary>
         public TextStyle textStyle
         {

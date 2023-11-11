@@ -16,7 +16,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the width of border line.
-        /// |边框线宽。
+        /// ||边框线宽。
         /// </summary>
         public float borderWidth
         {
@@ -25,7 +25,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the width of data line.
-        /// |数据阴影线宽。
+        /// ||数据阴影线宽。
         /// </summary>
         public float dataLineWidth
         {
@@ -34,7 +34,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the color of dataZoom data area.
-        /// |数据区域颜色。
+        /// ||数据区域颜色。
         /// </summary>
         public Color32 fillerColor
         {
@@ -44,7 +44,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the color of dataZoom border.
-        /// |边框颜色。
+        /// ||边框颜色。
         /// </summary>
         public Color32 borderColor
         {
@@ -53,7 +53,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the color of data area line.
-        /// |数据阴影的线条颜色。
+        /// ||数据阴影的线条颜色。
         /// </summary>
         public Color32 dataLineColor
         {
@@ -62,7 +62,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the color of data area line.
-        /// |数据阴影的填充颜色。
+        /// ||数据阴影的填充颜色。
         /// </summary>
         public Color32 dataAreaColor
         {
@@ -71,7 +71,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the background color of datazoom.
-        /// |背景颜色。
+        /// ||背景颜色。
         /// </summary>
         public Color32 backgroundColor
         {

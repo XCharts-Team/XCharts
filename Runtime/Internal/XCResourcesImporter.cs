@@ -153,7 +153,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Limits the minimum size of the editor window.
-        /// |</summary>
+        /// ||</summary>
         void SetEditorWindowSize()
         {
             EditorWindow editorWindow = this;

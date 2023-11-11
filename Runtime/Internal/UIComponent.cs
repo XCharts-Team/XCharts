@@ -27,7 +27,7 @@ namespace XCharts.Runtime
         public ImageStyle background { get { return m_Background; } set { m_Background = value; color = Color.white; } }
         /// <summary>
         /// Update chart theme.
-        /// |切换内置主题。
+        /// ||切换内置主题。
         /// </summary>
         /// <param name="theme">theme</param>
         public bool UpdateTheme(ThemeType theme)

@@ -47,6 +47,10 @@ namespace XCharts.Example
             {
                 UpdateData();
             }
+            else if (Input.GetKeyDown(KeyCode.C))
+            {
+                chart.ClearData();
+            }
             lastAddTime += Time.deltaTime;
             if (loopAdd && lastAddTime >= loopAddTime)
             {

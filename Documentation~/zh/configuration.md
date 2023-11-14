@@ -1225,7 +1225,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |rotate|||文本的旋转。
 |autoRotate|false|v3.6.0|是否自动旋转。
 |distance|||距离轴线的距离。
-|formatter|||标签内容字符串模版格式器。支持用 \n 换行。 模板变量有： {.}：圆点标记。 {a}：系列名。 {a}：系列名。 {b}：类目值或数据名。 {c}：数据值。 {d}：百分比。 {e}：数据名。 {f}：数据和。 示例：“{b}:{c}”
+|formatter|||标签内容字符串模版格式器。支持用 \n 换行。部分组件的格式器会不生效。<br/> 模板通配符有以下这些，部分只适用于固定的组件：<br/> `{.}`：圆点标记。<br/> `{a}`：系列名。<br/> `{b}`：类目值或数据名。<br/> `{c}`：数据值。<br/> `{d}`：百分比。<br/> `{e}`：数据名。<br/> `{f}`：数据和。<br/> `{g}`：数据总个数。<br/> `{h}`：十六进制颜色值。<br/> `{value}`：坐标轴或图例的值。<br/> 以下通配符适用UITable组件：<br/> `{name}`： 表格的行名。<br/> `{index}`：表格的行号。<br/> 以下通配符适用UIStatistc组件：<br/> `{title}`：标题文本。<br/> `{dd}`：天。<br/> `{hh}`：小时。<br/> `{mm}`：分钟。<br/> `{ss}`：秒。<br/> `{fff}`：毫秒。<br/> `{d}`：天。<br/> `{h}`：小时。<br/> `{m}`：分钟。<br/> `{s}`：秒。<br/> `{f}`：毫秒。<br/> 示例：“{b}:{c}”
 |numericFormatter|||标准数字格式字符串。用于将数值格式化显示为字符串。 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
 |width|0||标签的宽度。一般不用指定，不指定时则自动是文字的宽度。
 |height|0||标签的高度。一般不用指定，不指定时则自动是文字的高度。

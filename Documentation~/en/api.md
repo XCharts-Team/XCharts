@@ -1472,7 +1472,7 @@ Text label of chart, to explain some data information about graphic item like va
 |GetOffset()||public Vector3 GetOffset(float radius)|
 |IsAutoSize()||public bool IsAutoSize()|
 |IsDefaultPosition()||public bool IsDefaultPosition(Position position)|
-|IsInside()||public bool IsInside()|
+|IsInside()||public bool IsInside()<br/>whether the label is inside. |
 |Reset()||public void Reset()|
 
 ## Lang

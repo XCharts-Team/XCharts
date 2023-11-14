@@ -119,23 +119,81 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_Position, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// formatter of label.
-        /// ||标签内容字符串模版格式器。支持用 \n 换行。
-        /// 模板变量有：
-        /// {.}：圆点标记。
-        /// {a}：系列名。
-        /// {a}：系列名。
-        /// {b}：类目值或数据名。
-        /// {c}：数据值。
-        /// {d}：百分比。
-        /// {e}：数据名。
-        /// {f}：数据和。
+        /// label content string template formatter. \n line wrapping is supported. Formatters for some components will not take effect. <br />
+        /// Template placeholder have the following, some of which apply only to fixed components: <br />
+        /// '{.}' : indicates the dot mark. <br />
+        /// '{a}' : indicates the series name. <br />
+        /// '{b}' : category value or data name. <br />
+        /// '{c}' : data value. <br />
+        /// '{d}' : percentage. <br />
+        /// '{e}' : indicates the data name. <br />
+        /// '{f}' : data sum. <br />
+        /// '{g}' : indicates the total number of data. <br />
+        /// '{h}' : hexadecimal color value. <br />
+        /// '{value}' : The value of the axis or legend. <br />
+        /// The following placeholder apply to `UITable` components: <br />
+        /// '{name}' : indicates the row name of the table. <br />
+        /// '{index}' : indicates the row number of the table. <br />
+        /// The following placeholder apply to `UIStatistc` components: <br />
+        /// '{title}' : title text. <br />
+        /// '{dd}' : day. <br />
+        /// '{hh}' : hours. <br />
+        /// '{mm}' : minutes. <br />
+        /// '{ss}' : second. <br />
+        /// '{fff}' : milliseconds. <br />
+        /// '{d}' : day. <br />
+        /// '{h}' : hours. <br />
+        /// '{m}' : minutes. <br />
+        /// '{s}' : second. <br />
+        /// '{f}' : milliseconds. <br />
+        /// Example :{b}:{c}<br />
+        /// ||标签内容字符串模版格式器。支持用 \n 换行。部分组件的格式器会不生效。<br/>
+        /// 模板通配符有以下这些，部分只适用于固定的组件：<br/>
+        /// `{.}`：圆点标记。<br/>
+        /// `{a}`：系列名。<br/>
+        /// `{b}`：类目值或数据名。<br/>
+        /// `{c}`：数据值。<br/>
+        /// `{d}`：百分比。<br/>
+        /// `{e}`：数据名。<br/>
+        /// `{f}`：数据和。<br/>
+        /// `{g}`：数据总个数。<br/>
+        /// `{h}`：十六进制颜色值。<br/> 
+        /// `{value}`：坐标轴或图例的值。<br/>
+        /// 以下通配符适用UITable组件：<br/>
+        /// `{name}`： 表格的行名。<br/>
+        /// `{index}`：表格的行号。<br/>
+        /// 以下通配符适用UIStatistc组件：<br/>
+        /// `{title}`：标题文本。<br/>
+        /// `{dd}`：天。<br/>
+        /// `{hh}`：小时。<br/>
+        /// `{mm}`：分钟。<br/>
+        /// `{ss}`：秒。<br/>
+        /// `{fff}`：毫秒。<br/>
+        /// `{d}`：天。<br/>
+        /// `{h}`：小时。<br/>
+        /// `{m}`：分钟。<br/>
+        /// `{s}`：秒。<br/>
+        /// `{f}`：毫秒。<br/>
         /// 示例：“{b}:{c}”
         /// </summary>
         public string formatter
         {
             get { return m_Formatter; }
             set { if (PropertyUtil.SetClass(ref m_Formatter, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// Standard numeric format string. Used to format numeric values and display them as strings.
+        /// Use the Axx format: A is a single-character format specifier that supports C currency, D decimal, E exponent, F fixed-point number, G regular, N number, P percentage, R round trip, and X hexadecimal. xx is precision specification, from 0-99.
+        /// reference: https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
+        /// ||标准数字格式字符串。用于将数值格式化显示为字符串。
+        /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
+        /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
+        /// </summary>
+        /// <value></value>
+        public string numericFormatter
+        {
+            get { return m_NumericFormatter; }
+            set { if (PropertyUtil.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// offset to the host graphic element.
@@ -165,7 +223,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_AutoRotate, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// 距离轴线的距离。
+        /// the distance of label to axis line.
+        /// ||距离轴线的距离。
         /// </summary>
         public float distance
         {
@@ -202,19 +261,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetClass(ref m_TextPadding, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// Standard numeric format strings.
-        /// ||标准数字格式字符串。用于将数值格式化显示为字符串。
-        /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
-        /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
-        /// </summary>
-        /// <value></value>
-        public string numericFormatter
-        {
-            get { return m_NumericFormatter; }
-            set { if (PropertyUtil.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// 是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。
+        /// Whether to automatically offset. When turned on, the Y offset will automatically determine the opening of the curve to determine whether to offset up or down.
+        /// ||是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。
         /// </summary>
         public bool autoOffset
         {
@@ -248,12 +296,19 @@ namespace XCharts.Runtime
             get { return m_TextStyle; }
             set { if (PropertyUtil.SetClass(ref m_TextStyle, value)) SetAllDirty(); }
         }
+        /// <summary>
+        /// the formatter function of label, which supports string template and callback function.
+        /// ||标签的文本格式化函数，支持字符串模版和回调函数。
+        /// </summary>
         public LabelFormatterFunction formatterFunction
         {
             get { return m_FormatterFunction; }
             set { m_FormatterFunction = value; }
         }
-
+        /// <summary>
+        /// whether the label is inside.
+        /// ||是否在内部。
+        /// </summary>
         public bool IsInside()
         {
             return m_Position == Position.Inside || m_Position == Position.Center;

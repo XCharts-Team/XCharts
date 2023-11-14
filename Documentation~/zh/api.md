@@ -1472,7 +1472,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |GetOffset()||public Vector3 GetOffset(float radius)|
 |IsAutoSize()||public bool IsAutoSize()|
 |IsDefaultPosition()||public bool IsDefaultPosition(Position position)|
-|IsInside()||public bool IsInside()|
+|IsInside()||public bool IsInside()<br/>是否在内部。 |
 |Reset()||public void Reset()|
 
 ## Lang

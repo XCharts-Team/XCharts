@@ -121,31 +121,31 @@ namespace XCharts.Runtime
         /// <summary>
         /// label content string template formatter. \n line wrapping is supported. Formatters for some components will not take effect. <br />
         /// Template placeholder have the following, some of which apply only to fixed components: <br />
-        /// '{.}' : indicates the dot mark. <br />
-        /// '{a}' : indicates the series name. <br />
-        /// '{b}' : category value or data name. <br />
-        /// '{c}' : data value. <br />
-        /// '{d}' : percentage. <br />
-        /// '{e}' : indicates the data name. <br />
-        /// '{f}' : data sum. <br />
-        /// '{g}' : indicates the total number of data. <br />
-        /// '{h}' : hexadecimal color value. <br />
-        /// '{value}' : The value of the axis or legend. <br />
+        /// `{.}` : indicates the dot mark. <br />
+        /// `{a}` : indicates the series name. <br />
+        /// `{b}` : category value or data name. <br />
+        /// `{c}` : data value. <br />
+        /// `{d}` : percentage. <br />
+        /// `{e}` : indicates the data name. <br />
+        /// `{f}` : data sum. <br />
+        /// `{g}` : indicates the total number of data. <br />
+        /// `{h}` : hexadecimal color value. <br />
+        /// `{value}` : The value of the axis or legend. <br />
         /// The following placeholder apply to `UITable` components: <br />
-        /// '{name}' : indicates the row name of the table. <br />
-        /// '{index}' : indicates the row number of the table. <br />
+        /// `{name}` : indicates the row name of the table. <br />
+        /// `{index}` : indicates the row number of the table. <br />
         /// The following placeholder apply to `UIStatistc` components: <br />
-        /// '{title}' : title text. <br />
-        /// '{dd}' : day. <br />
-        /// '{hh}' : hours. <br />
-        /// '{mm}' : minutes. <br />
-        /// '{ss}' : second. <br />
-        /// '{fff}' : milliseconds. <br />
-        /// '{d}' : day. <br />
-        /// '{h}' : hours. <br />
-        /// '{m}' : minutes. <br />
-        /// '{s}' : second. <br />
-        /// '{f}' : milliseconds. <br />
+        /// `{title}` : title text. <br />
+        /// `{dd}` : day. <br />
+        /// `{hh}` : hours. <br />
+        /// `{mm}` : minutes. <br />
+        /// `{ss}` : second. <br />
+        /// `{fff}` : milliseconds. <br />
+        /// `{d}` : day. <br />
+        /// `{h}` : hours. <br />
+        /// `{m}` : minutes. <br />
+        /// `{s}` : second. <br />
+        /// `{f}` : milliseconds. <br />
         /// Example :{b}:{c}<br />
         /// ||标签内容字符串模版格式器。支持用 \n 换行。部分组件的格式器会不生效。<br/>
         /// 模板通配符有以下这些，部分只适用于固定的组件：<br/>

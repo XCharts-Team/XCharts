@@ -99,7 +99,7 @@ XCharts经过不断的迭代优化，目前已有多达几十种的主组件和�
 
 给`gameObject`挂上`LineChart`脚本：
 
-```C#
+```csharp
 var chart = gameObject.GetComponent<LineChart>();
 if (chart == null)
 {
@@ -110,20 +110,20 @@ if (chart == null)
 
 调整大小：
 
-```C#
+```csharp
 chart.SetSize(580, 300);//代码动态设置尺寸，或直接操作chart.rectTransform，或直接在Inspector上改
 ```
 
 设置标题：
 
-```C#
+```csharp
 var title = chart.EnsureChartComponent<Title>();
 title.text = "Simple Line";
 ```
 
 设置提示框和图例是否显示：
 
-```C#
+```csharp
 var tooltip = chart.EnsureChartComponent<Tooltip>();
 tooltip.show = true;
 
@@ -133,7 +133,7 @@ legend.show = false;
 
 设置坐标轴：
 
-```C#
+```csharp
 var xAxis = chart.EnsureChartComponent<XAxis>();
 xAxis.splitNumber = 10;
 xAxis.boundaryGap = true;
@@ -145,14 +145,14 @@ yAxis.type =  Axis.AxisType.Value;
 
 清空默认数据，添加`Line`类型的`Serie`用于接收数据：
 
-```C#
+```csharp
 chart.RemoveData();
 chart.AddSerie<Line>("line");
 ```
 
 添加10个数据：
 
-```C#
+```csharp
 for (int i = 0; i < 10; i++)
 {
     chart.AddXAxisData("x" + i);
@@ -214,7 +214,7 @@ XCharts支持TextMeshPro，但默认是不开启的，需要自己手动切换�
 
 需要先获取组件，再修改里面的参数：
 
-```C#
+```csharp
 var title = chart.EnsureChartComponent<Title>();
 title.text = "Simple LineChart";
 title.subText = "normal line";
@@ -231,7 +231,7 @@ xAxis.type = Axis.AxisType.Category;
 
 对于新添加的Serie：
 
-```C#
+```csharp
 var serie = chart.AddSerie<Pie>();
 serie.center[0] = 0.5f;
 serie.center[1] = 0.5f;
@@ -243,7 +243,7 @@ serie.roundCap = true;
 
 对于已存在的Serie：
 
-```C#
+```csharp
 var serie = chart.GetSerie<Pie>();
 serie.center[0] = 0.5f;
 serie.center[1] = 0.5f;
@@ -255,7 +255,7 @@ serie.roundCap = true;
 
 给Serie添加额外组件：
 
-```C#
+```csharp
 serie.EnsureComponent<AreaStyle>();
 
 var label = serie1.EnsureComponent<LabelStyle>();
@@ -264,7 +264,7 @@ label.offset = new Vector3(0,20,0);
 
 ### 改数据项SerieData上的参数
 
-```C#
+```csharp
 var serieData = chart.AddData(0, 20);
 //var serieData = serie.GetSerieData(0); //从已有数据中获取
 serieData.radius = 10;

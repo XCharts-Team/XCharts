@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -79,7 +80,6 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_ItemAutoColor = true;
         [SerializeField] private float m_ItemOpacity = 1;
         [SerializeField] private string m_Formatter;
-        [SerializeField] protected string m_NumericFormatter = "";
         [SerializeField] private LabelStyle m_LabelStyle = new LabelStyle();
         [SerializeField] private List<string> m_Data = new List<string>();
         [SerializeField] private List<Sprite> m_Icons = new List<Sprite>();
@@ -181,21 +181,10 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_ItemOpacity, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// Standard numeric format strings.
-        /// ||标准数字格式字符串。用于将数值格式化显示为字符串。
-        /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
-        /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
+        /// No longer used, the use of LabelStyle.formatter instead.
+        /// ||不再使用，使用LabelStyle.formatter代替。
         /// </summary>
-        public string numericFormatter
-        {
-            get { return m_NumericFormatter; }
-            set { if (PropertyUtil.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// Legend content string template formatter. Support for wrapping lines with \n. Template:{value}.
-        /// ||图例内容字符串模版格式器。支持用 \n 换行。
-        /// 模板变量为图例名称 {value}。其他模板变量参考Toolip的itemFormatter。
-        /// </summary>
+        [Obsolete("Use LabelStyle.formatter instead.", false)] 
         public string formatter
         {
             get { return m_Formatter; }

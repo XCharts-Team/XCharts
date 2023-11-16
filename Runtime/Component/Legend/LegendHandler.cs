@@ -42,8 +42,10 @@ namespace XCharts.Runtime
 
         public override void OnSerieDataUpdate(int serieIndex)
         {
-            if (FormatterHelper.NeedFormat(component.formatter))
+#pragma warning disable 0618
+            if (FormatterHelper.NeedFormat(component.formatter) || FormatterHelper.NeedFormat(component.labelStyle.formatter))
                 component.refreshComponent();
+#pragma warning restore 0618
         }
 
         private void InitLegend(Legend legend)
@@ -150,16 +152,19 @@ namespace XCharts.Runtime
 
         private string GetFormatterContent(Legend legend, int dataIndex, string category)
         {
-            if (string.IsNullOrEmpty(legend.formatter))
+#pragma warning disable 0618
+            if (string.IsNullOrEmpty(legend.formatter) || string.IsNullOrEmpty(legend.labelStyle.formatter))
                 return category;
             else
             {
-                var content = legend.formatter.Replace("{name}", category);
+                var formatter = string.IsNullOrEmpty(legend.labelStyle.formatter) ? legend.formatter : legend.labelStyle.formatter;
+                var content = formatter.Replace("{name}", category);
                 content = content.Replace("{value}", category);
                 var serie = chart.GetSerie(0);
-                FormatterHelper.ReplaceContent(ref content, dataIndex, legend.numericFormatter, serie, chart, category);
+                FormatterHelper.ReplaceContent(ref content, dataIndex, legend.labelStyle.numericFormatter, serie, chart, category);
                 return content;
             }
+#pragma warning restore 0618
         }
 
         private void OnLegendButtonClick(Legend legend, int index, string legendName, bool show)

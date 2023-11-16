@@ -17,7 +17,6 @@ namespace XCharts.Editor
             PropertyField("m_ItemOpacity");
             PropertyField("m_SelectedMode");
             PropertyField("m_Orient");
-            PropertyField("m_Formatter");
             PropertyField("m_Location");
             PropertyField("m_LabelStyle");
             PropertyField("m_Background");

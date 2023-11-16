@@ -121,7 +121,6 @@ namespace XCharts.Runtime
         /// Data hiding animation configuration.
         /// ||数据隐藏动画配置。
         /// </summary>
-        /// <value></value>
         public AnimationHiding hiding { get { return m_Hiding; } }
         /// <summary>
         /// Interaction animation configuration.

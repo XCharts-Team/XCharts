@@ -181,9 +181,24 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_Position, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// The string template formatter for the tooltip title content. Support for wrapping lines with \n.
-        /// The placeholder {I} can be set separately to indicate that the title is ignored and not displayed.
-        /// Template see itemFormatter.
+        /// String template formatter for tooltip title content. \n line wrapping is supported. The placeholder {i} can be set separately to indicate that title is ignored and not displayed.
+        /// Template variables are {.}, {a}, {b}, {c}, {d}, {e}, {f}, and {g}. <br />
+        /// {.} is the dot of the corresponding color of serie currently indicated or index 0. <br />
+        /// {a} is the series name name of serie currently indicated or index 0. <br />
+        /// {b} is the name of the serie data item serieData currently indicated or index 0, or the category value (such as the X-axis of a line chart). <br />
+        /// {c} is the value of the serie y-dimension (dimesion is 1) currently indicated or index is 0. <br />
+        /// {d} is the serie y-dimensional (dimesion 1) percentage value of the currently indicated or index 0, note without the % sign. <br />
+        /// {e} is the name of the serie data item serieData currently indicated or whose index is 0. <br />
+        /// {h} is the hexadecimal color value of serieData for the serie data item currently indicated or index 0. <br />
+        /// {f} is the sum of data. <br />
+        /// {g} indicates the total number of data. <br />
+        /// {.1} represents a dot of the corresponding color with serie specified as index 1. <br />
+        /// The 1 in {a1}, {b1}, {c1} represents serie where index is specified as 1. <br />
+        /// {c1:2} represents the third data of the current indicator data item in serie with index 1 (one data item has multiple data, index 2 represents the third data). <br />
+        /// {c1:2-2} represents the third data of serie third data item with index 1 (that is, the number of data items must be specified when specifying the number of data items). <br />
+        /// {d1:2:f2} indicates that a format string with a single value is f2 (numericFormatter is used if no value is specified). <br />
+        /// {d:0.##} indicates that the format string with a value specified alone is 0.## # (for percentages, preserving a 2-digit significant number while avoiding the "100.00%" situation with f2). <br />
+        /// example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1}, {c1:1-1: f1}"
         /// ||提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符{i}表示忽略不显示title。
         /// 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。<br/>
         /// {.}为当前所指示或index为0的serie的对应颜色的圆点。<br/>
@@ -202,7 +217,6 @@ namespace XCharts.Runtime
         /// {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。<br/>
         /// {d:0.##} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。<br/>
         /// 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}"
-        /// </summary>
         /// </summary>
         public string titleFormatter { get { return m_TitleFormatter; } set { m_TitleFormatter = value; } }
         /// <summary>
@@ -237,10 +251,27 @@ namespace XCharts.Runtime
         /// {c0}表示当前数据项维度为0的数据。<br/>
         /// {c1}表示当前数据项维度为1的数据。<br/>
         /// {d3}表示维度3的数据的百分比。它的分母是默认维度（一般是1维度）数据。<br/>
-        /// |表示多个列的分隔。<br>
+        /// |表示多个列的分隔。<br/>
         /// 示例："{i}", "{.}|{a}|{c}", "{.}|{b}|{c2:f2}"
         /// </summary>
         public string itemFormatter { get { return m_ItemFormatter; } set { m_ItemFormatter = value; } }
+        /// <summary>
+        /// Standard number and date format string. Used to format a Double value or a DateTime date as a string. numericFormatter is used as an argument to either `Double.ToString ()` or `DateTime.ToString()`. <br />
+        /// The number format uses the Axx format: A is a single-character format specifier that supports C currency, D decimal, E exponent, F fixed-point number, G regular, N digit, P percentage, R round trip, and X hexadecimal. xx is precision specification, from 0-99. E.g. F1, E2<br />
+        /// Date format Common date formats are: yyyy year, MM month, dd day, HH hour, mm minute, ss second, fff millisecond. For example: yyyy-MM-dd HH:mm:ss<br />
+        /// number format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/>
+        /// date format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/>
+        /// ||标准数字和日期格式字符串。用于将Double数值或DateTime日期格式化显示为字符串。numericFormatter用来作为Double.ToString()或DateTime.ToString()的参数。<br/>
+        /// 数字格式使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。如：F1, E2<br/>
+        /// 日期格式常见的格式：yyyy年，MM月，dd日，HH时，mm分，ss秒，fff毫秒。如：yyyy-MM-dd HH:mm:ss<br/>
+        /// 数值格式化参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings <br/>
+        /// 日期格式化参考：https://learn.microsoft.com/zh-cn/dotnet/standard/base-types/standard-date-and-time-format-strings
+        /// </summary>
+        public string numericFormatter
+        {
+            get { return m_NumericFormatter; }
+            set { if (PropertyUtil.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
+        }
         /// <summary>
         /// the marker of serie.
         /// ||serie的符号标志。
@@ -266,21 +297,6 @@ namespace XCharts.Runtime
         /// ||最小高度。如若 fixedHeight 设有值，优先取 fixedHeight。
         /// </summary>
         public float minHeight { get { return m_MinHeight; } set { m_MinHeight = value; } }
-        /// <summary>
-        /// Standard numeric format string. Used to format numeric values to display as strings.
-        /// Using 'Axx' form: 'A' is the single character of the format specifier, supporting 'C' currency, 
-        /// 'D' decimal, 'E' exponent, 'F' number of vertices, 'G' regular, 'N' digits, 'P' percentage, 
-        /// 'R' round tripping, 'X' hex etc. 'XX' is the precision specification, from '0' - '99'.
-        /// ||标准数字格式字符串。用于将数值格式化显示为字符串。
-        /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
-        /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
-        /// </summary>
-        /// <value></value>
-        public string numericFormatter
-        {
-            get { return m_NumericFormatter; }
-            set { if (PropertyUtil.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
-        }
         /// <summary>
         /// the text padding of left and right. defaut:5.
         /// ||左右边距。

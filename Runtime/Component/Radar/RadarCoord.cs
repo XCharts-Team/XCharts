@@ -133,7 +133,6 @@ namespace XCharts.Runtime
         /// Radar render type, in which 'Polygon' and 'Circle' are supported.
         /// ||雷达图绘制类型，支持 'Polygon' 和 'Circle'。
         /// </summary>
-        /// <value></value>
         public Shape shape
         {
             get { return m_Shape; }

@@ -42,7 +42,6 @@ namespace XCharts.Runtime
         /// <summary>
         /// 可视化组件的调节三角形边长。
         /// </summary>
-        /// <value></value>
         public float triangeLen
         {
             get { return m_TriangeLen; }

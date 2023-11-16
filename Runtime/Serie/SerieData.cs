@@ -106,7 +106,6 @@ namespace XCharts.Runtime
         /// <summary>
         /// 数据项图例名称。当数据项名称不为空时，图例名称即为系列名称；反之则为索引index。
         /// </summary>
-        /// <value></value>
         public string legendName { get { return string.IsNullOrEmpty(name) ? ChartCached.IntToStr(index) : name; } }
 
         /// <summary>

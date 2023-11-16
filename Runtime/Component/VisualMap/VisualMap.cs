@@ -193,7 +193,6 @@ namespace XCharts.Runtime
         /// ||
         /// 对于连续型数据，自动平均切分成几段，默认为0时自动匹配inRange颜色列表大小。
         /// </summary>
-        /// <value></value>
         public int splitNumber
         {
             get { return m_SplitNumber; }
@@ -277,7 +276,6 @@ namespace XCharts.Runtime
         /// 打开 hoverLink 功能时，鼠标悬浮到 visualMap 组件上时，鼠标位置对应的数值 在 图表中对应的图形元素，会高亮。
         /// 反之，鼠标悬浮到图表中的图形元素上时，在 visualMap 组件的相应位置会有三角提示其所对应的数值。
         /// </summary>
-        /// <value></value>
         public bool hoverLink
         {
             get { return m_HoverLink; }

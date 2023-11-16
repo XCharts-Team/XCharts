@@ -798,7 +798,6 @@ namespace XCharts.Runtime
         /// <summary>
         /// 忽略数据时折线是断开还是连接。默认false为连接。
         /// </summary>
-        /// <value></value>
         public bool ignoreLineBreak
         {
             get { return m_IgnoreLineBreak; }

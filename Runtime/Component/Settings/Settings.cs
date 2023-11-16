@@ -90,7 +90,6 @@ namespace XCharts.Runtime
         /// ||When the area with gradient is filled, the larger the value, the worse the transition effect.
         /// ||曲线平滑度。值越小曲线越平滑，但顶点数也会随之增加。当开启有渐变的区域填充时，数值越大渐变过渡效果越差。
         /// </summary>
-        /// <value></value>
         public float lineSmoothness
         {
             get { return m_LineSmoothness; }
@@ -102,7 +101,6 @@ namespace XCharts.Runtime
         /// the higher the number of vertices. When the area with gradient is filled, the larger the value, the worse the transition effect.
         /// ||线段的分割距离。普通折线图的线是由很多线段组成，段数由该数值决定。值越小段数越多，但顶点数也会随之增加。当开启有渐变的区域填充时，数值越大渐变过渡效果越差。
         /// </summary>
-        /// <value></value>
         public float lineSegmentDistance
         {
             get { return m_LineSegmentDistance; }

@@ -43,7 +43,6 @@ namespace XCharts.Runtime
         /// When this value is set, the left, right, top, and bottom properties will be invalid.
         /// ||网格所属的网格布局组件的索引。默认为-1，表示不属于任何网格布局组件。当设置了该值时，left、right、top、bottom属性将失效。
         /// </summary>
-        /// <value></value>
         public int layoutIndex
         {
             get { return m_LayoutIndex; }

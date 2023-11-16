@@ -109,7 +109,6 @@ namespace XCharts.Runtime
         /// you can use 'sync color to custom' to synchronize the theme color to the custom color. It can also be set manually.
         /// ||是否自定义主题颜色。当设置为true时，可以用‘sync color to custom’同步主题的颜色到自定义颜色。也可以手动设置。
         /// </summary>
-        /// <value></value>
         public bool enableCustomTheme
         {
             get { return m_EnableCustomTheme; }

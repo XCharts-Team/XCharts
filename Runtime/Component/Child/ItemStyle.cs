@@ -214,7 +214,6 @@ namespace XCharts.Runtime
         /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
         /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
         /// </summary>
-        /// <value></value>
         public string numericFormatter
         {
             get { return m_NumericFormatter; }

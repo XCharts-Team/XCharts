@@ -277,7 +277,6 @@ namespace XCharts.Runtime
         /// default theme.
         /// ||默认主题。
         /// </summary>
-        /// <value></value>
         public static void ResetToDefaultTheme(Theme theme)
         {
             theme.themeType = ThemeType.Default;
@@ -303,7 +302,6 @@ namespace XCharts.Runtime
         /// dark theme.
         /// ||暗主题。
         /// </summary>
-        /// <value></value>
         public static void ResetToDarkTheme(Theme theme)
         {
             theme.themeType = ThemeType.Dark;

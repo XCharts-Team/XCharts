@@ -92,7 +92,6 @@ namespace XCharts.Runtime
         /// the anchor of text.
         /// ||Location对应的Anchor锚点
         /// </summary>
-        /// <value></value>
         public TextAnchor runtimeTextAlignment { get { return m_TextAlignment; } }
 
 #if dUI_TextMeshPro

@@ -182,14 +182,17 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetClass(ref m_Formatter, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// Standard numeric format string. Used to format numeric values and display them as strings.
-        /// Use the Axx format: A is a single-character format specifier that supports C currency, D decimal, E exponent, F fixed-point number, G regular, N number, P percentage, R round trip, and X hexadecimal. xx is precision specification, from 0-99.
-        /// reference: https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
-        /// ||标准数字格式字符串。用于将数值格式化显示为字符串。
-        /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
-        /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
+        /// Standard number and date format string. Used to format a Double value or a DateTime date as a string. numericFormatter is used as an argument to either `Double.ToString ()` or `DateTime.ToString()`. <br />
+        /// The number format uses the Axx format: A is a single-character format specifier that supports C currency, D decimal, E exponent, F fixed-point number, G regular, N digit, P percentage, R round trip, and X hexadecimal. xx is precision specification, from 0-99. E.g. F1, E2<br />
+        /// Date format Common date formats are: yyyy year, MM month, dd day, HH hour, mm minute, ss second, fff millisecond. For example: yyyy-MM-dd HH:mm:ss<br />
+        /// number format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/>
+        /// date format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/>
+        /// ||标准数字和日期格式字符串。用于将Double数值或DateTime日期格式化显示为字符串。numericFormatter用来作为Double.ToString()或DateTime.ToString()的参数。<br/>
+        /// 数字格式使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。如：F1, E2<br/>
+        /// 日期格式常见的格式：yyyy年，MM月，dd日，HH时，mm分，ss秒，fff毫秒。如：yyyy-MM-dd HH:mm:ss<br/>
+        /// 数值格式化参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings <br/>
+        /// 日期格式化参考：https://learn.microsoft.com/zh-cn/dotnet/standard/base-types/standard-date-and-time-format-strings
         /// </summary>
-        /// <value></value>
         public string numericFormatter
         {
             get { return m_NumericFormatter; }
@@ -235,7 +238,6 @@ namespace XCharts.Runtime
         /// the width of label. If set as default value 0, it means than the label width auto set as the text width.
         /// ||标签的宽度。一般不用指定，不指定时则自动是文字的宽度。
         /// </summary>
-        /// <value></value>
         public float width
         {
             get { return m_Width; }
@@ -245,7 +247,6 @@ namespace XCharts.Runtime
         /// the height of label. If set as default value 0, it means than the label height auto set as the text height.
         /// ||标签的高度。一般不用指定，不指定时则自动是文字的高度。
         /// </summary>
-        /// <value></value>
         public float height
         {
             get { return m_Height; }
@@ -452,7 +453,14 @@ namespace XCharts.Runtime
             }
             else
             {
-                dateString = dateTime.ToString(numericFormatter);
+                try
+                {
+                    dateString = dateTime.ToString(numericFormatter);
+                }
+                catch
+                {
+                    XLog.Warning("not support datetime formatter:" + numericFormatter);
+                }
             }
             if (!string.IsNullOrEmpty(m_Formatter))
             {

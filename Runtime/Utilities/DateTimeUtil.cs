@@ -19,24 +19,24 @@ namespace XCharts.Runtime
         private static string s_YearDateFormatter = "yyyy";
         //private static string s_MonthDateFormatter = "MM";
         //private static string s_DayDateFormatter = "dd";
-        private static string s_HourDateFormatter = "HH:mm";
-        private static string s_MinuteDateFormatter = "HH:mm";
+        //private static string s_HourDateFormatter = "HH:mm";
+        //private static string s_MinuteDateFormatter = "mm:ss";
         private static string s_SecondDateFormatter = "HH:mm:ss";
-        //private static string s_DateFormatter = "yyyy-MM-dd HH:mm:ss";
+        //private static string s_FullDateFormatter = "yyyy-MM-dd HH:mm:ss";
 
         public static int GetTimestamp()
         {
-            return (int) (DateTime.Now - k_DateTime1970).TotalSeconds;
+            return (int)(DateTime.Now - k_DateTime1970).TotalSeconds;
         }
 
         public static int GetTimestamp(DateTime time)
         {
-            return (int) (time - k_DateTime1970).TotalSeconds;
+            return (int)(time - k_DateTime1970).TotalSeconds;
         }
 
         public static DateTime GetDateTime(int timestamp)
         {
-            long span = ((long) timestamp) * 10000000;
+            long span = ((long)timestamp) * 10000000;
             return k_DateTime1970.Add(new TimeSpan(span));
         }
 
@@ -61,11 +61,11 @@ namespace XCharts.Runtime
             }
             else if (range >= DateTimeUtil.ONE_HOUR * DateTimeUtil.MIN_TIME_SPLIT_NUMBER)
             {
-                dateString = dateTime.ToString(s_HourDateFormatter);
+                dateString = dateTime.ToString(s_SecondDateFormatter);
             }
             else if (range >= DateTimeUtil.ONE_MINUTE * DateTimeUtil.MIN_TIME_SPLIT_NUMBER)
             {
-                dateString = dateTime.ToString(s_MinuteDateFormatter);
+                dateString = dateTime.ToString(s_SecondDateFormatter);
             }
             else
             {

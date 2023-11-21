@@ -37,7 +37,7 @@ namespace XCharts.Runtime
     {
         [SerializeField] private bool m_Show = true;
         [SerializeField] private int m_SerieIndex = 0;
-        [SerializeField][Since("v3.8.2")] private bool m_OnTop = true;
+        [SerializeField][Since("v3.9.0")] private bool m_OnTop = true;
         [SerializeField] private AnimationStyle m_Animation = new AnimationStyle();
         [SerializeField] private List<MarkLineData> m_Data = new List<MarkLineData>();
 

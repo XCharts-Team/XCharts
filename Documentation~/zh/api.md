@@ -236,10 +236,11 @@ slug: /api
 
 ## AngleAxis
 
-> XCharts.Runtime.AngleAxis : [Axis](#axis)
+> class in XCharts.Runtime / 继承自: [Axis](#axis)
+
 极坐标系的角度轴。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |GetValueAngle()||public float GetValueAngle(double value)|
 |GetValueAngle()||public float GetValueAngle(float value)|
@@ -247,43 +248,62 @@ slug: /api
 
 ## AngleAxisTheme
 
-> XCharts.Runtime.AngleAxisTheme : [BaseAxisTheme](#baseaxistheme)
+> class in XCharts.Runtime / 继承自: [BaseAxisTheme](#baseaxistheme)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AngleAxisTheme()||public AngleAxisTheme(ThemeType theme) : base(theme) { }|
 
 ## AnimationAddition
 
-> XCharts.Runtime.AnimationAddition : [AnimationInfo](#animationinfo)
+> class in XCharts.Runtime / 继承自: [AnimationInfo](#animationinfo)
+
+> 从 `v3.8.0` 开始支持
+
 数据新增动画。
 
 ## AnimationChange
 
-> XCharts.Runtime.AnimationChange : [AnimationInfo](#animationinfo)
+> class in XCharts.Runtime / 继承自: [AnimationInfo](#animationinfo)
+
+> 从 `v3.8.0` 开始支持
+
 数据变更动画。
 
 ## AnimationFadeIn
 
-> XCharts.Runtime.AnimationFadeIn : [AnimationInfo](#animationinfo)
+> class in XCharts.Runtime / 继承自: [AnimationInfo](#animationinfo)
+
+> 从 `v3.8.0` 开始支持
+
 淡入动画。
 
 ## AnimationFadeOut
 
-> XCharts.Runtime.AnimationFadeOut : [AnimationInfo](#animationinfo)
+> class in XCharts.Runtime / 继承自: [AnimationInfo](#animationinfo)
+
+> 从 `v3.8.0` 开始支持
+
 淡出动画。
 
 ## AnimationHiding
 
-> XCharts.Runtime.AnimationHiding : [AnimationInfo](#animationinfo)
+> class in XCharts.Runtime / 继承自: [AnimationInfo](#animationinfo)
+
+> 从 `v3.8.0` 开始支持
+
 数据隐藏动画。
 
 ## AnimationInfo
 
-> XCharts.Runtime.AnimationInfo / Subclasses: [AnimationFadeIn](#animationfadein),[AnimationFadeOut](#animationfadeout),[AnimationChange](#animationchange),[AnimationAddition](#animationaddition),[AnimationHiding](#animationhiding),[AnimationInteraction](#animationinteraction) 
+> class in XCharts.Runtime / 子类: [AnimationFadeIn](#animationfadein),[AnimationFadeOut](#animationfadeout),[AnimationChange](#animationchange),[AnimationAddition](#animationaddition),[AnimationHiding](#animationhiding),[AnimationInteraction](#animationinteraction) 
+
+> 从 `v3.8.0` 开始支持
+
 动画配置参数。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |End()||public void End()<br/>结束动画。 |
 |GetIndexDelay()||public float GetIndexDelay(int dataIndex)<br/>获取动画延迟。 |
@@ -298,14 +318,18 @@ slug: /api
 
 ## AnimationInfoContext
 
-> XCharts.Runtime.AnimationInfoContext
+> class in XCharts.Runtime
+
 
 ## AnimationInteraction
 
-> XCharts.Runtime.AnimationInteraction : [AnimationInfo](#animationinfo)
+> class in XCharts.Runtime / 继承自: [AnimationInfo](#animationinfo)
+
+> 从 `v3.8.0` 开始支持
+
 交互动画。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |GetOffset()||public float GetOffset()|
 |GetOffset()||public float GetOffset(float total)|
@@ -314,10 +338,11 @@ slug: /api
 
 ## AnimationStyle
 
-> XCharts.Runtime.AnimationStyle : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
 动画组件，用于控制图表的动画播放。支持配置五种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画），Interaction（交互动画）。 按作用的对象可以分为两类：SerieAnimation（系列动画）和DataAnimation（数据动画）。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |Addition()||public void Addition()<br/>开始数据新增动画。 |
 |CanCheckInteract()||public bool CanCheckInteract()|
@@ -353,9 +378,10 @@ slug: /api
 
 ## AnimationStyleHelper
 
-> XCharts.Runtime.AnimationStyleHelper
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |CheckDataAnimation()||public static float CheckDataAnimation(BaseChart chart, Serie serie, int dataIndex, float destProgress, float startPorgress = 0)|
 |GetAnimationPosition()||public static bool GetAnimationPosition(AnimationStyle animation, bool isY, Vector3 lp, Vector3 cp, float progress, ref Vector3 ip)|
@@ -364,19 +390,21 @@ slug: /api
 
 ## AreaStyle
 
-> XCharts.Runtime.AreaStyle : [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+
 区域填充样式。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |GetColor()||public Color32 GetColor()|
 |GetColor()||public Color32 GetColor(Color32 themeColor)|
 
 ## ArrowStyle
 
-> XCharts.Runtime.ArrowStyle : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |Clone()||public ArrowStyle Clone()|
 |Copy()||public void Copy(ArrowStyle arrow)|
@@ -384,10 +412,11 @@ slug: /api
 
 ## Axis
 
-> XCharts.Runtime.Axis : [MainComponent](#maincomponent) / Subclasses: [AngleAxis](#angleaxis),[ParallelAxis](#parallelaxis),[RadiusAxis](#radiusaxis),[SingleAxis](#singleaxis),[XAxis](#xaxis),[YAxis](#yaxis) 
+> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent) / 子类: [AngleAxis](#angleaxis),[ParallelAxis](#parallelaxis),[RadiusAxis](#radiusaxis),[SingleAxis](#singleaxis),[XAxis](#xaxis),[YAxis](#yaxis) 
+
 直角坐标系的坐标轴组件。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |AddData()||public void AddData(string category)<br/>添加一个类目到类目数据列表 |
 |AddIcon()||public void AddIcon(Sprite icon)<br/>添加图标 |
@@ -424,17 +453,20 @@ slug: /api
 
 ## AxisContext
 
-> XCharts.Runtime.AxisContext : [MainComponentContext](#maincomponentcontext)
+> class in XCharts.Runtime / 继承自: [MainComponentContext](#maincomponentcontext)
+
 
 ## AxisHandler&lt;T&gt;
 
-> XCharts.AxisHandler&lt;T&gt; : [MainComponentHandler](#maincomponenthandler)
+> class in XCharts / 继承自: [MainComponentHandler](#maincomponenthandler)
+
 
 ## AxisHelper
 
-> XCharts.Runtime.AxisHelper
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AdjustCircleLabelPos()||public static void AdjustCircleLabelPos(ChartLabel txt, Vector3 pos, Vector3 cenPos, float txtHig, Vector3 offset)|
 |AdjustMinMaxValue()||public static void AdjustMinMaxValue(Axis axis, ref double minValue, ref double maxValue, bool needFormat, double ceilRate = 0)<br/>调整最大最小值 |
@@ -460,10 +492,11 @@ slug: /api
 
 ## AxisLabel
 
-> XCharts.Runtime.AxisLabel : [LabelStyle](#labelstyle)
+> class in XCharts.Runtime / 继承自: [LabelStyle](#labelstyle)
+
 坐标轴刻度标签的相关设置。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |ClearComponentDirty()||public override void ClearComponentDirty()|
 |Clone()||public new AxisLabel Clone()|
@@ -475,20 +508,24 @@ slug: /api
 
 ## AxisLine
 
-> XCharts.Runtime.AxisLine : [BaseLine](#baseline)
+> class in XCharts.Runtime / 继承自: [BaseLine](#baseline)
+
 坐标轴轴线。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |Clone()||public AxisLine Clone()|
 |Copy()||public void Copy(AxisLine axisLine)|
 
 ## AxisMinorSplitLine
 
-> XCharts.Runtime.AxisMinorSplitLine : [BaseLine](#baseline)
+> class in XCharts.Runtime / 继承自: [BaseLine](#baseline)
+
+> 从 `v3.2.0` 开始支持
+
 坐标轴在 grid 区域中的次分隔线。次分割线会对齐次刻度线 minorTick。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |ClearVerticesDirty()||public override void ClearVerticesDirty()|
 |Clone()||public AxisMinorSplitLine Clone()|
@@ -496,10 +533,13 @@ slug: /api
 
 ## AxisMinorTick
 
-> XCharts.Runtime.AxisMinorTick : [BaseLine](#baseline)
+> class in XCharts.Runtime / 继承自: [BaseLine](#baseline)
+
+> 从 `v3.2.0` 开始支持
+
 坐标轴次刻度相关设置。注意：次刻度无法在类目轴中使用。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |ClearVerticesDirty()||public override void ClearVerticesDirty()|
 |Clone()||public AxisMinorTick Clone()|
@@ -507,20 +547,22 @@ slug: /api
 
 ## AxisName
 
-> XCharts.Runtime.AxisName : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
 坐标轴名称。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |Clone()||public AxisName Clone()|
 |Copy()||public void Copy(AxisName axisName)|
 
 ## AxisSplitArea
 
-> XCharts.Runtime.AxisSplitArea : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
 坐标轴在 grid 区域中的分隔区域，默认不显示。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |Clone()||public AxisSplitArea Clone()|
 |Copy()||public void Copy(AxisSplitArea splitArea)|
@@ -528,10 +570,11 @@ slug: /api
 
 ## AxisSplitLine
 
-> XCharts.Runtime.AxisSplitLine : [BaseLine](#baseline)
+> class in XCharts.Runtime / 继承自: [BaseLine](#baseline)
+
 坐标轴在 grid 区域中的分隔线。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |ClearVerticesDirty()||public override void ClearVerticesDirty()|
 |Clone()||public AxisSplitLine Clone()|
@@ -539,58 +582,65 @@ slug: /api
 
 ## AxisTheme
 
-> XCharts.Runtime.AxisTheme : [BaseAxisTheme](#baseaxistheme)
+> class in XCharts.Runtime / 继承自: [BaseAxisTheme](#baseaxistheme)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AxisTheme()||public AxisTheme(ThemeType theme) : base(theme) { }|
 
 ## AxisTick
 
-> XCharts.Runtime.AxisTick : [BaseLine](#baseline)
+> class in XCharts.Runtime / 继承自: [BaseLine](#baseline)
+
 坐标轴刻度相关设置。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |Clone()||public AxisTick Clone()|
 |Copy()||public void Copy(AxisTick axisTick)|
 
 ## Background
 
-> XCharts.Runtime.Background : [MainComponent](#maincomponent)
+> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent)
+
 背景组件。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |SetDefaultValue()||public override void SetDefaultValue()|
 
 ## Bar
 
-> XCharts.Runtime.Bar : [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
+> class in XCharts.Runtime / 继承自: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AddDefaultSerie()||public static Serie AddDefaultSerie(BaseChart chart, string serieName)|
 |ConvertSerie()||public static Bar ConvertSerie(Serie serie)|
 
 ## BarChart
 
-> XCharts.Runtime.BarChart : [BaseChart](#basechart)
+> class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
+
 
 ## BaseAxisTheme
 
-> XCharts.Runtime.BaseAxisTheme : [ComponentTheme](#componenttheme) / Subclasses: [AxisTheme](#axistheme),[RadiusAxisTheme](#radiusaxistheme),[AngleAxisTheme](#angleaxistheme),[PolarAxisTheme](#polaraxistheme),[RadarAxisTheme](#radaraxistheme) 
+> class in XCharts.Runtime / 继承自: [ComponentTheme](#componenttheme) / 子类: [AxisTheme](#axistheme),[RadiusAxisTheme](#radiusaxistheme),[AngleAxisTheme](#angleaxistheme),[PolarAxisTheme](#polaraxistheme),[RadarAxisTheme](#radaraxistheme) 
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |BaseAxisTheme()||public BaseAxisTheme(ThemeType theme) : base(theme)|
 |Copy()||public void Copy(BaseAxisTheme theme)|
 
 ## BaseChart
 
-> XCharts.Runtime.BaseChart : [BaseGraph](#basegraph),[ISerializationCallbackReceiver](https://docs.unity3d.com/ScriptReference/30_search.html?q=iserializationcallbackreceiver) / Subclasses: [BarChart](#barchart),[CandlestickChart](#candlestickchart),[HeatmapChart](#heatmapchart),[LineChart](#linechart),[ParallelChart](#parallelchart),[PieChart](#piechart),[PolarChart](#polarchart),[RadarChart](#radarchart),[RingChart](#ringchart),[ScatterChart](#scatterchart),[SimplifiedBarChart](#simplifiedbarchart),[SimplifiedCandlestickChart](#simplifiedcandlestickchart),[SimplifiedLineChart](#simplifiedlinechart) 
+> class in XCharts.Runtime / 继承自: [BaseGraph](#basegraph),[ISerializationCallbackReceiver](https://docs.unity3d.com/ScriptReference/30_search.html?q=iserializationcallbackreceiver) / 子类: [BarChart](#barchart),[CandlestickChart](#candlestickchart),[HeatmapChart](#heatmapchart),[LineChart](#linechart),[ParallelChart](#parallelchart),[PieChart](#piechart),[PolarChart](#polarchart),[RadarChart](#radarchart),[RingChart](#ringchart),[ScatterChart](#scatterchart),[SimplifiedBarChart](#simplifiedbarchart),[SimplifiedCandlestickChart](#simplifiedcandlestickchart),[SimplifiedLineChart](#simplifiedlinechart) 
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |onAxisPointerValueChanged||public Action&lt;Axis, double&gt; onAxisPointerValueChanged<br/>坐标轴变更数据索引时回调。参数：axis, dataIndex/dataValue |
 |onDraw||public Action&lt;VertexHelper&gt; onDraw<br/>自定义绘制回调。在绘制Serie前调用。 |
@@ -779,9 +829,10 @@ slug: /api
 
 ## BaseGraph
 
-> XCharts.Runtime.BaseGraph : [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic),[IPointerDownHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=ipointerdownhandler),[IPointerUpHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=ipointeruphandler),[](#) / Subclasses: [BaseChart](#basechart),[UIComponent](#uicomponent) 
+> class in XCharts.Runtime / 继承自: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic),[IPointerDownHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=ipointerdownhandler),[IPointerUpHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=ipointeruphandler),[](#) / 子类: [BaseChart](#basechart),[UIComponent](#uicomponent) 
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |onBeginDrag||public Action&lt;PointerEventData, BaseGraph&gt; onBeginDrag<br/>鼠标开始拖拽回调。 |
 |onDrag||public Action&lt;PointerEventData, BaseGraph&gt; onDrag<br/>鼠标拖拽回调。 |
@@ -814,10 +865,11 @@ slug: /api
 
 ## BaseLine
 
-> XCharts.Runtime.BaseLine : [ChildComponent](#childcomponent) / Subclasses: [AxisLine](#axisline),[AxisMinorSplitLine](#axisminorsplitline),[AxisMinorTick](#axisminortick),[AxisSplitLine](#axissplitline),[AxisTick](#axistick) 
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent) / 子类: [AxisLine](#axisline),[AxisMinorSplitLine](#axisminorsplitline),[AxisMinorTick](#axisminortick),[AxisSplitLine](#axissplitline),[AxisTick](#axistick) 
+
 线条基础配置。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |BaseLine()||public BaseLine()|
 |BaseLine()||public BaseLine(bool show) : base()|
@@ -829,13 +881,15 @@ slug: /api
 
 ## BaseScatter
 
-> XCharts.Runtime.BaseScatter : [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer) / Subclasses: [EffectScatter](#effectscatter),[Scatter](#scatter) 
+> class in XCharts.Runtime / 继承自: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer) / 子类: [EffectScatter](#effectscatter),[Scatter](#scatter) 
+
 
 ## BaseSerie
 
-> XCharts.Runtime.BaseSerie / Subclasses: [Serie](#serie) 
+> class in XCharts.Runtime / 子类: [Serie](#serie) 
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |ClearComponentDirty()||public static void ClearComponentDirty(ChildComponent component)|
 |ClearComponentDirty()||public virtual void ClearComponentDirty()|
@@ -856,35 +910,42 @@ slug: /api
 
 ## BlurStyle
 
-> XCharts.Runtime.BlurStyle : [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> class in XCharts.Runtime / 继承自: [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+
+> 从 `v3.2.0` 开始支持
+
 淡出状态样式。
 
 ## CalendarCoord
 
-> XCharts.Runtime.CalendarCoord : [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
+> class in XCharts.Runtime / 继承自: [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |IsPointerEnter()||public bool IsPointerEnter()|
 |UpdateRuntimeData()||public void UpdateRuntimeData(BaseChart chart)|
 
 ## Candlestick
 
-> XCharts.Runtime.Candlestick : [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
+> class in XCharts.Runtime / 继承自: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AddDefaultSerie()||public static Serie AddDefaultSerie(BaseChart chart, string serieName)|
 
 ## CandlestickChart
 
-> XCharts.Runtime.CandlestickChart : [BaseChart](#basechart)
+> class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
+
 
 ## ChartCached
 
-> XCharts.Runtime.ChartCached
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |ColorToDotStr()||public static string ColorToDotStr(Color color)|
 |ColorToStr()||public static string ColorToStr(Color color)|
@@ -895,17 +956,20 @@ slug: /api
 
 ## ChartConst
 
-> XCharts.Runtime.ChartConst
+> class in XCharts.Runtime
+
 
 ## ChartDrawer
 
-> XCharts.Runtime.ChartDrawer
+> class in XCharts.Runtime
+
 
 ## ChartHelper
 
-> XCharts.Runtime.ChartHelper
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |ActiveAllObject()||public static void ActiveAllObject(Transform parent, bool active, string match = null)|
 |AddIcon()||public static Image AddIcon(string name, Transform parent, IconStyle iconStyle)|
@@ -972,9 +1036,10 @@ slug: /api
 
 ## ChartLabel
 
-> XCharts.Runtime.ChartLabel : [Image](https://docs.unity3d.com/ScriptReference/30_search.html?q=image)
+> class in XCharts.Runtime / 继承自: [Image](https://docs.unity3d.com/ScriptReference/30_search.html?q=image)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |GetHeight()||public float GetHeight()|
 |GetPosition()||public Vector3 GetPosition()|
@@ -1001,17 +1066,19 @@ slug: /api
 
 ## ChartObject
 
-> XCharts.Runtime.ChartObject
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |Destroy()||public virtual void Destroy()|
 
 ## ChartText
 
-> XCharts.Runtime.ChartText
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |ChartText()||public ChartText()|
 |ChartText()||public ChartText(GameObject textParent)|
@@ -1037,18 +1104,20 @@ slug: /api
 
 ## CheckHelper
 
-> XCharts.Runtime.CheckHelper
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |CheckChart()||public static string CheckChart(BaseChart chart)|
 |CheckChart()||public static string CheckChart(BaseGraph chart)|
 
 ## ChildComponent
 
-> XCharts.Runtime.ChildComponent / Subclasses: [AnimationStyle](#animationstyle),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MLValue](#mlvalue),[MarqueeStyle](#marqueestyle),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
+> class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MLValue](#mlvalue),[MarqueeStyle](#marqueestyle),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |ClearComponentDirty()||public static void ClearComponentDirty(ChildComponent component)|
 |ClearComponentDirty()||public virtual void ClearComponentDirty()|
@@ -1063,18 +1132,20 @@ slug: /api
 
 ## ColorUtil
 
-> XCharts.Runtime.ColorUtil
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |GetColor()||public static Color32 GetColor(string hexColorStr)<br/>将字符串颜色值转成Color。 |
 
 ## Comment
 
-> XCharts.Runtime.Comment : [MainComponent](#maincomponent),[IPropertyChanged](#ipropertychanged)
+> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent),[IPropertyChanged](#ipropertychanged)
+
 图表注解组件。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |GetLabelStyle()||public LabelStyle GetLabelStyle(int index)|
 |GetMarkStyle()||public CommentMarkStyle GetMarkStyle(int index)|
@@ -1082,28 +1153,32 @@ slug: /api
 
 ## CommentItem
 
-> XCharts.Runtime.CommentItem : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
 注解项。
 
 ## CommentMarkStyle
 
-> XCharts.Runtime.CommentMarkStyle : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
 注解项区域样式。
 
 ## ComponentHandlerAttribute
 
-> XCharts.Runtime.ComponentHandlerAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+> class in XCharts.Runtime / 继承自: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |ComponentHandlerAttribute()||public ComponentHandlerAttribute(Type handler)|
 |ComponentHandlerAttribute()||public ComponentHandlerAttribute(Type handler, bool allowMultiple)|
 
 ## ComponentHelper
 
-> XCharts.Runtime.ComponentHelper
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |GetAngleAxis()||public static AngleAxis GetAngleAxis(List&lt;MainComponent&gt; components, int polarIndex)|
 |GetRadiusAxis()||public static RadiusAxis GetRadiusAxis(List&lt;MainComponent&gt; components, int polarIndex)|
@@ -1113,9 +1188,10 @@ slug: /api
 
 ## ComponentTheme
 
-> XCharts.Runtime.ComponentTheme : [ChildComponent](#childcomponent) / Subclasses: [BaseAxisTheme](#baseaxistheme),[DataZoomTheme](#datazoomtheme),[LegendTheme](#legendtheme),[SubTitleTheme](#subtitletheme),[TitleTheme](#titletheme),[TooltipTheme](#tooltiptheme),[VisualMapTheme](#visualmaptheme) 
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent) / 子类: [BaseAxisTheme](#baseaxistheme),[DataZoomTheme](#datazoomtheme),[LegendTheme](#legendtheme),[SubTitleTheme](#subtitletheme),[TitleTheme](#titletheme),[TooltipTheme](#tooltiptheme),[VisualMapTheme](#visualmaptheme) 
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |ComponentTheme()||public ComponentTheme(ThemeType theme)|
 |Copy()||public virtual void Copy(ComponentTheme theme)|
@@ -1123,9 +1199,10 @@ slug: /api
 
 ## CoordOptionsAttribute
 
-> XCharts.Runtime.CoordOptionsAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+> class in XCharts.Runtime / 继承自: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |Contains&lt;T&gt;()||public bool Contains&lt;T&gt;() where T : CoordSystem|
 |CoordOptionsAttribute()||public CoordOptionsAttribute(Type coord)|
@@ -1135,15 +1212,17 @@ slug: /api
 
 ## CoordSystem
 
-> XCharts.Runtime.CoordSystem : [MainComponent](#maincomponent) / Subclasses: [RadarCoord](#radarcoord),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[ParallelCoord](#parallelcoord),[PolarCoord](#polarcoord),[SingleAxisCoord](#singleaxiscoord) 
+> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent) / 子类: [RadarCoord](#radarcoord),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[ParallelCoord](#parallelcoord),[PolarCoord](#polarcoord),[SingleAxisCoord](#singleaxiscoord) 
+
 坐标系系统。
 
 ## DataZoom
 
-> XCharts.Runtime.DataZoom : [MainComponent](#maincomponent),[IUpdateRuntimeData](#iupdateruntimedata)
+> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent),[IUpdateRuntimeData](#iupdateruntimedata)
+
 DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息，或者概览数据整体，或者去除离群点的影响。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |GetBackgroundColor()||public Color32 GetBackgroundColor(Color32 themeColor)|
 |GetBorderColor()||public Color32 GetBorderColor(Color32 themeColor)|
@@ -1163,31 +1242,35 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 
 ## DataZoomContext
 
-> XCharts.Runtime.DataZoomContext : [MainComponentContext](#maincomponentcontext)
+> class in XCharts.Runtime / 继承自: [MainComponentContext](#maincomponentcontext)
+
 
 ## DataZoomHelper
 
-> XCharts.Runtime.DataZoomHelper
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |UpdateDataZoomRuntimeStartEndValue()||public static void UpdateDataZoomRuntimeStartEndValue(DataZoom dataZoom, Serie serie)|
 |UpdateDataZoomRuntimeStartEndValue&lt;T&gt;()||public static void UpdateDataZoomRuntimeStartEndValue&lt;T&gt;(BaseChart chart) where T : Serie|
 
 ## DataZoomTheme
 
-> XCharts.Runtime.DataZoomTheme : [ComponentTheme](#componenttheme)
+> class in XCharts.Runtime / 继承自: [ComponentTheme](#componenttheme)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |Copy()||public void Copy(DataZoomTheme theme)|
 |DataZoomTheme()||public DataZoomTheme(ThemeType theme) : base(theme)|
 
 ## DateTimeUtil
 
-> XCharts.Runtime.DateTimeUtil
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |GetDateTime()||public static DateTime GetDateTime(int timestamp)|
 |GetTimestamp()||public static int GetTimestamp()|
@@ -1195,65 +1278,75 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 
 ## DebugInfo
 
-> XCharts.Runtime.DebugInfo
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |Init()||public void Init(BaseChart chart)|
 |Update()||public void Update()|
 
 ## DefaultAnimationAttribute
 
-> XCharts.Runtime.DefaultAnimationAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+> class in XCharts.Runtime / 继承自: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |DefaultAnimationAttribute()||public DefaultAnimationAttribute(AnimationType handler)|
 |DefaultAnimationAttribute()||public DefaultAnimationAttribute(AnimationType handler, bool enableSerieDataAddedAnimation)|
 
 ## DefaultTooltipAttribute
 
-> XCharts.Runtime.DefaultTooltipAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+> class in XCharts.Runtime / 继承自: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |DefaultTooltipAttribute()||public DefaultTooltipAttribute(Tooltip.Type type, Tooltip.Trigger trigger)|
 
 ## DefineSymbolsUtil
 
-> XCharts.Runtime.DefineSymbolsUtil
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AddGlobalDefine()||public static void AddGlobalDefine(string symbol)|
 |RemoveGlobalDefine()||public static void RemoveGlobalDefine(string symbol)|
 
 ## EffectScatter
 
-> XCharts.Runtime.EffectScatter : [BaseScatter](#basescatter)
+> class in XCharts.Runtime / 继承自: [BaseScatter](#basescatter)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AddDefaultSerie()||public static Serie AddDefaultSerie(BaseChart chart, string serieName)|
 
 ## EmphasisStyle
 
-> XCharts.Runtime.EmphasisStyle : [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> class in XCharts.Runtime / 继承自: [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+
+> 从 `v3.2.0` 开始支持
+
 高亮状态样式。
 
 ## EndLabelStyle
 
-> XCharts.Runtime.EndLabelStyle : [LabelStyle](#labelstyle)
+> class in XCharts.Runtime / 继承自: [LabelStyle](#labelstyle)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |EndLabelStyle()||public EndLabelStyle()|
 
 ## FormatterHelper
 
-> XCharts.Runtime.FormatterHelper
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |NeedFormat()||public static bool NeedFormat(string content)|
 |ReplaceAxisLabelContent()||public static void ReplaceAxisLabelContent(ref string content, string numericFormatter, double value)|
@@ -1263,10 +1356,11 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 
 ## GridCoord
 
-> XCharts.Runtime.GridCoord : [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
+> class in XCharts.Runtime / 继承自: [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
+
 Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart can be drawn in grid.
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |BoundaryPoint()||public bool BoundaryPoint(Vector3 sp, Vector3 ep, ref List&lt;Vector3&gt; point)<br/>给定的线段和Grid边界的交点 |
 |BoundaryPoint()||public bool BoundaryPoint(Vector3 sp, Vector3 ep, ref Vector3 point)<br/>给定的线段和Grid边界的交点 |
@@ -1283,38 +1377,46 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## GridCoordContext
 
-> XCharts.Runtime.GridCoordContext : [MainComponentContext](#maincomponentcontext)
+> class in XCharts.Runtime / 继承自: [MainComponentContext](#maincomponentcontext)
+
 
 ## GridLayout
 
-> XCharts.Runtime.GridLayout : [MainComponent](#maincomponent),[IUpdateRuntimeData](#iupdateruntimedata)
+> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent),[IUpdateRuntimeData](#iupdateruntimedata)
+
+> 从 `v3.8.0` 开始支持
+
 网格布局组件。用于管理多个`GridCoord`的布局，可以通过`row`和`column`来控制网格的行列数。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |UpdateRuntimeData()||public void UpdateRuntimeData(BaseChart chart)|
 
 ## GridLayoutContext
 
-> XCharts.Runtime.GridLayoutContext : [MainComponentContext](#maincomponentcontext)
+> class in XCharts.Runtime / 继承自: [MainComponentContext](#maincomponentcontext)
+
 
 ## Heatmap
 
-> XCharts.Runtime.Heatmap : [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
+> class in XCharts.Runtime / 继承自: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AddDefaultSerie()||public static Serie AddDefaultSerie(BaseChart chart, string serieName)|
 
 ## HeatmapChart
 
-> XCharts.Runtime.HeatmapChart : [BaseChart](#basechart)
+> class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
+
 
 ## IconStyle
 
-> XCharts.Runtime.IconStyle : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |Clone()||public IconStyle Clone()|
 |Copy()||public void Copy(IconStyle iconStyle)|
@@ -1322,17 +1424,19 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## IgnoreDoc
 
-> XCharts.Runtime.IgnoreDoc : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+> class in XCharts.Runtime / 继承自: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |IgnoreDoc()||public IgnoreDoc()|
 
 ## ImageStyle
 
-> XCharts.Runtime.ImageStyle : [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |Clone()||public ImageStyle Clone()|
 |Copy()||public void Copy(ImageStyle imageStyle)|
@@ -1340,10 +1444,11 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## Indicator
 
-> XCharts.Runtime.Indicator
+> class in XCharts.Runtime
+
 雷达图的指示器，用来指定雷达图中的多个变量（维度）。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |AddIndicator()||public RadarCoord.Indicator AddIndicator(string name, double min, double max)|
 |AddIndicator()||public void AddIndicator(RadarCoord.Indicator indicator)|
@@ -1364,22 +1469,25 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## INeedSerieContainer
 
-> XCharts.Runtime.INeedSerieContainer / Subclasses: [Bar](#bar),[SimplifiedBar](#simplifiedbar),[Candlestick](#candlestick),[SimplifiedCandlestick](#simplifiedcandlestick),[Heatmap](#heatmap),[Line](#line),[SimplifiedLine](#simplifiedline),[Parallel](#parallel),[Radar](#radar),[BaseScatter](#basescatter) 
+> class in XCharts.Runtime / 子类: [Bar](#bar),[SimplifiedBar](#simplifiedbar),[Candlestick](#candlestick),[SimplifiedCandlestick](#simplifiedcandlestick),[Heatmap](#heatmap),[Line](#line),[SimplifiedLine](#simplifiedline),[Parallel](#parallel),[Radar](#radar),[BaseScatter](#basescatter) 
+
 
 ## InputHelper
 
-> XCharts.Runtime.InputHelper
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |GetKeyDown()||public static bool GetKeyDown(KeyCode keyCode)|
 |GetTouch()||public static Touch GetTouch(int v)|
 
 ## InteractData
 
-> XCharts.Runtime.InteractData
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |Reset()||public void Reset()|
 |SetColor()||public void SetColor(ref bool needInteract, Color32 color)|
@@ -1400,33 +1508,39 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## IPropertyChanged
 
-> XCharts.Runtime.IPropertyChanged / Subclasses: [Location](#location),[Comment](#comment),[Legend](#legend),[Title](#title) 
+> class in XCharts.Runtime / 子类: [Location](#location),[Comment](#comment),[Legend](#legend),[Title](#title) 
+
 属性变更接口
 
 ## ISerieComponent
 
-> XCharts.Runtime.ISerieComponent / Subclasses: [AreaStyle](#areastyle),[ImageStyle](#imagestyle),[LineArrow](#linearrow),[LabelLine](#labelline),[LabelStyle](#labelstyle),[BlurStyle](#blurstyle),[EmphasisStyle](#emphasisstyle),[SelectStyle](#selectstyle),[TitleStyle](#titlestyle) 
+> class in XCharts.Runtime / 子类: [AreaStyle](#areastyle),[ImageStyle](#imagestyle),[LineArrow](#linearrow),[LabelLine](#labelline),[LabelStyle](#labelstyle),[BlurStyle](#blurstyle),[EmphasisStyle](#emphasisstyle),[SelectStyle](#selectstyle),[TitleStyle](#titlestyle) 
+
 可用于Serie的组件。
 
 ## ISerieContainer
 
-> XCharts.Runtime.ISerieContainer / Subclasses: [RadarCoord](#radarcoord),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[ParallelCoord](#parallelcoord),[PolarCoord](#polarcoord) 
+> class in XCharts.Runtime / 子类: [RadarCoord](#radarcoord),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[ParallelCoord](#parallelcoord),[PolarCoord](#polarcoord) 
+
 
 ## ISerieDataComponent
 
-> XCharts.Runtime.ISerieDataComponent / Subclasses: [AreaStyle](#areastyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[LineStyle](#linestyle),[SerieSymbol](#seriesymbol),[LabelLine](#labelline),[LabelStyle](#labelstyle),[BlurStyle](#blurstyle),[EmphasisStyle](#emphasisstyle),[SelectStyle](#selectstyle),[TitleStyle](#titlestyle) 
+> class in XCharts.Runtime / 子类: [AreaStyle](#areastyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[LineStyle](#linestyle),[SerieSymbol](#seriesymbol),[LabelLine](#labelline),[LabelStyle](#labelstyle),[BlurStyle](#blurstyle),[EmphasisStyle](#emphasisstyle),[SelectStyle](#selectstyle),[TitleStyle](#titlestyle) 
+
 可用于SerieData的组件。
 
 ## ISimplifiedSerie
 
-> XCharts.Runtime.ISimplifiedSerie / Subclasses: [SimplifiedBar](#simplifiedbar),[SimplifiedCandlestick](#simplifiedcandlestick),[SimplifiedLine](#simplifiedline) 
+> class in XCharts.Runtime / 子类: [SimplifiedBar](#simplifiedbar),[SimplifiedCandlestick](#simplifiedcandlestick),[SimplifiedLine](#simplifiedline) 
+
 
 ## ItemStyle
 
-> XCharts.Runtime.ItemStyle : [ChildComponent](#childcomponent),[ISerieDataComponent](#iseriedatacomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent),[ISerieDataComponent](#iseriedatacomponent)
+
 图形样式。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |GetBorderColor()||public Color32 GetBorderColor(Color32 defaultColor)|
 |GetBorderColor0()||public Color32 GetBorderColor0(Color32 defaultColor)|
@@ -1443,14 +1557,16 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## IUpdateRuntimeData
 
-> XCharts.Runtime.IUpdateRuntimeData / Subclasses: [SingleAxis](#singleaxis),[DataZoom](#datazoom),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[GridLayout](#gridlayout),[ParallelCoord](#parallelcoord) 
+> class in XCharts.Runtime / 子类: [SingleAxis](#singleaxis),[DataZoom](#datazoom),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[GridLayout](#gridlayout),[ParallelCoord](#parallelcoord) 
+
 
 ## LabelLine
 
-> XCharts.Runtime.LabelLine : [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+
 标签的引导线
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |GetEndSymbolOffset()||public Vector3 GetEndSymbolOffset()|
 |GetStartSymbolOffset()||public Vector3 GetStartSymbolOffset()|
@@ -1458,10 +1574,11 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## LabelStyle
 
-> XCharts.Runtime.LabelStyle : [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent) / Subclasses: [AxisLabel](#axislabel),[EndLabelStyle](#endlabelstyle),[TitleStyle](#titlestyle) 
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent) / 子类: [AxisLabel](#axislabel),[EndLabelStyle](#endlabelstyle),[TitleStyle](#titlestyle) 
+
 图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |Clone()||public virtual LabelStyle Clone()|
 |Copy()||public virtual void Copy(LabelStyle label)|
@@ -1477,10 +1594,11 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## Lang
 
-> XCharts.Runtime.Lang : [ScriptableObject](https://docs.unity3d.com/ScriptReference/30_search.html?q=scriptableobject)
+> class in XCharts.Runtime / 继承自: [ScriptableObject](https://docs.unity3d.com/ScriptReference/30_search.html?q=scriptableobject)
+
 国际化语言表。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |GetCandlestickDimensionName()||public string GetCandlestickDimensionName(int i)|
 |GetDay()||public string GetDay(int day)|
@@ -1488,13 +1606,15 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## LangCandlestick
 
-> XCharts.Runtime.LangCandlestick
+> class in XCharts.Runtime
+
 
 ## LangTime
 
-> XCharts.Runtime.LangTime
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |List&lt;string&gt;()||public List&lt;string&gt; dayOfMonth = new List&lt;string&gt;()|
 |List&lt;string&gt;()||public List&lt;string&gt; dayOfWeek = new List&lt;string&gt;()|
@@ -1504,19 +1624,21 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## LayerHelper
 
-> XCharts.Runtime.LayerHelper
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |IsFixedWidthHeight()||public static bool IsFixedWidthHeight(RectTransform rt)|
 |IsStretchPivot()||public static bool IsStretchPivot(RectTransform rt)|
 
 ## Legend
 
-> XCharts.Runtime.Legend : [MainComponent](#maincomponent),[IPropertyChanged](#ipropertychanged)
+> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent),[IPropertyChanged](#ipropertychanged)
+
 图例组件。 图例组件展现了不同系列的标记，颜色和名字。可以通过点击图例控制哪些系列不显示。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |AddData()||public void AddData(string name)<br/>添加图例。 |
 |ClearComponentDirty()||public override void ClearComponentDirty()|
@@ -1536,13 +1658,15 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## LegendContext
 
-> XCharts.Runtime.LegendContext : [MainComponentContext](#maincomponentcontext)
+> class in XCharts.Runtime / 继承自: [MainComponentContext](#maincomponentcontext)
+
 
 ## LegendHelper
 
-> XCharts.Runtime.LegendHelper
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |CheckDataHighlighted()||public static int CheckDataHighlighted(Serie serie, string legendName, bool heighlight)|
 |CheckDataShow()||public static bool CheckDataShow(Serie serie, string legendName, bool show)|
@@ -1553,9 +1677,10 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## LegendItem
 
-> XCharts.Runtime.LegendItem
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |GetIconColor()||public Color GetIconColor()|
 |GetIconRect()||public Rect GetIconRect()|
@@ -1578,44 +1703,51 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## LegendTheme
 
-> XCharts.Runtime.LegendTheme : [ComponentTheme](#componenttheme)
+> class in XCharts.Runtime / 继承自: [ComponentTheme](#componenttheme)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |Copy()||public void Copy(LegendTheme theme)|
 |LegendTheme()||public LegendTheme(ThemeType theme) : base(theme)|
 
 ## Level
 
-> XCharts.Runtime.Level : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
 
 ## LevelStyle
 
-> XCharts.Runtime.LevelStyle : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
 
 ## Line
 
-> XCharts.Runtime.Line : [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
+> class in XCharts.Runtime / 继承自: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AddDefaultSerie()||public static Serie AddDefaultSerie(BaseChart chart, string serieName)|
 |ConvertSerie()||public static Line ConvertSerie(Serie serie)|
 
 ## LineArrow
 
-> XCharts.Runtime.LineArrow : [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent),[ISerieComponent](#iseriecomponent)
+
 
 ## LineChart
 
-> XCharts.Runtime.LineChart : [BaseChart](#basechart)
+> class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
+
 
 ## LineStyle
 
-> XCharts.Runtime.LineStyle : [ChildComponent](#childcomponent),[ISerieDataComponent](#iseriedatacomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent),[ISerieDataComponent](#iseriedatacomponent)
+
 线条样式。 注： 修改 lineStyle 中的颜色不会影响图例颜色，如果需要图例颜色和折线图颜色一致，需修改 itemStyle.color，线条颜色默认也会取该颜色。 toColor，toColor2可设置水平方向的渐变，如需要设置垂直方向的渐变，可使用VisualMap。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |Clone()||public LineStyle Clone()|
 |Copy()||public void Copy(LineStyle lineStyle)|
@@ -1634,34 +1766,38 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## ListFor
 
-> XCharts.Runtime.ListFor : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute) / Subclasses: [ListForComponent](#listforcomponent),[ListForSerie](#listforserie) 
+> class in XCharts.Runtime / 继承自: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute) / 子类: [ListForComponent](#listforcomponent),[ListForSerie](#listforserie) 
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |ListFor()||public ListFor(Type type)|
 
 ## ListForComponent
 
-> XCharts.Runtime.ListForComponent : [ListFor](#listfor)
+> class in XCharts.Runtime / 继承自: [ListFor](#listfor)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |ListForComponent()||public ListForComponent(Type type) : base(type)|
 
 ## ListForSerie
 
-> XCharts.Runtime.ListForSerie : [ListFor](#listfor)
+> class in XCharts.Runtime / 继承自: [ListFor](#listfor)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |ListForSerie()||public ListForSerie(Type type) : base(type)|
 
 ## Location
 
-> XCharts.Runtime.Location : [ChildComponent](#childcomponent),[IPropertyChanged](#ipropertychanged)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent),[IPropertyChanged](#ipropertychanged)
+
 位置类型。通过Align快速设置大体位置，再通过left，right，top，bottom微调具体位置。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |GetPosition()||public Vector3 GetPosition(float chartWidth, float chartHeight)<br/>返回在坐标系中的具体位置 |
 |IsBottom()||public bool IsBottom()|
@@ -1672,9 +1808,10 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## MainComponent
 
-> XCharts.Runtime.MainComponent : [IComparable](https://docs.unity3d.com/ScriptReference/30_search.html?q=icomparable) / Subclasses: [Axis](#axis),[Background](#background),[Comment](#comment),[DataZoom](#datazoom),[Legend](#legend),[MarkArea](#markarea),[MarkLine](#markline),[Settings](#settings),[Title](#title),[Tooltip](#tooltip),[VisualMap](#visualmap),[GridLayout](#gridlayout),[CoordSystem](#coordsystem) 
+> class in XCharts.Runtime / 继承自: [IComparable](https://docs.unity3d.com/ScriptReference/30_search.html?q=icomparable) / 子类: [Axis](#axis),[Background](#background),[Comment](#comment),[DataZoom](#datazoom),[Legend](#legend),[MarkArea](#markarea),[MarkLine](#markline),[Settings](#settings),[Title](#title),[Tooltip](#tooltip),[VisualMap](#visualmap),[GridLayout](#gridlayout),[CoordSystem](#coordsystem) 
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |ClearComponentDirty()||public virtual void ClearComponentDirty()|
 |ClearData()||public virtual void ClearData() { }|
@@ -1690,13 +1827,15 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## MainComponentContext
 
-> XCharts.Runtime.MainComponentContext / Subclasses: [AxisContext](#axiscontext),[DataZoomContext](#datazoomcontext),[LegendContext](#legendcontext),[RadarCoordContext](#radarcoordcontext),[VisualMapContext](#visualmapcontext),[GridCoordContext](#gridcoordcontext),[GridLayoutContext](#gridlayoutcontext),[ParallelCoordContext](#parallelcoordcontext),[PolarCoordContext](#polarcoordcontext) 
+> class in XCharts.Runtime / 子类: [AxisContext](#axiscontext),[DataZoomContext](#datazoomcontext),[LegendContext](#legendcontext),[RadarCoordContext](#radarcoordcontext),[VisualMapContext](#visualmapcontext),[GridCoordContext](#gridcoordcontext),[GridLayoutContext](#gridlayoutcontext),[ParallelCoordContext](#parallelcoordcontext),[PolarCoordContext](#polarcoordcontext) 
+
 
 ## MainComponentHandler
 
-> XCharts.Runtime.MainComponentHandler / Subclasses: [AxisHandler&lt;T&gt;](#axishandlert),[MainComponentHandler&lt;T&gt;](#maincomponenthandlert) 
+> class in XCharts.Runtime / 子类: [AxisHandler&lt;T&gt;](#axishandlert),[MainComponentHandler&lt;T&gt;](#maincomponenthandlert) 
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |CheckComponent()||public virtual void CheckComponent(StringBuilder sb) { }|
 |DrawBase()||public virtual void DrawBase(VertexHelper vh) { }|
@@ -1718,42 +1857,52 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## MainComponentHandler&lt;T&gt;
 
-> XCharts.Runtime.MainComponentHandler&lt;T&gt; : [MainComponentHandler](#maincomponenthandler)
+> class in XCharts.Runtime / 继承自: [MainComponentHandler](#maincomponenthandler)
+
 
 ## MarkArea
 
-> XCharts.Runtime.MarkArea : [MainComponent](#maincomponent)
+> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent)
+
 图表标域，常用于标记图表中某个范围的数据。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |SetDefaultValue()||public override void SetDefaultValue()|
 
 ## MarkAreaData
 
-> XCharts.Runtime.MarkAreaData : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
 标域的数据。
 
 ## MarkLine
 
-> XCharts.Runtime.MarkLine : [MainComponent](#maincomponent)
+> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent)
+
 图表标线。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |SetDefaultValue()||public override void SetDefaultValue()|
 
 ## MarkLineData
 
-> XCharts.Runtime.MarkLineData : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
+> 从 `v3.9.0` 开始支持
+
 图表标线的数据。
 
 ## MarqueeStyle
 
-> XCharts.Runtime.MarqueeStyle : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
+> 从 `v3.5.0` 开始支持
+
 Marquee style. It can be used for the DataZoom component. 选取框样式。可用于DataZoom组件。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |onEnd||public Action&lt;DataZoom&gt; onEnd<br/>自定义选取框结束选取时的回调。 |
 |onGoing||public Action&lt;DataZoom&gt; onGoing<br/>自定义选取框选取进行时的回调。 |
@@ -1761,9 +1910,10 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 
 ## MathUtil
 
-> XCharts.Runtime.MathUtil
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |Abs()||public static double Abs(double d)|
 |Approximately()||public static bool Approximately(double a, double b)|
@@ -1775,10 +1925,13 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 
 ## MLValue
 
-> XCharts.Runtime.MLValue : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
+> 从 `v3.8.0` 开始支持
+
 多样式数值。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |GetValue()||public float GetValue(float total)<br/>根据类型获取值。 |
 |MLValue()||public MLValue(float value)|
@@ -1786,13 +1939,15 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 
 ## MonoBehaviour
 
-> .MonoBehaviour / Subclasses: [XLog](#xlog) 
+> class in  / 子类: [XLog](#xlog) 
+
 
 ## ObjectPool&lt;T&gt; where T
 
-> XCharts.Runtime.ObjectPool&lt;T&gt; where T : [new()](#new())
+> class in XCharts.Runtime / 继承自: [new()](#new())
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |ClearAll()||public void ClearAll()|
 |Get()||public T Get()|
@@ -1802,10 +1957,11 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 
 ## Padding
 
-> XCharts.Runtime.Padding : [ChildComponent](#childcomponent) / Subclasses: [TextPadding](#textpadding) 
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent) / 子类: [TextPadding](#textpadding) 
+
 边距设置。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |Padding()||public Padding() { }|
 |Padding()||public Padding(float top, float right, float bottom, float left)|
@@ -1813,9 +1969,10 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 
 ## Painter
 
-> XCharts.Runtime.Painter : [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic)
+> class in XCharts.Runtime / 继承自: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |onPopulateMesh||public Action&lt;VertexHelper, Painter&gt; onPopulateMesh|
 |CheckRefresh()||public void CheckRefresh()|
@@ -1825,30 +1982,34 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 
 ## Parallel
 
-> XCharts.Runtime.Parallel : [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
+> class in XCharts.Runtime / 继承自: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AddDefaultSerie()||public static Serie AddDefaultSerie(BaseChart chart, string serieName)|
 
 ## ParallelAxis
 
-> XCharts.Runtime.ParallelAxis : [Axis](#axis)
+> class in XCharts.Runtime / 继承自: [Axis](#axis)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |SetDefaultValue()||public override void SetDefaultValue()|
 
 ## ParallelChart
 
-> XCharts.Runtime.ParallelChart : [BaseChart](#basechart)
+> class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
+
 
 ## ParallelCoord
 
-> XCharts.Runtime.ParallelCoord : [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
+> class in XCharts.Runtime / 继承自: [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
+
 Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart can be drawn in grid.
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |Contains()||public bool Contains(float x, float y)|
 |Contains()||public bool Contains(Vector3 pos)|
@@ -1857,52 +2018,60 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## ParallelCoordContext
 
-> XCharts.Runtime.ParallelCoordContext : [MainComponentContext](#maincomponentcontext)
+> class in XCharts.Runtime / 继承自: [MainComponentContext](#maincomponentcontext)
+
 
 ## Pie
 
-> XCharts.Runtime.Pie : [Serie](#serie)
+> class in XCharts.Runtime / 继承自: [Serie](#serie)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AddDefaultSerie()||public static Serie AddDefaultSerie(BaseChart chart, string serieName)|
 |ConvertSerie()||public static Pie ConvertSerie(Serie serie)|
 
 ## PieChart
 
-> XCharts.Runtime.PieChart : [BaseChart](#basechart)
+> class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
+
 
 ## PolarAxisTheme
 
-> XCharts.Runtime.PolarAxisTheme : [BaseAxisTheme](#baseaxistheme)
+> class in XCharts.Runtime / 继承自: [BaseAxisTheme](#baseaxistheme)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |PolarAxisTheme()||public PolarAxisTheme(ThemeType theme) : base(theme) { }|
 
 ## PolarChart
 
-> XCharts.Runtime.PolarChart : [BaseChart](#basechart)
+> class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
+
 
 ## PolarCoord
 
-> XCharts.Runtime.PolarCoord : [CoordSystem](#coordsystem),[ISerieContainer](#iseriecontainer)
+> class in XCharts.Runtime / 继承自: [CoordSystem](#coordsystem),[ISerieContainer](#iseriecontainer)
+
 极坐标系组件。 极坐标系，可以用于散点图和折线图。每个极坐标系拥有一个角度轴和一个半径轴。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |Contains()||public bool Contains(Vector3 pos)|
 |IsPointerEnter()||public bool IsPointerEnter()|
 
 ## PolarCoordContext
 
-> XCharts.Runtime.PolarCoordContext : [MainComponentContext](#maincomponentcontext)
+> class in XCharts.Runtime / 继承自: [MainComponentContext](#maincomponentcontext)
+
 
 ## PropertyUtil
 
-> XCharts.Runtime.PropertyUtil
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |SetClass&lt;T&gt;()||public static bool SetClass&lt;T&gt;(ref T currentValue, T newValue, bool notNull = false) where T : class|
 |SetColor()||public static bool SetColor(ref Color currentValue, Color newValue)|
@@ -1911,55 +2080,63 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## Radar
 
-> XCharts.Runtime.Radar : [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
+> class in XCharts.Runtime / 继承自: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AddDefaultSerie()||public static Serie AddDefaultSerie(BaseChart chart, string serieName)|
 
 ## RadarAxisTheme
 
-> XCharts.Runtime.RadarAxisTheme : [BaseAxisTheme](#baseaxistheme)
+> class in XCharts.Runtime / 继承自: [BaseAxisTheme](#baseaxistheme)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |RadarAxisTheme()||public RadarAxisTheme(ThemeType theme) : base(theme)|
 
 ## RadarChart
 
-> XCharts.Runtime.RadarChart : [BaseChart](#basechart)
+> class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
+
 
 ## RadarCoord
 
-> XCharts.Runtime.RadarCoord : [CoordSystem](#coordsystem),[ISerieContainer](#iseriecontainer)
+> class in XCharts.Runtime / 继承自: [CoordSystem](#coordsystem),[ISerieContainer](#iseriecontainer)
+
 Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适用于雷达图。
 
 ## RadarCoordContext
 
-> XCharts.Runtime.RadarCoordContext : [MainComponentContext](#maincomponentcontext)
+> class in XCharts.Runtime / 继承自: [MainComponentContext](#maincomponentcontext)
+
 
 ## RadiusAxis
 
-> XCharts.Runtime.RadiusAxis : [Axis](#axis)
+> class in XCharts.Runtime / 继承自: [Axis](#axis)
+
 极坐标系的径向轴。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |SetDefaultValue()||public override void SetDefaultValue()<br/>极坐标系的径向轴。 |
 
 ## RadiusAxisTheme
 
-> XCharts.Runtime.RadiusAxisTheme : [BaseAxisTheme](#baseaxistheme)
+> class in XCharts.Runtime / 继承自: [BaseAxisTheme](#baseaxistheme)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |RadiusAxisTheme()||public RadiusAxisTheme(ThemeType theme) : base(theme) { }|
 
 ## ReflectionUtil
 
-> XCharts.Runtime.ReflectionUtil
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |DeepCloneSerializeField()||public static object DeepCloneSerializeField(object obj)|
 |InvokeListAdd()||public static void InvokeListAdd(object obj, FieldInfo field, object item)|
@@ -1970,9 +2147,10 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 
 ## RequireChartComponentAttribute
 
-> XCharts.Runtime.RequireChartComponentAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+> class in XCharts.Runtime / 继承自: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |RequireChartComponentAttribute()||public RequireChartComponentAttribute(Type requiredComponent)|
 |RequireChartComponentAttribute()||public RequireChartComponentAttribute(Type requiredComponent, Type requiredComponent2)|
@@ -1980,22 +2158,25 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 
 ## Ring
 
-> XCharts.Runtime.Ring : [Serie](#serie)
+> class in XCharts.Runtime / 继承自: [Serie](#serie)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AddDefaultSerie()||public static Serie AddDefaultSerie(BaseChart chart, string serieName)|
 |GetDataTotal()||public override double GetDataTotal(int dimension, SerieData serieData = null)|
 
 ## RingChart
 
-> XCharts.Runtime.RingChart : [BaseChart](#basechart)
+> class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
+
 
 ## RuntimeUtil
 
-> XCharts.Runtime.RuntimeUtil
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |GetAllAssemblyTypes()||public static IEnumerable&lt;Type&gt; GetAllAssemblyTypes()|
 |GetAllTypesDerivedFrom()||public static IEnumerable&lt;Type&gt; GetAllTypesDerivedFrom(Type type)|
@@ -2006,27 +2187,33 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 
 ## Scatter
 
-> XCharts.Runtime.Scatter : [BaseScatter](#basescatter)
+> class in XCharts.Runtime / 继承自: [BaseScatter](#basescatter)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AddDefaultSerie()||public static Serie AddDefaultSerie(BaseChart chart, string serieName)|
 
 ## ScatterChart
 
-> XCharts.Runtime.ScatterChart : [BaseChart](#basechart)
+> class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
+
 
 ## SelectStyle
 
-> XCharts.Runtime.SelectStyle : [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+> class in XCharts.Runtime / 继承自: [StateStyle](#statestyle),[ISerieComponent](#iseriecomponent),[ISerieDataComponent](#iseriedatacomponent)
+
+> 从 `v3.2.0` 开始支持
+
 选中状态样式。
 
 ## Serie
 
-> XCharts.Runtime.Serie : [BaseSerie](#baseserie),[IComparable](https://docs.unity3d.com/ScriptReference/30_search.html?q=icomparable) / Subclasses: [SerieHandler&lt;T&gt;](#seriehandlert),[Bar](#bar),[SimplifiedBar](#simplifiedbar),[Candlestick](#candlestick),[SimplifiedCandlestick](#simplifiedcandlestick),[Heatmap](#heatmap),[Line](#line),[SimplifiedLine](#simplifiedline),[Parallel](#parallel),[Pie](#pie),[Radar](#radar),[Ring](#ring),[BaseScatter](#basescatter) 
+> class in XCharts.Runtime / 继承自: [BaseSerie](#baseserie),[IComparable](https://docs.unity3d.com/ScriptReference/30_search.html?q=icomparable) / 子类: [SerieHandler&lt;T&gt;](#seriehandlert),[Bar](#bar),[SimplifiedBar](#simplifiedbar),[Candlestick](#candlestick),[SimplifiedCandlestick](#simplifiedcandlestick),[Heatmap](#heatmap),[Line](#line),[SimplifiedLine](#simplifiedline),[Parallel](#parallel),[Pie](#pie),[Radar](#radar),[Ring](#ring),[BaseScatter](#basescatter) 
+
 系列。系列一般由数据和配置组成，用来表示具体的图表图形，如折线图的一条折线，柱图的一组柱子等。一个图表中可以包含多个不同类型的系列。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |onClick||public Action&lt;SerieEventData&gt; onClick<br/>点击系列时的回调。 |
 |onDown||public Action&lt;SerieEventData&gt; onDown<br/>鼠标按下时的回调。 |
@@ -2104,10 +2291,11 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 
 ## SerieComponentAttribute
 
-> XCharts.Runtime.SerieComponentAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+> class in XCharts.Runtime / 继承自: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+
 可添加到Serie的组件。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |Contains()||public bool Contains(Type type)|
 |Contains&lt;T&gt;()||public bool Contains&lt;T&gt;() where T : ISerieComponent|
@@ -2122,14 +2310,16 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 
 ## SerieContext
 
-> XCharts.Runtime.SerieContext
+> class in XCharts.Runtime
+
 
 ## SerieConvertAttribute
 
-> XCharts.Runtime.SerieConvertAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+> class in XCharts.Runtime / 继承自: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+
 可转化为哪些Serie类型。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |Contains()||public bool Contains(Type type)|
 |Contains&lt;T&gt;()||public bool Contains&lt;T&gt;() where T : Serie|
@@ -2140,10 +2330,11 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 
 ## SerieData
 
-> XCharts.Runtime.SerieData : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
 系列中的一个数据项。可存储数据名和1-n维个数据。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |ClearComponentDirty()||public override void ClearComponentDirty()|
 |ClearVerticesDirty()||public override void ClearVerticesDirty()|
@@ -2185,10 +2376,11 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 
 ## SerieDataComponentAttribute
 
-> XCharts.Runtime.SerieDataComponentAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+> class in XCharts.Runtime / 继承自: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+
 可添加到SerieData的组件。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |Contains()||public bool Contains(Type type)|
 |Contains&lt;T&gt;()||public bool Contains&lt;T&gt;() where T : ISerieComponent|
@@ -2203,17 +2395,19 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 
 ## SerieDataContext
 
-> XCharts.Runtime.SerieDataContext
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |Reset()||public void Reset()|
 
 ## SerieDataExtraFieldAttribute
 
-> XCharts.Runtime.SerieDataExtraFieldAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+> class in XCharts.Runtime / 继承自: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |Contains()||public bool Contains(string field)|
 |SerieDataExtraFieldAttribute()||public SerieDataExtraFieldAttribute()|
@@ -2227,27 +2421,30 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 
 ## SerieEventData
 
-> XCharts.Runtime.SerieEventData
+> class in XCharts.Runtime
+
 serie事件的数据。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |Reset()||public void Reset()|
 
 ## SerieEventDataPool
 
-> XCharts.Runtime.SerieEventDataPool
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |Get()||public static SerieEventData Get(Vector3 pos, int serieIndex, int dataIndex, int dimension, double value)|
 |Release()||public static void Release(SerieEventData toRelease)|
 
 ## SerieHandler
 
-> XCharts.Runtime.SerieHandler
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AfterUpdate()||public virtual void AfterUpdate() { }|
 |BeforeUpdate()||public virtual void BeforeUpdate() { }|
@@ -2278,13 +2475,15 @@ serie事件的数据。
 
 ## SerieHandler where T
 
-> .SerieHandler where T / Subclasses: [SerieHandler&lt;T&gt;](#seriehandlert) 
+> class in  / 子类: [SerieHandler&lt;T&gt;](#seriehandlert) 
+
 
 ## SerieHandler&lt;T&gt;
 
-> XCharts.Runtime.SerieHandler&lt;T&gt; : [SerieHandler where T](#seriehandler where t),[Serie](#serie)
+> class in XCharts.Runtime / 继承自: [SerieHandler where T](#seriehandler where t),[Serie](#serie)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AfterUpdate()||public override void AfterUpdate()|
 |BeforeUpdate()||public override void BeforeUpdate()|
@@ -2310,18 +2509,20 @@ serie事件的数据。
 
 ## SerieHandlerAttribute
 
-> XCharts.Runtime.SerieHandlerAttribute : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+> class in XCharts.Runtime / 继承自: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |SerieHandlerAttribute()||public SerieHandlerAttribute(Type handler)|
 |SerieHandlerAttribute()||public SerieHandlerAttribute(Type handler, bool allowMultiple)|
 
 ## SerieHelper
 
-> XCharts.Runtime.SerieHelper
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |CloneSerie&lt;T&gt;()||public static T CloneSerie&lt;T&gt;(Serie serie) where T : Serie|
 |CopySerie()||public static void CopySerie(Serie oldSerie, Serie newSerie)|
@@ -2363,9 +2564,10 @@ serie事件的数据。
 
 ## SerieLabelHelper
 
-> XCharts.Runtime.SerieLabelHelper
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |CanShowLabel()||public static bool CanShowLabel(Serie serie, SerieData serieData, LabelStyle label, int dimesion)|
 |GetLabelColor()||public static Color GetLabelColor(Serie serie, ThemeStyle theme, int index)|
@@ -2373,9 +2575,10 @@ serie事件的数据。
 
 ## SerieLabelPool
 
-> XCharts.Runtime.SerieLabelPool
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |ClearAll()||public static void ClearAll()|
 |Release()||public static void Release(GameObject element)|
@@ -2383,13 +2586,15 @@ serie事件的数据。
 
 ## SerieParams
 
-> XCharts.Runtime.SerieParams
+> class in XCharts.Runtime
+
 
 ## SeriesHelper
 
-> XCharts.Runtime.SeriesHelper
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |GetLastStackSerie()||public static Serie GetLastStackSerie(List&lt;Serie&gt; series, Serie serie)<br/>获得上一个同堆叠且显示的serie。 |
 |GetLegalSerieNameList()||public static List&lt;string&gt; GetLegalSerieNameList(List&lt;Serie&gt; series)|
@@ -2407,10 +2612,11 @@ serie事件的数据。
 
 ## SerieSymbol
 
-> XCharts.Runtime.SerieSymbol : [SymbolStyle](#symbolstyle),[ISerieDataComponent](#iseriedatacomponent)
+> class in XCharts.Runtime / 继承自: [SymbolStyle](#symbolstyle),[ISerieDataComponent](#iseriedatacomponent)
+
 系列数据项的标记的图形
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |GetSize()||public float GetSize(List&lt;double&gt; data, float themeSize)<br/>根据指定的sizeType获得标记的大小 |
 |Reset()||public override void Reset()|
@@ -2418,98 +2624,113 @@ serie事件的数据。
 
 ## SerieTheme
 
-> XCharts.Runtime.SerieTheme : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |Copy()||public void Copy(SerieTheme theme)|
 |SerieTheme()||public SerieTheme(ThemeType theme)|
 
 ## Settings
 
-> XCharts.Runtime.Settings : [MainComponent](#maincomponent)
+> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent)
+
 全局参数设置组件。一般情况下可使用默认值，当有需要时可进行调整。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |Copy()||public void Copy(Settings settings)|
 |Reset()||public override void Reset()|
 
 ## SimplifiedBar
 
-> XCharts.Runtime.SimplifiedBar : [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer),[ISimplifiedSerie](#isimplifiedserie)
+> class in XCharts.Runtime / 继承自: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer),[ISimplifiedSerie](#isimplifiedserie)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AddDefaultSerie()||public static Serie AddDefaultSerie(BaseChart chart, string serieName)|
 |ConvertSerie()||public static SimplifiedBar ConvertSerie(Serie serie)|
 
 ## SimplifiedBarChart
 
-> XCharts.Runtime.SimplifiedBarChart : [BaseChart](#basechart)
+> class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
+
 
 ## SimplifiedCandlestick
 
-> XCharts.Runtime.SimplifiedCandlestick : [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer),[ISimplifiedSerie](#isimplifiedserie)
+> class in XCharts.Runtime / 继承自: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer),[ISimplifiedSerie](#isimplifiedserie)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AddDefaultSerie()||public static Serie AddDefaultSerie(BaseChart chart, string serieName)|
 |ConvertSerie()||public static SimplifiedCandlestick ConvertSerie(Serie serie)|
 
 ## SimplifiedCandlestickChart
 
-> XCharts.Runtime.SimplifiedCandlestickChart : [BaseChart](#basechart)
+> class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
+
 
 ## SimplifiedLine
 
-> XCharts.Runtime.SimplifiedLine : [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer),[ISimplifiedSerie](#isimplifiedserie)
+> class in XCharts.Runtime / 继承自: [Serie](#serie),[INeedSerieContainer](#ineedseriecontainer),[ISimplifiedSerie](#isimplifiedserie)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AddDefaultSerie()||public static Serie AddDefaultSerie(BaseChart chart, string serieName)|
 |ConvertSerie()||public static SimplifiedLine ConvertSerie(Serie serie)|
 
 ## SimplifiedLineChart
 
-> XCharts.Runtime.SimplifiedLineChart : [BaseChart](#basechart)
+> class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
+
 
 ## Since
 
-> XCharts.Runtime.Since : [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
+> class in XCharts.Runtime / 继承自: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |Since()||public Since(string version)|
 
 ## SingleAxis
 
-> XCharts.Runtime.SingleAxis : [Axis](#axis),[IUpdateRuntimeData](#iupdateruntimedata)
+> class in XCharts.Runtime / 继承自: [Axis](#axis),[IUpdateRuntimeData](#iupdateruntimedata)
+
 单轴。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |SetDefaultValue()||public override void SetDefaultValue()|
 |UpdateRuntimeData()||public void UpdateRuntimeData(BaseChart chart)|
 
 ## SingleAxisCoord
 
-> XCharts.Runtime.SingleAxisCoord : [CoordSystem](#coordsystem)
+> class in XCharts.Runtime / 继承自: [CoordSystem](#coordsystem)
+
 
 ## StageColor
 
-> XCharts.Runtime.StageColor : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |StageColor()||public StageColor(float percent, Color32 color)|
 
 ## StateStyle
 
-> XCharts.Runtime.StateStyle : [ChildComponent](#childcomponent) / Subclasses: [BlurStyle](#blurstyle),[EmphasisStyle](#emphasisstyle),[SelectStyle](#selectstyle) 
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent) / 子类: [BlurStyle](#blurstyle),[EmphasisStyle](#emphasisstyle),[SelectStyle](#selectstyle) 
+
+> 从 `v3.2.0` 开始支持
+
 Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种状态。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |ClearComponentDirty()||public override void ClearComponentDirty()|
 |ClearVerticesDirty()||public override void ClearVerticesDirty()|
@@ -2517,17 +2738,19 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## SubTitleTheme
 
-> XCharts.Runtime.SubTitleTheme : [ComponentTheme](#componenttheme)
+> class in XCharts.Runtime / 继承自: [ComponentTheme](#componenttheme)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |SubTitleTheme()||public SubTitleTheme(ThemeType theme) : base(theme)|
 
 ## SVG
 
-> XUGL.SVG
+> class in XUGL
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |DrawPath()||public static void DrawPath(VertexHelper vh, string path)|
 |DrawPath()||public static void DrawPath(VertexHelper vh, SVGPath path)|
@@ -2535,13 +2758,15 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## SVGImage
 
-> XCharts.Runtime.SVGImage : [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic)
+> class in XCharts.Runtime / 继承自: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic)
+
 
 ## SVGPath
 
-> XUGL.SVGPath
+> class in XUGL
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AddSegment()||public void AddSegment(SVGPathSeg seg)|
 |Draw()||public void Draw(VertexHelper vh)|
@@ -2549,28 +2774,31 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## SVGPathSeg
 
-> XUGL.SVGPathSeg
+> class in XUGL
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |SVGPathSeg()||public SVGPathSeg(SVGPathSegType type)|
 
 ## SymbolStyle
 
-> XCharts.Runtime.SymbolStyle : [ChildComponent](#childcomponent) / Subclasses: [SerieSymbol](#seriesymbol) 
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent) / 子类: [SerieSymbol](#seriesymbol) 
+
 系列数据项的标记的图形
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |GetColor()||public Color32 GetColor(Color32 defaultColor)|
 |Reset()||public virtual void Reset()|
 
 ## TextLimit
 
-> XCharts.Runtime.TextLimit : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
 文本字符限制和自适应。当文本长度超过设定的长度时进行裁剪，并将后缀附加在最后。 只在类目轴中有效。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |Clone()||public TextLimit Clone()|
 |Copy()||public void Copy(TextLimit textLimit)|
@@ -2579,20 +2807,22 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## TextPadding
 
-> XCharts.Runtime.TextPadding : [Padding](#padding)
+> class in XCharts.Runtime / 继承自: [Padding](#padding)
+
 文本的内边距设置。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |TextPadding()||public TextPadding() { }|
 |TextPadding()||public TextPadding(float top, float right, float bottom, float left)|
 
 ## TextStyle
 
-> XCharts.Runtime.TextStyle : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
 文本的相关设置。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |Copy()||public void Copy(TextStyle textStyle)|
 |GetAlignment()||public TextAnchor GetAlignment(TextAnchor defaultAlignment)|
@@ -2607,10 +2837,11 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## Theme
 
-> XCharts.Runtime.Theme : [ScriptableObject](https://docs.unity3d.com/ScriptReference/30_search.html?q=scriptableobject)
+> class in XCharts.Runtime / 继承自: [ScriptableObject](https://docs.unity3d.com/ScriptReference/30_search.html?q=scriptableobject)
+
 主题相关配置。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |CheckWarning()||public void CheckWarning(StringBuilder sb)|
 |CloneTheme()||public Theme CloneTheme()<br/>克隆主题。 |
@@ -2630,10 +2861,11 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## ThemeStyle
 
-> XCharts.Runtime.ThemeStyle : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
 主题相关配置。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |CheckWarning()||public void CheckWarning(StringBuilder sb)|
 |GetBackgroundColor()||public Color32 GetBackgroundColor(Background background)|
@@ -2644,33 +2876,37 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## Title
 
-> XCharts.Runtime.Title : [MainComponent](#maincomponent),[IPropertyChanged](#ipropertychanged)
+> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent),[IPropertyChanged](#ipropertychanged)
+
 标题组件，包含主标题和副标题。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |ClearComponentDirty()||public override void ClearComponentDirty()|
 |OnChanged()||public void OnChanged()|
 
 ## TitleStyle
 
-> XCharts.Runtime.TitleStyle : [LabelStyle](#labelstyle),[ISerieDataComponent](#iseriedatacomponent),[ISerieComponent](#iseriecomponent)
+> class in XCharts.Runtime / 继承自: [LabelStyle](#labelstyle),[ISerieDataComponent](#iseriedatacomponent),[ISerieComponent](#iseriecomponent)
+
 标题相关设置。
 
 ## TitleTheme
 
-> XCharts.Runtime.TitleTheme : [ComponentTheme](#componenttheme)
+> class in XCharts.Runtime / 继承自: [ComponentTheme](#componenttheme)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |TitleTheme()||public TitleTheme(ThemeType theme) : base(theme)|
 
 ## Tooltip
 
-> XCharts.Runtime.Tooltip : [MainComponent](#maincomponent)
+> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent)
+
 提示框组件。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |AddSerieDataIndex()||public void AddSerieDataIndex(int serieIndex, int dataIndex)|
 |ClearComponentDirty()||public override void ClearComponentDirty()|
@@ -2690,17 +2926,20 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## TooltipContext
 
-> XCharts.Runtime.TooltipContext
+> class in XCharts.Runtime
+
 
 ## TooltipData
 
-> XCharts.Runtime.TooltipData
+> class in XCharts.Runtime
+
 
 ## TooltipHelper
 
-> XCharts.Runtime.TooltipHelper
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |GetItemNumericFormatter()||public static string GetItemNumericFormatter(Tooltip tooltip, Serie serie, SerieData serieData)|
 |GetLineColor()||public static Color32 GetLineColor(Tooltip tooltip, Color32 defaultColor)|
@@ -2709,18 +2948,20 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## TooltipTheme
 
-> XCharts.Runtime.TooltipTheme : [ComponentTheme](#componenttheme)
+> class in XCharts.Runtime / 继承自: [ComponentTheme](#componenttheme)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |Copy()||public void Copy(TooltipTheme theme)|
 |TooltipTheme()||public TooltipTheme(ThemeType theme) : base(theme)|
 
 ## TooltipView
 
-> XCharts.Runtime.TooltipView
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |CreateView()||public static TooltipView CreateView(Tooltip tooltip, ThemeStyle theme, Transform parent)|
 |GetCurrentPos()||public Vector3 GetCurrentPos()|
@@ -2732,14 +2973,16 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 ## TooltipViewItem
 
-> XCharts.Runtime.TooltipViewItem
+> class in XCharts.Runtime
+
 
 ## UGL
 
-> XUGL.UGL
+> class in XUGL
+
 UGUI 图形库
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |DrawDiamond()||public static void DrawDiamond(VertexHelper vh, Vector3 center, float size, Color32 color)<br/>Draw a diamond. 画菱形（钻石形状） |
 |DrawDiamond()||public static void DrawDiamond(VertexHelper vh, Vector3 center, float size, Color32 color, Color32 toColor)<br/>Draw a diamond. 画菱形（钻石形状） |
@@ -2767,13 +3010,15 @@ UGUI 图形库
 
 ## UGLExample
 
-> XUGL.UGLExample : [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic)
+> class in XUGL / 继承自: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic)
+
 
 ## UGLHelper
 
-> XUGL.UGLHelper
+> class in XUGL
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |GetAngle360()||public static float GetAngle360(Vector2 from, Vector2 to)<br/>获得0-360的角度（12点钟方向为0度） |
 |GetBezier()||public static Vector3 GetBezier(float t, Vector3 sp, Vector3 cp, Vector3 ep)|
@@ -2801,35 +3046,39 @@ UGUI 图形库
 
 ## UIComponent
 
-> XCharts.Runtime.UIComponent : [BaseGraph](#basegraph)
+> class in XCharts.Runtime / 继承自: [BaseGraph](#basegraph)
+
 UI组件基类。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |SetAllDirty()||public override void SetAllDirty()|
-|SetDataDirty()|v3.8.2|public void SetDataDirty()|
+|SetDataDirty()|v3.9.0|public void SetDataDirty()|
 |SetVerticesDirty()||public override void SetVerticesDirty()|
 |UpdateTheme()||public bool UpdateTheme(ThemeType theme)<br/>切换内置主题。 |
 
 ## UIComponentTheme
 
-> XCharts.Runtime.UIComponentTheme : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
 
 ## UIHelper
 
-> XCharts.Runtime.UIHelper
+> class in XCharts.Runtime
+
 UI帮助类。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |GetBackgroundColor()||public static Color32 GetBackgroundColor(UIComponent component)|
 
 ## VisualMap
 
-> XCharts.Runtime.VisualMap : [MainComponent](#maincomponent)
+> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent)
+
 视觉映射组件。用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |AddColors()||public void AddColors(List&lt;Color32&gt; colors)|
 |AddColors()||public void AddColors(List&lt;string&gt; colors)|
@@ -2847,13 +3096,15 @@ UI帮助类。
 
 ## VisualMapContext
 
-> XCharts.Runtime.VisualMapContext : [MainComponentContext](#maincomponentcontext)
+> class in XCharts.Runtime / 继承自: [MainComponentContext](#maincomponentcontext)
+
 
 ## VisualMapHelper
 
-> XCharts.Runtime.VisualMapHelper
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AutoSetLineMinMax()||public static void AutoSetLineMinMax(VisualMap visualMap, Serie serie, bool isY, Axis axis, Axis relativedAxis)|
 |GetDimension()||public static int GetDimension(VisualMap visualMap, int defaultDimension)|
@@ -2864,35 +3115,39 @@ UI帮助类。
 
 ## VisualMapRange
 
-> XCharts.Runtime.VisualMapRange : [ChildComponent](#childcomponent)
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |Contains()||public bool Contains(double value, double minMaxRange)|
 
 ## VisualMapTheme
 
-> XCharts.Runtime.VisualMapTheme : [ComponentTheme](#componenttheme)
+> class in XCharts.Runtime / 继承自: [ComponentTheme](#componenttheme)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |Copy()||public void Copy(VisualMapTheme theme)|
 |VisualMapTheme()||public VisualMapTheme(ThemeType theme) : base(theme)|
 
 ## XAxis
 
-> XCharts.Runtime.XAxis : [Axis](#axis)
+> class in XCharts.Runtime / 继承自: [Axis](#axis)
+
 直角坐标系 grid 中的 x 轴。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |SetDefaultValue()||public override void SetDefaultValue()<br/>直角坐标系 grid 中的 x 轴。 |
 
 ## XChartsMgr
 
-> XCharts.Runtime.XChartsMgr
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AddChart()||public static void AddChart(BaseChart chart)|
 |ContainsChart()||public static bool ContainsChart(BaseChart chart)|
@@ -2907,17 +3162,19 @@ UI帮助类。
 
 ## XCResourceImporterWindow
 
-> XCharts.Runtime.XCResourceImporterWindow : [UnityEditor.EditorWindow](https://docs.unity3d.com/ScriptReference/30_search.html?q=unityeditor.editorwindow)
+> class in XCharts.Runtime / 继承自: [UnityEditor.EditorWindow](https://docs.unity3d.com/ScriptReference/30_search.html?q=unityeditor.editorwindow)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |ShowPackageImporterWindow()||public static void ShowPackageImporterWindow()|
 
 ## XCResourcesImporter
 
-> XCharts.Runtime.XCResourcesImporter
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |OnDestroy()||public void OnDestroy() { }|
 |OnGUI()||public void OnGUI()|
@@ -2925,9 +3182,10 @@ UI帮助类。
 
 ## XCSettings
 
-> XCharts.Runtime.XCSettings : [ScriptableObject](https://docs.unity3d.com/ScriptReference/30_search.html?q=scriptableobject)
+> class in XCharts.Runtime / 继承自: [ScriptableObject](https://docs.unity3d.com/ScriptReference/30_search.html?q=scriptableobject)
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AddCustomTheme()||public static bool AddCustomTheme(Theme theme)|
 |ExistAssetFile()||public static bool ExistAssetFile()|
@@ -2935,9 +3193,10 @@ UI帮助类。
 
 ## XCThemeMgr
 
-> XCharts.Runtime.XCThemeMgr
+> class in XCharts.Runtime
 
-|public method|since|description|
+
+|方法|版本|描述|
 |--|--|--|
 |AddTheme()||public static void AddTheme(Theme theme)|
 |CheckReloadTheme()||public static void CheckReloadTheme()|
@@ -2956,10 +3215,11 @@ UI帮助类。
 
 ## XLog
 
-> XCharts.Runtime.XLog : [MonoBehaviour](#monobehaviour)
+> class in XCharts.Runtime / 继承自: [MonoBehaviour](#monobehaviour)
+
 日志系统。用于输出带日期和日志类型的日志，支持输出到文件，支持自定义输出的日志类型。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |CanLog()||public static bool CanLog(int level)|
 |ClearAllLog()||public static void ClearAllLog()|
@@ -2979,10 +3239,11 @@ UI帮助类。
 
 ## YAxis
 
-> XCharts.Runtime.YAxis : [Axis](#axis)
+> class in XCharts.Runtime / 继承自: [Axis](#axis)
+
 直角坐标系 grid 中的 y 轴。
 
-|public method|since|description|
+|方法|版本|描述|
 |--|--|--|
 |SetDefaultValue()||public override void SetDefaultValue()<br/>直角坐标系 grid 中的 y 轴。 |
 

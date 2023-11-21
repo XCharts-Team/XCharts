@@ -1,9 +1,5 @@
 # XCharts FAQ
 
-[XCharts Homepage](https://github.com/XCharts-Team/XCharts)<br/>
-[XCharts API](XChartsAPI-EN.md)<br/>
-[XCharts Configuration](XChartsConfiguration-EN.md)
-
 [QA 1: How to adjust the margin between the axis and the background?](#How-to-adjust-the-margin-between-the-axis-and-the=-background)  
 [QA 2: How to play agian the fadeIn animation?](#How-to-play-agian-the-fadeIn-animation)  
 [QA 3: How to customize the color of data item in line chart and pie chart?](#How-to-customize-the-color-of-data-item-in-line-chart-and-pie-chart)  
@@ -144,7 +140,3 @@ A: This is the limit of `UGUI` on the number of vertices for a single `Graphic`.
 ## Why-are-the-parameters-set-in-Serie-reset-after-they-run
 
 A: Check whether `RemoveData()` and add new `Serie` in the code. If you want to keep the configuration of `Serie`, you can only `ClearData()` which just clear data and then readd the data to the old serie.
-
-[XCharts Homepage](https://github.com/XCharts-Team/XCharts)<br/>
-[XCharts API](XChartsAPI-EN.md)<br/>
-[XCharts Configuration](XChartsConfiguration-EN.md)

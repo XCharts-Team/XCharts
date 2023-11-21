@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.9.0](#v390)  
 [v3.8.1](#v381)  
 [v3.8.0](#v380)  
 [v3.7.0](#v370)  
@@ -63,6 +64,33 @@
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.9.0
+
+Highlights:
+
+* Added `minorTick` for `Log` type of `Axis`
+* Increase whether MarkLine's `onTop` setting is displayed at the top level
+* Added `UITable` to the wheel casting function, refactoring `UITable`
+* Perfect code comments and documentation
+* Fixed several issues
+
+Log details:
+
+* (2023.11.16) Cancel `Legend`'s `formatter` and replace it with `LabelStyle`
+* (2023.11.14) Improved annotation and documentation for LabelStyle's formatter (#291)
+* (2023.11.11) Fix to comments Documentation for some comments in `Documentation` (#290)
+* (2023.11.11) fixed an issue where Legend's formatter didn't refresh automatically when data was changed
+* (2023.11.05) Fix to SerieEventData's value always being 0 (#287)
+* (2023.11.03) Fix to abnormal mouse movement when setting `Bar` gradient (#285)
+* (2023.11.02) Optimizes ignoring of formatter when SerieData is set to ignore
+* (2023.11.01) Added whether MarkLine's `onTop` setting is displayed at the top level
+* (2023.10.21) Fix to `Label` location exception when `Pie` has 0 data
+* (2023.10.21) Added subscale support for `Axis`
+* (2023.10.19) Fixed abnormal lead line when `Pie` set rose chart
+* (2023.10.15) Fixed Animation exception when `Line` was set to `AlongPath` (#281)
+* (2023.10.12) Fixed invalid value axis when `MarkLine` specified `yValue`
+* (2023.10.11) Fixed invalid setting of `Serie` `showDataDimension`
 
 ## v3.8.1
 

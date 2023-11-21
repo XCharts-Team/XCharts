@@ -44,7 +44,7 @@ namespace XCharts.Runtime
             return true;
         }
 
-        [Since("v3.8.2")]
+        [Since("v3.9.0")]
         public void SetDataDirty()
         {
             m_DataDirty = true;

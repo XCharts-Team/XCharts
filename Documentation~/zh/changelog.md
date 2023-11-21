@@ -6,6 +6,7 @@ slug: /changelog
 # 更新日志
 
 [master](#master)  
+[v3.9.0](#v390)  
 [v3.8.1](#v381)  
 [v3.8.0](#v380)  
 [v3.7.0](#v370)  
@@ -69,7 +70,19 @@ slug: /changelog
 
 ## master
 
-* (2023.11.15) 取消`Legend`的`formatter`，用`LabelStyle`的代替
+## v3.9.0
+
+版本要点：
+
+* 增加`Axis`的对数轴子刻度的支持
+* 增加`MarkLine`的`onTop`设置是否显示在最上层
+* 增加`UITable`表格组件的轮播功能，重构`UITable`
+* 完善注释和文档
+* 修复若干问题
+
+日志详情：
+
+* (2023.11.16) 取消`Legend`的`formatter`，用`LabelStyle`的代替
 * (2023.11.14) 完善`LabelStyle`的`formatter`的注释和文档(#291)
 * (2023.11.11) 修复`Documentation`部分注释生成文档不完整的问题 (#290)
 * (2023.11.11) 修复`Legend`的`formatter`在数据变更时没有自动刷新的问题

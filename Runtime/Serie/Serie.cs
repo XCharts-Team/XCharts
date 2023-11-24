@@ -1699,8 +1699,7 @@ namespace XCharts.Runtime
         /// <param name="value"></param>
         public bool UpdateYData(int index, double value)
         {
-            UpdateData(index, 1, value);
-            return true;
+            return UpdateData(index, 1, value);
         }
 
         /// <summary>

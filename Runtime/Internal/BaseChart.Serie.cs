@@ -454,9 +454,15 @@ namespace XCharts.Runtime
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                serie.UpdateYData(dataIndex, value);
-                RefreshPainter(serie);
-                return true;
+                if (serie.UpdateYData(dataIndex, value))
+                {
+                    RefreshPainter(serie);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             return false;
         }
@@ -473,9 +479,15 @@ namespace XCharts.Runtime
             var serie = GetSerie(serieIndex);
             if (serie != null)
             {
-                serie.UpdateYData(dataIndex, value);
-                RefreshPainter(serie);
-                return true;
+                if (serie.UpdateYData(dataIndex, value))
+                {
+                    RefreshPainter(serie);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             return false;
         }
@@ -491,9 +503,15 @@ namespace XCharts.Runtime
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                serie.UpdateData(dataIndex, multidimensionalData);
-                RefreshPainter(serie);
-                return true;
+                if (serie.UpdateData(dataIndex, multidimensionalData))
+                {
+                    RefreshPainter(serie);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             return false;
         }
@@ -509,9 +527,15 @@ namespace XCharts.Runtime
             var serie = GetSerie(serieIndex);
             if (serie != null)
             {
-                serie.UpdateData(dataIndex, multidimensionalData);
-                RefreshPainter(serie);
-                return true;
+                if (serie.UpdateData(dataIndex, multidimensionalData))
+                {
+                    RefreshPainter(serie);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             return false;
         }
@@ -528,9 +552,15 @@ namespace XCharts.Runtime
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                serie.UpdateData(dataIndex, dimension, value);
-                RefreshPainter(serie);
-                return true;
+                if (serie.UpdateData(dataIndex, dimension, value))
+                {
+                    RefreshPainter(serie);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             return false;
         }
@@ -547,9 +577,15 @@ namespace XCharts.Runtime
             var serie = GetSerie(serieIndex);
             if (serie != null)
             {
-                serie.UpdateData(dataIndex, dimension, value);
-                RefreshPainter(serie);
-                return true;
+                if (serie.UpdateData(dataIndex, dimension, value))
+                {
+                    RefreshPainter(serie);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             return false;
         }
@@ -566,8 +602,7 @@ namespace XCharts.Runtime
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                serie.UpdateDataName(dataIndex, dataName);
-                return true;
+                return serie.UpdateDataName(dataIndex, dataName);
             }
             return false;
         }
@@ -584,8 +619,7 @@ namespace XCharts.Runtime
             var serie = GetSerie(serieIndex);
             if (serie != null)
             {
-                serie.UpdateDataName(dataIndex, dataName);
-                return true;
+                return serie.UpdateDataName(dataIndex, dataName);
             }
             return false;
         }

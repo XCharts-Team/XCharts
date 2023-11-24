@@ -83,6 +83,7 @@ slug: /changelog
 
 日志详情：
 
+* (2023.11.24) 修复`Chart`的`UpdateData()`接口返回值不准确的问题
 * (2023.11.24) 修复`Axis`的更新数据时效果不顺畅的问题
 * (2023.11.23) 增加`Axis`的`Animation`支持动画效果
 * (2023.11.16) 取消`Legend`的`formatter`，用`LabelStyle`的代替

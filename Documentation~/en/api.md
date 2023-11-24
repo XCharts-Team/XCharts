@@ -22,6 +22,7 @@ slug: /api
 - [AreaStyle](#areastyle)
 - [ArrowStyle](#arrowstyle)
 - [Axis](#axis)
+- [AxisAnimation](#axisanimation)
 - [AxisContext](#axiscontext)
 - [AxisHandler&lt;T&gt;](#axishandlert)
 - [AxisHelper](#axishelper)
@@ -450,6 +451,19 @@ The axis in rectangular coordinate.
 |UpdateData()||public void UpdateData(int index, string category)<br/>更新类目数据 |
 |UpdateIcon()||public void UpdateIcon(int index, Sprite icon)<br/>更新图标 |
 |UpdateZeroOffset()||public void UpdateZeroOffset(float axisLength)|
+
+## AxisAnimation
+
+> class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
+
+> Since `v3.9.0`
+
+animation style of axis.
+
+|public method|since|description|
+|--|--|--|
+|Clone()||public AxisAnimation Clone()|
+|Copy()||public void Copy(AxisAnimation animation)|
 
 ## AxisContext
 
@@ -1114,7 +1128,7 @@ Configurations of blur state.
 
 ## ChildComponent
 
-> class in XCharts.Runtime / Subclasses: [AnimationStyle](#animationstyle),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MLValue](#mlvalue),[MarqueeStyle](#marqueestyle),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
+> class in XCharts.Runtime / Subclasses: [AnimationStyle](#animationstyle),[AxisAnimation](#axisanimation),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MLValue](#mlvalue),[MarqueeStyle](#marqueestyle),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
 
 
 |public method|since|description|
@@ -2599,6 +2613,7 @@ the data of serie event.
 |GetLastStackSerie()||public static Serie GetLastStackSerie(List&lt;Serie&gt; series, Serie serie)<br/>获得上一个同堆叠且显示的serie。 |
 |GetLegalSerieNameList()||public static List&lt;string&gt; GetLegalSerieNameList(List&lt;Serie&gt; series)|
 |GetMaxSerieDataCount()||public static int GetMaxSerieDataCount(List&lt;Serie&gt; series)|
+|GetMinAnimationDuration()||public static float GetMinAnimationDuration(List&lt;Serie&gt; series)|
 |GetNameColor()||public static Color GetNameColor(BaseChart chart, int index, string name)|
 |GetStackSeries()||public static void GetStackSeries(List&lt;Serie&gt; series, ref Dictionary&lt;int, List&lt;Serie&gt;&gt; stackSeries)<br/>获得堆叠系列列表 |
 |IsAnyClipSerie()||public static bool IsAnyClipSerie(List&lt;Serie&gt; series)<br/>是否有需裁剪的serie。 |

@@ -81,6 +81,7 @@ import APITable from '@site/src/components/APITable';
 - [AnimationStyle](#animationstyle)
 - [AreaStyle](#areastyle)
 - [ArrowStyle](#arrowstyle)
+- [AxisAnimation](#axisanimation)
 - [AxisLabel](#axislabel)
 - [AxisLine](#axisline)
 - [AxisMinorSplitLine](#axisminorsplitline)
@@ -421,9 +422,33 @@ The axis in rectangular coordinate.
 |axisLabel|||axis label. [AxisLabel](#axislabel)|
 |splitLine|||axis split line. [AxisSplitLine](#axissplitline)|
 |splitArea|||axis split area. [AxisSplitArea](#axissplitarea)|
+|animation|||animation of axis. [AxisAnimation](#axisanimation)|
 |minorTick||v3.2.0|axis minor tick. [AxisMinorTick](#axisminortick)|
 |minorSplitLine||v3.2.0|axis minor split line. [AxisMinorSplitLine](#axisminorsplitline)|
 |indicatorLabel||v3.4.0|Style of axis tooltip indicator label. [LabelStyle](#labelstyle)|
+
+```mdx-code-block
+</APITable>
+```
+
+## AxisAnimation
+
+> class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
+
+> Since `v3.9.0`
+
+animation style of axis.
+
+```mdx-code-block
+<APITable name="AxisAnimation">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|show|true||whether to enable animation.
+|duration|||the duration of animation (ms). When it is set to 0, the animation duration will be automatically calculated according to the serie.
+|unscaledTime|||Animation updates independently of Time.timeScale.
 
 ```mdx-code-block
 </APITable>
@@ -719,7 +744,7 @@ Configurations of blur state.
 
 ## ChildComponent
 
-> class in XCharts.Runtime / Subclasses: [AnimationStyle](#animationstyle), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
+> class in XCharts.Runtime / Subclasses: [AnimationStyle](#animationstyle), [AxisAnimation](#axisanimation), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
 
 ## Comment
 

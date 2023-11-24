@@ -137,8 +137,6 @@ namespace XCharts.Runtime
             var dataChangeDuration = serie.animation.GetChangeDuration();
             var dataAddDuration = serie.animation.GetAdditionDuration();
             var interactDuration = serie.animation.GetInteractionDuration();
-            double yMinValue = relativedAxis.context.minValue;
-            double yMaxValue = relativedAxis.context.maxValue;
 
             var areaColor = ColorUtil.clearColor32;
             var areaToColor = ColorUtil.clearColor32;
@@ -163,7 +161,7 @@ namespace XCharts.Runtime
                 var highlight = serieData.context.highlight || serie.highlight;
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
                 var value = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
-                var relativedValue = serieData.GetCurrData(1, dataAddDuration, dataChangeDuration, relativedAxis.inverse, yMinValue, yMaxValue, serie.animation.unscaledTime);
+                var relativedValue = serieData.GetCurrData(1, dataAddDuration, dataChangeDuration, relativedAxis.inverse, 0, 0, serie.animation.unscaledTime);
                 var borderWidth = relativedValue == 0 ? 0 : itemStyle.runtimeBorderWidth;
 
                 if (!serieData.interact.TryGetColor(ref areaColor, ref areaToColor, ref interacting, interactDuration))

@@ -23,10 +23,18 @@ namespace XCharts.Example
             {
                 AddData();
             }
-            else if(Input.GetKeyDown(KeyCode.R))
+            else if (Input.GetKeyDown(KeyCode.R))
             {
                 chart.AnimationReset();
                 chart.AnimationFadeIn();
+            }
+            else if (Input.GetKeyDown(KeyCode.U))
+            {
+                chart.UpdateData(0, 2, 99);
+            }
+            else if (Input.GetKeyDown(KeyCode.C))
+            {
+                chart.UpdateData(0, 2, 22);
             }
         }
 

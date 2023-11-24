@@ -26,8 +26,8 @@ namespace XCharts.Runtime
             ref bool dataChanging, Axis axis, bool unscaledTime)
         {
             var inverse = axis.inverse;
-            var minValue = axis.context.minValue;
-            var maxValue = axis.context.maxValue;
+            var minValue = 0;
+            var maxValue = 0;
             if (rate <= 1 || index == minCount)
             {
                 if (showData[index].IsDataChanged())

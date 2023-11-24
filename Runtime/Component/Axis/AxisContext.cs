@@ -35,11 +35,16 @@ namespace XCharts.Runtime
         /// ||当前最小值。
         /// </summary>
         public double minValue;
+        public double lastMinValue { get; internal set; }
+        public double destMinValue { get; internal set; }
         /// <summary>
         /// the current maximum value.
         /// ||当前最大值。
         /// </summary>
         public double maxValue;
+        public double lastMaxValue { get; internal set; }
+        public double destMaxValue { get; internal set; }
+        public bool needAnimation { get; internal set; }
         /// <summary>
         /// the offset of zero position.
         /// ||坐标轴原点在坐标轴的偏移。

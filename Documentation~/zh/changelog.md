@@ -74,6 +74,7 @@ slug: /changelog
 
 版本要点：
 
+* 增加`Axis`的`Animation`，完善数据变更动画效果
 * 增加`Axis`的对数轴子刻度的支持
 * 增加`MarkLine`的`onTop`设置是否显示在最上层
 * 增加`UITable`表格组件的轮播功能，重构`UITable`
@@ -82,6 +83,8 @@ slug: /changelog
 
 日志详情：
 
+* (2023.11.24) 修复`Axis`的更新数据时效果不顺畅的问题
+* (2023.11.23) 增加`Axis`的`Animation`支持动画效果
 * (2023.11.16) 取消`Legend`的`formatter`，用`LabelStyle`的代替
 * (2023.11.14) 完善`LabelStyle`的`formatter`的注释和文档(#291)
 * (2023.11.11) 修复`Documentation`部分注释生成文档不完整的问题 (#290)

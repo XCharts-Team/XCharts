@@ -81,6 +81,7 @@ import APITable from '@site/src/components/APITable';
 - [AnimationStyle](#animationstyle)
 - [AreaStyle](#areastyle)
 - [ArrowStyle](#arrowstyle)
+- [AxisAnimation](#axisanimation)
 - [AxisLabel](#axislabel)
 - [AxisLine](#axisline)
 - [AxisMinorSplitLine](#axisminorsplitline)
@@ -414,9 +415,32 @@ import APITable from '@site/src/components/APITable';
 |axisLabel|||坐标轴刻度标签。 [AxisLabel](#axislabel)|
 |splitLine|||坐标轴分割线。 [AxisSplitLine](#axissplitline)|
 |splitArea|||坐标轴分割区域。 [AxisSplitArea](#axissplitarea)|
+|animation|||坐标轴动画。 [AxisAnimation](#axisanimation)|
 |minorTick||v3.2.0|坐标轴次刻度。 [AxisMinorTick](#axisminortick)|
 |minorSplitLine||v3.2.0|坐标轴次分割线。 [AxisMinorSplitLine](#axisminorsplitline)|
 |indicatorLabel||v3.4.0|指示器文本的样式。Tooltip为Cross时使用。 [LabelStyle](#labelstyle)|
+
+```mdx-code-block
+</APITable>
+```
+
+## AxisAnimation
+
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
+> 从 `v3.9.0` 开始支持
+
+坐标轴动画配置。
+
+```mdx-code-block
+<APITable name="AxisAnimation">
+```
+
+|参数|默认|版本|描述|
+|--|--|--|--|
+|show|true||是否开启动画。
+|duration|||动画时长(ms)。 默认设置为0时，会自动获取serie的动画时长。
+|unscaledTime|||动画是否受TimeScaled的影响。默认为 false 受TimeScaled的影响。
 
 ```mdx-code-block
 </APITable>
@@ -701,7 +725,7 @@ import APITable from '@site/src/components/APITable';
 
 ## ChildComponent
 
-> class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
+> class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle), [AxisAnimation](#axisanimation), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
 
 ## Comment
 

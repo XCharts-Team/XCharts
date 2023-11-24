@@ -249,7 +249,7 @@ namespace XCharts.Runtime
                 var isRectSymbol = symbol.type == SymbolType.Rect;
                 SerieHelper.GetSymbolInfo(out borderColor, out symbolBorder, out cornerRadius, serie, serieData, chart.theme, state);
                 var value = serieData.GetCurrData(dimension, dataAddDuration, dataChangeDuration, yAxis.inverse,
-                    yAxis.context.minValue, yAxis.context.maxValue, unscaledTime);
+                    0, 0, unscaledTime);
                 if (serieData.IsDataChanged()) dataChanging = true;
                 var pos = new Vector3(zeroX + (i + 0.5f) * xWidth,
                     zeroY + (j + 0.5f) * yWidth);

@@ -106,18 +106,20 @@ namespace XCharts.Runtime
 
         public new AxisLabel Clone()
         {
-            var axisLabel = new AxisLabel();
-            axisLabel.show = show;
-            axisLabel.formatter = formatter;
-            axisLabel.interval = interval;
-            axisLabel.inside = inside;
-            axisLabel.distance = distance;
-            axisLabel.numericFormatter = numericFormatter;
-            axisLabel.width = width;
-            axisLabel.height = height;
-            axisLabel.showStartLabel = showStartLabel;
-            axisLabel.showEndLabel = showEndLabel;
-            axisLabel.textLimit = textLimit.Clone();
+            var axisLabel = new AxisLabel
+            {
+                show = show,
+                formatter = formatter,
+                interval = interval,
+                inside = inside,
+                distance = distance,
+                numericFormatter = numericFormatter,
+                width = width,
+                height = height,
+                showStartLabel = showStartLabel,
+                showEndLabel = showEndLabel,
+                textLimit = textLimit.Clone()
+            };
             axisLabel.textStyle.Copy(textStyle);
             return axisLabel;
         }

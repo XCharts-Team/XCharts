@@ -21,7 +21,7 @@ namespace XCharts.Runtime
 
         public static bool NeedFormat(string content)
         {
-            return content.IndexOf('{') >= 0;
+            return !string.IsNullOrEmpty(content) && content.IndexOf('{') >= 0;
         }
 
         /// <summary>

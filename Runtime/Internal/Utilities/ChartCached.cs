@@ -22,6 +22,7 @@ namespace XCharts.Runtime
 
         private static Dictionary<double, Dictionary<string, string>> s_NumberToStr = new Dictionary<double, Dictionary<string, string>>();
         private static Dictionary<int, Dictionary<string, string>> s_PrecisionToStr = new Dictionary<int, Dictionary<string, string>>();
+        private static Dictionary<string, Dictionary<int, string>> s_StringIntDict = new Dictionary<string, Dictionary<int, string>>();
 
         public static string FloatToStr(double value, string numericFormatter = "F", int precision = 0)
         {
@@ -111,6 +112,19 @@ namespace XCharts.Runtime
                 s_SerieLabelName[key] = name;
                 return name;
             }
+        }
+
+        public static string GetString(string prefix, int suffix)
+        {
+            if (!s_StringIntDict.ContainsKey(prefix))
+            {
+                s_StringIntDict[prefix] = new Dictionary<int, string>();
+            }
+            if (!s_StringIntDict[prefix].ContainsKey(suffix))
+            {
+                s_StringIntDict[prefix][suffix] = prefix + suffix;
+            }
+            return s_StringIntDict[prefix][suffix];
         }
 
         internal static string GetComponentObjectName(MainComponent component)

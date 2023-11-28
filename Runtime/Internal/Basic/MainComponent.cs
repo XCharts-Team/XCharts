@@ -94,6 +94,7 @@ namespace XCharts.Runtime
         public virtual void InitComponent() { }
         public virtual void RemoveComponent() { }
         public virtual void CheckComponent(StringBuilder sb) { }
+        public virtual void BeforceSerieUpdate() { }
         public virtual void Update() { }
         public virtual void DrawBase(VertexHelper vh) { }
         public virtual void DrawUpper(VertexHelper vh) { }

@@ -438,7 +438,8 @@ namespace XCharts.Runtime
                 label.color = (!labelStyle.background.autoColor || autoColor == Color.clear) ?
                     labelStyle.background.color : autoColor;
                 label.sprite = labelStyle.background.sprite;
-                label.type = labelStyle.background.type;
+                if(label.type != labelStyle.background.type)
+                    label.type = labelStyle.background.type;
             }
             else
             {

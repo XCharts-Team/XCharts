@@ -109,11 +109,23 @@ namespace XCharts
                     }
                     else
                     {
-                        var xRate = axis.context.minMaxRange / grid.context.width;
-                        var xValue = xRate * (chart.pointerPos.x - grid.context.x - axis.context.offset);
-                        if (axis.context.minValue > 0)
-                            xValue += axis.context.minValue;
-
+                        double xValue;
+                        if (axis.IsLog())
+                        {
+                            var logBase = axis.logBase;
+                            var minLog = Math.Log(axis.context.minValue, logBase);
+                            var maxLog = Math.Log(axis.context.maxValue, logBase);
+                            var logRange = maxLog - minLog;
+                            var pointerLog = minLog + logRange * (chart.pointerPos.x - grid.context.x - axis.context.offset) / grid.context.width;
+                            xValue = Math.Pow(logBase, pointerLog);
+                        }
+                        else
+                        {
+                            var xRate = axis.context.minMaxRange / grid.context.width;
+                            xValue = xRate * (chart.pointerPos.x - grid.context.x - axis.context.offset);
+                            if (axis.context.minValue > 0)
+                                xValue += axis.context.minValue;
+                        }
                         var labelY = axis.GetLabelObjectPosition(0).y;
                         axis.context.pointerValue = xValue;
                         axis.context.pointerLabelPosition = new Vector3(chart.pointerPos.x, labelY);
@@ -153,7 +165,7 @@ namespace XCharts
                 else
                     dataZoom.SetYAxisIndexValueInfo(axisIndex, ref tempMinValue, ref tempMaxValue);
             }
-            
+
             if (tempMinValue != axis.context.destMinValue ||
                 tempMaxValue != axis.context.destMaxValue ||
                 m_LastInterval != axis.interval ||
@@ -898,7 +910,7 @@ namespace XCharts
                                 if (isLogAxis)
                                 {
                                     var count = 0;
-                                    var logRange = (axis.logBase - 1f);
+                                    var logRange = axis.logBase - 1f;
                                     minorTickDistance = scaleWidth * axis.GetLogValue(1 + (count + 1) * logRange / minorTickSplitNumber);
                                     var tickTotal = lastSplitX + minorTickDistance;
                                     while (tickTotal < current && count < minorTickSplitNumber - 1)

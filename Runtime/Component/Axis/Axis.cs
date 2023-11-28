@@ -727,6 +727,13 @@ namespace XCharts.Runtime
                 var each = axisLength / data.Count;
                 return (float)(each * (value + 0.5f));
             }
+            else if (IsLog())
+            {
+                var logValue = GetLogValue(value);
+                var logMin = GetLogValue(context.minValue);
+                var logMax = GetLogValue(context.maxValue);
+                return axisLength * (float)((logValue - logMin) / (logMax - logMin));
+            }
             else
             {
                 return axisLength * (float)((value - context.minValue) / context.minMaxRange);

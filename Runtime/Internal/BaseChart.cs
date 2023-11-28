@@ -194,6 +194,7 @@ namespace XCharts.Runtime
             CheckRefreshChart();
             Internal_CheckAnimation();
             foreach (var handler in m_SerieHandlers) handler.BeforeUpdate();
+            foreach (var handler in m_ComponentHandlers) handler.BeforceSerieUpdate();
             foreach (var handler in m_SerieHandlers) handler.Update();
             foreach (var handler in m_ComponentHandlers) handler.Update();
             foreach (var handler in m_SerieHandlers) handler.AfterUpdate();

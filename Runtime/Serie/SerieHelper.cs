@@ -469,7 +469,9 @@ namespace XCharts.Runtime
             else
             {
                 var stateStyle = GetStateStyle(serie, serieData, state);
-                return stateStyle == null || !stateStyle.show ? serie.label : stateStyle.label;
+                if (stateStyle != null && stateStyle.show) return stateStyle.label;
+                else if (serieData.labelStyle != null) return serieData.labelStyle;
+                else return serie.label;
             }
         }
 
@@ -483,7 +485,9 @@ namespace XCharts.Runtime
             else
             {
                 var stateStyle = GetStateStyle(serie, serieData, state);
-                return stateStyle == null || !stateStyle.show ? serie.labelLine : stateStyle.labelLine;
+                if (stateStyle != null && stateStyle.show) return stateStyle.labelLine;
+                else if (serieData.labelLine != null) return serieData.labelLine;
+                else return serie.labelLine;
             }
         }
 
@@ -497,7 +501,9 @@ namespace XCharts.Runtime
             else
             {
                 var stateStyle = GetStateStyle(serie, serieData, state);
-                return stateStyle == null || !stateStyle.show ? serie.symbol : stateStyle.symbol;
+                if (stateStyle != null && stateStyle.show) return stateStyle.symbol;
+                else if (serieData.symbol != null) return serieData.symbol;
+                else return serie.symbol;
             }
         }
 

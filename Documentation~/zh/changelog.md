@@ -81,6 +81,12 @@ slug: /changelog
 * 完善代码注释和手册文档
 * 修复若干问题
 
+扩展功能：
+
+* `UITable`增加轮播功能
+* `UITable`增加数据操作接口和回调函数
+* `Pie3DChart`优化绘制表现
+
 日志详情：
 
 * (2023.12.01) 修复`Tooltip`的`titleFormatter`设置为`{b}`后显示不准确的问题

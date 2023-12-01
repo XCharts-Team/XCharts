@@ -76,6 +76,12 @@ Highlights:
 * Perfect code comments and documentation
 * Fixed several issues
 
+Extended features:
+
+* `UITable` adds the carousel function
+* `UITable` adds data api and callback functions
+* `Pie3DChart` optimizes rendering performance
+
 Log details:
 
 * (2023.12.01) Fixed inaccurate display of Tooltip's `titleFormatter` set to `{b}`

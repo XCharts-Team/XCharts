@@ -965,6 +965,7 @@ Configurations of blur state.
 |ColorToStr()||public static string ColorToStr(Color color)|
 |FloatToStr()||public static string FloatToStr(double value, string numericFormatter = "F", int precision = 0)|
 |GetSerieLabelName()||public static string GetSerieLabelName(string prefix, int i, int j)|
+|GetString()||public static string GetString(string prefix, int suffix)|
 |IntToStr()||public static string IntToStr(int value, string numericFormatter = "")|
 |NumberToStr()||public static string NumberToStr(double value, string formatter)|
 
@@ -1851,6 +1852,7 @@ Location type. Quick to set the general location.
 
 |public method|since|description|
 |--|--|--|
+|BeforceSerieUpdate()||public virtual void BeforceSerieUpdate() { }|
 |CheckComponent()||public virtual void CheckComponent(StringBuilder sb) { }|
 |DrawBase()||public virtual void DrawBase(VertexHelper vh) { }|
 |DrawTop()||public virtual void DrawTop(VertexHelper vh) { }|

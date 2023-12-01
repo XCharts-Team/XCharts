@@ -69,14 +69,21 @@
 
 Highlights:
 
+* Added `Animation` in `Axis` to improve the animation effect of data changes
 * Added `minorTick` for `Log` type of `Axis`
-* Increase whether MarkLine's `onTop` setting is displayed at the top level
+* Added MarkLine's `onTop` setting to displayed at the top level
 * Added `UITable` to the wheel casting function, refactoring `UITable`
 * Perfect code comments and documentation
 * Fixed several issues
 
 Log details:
 
+* (2023.12.01) Fixed inaccurate display of Tooltip's `titleFormatter` set to `{b}`
+* (2023.11.30) Added support for `SerieData` to add `Label` separately
+* (2023.11.28) Fix to `Tooltip` incorrectly indicating the number line
+* (2023.11.24) fixed inaccurate return values in Chart's `UpdateData()` interface
+* (2023.11.24) Fix to `Axis` not working smoothly when updating data
+* (2023.11.23) Added Animation support for Axis
 * (2023.11.16) Cancel `Legend`'s `formatter` and replace it with `LabelStyle`
 * (2023.11.14) Improved annotation and documentation for LabelStyle's formatter (#291)
 * (2023.11.11) Fix to comments Documentation for some comments in `Documentation` (#290)

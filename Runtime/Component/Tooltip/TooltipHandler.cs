@@ -306,8 +306,10 @@ namespace XCharts.Runtime
             {
                 if (isTriggerAxis)
                 {
+                    var index = serie.context.dataZoomStartIndex + (int)yAxis.context.pointerValue;
                     serie.context.pointerEnter = true;
-                    serie.context.pointerAxisDataIndexs.Add((int)yAxis.context.pointerValue);
+                    serie.context.pointerAxisDataIndexs.Add(index);
+                    serie.context.pointerItemDataIndex = index;
                     yAxis.context.axisTooltipValue = yAxis.context.pointerValue;
                 }
             }

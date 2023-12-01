@@ -40,6 +40,10 @@ namespace XCharts.Runtime
         {
             var foundDot = false;
             var mc = s_Regex.Matches(content);
+            if (dataIndex < 0)
+            {
+                dataIndex = serie != null ? serie.context.pointerItemDataIndex : 0;
+            }
             foreach (var m in mc)
             {
                 var old = m.ToString();
@@ -99,10 +103,10 @@ namespace XCharts.Runtime
                         var args1Str = args[1].ToString();
                         if (s_RegexN.IsMatch(args1Str)) bIndex = int.Parse(args1Str);
                     }
-                    var needCategory = (p != 'e' && p != 'E') && serie.defaultColorBy != SerieColorBy.Data;
+                    var needCategory = p != 'e' && p != 'E' && serie.defaultColorBy != SerieColorBy.Data;
                     if (needCategory)
                     {
-                        var category = chart.GetTooltipCategory(dataIndex, serie);
+                        var category = chart.GetTooltipCategory(serie);
                         content = content.Replace(old, category);
                     }
                     else

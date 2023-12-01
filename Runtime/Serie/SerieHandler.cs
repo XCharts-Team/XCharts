@@ -419,7 +419,7 @@ namespace XCharts.Runtime
                     else
                     {
                         content = titleStyle.formatter;
-                        FormatterHelper.ReplaceContent(ref content, 0, titleStyle.numericFormatter, serie, chart);
+                        FormatterHelper.ReplaceContent(ref content, -1, titleStyle.numericFormatter, serie, chart);
                     }
                     var label = ChartHelper.AddChartLabel("title_" + 0, serieTitleRoot.transform, titleStyle, chart.theme.common,
                         content, color, TextAnchor.MiddleCenter);
@@ -446,9 +446,8 @@ namespace XCharts.Runtime
                     else
                     {
                         content = titleStyle.formatter;
-                        FormatterHelper.ReplaceContent(ref content, 0, titleStyle.numericFormatter, serie, chart);
+                        FormatterHelper.ReplaceContent(ref content, i, titleStyle.numericFormatter, serie, chart);
                     }
-                    FormatterHelper.ReplaceContent(ref content, i, titleStyle.numericFormatter, serie, chart);
                     var label = ChartHelper.AddChartLabel("title_" + i, serieTitleRoot.transform, titleStyle, chart.theme.common,
                         content, color, TextAnchor.MiddleCenter);
                     serieData.titleObject = label;

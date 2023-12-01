@@ -93,7 +93,7 @@ namespace XCharts.Example
             //Debug.Log("OnDrawAfterSerie: " + serie.index);
             if (serie.index != 0) return;
             var dataPoints = serie.context.dataPoints;
-            if (dataPoints.Count > 0)
+            if (dataPoints.Count > 4)
             {
                 var pos = dataPoints[3];
                 var grid = chart.GetChartComponent<GridCoord>();

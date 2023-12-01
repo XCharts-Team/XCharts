@@ -16,7 +16,7 @@ namespace XCharts.Runtime
                 else
                 {
                     tooltip.context.data.title = tooltip.titleFormatter;
-                    FormatterHelper.ReplaceContent(ref tooltip.context.data.title, 0,
+                    FormatterHelper.ReplaceContent(ref tooltip.context.data.title, -1,
                         tooltip.numericFormatter, null, chart);
                 }
             }

@@ -83,6 +83,7 @@ Extended features:
 
 Log details:
 
+* (2023.12.01) Release `v3.9.0`
 * (2023.12.01) Fixed inaccurate display of Tooltip's `titleFormatter` set to `{b}`
 * (2023.11.30) Added support for `SerieData` to add `Label` separately
 * (2023.11.28) Fix to `Tooltip` incorrectly indicating the number line

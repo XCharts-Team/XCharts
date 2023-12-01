@@ -184,7 +184,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Ensure that the transform has the specified component, add it if not.
-        /// |确保对象有指定的组件，如果没有则添加。
+        /// ||确保对象有指定的组件，如果没有则添加。
         /// </summary>
         /// <param name="transform"></param>
         /// <typeparam name="T"></typeparam>
@@ -196,7 +196,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Ensure that the game object has the specified component, add it if not.
-        /// | 确保对象有指定的组件，如果没有则添加。
+        /// || 确保对象有指定的组件，如果没有则添加。
         /// </summary>
         /// <param name="gameObject"></param>
         /// <typeparam name="T"></typeparam>
@@ -438,7 +438,8 @@ namespace XCharts.Runtime
                 label.color = (!labelStyle.background.autoColor || autoColor == Color.clear) ?
                     labelStyle.background.color : autoColor;
                 label.sprite = labelStyle.background.sprite;
-                label.type = labelStyle.background.type;
+                if(label.type != labelStyle.background.type)
+                    label.type = labelStyle.background.type;
             }
             else
             {
@@ -682,7 +683,7 @@ namespace XCharts.Runtime
         public static double GetMaxDivisibleValue(double max, double ceilRate)
         {
             if (max == 0) return 0;
-			double pow = 1;
+            double pow = 1;
             if (max > -1 && max < 1)
             {
                 pow = Mathf.Pow(10, MathUtil.GetPrecision(max));
@@ -739,7 +740,7 @@ namespace XCharts.Runtime
         public static double GetMinDivisibleValue(double min, double ceilRate)
         {
             if (min == 0) return 0;
-			double pow = 1;
+            double pow = 1;
             if (min > -1 && min < 1)
             {
                 pow = Mathf.Pow(10, MathUtil.GetPrecision(min));
@@ -770,20 +771,13 @@ namespace XCharts.Runtime
 
         public static double GetMaxLogValue(double value, float logBase, bool isLogBaseE, out int splitNumber)
         {
-            splitNumber = 0;
+            splitNumber = 1;
             if (value <= 0) return 0;
-            double max = 0;
+            double max = isLogBaseE ? Math.Exp(splitNumber) : Math.Pow(logBase, splitNumber);
             while (max < value)
             {
-                if (isLogBaseE)
-                {
-                    max = Math.Exp(splitNumber);
-                }
-                else
-                {
-                    max = Math.Pow(logBase, splitNumber);
-                }
                 splitNumber++;
+                max = isLogBaseE ? Math.Exp(splitNumber) : Math.Pow(logBase, splitNumber);
             }
             return max;
         }
@@ -791,19 +785,13 @@ namespace XCharts.Runtime
         public static double GetMinLogValue(double value, float logBase, bool isLogBaseE, out int splitNumber)
         {
             splitNumber = 0;
+            if (value <= 0) return 0;
             if (value > 1) return 1;
-            double min = 1;
+            double min = isLogBaseE ? Math.Exp(-splitNumber) : Math.Pow(logBase, -splitNumber);
             while (min > value)
             {
-                if (isLogBaseE)
-                {
-                    min = Math.Exp(-splitNumber);
-                }
-                else
-                {
-                    min = Math.Pow(logBase, -splitNumber);
-                }
                 splitNumber++;
+                min = isLogBaseE ? Math.Exp(-splitNumber) : Math.Pow(logBase, -splitNumber);
             }
             return min;
         }

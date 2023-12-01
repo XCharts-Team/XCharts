@@ -5,66 +5,66 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Text label of chart, to explain some data information about graphic item like value, name and so on.
-    /// |图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
+    /// ||图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
     /// </summary>
     [System.Serializable]
     public class LabelStyle : ChildComponent, ISerieComponent, ISerieDataComponent
     {
         /// <summary>
         /// The position of label.
-        /// |标签的位置。
+        /// ||标签的位置。
         /// </summary>
         public enum Position
         {
             Default,
             /// <summary>
             /// Outside of sectors of pie chart, which relates to corresponding sector through visual guide line.
-            /// |饼图扇区外侧，通过视觉引导线连到相应的扇区。
+            /// ||饼图扇区外侧，通过视觉引导线连到相应的扇区。
             /// </summary>
             Outside,
             /// <summary>
             /// Inside the sectors of pie chart.
-            /// |饼图扇区内部。
+            /// ||饼图扇区内部。
             /// </summary>
             Inside,
             /// <summary>
             /// In the center of pie chart.
-            /// |在饼图中心位置。
+            /// ||在饼图中心位置。
             /// </summary>
             Center,
             /// <summary>
             /// top of symbol.
-            /// |图形标志的顶部。
+            /// ||图形标志的顶部。
             /// </summary>
             Top,
             /// <summary>
             /// the bottom of symbol.
-            /// |图形标志的底部。
+            /// ||图形标志的底部。
             /// </summary>
             Bottom,
             /// <summary>
             /// the left of symbol.
-            /// |图形标志的左边。
+            /// ||图形标志的左边。
             /// </summary>
             Left,
             /// <summary>
             /// the right of symbol.
-            /// |图形标志的右边。
+            /// ||图形标志的右边。
             /// </summary>
             Right,
             /// <summary>
             /// the start of line.
-            /// |线的起始点。
+            /// ||线的起始点。
             /// </summary>
             Start,
             /// <summary>
             /// the middle of line.
-            /// |线的中点。
+            /// ||线的中点。
             /// </summary>
             Middle,
             /// <summary>
             /// the end of line.
-            /// |线的结束点。
+            /// ||线的结束点。
             /// </summary>
             End
         }
@@ -102,7 +102,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether the label is showed.
-        /// |是否显示文本标签。
+        /// ||是否显示文本标签。
         /// </summary>
         public bool show
         {
@@ -111,7 +111,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The position of label.
-        /// |标签的位置。
+        /// ||标签的位置。
         /// </summary>
         public Position position
         {
@@ -119,17 +119,61 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_Position, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// formatter of label.
-        /// |标签内容字符串模版格式器。支持用 \n 换行。
-        /// 模板变量有：
-        /// {.}：圆点标记。
-        /// {a}：系列名。
-        /// {a}：系列名。
-        /// {b}：类目值或数据名。
-        /// {c}：数据值。
-        /// {d}：百分比。
-        /// {e}：数据名。
-        /// {f}：数据和。
+        /// label content string template formatter. \n line wrapping is supported. Formatters for some components will not take effect. <br />
+        /// Template placeholder have the following, some of which apply only to fixed components: <br />
+        /// `{.}` : indicates the dot mark. <br />
+        /// `{a}` : indicates the series name. <br />
+        /// `{b}` : category value or data name. <br />
+        /// `{c}` : data value. <br />
+        /// `{d}` : percentage. <br />
+        /// `{e}` : indicates the data name. <br />
+        /// `{f}` : data sum. <br />
+        /// `{g}` : indicates the total number of data. <br />
+        /// `{h}` : hexadecimal color value. <br />
+        /// `{value}` : The value of the axis or legend. <br />
+        /// The following placeholder apply to `UITable` components: <br />
+        /// `{name}` : indicates the row name of the table. <br />
+        /// `{index}` : indicates the row number of the table. <br />
+        /// The following placeholder apply to `UIStatistc` components: <br />
+        /// `{title}` : title text. <br />
+        /// `{dd}` : day. <br />
+        /// `{hh}` : hours. <br />
+        /// `{mm}` : minutes. <br />
+        /// `{ss}` : second. <br />
+        /// `{fff}` : milliseconds. <br />
+        /// `{d}` : day. <br />
+        /// `{h}` : hours. <br />
+        /// `{m}` : minutes. <br />
+        /// `{s}` : second. <br />
+        /// `{f}` : milliseconds. <br />
+        /// Example :{b}:{c}<br />
+        /// ||标签内容字符串模版格式器。支持用 \n 换行。部分组件的格式器会不生效。<br/>
+        /// 模板通配符有以下这些，部分只适用于固定的组件：<br/>
+        /// `{.}`：圆点标记。<br/>
+        /// `{a}`：系列名。<br/>
+        /// `{b}`：类目值或数据名。<br/>
+        /// `{c}`：数据值。<br/>
+        /// `{d}`：百分比。<br/>
+        /// `{e}`：数据名。<br/>
+        /// `{f}`：数据和。<br/>
+        /// `{g}`：数据总个数。<br/>
+        /// `{h}`：十六进制颜色值。<br/> 
+        /// `{value}`：坐标轴或图例的值。<br/>
+        /// 以下通配符适用UITable组件：<br/>
+        /// `{name}`： 表格的行名。<br/>
+        /// `{index}`：表格的行号。<br/>
+        /// 以下通配符适用UIStatistc组件：<br/>
+        /// `{title}`：标题文本。<br/>
+        /// `{dd}`：天。<br/>
+        /// `{hh}`：小时。<br/>
+        /// `{mm}`：分钟。<br/>
+        /// `{ss}`：秒。<br/>
+        /// `{fff}`：毫秒。<br/>
+        /// `{d}`：天。<br/>
+        /// `{h}`：小时。<br/>
+        /// `{m}`：分钟。<br/>
+        /// `{s}`：秒。<br/>
+        /// `{f}`：毫秒。<br/>
         /// 示例：“{b}:{c}”
         /// </summary>
         public string formatter
@@ -138,8 +182,25 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetClass(ref m_Formatter, value)) SetComponentDirty(); }
         }
         /// <summary>
+        /// Standard number and date format string. Used to format a Double value or a DateTime date as a string. numericFormatter is used as an argument to either `Double.ToString ()` or `DateTime.ToString()`. <br />
+        /// The number format uses the Axx format: A is a single-character format specifier that supports C currency, D decimal, E exponent, F fixed-point number, G regular, N digit, P percentage, R round trip, and X hexadecimal. xx is precision specification, from 0-99. E.g. F1, E2<br />
+        /// Date format Common date formats are: yyyy year, MM month, dd day, HH hour, mm minute, ss second, fff millisecond. For example: yyyy-MM-dd HH:mm:ss<br />
+        /// number format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/>
+        /// date format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/>
+        /// ||标准数字和日期格式字符串。用于将Double数值或DateTime日期格式化显示为字符串。numericFormatter用来作为Double.ToString()或DateTime.ToString()的参数。<br/>
+        /// 数字格式使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。如：F1, E2<br/>
+        /// 日期格式常见的格式：yyyy年，MM月，dd日，HH时，mm分，ss秒，fff毫秒。如：yyyy-MM-dd HH:mm:ss<br/>
+        /// 数值格式化参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings <br/>
+        /// 日期格式化参考：https://learn.microsoft.com/zh-cn/dotnet/standard/base-types/standard-date-and-time-format-strings
+        /// </summary>
+        public string numericFormatter
+        {
+            get { return m_NumericFormatter; }
+            set { if (PropertyUtil.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
+        }
+        /// <summary>
         /// offset to the host graphic element.
-        /// |距离图形元素的偏移
+        /// ||距离图形元素的偏移
         /// </summary>
         public Vector3 offset
         {
@@ -148,7 +209,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Rotation of label.
-        /// |文本的旋转。
+        /// ||文本的旋转。
         /// </summary>
         public float rotate
         {
@@ -157,7 +218,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// auto rotate of label.
-        /// |是否自动旋转。
+        /// ||是否自动旋转。
         /// </summary>
         public bool autoRotate
         {
@@ -165,7 +226,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_AutoRotate, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// 距离轴线的距离。
+        /// the distance of label to axis line.
+        /// ||距离轴线的距离。
         /// </summary>
         public float distance
         {
@@ -174,9 +236,8 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the width of label. If set as default value 0, it means than the label width auto set as the text width.
-        /// |标签的宽度。一般不用指定，不指定时则自动是文字的宽度。
+        /// ||标签的宽度。一般不用指定，不指定时则自动是文字的宽度。
         /// </summary>
-        /// <value></value>
         public float width
         {
             get { return m_Width; }
@@ -184,9 +245,8 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the height of label. If set as default value 0, it means than the label height auto set as the text height.
-        /// |标签的高度。一般不用指定，不指定时则自动是文字的高度。
+        /// ||标签的高度。一般不用指定，不指定时则自动是文字的高度。
         /// </summary>
-        /// <value></value>
         public float height
         {
             get { return m_Height; }
@@ -194,7 +254,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the text padding of label. 
-        /// |文本的边距。
+        /// ||文本的边距。
         /// </summary>
         public TextPadding textPadding
         {
@@ -202,19 +262,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetClass(ref m_TextPadding, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// Standard numeric format strings.
-        /// |标准数字格式字符串。用于将数值格式化显示为字符串。
-        /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
-        /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
-        /// </summary>
-        /// <value></value>
-        public string numericFormatter
-        {
-            get { return m_NumericFormatter; }
-            set { if (PropertyUtil.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// 是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。
+        /// Whether to automatically offset. When turned on, the Y offset will automatically determine the opening of the curve to determine whether to offset up or down.
+        /// ||是否开启自动偏移。当开启时，Y的偏移会自动判断曲线的开口来决定向上还是向下偏移。
         /// </summary>
         public bool autoOffset
         {
@@ -223,7 +272,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the sytle of background.
-        /// |背景图样式。
+        /// ||背景图样式。
         /// </summary>
         public ImageStyle background
         {
@@ -232,7 +281,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the sytle of icon.
-        /// |图标样式。
+        /// ||图标样式。
         /// </summary>
         public IconStyle icon
         {
@@ -241,19 +290,26 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the sytle of text.
-        /// |文本样式。
+        /// ||文本样式。
         /// </summary>
         public TextStyle textStyle
         {
             get { return m_TextStyle; }
             set { if (PropertyUtil.SetClass(ref m_TextStyle, value)) SetAllDirty(); }
         }
+        /// <summary>
+        /// the formatter function of label, which supports string template and callback function.
+        /// ||标签的文本格式化函数，支持字符串模版和回调函数。
+        /// </summary>
         public LabelFormatterFunction formatterFunction
         {
             get { return m_FormatterFunction; }
             set { m_FormatterFunction = value; }
         }
-
+        /// <summary>
+        /// whether the label is inside.
+        /// ||是否在内部。
+        /// </summary>
         public bool IsInside()
         {
             return m_Position == Position.Inside || m_Position == Position.Center;
@@ -397,7 +453,14 @@ namespace XCharts.Runtime
             }
             else
             {
-                dateString = dateTime.ToString(numericFormatter);
+                try
+                {
+                    dateString = dateTime.ToString(numericFormatter);
+                }
+                catch
+                {
+                    XLog.Warning("not support datetime formatter:" + numericFormatter);
+                }
             }
             if (!string.IsNullOrEmpty(m_Formatter))
             {

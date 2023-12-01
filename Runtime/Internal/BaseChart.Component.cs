@@ -268,7 +268,7 @@ namespace XCharts.Runtime
         /// <summary>
         /// Ensure the chart has the component, if not, add it. 
         /// Note: it may fail to add.
-        /// |确保图表有该组件，如果没有则添加。注意：有可能添加不成功。
+        /// ||确保图表有该组件，如果没有则添加。注意：有可能添加不成功。
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns>component, or null if add failed.</returns>
@@ -395,7 +395,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// reutrn true when all the show axis is `Value` type.
-        /// |纯数值坐标轴（数值轴或对数轴）。
+        /// ||纯数值坐标轴（数值轴或对数轴）。
         /// </summary>
         public bool IsAllAxisValue()
         {
@@ -439,31 +439,17 @@ namespace XCharts.Runtime
             return false;
         }
 
-        internal string GetTooltipCategory(int dataIndex, DataZoom dataZoom = null)
-        {
-            var xAxis = GetChartComponent<XAxis>();
-            var yAxis = GetChartComponent<YAxis>();
-            if (yAxis.IsCategory())
-            {
-                return yAxis.GetData((int)yAxis.context.pointerValue, dataZoom);
-            }
-            else if (xAxis.IsCategory())
-            {
-                return xAxis.GetData((int)xAxis.context.pointerValue, dataZoom);
-            }
-            return null;
-        }
-        internal string GetTooltipCategory(int dataIndex, Serie serie, DataZoom dataZoom = null)
+        internal string GetTooltipCategory(Serie serie)
         {
             var xAxis = GetChartComponent<XAxis>(serie.xAxisIndex);
             var yAxis = GetChartComponent<YAxis>(serie.yAxisIndex);
             if (yAxis.IsCategory())
             {
-                return yAxis.GetData((int)yAxis.context.pointerValue, dataZoom);
+                return yAxis.GetData(serie.context.pointerItemDataIndex);
             }
             else if (xAxis.IsCategory())
             {
-                return xAxis.GetData((int)xAxis.context.pointerValue, dataZoom);
+                return xAxis.GetData(serie.context.pointerItemDataIndex);
             }
             return null;
         }

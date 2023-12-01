@@ -12,23 +12,23 @@ namespace XCharts.Runtime
     {
         /// <summary>
         /// the type of value.
-        /// |数值类型。
+        /// ||数值类型。
         /// </summary>
         public enum Type
         {
             /// <summary>
             /// Percent value form.
-            /// |百分比形式。
+            /// ||百分比形式。
             /// </summary>
             Percent,
             /// <summary>
             /// Absolute value form.
-            /// |绝对值形式。
+            /// ||绝对值形式。
             /// </summary>
             Absolute,
             /// <summary>
             /// Extra value form.
-            /// |额外形式。
+            /// ||额外形式。
             /// </summary>
             Extra
         }
@@ -52,7 +52,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Get the value by type.
-        /// |根据类型获取值。
+        /// ||根据类型获取值。
         /// </summary>
         /// <param name="total">默认值</param>
         /// <returns></returns>

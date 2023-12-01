@@ -4,7 +4,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Settings related to axis minor tick.
-    /// |坐标轴次刻度相关设置。注意：次刻度无法在类目轴中使用。
+    /// ||坐标轴次刻度相关设置。注意：次刻度无法在类目轴中使用。
     /// </summary>
     [System.Serializable]
     [Since("v3.2.0")]
@@ -15,7 +15,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Number of segments that the axis is split into.
-        /// |分隔线之间分割的刻度数。
+        /// ||分隔线之间分割的刻度数。
         /// </summary>
         public int splitNumber
         {

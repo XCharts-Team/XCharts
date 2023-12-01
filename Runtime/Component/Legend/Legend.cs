@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace XCharts.Runtime
     /// <summary>
     /// Legend component.The legend component shows different sets of tags, colors, and names. 
     /// You can control which series are not displayed by clicking on the legend.
-    /// |图例组件。
+    /// ||图例组件。
     /// 图例组件展现了不同系列的标记，颜色和名字。可以通过点击图例控制哪些系列不显示。
     /// </summary>
     [System.Serializable]
@@ -50,7 +51,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Selected mode of legend, which controls whether series can be toggled displaying by clicking legends.
-        /// |图例选择的模式，控制是否可以通过点击图例改变系列的显示状态。默认开启图例选择，可以设成 None 关闭。
+        /// ||图例选择的模式，控制是否可以通过点击图例改变系列的显示状态。默认开启图例选择，可以设成 None 关闭。
         /// </summary>
         public enum SelectedMode
         {
@@ -79,7 +80,6 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_ItemAutoColor = true;
         [SerializeField] private float m_ItemOpacity = 1;
         [SerializeField] private string m_Formatter;
-        [SerializeField] protected string m_NumericFormatter = "";
         [SerializeField] private LabelStyle m_LabelStyle = new LabelStyle();
         [SerializeField] private List<string> m_Data = new List<string>();
         [SerializeField] private List<Sprite> m_Icons = new List<Sprite>();
@@ -92,7 +92,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether to show legend component.
-        /// |是否显示图例组件。
+        /// ||是否显示图例组件。
         /// </summary>
         public bool show
         {
@@ -101,7 +101,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Type of legend.
-        /// |图例类型。
+        /// ||图例类型。
         /// </summary>
         public Type iconType
         {
@@ -110,7 +110,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Selected mode of legend, which controls whether series can be toggled displaying by clicking legends.
-        /// |选择模式。控制是否可以通过点击图例改变系列的显示状态。默认开启图例选择，可以设成 None 关闭。
+        /// ||选择模式。控制是否可以通过点击图例改变系列的显示状态。默认开启图例选择，可以设成 None 关闭。
         /// </summary>
         public SelectedMode selectedMode
         {
@@ -119,7 +119,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Specify whether the layout of legend component is horizontal or vertical.
-        /// |布局方式是横还是竖。
+        /// ||布局方式是横还是竖。
         /// </summary>
         public Orient orient
         {
@@ -128,7 +128,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The location of legend.
-        /// |图例显示的位置。
+        /// ||图例显示的位置。
         /// </summary>
         public Location location
         {
@@ -137,7 +137,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Image width of legend symbol.
-        /// |图例标记的图形宽度。
+        /// ||图例标记的图形宽度。
         /// </summary>
         public float itemWidth
         {
@@ -146,7 +146,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Image height of legend symbol.
-        /// |图例标记的图形高度。
+        /// ||图例标记的图形高度。
         /// </summary>
         public float itemHeight
         {
@@ -155,7 +155,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The distance between each legend, horizontal distance in horizontal layout, and vertical distance in vertical layout.
-        /// |图例每项之间的间隔。横向布局时为水平间隔，纵向布局时为纵向间隔。
+        /// ||图例每项之间的间隔。横向布局时为水平间隔，纵向布局时为纵向间隔。
         /// </summary>
         public float itemGap
         {
@@ -164,7 +164,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether the legend symbol matches the color automatically.
-        /// |图例标记的图形是否自动匹配颜色。
+        /// ||图例标记的图形是否自动匹配颜色。
         /// </summary>
         public bool itemAutoColor
         {
@@ -173,7 +173,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the opacity of item color.
-        /// |图例标记的图形的颜色透明度。
+        /// ||图例标记的图形的颜色透明度。
         /// </summary>
         public float itemOpacity
         {
@@ -181,21 +181,10 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_ItemOpacity, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// Standard numeric format strings.
-        /// |标准数字格式字符串。用于将数值格式化显示为字符串。
-        /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
-        /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
+        /// No longer used, the use of LabelStyle.formatter instead.
+        /// ||不再使用，使用LabelStyle.formatter代替。
         /// </summary>
-        public string numericFormatter
-        {
-            get { return m_NumericFormatter; }
-            set { if (PropertyUtil.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
-        }
-        /// <summary>
-        /// Legend content string template formatter. Support for wrapping lines with \n. Template:{value}.
-        /// |图例内容字符串模版格式器。支持用 \n 换行。
-        /// 模板变量为图例名称 {value}。其他模板变量参考Toolip的itemFormatter。
-        /// </summary>
+        [Obsolete("Use LabelStyle.formatter instead.", false)] 
         public string formatter
         {
             get { return m_Formatter; }
@@ -203,7 +192,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the style of text.
-        /// |文本样式。
+        /// ||文本样式。
         /// </summary>
         public LabelStyle labelStyle
         {
@@ -212,7 +201,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the sytle of background.
-        /// |背景图样式。
+        /// ||背景图样式。
         /// </summary>
         public ImageStyle background
         {
@@ -221,7 +210,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the paddinng of item and background.
-        /// |图例标记和背景的间距。
+        /// ||图例标记和背景的间距。
         /// </summary>
         public Padding padding
         {
@@ -232,7 +221,7 @@ namespace XCharts.Runtime
         /// Data array of legend. An array item is usually a name representing string. (If it is a pie chart, 
         /// it could also be the name of a single data in the pie chart) of a series.
         /// If data is not specified, it will be auto collected from series.
-        /// |图例的数据数组。数组项通常为一个字符串，每一项代表一个系列的 name（如果是饼图，也可以是饼图单个数据的 name）。
+        /// ||图例的数据数组。数组项通常为一个字符串，每一项代表一个系列的 name（如果是饼图，也可以是饼图单个数据的 name）。
         /// 如果 data 没有被指定，会自动从当前系列中获取。指定data时里面的数据项和serie匹配时才会生效。
         /// </summary>
         public List<string> data
@@ -250,7 +239,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the colors of legend item.
-        /// |图例标记的颜色列表。
+        /// ||图例标记的颜色列表。
         /// </summary>
         public List<Color> colors
         {
@@ -259,7 +248,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the custom positions of legend item.
-        /// |图例标记的自定义位置列表。
+        /// ||图例标记的自定义位置列表。
         /// </summary>
         public List<Vector3> positions
         {
@@ -287,7 +276,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Clear legend data.
-        /// |清空。
+        /// ||清空。
         /// </summary>
         public override void ClearData()
         {
@@ -297,7 +286,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether include in legend data by the specified name.
-        /// |是否包括由指定名字的图例
+        /// ||是否包括由指定名字的图例
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -308,7 +297,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Removes the legend with the specified name.
-        /// |移除指定名字的图例。
+        /// ||移除指定名字的图例。
         /// </summary>
         /// <param name="name"></param>
         public void RemoveData(string name)
@@ -322,7 +311,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Add legend data.
-        /// |添加图例。
+        /// ||添加图例。
         /// </summary>
         /// <param name="name"></param>
         public void AddData(string name)
@@ -336,7 +325,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Gets the legend for the specified index.
-        /// |获得指定索引的图例。
+        /// ||获得指定索引的图例。
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -351,7 +340,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Gets the index of the specified legend.
-        /// |获得指定图例的索引。
+        /// ||获得指定图例的索引。
         /// </summary>
         /// <param name="legendName"></param>
         /// <returns></returns>
@@ -362,7 +351,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Remove all legend buttons.
-        /// |移除所有图例按钮。
+        /// ||移除所有图例按钮。
         /// </summary>
         public void RemoveButton()
         {
@@ -371,7 +360,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Bind buttons to legends.
-        /// |给图例绑定按钮。
+        /// ||给图例绑定按钮。
         /// </summary>
         /// <param name="name"></param>
         /// <param name="btn"></param>
@@ -386,7 +375,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Update the legend button color.
-        /// |更新图例按钮颜色。
+        /// ||更新图例按钮颜色。
         /// </summary>
         /// <param name="name"></param>
         /// <param name="color"></param>
@@ -400,7 +389,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Update the text color of legend.
-        /// |更新图例文字颜色。
+        /// ||更新图例文字颜色。
         /// </summary>
         /// <param name="name"></param>
         /// <param name="color"></param>
@@ -414,7 +403,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Gets the legend button for the specified index.
-        /// |获得指定索引的图例按钮。
+        /// ||获得指定索引的图例按钮。
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -448,7 +437,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Callback handling when parameters change.
-        /// |参数变更时的回调处理。
+        /// ||参数变更时的回调处理。
         /// </summary>
         public void OnChanged()
         {

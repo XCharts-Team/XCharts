@@ -118,7 +118,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Gets the maximum and minimum values of the specified dimension of a serie.
-        /// |获得系列指定维数的最大最小值。
+        /// ||获得系列指定维数的最大最小值。
         /// </summary>
         /// <param name="serie">指定系列</param>
         /// <param name="dimension">指定维数</param>
@@ -153,7 +153,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Gets the maximum and minimum values of all data in the serie.
-        /// |获得系列所有数据的最大最小值。
+        /// ||获得系列所有数据的最大最小值。
         /// </summary>
         /// <param name="serie"></param>
         /// <param name="min"></param>
@@ -194,7 +194,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether the data for the specified dimension of serie are all 0.
-        /// |系列指定维数的数据是否全部为0。
+        /// ||系列指定维数的数据是否全部为0。
         /// </summary>
         /// <param name="serie">系列</param>
         /// <param name="dimension">指定维数</param>
@@ -469,7 +469,9 @@ namespace XCharts.Runtime
             else
             {
                 var stateStyle = GetStateStyle(serie, serieData, state);
-                return stateStyle == null || !stateStyle.show ? serie.label : stateStyle.label;
+                if (stateStyle != null && stateStyle.show) return stateStyle.label;
+                else if (serieData.labelStyle != null) return serieData.labelStyle;
+                else return serie.label;
             }
         }
 
@@ -483,7 +485,9 @@ namespace XCharts.Runtime
             else
             {
                 var stateStyle = GetStateStyle(serie, serieData, state);
-                return stateStyle == null || !stateStyle.show ? serie.labelLine : stateStyle.labelLine;
+                if (stateStyle != null && stateStyle.show) return stateStyle.labelLine;
+                else if (serieData.labelLine != null) return serieData.labelLine;
+                else return serie.labelLine;
             }
         }
 
@@ -497,7 +501,9 @@ namespace XCharts.Runtime
             else
             {
                 var stateStyle = GetStateStyle(serie, serieData, state);
-                return stateStyle == null || !stateStyle.show ? serie.symbol : stateStyle.symbol;
+                if (stateStyle != null && stateStyle.show) return stateStyle.symbol;
+                else if (serieData.symbol != null) return serieData.symbol;
+                else return serie.symbol;
             }
         }
 

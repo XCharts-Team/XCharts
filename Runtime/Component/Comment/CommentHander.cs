@@ -47,7 +47,7 @@ namespace XCharts.Runtime
             if (item.content.IndexOf("{") >= 0)
             {
                 var content = item.content;
-                FormatterHelper.ReplaceContent(ref content, 0, item.labelStyle.numericFormatter, null, chart);
+                FormatterHelper.ReplaceContent(ref content, -1, item.labelStyle.numericFormatter, null, chart);
                 return content;
             }
             else

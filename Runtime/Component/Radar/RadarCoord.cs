@@ -15,7 +15,7 @@ namespace XCharts.Runtime
     {
         /// <summary>
         /// Radar render type, in which 'Polygon' and 'Circle' are supported.
-        /// |雷达图绘制类型，支持 'Polygon' 和 'Circle'。
+        /// ||雷达图绘制类型，支持 'Polygon' 和 'Circle'。
         /// </summary>
         public enum Shape
         {
@@ -24,24 +24,24 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The position type of radar.
-        /// |显示位置。
+        /// ||显示位置。
         /// </summary>
         public enum PositionType
         {
             /// <summary>
             /// Display at the vertex.
-            /// |显示在顶点处。
+            /// ||显示在顶点处。
             /// </summary>
             Vertice,
             /// <summary>
             /// Display at the middle of line.
-            /// |显示在两者之间。
+            /// ||显示在两者之间。
             /// </summary>
             Between,
         }
         /// <summary>
         /// Indicator of radar chart, which is used to assign multiple variables(dimensions) in radar chart.
-        /// |雷达图的指示器，用来指定雷达图中的多个变量（维度）。
+        /// ||雷达图的指示器，用来指定雷达图中的多个变量（维度）。
         /// </summary>
         [System.Serializable]
         public class Indicator
@@ -53,27 +53,27 @@ namespace XCharts.Runtime
 
             /// <summary>
             /// The name of indicator.
-            /// |指示器名称。
+            /// ||指示器名称。
             /// </summary>
             public string name { get { return m_Name; } set { m_Name = value; } }
             /// <summary>
             /// The maximum value of indicator, with default value of 0, but we recommend to set it manually.
-            /// |指示器的最大值，默认为 0 无限制。
+            /// ||指示器的最大值，默认为 0 无限制。
             /// </summary>
             public double max { get { return m_Max; } set { m_Max = value; } }
             /// <summary>
             /// The minimum value of indicator, with default value of 0.
-            /// |指示器的最小值，默认为 0 无限制。
+            /// ||指示器的最小值，默认为 0 无限制。
             /// </summary>
             public double min { get { return m_Min; } set { m_Min = value; } }
             /// <summary>
             /// the text conponent of indicator.
-            /// |指示器的文本组件。
+            /// ||指示器的文本组件。
             /// </summary>
             public Text text { get; set; }
             /// <summary>
             /// Normal range. When the value is outside this range, the display color is automatically changed.
-            /// |正常值范围。当数值不在这个范围时，会自动变更显示颜色。
+            /// ||正常值范围。当数值不在这个范围时，会自动变更显示颜色。
             /// </summary>
             public double[] range
             {
@@ -117,12 +117,12 @@ namespace XCharts.Runtime
         /// <summary>
         /// [default:true]
         /// Set this to false to prevent the radar from showing.
-        /// |是否显示雷达坐标系组件。
+        /// ||是否显示雷达坐标系组件。
         /// </summary>
         public bool show { get { return m_Show; } set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetComponentDirty(); } }
         /// <summary>
         /// Index of layout component that serie uses. Default is -1 means not use layout, otherwise use the first layout component.
-        /// |所使用的 layout 组件的 index。 默认为-1不指定index, 当为大于或等于0时, 为第一个layout组件的第index个格子。
+        /// ||所使用的 layout 组件的 index。 默认为-1不指定index, 当为大于或等于0时, 为第一个layout组件的第index个格子。
         /// </summary>
         public int gridIndex
         {
@@ -131,9 +131,8 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Radar render type, in which 'Polygon' and 'Circle' are supported.
-        /// |雷达图绘制类型，支持 'Polygon' 和 'Circle'。
+        /// ||雷达图绘制类型，支持 'Polygon' 和 'Circle'。
         /// </summary>
-        /// <value></value>
         public Shape shape
         {
             get { return m_Shape; }
@@ -141,7 +140,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the radius of radar.
-        /// |雷达图的半径。
+        /// ||雷达图的半径。
         /// </summary>
         public float radius
         {
@@ -150,7 +149,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Segments of indicator axis.
-        /// |指示器轴的分割段数。
+        /// ||指示器轴的分割段数。
         /// </summary>
         public int splitNumber
         {
@@ -159,7 +158,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the center of radar chart.
-        /// |雷达图的中心点。数组的第一项是横坐标，第二项是纵坐标。
+        /// ||雷达图的中心点。数组的第一项是横坐标，第二项是纵坐标。
         /// 当值为0-1之间时表示百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
         /// </summary>
         public float[] center
@@ -169,7 +168,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// axis line.
-        /// |轴线。
+        /// ||轴线。
         /// </summary>
         public AxisLine axisLine
         {
@@ -178,7 +177,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Name options for radar indicators.
-        /// |雷达图每个指示器名称的配置项。
+        /// ||雷达图每个指示器名称的配置项。
         /// </summary>
         public AxisName axisName
         {
@@ -187,7 +186,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// split line.
-        /// |分割线。
+        /// ||分割线。
         /// </summary>
         public AxisSplitLine splitLine
         {
@@ -196,7 +195,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Split area of axis in grid area.
-        /// |分割区域。
+        /// ||分割区域。
         /// </summary>
         public AxisSplitArea splitArea
         {
@@ -205,7 +204,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether to show indicator.
-        /// |是否显示指示器。
+        /// ||是否显示指示器。
         /// </summary>
         public bool indicator
         {
@@ -214,7 +213,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The gap of indicator and radar.
-        /// |指示器和雷达的间距。
+        /// ||指示器和雷达的间距。
         /// </summary>
         public float indicatorGap
         {
@@ -223,7 +222,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The ratio of maximum and minimum values rounded upward. The default is 0, which is automatically calculated.
-        /// |最大最小值向上取整的倍率。默认为0时自动计算。
+        /// ||最大最小值向上取整的倍率。默认为0时自动计算。
         /// </summary>
         public double ceilRate
         {
@@ -240,7 +239,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The position type of indicator.
-        /// |显示位置类型。
+        /// ||显示位置类型。
         /// </summary>
         public PositionType positionType
         {
@@ -249,7 +248,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The color displayed when data out of range.
-        /// |数值超出范围时显示的颜色。
+        /// ||数值超出范围时显示的颜色。
         /// </summary>
         public Color32 outRangeColor
         {
@@ -258,7 +257,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether serie data connect to radar center with line.
-        /// |数值是否连线到中心点。
+        /// ||数值是否连线到中心点。
         /// </summary>
         public bool connectCenter
         {
@@ -267,7 +266,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether need gradient for data line.
-        /// |数值线段是否需要渐变。
+        /// ||数值线段是否需要渐变。
         /// </summary>
         public bool lineGradient
         {
@@ -284,7 +283,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the indicator list.
-        /// |指示器列表。
+        /// ||指示器列表。
         /// </summary>
         public List<Indicator> indicatorList { get { return m_IndicatorList; } }
 

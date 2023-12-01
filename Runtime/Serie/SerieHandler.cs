@@ -108,6 +108,7 @@ namespace XCharts.Runtime
             if (serie.dataDirty)
             {
                 SeriesHelper.UpdateSerieNameList(chart, ref chart.m_LegendRealShowName);
+                chart.OnSerieDataUpdate(serie.index);
                 serie.OnDataUpdate();
                 serie.dataDirty = false;
             }
@@ -149,38 +150,11 @@ namespace XCharts.Runtime
                 serie.interactDirty = false;
                 m_ForceUpdateSerieContext = true;
             }
+            UpdateSerieContextInternal();
         }
 
         public override void AfterUpdate()
         {
-            UpdateSerieContextInternal();
-        }
-
-        public override void ForceUpdateSerieContext()
-        {
-            m_ForceUpdateSerieContext = true;
-        }
-
-        private void CheckConfigurationChanged()
-        {
-            if (m_LastRadius[0] != serie.radius[0] || m_LastRadius[1] != serie.radius[1])
-            {
-                m_LastRadius[0] = serie.radius[0];
-                m_LastRadius[1] = serie.radius[1];
-                serie.SetVerticesDirty();
-            }
-            if (m_LastCenter[0] != serie.center[0] || m_LastCenter[1] != serie.center[1])
-            {
-                m_LastCenter[0] = serie.center[0];
-                m_LastCenter[1] = serie.center[1];
-                serie.SetVerticesDirty();
-            }
-        }
-
-        private void UpdateSerieContextInternal()
-        {
-            UpdateSerieContext();
-            m_ForceUpdateSerieContext = false;
             if (m_LastPointerEnter != serie.context.pointerEnter || m_LastPointerDataIndex != serie.context.pointerItemDataIndex)
             {
                 if (chart.onSerieEnter != null || chart.onSerieExit != null || serie.onEnter != null || serie.onExit != null)
@@ -213,6 +187,33 @@ namespace XCharts.Runtime
                     }
                 }
             }
+        }
+
+        public override void ForceUpdateSerieContext()
+        {
+            m_ForceUpdateSerieContext = true;
+        }
+
+        private void CheckConfigurationChanged()
+        {
+            if (m_LastRadius[0] != serie.radius[0] || m_LastRadius[1] != serie.radius[1])
+            {
+                m_LastRadius[0] = serie.radius[0];
+                m_LastRadius[1] = serie.radius[1];
+                serie.SetVerticesDirty();
+            }
+            if (m_LastCenter[0] != serie.center[0] || m_LastCenter[1] != serie.center[1])
+            {
+                m_LastCenter[0] = serie.center[0];
+                m_LastCenter[1] = serie.center[1];
+                serie.SetVerticesDirty();
+            }
+        }
+
+        private void UpdateSerieContextInternal()
+        {
+            UpdateSerieContext();
+            m_ForceUpdateSerieContext = false;
         }
 
         public override void RefreshLabelNextFrame()
@@ -418,7 +419,7 @@ namespace XCharts.Runtime
                     else
                     {
                         content = titleStyle.formatter;
-                        FormatterHelper.ReplaceContent(ref content, 0, titleStyle.numericFormatter, serie, chart);
+                        FormatterHelper.ReplaceContent(ref content, -1, titleStyle.numericFormatter, serie, chart);
                     }
                     var label = ChartHelper.AddChartLabel("title_" + 0, serieTitleRoot.transform, titleStyle, chart.theme.common,
                         content, color, TextAnchor.MiddleCenter);
@@ -445,9 +446,8 @@ namespace XCharts.Runtime
                     else
                     {
                         content = titleStyle.formatter;
-                        FormatterHelper.ReplaceContent(ref content, 0, titleStyle.numericFormatter, serie, chart);
+                        FormatterHelper.ReplaceContent(ref content, i, titleStyle.numericFormatter, serie, chart);
                     }
-                    FormatterHelper.ReplaceContent(ref content, i, titleStyle.numericFormatter, serie, chart);
                     var label = ChartHelper.AddChartLabel("title_" + i, serieTitleRoot.transform, titleStyle, chart.theme.common,
                         content, color, TextAnchor.MiddleCenter);
                     serieData.titleObject = label;

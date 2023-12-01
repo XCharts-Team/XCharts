@@ -16,7 +16,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the type of line.
-        /// |坐标轴线类型。
+        /// ||坐标轴线类型。
         /// </summary>
         public LineStyle.Type lineType
         {
@@ -25,7 +25,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the width of line.
-        /// |指示线线宽。
+        /// ||指示线线宽。
         /// </summary>
         public float lineWidth
         {
@@ -34,7 +34,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the color of line.
-        /// |指示线颜色。
+        /// ||指示线颜色。
         /// </summary>
         public Color32 lineColor
         {
@@ -44,7 +44,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the color of line.
-        /// |区域指示的颜色。
+        /// ||区域指示的颜色。
         /// </summary>
         public Color32 areaColor
         {
@@ -53,7 +53,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the text color of tooltip cross indicator's axis label.
-        /// |十字指示器坐标轴标签的文本颜色。
+        /// ||十字指示器坐标轴标签的文本颜色。
         /// </summary>
         public Color32 labelTextColor
         {
@@ -63,7 +63,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the background color of tooltip cross indicator's axis label.
-        /// |十字指示器坐标轴标签的背景颜色。
+        /// ||十字指示器坐标轴标签的背景颜色。
         /// </summary>
         public Color32 labelBackgroundColor
         {

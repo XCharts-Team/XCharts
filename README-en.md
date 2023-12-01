@@ -96,7 +96,7 @@ A powerful and easy-to-use data visualization library for Unity.  It supports mo
 * Import `XCharts` unitypackage or source code into the project.
 * Right-click `Hierarchy` view and choose `XCharts->LineChart` to create a default LineChart.
 * You can adjust the parameters of each component in `Inspector` and see the real-time effects in `Game` view.
-* For more details, see [[XCharts Tutorial: 5-minute tutorial]](Documentation~/zh/tutorial01.md)
+* For more details, see [[XCharts Tutorial: 5-minute tutorial]](Documentation~/en/tutorial01.md)
 * For the first time, it is recommended to read the tutorial carefully.
 
 ## Branch
@@ -120,7 +120,7 @@ A: Support code to dynamically add and modify data, but data needs to be parsed 
 A: It is currently only supported on Unity. Theoretically any version of Unity that supports `UGUI` can run `XCharts`.
 
 * What about the jags? What magnitude of data is supported?
-A: XCharts is based on UGUI implementation, so the problems encountered in UGUI will also exist in XCharts. For example, the sawtooth problem, such as the number of vertices in `Mesh` exceeds `65535`. Solutions to these two problems can be found in [Q&A 16](Documentation~/zh/faq.md) and [Q&A 27](Documentation~/zh/faq.md).
+A: XCharts is based on UGUI implementation, so the problems encountered in UGUI will also exist in XCharts. For example, the sawtooth problem, such as the number of vertices in `Mesh` exceeds `65535`. Solutions to these two problems can be found in [Q&A 16](Documentation~/en/faq.md) and [Q&A 27](Documentation~/en/faq.md).
 Due to the `Mesh` of the `65535` vertex limit, the current `XCharts` single `Line` supports about `20,000` of data, of course, open sampling can support more data to draw, but at the same time it will consume more CPU.
 
 ## Changelog

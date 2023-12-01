@@ -12,7 +12,7 @@ namespace XCharts.Editor
             var m_Type = baseProperty.FindPropertyRelative("m_Type");
             var m_LogBase = baseProperty.FindPropertyRelative("m_LogBase");
             var m_MinMaxType = baseProperty.FindPropertyRelative("m_MinMaxType");
-            var type = (Axis.AxisType) m_Type.enumValueIndex;
+            var type = (Axis.AxisType)m_Type.enumValueIndex;
             EditorGUI.indentLevel++;
             if (component is ParallelAxis)
             {
@@ -40,7 +40,7 @@ namespace XCharts.Editor
             if (type == Axis.AxisType.Value || type == Axis.AxisType.Time)
             {
                 PropertyField("m_MinMaxType");
-                Axis.AxisMinMaxType minMaxType = (Axis.AxisMinMaxType) m_MinMaxType.enumValueIndex;
+                Axis.AxisMinMaxType minMaxType = (Axis.AxisMinMaxType)m_MinMaxType.enumValueIndex;
                 switch (minMaxType)
                 {
                     case Axis.AxisMinMaxType.Default:
@@ -63,7 +63,6 @@ namespace XCharts.Editor
             PropertyField("m_SplitNumber");
             if (type == Axis.AxisType.Category)
             {
-                //PropertyField("m_InsertDataToHead");
                 PropertyField("m_MaxCache");
                 PropertyField("m_BoundaryGap");
             }
@@ -72,6 +71,10 @@ namespace XCharts.Editor
                 PropertyField("m_Interval");
             }
             DrawExtendeds();
+            if (type != Axis.AxisType.Category)
+            {
+                PropertyField("m_Animation");
+            }
             PropertyField("m_AxisLine");
             PropertyField("m_AxisName");
             PropertyField("m_AxisTick");
@@ -200,6 +203,23 @@ namespace XCharts.Editor
             {
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Color");
+                --EditorGUI.indentLevel;
+            }
+        }
+    }
+
+    [CustomPropertyDrawer(typeof(AxisAnimation), true)]
+    public class AxisAnimationDrawer : BasePropertyDrawer
+    {
+        public override string ClassName { get { return "Animation"; } }
+        public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
+        {
+            base.OnGUI(pos, prop, label);
+            if (MakeComponentFoldout(prop, "m_Show", true))
+            {
+                ++EditorGUI.indentLevel;
+                PropertyField(prop, "m_UnscaledTime");
+                PropertyField(prop, "m_Duration");
                 --EditorGUI.indentLevel;
             }
         }

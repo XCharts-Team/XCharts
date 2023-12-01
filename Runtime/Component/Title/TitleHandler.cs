@@ -62,7 +62,7 @@ namespace XCharts.Runtime
             if (FormatterHelper.NeedFormat(title.text))
             {
                 var content = title.text;
-                FormatterHelper.ReplaceContent(ref content, 0, title.labelStyle.numericFormatter, null, chart);
+                FormatterHelper.ReplaceContent(ref content, -1, title.labelStyle.numericFormatter, null, chart);
                 return content;
             }
             else
@@ -76,7 +76,7 @@ namespace XCharts.Runtime
             if (FormatterHelper.NeedFormat(title.subText))
             {
                 var content = title.subText;
-                FormatterHelper.ReplaceContent(ref content, 0, title.subLabelStyle.numericFormatter, null, chart);
+                FormatterHelper.ReplaceContent(ref content, -1, title.subLabelStyle.numericFormatter, null, chart);
                 return content;
             }
             else

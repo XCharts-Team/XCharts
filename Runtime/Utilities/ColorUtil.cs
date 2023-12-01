@@ -11,7 +11,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Convert the html string to color.
-        /// |将字符串颜色值转成Color。
+        /// ||将字符串颜色值转成Color。
         /// </summary>
         /// <param name="hexColorStr"></param>
         /// <returns></returns>

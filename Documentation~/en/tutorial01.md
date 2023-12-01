@@ -99,7 +99,7 @@ Usually, `0000` indicates the theme default color, and 0 or null indicates the t
 
 Attach the `LineChart` script to the gameObject:
 
-```C#
+```csharp
 var chart = gameObject.GetComponent<LineChart>();
 if (chart == null)
 {
@@ -110,20 +110,20 @@ if (chart == null)
 
 Resize:
 
-```C#
+```csharp
 chart.SetSize(580, 300);//代码动态设置尺寸，或直接操作chart.rectTransform，或直接在Inspector上改
 ```
 
 Set the title:
 
-```C#
+```csharp
 var title = chart.EnsureChartComponent<Title>();
 title.text = "Simple Line";
 ```
 
 Set whether prompt boxes and legends are displayed:
 
-```C#
+```csharp
 var tooltip = chart.EnsureChartComponent<Tooltip>();
 tooltip.show = true;
 
@@ -133,7 +133,7 @@ legend.show = false;
 
 Set axes:
 
-```C#
+```csharp
 var xAxis = chart.EnsureChartComponent<XAxis>();
 xAxis.splitNumber = 10;
 xAxis.boundaryGap = true;
@@ -145,14 +145,14 @@ yAxis.type =  Axis.AxisType.Value;
 
 Clear default data and add `Line` type `Serie` for receiving data:
 
-```C#
+```csharp
 chart.RemoveData();
 chart.AddSerie<Line>("line");
 ```
 
 Add 10 data:
 
-```C#
+```csharp
 for (int i = 0; i < 10; i++)
 {
     chart.AddXAxisData("x" + i);
@@ -214,7 +214,7 @@ All parameters seen on Inspector can be modified with code, the key is to identi
 
 You need to obtain the component first, and then modify the parameters in it:
 
-```C#
+```csharp
 var title = chart.EnsureChartComponent<Title>();
 title.text = "Simple LineChart";
 title.subText = "normal line";
@@ -231,7 +231,7 @@ xAxis.type = Axis.AxisType.Category;
 
 For newly added Serie:
 
-```C#
+```csharp
 var serie = chart.AddSerie<Pie>();
 serie.center[0] = 0.5f;
 serie.center[1] = 0.5f;
@@ -243,7 +243,7 @@ serie.roundCap = true;
 
 For existing Serie:
 
-```C#
+```csharp
 var serie = chart.GetSerie<Pie>();
 serie.center[0] = 0.5f;
 serie.center[1] = 0.5f;
@@ -255,7 +255,7 @@ serie.roundCap = true;
 
 Add additional components to Serie:
 
-```C#
+```csharp
 serie.EnsureComponent<AreaStyle>();
 
 var label = serie1.EnsureComponent<LabelStyle>();
@@ -264,7 +264,7 @@ label.offset = new Vector3(0,20,0);
 
 ### Change the parameter on the data item SerieData
 
-```C#
+```csharp
 var serieData = chart.AddData(0, 20);
 //var serieData = serie.GetSerieData(0); //从已有数据中获取
 serieData.radius = 10;

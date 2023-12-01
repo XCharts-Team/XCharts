@@ -6,69 +6,69 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// The axis in rectangular coordinate.
-    /// |直角坐标系的坐标轴组件。
+    /// ||直角坐标系的坐标轴组件。
     /// </summary>
     [System.Serializable]
     public class Axis : MainComponent
     {
         /// <summary>
         /// the type of axis.
-        /// |坐标轴类型。
+        /// ||坐标轴类型。
         /// </summary>
         public enum AxisType
         {
             /// <summary>
             /// Numerical axis, suitable for continuous data.
-            /// |数值轴。适用于连续数据。
+            /// ||数值轴。适用于连续数据。
             /// </summary>
             Value,
             /// <summary>
             /// Category axis, suitable for discrete category data. Data should only be set via data for this type.
-            /// |类目轴。适用于离散的类目数据，为该类型时必须通过 data 设置类目数据。serie的数据第0维数据对应坐标轴data的index。
+            /// ||类目轴。适用于离散的类目数据，为该类型时必须通过 data 设置类目数据。serie的数据第0维数据对应坐标轴data的index。
             /// </summary>
             Category,
             /// <summary>
             /// Log axis, suitable for log data.
-            /// |对数轴。适用于对数数据。
+            /// ||对数轴。适用于对数数据。
             /// </summary>
             Log,
             /// <summary>
             /// Time axis, suitable for continuous time series data.
-            /// |时间轴。适用于连续的时序数据。
+            /// ||时间轴。适用于连续的时序数据。
             /// </summary>
             Time
         }
 
         /// <summary>
         /// the type of axis min and max value.
-        /// |坐标轴最大最小刻度显示类型。
+        /// ||坐标轴最大最小刻度显示类型。
         /// </summary>
         public enum AxisMinMaxType
         {
             /// <summary>
             /// 0 - maximum.
-            /// |0-最大值。
+            /// ||0-最大值。
             /// </summary>
             Default,
             /// <summary>
             /// minimum - maximum.
-            /// |最小值-最大值。
+            /// ||最小值-最大值。
             /// </summary>
             MinMax,
             /// <summary>
             /// Customize the minimum and maximum.
-            /// |自定义最小值最大值。
+            /// ||自定义最小值最大值。
             /// </summary>
             Custom,
             /// <summary>
             /// [since("v3.7.0")]minimum - maximum, automatically calculate the appropriate values.
-            /// |[since("v3.7.0")]最小值-最大值。自动计算合适的值。
+            /// ||[since("v3.7.0")]最小值-最大值。自动计算合适的值。
             /// </summary>
             MinMaxAuto,
         }
         /// <summary>
         /// the position of axis in grid.
-        /// |坐标轴在Grid中的位置
+        /// ||坐标轴在Grid中的位置
         /// </summary>
         public enum AxisPosition
         {
@@ -106,6 +106,7 @@ namespace XCharts.Runtime
         [SerializeField] protected AxisLabel m_AxisLabel = AxisLabel.defaultAxisLabel;
         [SerializeField] protected AxisSplitLine m_SplitLine = AxisSplitLine.defaultSplitLine;
         [SerializeField] protected AxisSplitArea m_SplitArea = AxisSplitArea.defaultSplitArea;
+        [SerializeField] protected AxisAnimation m_Animation = new AxisAnimation();
         [SerializeField][Since("v3.2.0")] protected AxisMinorTick m_MinorTick = AxisMinorTick.defaultMinorTick;
         [SerializeField][Since("v3.2.0")] protected AxisMinorSplitLine m_MinorSplitLine = AxisMinorSplitLine.defaultMinorSplitLine;
         [SerializeField][Since("v3.4.0")] protected LabelStyle m_IndicatorLabel = new LabelStyle() { numericFormatter = "f2" };
@@ -114,7 +115,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether to show axis.
-        /// |是否显示坐标轴。
+        /// ||是否显示坐标轴。
         /// </summary>
         public bool show
         {
@@ -123,7 +124,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the type of axis.
-        /// |坐标轴类型。
+        /// ||坐标轴类型。
         /// </summary>
         public AxisType type
         {
@@ -132,7 +133,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the type of axis minmax.
-        /// |坐标轴刻度最大最小值显示类型。
+        /// ||坐标轴刻度最大最小值显示类型。
         /// </summary>
         public AxisMinMaxType minMaxType
         {
@@ -141,7 +142,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The index of the grid on which the axis are located, by default, is in the first grid.
-        /// |坐标轴所在的 grid 的索引，默认位于第一个 grid。
+        /// ||坐标轴所在的 grid 的索引，默认位于第一个 grid。
         /// </summary>
         public int gridIndex
         {
@@ -150,7 +151,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The index of the polar on which the axis are located, by default, is in the first polar.
-        /// |坐标轴所在的 ploar 的索引，默认位于第一个 polar。
+        /// ||坐标轴所在的 ploar 的索引，默认位于第一个 polar。
         /// </summary>
         public int polarIndex
         {
@@ -159,7 +160,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The index of the parallel on which the axis are located, by default, is in the first parallel.
-        /// |坐标轴所在的 parallel 的索引，默认位于第一个 parallel。
+        /// ||坐标轴所在的 parallel 的索引，默认位于第一个 parallel。
         /// </summary>
         public int parallelIndex
         {
@@ -168,7 +169,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the position of axis in grid.
-        /// |坐标轴在Grid中的位置。
+        /// ||坐标轴在Grid中的位置。
         /// </summary>
         public AxisPosition position
         {
@@ -177,7 +178,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the offset of axis from the default position. Useful when the same position has multiple axes.
-        /// |坐标轴相对默认位置的偏移。在相同position有多个坐标轴时有用。
+        /// ||坐标轴相对默认位置的偏移。在相同position有多个坐标轴时有用。
         /// </summary>
         public float offset
         {
@@ -186,7 +187,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The minimun value of axis.Valid when `minMaxType` is `Custom`
-        /// |设定的坐标轴刻度最小值，当minMaxType为Custom时有效。
+        /// ||设定的坐标轴刻度最小值，当minMaxType为Custom时有效。
         /// </summary>
         public double min
         {
@@ -195,7 +196,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The maximum value of axis.Valid when `minMaxType` is `Custom`
-        /// |设定的坐标轴刻度最大值，当minMaxType为Custom时有效。
+        /// ||设定的坐标轴刻度最大值，当minMaxType为Custom时有效。
         /// </summary>
         public double max
         {
@@ -204,7 +205,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Number of segments that the axis is split into.
-        /// |坐标轴的期望的分割段数。默认为0表示自动分割。 
+        /// ||坐标轴的期望的分割段数。默认为0表示自动分割。 
         /// </summary>
         public int splitNumber
         {
@@ -213,7 +214,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Compulsively set segmentation interval for axis.This is unavailable for category axis.
-        /// |强制设置坐标轴分割间隔。无法在类目轴中使用。
+        /// ||强制设置坐标轴分割间隔。无法在类目轴中使用。
         /// </summary>
         public double interval
         {
@@ -222,7 +223,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The boundary gap on both sides of a coordinate axis, which is valid only for category axis with type: 'Category'.
-        /// |坐标轴两边是否留白。只对类目轴有效。
+        /// ||坐标轴两边是否留白。只对类目轴有效。
         /// </summary>
         public bool boundaryGap
         {
@@ -231,7 +232,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Base of logarithm, which is valid only for numeric axes with type: 'Log'.
-        /// |对数轴的底数，只在对数轴（type:'Log'）中有效。
+        /// ||对数轴的底数，只在对数轴（type:'Log'）中有效。
         /// </summary>
         public float logBase
         {
@@ -244,7 +245,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// On the log axis, if base e is the natural number, and is true, logBase fails.
-        /// |对数轴是否以自然数 e 为底数，为 true 时 logBase 失效。
+        /// ||对数轴是否以自然数 e 为底数，为 true 时 logBase 失效。
         /// </summary>
         public bool logBaseE
         {
@@ -253,8 +254,8 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The max number of axis data cache.
-        /// |The first data will be remove when the size of axis data is larger then maxCache.
-        /// |可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
+        /// ||The first data will be remove when the size of axis data is larger then maxCache.
+        /// ||可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
         /// </summary>
         public int maxCache
         {
@@ -263,7 +264,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The ratio of maximum and minimum values rounded upward. The default is 0, which is automatically calculated.
-        /// |最大最小值向上取整的倍率。默认为0时自动计算。
+        /// ||最大最小值向上取整的倍率。默认为0时自动计算。
         /// </summary>
         public double ceilRate
         {
@@ -272,7 +273,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether the axis are reversed or not. Invalid in `Category` axis.
-        /// |是否反向坐标轴。在类目轴中无效。
+        /// ||是否反向坐标轴。在类目轴中无效。
         /// </summary>
         public bool inverse
         {
@@ -281,7 +282,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether the positive position of axis is in clockwise. True for clockwise by default.
-        /// |刻度增长是否按顺时针，默认顺时针。
+        /// ||刻度增长是否按顺时针，默认顺时针。
         /// </summary>
         public bool clockwise
         {
@@ -290,7 +291,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Category data, available in type: 'Category' axis.
-        /// |类目数据，在类目轴（type: 'category'）中有效。
+        /// ||类目数据，在类目轴（type: 'category'）中有效。
         /// </summary>
         public List<string> data
         {
@@ -307,7 +308,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// axis Line.
-        /// |坐标轴轴线。
+        /// ||坐标轴轴线。
         /// </summary>
         public AxisLine axisLine
         {
@@ -316,7 +317,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// axis name.
-        /// |坐标轴名称。
+        /// ||坐标轴名称。
         /// </summary>
         public AxisName axisName
         {
@@ -325,7 +326,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// axis tick.
-        /// |坐标轴刻度。
+        /// ||坐标轴刻度。
         /// </summary>
         public AxisTick axisTick
         {
@@ -334,7 +335,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// axis label.
-        /// |坐标轴刻度标签。
+        /// ||坐标轴刻度标签。
         /// </summary>
         public AxisLabel axisLabel
         {
@@ -343,7 +344,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// axis split line.
-        /// |坐标轴分割线。
+        /// ||坐标轴分割线。
         /// </summary>
         public AxisSplitLine splitLine
         {
@@ -352,7 +353,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// axis split area.
-        /// |坐标轴分割区域。
+        /// ||坐标轴分割区域。
         /// </summary>
         public AxisSplitArea splitArea
         {
@@ -361,7 +362,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// axis minor tick.
-        /// |坐标轴次刻度。
+        /// ||坐标轴次刻度。
         /// </summary>
         public AxisMinorTick minorTick
         {
@@ -370,7 +371,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// axis minor split line.
-        /// |坐标轴次分割线。
+        /// ||坐标轴次分割线。
         /// </summary>
         public AxisMinorSplitLine minorSplitLine
         {
@@ -379,7 +380,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Style of axis tooltip indicator label. 
-        /// |指示器文本的样式。Tooltip为Cross时使用。
+        /// ||指示器文本的样式。Tooltip为Cross时使用。
         /// </summary>
         public LabelStyle indicatorLabel
         {
@@ -387,8 +388,17 @@ namespace XCharts.Runtime
             set { if (value != null) { m_IndicatorLabel = value; SetComponentDirty(); } }
         }
         /// <summary>
+        /// animation of axis.
+        /// ||坐标轴动画。
+        /// </summary>
+        public AxisAnimation animation
+        {
+            get { return m_Animation; }
+            set { if (value != null) { m_Animation = value; SetComponentDirty(); } }
+        }
+        /// <summary>
         /// Whether to add new data at the head or at the end of the list.
-        /// |添加新数据时是在列表的头部还是尾部加入。
+        /// ||添加新数据时是在列表的头部还是尾部加入。
         /// </summary>
         public bool insertDataToHead
         {
@@ -439,7 +449,7 @@ namespace XCharts.Runtime
             splitArea.ClearVerticesDirty();
             minorTick.ClearVerticesDirty();
             minorSplitLine.ClearVerticesDirty();
-            indicatorLabel.ClearComponentDirty();
+            indicatorLabel.ClearVerticesDirty();
         }
 
         public override void SetComponentDirty()
@@ -474,6 +484,7 @@ namespace XCharts.Runtime
             axis.minorTick = minorTick.Clone();
             axis.minorSplitLine = minorSplitLine.Clone();
             axis.indicatorLabel = indicatorLabel.Clone();
+            axis.animation = animation.Clone();
             axis.icons = new List<Sprite>();
             axis.data = new List<string>();
             ChartHelper.CopyList(axis.data, data);
@@ -505,6 +516,7 @@ namespace XCharts.Runtime
             minorTick.Copy(axis.minorTick);
             minorSplitLine.Copy(axis.minorSplitLine);
             indicatorLabel.Copy(axis.indicatorLabel);
+            animation.Copy(axis.animation);
             ChartHelper.CopyList(data, axis.data);
             ChartHelper.CopyList<Sprite>(icons, axis.icons);
         }
@@ -713,11 +725,18 @@ namespace XCharts.Runtime
             if (IsCategory() && boundaryGap)
             {
                 var each = axisLength / data.Count;
-                return (float) (each * (value + 0.5f));
+                return (float)(each * (value + 0.5f));
+            }
+            else if (IsLog())
+            {
+                var logValue = GetLogValue(value);
+                var logMin = GetLogValue(context.minValue);
+                var logMax = GetLogValue(context.maxValue);
+                return axisLength * (float)((logValue - logMin) / (logMax - logMin));
             }
             else
             {
-                return axisLength * (float) ((value - context.minValue) / context.minMaxRange);
+                return axisLength * (float)((value - context.minValue) / context.minMaxRange);
             }
         }
 
@@ -725,7 +744,7 @@ namespace XCharts.Runtime
         {
             if (context.minMaxRange > 0)
             {
-                return axisLength * ((float) (value / context.minMaxRange));
+                return axisLength * ((float)(value / context.minMaxRange));
             }
             else
             {
@@ -789,7 +808,7 @@ namespace XCharts.Runtime
             {
                 if (context.labelObjectList[i] != null)
                 {
-                    var text = AxisHelper.GetLabelName(this, coordinateWidth, i, context.minValue, context.maxValue, dataZoom, forcePercent);
+                    var text = AxisHelper.GetLabelName(this, coordinateWidth, i, context.destMinValue, context.destMaxValue, dataZoom, forcePercent);
                     context.labelObjectList[i].SetText(text);
                 }
             }
@@ -803,10 +822,27 @@ namespace XCharts.Runtime
                 return Vector3.zero;
         }
 
-        internal void UpdateMinMaxValue(double minValue, double maxValue)
+        internal void UpdateMinMaxValue(double minValue, double maxValue, bool needAnimation = false)
         {
-            context.minValue = minValue;
-            context.maxValue = maxValue;
+            if (needAnimation)
+            {
+                if (context.lastMinValue == 0 && context.lastMaxValue == 0)
+                {
+                    context.minValue = minValue;
+                    context.maxValue = maxValue;
+                }
+                context.lastMinValue = context.minValue;
+                context.lastMaxValue = context.maxValue;
+                context.destMinValue = minValue;
+                context.destMaxValue = maxValue;
+            }
+            else
+            {
+                context.minValue = minValue;
+                context.maxValue = maxValue;
+                context.destMinValue = minValue;
+                context.destMaxValue = maxValue;
+            }
             double tempRange = maxValue - minValue;
             if (context.minMaxRange != tempRange)
             {
@@ -823,11 +859,13 @@ namespace XCharts.Runtime
             if (value <= 0 || value == 1)
                 return 0;
             else
-                return logBaseE ? (float) Math.Log(value) : (float) Math.Log(value, logBase);
+                return logBaseE ? (float)Math.Log(value) : (float)Math.Log(value, logBase);
         }
 
         public double GetLogMinIndex()
         {
+            if (context.minValue <= 0 || context.minValue == 1)
+                return 0;
             return logBaseE ?
                 Math.Log(context.minValue) :
                 Math.Log(context.minValue, logBase);
@@ -835,6 +873,8 @@ namespace XCharts.Runtime
 
         public double GetLogMaxIndex()
         {
+            if (context.maxValue <= 0 || context.maxValue == 1)
+                return 0;
             return logBaseE ?
                 Math.Log(context.maxValue) :
                 Math.Log(context.maxValue, logBase);
@@ -864,8 +904,7 @@ namespace XCharts.Runtime
                 0 :
                 (context.maxValue < 0 ?
                     axisLength :
-                    (float) (Math.Abs(context.minValue) * (axisLength /
-                        (Math.Abs(context.minValue) + Math.Abs(context.maxValue))))
+                    (float)(Math.Abs(context.minValue) * (axisLength / (Math.Abs(context.minValue) + Math.Abs(context.maxValue))))
                 );
         }
     }

@@ -4,7 +4,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// the state style of serie.
-    /// |Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种状态。
+    /// ||Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种状态。
     /// </summary>
     [System.Serializable]
     [Since("v3.2.0")]

@@ -15,7 +15,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether use smooth curve.
-        /// |是否平滑曲线。平滑曲线时不支持区域填充颜色。
+        /// ||是否平滑曲线。平滑曲线时不支持区域填充颜色。
         /// </summary>
         public bool smooth
         {

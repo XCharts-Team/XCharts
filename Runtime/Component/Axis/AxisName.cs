@@ -5,7 +5,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// the name of axis.
-    /// |坐标轴名称。
+    /// ||坐标轴名称。
     /// </summary>
     [Serializable]
     public class AxisName : ChildComponent
@@ -17,7 +17,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether to show axis name.
-        /// |是否显示坐标轴名称。
+        /// ||是否显示坐标轴名称。
         /// </summary>
         public bool show
         {
@@ -26,7 +26,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the name of axis.
-        /// |坐标轴名称。
+        /// ||坐标轴名称。
         /// </summary>
         public string name
         {
@@ -35,7 +35,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether the axis name position are the same with 0 position of YAxis.
-        /// |坐标轴名称的位置是否保持和Y轴0刻度一致。
+        /// ||坐标轴名称的位置是否保持和Y轴0刻度一致。
         /// </summary>
         public bool onZero
         {
@@ -44,7 +44,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The text style of axis name.
-        /// |文本样式。
+        /// ||文本样式。
         /// </summary>
         public LabelStyle labelStyle
         {

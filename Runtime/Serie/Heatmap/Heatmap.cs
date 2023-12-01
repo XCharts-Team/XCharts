@@ -4,18 +4,18 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// The mapping type of heatmap.
-    /// |热力图类型。通过颜色映射划分。
+    /// ||热力图类型。通过颜色映射划分。
     /// </summary>
     public enum HeatmapType
     {
         /// <summary>
         /// Data mapping type.By default, the second dimension data is used as the color map.
-        /// |数据映射型。默认用第2维数据作为颜色映射。要求数据至少有3个维度数据。
+        /// ||数据映射型。默认用第2维数据作为颜色映射。要求数据至少有3个维度数据。
         /// </summary>
         Data,
         /// <summary>
         /// Number mapping type.The number of occurrences of a statistic in a divided grid, as a color map.
-        /// |个数映射型。统计数据在划分的格子中出现的次数，作为颜色映射。要求数据至少有2个维度数据。
+        /// ||个数映射型。统计数据在划分的格子中出现的次数，作为颜色映射。要求数据至少有2个维度数据。
         /// </summary>
         Count
     }
@@ -35,7 +35,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// The mapping type of heatmap.
-        /// |热力图类型。通过颜色映射划分。
+        /// ||热力图类型。通过颜色映射划分。
         /// </summary>
         public HeatmapType heatmapType
         {

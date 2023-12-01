@@ -5,7 +5,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Minor split line of axis in grid area.
-    /// |坐标轴在 grid 区域中的次分隔线。次分割线会对齐次刻度线 minorTick。
+    /// ||坐标轴在 grid 区域中的次分隔线。次分割线会对齐次刻度线 minorTick。
     /// </summary>
     [Serializable]
     [Since("v3.2.0")]
@@ -16,12 +16,12 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// The distance between the split line and axis line.
-        /// |刻度线与轴线的距离。
+        /// ||刻度线与轴线的距离。
         /// </summary>
         public float distance { get { return m_Distance; } set { m_Distance = value; } }
         /// <summary>
         /// auto color.
-        /// |自动设置颜色。
+        /// ||自动设置颜色。
         /// </summary>
         public bool autoColor { get { return m_AutoColor; } set { m_AutoColor = value; } }
 

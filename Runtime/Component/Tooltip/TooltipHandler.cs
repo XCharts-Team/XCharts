@@ -18,6 +18,11 @@ namespace XCharts.Runtime
             InitTooltip(component);
         }
 
+        public override void BeforceSerieUpdate()
+        {
+            UpdateTooltipData(component);
+        }
+
         public override void Update()
         {
             UpdateTooltip(component);
@@ -86,8 +91,9 @@ namespace XCharts.Runtime
             }
         }
 
-        private void UpdateTooltip(Tooltip tooltip)
+        private void UpdateTooltipData(Tooltip tooltip)
         {
+            showTooltip = false;
             if (tooltip.trigger == Tooltip.Trigger.None) return;
             if (!chart.isPointerInChart || !tooltip.show)
             {
@@ -98,7 +104,28 @@ namespace XCharts.Runtime
                 }
                 return;
             }
-            var showTooltip = false;
+            for (int i = chart.series.Count - 1; i >= 0; i--)
+            {
+                var serie = chart.series[i];
+                if (!(serie is INeedSerieContainer))
+                {
+                    showTooltip = true;
+                    return;
+                }
+            }
+            containerSeries = ListPool<Serie>.Get();
+            UpdatePointerContainerAndSeriesAndTooltip(tooltip, ref containerSeries);
+            if (containerSeries.Count > 0)
+            {
+                showTooltip = true;
+            }
+        }
+
+        private bool showTooltip;
+        private List<Serie> containerSeries;
+        private void UpdateTooltip(Tooltip tooltip)
+        {
+            if (!showTooltip) return;
             for (int i = chart.series.Count - 1; i >= 0; i--)
             {
                 var serie = chart.series[i];
@@ -106,20 +133,19 @@ namespace XCharts.Runtime
                 {
                     if (SetSerieTooltip(tooltip, serie))
                     {
-                        showTooltip = true;
                         chart.RefreshTopPainter();
                         return;
                     }
                 }
             }
-            var containerSeries = ListPool<Serie>.Get();
-            UpdatePointerContainerAndSeriesAndTooltip(tooltip, ref containerSeries);
-            if (containerSeries.Count > 0)
+            if (containerSeries != null)
             {
-                if (SetSerieTooltip(tooltip, containerSeries))
-                    showTooltip = true;
+                if (!SetSerieTooltip(tooltip, containerSeries))
+                {
+                    showTooltip = false;
+                }
+                ListPool<Serie>.Release(containerSeries);
             }
-            ListPool<Serie>.Release(containerSeries);
             if (!showTooltip)
             {
                 if (tooltip.context.type == Tooltip.Type.Corss && m_PointerContainer != null && m_PointerContainer.IsPointerEnter())
@@ -136,10 +162,6 @@ namespace XCharts.Runtime
             {
                 chart.RefreshUpperPainter();
             }
-        }
-
-        private void UpdateTooltipTypeAndTrigger(Tooltip tootip)
-        {
         }
 
         private void UpdateTooltipIndicatorLabelText(Tooltip tooltip)
@@ -284,8 +306,10 @@ namespace XCharts.Runtime
             {
                 if (isTriggerAxis)
                 {
+                    var index = serie.context.dataZoomStartIndex + (int)yAxis.context.pointerValue;
                     serie.context.pointerEnter = true;
-                    serie.context.pointerAxisDataIndexs.Add((int)yAxis.context.pointerValue);
+                    serie.context.pointerAxisDataIndexs.Add(index);
+                    serie.context.pointerItemDataIndex = index;
                     yAxis.context.axisTooltipValue = yAxis.context.pointerValue;
                 }
             }

@@ -18,7 +18,7 @@ namespace XCharts.Runtime
         public Vector2 center { get; internal set; }
         /// <summary>
         /// the button list of legend.
-        /// |图例按钮列表。
+        /// ||图例按钮列表。
         /// </summary>
         internal Dictionary<string, LegendItem> buttonList = new Dictionary<string, LegendItem>();
         /// <summary>

@@ -6,7 +6,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Settings related to axis label.
-    /// |坐标轴刻度标签的相关设置。
+    /// ||坐标轴刻度标签的相关设置。
     /// </summary>
     [Serializable]
     public class AxisLabel : LabelStyle
@@ -21,7 +21,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// The display interval of the axis label.
-        /// |坐标轴刻度标签的显示间隔，在类目轴中有效。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
+        /// ||坐标轴刻度标签的显示间隔，在类目轴中有效。0表示显示所有标签，1表示隔一个隔显示一个标签，以此类推。
         /// </summary>
         public int interval
         {
@@ -30,7 +30,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Set this to true so the axis labels face the inside direction.
-        /// |刻度标签是否朝内，默认朝外。
+        /// ||刻度标签是否朝内，默认朝外。
         /// </summary>
         public bool inside
         {
@@ -39,7 +39,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Show negative number as positive number.
-        /// |将负数数值显示为正数。一般和`Serie`的`showAsPositiveNumber`配合使用。
+        /// ||将负数数值显示为正数。一般和`Serie`的`showAsPositiveNumber`配合使用。
         /// </summary>
         public bool showAsPositiveNumber
         {
@@ -57,7 +57,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether to display the first label.
-        /// |是否显示第一个文本。
+        /// ||是否显示第一个文本。
         /// </summary>
         public bool showStartLabel
         {
@@ -66,7 +66,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether to display the last label.
-        /// |是否显示最后一个文本。
+        /// ||是否显示最后一个文本。
         /// </summary>
         public bool showEndLabel
         {
@@ -106,18 +106,20 @@ namespace XCharts.Runtime
 
         public new AxisLabel Clone()
         {
-            var axisLabel = new AxisLabel();
-            axisLabel.show = show;
-            axisLabel.formatter = formatter;
-            axisLabel.interval = interval;
-            axisLabel.inside = inside;
-            axisLabel.distance = distance;
-            axisLabel.numericFormatter = numericFormatter;
-            axisLabel.width = width;
-            axisLabel.height = height;
-            axisLabel.showStartLabel = showStartLabel;
-            axisLabel.showEndLabel = showEndLabel;
-            axisLabel.textLimit = textLimit.Clone();
+            var axisLabel = new AxisLabel
+            {
+                show = show,
+                formatter = formatter,
+                interval = interval,
+                inside = inside,
+                distance = distance,
+                numericFormatter = numericFormatter,
+                width = width,
+                height = height,
+                showStartLabel = showStartLabel,
+                showEndLabel = showEndLabel,
+                textLimit = textLimit.Clone()
+            };
             axisLabel.textStyle.Copy(textStyle);
             return axisLabel;
         }

@@ -50,10 +50,11 @@ slug: /support
 | 扩展UI组件        |   |   | √ | √ | √ | √ |
 | 首页赞助展示        |   |   |  |  |  | √ |
 | 付费方式        |   |   | 二维码 | 二维码 | __公对公转账__* | __公对公转账__* |
-| 支持开发票        |   |   | 普票 | 普票 | __专票__ | __专票__ |
+| 支持开发票        |   |   | 普票 | 普票 | __可开专票__ | __可开专票__ |
 | 扩展图表购买       |   |   | 按需购买 | __全部免费__* | __全部免费__* | __全部免费__* |
 | 扩展图表源码       |   |   | 永久持有 | 永久持有 | 永久持有 | 永久持有 |
 | 扩展图表更新       |   |   | 1年更新支持 | 1年更新支持 | 1年更新支持 | 1年更新支持 |
+| Github仓库       | XCharts<br/>[XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)  |  XCharts<br/>[XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo) | XCharts<br/>[XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)<br/>[XCharts-UI](https://github.com/XCharts-Team/XCharts-UI) | XCharts<br/>[XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)<br/>[XCharts-UI](https://github.com/XCharts-Team/XCharts-UI)<br/>[XCharts-Pro](https://github.com/XCharts-Team/XCharts-Pro)<br/>[XCharts-Pro-Demo](https://github.com/XCharts-Team/XCharts-Pro-Demo) | XCharts<br/>[XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)<br/>[XCharts-UI](https://github.com/XCharts-Team/XCharts-UI)<br/>[XCharts-Pro](https://github.com/XCharts-Team/XCharts-Pro)<br/>[XCharts-Pro-Demo](https://github.com/XCharts-Team/XCharts-Pro-Demo) | XCharts<br/>[XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)<br/>[XCharts-UI](https://github.com/XCharts-Team/XCharts-UI)<br/>[XCharts-Pro](https://github.com/XCharts-Team/XCharts-Pro)<br/>[XCharts-Pro-Demo](https://github.com/XCharts-Team/XCharts-Pro-Demo) |
 
 >备注：  
 >*__`付费定制`__ 用户可根据自己的需求可付费定制不同的图表或新功能，只有`VIP`用户才享有`付费定制`权利。  
@@ -64,7 +65,7 @@ slug: /support
 >*__`次年付费`__ 个人SVIP和企业VIP的首年和次年付费不一样，次年付费都是`298¥`。  
 >*__`增加席位`__ 企业VIP支持增加席位，每个席位`298¥`一年。  
 >*__`对公转账`__ 有开专票需求时，可用企业银行帐号进行公对公转账支付。二维码支付不支持开专票，只能开普票。发票默认都是电子发票。  
->*__`登记资料`__ 订阅成功后，需提供手机号和Github帐号进行登记，手机号用于确认归属，Github帐号用于下载源码。  
+>*__`登记资料`__ 订阅成功后，需提供手机号和Github帐号进行登记，手机号用于确认归属，Github帐号用于加入Github的Team组织，下载源码。  
 
 ## 购买扩展图表
 

@@ -17,7 +17,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the color of text.
-        /// |文本颜色。
+        /// ||文本颜色。
         /// </summary>
         public float lineWidth
         {
@@ -26,7 +26,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the symbol size of line serie.
-        /// |折线图的Symbol大小。
+        /// ||折线图的Symbol大小。
         /// </summary>
         public float lineSymbolSize
         {
@@ -35,7 +35,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the symbol size of scatter serie.
-        /// |散点图的Symbol大小。
+        /// ||散点图的Symbol大小。
         /// </summary>
         public float scatterSymbolSize
         {

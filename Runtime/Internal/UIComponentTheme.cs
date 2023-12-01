@@ -14,7 +14,7 @@ namespace XCharts.Runtime
         public bool show { get { return m_Show; } }
         /// <summary>
         /// the theme of chart.
-        /// |主题类型。
+        /// ||主题类型。
         /// </summary>
         public ThemeType themeType
         {
@@ -22,7 +22,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// theme name.
-        /// |主题名字。
+        /// ||主题名字。
         /// </summary>
         public string themeName
         {
@@ -30,7 +30,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the asset of theme.
-        /// |主题配置。
+        /// ||主题配置。
         /// </summary>
         public Theme sharedTheme
         {
@@ -39,14 +39,15 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the background color of chart.
-        /// |背景颜色。
+        /// ||背景颜色。
         /// </summary>
         public Color32 backgroundColor
         {
             get
             {
                 if (m_TransparentBackground) return ColorUtil.clearColor32;
-                else return sharedTheme.backgroundColor;
+                else if (sharedTheme != null) return sharedTheme.backgroundColor;
+                else return ColorUtil.clearColor32;
             }
         }
     }

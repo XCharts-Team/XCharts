@@ -18,7 +18,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether to use gradient color in pie chart.
-        /// | 是否开启半径方向的渐变效果。
+        /// || 是否开启半径方向的渐变效果。
         /// </summary>
         public bool radiusGradient
         {

@@ -28,7 +28,7 @@ namespace XCharts.Runtime
 
     /// <summary>
     /// Used to mark an area in chart. For example, mark a time interval.
-    /// |图表标域，常用于标记图表中某个范围的数据。
+    /// ||图表标域，常用于标记图表中某个范围的数据。
     /// </summary>
     [System.Serializable]
     [ComponentHandler(typeof(MarkAreaHandler), true)]
@@ -127,7 +127,7 @@ namespace XCharts.Runtime
         public double runtimeValue { get; internal set; }
         /// <summary>
         /// Name of the marker, which will display as a label.
-        /// |标注名称。会作为文字显示。
+        /// ||标注名称。会作为文字显示。
         /// </summary>
         public string name
         {
@@ -136,7 +136,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Special markArea types, are used to label maximum value, minimum value and so on.
-        /// |特殊的标域类型，用于标注最大值最小值等。
+        /// ||特殊的标域类型，用于标注最大值最小值等。
         /// </summary>
         public MarkAreaType type
         {
@@ -145,7 +145,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// From which dimension of data to calculate the maximum and minimum value and so on.
-        /// |从哪个维度的数据计算最大最小值等。
+        /// ||从哪个维度的数据计算最大最小值等。
         /// </summary>
         public int dimension
         {
@@ -154,7 +154,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The x coordinate relative to the origin, in pixels.
-        /// |相对原点的 x 坐标，单位像素。当type为None时有效。
+        /// ||相对原点的 x 坐标，单位像素。当type为None时有效。
         /// </summary>
         public float xPosition
         {
@@ -163,7 +163,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The y coordinate relative to the origin, in pixels.
-        /// |相对原点的 y 坐标，单位像素。当type为None时有效。
+        /// ||相对原点的 y 坐标，单位像素。当type为None时有效。
         /// </summary>
         public float yPosition
         {
@@ -172,7 +172,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The value specified on the X-axis. A value specified when the X-axis is the category axis represents the index of the category axis data, otherwise a specific value.
-        /// |X轴上的指定值。当X轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为None时有效。
+        /// ||X轴上的指定值。当X轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为None时有效。
         /// </summary>
         public double xValue
         {
@@ -181,7 +181,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// That's the value on the Y-axis. The value specified when the Y axis is the category axis represents the index of the category axis data, otherwise the specific value.
-        /// |Y轴上的指定值。当Y轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为None时有效。
+        /// ||Y轴上的指定值。当Y轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为None时有效。
         /// </summary>
         public double yValue
         {

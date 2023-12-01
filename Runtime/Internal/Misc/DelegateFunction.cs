@@ -5,7 +5,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// The delegate function for LabelStyle‘s formatter.
-    /// |SerieLabel的formatter自定义委托。
+    /// ||SerieLabel的formatter自定义委托。
     /// </summary>
     /// <param name="dataIndex">数据索引</param>
     /// <param name="value">数值</param>

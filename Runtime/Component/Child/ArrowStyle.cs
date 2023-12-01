@@ -16,7 +16,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// The widht of arrow.
-        /// |箭头宽。
+        /// ||箭头宽。
         /// </summary>
         public float width
         {
@@ -25,7 +25,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The height of arrow.
-        /// |箭头高。
+        /// ||箭头高。
         /// </summary>
         public float height
         {
@@ -34,7 +34,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The offset of arrow.
-        /// |箭头偏移。
+        /// ||箭头偏移。
         /// </summary>
         public float offset
         {
@@ -43,7 +43,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The dent of arrow.
-        /// |箭头的凹度。
+        /// ||箭头的凹度。
         /// </summary>
         public float dent
         {
@@ -53,7 +53,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the color of arrow.
-        /// |箭头颜色。
+        /// ||箭头颜色。
         /// </summary>
         public Color32 color
         {

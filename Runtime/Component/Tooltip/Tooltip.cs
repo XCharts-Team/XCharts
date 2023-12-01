@@ -6,7 +6,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Tooltip component.
-    /// |提示框组件。
+    /// ||提示框组件。
     /// </summary>
     [System.Serializable]
     [ComponentHandler(typeof(TooltipHandler), true)]
@@ -14,88 +14,88 @@ namespace XCharts.Runtime
     {
         /// <summary>
         /// Indicator type.
-        /// |指示器类型。
+        /// ||指示器类型。
         /// </summary>
         public enum Type
         {
             /// <summary>
             /// line indicator.
-            /// |直线指示器
+            /// ||直线指示器
             /// </summary>
             Line,
             /// <summary>
             /// shadow crosshair indicator.
-            /// |阴影指示器
+            /// ||阴影指示器
             /// </summary>
             Shadow,
             /// <summary>
             /// no indicator displayed.
-            /// |无指示器
+            /// ||无指示器
             /// </summary>
             None,
             /// <summary>
             /// crosshair indicator, which is actually the shortcut of enable two axisPointers of two orthometric axes.
-            /// |十字准星指示器。坐标轴显示Label和交叉线。
+            /// ||十字准星指示器。坐标轴显示Label和交叉线。
             /// </summary>
             Corss,
             /// <summary>
             /// Auto select indicator according to serie type.
-            /// |根据serie的类型自动选择显示指示器。
+            /// ||根据serie的类型自动选择显示指示器。
             /// </summary>
             Auto
         }
 
         /// <summary>
         /// Trigger strategy.
-        /// |触发类型。
+        /// ||触发类型。
         /// </summary>
         public enum Trigger
         {
             /// <summary>
             /// Triggered by data item, which is mainly used for charts that don't have a category axis like scatter charts or pie charts.
-            /// |数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。
+            /// ||数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。
             /// </summary>
             Item,
             /// <summary>
             /// Triggered by axes, which is mainly used for charts that have category axes, like bar charts or line charts.
-            /// |坐标轴触发，主要在柱状图，折线图等会使用类目轴的图表中使用。
+            /// ||坐标轴触发，主要在柱状图，折线图等会使用类目轴的图表中使用。
             /// </summary>
             Axis,
             /// <summary>
             /// Trigger nothing.
-            /// |什么都不触发。
+            /// ||什么都不触发。
             /// </summary>
             None,
             /// <summary>
             /// Auto select trigger according to serie type.
-            /// |根据serie的类型自动选择触发类型。
+            /// ||根据serie的类型自动选择触发类型。
             /// </summary>
             Auto
         }
         /// <summary>
         /// Position type.
-        /// |坐标类型。
+        /// ||坐标类型。
         /// </summary>
         public enum Position
         {
             /// <summary>
             /// Auto. The mobile platform is displayed at the top, and the non-mobile platform follows the mouse position.
-            /// |自适应。移动平台靠顶部显示，非移动平台跟随鼠标位置。
+            /// ||自适应。移动平台靠顶部显示，非移动平台跟随鼠标位置。
             /// </summary>
             Auto,
             /// <summary>
             /// Custom. Fully customize display position (x,y).
-            /// |自定义。完全自定义显示位置(x,y)。
+            /// ||自定义。完全自定义显示位置(x,y)。
             /// </summary>
             Custom,
             /// <summary>
             /// Just fix the coordinate X. Y follows the mouse position.
-            /// |只固定坐标X。Y跟随鼠标位置。
+            /// ||只固定坐标X。Y跟随鼠标位置。
             /// </summary>
             FixedX,
             /// <summary>
             /// Just fix the coordinate Y. X follows the mouse position.
-            /// |只固定坐标Y。X跟随鼠标位置。
+            /// ||只固定坐标Y。X跟随鼠标位置。
             FixedY
         }
 
@@ -146,7 +146,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether to show the tooltip component.
-        /// |是否显示提示框组件。
+        /// ||是否显示提示框组件。
         /// </summary>
         public bool show
         {
@@ -155,7 +155,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Indicator type.
-        /// |提示框指示器类型。
+        /// ||提示框指示器类型。
         /// </summary>
         public Type type
         {
@@ -164,7 +164,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Type of triggering.
-        /// |触发类型。
+        /// ||触发类型。
         /// </summary>
         public Trigger trigger
         {
@@ -173,7 +173,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Type of position.
-        /// |显示位置类型。
+        /// ||显示位置类型。
         /// </summary>
         public Position position
         {
@@ -181,10 +181,25 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_Position, value)) SetAllDirty(); }
         }
         /// <summary>
-        /// The string template formatter for the tooltip title content. Support for wrapping lines with \n.
-        /// The placeholder {I} can be set separately to indicate that the title is ignored and not displayed.
-        /// Template see itemFormatter.
-        /// |提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符{i}表示忽略不显示title。
+        /// String template formatter for tooltip title content. \n line wrapping is supported. The placeholder {i} can be set separately to indicate that title is ignored and not displayed.
+        /// Template variables are {.}, {a}, {b}, {c}, {d}, {e}, {f}, and {g}. <br />
+        /// {.} is the dot of the corresponding color of serie currently indicated or index 0. <br />
+        /// {a} is the series name name of serie currently indicated or index 0. <br />
+        /// {b} is the name of the serie data item serieData currently indicated or index 0, or the category value (such as the X-axis of a line chart). <br />
+        /// {c} is the value of the serie y-dimension (dimesion is 1) currently indicated or index is 0. <br />
+        /// {d} is the serie y-dimensional (dimesion 1) percentage value of the currently indicated or index 0, note without the % sign. <br />
+        /// {e} is the name of the serie data item serieData currently indicated or whose index is 0. <br />
+        /// {h} is the hexadecimal color value of serieData for the serie data item currently indicated or index 0. <br />
+        /// {f} is the sum of data. <br />
+        /// {g} indicates the total number of data. <br />
+        /// {.1} represents a dot of the corresponding color with serie specified as index 1. <br />
+        /// The 1 in {a1}, {b1}, {c1} represents serie where index is specified as 1. <br />
+        /// {c1:2} represents the third data of the current indicator data item in serie with index 1 (one data item has multiple data, index 2 represents the third data). <br />
+        /// {c1:2-2} represents the third data of serie third data item with index 1 (that is, the number of data items must be specified when specifying the number of data items). <br />
+        /// {d1:2:f2} indicates that a format string with a single value is f2 (numericFormatter is used if no value is specified). <br />
+        /// {d:0.##} indicates that the format string with a value specified alone is 0.## # (for percentages, preserving a 2-digit significant number while avoiding the "100.00%" situation with f2). <br />
+        /// example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1}, {c1:1-1: f1}"
+        /// ||提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符{i}表示忽略不显示title。
         /// 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。<br/>
         /// {.}为当前所指示或index为0的serie的对应颜色的圆点。<br/>
         /// {a}为当前所指示或index为0的serie的系列名name。<br/>
@@ -202,7 +217,6 @@ namespace XCharts.Runtime
         /// {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。<br/>
         /// {d:0.##} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。<br/>
         /// 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}"
-        /// </summary>
         /// </summary>
         public string titleFormatter { get { return m_TitleFormatter; } set { m_TitleFormatter = value; } }
         /// <summary>
@@ -222,7 +236,7 @@ namespace XCharts.Runtime
         /// {d1:2: F2} indicates that a formatted string with a value specified separately is F2 (numericFormatter is used when numericFormatter is not specified).<br/>
         /// {d:0.##} indicates that a formatted string with a value specified separately is 0.##   (used for percentage, reserved 2 valid digits while avoiding the situation similar to "100.00%" when using f2 ).<br/>
         /// Example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1} : {c1:1-1: f1}"<br/>
-        /// |提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。用|来表示多个列的分隔。
+        /// ||提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。用|来表示多个列的分隔。
         /// 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。<br/>
         /// {i}或-表示忽略当前项。
         /// {.}为当前所指示的serie或数据项的对应颜色的圆点。<br/>
@@ -237,104 +251,106 @@ namespace XCharts.Runtime
         /// {c0}表示当前数据项维度为0的数据。<br/>
         /// {c1}表示当前数据项维度为1的数据。<br/>
         /// {d3}表示维度3的数据的百分比。它的分母是默认维度（一般是1维度）数据。<br/>
-        /// |表示多个列的分隔。<br>
+        /// |表示多个列的分隔。<br/>
         /// 示例："{i}", "{.}|{a}|{c}", "{.}|{b}|{c2:f2}"
         /// </summary>
         public string itemFormatter { get { return m_ItemFormatter; } set { m_ItemFormatter = value; } }
         /// <summary>
-        /// the marker of serie.
-        /// |serie的符号标志。
+        /// Standard number and date format string. Used to format a Double value or a DateTime date as a string. numericFormatter is used as an argument to either `Double.ToString ()` or `DateTime.ToString()`. <br />
+        /// The number format uses the Axx format: A is a single-character format specifier that supports C currency, D decimal, E exponent, F fixed-point number, G regular, N digit, P percentage, R round trip, and X hexadecimal. xx is precision specification, from 0-99. E.g. F1, E2<br />
+        /// Date format Common date formats are: yyyy year, MM month, dd day, HH hour, mm minute, ss second, fff millisecond. For example: yyyy-MM-dd HH:mm:ss<br />
+        /// number format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/>
+        /// date format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/>
+        /// ||标准数字和日期格式字符串。用于将Double数值或DateTime日期格式化显示为字符串。numericFormatter用来作为Double.ToString()或DateTime.ToString()的参数。<br/>
+        /// 数字格式使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。如：F1, E2<br/>
+        /// 日期格式常见的格式：yyyy年，MM月，dd日，HH时，mm分，ss秒，fff毫秒。如：yyyy-MM-dd HH:mm:ss<br/>
+        /// 数值格式化参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings <br/>
+        /// 日期格式化参考：https://learn.microsoft.com/zh-cn/dotnet/standard/base-types/standard-date-and-time-format-strings
         /// </summary>
-        public string marker { get { return m_Marker; } set { m_Marker = value; } }
-        /// <summary>
-        /// Fixed width. Higher priority than minWidth.
-        /// |固定宽度。比 minWidth 优先。
-        /// </summary>
-        public float fixedWidth { get { return m_FixedWidth; } set { m_FixedWidth = value; } }
-        /// <summary>
-        /// Fixed height. Higher priority than minHeight.
-        /// |固定高度。比 minHeight 优先。
-        /// </summary>
-        public float fixedHeight { get { return m_FixedHeight; } set { m_FixedHeight = value; } }
-        /// <summary>
-        /// Minimum width. If fixedWidth has a value, get fixedWidth first.
-        /// |最小宽度。如若 fixedWidth 设有值，优先取 fixedWidth。
-        /// </summary>
-        public float minWidth { get { return m_MinWidth; } set { m_MinWidth = value; } }
-        /// <summary>
-        /// Minimum height. If fixedHeight has a value, take priority over fixedHeight.
-        /// |最小高度。如若 fixedHeight 设有值，优先取 fixedHeight。
-        /// </summary>
-        public float minHeight { get { return m_MinHeight; } set { m_MinHeight = value; } }
-        /// <summary>
-        /// Standard numeric format string. Used to format numeric values to display as strings.
-        /// Using 'Axx' form: 'A' is the single character of the format specifier, supporting 'C' currency, 
-        /// 'D' decimal, 'E' exponent, 'F' number of vertices, 'G' regular, 'N' digits, 'P' percentage, 
-        /// 'R' round tripping, 'X' hex etc. 'XX' is the precision specification, from '0' - '99'.
-        /// |标准数字格式字符串。用于将数值格式化显示为字符串。
-        /// 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。
-        /// 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
-        /// </summary>
-        /// <value></value>
         public string numericFormatter
         {
             get { return m_NumericFormatter; }
             set { if (PropertyUtil.SetClass(ref m_NumericFormatter, value)) SetComponentDirty(); }
         }
         /// <summary>
+        /// the marker of serie.
+        /// ||serie的符号标志。
+        /// </summary>
+        public string marker { get { return m_Marker; } set { m_Marker = value; } }
+        /// <summary>
+        /// Fixed width. Higher priority than minWidth.
+        /// ||固定宽度。比 minWidth 优先。
+        /// </summary>
+        public float fixedWidth { get { return m_FixedWidth; } set { m_FixedWidth = value; } }
+        /// <summary>
+        /// Fixed height. Higher priority than minHeight.
+        /// ||固定高度。比 minHeight 优先。
+        /// </summary>
+        public float fixedHeight { get { return m_FixedHeight; } set { m_FixedHeight = value; } }
+        /// <summary>
+        /// Minimum width. If fixedWidth has a value, get fixedWidth first.
+        /// ||最小宽度。如若 fixedWidth 设有值，优先取 fixedWidth。
+        /// </summary>
+        public float minWidth { get { return m_MinWidth; } set { m_MinWidth = value; } }
+        /// <summary>
+        /// Minimum height. If fixedHeight has a value, take priority over fixedHeight.
+        /// ||最小高度。如若 fixedHeight 设有值，优先取 fixedHeight。
+        /// </summary>
+        public float minHeight { get { return m_MinHeight; } set { m_MinHeight = value; } }
+        /// <summary>
         /// the text padding of left and right. defaut:5.
-        /// |左右边距。
+        /// ||左右边距。
         /// </summary>
         public int paddingLeftRight { get { return m_PaddingLeftRight; } set { m_PaddingLeftRight = value; } }
         /// <summary>
         /// the text padding of top and bottom. defaut:5.
-        /// |上下边距。
+        /// ||上下边距。
         /// </summary>
         public int paddingTopBottom { get { return m_PaddingTopBottom; } set { m_PaddingTopBottom = value; } }
         /// <summary>
         /// Whether to show ignored data on tooltip.
-        /// |是否显示忽略数据在tooltip上。
+        /// ||是否显示忽略数据在tooltip上。
         /// </summary>
         public bool ignoreDataShow { get { return m_IgnoreDataShow; } set { m_IgnoreDataShow = value; } }
         /// <summary>
         /// The default display character information for ignored data.
-        /// |被忽略数据的默认显示字符信息。如果设置为空，则表示完全不显示忽略数据。
+        /// ||被忽略数据的默认显示字符信息。如果设置为空，则表示完全不显示忽略数据。
         /// </summary>
         public string ignoreDataDefaultContent { get { return m_IgnoreDataDefaultContent; } set { m_IgnoreDataDefaultContent = value; } }
         /// <summary>
         /// The background image of tooltip.
-        /// |提示框的背景图片。
+        /// ||提示框的背景图片。
         /// </summary>
         public Sprite backgroundImage { get { return m_BackgroundImage; } set { m_BackgroundImage = value; SetComponentDirty(); } }
         /// <summary>
         /// The background type of tooltip.
-        /// |提示框的背景图片显示类型。
+        /// ||提示框的背景图片显示类型。
         /// </summary>
         public Image.Type backgroundType { get { return m_BackgroundType; } set { m_BackgroundType = value; SetComponentDirty(); } }
         /// <summary>
         /// The background color of tooltip.
-        /// |提示框的背景颜色。
+        /// ||提示框的背景颜色。
         /// </summary>
         public Color backgroundColor { get { return m_BackgroundColor; } set { m_BackgroundColor = value; SetComponentDirty(); } }
         /// <summary>
         /// Whether to trigger after always display.
-        /// |是否触发后一直显示提示框浮层。
+        /// ||是否触发后一直显示提示框浮层。
         /// </summary>
         public bool alwayShowContent { get { return m_AlwayShowContent; } set { m_AlwayShowContent = value; } }
         /// <summary>
         /// Whether to show the tooltip floating layer, whose default value is true.
         /// It should be configurated to be false, if you only need tooltip to trigger the event or show the axisPointer without content.
-        /// |是否显示提示框浮层，默认显示。只需tooltip触发事件或显示axisPointer而不需要显示内容时可配置该项为false。
+        /// ||是否显示提示框浮层，默认显示。只需tooltip触发事件或显示axisPointer而不需要显示内容时可配置该项为false。
         /// </summary>
         public bool showContent { get { return m_ShowContent; } set { m_ShowContent = value; } }
         /// <summary>
         /// The position offset of tooltip relative to the mouse position.
-        /// |提示框相对于鼠标位置的偏移。
+        /// ||提示框相对于鼠标位置的偏移。
         /// </summary>
         public Vector2 offset { get { return m_Offset; } set { m_Offset = value; } }
         /// <summary>
         /// the width of tooltip border.
-        /// |边框线宽。
+        /// ||边框线宽。
         /// </summary>
         public float borderWidth
         {
@@ -343,7 +359,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the color of tooltip border.
-        /// |边框颜色。
+        /// ||边框颜色。
         /// </summary>
         public Color32 borderColor
         {
@@ -352,7 +368,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the x positionn of fixedX.
-        /// |固定X位置的坐标。
+        /// ||固定X位置的坐标。
         /// </summary>
         public float fixedX
         {
@@ -361,7 +377,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the y position of fixedY.
-        /// |固定Y位置的坐标。
+        /// ||固定Y位置的坐标。
         /// </summary>
         public float fixedY
         {
@@ -370,7 +386,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// height of title text.
-        /// |标题文本的高。
+        /// ||标题文本的高。
         /// </summary>
         public float titleHeight
         {
@@ -379,7 +395,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// height of content text.
-        /// |数据项文本的高。
+        /// ||数据项文本的高。
         /// </summary>
         public float itemHeight
         {
@@ -388,7 +404,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the textstyle of title.
-        /// |标题的文本样式。
+        /// ||标题的文本样式。
         /// </summary>
         public LabelStyle titleLabelStyle
         {
@@ -397,7 +413,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the textstyle list of content.
-        /// |内容部分的文本样式列表。和列一一对应。
+        /// ||内容部分的文本样式列表。和列一一对应。
         /// </summary>
         public List<LabelStyle> contentLabelStyles
         {
@@ -407,7 +423,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the line style of indicator line.
-        /// |指示线样式。
+        /// ||指示线样式。
         /// </summary>
         public LineStyle lineStyle
         {
@@ -434,14 +450,14 @@ namespace XCharts.Runtime
         public Dictionary<int, List<int>> runtimeSerieIndex = new Dictionary<int, List<int>>();
         /// <summary>
         /// The data index currently indicated by Tooltip.
-        /// |当前提示框所指示的数据项索引。
+        /// ||当前提示框所指示的数据项索引。
         /// </summary>
         public List<int> runtimeDataIndex { get { return m_RuntimeDateIndex; } internal set { m_RuntimeDateIndex = value; } }
         private List<int> m_RuntimeDateIndex = new List<int>() { -1, -1 };
 
         /// <summary>
         /// Keep Tooltiop displayed at the top.
-        /// |保持Tooltiop显示在最顶上
+        /// ||保持Tooltiop显示在最顶上
         /// </summary>
         public void KeepTop()
         {

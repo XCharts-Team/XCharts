@@ -4,7 +4,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Settings related to axis tick.
-    /// |坐标轴刻度相关设置。
+    /// ||坐标轴刻度相关设置。
     /// </summary>
     [System.Serializable]
     public class AxisTick : BaseLine
@@ -19,13 +19,13 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// The distance between the tick line and axis line.
-        /// |刻度线与轴线的距离。
+        /// ||刻度线与轴线的距离。
         /// </summary>
         public float distance { get { return m_Distance; } set { m_Distance = value; } }
 
         /// <summary>
         /// Align axis tick with label, which is available only when boundaryGap is set to be true in category axis.
-        /// |类目轴中在 boundaryGap 为 true 的时候有效，可以保证刻度线和标签对齐。
+        /// ||类目轴中在 boundaryGap 为 true 的时候有效，可以保证刻度线和标签对齐。
         /// </summary>
         public bool alignWithLabel
         {
@@ -34,7 +34,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Set this to true so the axis labels face the inside direction.
-        /// |坐标轴刻度是否朝内，默认朝外。
+        /// ||坐标轴刻度是否朝内，默认朝外。
         /// </summary>
         public bool inside
         {
@@ -43,7 +43,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether to display the first tick.
-        /// |是否显示第一个刻度。
+        /// ||是否显示第一个刻度。
         /// </summary>
         public bool showStartTick
         {
@@ -52,7 +52,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether to display the last tick.
-        /// |是否显示最后一个刻度。
+        /// ||是否显示最后一个刻度。
         /// </summary>
         public bool showEndTick
         {
@@ -61,7 +61,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Number of segments that the axis is split into.
-        /// |分隔线之间分割的刻度数。
+        /// ||分隔线之间分割的刻度数。
         /// </summary>
         public int splitNumber
         {

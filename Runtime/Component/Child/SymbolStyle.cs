@@ -6,7 +6,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// the type of symbol.
-    /// |标记图形的类型。
+    /// ||标记图形的类型。
     /// </summary>
     public enum SymbolType
     {
@@ -100,7 +100,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether the symbol is showed.
-        /// |是否显示标记。
+        /// ||是否显示标记。
         /// </summary>
         public bool show
         {
@@ -109,7 +109,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the type of symbol.
-        /// |标记类型。
+        /// ||标记类型。
         /// </summary>
         public SymbolType type
         {
@@ -118,7 +118,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the size of symbol.
-        /// |标记的大小。
+        /// ||标记的大小。
         /// </summary>
         public float size
         {
@@ -127,7 +127,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the gap of symbol and line segment.
-        /// |图形标记和线条的间隙距离。
+        /// ||图形标记和线条的间隙距离。
         /// </summary>
         public float gap
         {
@@ -160,7 +160,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the fill type of image.
-        /// |图形填充类型。
+        /// ||图形填充类型。
         /// </summary>
         public Image.Type imageType
         {
@@ -187,7 +187,7 @@ namespace XCharts.Runtime
         private List<float> m_AnimationSize = new List<float>() { 0, 5, 10 };
         /// <summary>
         /// the setting for effect scatter.
-        /// |带有涟漪特效动画的散点图的动画参数。
+        /// ||带有涟漪特效动画的散点图的动画参数。
         /// </summary>
         public List<float> animationSize { get { return m_AnimationSize; } }
 

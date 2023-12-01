@@ -7,7 +7,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// A data item of serie.
-    /// |系列中的一个数据项。可存储数据名和1-n维个数据。
+    /// ||系列中的一个数据项。可存储数据名和1-n维个数据。
     /// </summary>
     [System.Serializable]
     public class SerieData : ChildComponent
@@ -63,22 +63,22 @@ namespace XCharts.Runtime
         private bool m_Show = true;
         /// <summary>
         /// the index of SerieData.
-        /// |数据项索引。
+        /// ||数据项索引。
         /// </summary>
         public override int index { get { return m_Index; } set { m_Index = value; } }
         /// <summary>
         /// the name of data item.
-        /// |数据项名称。
+        /// ||数据项名称。
         /// </summary>
         public string name { get { return m_Name; } set { m_Name = value; } }
         /// <summary>
         /// the id of data.
-        /// |数据项的唯一id。唯一id不是必须设置的。
+        /// ||数据项的唯一id。唯一id不是必须设置的。
         /// </summary>
         public string id { get { return m_Id; } set { m_Id = value; } }
         /// <summary>
         /// the id of parent SerieData.
-        /// |父节点id。父节点id不是必须设置的。
+        /// ||父节点id。父节点id不是必须设置的。
         /// </summary>
         public string parentId { get { return m_ParentId; } set { m_ParentId = value; } }
         /// <summary>
@@ -95,18 +95,17 @@ namespace XCharts.Runtime
         public float radius { get { return m_Radius; } set { m_Radius = value; } }
         /// <summary>
         /// Whether the data item is selected.
-        /// |该数据项是否被选中。
+        /// ||该数据项是否被选中。
         /// </summary>
         public bool selected { get { return m_Selected; } set { m_Selected = value; } }
         /// <summary>
         /// the state of serie data.
-        /// |数据项的默认状态。
+        /// ||数据项的默认状态。
         /// </summary>
         public SerieState state { get { return m_State; } set { m_State = value; } }
         /// <summary>
         /// 数据项图例名称。当数据项名称不为空时，图例名称即为系列名称；反之则为索引index。
         /// </summary>
-        /// <value></value>
         public string legendName { get { return string.IsNullOrEmpty(name) ? ChartCached.IntToStr(index) : name; } }
 
         /// <summary>
@@ -140,12 +139,12 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// An arbitrary dimension data list of data item.
-        /// |可指定任意维数的数值列表。
+        /// ||可指定任意维数的数值列表。
         /// </summary>
         public List<double> data { get { return m_Data; } set { m_Data = value; } }
         /// <summary>
         /// [default:true] Whether the data item is showed.
-        /// |该数据项是否要显示。
+        /// ||该数据项是否要显示。
         /// </summary>
         public bool show { get { return m_Show; } set { m_Show = value; } }
 
@@ -270,7 +269,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Get the component of the serie data. return null if not exist.
-        /// |获取数据项的指定类型的组件，如果不存在则返回null。
+        /// ||获取数据项的指定类型的组件，如果不存在则返回null。
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
@@ -281,7 +280,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Ensure the serie data has the component, if not, add it.  
-        /// |确保数据项有指定类型的组件，如果没有则添加。
+        /// ||确保数据项有指定类型的组件，如果没有则添加。
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
@@ -293,7 +292,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Ensure the serie data has the component, if not, add it.
-        /// |确保数据项有指定类型的组件，如果没有则添加。
+        /// ||确保数据项有指定类型的组件，如果没有则添加。
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -643,7 +642,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the maxinum value.
-        /// |最大值。
+        /// ||最大值。
         /// </summary>
         public double GetMaxData(bool inverse = false)
         {
@@ -659,7 +658,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the mininum value.
-        /// |最小值。
+        /// ||最小值。
         /// </summary>
         public double GetMinData(bool inverse = false)
         {

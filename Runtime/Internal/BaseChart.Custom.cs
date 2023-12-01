@@ -10,20 +10,21 @@ namespace XCharts.Runtime
 
         public virtual void GetSeriesMinMaxValue(Axis axis, int axisIndex, out double tempMinValue, out double tempMaxValue)
         {
+            var needAnimationData = !axis.context.needAnimation;
             if (IsAllAxisValue())
             {
                 if (axis is XAxis)
                 {
-                    SeriesHelper.GetXMinMaxValue(this, axisIndex, true, axis.inverse, out tempMinValue, out tempMaxValue, false, false);
+                    SeriesHelper.GetXMinMaxValue(this, axisIndex, axis.inverse, out tempMinValue, out tempMaxValue, false, false, needAnimationData);
                 }
                 else
                 {
-                    SeriesHelper.GetYMinMaxValue(this, axisIndex, true, axis.inverse, out tempMinValue, out tempMaxValue);
+                    SeriesHelper.GetYMinMaxValue(this, axisIndex, axis.inverse, out tempMinValue, out tempMaxValue, false, false, needAnimationData);
                 }
             }
             else
             {
-                SeriesHelper.GetYMinMaxValue(this, axisIndex, false, axis.inverse, out tempMinValue, out tempMaxValue);
+                SeriesHelper.GetYMinMaxValue(this, axisIndex, axis.inverse, out tempMinValue, out tempMaxValue, false, false, needAnimationData);
             }
             AxisHelper.AdjustMinMaxValue(axis, ref tempMinValue, ref tempMaxValue, true);
         }

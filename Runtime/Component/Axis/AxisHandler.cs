@@ -16,7 +16,7 @@ namespace XCharts
 
         internal override void SetComponent(MainComponent component)
         {
-            this.component = (T) component;
+            this.component = (T)component;
         }
 
         protected virtual Vector3 GetLabelPosition(float scaleWid, int i)
@@ -109,11 +109,23 @@ namespace XCharts
                     }
                     else
                     {
-                        var xRate = axis.context.minMaxRange / grid.context.width;
-                        var xValue = xRate * (chart.pointerPos.x - grid.context.x - axis.context.offset);
-                        if (axis.context.minValue > 0)
-                            xValue += axis.context.minValue;
-
+                        double xValue;
+                        if (axis.IsLog())
+                        {
+                            var logBase = axis.logBase;
+                            var minLog = Math.Log(axis.context.minValue, logBase);
+                            var maxLog = Math.Log(axis.context.maxValue, logBase);
+                            var logRange = maxLog - minLog;
+                            var pointerLog = minLog + logRange * (chart.pointerPos.x - grid.context.x - axis.context.offset) / grid.context.width;
+                            xValue = Math.Pow(logBase, pointerLog);
+                        }
+                        else
+                        {
+                            var xRate = axis.context.minMaxRange / grid.context.width;
+                            xValue = xRate * (chart.pointerPos.x - grid.context.x - axis.context.offset);
+                            if (axis.context.minValue > 0)
+                                xValue += axis.context.minValue;
+                        }
                         var labelY = axis.GetLabelObjectPosition(0).y;
                         axis.context.pointerValue = xValue;
                         axis.context.pointerLabelPosition = new Vector3(chart.pointerPos.x, labelY);
@@ -140,8 +152,9 @@ namespace XCharts
                 return;
             }
 
-            double tempMinValue = 0;
-            double tempMaxValue = 0;
+            double tempMinValue;
+            double tempMaxValue;
+            axis.context.needAnimation = Application.isPlaying && axis.animation.show;
             chart.GetSeriesMinMaxValue(axis, axisIndex, out tempMinValue, out tempMaxValue);
 
             var dataZoom = chart.GetDataZoomOfAxis(axis);
@@ -152,15 +165,15 @@ namespace XCharts
                 else
                     dataZoom.SetYAxisIndexValueInfo(axisIndex, ref tempMinValue, ref tempMaxValue);
             }
-            if (tempMinValue != axis.context.minValue ||
-                tempMaxValue != axis.context.maxValue ||
+
+            if (tempMinValue != axis.context.destMinValue ||
+                tempMaxValue != axis.context.destMaxValue ||
                 m_LastInterval != axis.interval ||
                 m_LastSplitNumber != axis.splitNumber)
             {
                 m_LastSplitNumber = axis.splitNumber;
                 m_LastInterval = axis.interval;
-
-                axis.UpdateMinMaxValue(tempMinValue, tempMaxValue);
+                axis.UpdateMinMaxValue(tempMinValue, tempMaxValue, axis.context.needAnimation);
                 axis.context.offset = 0;
                 axis.context.lastCheckInverse = axis.inverse;
                 UpdateAxisTickValueList(axis);
@@ -184,6 +197,36 @@ namespace XCharts
                     chart.RefreshChart();
                 }
             }
+
+            if (axis.context.needAnimation && (axis.context.minValue != axis.context.destMinValue || axis.context.maxValue != axis.context.destMaxValue))
+            {
+                var duration = axis.animation.duration == 0
+                    ? SeriesHelper.GetMinAnimationDuration(chart.series) / 1000f
+                    : axis.animation.duration / 1000f;
+                var deltaTime = axis.animation.unscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+                var minDiff = axis.context.destMinValue - axis.context.lastMinValue;
+                var maxDiff = axis.context.destMaxValue - axis.context.lastMaxValue;
+                var minDelta = minDiff / duration * deltaTime;
+                var maxDelta = maxDiff / duration * deltaTime;
+                axis.context.minValue += minDelta;
+                axis.context.maxValue += maxDelta;
+                if ((minDiff > 0 && axis.context.minValue > axis.context.destMinValue)
+                    || (minDiff < 0 && axis.context.minValue < axis.context.destMinValue))
+                {
+                    axis.context.minValue = axis.context.destMinValue;
+                    axis.context.lastMinValue = axis.context.destMinValue;
+                }
+                if ((maxDiff > 0 && axis.context.maxValue > axis.context.destMaxValue)
+                    || (maxDiff < 0 && axis.context.maxValue < axis.context.destMaxValue))
+                {
+                    axis.context.maxValue = axis.context.destMaxValue;
+                    axis.context.lastMaxValue = axis.context.destMaxValue;
+                }
+                axis.context.minMaxRange = axis.context.maxValue - axis.context.minValue;
+                UpdateAxisTickValueList(axis);
+                UpdateAxisLabelText(axis);
+                chart.RefreshChart();
+            }
         }
 
         internal virtual void UpdateAxisLabelText(Axis axis)
@@ -205,7 +248,7 @@ namespace XCharts
             {
                 var lastCount = axis.context.labelValueList.Count;
                 axis.context.tickValue = DateTimeUtil.UpdateTimeAxisDateTimeList(axis.context.labelValueList,
-                    (int) axis.context.minValue, (int) axis.context.maxValue, axis.splitNumber);
+                    (int)axis.context.minValue, (int)axis.context.maxValue, axis.splitNumber);
 
                 if (axis.context.labelValueList.Count != lastCount)
                     axis.SetAllDirty();
@@ -242,7 +285,7 @@ namespace XCharts
                 }
                 var value = 0d;
                 axis.context.tickValue = tick;
-                if (Mathf.Approximately((float) (axis.context.minValue % tick), 0))
+                if (Mathf.Approximately((float)(axis.context.minValue % tick), 0))
                 {
                     value = axis.context.minValue;
                 }
@@ -377,8 +420,8 @@ namespace XCharts
             {
                 var labelWidth = AxisHelper.GetScaleWidth(axis, axisLength, i + 1, dataZoom);
                 var labelName = AxisHelper.GetLabelName(axis, axisLength, i,
-                    axis.context.minValue,
-                    axis.context.maxValue,
+                    axis.context.destMinValue,
+                    axis.context.destMaxValue,
                     dataZoom, isPercentStack);
 
                 var label = ChartHelper.AddAxisLabelObject(splitNumber, i,
@@ -411,7 +454,7 @@ namespace XCharts
                 if (orient == Orient.Horizonal)
                 {
                     var grid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
-                    var posY = !axis.axisName.onZero && grid != null? grid.context.y : GetAxisLineXOrY() + offset.y;
+                    var posY = !axis.axisName.onZero && grid != null ? grid.context.y : GetAxisLineXOrY() + offset.y;
                     switch (axis.axisName.labelStyle.position)
                     {
                         case LabelStyle.Position.Start:
@@ -448,7 +491,7 @@ namespace XCharts
                 else
                 {
                     var grid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
-                    var posX = !axis.axisName.onZero && grid != null? grid.context.x : GetAxisLineXOrY() + offset.x;
+                    var posX = !axis.axisName.onZero && grid != null ? grid.context.x : GetAxisLineXOrY() + offset.x;
                     switch (axis.axisName.labelStyle.position)
                     {
                         case LabelStyle.Position.Start:
@@ -582,6 +625,7 @@ namespace XCharts
                 var minorTickWidth = axis.minorTick.GetWidth(theme.tickWidth);
                 var minorTickLength = axis.minorTick.GetLength(theme.tickLength * 0.6f);
                 var minorStartIndex = axis.IsTime() ? 0 : 1;
+                var isLogAxis = axis.IsLog();
                 for (int i = 0; i < size; i++)
                 {
                     var scaleWidth = AxisHelper.GetScaleWidth(axis, axisLength, i + 1, dataZoom);
@@ -616,9 +660,23 @@ namespace XCharts
                             }
                             if (!hideTick)
                                 UGL.DrawLine(vh, new Vector3(pX, sY), new Vector3(pX, eY), tickWidth, tickColor);
-                            if (axis.minorTick.show && i >= minorStartIndex && minorTickDistance > 0)
+                            if (axis.minorTick.show && i >= minorStartIndex && (minorTickDistance > 0 || isLogAxis))
                             {
-                                if (lastTickX <= axis.context.zeroX || (i == minorStartIndex && pX > axis.context.zeroX))
+                                if (isLogAxis)
+                                {
+                                    var count = 0;
+                                    var logRange = (axis.logBase - 1f);
+                                    minorTickDistance = scaleWidth * axis.GetLogValue(1 + (count + 1) * logRange / minorTickSplitNumber);
+                                    var tickTotal = lastTickX + minorTickDistance;
+                                    while (tickTotal < current && count < minorTickSplitNumber - 1)
+                                    {
+                                        UGL.DrawLine(vh, new Vector3(tickTotal, sY), new Vector3(tickTotal, mY), minorTickWidth, minorTickColor);
+                                        count++;
+                                        minorTickDistance = scaleWidth * axis.GetLogValue(1 + (count + 1) * logRange / minorTickSplitNumber);
+                                        tickTotal = lastTickX + minorTickDistance;
+                                    }
+                                }
+                                else if (lastTickX <= axis.context.zeroX || (i == minorStartIndex && pX > axis.context.zeroX))
                                 {
                                     var tickTotal = pX - minorTickDistance;
                                     while (tickTotal > lastTickX)
@@ -675,9 +733,23 @@ namespace XCharts
                             }
                             if (!hideTick)
                                 UGL.DrawLine(vh, new Vector3(sX, pY), new Vector3(eX, pY), tickWidth, tickColor);
-                            if (axis.minorTick.show && i >= minorStartIndex && minorTickDistance > 0)
+                            if (axis.minorTick.show && i >= minorStartIndex && (minorTickDistance > 0 || isLogAxis))
                             {
-                                if (lastTickY <= axis.context.zeroY || (i == minorStartIndex && pY > axis.context.zeroY))
+                                if (isLogAxis)
+                                {
+                                    var count = 0;
+                                    var logRange = (axis.logBase - 1f);
+                                    minorTickDistance = scaleWidth * axis.GetLogValue(1 + (count + 1) * logRange / minorTickSplitNumber);
+                                    var tickTotal = lastTickY + minorTickDistance;
+                                    while (tickTotal < current && count < minorTickSplitNumber - 1)
+                                    {
+                                        UGL.DrawLine(vh, new Vector3(sX, tickTotal), new Vector3(mX, tickTotal), minorTickWidth, minorTickColor);
+                                        count++;
+                                        minorTickDistance = scaleWidth * axis.GetLogValue(1 + (count + 1) * logRange / minorTickSplitNumber);
+                                        tickTotal = lastTickY + minorTickDistance;
+                                    }
+                                }
+                                else if (lastTickY <= axis.context.zeroY || (i == minorStartIndex && pY > axis.context.zeroY))
                                 {
                                     var tickTotal = pY - minorTickDistance;
                                     while (tickTotal > lastTickY)
@@ -789,6 +861,7 @@ namespace XCharts
             var minorLineWidth = axis.minorSplitLine.GetWidth(theme.lineWidth);
             var minorLineType = axis.minorSplitLine.GetType(theme.splitLineType);
             var minorStartIndex = axis.IsTime() ? 0 : 1;
+            var isLogAxis = axis.IsLog();
             for (int i = 0; i < size; i++)
             {
                 var scaleWidth = AxisHelper.GetScaleWidth(axis, axisLength, axis.IsTime() ? i : i + 1, dataZoom);
@@ -832,9 +905,28 @@ namespace XCharts
                                     new Vector3(current, startY + splitLength),
                                     lineColor);
                             }
-                            if (axis.minorSplitLine.show && i >= minorStartIndex && minorTickDistance > 0)
+                            if (axis.minorSplitLine.show && i >= minorStartIndex && (minorTickDistance > 0 || isLogAxis))
                             {
-                                if (lastSplitX <= axis.context.zeroX || (i == minorStartIndex && current > axis.context.zeroX))
+                                if (isLogAxis)
+                                {
+                                    var count = 0;
+                                    var logRange = axis.logBase - 1f;
+                                    minorTickDistance = scaleWidth * axis.GetLogValue(1 + (count + 1) * logRange / minorTickSplitNumber);
+                                    var tickTotal = lastSplitX + minorTickDistance;
+                                    while (tickTotal < current && count < minorTickSplitNumber - 1)
+                                    {
+                                        ChartDrawer.DrawLineStyle(vh,
+                                            minorLineType,
+                                            minorLineWidth,
+                                            new Vector3(tickTotal, startY),
+                                            new Vector3(tickTotal, startY + splitLength),
+                                            minorSplitLineColor);
+                                        count++;
+                                        minorTickDistance = scaleWidth * axis.GetLogValue(1 + (count + 1) * logRange / minorTickSplitNumber);
+                                        tickTotal = lastSplitX + minorTickDistance;
+                                    }
+                                }
+                                else if (lastSplitX <= axis.context.zeroX || (i == minorStartIndex && current > axis.context.zeroX))
                                 {
                                     var tickTotal = current - minorTickDistance;
                                     var count = 0;
@@ -896,9 +988,28 @@ namespace XCharts
                                     new Vector3(startX + splitLength, current),
                                     lineColor);
                             }
-                            if (axis.minorSplitLine.show && i >= minorStartIndex && minorTickDistance > 0)
+                            if (axis.minorSplitLine.show && i >= minorStartIndex && (minorTickDistance > 0 || isLogAxis))
                             {
-                                if (lastSplitY <= axis.context.zeroY || (i == minorStartIndex && current > axis.context.zeroY))
+                                if (isLogAxis)
+                                {
+                                    var count = 0;
+                                    var logRange = (axis.logBase - 1f);
+                                    minorTickDistance = scaleWidth * axis.GetLogValue(1 + (count + 1) * logRange / minorTickSplitNumber);
+                                    var tickTotal = lastSplitY + minorTickDistance;
+                                    while (tickTotal < current && count < minorTickSplitNumber - 1)
+                                    {
+                                        ChartDrawer.DrawLineStyle(vh,
+                                            minorLineType,
+                                            minorLineWidth,
+                                            new Vector3(startX, tickTotal),
+                                            new Vector3(startX + splitLength, tickTotal),
+                                            minorSplitLineColor);
+                                        count++;
+                                        minorTickDistance = scaleWidth * axis.GetLogValue(1 + (count + 1) * logRange / minorTickSplitNumber);
+                                        tickTotal = lastSplitY + minorTickDistance;
+                                    }
+                                }
+                                else if (lastSplitY <= axis.context.zeroY || (i == minorStartIndex && current > axis.context.zeroY))
                                 {
                                     var tickTotal = current - minorTickDistance;
                                     var count = 0;

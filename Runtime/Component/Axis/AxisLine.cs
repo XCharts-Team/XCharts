@@ -4,7 +4,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Settings related to axis line.
-    /// |坐标轴轴线。
+    /// ||坐标轴轴线。
     /// </summary>
     [System.Serializable]
     public class AxisLine : BaseLine
@@ -15,7 +15,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// When mutiple axes exists, this option can be used to specify which axis can be "onZero" to.
-        /// |X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度上，只有在另一个轴为数值轴且包含 0 刻度时有效。
+        /// ||X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度上，只有在另一个轴为数值轴且包含 0 刻度时有效。
         /// </summary>
         public bool onZero
         {
@@ -24,7 +24,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Whether to show the arrow symbol of axis.
-        /// |是否显示箭头。
+        /// ||是否显示箭头。
         /// </summary>
         public bool showArrow
         {
@@ -33,7 +33,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the arrow of line.
-        /// |轴线箭头。
+        /// ||轴线箭头。
         /// </summary>
         public ArrowStyle arrow
         {

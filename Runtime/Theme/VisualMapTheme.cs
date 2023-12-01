@@ -13,7 +13,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the width of border.
-        /// |边框线宽。
+        /// ||边框线宽。
         /// </summary>
         public float borderWidth
         {
@@ -22,7 +22,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// the color of dataZoom border.
-        /// |边框颜色。
+        /// ||边框颜色。
         /// </summary>
         public Color32 borderColor
         {
@@ -32,7 +32,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the background color of visualmap.
-        /// |背景颜色。
+        /// ||背景颜色。
         /// </summary>
         public Color32 backgroundColor
         {
@@ -42,7 +42,6 @@ namespace XCharts.Runtime
         /// <summary>
         /// 可视化组件的调节三角形边长。
         /// </summary>
-        /// <value></value>
         public float triangeLen
         {
             get { return m_TriangeLen; }

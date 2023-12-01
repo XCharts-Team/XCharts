@@ -5,7 +5,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Settings related to text.
-    /// |文本的内边距设置。
+    /// ||文本的内边距设置。
     /// </summary>
     [Serializable]
     public class TextPadding : Padding

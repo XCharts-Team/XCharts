@@ -5,8 +5,8 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Grid component.
-    /// |Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart can be drawn in grid.
-    /// |网格组件。
+    /// ||Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart can be drawn in grid.
+    /// ||网格组件。
     /// 直角坐标系内绘图网格。可以在网格上绘制折线图，柱状图，散点图。
     /// </summary>
     [Serializable]
@@ -25,7 +25,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether to show the grid in rectangular coordinate.
-        /// |是否显示直角坐标系网格。
+        /// ||是否显示直角坐标系网格。
         /// </summary>
         public bool show
         {
@@ -34,7 +34,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Orientation of the axis. By default, it's 'Vertical'. You can set it to be 'Horizonal' to make a vertical axis.
-        /// |坐标轴朝向。默认为垂直朝向。
+        /// ||坐标轴朝向。默认为垂直朝向。
         /// </summary>
         public Orient orient
         {
@@ -43,7 +43,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between grid component and the left side of the container.
-        /// |grid 组件离容器左侧的距离。
+        /// ||grid 组件离容器左侧的距离。
         /// </summary>
         public float left
         {
@@ -52,7 +52,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between grid component and the right side of the container.
-        /// |grid 组件离容器右侧的距离。
+        /// ||grid 组件离容器右侧的距离。
         /// </summary>
         public float right
         {
@@ -61,7 +61,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between grid component and the top side of the container.
-        /// |grid 组件离容器上侧的距离。
+        /// ||grid 组件离容器上侧的距离。
         /// </summary>
         public float top
         {
@@ -70,7 +70,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Distance between grid component and the bottom side of the container.
-        /// |grid 组件离容器下侧的距离。
+        /// ||grid 组件离容器下侧的距离。
         /// </summary>
         public float bottom
         {
@@ -79,7 +79,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Background color of grid, which is transparent by default.
-        /// |网格背景色，默认透明。
+        /// ||网格背景色，默认透明。
         /// </summary>
         public Color backgroundColor
         {

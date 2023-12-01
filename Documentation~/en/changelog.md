@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.9.0](#v390)  
 [v3.8.1](#v381)  
 [v3.8.0](#v380)  
 [v3.7.0](#v370)  
@@ -64,6 +65,46 @@
 
 ## master
 
+## v3.9.0
+
+Highlights:
+
+* Added `Animation` in `Axis` to improve the animation effect of data changes
+* Added `minorTick` for `Log` type of `Axis`
+* Added MarkLine's `onTop` setting to displayed at the top level
+* Perfect code comments and documentation
+* Fixed several issues
+
+Extended features:
+
+* `UITable` adds the carousel function
+* `UITable` adds data api and callback functions
+* `Pie3DChart` optimizes rendering performance
+
+Log details:
+
+* (2023.12.01) Release `v3.9.0`
+* (2023.12.01) Fixed inaccurate display of Tooltip's `titleFormatter` set to `{b}`
+* (2023.11.30) Added support for `SerieData` to add `Label` separately
+* (2023.11.28) Fix to `Tooltip` incorrectly indicating the number line
+* (2023.11.24) fixed inaccurate return values in Chart's `UpdateData()` interface
+* (2023.11.24) Fix to `Axis` not working smoothly when updating data
+* (2023.11.23) Added Animation support for Axis
+* (2023.11.16) Cancel `Legend`'s `formatter` and replace it with `LabelStyle`
+* (2023.11.14) Improved annotation and documentation for LabelStyle's formatter (#291)
+* (2023.11.11) Fix to comments Documentation for some comments in `Documentation` (#290)
+* (2023.11.11) fixed an issue where Legend's formatter didn't refresh automatically when data was changed
+* (2023.11.05) Fix to SerieEventData's value always being 0 (#287)
+* (2023.11.03) Fix to abnormal mouse movement when setting `Bar` gradient (#285)
+* (2023.11.02) Optimizes ignoring of formatter when SerieData is set to ignore
+* (2023.11.01) Added whether MarkLine's `onTop` setting is displayed at the top level
+* (2023.10.21) Fix to `Label` location exception when `Pie` has 0 data
+* (2023.10.21) Added subscale support for `Axis`
+* (2023.10.19) Fixed abnormal lead line when `Pie` set rose chart
+* (2023.10.15) Fixed Animation exception when `Line` was set to `AlongPath` (#281)
+* (2023.10.12) Fixed invalid value axis when `MarkLine` specified `yValue`
+* (2023.10.11) Fixed invalid setting of `Serie` `showDataDimension`
+
 ## v3.8.1
 
 * (2023.10.02) Release `v3.8.1` version
@@ -104,7 +145,7 @@ Log details:
 * (2023.08.22) Fixed `Bar` display hidden drawing performance exception
 * (2023.08.22) Improved Zebra histogram rendering performance (#276)
 * (2023.08.16) Added Daemon daemon to resolve an error after TMP is enabled locally
-* (2023.08.15) Fixed `Data` displaying axes incorrectly when data is between -1 and 1 (#273) (by __Ambitroc__)
+* (2023.08.15) Fixed `Data` displaying axes incorrectly when data is between -1 and 1 (#273) (by **Ambitroc**)
 * (2023.08.14) Fixed `XCharts` updating error after` TextMeshPro `and` NewInputSystem `are enabled locally (#272)
 * (2023.08.12) Fixed `Chart` error when deleted at runtime (#269)
 * (2023.08.11) Fixed an issue where data could not be added when DataZoom was enabled
@@ -145,7 +186,7 @@ Log details:
 
 * (2022.06.08) Release v3.7.0
 * (2023.06.04) Added `HelpDoc` help document skip
-* (2023.05.30) Fixed Serie name with `_` line causing `Legend` to not fire (#252) (by __svr2kos2__)
+* (2023.05.30) Fixed Serie name with `_` line causing `Legend` to not fire (#252) (by **svr2kos2**)
 * (2023.05.10) Added `MinMaxAuto` range type for `Axis`
 * (2023.05.10) Added support for `Clip` for `Line`
 * (2023.05.04) Fixed `Axis` setting` CeilRate `not taking effect in range -1 to 1
@@ -164,9 +205,9 @@ Log details:
 
 * (2023.04.01) Release `v3.6.0` version
 * (2023.03.14) Fix for Tooltip's `titleFormater` setting `{b}` may not take effect
-* (2023.03.14) Fix for `BarChart` not drawing bar background when data is 0 (#250) (by __Ambitroc__)
+* (2023.03.14) Fix for `BarChart` not drawing bar background when data is 0 (#250) (by **Ambitroc**)
 * (2023.03.12) Added `LabelStyle` `autoRotate` to set automatic rotation of angled vertical text
-* (2023.03.10) Added `VR` and other non-mouse input for Point location acquisition (#248) (by __Ambitroc__)
+* (2023.03.10) Added `VR` and other non-mouse input for Point location acquisition (#248) (by **Ambitroc**)
 * (2023.03.09) Adds callbacks to Chart's `onSerieClick`, `onSerieDown`, `onSerieEnter` and `onSerieExit`
 * (2023.03.09) Fixed click-check offset for `Pie` not taking effect
 * (2023.03.04) Added Positions for Legend to customize legend positions
@@ -180,7 +221,7 @@ Log details:
 * (2023.02.02) Fixed bug where datazoom xaxis label could be displayed off-chart when datazoom is turned on
 * (2023.02.02) Optimizes the `ignore` setting of `SerieData` to ignore data
 * (2023.02.01) Fix `XChartsMgr.ContainsChart()` interface exception
-* (2023.01.31) Added support for `InputSystem` (#242) (by __Bian-Sh__)
+* (2023.01.31) Added support for `InputSystem` (#242) (by **Bian-Sh**)
 * (2023.01.11) Fixed chart not refreshing after removing Component from Inspector (#241)
 * (2023.01.06) Fixed bug with `Pie` displaying abnormal Label when the last few values are 0 (#240)
 * (2023.01.03) deletes serie `MarkColor` and adds ItemStyle `MarkColor`

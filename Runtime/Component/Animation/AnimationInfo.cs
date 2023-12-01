@@ -6,7 +6,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// the animation info.
-    /// |动画配置参数。
+    /// ||动画配置参数。
     /// </summary>
     [Since("v3.8.0")]
     [System.Serializable]
@@ -20,50 +20,50 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// whether enable animation.
-        /// |是否开启动画效果。
+        /// ||是否开启动画效果。
         /// </summary>
         public bool enable { get { return m_Enable; } set { m_Enable = value; } }
         /// <summary>
         /// whether enable reverse animation.
-        /// |是否开启反向动画效果。
+        /// ||是否开启反向动画效果。
         /// </summary>
         public bool reverse { get { return m_Reverse; } set { m_Reverse = value; } }
         /// <summary>
         /// the delay time before animation start.
-        /// |动画开始前的延迟时间。
+        /// ||动画开始前的延迟时间。
         /// </summary>
         public float delay { get { return m_Delay; } set { m_Delay = value; } }
         /// <summary>
         /// the duration of animation.
-        /// |动画的时长。
+        /// ||动画的时长。
         /// </summary>
         public float duration { get { return m_Duration; } set { m_Duration = value; } }
 
         /// <summary>
         /// the callback function of animation start.
-        /// |动画开始的回调。
+        /// ||动画开始的回调。
         /// </summary>
         public Action OnAnimationStart { get; set; }
         /// <summary>
         /// the callback function of animation end.
-        /// |动画结束的回调。
+        /// ||动画结束的回调。
         /// </summary>
         public Action OnAnimationEnd { get; set; }
 
         /// <summary>
         /// the delegate function of animation delay.
-        /// |动画延迟的委托函数。
+        /// ||动画延迟的委托函数。
         /// </summary>
         public AnimationDelayFunction delayFunction { get; set; }
         /// <summary>
         /// the delegate function of animation duration.
-        /// |动画时长的委托函数。
+        /// ||动画时长的委托函数。
         /// </summary>
         public AnimationDurationFunction durationFunction { get; set; }
 
         /// <summary>
         /// Reset animation.
-        /// |重置动画。
+        /// ||重置动画。
         /// </summary>
         public void Reset()
         {
@@ -86,7 +86,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Start animation.
-        /// |开始动画。
+        /// ||开始动画。
         /// </summary>
         /// <param name="reset">是否重置上一次的参数</param>
         public void Start(bool reset = true)
@@ -119,7 +119,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Pause animation.
-        /// |暂停动画。
+        /// ||暂停动画。
         /// </summary>
         public void Pause()
         {
@@ -130,7 +130,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Resume animation.
-        /// |恢复动画。
+        /// ||恢复动画。
         /// </summary>
         public void Resume()
         {
@@ -141,7 +141,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// End animation.
-        /// |结束动画。
+        /// ||结束动画。
         /// </summary>
         public void End()
         {
@@ -159,7 +159,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Initialize animation.
-        /// |初始化动画。
+        /// ||初始化动画。
         /// </summary>
         /// <param name="curr">当前进度</param>
         /// <param name="dest">目标进度</param>
@@ -187,7 +187,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether animation is finish.
-        /// |动画是否结束。
+        /// ||动画是否结束。
         /// </summary>
         public bool IsFinish()
         {
@@ -201,7 +201,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether animation is in delay.
-        /// |动画是否在延迟中。
+        /// ||动画是否在延迟中。
         /// </summary>
         public bool IsInDelay()
         {
@@ -213,7 +213,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether animation is in index delay.
-        /// |动画是否在索引延迟中。
+        /// ||动画是否在索引延迟中。
         /// </summary>
         /// <param name="dataIndex"></param>
         /// <returns></returns>
@@ -227,7 +227,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Get animation delay.
-        /// |获取动画延迟。
+        /// ||获取动画延迟。
         /// </summary>
         /// <param name="dataIndex"></param>
         /// <returns></returns>
@@ -381,7 +381,7 @@ namespace XCharts.Runtime
 
     /// <summary>
     /// Fade in animation.
-    /// |淡入动画。
+    /// ||淡入动画。
     /// </summary>
     [Since("v3.8.0")]
     [System.Serializable]
@@ -391,7 +391,7 @@ namespace XCharts.Runtime
 
     /// <summary>
     /// Fade out animation.
-    /// |淡出动画。
+    /// ||淡出动画。
     /// </summary>
     [Since("v3.8.0")]
     [System.Serializable]
@@ -401,7 +401,7 @@ namespace XCharts.Runtime
 
     /// <summary>
     /// Data change animation.
-    /// |数据变更动画。
+    /// ||数据变更动画。
     /// </summary>
     [Since("v3.8.0")]
     [System.Serializable]
@@ -411,7 +411,7 @@ namespace XCharts.Runtime
 
     /// <summary>
     /// Data addition animation.
-    /// |数据新增动画。
+    /// ||数据新增动画。
     /// </summary>
     [Since("v3.8.0")]
     [System.Serializable]
@@ -421,7 +421,7 @@ namespace XCharts.Runtime
 
     /// <summary>
     /// Data hiding animation.
-    /// |数据隐藏动画。
+    /// ||数据隐藏动画。
     /// </summary>
     [Since("v3.8.0")]
     [System.Serializable]
@@ -431,7 +431,7 @@ namespace XCharts.Runtime
 
     /// <summary>
     /// Interactive animation of charts.
-    /// |交互动画。
+    /// ||交互动画。
     /// </summary>
     [Since("v3.8.0")]
     [System.Serializable]
@@ -443,17 +443,17 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the mlvalue of width.
-        /// |宽度的多样式数值。
+        /// ||宽度的多样式数值。
         /// </summary>
         public MLValue width { get { return m_Width; } set { m_Width = value; } }
         /// <summary>
         /// the mlvalue of radius.
-        /// |半径的多样式数值。
+        /// ||半径的多样式数值。
         /// </summary>
         public MLValue radius { get { return m_Radius; } set { m_Radius = value; } }
         /// <summary>
         /// the mlvalue of offset. Such as the offset of the pie chart when the sector is selected.
-        /// |交互的多样式数值。如饼图的扇形选中时的偏移。
+        /// ||交互的多样式数值。如饼图的扇形选中时的偏移。
         /// </summary>
         public MLValue offset { get { return m_Offset; } set { m_Offset = value; } }
 

@@ -8,13 +8,13 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// The base class of all charts.
-    /// |所有Chart的基类。
+    /// ||所有Chart的基类。
     /// </summary>
     public partial class BaseChart
     {
         /// <summary>
         /// The name of chart.
-        /// |</summary>
+        /// ||</summary>
         public string chartName
         {
             get { return m_ChartName; }
@@ -32,31 +32,31 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The theme.
-        /// |</summary>
+        /// ||</summary>
         public ThemeStyle theme { get { return m_Theme; } set { m_Theme = value; } }
         /// <summary>
         /// Global parameter setting component.
-        /// |全局设置组件。
+        /// ||全局设置组件。
         /// </summary>
         public Settings settings { get { return m_Settings; } }
         /// <summary>
         /// The x of chart.
-        /// |图表的X
+        /// ||图表的X
         /// </summary>
         public float chartX { get { return m_ChartX; } }
         /// <summary>
         /// The y of chart.
-        /// |图表的Y
+        /// ||图表的Y
         /// </summary>
         public float chartY { get { return m_ChartY; } }
         /// <summary>
         /// The width of chart.
-        /// |图表的宽
+        /// ||图表的宽
         /// </summary>
         public float chartWidth { get { return m_ChartWidth; } }
         /// <summary>
         /// The height of chart.
-        /// |图表的高
+        /// ||图表的高
         /// </summary>
         public float chartHeight { get { return m_ChartHeight; } }
         public Vector2 chartMinAnchor { get { return m_ChartMinAnchor; } }
@@ -65,18 +65,18 @@ namespace XCharts.Runtime
         public Vector2 chartSizeDelta { get { return m_ChartSizeDelta; } }
         /// <summary>
         /// The position of chart.
-        /// |图表的左下角起始坐标。
+        /// ||图表的左下角起始坐标。
         /// </summary>
         public Vector3 chartPosition { get { return m_ChartPosition; } }
         public Rect chartRect { get { return m_ChartRect; } }
         /// <summary>
         /// The callback function of chart init.
-        /// |图表的初始化完成回调。
+        /// ||图表的初始化完成回调。
         /// </summary>
         public Action onInit { set { m_OnInit = value; } }
         /// <summary>
         /// The callback function of chart update.
-        /// |图表的Update回调。
+        /// ||图表的Update回调。
         /// </summary>
         public Action onUpdate { set { m_OnUpdate = value; } }
         /// <summary>
@@ -105,44 +105,44 @@ namespace XCharts.Runtime
         public CustomDrawGaugePointerFunction customDrawGaugePointerFunction { set { m_CustomDrawGaugePointerFunction = value; } get { return m_CustomDrawGaugePointerFunction; } }
         /// <summary>
         /// the callback function of pointer click serie.
-        /// |鼠标点击Serie回调。
+        /// ||鼠标点击Serie回调。
         /// </summary>
         [Since("v3.6.0")]
         public Action<SerieEventData> onSerieClick { set { m_OnSerieClick = value; m_ForceOpenRaycastTarget = true; } get { return m_OnSerieClick; } }
         /// <summary>
         /// the callback function of pointer down serie.
-        /// |鼠标按下Serie回调。
+        /// ||鼠标按下Serie回调。
         /// </summary>
         [Since("v3.6.0")]
         public Action<SerieEventData> onSerieDown { set { m_OnSerieDown = value; m_ForceOpenRaycastTarget = true; } get { return m_OnSerieDown; } }
         /// <summary>
         /// the callback function of pointer enter serie.
-        /// |鼠标进入Serie回调。
+        /// ||鼠标进入Serie回调。
         /// </summary>
         [Since("v3.6.0")]
         public Action<SerieEventData> onSerieEnter { set { m_OnSerieEnter = value; m_ForceOpenRaycastTarget = true; } get { return m_OnSerieEnter; } }
         /// <summary>
         /// the callback function of pointer exit serie.
-        /// |鼠标离开Serie回调。
+        /// ||鼠标离开Serie回调。
         /// </summary>
         [Since("v3.6.0")]
         public Action<SerieEventData> onSerieExit { set { m_OnSerieExit = value; m_ForceOpenRaycastTarget = true; } get { return m_OnSerieExit; } }
         /// <summary>
         /// the callback function of pointer click pie area.
-        /// |点击饼图区域回调。参数：PointerEventData，SerieIndex，SerieDataIndex
+        /// ||点击饼图区域回调。参数：PointerEventData，SerieIndex，SerieDataIndex
         /// </summary>
         [Obsolete("Use \"onSerieClick\" instead", true)]
         public Action<PointerEventData, int, int> onPointerClickPie { get; set; }
         /// <summary>
         /// the callback function of pointer enter pie area.
-        /// |鼠标进入和离开饼图区域回调，SerieDataIndex为-1时表示离开。参数：PointerEventData，SerieIndex，SerieDataIndex
+        /// ||鼠标进入和离开饼图区域回调，SerieDataIndex为-1时表示离开。参数：PointerEventData，SerieIndex，SerieDataIndex
         /// </summary>
         [Since("v3.3.0")]
         [Obsolete("Use \"onSerieEnter\" instead", true)]
         public Action<int, int> onPointerEnterPie { set { m_OnPointerEnterPie = value; m_ForceOpenRaycastTarget = true; } get { return m_OnPointerEnterPie; } }
         /// <summary>
         /// the callback function of click bar.
-        /// |点击柱形图柱条回调。参数：eventData, dataIndex
+        /// ||点击柱形图柱条回调。参数：eventData, dataIndex
         /// </summary>
         [Obsolete("Use \"onSerieClick\" instead", true)]
         public Action<PointerEventData, int> onPointerClickBar { get; set; }
@@ -152,17 +152,17 @@ namespace XCharts.Runtime
         public Action<Axis, double> onAxisPointerValueChanged { set { m_OnAxisPointerValueChanged = value; } get { return m_OnAxisPointerValueChanged; } }
         /// <summary>
         /// the callback function of click legend.
-        /// |点击图例按钮回调。参数：legendIndex, legendName, show
+        /// ||点击图例按钮回调。参数：legendIndex, legendName, show
         /// </summary>
         public Action<Legend, int, string, bool> onLegendClick { set { m_OnLegendClick = value; } internal get { return m_OnLegendClick; } }
         /// <summary>
         /// the callback function of enter legend.
-        /// |鼠标进入图例回调。参数：legendIndex, legendName
+        /// ||鼠标进入图例回调。参数：legendIndex, legendName
         /// </summary>
         public Action<Legend, int, string> onLegendEnter { set { m_OnLegendEnter = value; } internal get { return m_OnLegendEnter; } }
         /// <summary>
         /// the callback function of exit legend.
-        /// |鼠标退出图例回调。参数：legendIndex, legendName
+        /// ||鼠标退出图例回调。参数：legendIndex, legendName
         /// </summary>
         public Action<Legend, int, string> onLegendExit { set { m_OnLegendExit = value; } internal get { return m_OnLegendExit; } }
         public void Init(bool defaultChart = true)
@@ -179,7 +179,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// Redraw chart in next frame.
-        /// |在下一帧刷新整个图表。
+        /// ||在下一帧刷新整个图表。
         /// </summary>
         public void RefreshChart()
         {
@@ -197,7 +197,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Redraw chart serie in next frame.
-        /// |在下一帧刷新图表的指定serie。
+        /// ||在下一帧刷新图表的指定serie。
         /// </summary>
         public void RefreshChart(int serieIndex)
         {
@@ -206,7 +206,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Redraw chart serie in next frame.
-        /// |在下一帧刷新图表的指定serie。
+        /// ||在下一帧刷新图表的指定serie。
         /// </summary>
         public void RefreshChart(Serie serie)
         {
@@ -217,7 +217,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Clear all components and series data. Note: serie only empties the data and does not remove serie.
-        /// |清空所有组件和Serie的数据。注意：Serie只是清空数据，不会移除Serie。
+        /// ||清空所有组件和Serie的数据。注意：Serie只是清空数据，不会移除Serie。
         /// </summary>
         public virtual void ClearData()
         {
@@ -228,7 +228,7 @@ namespace XCharts.Runtime
         [Since("v3.4.0")]
         /// <summary>
         /// Clear the data of all series.
-        /// |清空所有serie的数据。
+        /// ||清空所有serie的数据。
         /// </summary>
         public virtual void ClearSerieData()
         {
@@ -241,7 +241,7 @@ namespace XCharts.Runtime
         [Since("v3.4.0")]
         /// <summary>
         /// Clear the data of all components.
-        /// |清空所有组件的数据。
+        /// ||清空所有组件的数据。
         /// </summary>
         public virtual void ClearComponentData()
         {
@@ -254,7 +254,7 @@ namespace XCharts.Runtime
         /// <summary>
         /// Empty all component data and remove all series. Use the chart again and again to tell the truth.
         /// Note: The component only clears the data part, and the parameters are retained and not reset.
-        /// |清空所有组件数据，并移除所有Serie。一般在图表重新初始化时使用。
+        /// ||清空所有组件数据，并移除所有Serie。一般在图表重新初始化时使用。
         /// 注意：组件只清空数据部分，参数会保留不会被重置。
         /// </summary>
         public virtual void RemoveData()
@@ -269,7 +269,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Remove all of them Serie. This interface is used when Serie needs to be removed only, and RemoveData() is generally used in other cases.
-        /// |移除所有的Serie。当确认只需要移除Serie时使用该接口，其他情况下一般用RemoveData()。
+        /// ||移除所有的Serie。当确认只需要移除Serie时使用该接口，其他情况下一般用RemoveData()。
         /// </summary>
         [Since("v3.2.0")]
         public virtual void RemoveAllSerie()
@@ -282,7 +282,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Remove legend and serie by name.
-        /// |清除指定系列名称的数据。
+        /// ||清除指定系列名称的数据。
         /// </summary>
         /// <param name="serieName">the name of serie</param>
         public virtual void RemoveData(string serieName)
@@ -320,7 +320,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether serie is activated.
-        /// |获得指定图例名字的系列是否显示。
+        /// ||获得指定图例名字的系列是否显示。
         /// </summary>
         /// <param name="legendName"></param>
         /// <returns></returns>
@@ -349,7 +349,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Update chart theme.
-        /// |切换内置主题。
+        /// ||切换内置主题。
         /// </summary>
         /// <param name="theme">theme</param>
         public bool UpdateTheme(ThemeType theme)
@@ -367,7 +367,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Update chart theme info.
-        /// |切换图表主题。
+        /// ||切换图表主题。
         /// </summary>
         /// <param name="theme">theme</param>
         public void UpdateTheme(Theme theme)
@@ -381,7 +381,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether enable serie animations.
-        /// |是否启用Serie动画。
+        /// ||是否启用Serie动画。
         /// </summary>
         /// <param name="flag"></param>
         public void AnimationEnable(bool flag)
@@ -391,7 +391,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Start all serie fadein animations.
-        /// |开始所有Serie的渐入动画。
+        /// ||开始所有Serie的渐入动画。
         /// </summary>
         /// <param name="reset">reset animation</param>
         public void AnimationFadeIn(bool reset = true)
@@ -402,7 +402,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Start all serie fadeout animations.
-        /// |开始所有Serie的渐出动画。
+        /// ||开始所有Serie的渐出动画。
         /// </summary>
         public void AnimationFadeOut()
         {
@@ -411,7 +411,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Pause all animations.
-        /// |暂停所有Serie的动画。
+        /// ||暂停所有Serie的动画。
         /// </summary>
         public void AnimationPause()
         {
@@ -420,7 +420,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Resume all animations.
-        /// |继续所有Serie的动画。
+        /// ||继续所有Serie的动画。
         /// </summary>
         public void AnimationResume()
         {
@@ -429,7 +429,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Reset all animations.
-        /// |重置所有Serie的动画。
+        /// ||重置所有Serie的动画。
         /// </summary>
         public void AnimationReset()
         {
@@ -668,7 +668,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// trigger tooltip by data index.
-        /// |尝试触发指定数据项的Tooltip.
+        /// ||尝试触发指定数据项的Tooltip.
         /// </summary>
         /// <param name="dataIndex">数据项索引</param>
         /// <param name="serieIndex">Serie索引，默认为第0个Serie</param>
@@ -698,7 +698,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// trigger tooltip by chart local position.
-        /// |在指定的位置尝试触发Tooltip.
+        /// ||在指定的位置尝试触发Tooltip.
         /// </summary>
         /// <param name="localPosition"></param>
         /// <returns></returns>
@@ -714,7 +714,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// cancel tooltip.
-        /// |取消Tooltip.
+        /// ||取消Tooltip.
         /// </summary>
         [Since("v3.7.0")]
         public void CancelTooltip()

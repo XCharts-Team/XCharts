@@ -22,6 +22,7 @@ namespace XCharts.Runtime
             data.dataIndex = dataIndex;
             data.pointerPos = pos;
             data.dimension = dimension;
+            data.value = value;
             return data;
         }
 

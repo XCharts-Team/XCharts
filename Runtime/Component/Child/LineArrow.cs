@@ -33,7 +33,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// Whether to show the arrow.
-        /// |是否显示箭头。
+        /// ||是否显示箭头。
         /// </summary>
         public bool show
         {
@@ -42,7 +42,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The position of arrow.
-        /// |箭头位置。
+        /// ||箭头位置。
         /// </summary>
         public Position position
         {
@@ -52,7 +52,7 @@ namespace XCharts.Runtime
 
         /// <summary>
         /// the arrow of line.
-        /// |箭头。
+        /// ||箭头。
         /// </summary>
         public ArrowStyle arrow
         {

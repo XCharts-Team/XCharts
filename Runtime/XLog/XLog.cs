@@ -9,7 +9,7 @@ namespace XCharts.Runtime
 {
     /// <summary>
     /// Log system. Used to output logs with date and log type, support output to file, support custom output log type.
-    /// |日志系统。用于输出带日期和日志类型的日志，支持输出到文件，支持自定义输出的日志类型。
+    /// ||日志系统。用于输出带日期和日志类型的日志，支持输出到文件，支持自定义输出的日志类型。
     /// </summary>
     public class XLog : MonoBehaviour
     {

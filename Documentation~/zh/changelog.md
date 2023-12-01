@@ -77,7 +77,6 @@ slug: /changelog
 * 增加`Axis`的`Animation`，完善数据变更动画效果
 * 增加`Axis`的对数轴子刻度的支持
 * 增加`MarkLine`的`onTop`设置是否显示在最上层
-* 增加`UITable`表格组件的轮播功能，重构`UITable`
 * 完善代码注释和手册文档
 * 修复若干问题
 

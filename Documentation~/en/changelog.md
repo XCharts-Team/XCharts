@@ -72,7 +72,6 @@ Highlights:
 * Added `Animation` in `Axis` to improve the animation effect of data changes
 * Added `minorTick` for `Log` type of `Axis`
 * Added MarkLine's `onTop` setting to displayed at the top level
-* Added `UITable` to the wheel casting function, refactoring `UITable`
 * Perfect code comments and documentation
 * Fixed several issues
 

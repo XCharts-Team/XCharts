@@ -70,6 +70,8 @@ slug: /changelog
 
 ## master
 
+* (2023.12.05) 增加`ResetChartStatus()`可主动重置图表状态
+
 ## v3.9.0
 
 版本要点：

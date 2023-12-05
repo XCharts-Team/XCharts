@@ -725,5 +725,15 @@ namespace XCharts.Runtime
                 tooltip.SetActive(false);
             }
         }
+
+        /// <summary>
+        /// reset chart status. When some parameters are set, due to the animation effect, the chart status may not be correct.
+        /// ||重置图表状态。当设置某些参数后，由于动画影响，可能导致图表状态不正确，此时可以调用该接口重置图表状态。
+        /// </summary>
+        [Since("v3.10.0")]
+        public void ResetChartStatus()
+        {
+            foreach (var handler in m_SerieHandlers) handler.ForceUpdateSerieContext();
+        }
     }
 }

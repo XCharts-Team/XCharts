@@ -309,6 +309,7 @@ namespace XCharts.Runtime
         [SerializeField] private AnimationStyle m_Animation = new AnimationStyle();
         [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
+        [SerializeField] private List<SerieDataLink> m_Links = new List<SerieDataLink>();
 
         [NonSerialized] internal int m_FilterStart;
         [NonSerialized] internal int m_FilterEnd;
@@ -966,6 +967,10 @@ namespace XCharts.Runtime
         /// </summary>
         public List<SerieData> data { get { return m_Data; } }
         /// <summary>
+        /// 数据节点的边。
+        /// </summary>
+        public List<SerieDataLink> links { get { return m_Links; } }
+        /// <summary>
         /// 取色策略是否为按数据项分配。
         /// </summary>
         public bool colorByData { get { return colorBy == SerieColorBy.Data; } }
@@ -1272,6 +1277,15 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
+        /// 清空所有Link数据
+        /// </summary>
+        public void ClearLinks()
+        {
+            m_Links.Clear();
+            SetVerticesDirty();
+        }
+
+        /// <summary>
         /// 移除指定索引的数据
         /// </summary>
         /// <param name="index"></param>
@@ -1502,6 +1516,26 @@ namespace XCharts.Runtime
             {
                 parent.context.children.Add(serieData);
             }
+        }
+
+        /// <summary>
+        /// Add a link data.
+        /// ||添加一个关系图的关系数据。
+        /// </summary>
+        /// <param name="sourceName"></param>
+        /// <param name="targetName"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public SerieDataLink AddLink(string sourceName, string targetName, double value)
+        {
+            var link = new SerieDataLink();
+            link.source = sourceName;
+            link.target = targetName;
+            link.value = value;
+            m_Links.Add(link);
+            SetVerticesDirty();
+            labelDirty = true;
+            return link;
         }
 
         private void CheckMaxCache()

@@ -79,6 +79,9 @@ slug: /api
 - [EmphasisStyle](#emphasisstyle)
 - [EndLabelStyle](#endlabelstyle)
 - [FormatterHelper](#formatterhelper)
+- [Graph](#graph)
+- [GraphEdge](#graphedge)
+- [GraphNode](#graphnode)
 - [GridCoord](#gridcoord)
 - [GridCoordContext](#gridcoordcontext)
 - [GridLayout](#gridlayout)
@@ -169,6 +172,7 @@ slug: /api
 - [SerieDataComponentAttribute](#seriedatacomponentattribute)
 - [SerieDataContext](#seriedatacontext)
 - [SerieDataExtraFieldAttribute](#seriedataextrafieldattribute)
+- [SerieDataLink](#seriedatalink)
 - [SerieEventData](#serieeventdata)
 - [SerieEventDataPool](#serieeventdatapool)
 - [SerieHandler](#seriehandler)
@@ -689,6 +693,7 @@ Background component.
 |AddData()||public SerieData AddData(string serieName, double xValue, double yValue, string dataName = null, string dataId = null)<br/>Add a (x,y) data to serie. |
 |AddData()||public SerieData AddData(string serieName, List&lt;double&gt; multidimensionalData, string dataName = null, string dataId = null)<br/>Add an arbitray dimension data to serie,such as (x,y,z,...). |
 |AddData()||public SerieData AddData(string serieName, params double[] multidimensionalData)<br/>Add an arbitray dimension data to serie,such as (x,y,z,...). |
+|AddLink()||public SerieDataLink AddLink(int serieIndex, string sourceName, string targetName, double value)<br/>Add a link data to serie. |
 |AddSerie&lt;T&gt;()||public T AddSerie&lt;T&gt;(string serieName = null, bool show = true, bool addToHead = false) where T : Serie|
 |AddXAxisData()||public void AddXAxisData(string category, int xAxisIndex = 0)<br/>Add a category data to xAxis. |
 |AddXAxisIcon()||public void AddXAxisIcon(Sprite icon, int xAxisIndex = 0)<br/>Add an icon to xAxis. |
@@ -707,9 +712,10 @@ Background component.
 |CanMultipleComponent()||public bool CanMultipleComponent(Type type)|
 |ClampInChart()||public void ClampInChart(ref Vector3 pos)|
 |ClampInGrid()||public Vector3 ClampInGrid(GridCoord grid, Vector3 pos)|
-|ClearComponentData()||public virtual void ClearComponentData()<br/>Clear the data of all components. |
+|ClearComponentData()|v3.4.0|public virtual void ClearComponentData()<br/>Clear the data of all components. |
 |ClearData()||public virtual void ClearData()<br/>Clear all components and series data. Note: serie only empties the data and does not remove serie. |
-|ClearSerieData()||public virtual void ClearSerieData()<br/>Clear the data of all series. |
+|ClearSerieData()|v3.4.0|public virtual void ClearSerieData()<br/>Clear the data of all series. |
+|ClearSerieLinks()|v3.10.0|public virtual void ClearSerieLinks()<br/>Clear the link data of all series. |
 |ClickLegendButton()||public void ClickLegendButton(int legendIndex, string legendName, bool show)<br/>点击图例按钮 |
 |ConvertSerie()||public bool ConvertSerie(Serie serie, Type type)|
 |ConvertSerie&lt;T&gt;()||public bool ConvertSerie&lt;T&gt;(Serie serie) where T : Serie|
@@ -733,7 +739,7 @@ Background component.
 |GetItemColor()||public Color32 GetItemColor(Serie serie, SerieData serieData, int colorIndex)|
 |GetLegendRealShowNameColor()||public Color32 GetLegendRealShowNameColor(string name)|
 |GetLegendRealShowNameIndex()||public int GetLegendRealShowNameIndex(string name)|
-|GetMarkColor()||public Color32 GetMarkColor(Serie serie, SerieData serieData)<br/>获得Serie的标识颜色。 |
+|GetMarkColor()|v3.4.0|public Color32 GetMarkColor(Serie serie, SerieData serieData)<br/>获得Serie的标识颜色。 |
 |GetOrAddChartComponent&lt;T&gt;()||public T GetOrAddChartComponent&lt;T&gt;() where T : MainComponent|
 |GetPainter()||public Painter GetPainter(int index)|
 |GetSerie()||public Serie GetSerie(int serieIndex)|
@@ -809,6 +815,7 @@ Background component.
 |RemoveSerie()||public void RemoveSerie(string serieName)|
 |RemoveSerie&lt;T&gt;()||public void RemoveSerie&lt;T&gt;() where T : Serie|
 |ReplaceSerie()||public bool ReplaceSerie(Serie oldSerie, Serie newSerie)|
+|ResetChartStatus()|v3.10.0|public void ResetChartStatus()<br/>reset chart status. When some parameters are set, due to the animation effect, the chart status may not be correct. |
 |ResetDataIndex()||public bool ResetDataIndex(int serieIndex)<br/>重置serie的数据项索引。避免数据项索引异常。 |
 |SetBasePainterMaterial()||public void SetBasePainterMaterial(Material material)<br/>设置Base Painter的材质球 |
 |SetMaxCache()||public void SetMaxCache(int maxCache)<br/>设置可缓存的最大数据量。当数据量超过该值时，会自动删除第一个值再加入最新值。 |
@@ -1129,7 +1136,7 @@ Configurations of blur state.
 
 ## ChildComponent
 
-> class in XCharts.Runtime / Subclasses: [AnimationStyle](#animationstyle),[AxisAnimation](#axisanimation),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MLValue](#mlvalue),[MarqueeStyle](#marqueestyle),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
+> class in XCharts.Runtime / Subclasses: [AnimationStyle](#animationstyle),[AxisAnimation](#axisanimation),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MLValue](#mlvalue),[MarqueeStyle](#marqueestyle),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[SerieDataLink](#seriedatalink),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
 
 
 |public method|since|description|
@@ -1368,6 +1375,53 @@ Configurations of emphasis state.
 |ReplaceAxisLabelContent()||public static void ReplaceAxisLabelContent(ref string content, string value)|
 |TrimAndReplaceLine()||public static string TrimAndReplaceLine(string content)|
 |TrimAndReplaceLine()||public static string TrimAndReplaceLine(StringBuilder sb)|
+
+## Graph
+
+> class in XCharts.Runtime
+
+the data struct of graph.
+
+|public method|since|description|
+|--|--|--|
+|AddEdge()||public GraphEdge AddEdge(string nodeId1, string nodeId2, double value)|
+|AddNode()||public GraphNode AddNode(string nodeId, string nodeName, int dataIndex)|
+|BreadthFirstTraverse()||public void BreadthFirstTraverse(GraphNode startNode, System.Action&lt;GraphNode&gt; onTraverse)|
+|Clear()||public void Clear()|
+|DeepFirstTraverse()||public void DeepFirstTraverse(GraphNode startNode, System.Action&lt;GraphNode&gt; onTraverse)|
+|EachNode()||public void EachNode(System.Action&lt;GraphNode&gt; onEach)|
+|GetDepthNodes()||public List&lt;List&lt;GraphNode&gt;&gt; GetDepthNodes()|
+|GetEdge()||public GraphEdge GetEdge(string nodeId1, string nodeId2)|
+|GetMaxDepth()||public int GetMaxDepth()|
+|GetNode()||public GraphNode GetNode(string nodeId)|
+|GetNodeDepth()||// public int GetNodeDepth(GraphNode node)|
+|GetNodeDepth()||// public void GetNodeDepth(GraphNode node, ref int depth, int recursiveCount = 0)|
+|GetNodeDepth()||public int GetNodeDepth(GraphNode node, int recursiveCount = 0)|
+|GetNodesTotalValue()||public static double GetNodesTotalValue(List&lt;GraphNode&gt; nodes)|
+|GetRootNodes()||public List&lt;GraphNode&gt; GetRootNodes()|
+|Graph()||public Graph(bool directed)|
+|Refresh()||public void Refresh()|
+
+## GraphEdge
+
+> class in XCharts.Runtime
+
+The edge of graph.
+
+|public method|since|description|
+|--|--|--|
+|GraphEdge()||public GraphEdge(GraphNode node1, GraphNode node2, double value)|
+
+## GraphNode
+
+> class in XCharts.Runtime
+
+The node of graph.
+
+|public method|since|description|
+|--|--|--|
+|GraphNode()||public GraphNode(string id, string name, int dataIndex)|
+|ToString()||public override string ToString()|
 
 ## GridCoord
 
@@ -1734,6 +1788,8 @@ Legend component.The legend component shows different sets of tags, colors, and 
 ## LevelStyle
 
 > class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
+
+> Since `v3.10.0`
 
 
 ## Line
@@ -2242,6 +2298,7 @@ Configurations of select state.
 |AddData()||public SerieData AddData(List&lt;double&gt; valueList, string dataName = null, string dataId = null)<br/>将一组数据添加到系列中。 如果数据只有一个，默认添加到维度Y中。 |
 |AddData()||public SerieData AddData(params double[] values)<br/>添加任意维数据到系列中。 |
 |AddExtraComponent&lt;T&gt;()||public T AddExtraComponent&lt;T&gt;() where T : ChildComponent, ISerieComponent|
+|AddLink()||public SerieDataLink AddLink(string sourceName, string targetName, double value)<br/>Add a link data. |
 |AddSerieData()||public void AddSerieData(SerieData serieData)|
 |AddXYData()||public SerieData AddXYData(double xValue, double yValue, string dataName = null, string dataId = null)<br/>添加（x，y）数据到维度X和维度Y |
 |AddYData()||public SerieData AddYData(double value, string dataName = null, string dataId = null)<br/>添加一个数据到维度Y（此时维度X对应的数据是索引） |
@@ -2258,6 +2315,7 @@ Configurations of select state.
 |ClearData()||public override void ClearData()<br/>清空所有数据 |
 |ClearDirty()||public override void ClearDirty()|
 |ClearHighlight()||public void ClearHighlight()<br/>清除所有数据的高亮标志 |
+|ClearLinks()||public void ClearLinks()<br/>清空所有Link数据 |
 |ClearSerieNameDirty()||public void ClearSerieNameDirty()|
 |ClearVerticesDirty()||public override void ClearVerticesDirty()|
 |Clone()||public Serie Clone()|
@@ -2435,6 +2493,14 @@ The attribute for serie data component.
 |SerieDataExtraFieldAttribute()||public SerieDataExtraFieldAttribute(string field1, string field2, string field3, string field4, string field5, string field6)|
 |SerieDataExtraFieldAttribute()||public SerieDataExtraFieldAttribute(string field1, string field2, string field3, string field4, string field5, string field6, string field7)|
 
+## SerieDataLink
+
+> class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
+
+> Since `v3.10.0`
+
+the link of serie data. Used for sankey chart. Sankey chart only supports directed acyclic graph. make sure the data link is directed acyclic graph.
+
 ## SerieEventData
 
 > class in XCharts.Runtime
@@ -2472,6 +2538,7 @@ the data of serie event.
 |ForceUpdateSerieContext()||public virtual void ForceUpdateSerieContext() { }|
 |InitComponent()||public virtual void InitComponent() { }|
 |OnBeginDrag()||public virtual void OnBeginDrag(PointerEventData eventData) { }|
+|OnDataUpdate()||public virtual void OnDataUpdate() { }|
 |OnDrag()||public virtual void OnDrag(PointerEventData eventData) { }|
 |OnEndDrag()||public virtual void OnEndDrag(PointerEventData eventData) { }|
 |OnLegendButtonClick()||public virtual void OnLegendButtonClick(int index, string legendName, bool show) { }|

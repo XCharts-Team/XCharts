@@ -79,6 +79,9 @@ slug: /api
 - [EmphasisStyle](#emphasisstyle)
 - [EndLabelStyle](#endlabelstyle)
 - [FormatterHelper](#formatterhelper)
+- [Graph](#graph)
+- [GraphEdge](#graphedge)
+- [GraphNode](#graphnode)
 - [GridCoord](#gridcoord)
 - [GridCoordContext](#gridcoordcontext)
 - [GridLayout](#gridlayout)
@@ -169,6 +172,7 @@ slug: /api
 - [SerieDataComponentAttribute](#seriedatacomponentattribute)
 - [SerieDataContext](#seriedatacontext)
 - [SerieDataExtraFieldAttribute](#seriedataextrafieldattribute)
+- [SerieDataLink](#seriedatalink)
 - [SerieEventData](#serieeventdata)
 - [SerieEventDataPool](#serieeventdatapool)
 - [SerieHandler](#seriehandler)
@@ -689,6 +693,7 @@ slug: /api
 |AddData()||public SerieData AddData(string serieName, double xValue, double yValue, string dataName = null, string dataId = null)<br/>添加（x,y）数据到指定系列中。 |
 |AddData()||public SerieData AddData(string serieName, List&lt;double&gt; multidimensionalData, string dataName = null, string dataId = null)<br/>添加多维数据（x,y,z...）到指定的系列中。 |
 |AddData()||public SerieData AddData(string serieName, params double[] multidimensionalData)<br/>添加多维数据（x,y,z...）到指定的系列中。 |
+|AddLink()||public SerieDataLink AddLink(int serieIndex, string sourceName, string targetName, double value)<br/>添加一个关系图的关系数据。 |
 |AddSerie&lt;T&gt;()||public T AddSerie&lt;T&gt;(string serieName = null, bool show = true, bool addToHead = false) where T : Serie|
 |AddXAxisData()||public void AddXAxisData(string category, int xAxisIndex = 0)<br/>添加一个类目数据到指定的x轴。 |
 |AddXAxisIcon()||public void AddXAxisIcon(Sprite icon, int xAxisIndex = 0)<br/>添加一个图标到指定的x轴。 |
@@ -707,9 +712,10 @@ slug: /api
 |CanMultipleComponent()||public bool CanMultipleComponent(Type type)|
 |ClampInChart()||public void ClampInChart(ref Vector3 pos)|
 |ClampInGrid()||public Vector3 ClampInGrid(GridCoord grid, Vector3 pos)|
-|ClearComponentData()||public virtual void ClearComponentData()<br/>清空所有组件的数据。 |
+|ClearComponentData()|v3.4.0|public virtual void ClearComponentData()<br/>清空所有组件的数据。 |
 |ClearData()||public virtual void ClearData()<br/>清空所有组件和Serie的数据。注意：Serie只是清空数据，不会移除Serie。 |
-|ClearSerieData()||public virtual void ClearSerieData()<br/>清空所有serie的数据。 |
+|ClearSerieData()|v3.4.0|public virtual void ClearSerieData()<br/>清空所有serie的数据。 |
+|ClearSerieLinks()|v3.10.0|public virtual void ClearSerieLinks()<br/>清空所有serie的link数据。 |
 |ClickLegendButton()||public void ClickLegendButton(int legendIndex, string legendName, bool show)<br/>点击图例按钮 |
 |ConvertSerie()||public bool ConvertSerie(Serie serie, Type type)|
 |ConvertSerie&lt;T&gt;()||public bool ConvertSerie&lt;T&gt;(Serie serie) where T : Serie|
@@ -733,7 +739,7 @@ slug: /api
 |GetItemColor()||public Color32 GetItemColor(Serie serie, SerieData serieData, int colorIndex)|
 |GetLegendRealShowNameColor()||public Color32 GetLegendRealShowNameColor(string name)|
 |GetLegendRealShowNameIndex()||public int GetLegendRealShowNameIndex(string name)|
-|GetMarkColor()||public Color32 GetMarkColor(Serie serie, SerieData serieData)<br/>获得Serie的标识颜色。 |
+|GetMarkColor()|v3.4.0|public Color32 GetMarkColor(Serie serie, SerieData serieData)<br/>获得Serie的标识颜色。 |
 |GetOrAddChartComponent&lt;T&gt;()||public T GetOrAddChartComponent&lt;T&gt;() where T : MainComponent|
 |GetPainter()||public Painter GetPainter(int index)|
 |GetSerie()||public Serie GetSerie(int serieIndex)|
@@ -809,6 +815,7 @@ slug: /api
 |RemoveSerie()||public void RemoveSerie(string serieName)|
 |RemoveSerie&lt;T&gt;()||public void RemoveSerie&lt;T&gt;() where T : Serie|
 |ReplaceSerie()||public bool ReplaceSerie(Serie oldSerie, Serie newSerie)|
+|ResetChartStatus()|v3.10.0|public void ResetChartStatus()<br/>重置图表状态。当设置某些参数后，由于动画影响，可能导致图表状态不正确，此时可以调用该接口重置图表状态。 |
 |ResetDataIndex()||public bool ResetDataIndex(int serieIndex)<br/>重置serie的数据项索引。避免数据项索引异常。 |
 |SetBasePainterMaterial()||public void SetBasePainterMaterial(Material material)<br/>设置Base Painter的材质球 |
 |SetMaxCache()||public void SetMaxCache(int maxCache)<br/>设置可缓存的最大数据量。当数据量超过该值时，会自动删除第一个值再加入最新值。 |
@@ -1129,7 +1136,7 @@ slug: /api
 
 ## ChildComponent
 
-> class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle),[AxisAnimation](#axisanimation),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MLValue](#mlvalue),[MarqueeStyle](#marqueestyle),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
+> class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle),[AxisAnimation](#axisanimation),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MLValue](#mlvalue),[MarqueeStyle](#marqueestyle),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[SerieDataLink](#seriedatalink),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
 
 
 |API|版本|描述|
@@ -1368,6 +1375,53 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 |ReplaceAxisLabelContent()||public static void ReplaceAxisLabelContent(ref string content, string value)|
 |TrimAndReplaceLine()||public static string TrimAndReplaceLine(string content)|
 |TrimAndReplaceLine()||public static string TrimAndReplaceLine(StringBuilder sb)|
+
+## Graph
+
+> class in XCharts.Runtime
+
+数据结构-图。
+
+|API|版本|描述|
+|--|--|--|
+|AddEdge()||public GraphEdge AddEdge(string nodeId1, string nodeId2, double value)|
+|AddNode()||public GraphNode AddNode(string nodeId, string nodeName, int dataIndex)|
+|BreadthFirstTraverse()||public void BreadthFirstTraverse(GraphNode startNode, System.Action&lt;GraphNode&gt; onTraverse)|
+|Clear()||public void Clear()|
+|DeepFirstTraverse()||public void DeepFirstTraverse(GraphNode startNode, System.Action&lt;GraphNode&gt; onTraverse)|
+|EachNode()||public void EachNode(System.Action&lt;GraphNode&gt; onEach)|
+|GetDepthNodes()||public List&lt;List&lt;GraphNode&gt;&gt; GetDepthNodes()|
+|GetEdge()||public GraphEdge GetEdge(string nodeId1, string nodeId2)|
+|GetMaxDepth()||public int GetMaxDepth()|
+|GetNode()||public GraphNode GetNode(string nodeId)|
+|GetNodeDepth()||// public int GetNodeDepth(GraphNode node)|
+|GetNodeDepth()||// public void GetNodeDepth(GraphNode node, ref int depth, int recursiveCount = 0)|
+|GetNodeDepth()||public int GetNodeDepth(GraphNode node, int recursiveCount = 0)|
+|GetNodesTotalValue()||public static double GetNodesTotalValue(List&lt;GraphNode&gt; nodes)|
+|GetRootNodes()||public List&lt;GraphNode&gt; GetRootNodes()|
+|Graph()||public Graph(bool directed)|
+|Refresh()||public void Refresh()|
+
+## GraphEdge
+
+> class in XCharts.Runtime
+
+图的边。
+
+|API|版本|描述|
+|--|--|--|
+|GraphEdge()||public GraphEdge(GraphNode node1, GraphNode node2, double value)|
+
+## GraphNode
+
+> class in XCharts.Runtime
+
+图的节点。
+
+|API|版本|描述|
+|--|--|--|
+|GraphNode()||public GraphNode(string id, string name, int dataIndex)|
+|ToString()||public override string ToString()|
 
 ## GridCoord
 
@@ -1734,6 +1788,8 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 ## LevelStyle
 
 > class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
+> 从 `v3.10.0` 开始支持
 
 
 ## Line
@@ -2242,6 +2298,7 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 |AddData()||public SerieData AddData(List&lt;double&gt; valueList, string dataName = null, string dataId = null)<br/>将一组数据添加到系列中。 如果数据只有一个，默认添加到维度Y中。 |
 |AddData()||public SerieData AddData(params double[] values)<br/>添加任意维数据到系列中。 |
 |AddExtraComponent&lt;T&gt;()||public T AddExtraComponent&lt;T&gt;() where T : ChildComponent, ISerieComponent|
+|AddLink()||public SerieDataLink AddLink(string sourceName, string targetName, double value)<br/>添加一个关系图的关系数据。 |
 |AddSerieData()||public void AddSerieData(SerieData serieData)|
 |AddXYData()||public SerieData AddXYData(double xValue, double yValue, string dataName = null, string dataId = null)<br/>添加（x，y）数据到维度X和维度Y |
 |AddYData()||public SerieData AddYData(double value, string dataName = null, string dataId = null)<br/>添加一个数据到维度Y（此时维度X对应的数据是索引） |
@@ -2258,6 +2315,7 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 |ClearData()||public override void ClearData()<br/>清空所有数据 |
 |ClearDirty()||public override void ClearDirty()|
 |ClearHighlight()||public void ClearHighlight()<br/>清除所有数据的高亮标志 |
+|ClearLinks()||public void ClearLinks()<br/>清空所有Link数据 |
 |ClearSerieNameDirty()||public void ClearSerieNameDirty()|
 |ClearVerticesDirty()||public override void ClearVerticesDirty()|
 |Clone()||public Serie Clone()|
@@ -2435,6 +2493,14 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 |SerieDataExtraFieldAttribute()||public SerieDataExtraFieldAttribute(string field1, string field2, string field3, string field4, string field5, string field6)|
 |SerieDataExtraFieldAttribute()||public SerieDataExtraFieldAttribute(string field1, string field2, string field3, string field4, string field5, string field6, string field7)|
 
+## SerieDataLink
+
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
+> 从 `v3.10.0` 开始支持
+
+数据节点之间的连线。可用于桑基图等，桑基图只支持有向无环图，请保证数据的连线是有向无环图。
+
 ## SerieEventData
 
 > class in XCharts.Runtime
@@ -2472,6 +2538,7 @@ serie事件的数据。
 |ForceUpdateSerieContext()||public virtual void ForceUpdateSerieContext() { }|
 |InitComponent()||public virtual void InitComponent() { }|
 |OnBeginDrag()||public virtual void OnBeginDrag(PointerEventData eventData) { }|
+|OnDataUpdate()||public virtual void OnDataUpdate() { }|
 |OnDrag()||public virtual void OnDrag(PointerEventData eventData) { }|
 |OnEndDrag()||public virtual void OnEndDrag(PointerEventData eventData) { }|
 |OnLegendButtonClick()||public virtual void OnLegendButtonClick(int index, string legendName, bool show) { }|

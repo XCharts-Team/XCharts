@@ -443,6 +443,27 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
+        /// Add a link data to serie.
+        /// ||添加一个关系图的关系数据。
+        /// </summary>
+        /// <param name="serieIndex">the index of serie</param>
+        /// <param name="sourceName">the source name of link</param>
+        /// <param name="targetName">the target name of link</param>
+        /// <param name="value">the value of link</param>
+        /// <returns></returns>
+        public SerieDataLink AddLink(int serieIndex, string sourceName, string targetName, double value)
+        {
+            var serie = GetSerie(serieIndex);
+            if (serie != null)
+            {
+                var link = serie.AddLink(sourceName, targetName, value);
+                RefreshPainter(serie.painter);
+                return link;
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Update serie data by serie name.
         /// ||更新指定系列中的指定索引数据。
         /// </summary>

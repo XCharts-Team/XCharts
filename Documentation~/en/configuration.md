@@ -121,6 +121,7 @@ import APITable from '@site/src/components/APITable';
 - [RadiusAxisTheme](#radiusaxistheme)
 - [SelectStyle](#selectstyle)
 - [SerieData](#seriedata)
+- [SerieDataLink](#seriedatalink)
 - [SerieSymbol](#seriesymbol)
 - [SerieTheme](#serietheme)
 - [StageColor](#stagecolor)
@@ -744,7 +745,7 @@ Configurations of blur state.
 
 ## ChildComponent
 
-> class in XCharts.Runtime / Subclasses: [AnimationStyle](#animationstyle), [AxisAnimation](#axisanimation), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
+> class in XCharts.Runtime / Subclasses: [AnimationStyle](#animationstyle), [AxisAnimation](#axisanimation), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [SerieDataLink](#seriedatalink), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
 
 ## Comment
 
@@ -1341,9 +1342,11 @@ Legend component.The legend component shows different sets of tags, colors, and 
 
 |field|default|since|comment|
 |--|--|--|--|
-|label|||文本标签样式。 [LabelStyle](#labelstyle)|
-|upperLabel|||上方的文本标签样式。 [LabelStyle](#labelstyle)|
-|itemStyle|||数据项样式。 [ItemStyle](#itemstyle)|
+|depth|0|v3.10.0|the depth of level.
+|label|||the label style of level. [LabelStyle](#labelstyle)|
+|upperLabel|||the upper label style of level. [LabelStyle](#labelstyle)|
+|lineStyle||v3.10.0|the line style of level. [LineStyle](#linestyle)|
+|itemStyle|||the item style of level. [ItemStyle](#itemstyle)|
 
 ```mdx-code-block
 </APITable>
@@ -1352,6 +1355,8 @@ Legend component.The legend component shows different sets of tags, colors, and 
 ## LevelStyle
 
 > class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
+
+> Since `v3.10.0`
 
 ```mdx-code-block
 <APITable name="LevelStyle">
@@ -1836,6 +1841,7 @@ Configurations of select state.
 |animation|||The start animation. [AnimationStyle](#animationstyle)|
 |itemStyle|||The style of data item. [ItemStyle](#itemstyle)|
 |data|||系列中的数据内容数组。SerieData可以设置1到n维数据。
+|links|||数据节点的边。
 
 ```mdx-code-block
 </APITable>
@@ -1863,6 +1869,29 @@ A data item of serie.
 |radius|||自定义半径。可用在饼图中自定义某个数据项的半径。
 |state||v3.2.0|the state of serie data.<br/>`SerieState`:<br/>- `Normal`: Normal state.<br/>- `Emphasis`: Emphasis state.<br/>- `Blur`: Blur state.<br/>- `Select`: Select state.<br/>- `Auto`: Auto state.<br/>|
 |data|||An arbitrary dimension data list of data item.
+
+```mdx-code-block
+</APITable>
+```
+
+## SerieDataLink
+
+> class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
+
+> Since `v3.10.0`
+
+the link of serie data. Used for sankey chart. Sankey chart only supports directed acyclic graph. make sure the data link is directed acyclic graph.
+
+```mdx-code-block
+<APITable name="SerieDataLink">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|source|||the source node name.
+|target|||the target node name.
+|value|||the value of link. decide the width of link.
 
 ```mdx-code-block
 </APITable>

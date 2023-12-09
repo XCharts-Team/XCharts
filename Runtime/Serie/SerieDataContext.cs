@@ -69,6 +69,8 @@ namespace XCharts.Runtime
         }
         private bool m_Highligth;
         public bool selected;
+        public double inTotalValue;
+        public double outTotalValue;
 
         public void Reset()
         {

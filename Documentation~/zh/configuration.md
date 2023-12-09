@@ -121,6 +121,7 @@ import APITable from '@site/src/components/APITable';
 - [RadiusAxisTheme](#radiusaxistheme)
 - [SelectStyle](#selectstyle)
 - [SerieData](#seriedata)
+- [SerieDataLink](#seriedatalink)
 - [SerieSymbol](#seriesymbol)
 - [SerieTheme](#serietheme)
 - [StageColor](#stagecolor)
@@ -725,7 +726,7 @@ import APITable from '@site/src/components/APITable';
 
 ## ChildComponent
 
-> class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle), [AxisAnimation](#axisanimation), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
+> class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle), [AxisAnimation](#axisanimation), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [SerieDataLink](#seriedatalink), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
 
 ## Comment
 
@@ -1302,8 +1303,10 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 |参数|默认|版本|描述|
 |--|--|--|--|
+|depth|0|v3.10.0|层级深度。
 |label|||文本标签样式。 [LabelStyle](#labelstyle)|
 |upperLabel|||上方的文本标签样式。 [LabelStyle](#labelstyle)|
+|lineStyle||v3.10.0|线条样式。 [LineStyle](#linestyle)|
 |itemStyle|||数据项样式。 [ItemStyle](#itemstyle)|
 
 ```mdx-code-block
@@ -1313,6 +1316,8 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 ## LevelStyle
 
 > class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
+> 从 `v3.10.0` 开始支持
 
 ```mdx-code-block
 <APITable name="LevelStyle">
@@ -1781,6 +1786,7 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 |animation|||起始动画。 [AnimationStyle](#animationstyle)|
 |itemStyle|||图形样式。 [ItemStyle](#itemstyle)|
 |data|||系列中的数据内容数组。SerieData可以设置1到n维数据。
+|links|||数据节点的边。
 
 ```mdx-code-block
 </APITable>
@@ -1807,6 +1813,28 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 |radius|||自定义半径。可用在饼图中自定义某个数据项的半径。
 |state||v3.2.0|数据项的默认状态。<br/>`SerieState`:<br/>- `Normal`: 正常状态。<br/>- `Emphasis`: 高亮状态。<br/>- `Blur`: 淡出状态。<br/>- `Select`: 选中状态。<br/>- `Auto`: 自动保持和父节点一致。一般用在SerieData。<br/>|
 |data|||可指定任意维数的数值列表。
+
+```mdx-code-block
+</APITable>
+```
+
+## SerieDataLink
+
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
+> 从 `v3.10.0` 开始支持
+
+数据节点之间的连线。可用于桑基图等，桑基图只支持有向无环图，请保证数据的连线是有向无环图。
+
+```mdx-code-block
+<APITable name="SerieDataLink">
+```
+
+|参数|默认|版本|描述|
+|--|--|--|--|
+|source|||边的源节点名称。
+|target|||边的目标节点名称。
+|value|||边的值。决定边的宽度。
 
 ```mdx-code-block
 </APITable>

@@ -48,6 +48,8 @@ namespace XCharts.Editor
                 PropertyField("m_Large");
                 PropertyField("m_LargeThreshold");
                 PropertyField("m_PlaceHolder");
+                PropertyField("m_MinShowLabel");
+                PropertyField("m_MinShowLabelValue");
             });
             PropertyField("m_ItemStyle");
             PropertyField("m_Animation");

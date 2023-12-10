@@ -238,7 +238,7 @@ namespace XCharts.Runtime
                 serieData.context.currentAngle = serie.animation.CheckDetailBreak(serieData.context.toAngle)
                     ? serie.animation.GetCurrDetail() : serieData.context.toAngle;
                 serieData.context.insideRadius = serie.context.insideRadius;
-                serieData.context.canShowLabel = serieData.context.currentAngle >= serieData.context.halfAngle;
+                serieData.context.canShowLabel = serieData.context.currentAngle >= serieData.context.halfAngle && !serie.IsMinShowLabelValue(value);
                 UpdateSerieDataRadius(serieData, value);
                 UpdatePieLabelPosition(serie, serieData);
                 startDegree = serieData.context.toAngle;

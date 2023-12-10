@@ -281,6 +281,8 @@ namespace XCharts.Runtime
         [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.48f };
         [SerializeField] private float[] m_Radius = new float[2] { 0, 0.28f };
         [SerializeField][Since("v3.8.0")] private float m_MinRadius = 0f;
+        [SerializeField][Since("v3.10.0")] private bool m_MinShowLabel = false;
+        [SerializeField][Since("v3.10.0")] private double m_MinShowLabelValue = 0;
 
         [SerializeField][Range(2, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
@@ -961,6 +963,24 @@ namespace XCharts.Runtime
         {
             get { return m_PlaceHolder; }
             set { if (PropertyUtil.SetStruct(ref m_PlaceHolder, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// Whether the label is not displayed when the enabled value is less than the specified value.
+        /// ||是否开启值小于指定值`minShowLabelValue`时不显示标签。
+        /// </summary>
+        public bool minShowLabel
+        {
+            get { return m_MinShowLabel; }
+            set { if (PropertyUtil.SetStruct(ref m_MinShowLabel, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// When 'minShowLabel' is enabled, labels are not displayed if the value is less than this value.
+        /// ||当开启`minShowLabel`时，值小于该值时不显示标签。
+        /// </summary>
+        public double minShowLabelValue
+        {
+            get { return m_MinShowLabelValue; }
+            set { if (PropertyUtil.SetStruct(ref m_MinShowLabelValue, value)) { SetVerticesDirty(); } }
         }
         /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。
@@ -1894,6 +1914,24 @@ namespace XCharts.Runtime
                 return ChartHelper.IsIngore(data[index].context.position);
             }
             return false;
+        }
+
+        public bool IsMinShowLabelValue(int index, int dimension = 1)
+        {
+            var serieData = GetSerieData(index);
+            if (serieData != null)
+                return IsMinShowLabelValue(serieData, dimension);
+            return false;
+        }
+
+        public bool IsMinShowLabelValue(SerieData serieData, int dimension = 1)
+        {
+            return IsMinShowLabelValue(serieData.GetData(dimension));
+        }
+
+        public bool IsMinShowLabelValue(double value)
+        {
+            return m_MinShowLabel && value <= m_MinShowLabelValue;
         }
 
         public bool IsSerie<T>() where T : Serie

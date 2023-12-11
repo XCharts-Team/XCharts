@@ -245,21 +245,20 @@ namespace XCharts.Runtime
         {
             if (index < 0)
                 return 0;
-
-            int num = GetScaleNumber(axis, coordinateWidth, dataZoom);
-            int splitNum = GetSplitNumber(axis, coordinateWidth, dataZoom);
-            if (num <= 0)
-                num = 1;
-
             if (axis.IsTime() || axis.IsValue())
             {
                 var value = axis.GetLabelValue(index);
                 var lastValue = axis.GetLabelValue(index - 1);
-                return axis.context.minMaxRange == 0 ? 0 :
-                    (float)(coordinateWidth * (value - lastValue) / axis.context.minMaxRange);
+                var width = axis.context.minMaxRange == 0 ? 0 :
+                    (float)(coordinateWidth * ((value - lastValue) / axis.context.minMaxRange));
+                return width;
             }
             else
             {
+                int num = GetScaleNumber(axis, coordinateWidth, dataZoom);
+                int splitNum = GetSplitNumber(axis, coordinateWidth, dataZoom);
+                if (num <= 0)
+                    num = 1;
                 var data = axis.GetDataList(dataZoom);
                 if (axis.IsCategory() && data.Count > 0 && splitNum > 0)
                 {
@@ -344,7 +343,7 @@ namespace XCharts.Runtime
                 int maxSplit = 0;
                 maxValue = ChartHelper.GetMaxLogValue(maxValue, axis.logBase, axis.logBaseE, out maxSplit);
                 minValue = ChartHelper.GetMinLogValue(minValue, axis.logBase, axis.logBaseE, out minSplit);
-                
+
                 var splitNumber = maxSplit + minSplit;
                 if (splitNumber > 15)
                     splitNumber = 15;
@@ -633,7 +632,7 @@ namespace XCharts.Runtime
             var startX = grid.context.x + yAxis.offset;
             if (yAxis.IsRight())
                 startX += grid.context.width;
-            else if (yAxis.axisLine.onZero && relativedAxis != null && relativedAxis.IsValue() 
+            else if (yAxis.axisLine.onZero && relativedAxis != null && relativedAxis.IsValue()
                 && relativedAxis.gridIndex == yAxis.gridIndex)
                 startX += relativedAxis.context.offset;
             return startX;

@@ -70,6 +70,7 @@ slug: /changelog
 
 ## master
 
+* (2023.12.11) 修复`Serie`添加`double.MaxValue`时坐标绘制失败的问题
 * (2023.12.10) 增加`Serie`的`minShowLabel`可隐藏小于指定值的`label`
 * (2023.12.09) 增加`LevelStyle`的`LineStyle`和`depth`支持
 * (2023.12.09) 增加`Serie`的`Link`可用于桑基图添加节点边关系

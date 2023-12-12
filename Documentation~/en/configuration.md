@@ -1303,6 +1303,7 @@ Legend component.The legend component shows different sets of tags, colors, and 
 |itemOpacity|1||the opacity of item color.
 |formatter|||No longer used, the use of LabelStyle.formatter instead.
 |labelStyle|||the style of text. [LabelStyle](#labelstyle)|
+|textLimit||v3.10.0|the limit of text. [TextLimit](#textlimit)|
 |data|||Data array of legend. An array item is usually a name representing string. (If it is a pie chart, it could also be the name of a single data in the pie chart) of a series. If data is not specified, it will be auto collected from series.
 |icons|||自定义的图例标记图形。
 |colors|||the colors of legend item.
@@ -1816,6 +1817,8 @@ Configurations of select state.
 |center|||the center of chart.
 |radius|||the radius of chart.
 |minRadius|0f|v3.8.0|the min radius of chart. It can be used to limit the minimum radius of the rose chart.
+|minShowLabel|false|v3.10.0|Whether the label is not displayed when the enabled value is less than the specified value.
+|minShowLabelValue|0|v3.10.0|When 'minShowLabel' is enabled, labels are not displayed if the value is less than this value.
 |showDataDimension|||数据项里的数据维数。
 |showDataName|||在Editor的inpsector上是否显示name参数
 |clip|false||If clip the overflow on the coordinate system.

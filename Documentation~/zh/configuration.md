@@ -1266,6 +1266,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |itemOpacity|1||图例标记的图形的颜色透明度。
 |formatter|||不再使用，使用LabelStyle.formatter代替。
 |labelStyle|||文本样式。 [LabelStyle](#labelstyle)|
+|textLimit||v3.10.0|文本限制。 [TextLimit](#textlimit)|
 |data|||图例的数据数组。数组项通常为一个字符串，每一项代表一个系列的 name（如果是饼图，也可以是饼图单个数据的 name）。 如果 data 没有被指定，会自动从当前系列中获取。指定data时里面的数据项和serie匹配时才会生效。
 |icons|||自定义的图例标记图形。
 |colors|||图例标记的颜色列表。
@@ -1761,6 +1762,8 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 |center|||中心点。
 |radius|||半径。radius[0]表示内径，radius[1]表示外径。
 |minRadius|0f|v3.8.0|最小半径。可用于限制玫瑰图的最小半径。
+|minShowLabel|false|v3.10.0|是否开启值小于指定值`minShowLabelValue`时不显示标签。
+|minShowLabelValue|0|v3.10.0|当开启`minShowLabel`时，值小于该值时不显示标签。
 |showDataDimension|||数据项里的数据维数。
 |showDataName|||在Editor的inpsector上是否显示name参数
 |clip|false||是否裁剪超出坐标系部分的图形。

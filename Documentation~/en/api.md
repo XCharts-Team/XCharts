@@ -2342,6 +2342,9 @@ Configurations of select state.
 |IsIgnoreValue()||public bool IsIgnoreValue(SerieData serieData, double value)|
 |IsIgnoreValue()||public bool IsIgnoreValue(SerieData serieData, int dimension = 1)|
 |IsLegendName()||public bool IsLegendName(string legendName)|
+|IsMinShowLabelValue()||public bool IsMinShowLabelValue(double value)|
+|IsMinShowLabelValue()||public bool IsMinShowLabelValue(int index, int dimension = 1)|
+|IsMinShowLabelValue()||public bool IsMinShowLabelValue(SerieData serieData, int dimension = 1)|
 |IsPerformanceMode()||public bool IsPerformanceMode()<br/>是否为性能模式。性能模式下不绘制Symbol，不刷新Label，不单独设置数据项配置。 |
 |IsSerie&lt;T&gt;()||public bool IsSerie&lt;T&gt;() where T : Serie|
 |IsSerieDataLegendName()||public bool IsSerieDataLegendName(string legendName)|

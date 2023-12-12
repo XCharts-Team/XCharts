@@ -29,6 +29,8 @@ namespace XCharts.Runtime
         public string legendName { get { return m_LegendName; } set { m_LegendName = value; } }
         public GameObject gameObject { get { return m_GameObject; } }
         public Button button { get { return m_Button; } }
+        public ChartText text { get { return m_Text; } }
+
         public float width
         {
             get

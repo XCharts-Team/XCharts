@@ -110,6 +110,7 @@ namespace XCharts.Runtime
                 if (!(serie is INeedSerieContainer))
                 {
                     showTooltip = true;
+                    containerSeries = null;
                     return;
                 }
             }
@@ -126,6 +127,7 @@ namespace XCharts.Runtime
         private void UpdateTooltip(Tooltip tooltip)
         {
             if (!showTooltip) return;
+            var anyTrigger = false;
             for (int i = chart.series.Count - 1; i >= 0; i--)
             {
                 var serie = chart.series[i];
@@ -133,20 +135,21 @@ namespace XCharts.Runtime
                 {
                     if (SetSerieTooltip(tooltip, serie))
                     {
+                        anyTrigger = true;
                         chart.RefreshTopPainter();
-                        return;
+                        break;
                     }
                 }
             }
             if (containerSeries != null)
             {
                 if (!SetSerieTooltip(tooltip, containerSeries))
-                {
                     showTooltip = false;
-                }
+                else
+                    anyTrigger = true;
                 ListPool<Serie>.Release(containerSeries);
             }
-            if (!showTooltip)
+            if (!showTooltip || !anyTrigger)
             {
                 if (tooltip.context.type == Tooltip.Type.Corss && m_PointerContainer != null && m_PointerContainer.IsPointerEnter())
                 {

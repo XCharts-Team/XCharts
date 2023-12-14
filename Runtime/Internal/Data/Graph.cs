@@ -402,6 +402,10 @@ namespace XCharts.Runtime
         public double value;
         public Graph hostGraph;
 
+        public List<Vector3> points = new List<Vector3>();
+        public float width;
+        public bool highlight;
+
         public GraphEdge(GraphNode node1, GraphNode node2, double value)
         {
             this.node1 = node1;

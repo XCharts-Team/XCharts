@@ -1933,7 +1933,7 @@ namespace XUGL
             }
         }
 
-        private static void DrawCurvesInternal(VertexHelper vh, List<Vector3> curvesPosList, float lineWidth,
+        public static void DrawCurvesInternal(VertexHelper vh, List<Vector3> curvesPosList, float lineWidth,
             Color32 lineColor, Direction dire, float currProgress = float.NaN)
         {
             if (curvesPosList.Count > 1)

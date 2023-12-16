@@ -218,7 +218,7 @@ namespace XCharts.Runtime
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, state);
                 var value = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
                 var relativedValue = serieData.GetCurrData(1, dataAddDuration, dataChangeDuration, relativedAxis.inverse, 0, 0, serie.animation.unscaledTime);
-                var borderWidth = relativedValue == 0 ? 0 : itemStyle.runtimeBorderWidth;
+                var borderWidth = relativedValue == 0 ? 0 : itemStyle.borderWidth;
                 var borderGap = relativedValue == 0 ? 0 : itemStyle.borderGap;
                 var borderGapAndWidth = borderWidth + borderGap;
                 var backgroundColor = itemStyle.backgroundColor;

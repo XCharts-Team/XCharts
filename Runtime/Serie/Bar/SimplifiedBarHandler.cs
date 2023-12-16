@@ -162,7 +162,7 @@ namespace XCharts.Runtime
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
                 var value = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
                 var relativedValue = serieData.GetCurrData(1, dataAddDuration, dataChangeDuration, relativedAxis.inverse, 0, 0, serie.animation.unscaledTime);
-                var borderWidth = relativedValue == 0 ? 0 : itemStyle.runtimeBorderWidth;
+                var borderWidth = relativedValue == 0 ? 0 : itemStyle.borderWidth;
 
                 if (!serieData.interact.TryGetColor(ref areaColor, ref areaToColor, ref interacting, interactDuration))
                 {
@@ -290,7 +290,7 @@ namespace XCharts.Runtime
             Vector3 prb, bool isYAxis, GridCoord grid, Color32 areaColor, Color32 areaToColor)
         {
 
-            var borderWidth = itemStyle.runtimeBorderWidth;
+            var borderWidth = itemStyle.borderWidth;
             if (isYAxis)
             {
                 if (serie.clip)

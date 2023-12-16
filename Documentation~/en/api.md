@@ -122,6 +122,7 @@ slug: /api
 - [ListFor](#listfor)
 - [ListForComponent](#listforcomponent)
 - [ListForSerie](#listforserie)
+- [ListPool&lt;T&gt;](#listpoolt)
 - [Location](#location)
 - [MainComponent](#maincomponent)
 - [MainComponentContext](#maincomponentcontext)
@@ -1621,7 +1622,6 @@ The interface for serie data component.
 |GetToColor()||public Color32 GetToColor()|
 |IsNeedCorner()||public bool IsNeedCorner()|
 |IsNeedGradient()||public bool IsNeedGradient()|
-|NeedShowBorder()||public bool NeedShowBorder()<br/>是否需要显示边框。 |
 |Reset()||public void Reset()|
 
 ## IUpdateRuntimeData
@@ -1861,6 +1861,17 @@ The style of line.
 |public method|since|description|
 |--|--|--|
 |ListForSerie()||public ListForSerie(Type type) : base(type)|
+
+## ListPool&lt;T&gt;
+
+> class in XCharts.Runtime
+
+
+|public method|since|description|
+|--|--|--|
+|ClearAll()||public static void ClearAll()|
+|Get()||public static List&lt;T&gt; Get()|
+|Release()||public static void Release(List&lt;T&gt; toRelease)|
 
 ## Location
 

@@ -398,7 +398,13 @@ namespace XCharts.Runtime
             float gap, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
             Vector3 prb, bool isYAxis, GridCoord grid, Axis axis, Color32 areaColor, Color32 areaToColor, double value)
         {
-            var borderWidth = itemStyle.runtimeBorderWidth;
+            var borderWidth = itemStyle.borderWidth;
+            var borderColor = itemStyle.borderColor;
+            if (ChartHelper.IsClearColor(borderColor))
+            {
+                borderColor = areaColor;
+                borderColor.a = (byte)(areaColor.a * 1.2f);
+            }
             var cornerRadius = serie.barType == BarType.Capsule && !itemStyle.IsNeedCorner() ?
                 m_CapusleDefaultCornerRadius :
                 itemStyle.cornerRadius;
@@ -412,12 +418,12 @@ namespace XCharts.Runtime
                 cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert);
             if (serie.barType == BarType.Capsule)
             {
-                UGL.DrawBorder(vh, serieData.context.backgroundRect, borderWidth, itemStyle.borderColor,
+                UGL.DrawBorder(vh, serieData.context.backgroundRect, borderWidth, borderColor,
                     0, cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert, -borderWidth);
             }
             else
             {
-                UGL.DrawBorder(vh, serieData.context.rect, borderWidth, itemStyle.borderColor,
+                UGL.DrawBorder(vh, serieData.context.rect, borderWidth, borderColor,
                     0, cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert, itemStyle.borderGap);
             }
         }

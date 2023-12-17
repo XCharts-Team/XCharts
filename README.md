@@ -52,7 +52,7 @@
 
 [XCharts 教程：5分钟上手 XCharts](Documentation~/zh/tutorial01.md)  
 [XCharts API文档](Documentation~/zh/api.md)  
-[XCharts 问答](Documentation~/zh/faq.md)  
+[XCharts 常见问题](Documentation~/zh/faq.md)  
 [XCharts 配置项手册](Documentation~/zh/configuration.md)  
 [XCharts 更新日志](Documentation~/zh/changelog.md)  
 [XCharts 订阅服务](Documentation~/zh/support.md)  

@@ -36,8 +36,8 @@ slug: /faq
 [FAQ 29：如何修改serie的symbol的颜色?](#如何修改serie的symbol的颜色)  
 [FAQ 30：导入或更新XCharts时TMP报错如何处理？](#导入或更新xcharts时tmp报错怎么办)  
 [FAQ 31：支持空数据吗？如何实现折线图断开的效果?](#支持空数据吗如何实现折线图断开的效果)  
-[FAQ 32：2.x版本升级3.x版本时常见的问题有哪些？](2.x版本升级3.x版本时常见的问题有哪些)  
-[FAQ 33：折线图如何两边不留空白而从0坐标开始显示？](折线图如何两边不留空白而从0坐标开始显示)
+[FAQ 32：2.x版本升级3.x版本时常见的问题有哪些？](#xcharts2升级xcharts3时常见的问题有哪些)  
+[FAQ 33：折线图如何两边不留空白而从0坐标开始显示？](#折线图如何两边不留空白而从0坐标开始显示)
 
 ## 如何调整坐标轴与背景的边距
 
@@ -172,7 +172,7 @@ XCharts默认时不开启TMP，所以asmdef上没有TMP的引用。当本地开�
 
 `Serie`的`data`是`double`类型，所以无法表示空数据。可通过开启`Serie`的`ignore`和指定`ignoreValue`来达到空数据的效果。也可以每个`SerieData`设置`ignore`参数。忽略数据后断开还是连接可设置`ignoreLineBreak`参数。
 
-## 2.x版本升级3.x版本时常见的问题有哪些
+## xcharts2升级xcharts3时常见的问题有哪些
 
 1. 'XCharts.Runtime.XChartsMgr' is missing the class attribute 'ExtensionOfNativeClass'!
 3.x版本时不需要挂载XChartsMgr，直接删掉场景上的`_xcharts_`节点即可。

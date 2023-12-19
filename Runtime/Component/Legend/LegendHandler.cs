@@ -161,7 +161,7 @@ namespace XCharts.Runtime
         private string GetFormatterContent(Legend legend, int dataIndex, string category)
         {
 #pragma warning disable 0618
-            if (string.IsNullOrEmpty(legend.formatter) || string.IsNullOrEmpty(legend.labelStyle.formatter))
+            if (string.IsNullOrEmpty(legend.formatter) && string.IsNullOrEmpty(legend.labelStyle.formatter))
                 return category;
             else
             {

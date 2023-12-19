@@ -70,6 +70,7 @@ slug: /changelog
 
 ## master
 
+* (2023.12.19) 修复`Legend`的`LabelStyle`的`formatter`不生效的问题
 * (2023.12.12) 增加`Legend`的`TextLimit`可限制图例显示文本的长度
 * (2023.12.11) 修复`Serie`添加`double.MaxValue`时坐标绘制失败的问题
 * (2023.12.10) 增加`Serie`的`minShowLabel`可隐藏小于指定值的`label`

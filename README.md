@@ -108,14 +108,14 @@
 
 ## 分支
 
-| 分支 | 分支介绍|
+| 分支 | 分支介绍 |
 |--|--|
-| `master` | XCharts3.0的开发分支。最新的修改和新功能都先提交到`master`分支，一定时间后再从`master`分支`merge`到`3.0`分支，并发布`release`版本。|
-| `3.0` | XCharts3.0的稳定分支。一般一个月一发布，`master`分支稳定后，`merge`到`3.0`分支，并发布`release`版本。|
-| `2.0` | XCharts2.0的稳定分支。带Demo，目前基本不再维护，仅修改严重bug。|
-| `2.0-upm` | XCharts2.0的稳定UMP分支。不带Demo，只包含Package部分，不再维护。|
-| `1.0` | XCharts1.0的稳定分支。带Demo，不再维护。|
-| `1.0-upm` | XCharts1.0的稳定UMP分支。不带Demo，不再维护。|
+| [master](https://github.com/XCharts-Team/XCharts/tree/master) | XCharts3.0的开发分支。最新的修改和功能都先提交到`master`分支，稳定后后再从`master`分支`merge`到`3.0`分支，并发布`release`版本。|
+| [3.0](https://github.com/XCharts-Team/XCharts/tree/3.0) | XCharts3.0的稳定分支。一般一个月一发布，`master`分支稳定后，`merge`到`3.0`分支，并发布`release`版本。|
+| [2.0](https://github.com/XCharts-Team/XCharts/tree/2.0) | XCharts2.0的稳定分支。带Demo，目前基本不再维护，仅修改严重bug。|
+| [2.0-upm](https://github.com/XCharts-Team/XCharts/tree/2.0-upm) | XCharts2.0的稳定UMP分支。不带Demo，只包含Package部分，不再维护。|
+| [1.0](https://github.com/XCharts-Team/XCharts/tree/1.0) | XCharts1.0的稳定分支。带Demo，不再维护。|
+| [1.0-upm](https://github.com/XCharts-Team/XCharts/tree/1.0-upm) | XCharts1.0的稳定UMP分支。不带Demo，不再维护。|
 
 ## 注意
 

@@ -733,6 +733,7 @@ namespace XCharts.Runtime
         [Since("v3.7.0")]
         public void CancelTooltip()
         {
+            m_PointerEventData = null;
             var tooltip = GetChartComponent<Tooltip>();
             if (tooltip != null)
             {

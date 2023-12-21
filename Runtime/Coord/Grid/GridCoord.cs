@@ -203,7 +203,7 @@ namespace XCharts.Runtime
         [Since("v3.7.0")]
         public bool ContainsX(float x)
         {
-            return x >= context.x && x <= context.x + context.width;
+            return x >= context.x - 0.01f && x <= context.x + context.width + 0.01f;
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace XCharts.Runtime
         [Since("v3.7.0")]
         public bool ContainsY(float y)
         {
-            return y >= context.y && y <= context.y + context.height;
+            return y >= context.y - 0.01f && y <= context.y + context.height + 0.01f;
         }
 
         /// <summary>

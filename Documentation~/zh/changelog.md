@@ -70,11 +70,13 @@ slug: /changelog
 
 ## master
 
-* (2023.12.19) 修复`Legend`的`LabelStyle`的`formatter`不生效的问题
+* (2023.12.21) 修复`TriggerTooltip()`接口在指定0或最大index时可能无法触发的问题
+* (2023.12.19) 修复`Legend`的`LabelStyle`设置`formatter`后不生效的问题
 * (2023.12.12) 增加`Legend`的`TextLimit`可限制图例显示文本的长度
 * (2023.12.11) 修复`Serie`添加`double.MaxValue`时坐标绘制失败的问题
 * (2023.12.10) 增加`Serie`的`minShowLabel`可隐藏小于指定值的`label`
-* (2023.12.09) 增加`LevelStyle`的`LineStyle`和`depth`支持
+* (2023.12.09) 增加`LevelStyle`的`depth`指定所属层次
+* (2023.12.09) 增加`LevelStyle`的`LineStyle`设置线条样式
 * (2023.12.09) 增加`Serie`的`Link`可用于桑基图添加节点边关系
 * (2023.12.05) 增加`ResetChartStatus()`可主动重置图表状态
 

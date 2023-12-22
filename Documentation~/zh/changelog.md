@@ -70,6 +70,7 @@ slug: /changelog
 
 ## master
 
+* (2023.12.22) 修复`Scatter`散点图部分边界数据不显示的问题
 * (2023.12.21) 修复`TriggerTooltip()`接口在指定0或最大index时可能无法触发的问题
 * (2023.12.19) 修复`Legend`的`LabelStyle`设置`formatter`后不生效的问题
 * (2023.12.12) 增加`Legend`的`TextLimit`可限制图例显示文本的长度

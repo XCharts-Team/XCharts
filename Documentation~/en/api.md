@@ -1443,6 +1443,7 @@ Grid component.
 |ContainsX()|v3.7.0|public bool ContainsX(float x)<br/>Whether the given x is in the grid. |
 |ContainsY()|v3.7.0|public bool ContainsY(float y)<br/>Whether the given y is in the grid. |
 |IsPointerEnter()||public bool IsPointerEnter()<br/>Whether the pointer is in the grid. |
+|NotAnyIntersect()|v3.10.0|public bool NotAnyIntersect(Vector3 sp, Vector3 ep)<br/>Determines whether a given line segment will not intersect the Grid boundary at all. |
 |UpdateRuntimeData()||public void UpdateRuntimeData(BaseChart chart)|
 
 ## GridCoordContext

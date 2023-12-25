@@ -70,6 +70,7 @@ slug: /changelog
 
 ## master
 
+* (2023.12.25) 修复`Line`开启`clip`时绘制的顶点数可能反而增加的问题
 * (2023.12.22) 修复`Scatter`散点图部分边界数据不显示的问题
 * (2023.12.21) 修复`TriggerTooltip()`接口在指定0或最大index时可能无法触发的问题
 * (2023.12.19) 修复`Legend`的`LabelStyle`设置`formatter`后不生效的问题

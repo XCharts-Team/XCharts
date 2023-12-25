@@ -255,6 +255,27 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
+        /// Determines whether a given line segment will not intersect the Grid boundary at all.
+        /// ||判断给定的线段是否与Grid边界是否完全不会相交。
+        /// </summary>
+        /// <param name="sp"></param>
+        /// <param name="ep"></param>
+        /// <returns></returns>
+        [Since("v3.10.0")] 
+        public bool NotAnyIntersect(Vector3 sp, Vector3 ep)
+        {
+            if (sp.x < context.x && ep.x < context.x)
+                return true;
+            if (sp.x > context.x + context.width && ep.x > context.x + context.width)
+                return true;
+            if (sp.y < context.y && ep.y < context.y)
+                return true;
+            if (sp.y > context.y + context.height && ep.y > context.y + context.height)
+                return true;
+            return false;
+        }
+
+        /// <summary>
         /// 给定的线段和Grid边界的交点
         /// </summary>
         /// <param name="sp"></param>

@@ -1443,6 +1443,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |ContainsX()|v3.7.0|public bool ContainsX(float x)<br/>给定的x是否在网格内。 |
 |ContainsY()|v3.7.0|public bool ContainsY(float y)<br/>给定的y是否在网格内。 |
 |IsPointerEnter()||public bool IsPointerEnter()<br/>指针是否在网格内。 |
+|NotAnyIntersect()|v3.10.0|public bool NotAnyIntersect(Vector3 sp, Vector3 ep)<br/>判断给定的线段是否与Grid边界是否完全不会相交。 |
 |UpdateRuntimeData()||public void UpdateRuntimeData(BaseChart chart)|
 
 ## GridCoordContext

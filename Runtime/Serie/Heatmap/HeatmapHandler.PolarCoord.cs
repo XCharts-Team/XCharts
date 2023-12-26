@@ -154,8 +154,8 @@ namespace XCharts.Runtime
                 angleValue = serieData.GetData(1);
                 value = serieData.GetData(2);
 
-                var xIndex = AxisHelper.GetAxisValueSplitIndex(m_RadiusAxis, radiusValue, xCount);
-                var yIndex = AxisHelper.GetAxisValueSplitIndex(m_AngleAxis, angleValue, yCount);
+                var xIndex = AxisHelper.GetAxisValueSplitIndex(m_RadiusAxis, radiusValue, true, xCount);
+                var yIndex = AxisHelper.GetAxisValueSplitIndex(m_AngleAxis, angleValue, true, yCount);
 
                 start = startAngle + yIndex * yWidth;
                 end = start + yWidth;

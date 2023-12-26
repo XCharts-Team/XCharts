@@ -543,11 +543,14 @@ namespace XCharts.Runtime
         /// <param name="axis"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static int GetAxisValueSplitIndex(Axis axis, double value, int totalSplitNumber = -1)
+        public static int GetAxisValueSplitIndex(Axis axis, double value, bool checkMaxCache, int totalSplitNumber = -1)
         {
             if (axis.IsCategory())
             {
-                return (int)value;
+                if (checkMaxCache)
+                    return axis.maxCache > 0 ? (int)value - (axis.GetAddedDataCount() - axis.data.Count) : (int)value;
+                else
+                    return (int)value;
             }
             else
             {

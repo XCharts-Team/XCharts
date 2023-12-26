@@ -1339,7 +1339,7 @@ namespace XCharts.Runtime
         /// <param name="dataId">the unique id of data</param>
         public SerieData AddYData(double value, string dataName = null, string dataId = null)
         {
-            CheckMaxCache();
+            var flag = CheckMaxCache();
             int xValue = m_Data.Count;
             var serieData = SerieDataPool.Get();
             serieData.data.Add(xValue);
@@ -1348,6 +1348,7 @@ namespace XCharts.Runtime
             serieData.index = xValue;
             serieData.id = dataId;
             AddSerieData(serieData);
+            if (flag) ResetDataIndex();
             m_ShowDataDimension = 2;
             SetVerticesDirty();
             CheckDataName(dataName);
@@ -1386,7 +1387,7 @@ namespace XCharts.Runtime
         /// <param name="dataId">the unique id of data</param>
         public SerieData AddXYData(double xValue, double yValue, string dataName = null, string dataId = null)
         {
-            CheckMaxCache();
+            var flag = CheckMaxCache();
             var serieData = SerieDataPool.Get();
             serieData.data.Clear();
             serieData.data.Add(xValue);
@@ -1395,6 +1396,7 @@ namespace XCharts.Runtime
             serieData.index = m_Data.Count;
             serieData.id = dataId;
             AddSerieData(serieData);
+            if (flag) ResetDataIndex();
             m_ShowDataDimension = 2;
             SetVerticesDirty();
             CheckDataName(dataName);
@@ -1414,7 +1416,7 @@ namespace XCharts.Runtime
         /// <returns></returns>
         public SerieData AddData(double indexOrTimestamp, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)
         {
-            CheckMaxCache();
+            var flag = CheckMaxCache();
             var serieData = SerieDataPool.Get();
             serieData.data.Clear();
             serieData.data.Add(indexOrTimestamp);
@@ -1426,6 +1428,7 @@ namespace XCharts.Runtime
             serieData.index = m_Data.Count;
             serieData.id = dataId;
             AddSerieData(serieData);
+            if (flag) ResetDataIndex();
             m_ShowDataDimension = 5;
             SetVerticesDirty();
             CheckDataName(dataName);
@@ -1449,7 +1452,7 @@ namespace XCharts.Runtime
                 return AddXYData(valueList[0], valueList[1], dataName, dataId);
             else
             {
-                CheckMaxCache();
+                var flag = CheckMaxCache();
                 m_ShowDataDimension = valueList.Count;
                 var serieData = SerieDataPool.Get();
                 serieData.name = dataName;
@@ -1460,6 +1463,7 @@ namespace XCharts.Runtime
                     serieData.data.Add(valueList[i]);
                 }
                 AddSerieData(serieData);
+                if (flag) ResetDataIndex();
                 SetVerticesDirty();
                 CheckDataName(dataName);
                 labelDirty = true;
@@ -1483,7 +1487,7 @@ namespace XCharts.Runtime
                 return AddXYData(values[0], values[1], dataName, dataId);
             else
             {
-                CheckMaxCache();
+                var flag = CheckMaxCache();
                 m_ShowDataDimension = values.Length;
                 var serieData = SerieDataPool.Get();
                 serieData.name = dataName;
@@ -1494,6 +1498,7 @@ namespace XCharts.Runtime
                     serieData.data.Add(values[i]);
                 }
                 AddSerieData(serieData);
+                if (flag) ResetDataIndex();
                 SetVerticesDirty();
                 CheckDataName(dataName);
                 labelDirty = true;
@@ -1558,15 +1563,18 @@ namespace XCharts.Runtime
             return link;
         }
 
-        private void CheckMaxCache()
+        private bool CheckMaxCache()
         {
-            if (m_MaxCache <= 0) return;
+            if (m_MaxCache <= 0) return false;
+            var flag = false;
             while (m_Data.Count >= m_MaxCache)
             {
                 m_NeedUpdateFilterData = true;
                 if (m_InsertDataToHead) RemoveData(m_Data.Count - 1);
                 else RemoveData(0);
+                flag = true;
             }
+            return flag;
         }
 
         /// <summary>

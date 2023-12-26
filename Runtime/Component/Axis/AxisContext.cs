@@ -66,6 +66,10 @@ namespace XCharts.Runtime
         public List<double> labelValueList { get { return m_LabelValueList; } }
         public List<ChartLabel> labelObjectList { get { return m_AxisLabelList; } }
         public int dataZoomStartIndex;
+        /// <summary>
+        /// 添加过的历史数据总数
+        /// </summary>
+        public int addedDataCount;
 
         internal List<string> filterData;
         internal bool lastCheckInverse;
@@ -81,6 +85,7 @@ namespace XCharts.Runtime
 
         internal void Clear()
         {
+            addedDataCount = 0;
             m_RuntimeData.Clear();
         }
 

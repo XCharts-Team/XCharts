@@ -609,18 +609,30 @@ namespace XCharts.Runtime
         {
             if (maxCache > 0)
             {
+                if (context.addedDataCount < m_Data.Count)
+                    context.addedDataCount = m_Data.Count;
                 while (m_Data.Count >= maxCache)
                 {
                     RemoveData(m_InsertDataToHead ? m_Data.Count - 1 : 0);
                 }
             }
-
+            context.addedDataCount++;
             if (m_InsertDataToHead)
                 m_Data.Insert(0, category);
             else
                 m_Data.Add(category);
 
             SetAllDirty();
+        }
+
+        /// <summary>
+        /// get the history data count.
+        /// ||获得添加过的历史数据总数
+        /// </summary>
+        /// <returns></returns>
+        public int GetAddedDataCount()
+        {
+            return context.addedDataCount < m_Data.Count ? m_Data.Count : context.addedDataCount;
         }
 
         public void RemoveData(int dataIndex)

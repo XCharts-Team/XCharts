@@ -347,8 +347,8 @@ namespace XCharts.Runtime
 
         private void GetSerieDataByXYAxis(Serie serie, Axis xAxis, Axis yAxis)
         {
-            var xAxisIndex = AxisHelper.GetAxisValueSplitIndex(xAxis, xAxis.context.pointerValue);
-            var yAxisIndex = AxisHelper.GetAxisValueSplitIndex(yAxis, yAxis.context.pointerValue);
+            var xAxisIndex = AxisHelper.GetAxisValueSplitIndex(xAxis, xAxis.context.pointerValue, false);
+            var yAxisIndex = AxisHelper.GetAxisValueSplitIndex(yAxis, yAxis.context.pointerValue, false);
             serie.context.pointerItemDataIndex = -1;
             if (serie is Heatmap)
             {
@@ -361,8 +361,8 @@ namespace XCharts.Runtime
             }
             foreach (var serieData in serie.data)
             {
-                var x = AxisHelper.GetAxisValueSplitIndex(xAxis, serieData.GetData(0));
-                var y = AxisHelper.GetAxisValueSplitIndex(yAxis, serieData.GetData(1));
+                var x = AxisHelper.GetAxisValueSplitIndex(xAxis, serieData.GetData(0), true);
+                var y = AxisHelper.GetAxisValueSplitIndex(yAxis, serieData.GetData(1), true);
                 if (xAxisIndex == x && y == yAxisIndex)
                 {
                     serie.context.pointerItemDataIndex = serieData.index;

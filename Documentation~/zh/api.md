@@ -431,6 +431,7 @@ slug: /api
 |ClearVerticesDirty()||public override void ClearVerticesDirty()|
 |Clone()||public Axis Clone()|
 |Copy()||public void Copy(Axis axis)|
+|GetAddedDataCount()||public int GetAddedDataCount()<br/>获得添加过的历史数据总数 |
 |GetData()||public string GetData(int index)<br/>获得指定索引的类目数据 |
 |GetData()||public string GetData(int index, DataZoom dataZoom)<br/>获得在dataZoom范围内指定索引的类目数据 |
 |GetDistance()||public float GetDistance(double value, float axisLength)<br/>获得值在坐标轴上的距离 |
@@ -497,7 +498,7 @@ slug: /api
 |GetAxisValueDistance()||public static float GetAxisValueDistance(GridCoord grid, Axis axis, float scaleWidth, double value)<br/>获得数值value在坐标轴上相对起点的距离 |
 |GetAxisValueLength()||public static float GetAxisValueLength(GridCoord grid, Axis axis, float scaleWidth, double value)<br/>获得数值value在坐标轴上对应的长度 |
 |GetAxisValuePosition()||public static float GetAxisValuePosition(GridCoord grid, Axis axis, float scaleWidth, double value)<br/>获得数值value在坐标轴上的坐标位置 |
-|GetAxisValueSplitIndex()||public static int GetAxisValueSplitIndex(Axis axis, double value, int totalSplitNumber = -1)<br/>获得数值value在坐标轴上对应的split索引 |
+|GetAxisValueSplitIndex()||public static int GetAxisValueSplitIndex(Axis axis, double value, bool checkMaxCache, int totalSplitNumber = -1)<br/>获得数值value在坐标轴上对应的split索引 |
 |GetAxisXOrY()||public static float GetAxisXOrY(GridCoord grid, Axis axis, Axis relativedAxis)|
 |GetDataWidth()||public static float GetDataWidth(Axis axis, float coordinateWidth, int dataCount, DataZoom dataZoom)<br/>获得一个类目数据在坐标系中代表的宽度 |
 |GetEachWidth()||public static float GetEachWidth(Axis axis, float coordinateWidth, DataZoom dataZoom = null)|

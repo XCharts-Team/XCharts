@@ -45,6 +45,7 @@ slug: /api
 - [BaseScatter](#basescatter)
 - [BaseSerie](#baseserie)
 - [BlurStyle](#blurstyle)
+- [BorderStyle](#borderstyle)
 - [CalendarCoord](#calendarcoord)
 - [Candlestick](#candlestick)
 - [CandlestickChart](#candlestickchart)
@@ -939,6 +940,20 @@ slug: /api
 
 淡出状态样式。
 
+## BorderStyle
+
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
+> 从 `v3.10.0` 开始支持
+
+边框样式。
+
+|API|版本|描述|
+|--|--|--|
+|GetRuntimeBorderColor()||public Color32 GetRuntimeBorderColor()|
+|GetRuntimeBorderWidth()||public float GetRuntimeBorderWidth()|
+|GetRuntimeCornerRadius()||public float[] GetRuntimeCornerRadius()|
+
 ## CalendarCoord
 
 > class in XCharts.Runtime / 继承自: [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
@@ -1138,7 +1153,7 @@ slug: /api
 
 ## ChildComponent
 
-> class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle),[AxisAnimation](#axisanimation),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MLValue](#mlvalue),[MarqueeStyle](#marqueestyle),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[SerieDataLink](#seriedatalink),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
+> class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle),[AxisAnimation](#axisanimation),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[BorderStyle](#borderstyle),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MLValue](#mlvalue),[MarqueeStyle](#marqueestyle),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[SerieDataLink](#seriedatalink),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
 
 
 |API|版本|描述|

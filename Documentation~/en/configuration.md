@@ -94,6 +94,7 @@ import APITable from '@site/src/components/APITable';
 - [BaseAxisTheme](#baseaxistheme)
 - [BaseLine](#baseline)
 - [BlurStyle](#blurstyle)
+- [BorderStyle](#borderstyle)
 - [CommentItem](#commentitem)
 - [CommentMarkStyle](#commentmarkstyle)
 - [ComponentTheme](#componenttheme)
@@ -731,6 +732,31 @@ Settings related to base line.
 
 Configurations of blur state.
 
+## BorderStyle
+
+> class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
+
+> Since `v3.10.0`
+
+The style of border.
+
+```mdx-code-block
+<APITable name="BorderStyle">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|show|false||whether the border is visible.
+|borderWidth|||the width of border.
+|borderColor|||the color of border.
+|roundedCorner|true||whether the border is rounded corner.
+|cornerRadius|||The radius of rounded corner. Its unit is px. Use array to respectively specify the 4 corner radiuses((clockwise upper left, upper right, bottom right and bottom left)). When is set to (1,1,1,1), all corners are rounded.
+
+```mdx-code-block
+</APITable>
+```
+
 ## CalendarCoord
 
 > class in XCharts.Runtime / Inherits from: [CoordSystem](#coordsystem), [IUpdateRuntimeData](#iupdateruntimedata), [ISerieContainer](#iseriecontainer)
@@ -745,7 +771,7 @@ Configurations of blur state.
 
 ## ChildComponent
 
-> class in XCharts.Runtime / Subclasses: [AnimationStyle](#animationstyle), [AxisAnimation](#axisanimation), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [SerieDataLink](#seriedatalink), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
+> class in XCharts.Runtime / Subclasses: [AnimationStyle](#animationstyle), [AxisAnimation](#axisanimation), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [BorderStyle](#borderstyle), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [SerieDataLink](#seriedatalink), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
 
 ## Comment
 

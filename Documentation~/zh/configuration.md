@@ -94,6 +94,7 @@ import APITable from '@site/src/components/APITable';
 - [BaseAxisTheme](#baseaxistheme)
 - [BaseLine](#baseline)
 - [BlurStyle](#blurstyle)
+- [BorderStyle](#borderstyle)
 - [CommentItem](#commentitem)
 - [CommentMarkStyle](#commentmarkstyle)
 - [ComponentTheme](#componenttheme)
@@ -712,6 +713,30 @@ import APITable from '@site/src/components/APITable';
 
 淡出状态样式。
 
+## BorderStyle
+
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
+> 从 `v3.10.0` 开始支持
+
+边框样式。
+
+```mdx-code-block
+<APITable name="BorderStyle">
+```
+
+|参数|默认|版本|描述|
+|--|--|--|--|
+|show|false||是否显示边框。
+|borderWidth|||边框宽度。
+|borderColor|||边框颜色。
+|roundedCorner|true||是否显示圆角。
+|cornerRadius|||圆角半径。用数组分别指定4个圆角半径（顺时针左上，右上，右下，左下）。当为(1,1,1,1)时为全圆角。
+
+```mdx-code-block
+</APITable>
+```
+
 ## CalendarCoord
 
 > class in XCharts.Runtime / 继承自: [CoordSystem](#coordsystem), [IUpdateRuntimeData](#iupdateruntimedata), [ISerieContainer](#iseriecontainer)
@@ -726,7 +751,7 @@ import APITable from '@site/src/components/APITable';
 
 ## ChildComponent
 
-> class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle), [AxisAnimation](#axisanimation), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [SerieDataLink](#seriedatalink), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
+> class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle), [AxisAnimation](#axisanimation), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [BorderStyle](#borderstyle), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [SerieDataLink](#seriedatalink), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
 
 ## Comment
 

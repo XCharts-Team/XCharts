@@ -45,6 +45,7 @@ slug: /api
 - [BaseScatter](#basescatter)
 - [BaseSerie](#baseserie)
 - [BlurStyle](#blurstyle)
+- [BorderStyle](#borderstyle)
 - [CalendarCoord](#calendarcoord)
 - [Candlestick](#candlestick)
 - [CandlestickChart](#candlestickchart)
@@ -939,6 +940,20 @@ Settings related to base line.
 
 Configurations of blur state.
 
+## BorderStyle
+
+> class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
+
+> Since `v3.10.0`
+
+The style of border.
+
+|public method|since|description|
+|--|--|--|
+|GetRuntimeBorderColor()||public Color32 GetRuntimeBorderColor()|
+|GetRuntimeBorderWidth()||public float GetRuntimeBorderWidth()|
+|GetRuntimeCornerRadius()||public float[] GetRuntimeCornerRadius()|
+
 ## CalendarCoord
 
 > class in XCharts.Runtime / Inherits from: [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
@@ -1138,7 +1153,7 @@ Configurations of blur state.
 
 ## ChildComponent
 
-> class in XCharts.Runtime / Subclasses: [AnimationStyle](#animationstyle),[AxisAnimation](#axisanimation),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MLValue](#mlvalue),[MarqueeStyle](#marqueestyle),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[SerieDataLink](#seriedatalink),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
+> class in XCharts.Runtime / Subclasses: [AnimationStyle](#animationstyle),[AxisAnimation](#axisanimation),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[BorderStyle](#borderstyle),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MLValue](#mlvalue),[MarqueeStyle](#marqueestyle),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[SerieDataLink](#seriedatalink),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
 
 
 |public method|since|description|

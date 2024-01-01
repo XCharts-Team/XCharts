@@ -1059,6 +1059,18 @@ namespace XUGL
             }
         }
 
+        public static void DrawRoundRectangleWithBorder(VertexHelper vh, Rect rect,
+            Color32 color, Color32 toColor, float[] cornerRadius, float borderWidth, Color32 borderColor,
+            float rotate = 0, float smoothness = 2)
+        {
+            DrawRoundRectangle(vh, rect.center, rect.width, rect.height, color, toColor, rotate, cornerRadius,
+                false, smoothness, false);
+            if (borderWidth > 0)
+            {
+                UGL.DrawBorder(vh, rect, borderWidth, borderColor, rotate, cornerRadius);
+            }
+        }
+
         /// <summary>
         /// 绘制（圆角）边框
         /// </summary>

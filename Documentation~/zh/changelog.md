@@ -70,7 +70,8 @@ slug: /changelog
 
 ## master
 
-* (2023.12.26) 增加`BorderStyle`边框样式
+* (2024.01.07) 修复`Tooltop`的第一个`ContentLabelStyle`设置`color`无效的问题
+* (2024.01.01) 增加`BorderStyle`边框样式
 * (2023.12.26) 增加`Heatmap`的`maxCache`参数支持
 * (2023.12.25) 优化`Line`开启`clip`时绘制的顶点数
 * (2023.12.22) 修复`Scatter`散点图部分边界数据不显示的问题

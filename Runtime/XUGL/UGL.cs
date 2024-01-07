@@ -1067,7 +1067,7 @@ namespace XUGL
                 false, smoothness, false);
             if (borderWidth > 0)
             {
-                UGL.DrawBorder(vh, rect, borderWidth, borderColor, rotate, cornerRadius);
+                UGL.DrawBorder(vh, rect, borderWidth, borderColor, rotate, cornerRadius, true, smoothness);
             }
         }
 

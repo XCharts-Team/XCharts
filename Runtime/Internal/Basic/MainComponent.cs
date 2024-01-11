@@ -88,6 +88,7 @@ namespace XCharts.Runtime
 
     public abstract class MainComponentHandler
     {
+        public int order { get; internal set; }
         public BaseChart chart { get; internal set; }
         public ComponentHandlerAttribute attribute { get; internal set; }
 

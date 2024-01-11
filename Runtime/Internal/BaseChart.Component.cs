@@ -123,9 +123,11 @@ namespace XCharts.Runtime
             var handler = (MainComponentHandler)Activator.CreateInstance(attrubte.handler);
             handler.attribute = attrubte;
             handler.chart = this;
+            handler.order = attrubte.order;
             handler.SetComponent(component);
             component.handler = handler;
             m_ComponentHandlers.Add(handler);
+            m_ComponentHandlers.Sort((a, b) => { return a.order.CompareTo(b.order); });
         }
 
         public bool RemoveChartComponent<T>(int index = 0)

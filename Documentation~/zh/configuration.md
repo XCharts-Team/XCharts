@@ -641,6 +641,7 @@ import APITable from '@site/src/components/APITable';
 |imageType|||背景图填充类型。
 |imageColor|||背景图颜色。
 |autoColor|true||当background组件开启时，是否自动使用主题背景色作为backgrounnd组件的颜色。当设置为false时，用imageColor作为颜色。
+|borderStyle||v3.10.0|背景边框样式。 [BorderStyle](#borderstyle)|
 
 ```mdx-code-block
 </APITable>
@@ -977,10 +978,10 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |--|--|--|--|
 |show|true||是否显示直角坐标系网格。
 |layoutIndex|-1|v3.8.0|网格所属的网格布局组件的索引。默认为-1，表示不属于任何网格布局组件。当设置了该值时，left、right、top、bottom属性将失效。
-|left|0.1f||grid 组件离容器左侧的距离。
+|left|0.11f||grid 组件离容器左侧的距离。
 |right|0.08f||grid 组件离容器右侧的距离。
 |top|0.22f||grid 组件离容器上侧的距离。
-|bottom|0.12f||grid 组件离容器下侧的距离。
+|bottom|0.14f||grid 组件离容器下侧的距离。
 |backgroundColor|||网格背景色，默认透明。
 |showBorder|false||是否显示网格边框。
 |borderWidth|0f||网格边框宽。

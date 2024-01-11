@@ -14,6 +14,7 @@ namespace XCharts.Editor
             PropertyField("m_ImageType");
             PropertyField("m_ImageColor");
             PropertyField("m_AutoColor");
+            PropertyField("m_BorderStyle");
             --EditorGUI.indentLevel;
         }
     }

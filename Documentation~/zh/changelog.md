@@ -70,6 +70,7 @@ slug: /changelog
 
 ## master
 
+* (2024.01.09) 增加`Background`的`borderStyle`，给图表默认设置圆角
 * (2024.01.07) 修复`Tooltop`的第一个`ContentLabelStyle`设置`color`无效的问题
 * (2024.01.01) 增加`BorderStyle`边框样式
 * (2023.12.26) 增加`Heatmap`的`maxCache`参数支持

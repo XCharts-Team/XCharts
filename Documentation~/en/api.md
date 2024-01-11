@@ -1121,6 +1121,7 @@ The style of border.
 |--|--|--|
 |ChartText()||public ChartText()|
 |ChartText()||public ChartText(GameObject textParent)|
+|GetColor()||public Color GetColor()|
 |GetPreferredHeight()||public float GetPreferredHeight()|
 |GetPreferredText()||public string GetPreferredText(string content, string suffix, float maxWidth)|
 |GetPreferredWidth()||public float GetPreferredWidth()|

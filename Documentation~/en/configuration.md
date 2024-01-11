@@ -658,6 +658,7 @@ Background component.
 |imageType|||the fill type of background image.
 |imageColor|||背景图颜色。
 |autoColor|true||Whether to use theme background color for component color when the background component is on.
+|borderStyle||v3.10.0|the border style of background. [BorderStyle](#borderstyle)|
 
 ```mdx-code-block
 </APITable>
@@ -1006,10 +1007,10 @@ Grid component.
 |--|--|--|--|
 |show|true||Whether to show the grid in rectangular coordinate.
 |layoutIndex|-1|v3.8.0|The index of the grid layout component to which the grid belongs. The default is -1, which means that it does not belong to any grid layout component. When this value is set, the left, right, top, and bottom properties will be invalid.
-|left|0.1f||Distance between grid component and the left side of the container.
+|left|0.11f||Distance between grid component and the left side of the container.
 |right|0.08f||Distance between grid component and the right side of the container.
 |top|0.22f||Distance between grid component and the top side of the container.
-|bottom|0.12f||Distance between grid component and the bottom side of the container.
+|bottom|0.14f||Distance between grid component and the bottom side of the container.
 |backgroundColor|||Background color of grid, which is transparent by default.
 |showBorder|false||Whether to show the grid border.
 |borderWidth|0f||Border width of grid.

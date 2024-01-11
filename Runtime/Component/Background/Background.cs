@@ -18,6 +18,7 @@ namespace XCharts.Runtime
         [SerializeField] private Image.Type m_ImageType;
         [SerializeField] private Color m_ImageColor = Color.white;
         [SerializeField] private bool m_AutoColor = true;
+        [SerializeField][Since("v3.10.0")] private BorderStyle m_BorderStyle = new BorderStyle();
 
         /// <summary>
         /// Whether to enable the background component.
@@ -65,6 +66,16 @@ namespace XCharts.Runtime
         {
             get { return m_AutoColor; }
             set { if (PropertyUtil.SetStruct(ref m_AutoColor, value)) SetVerticesDirty(); }
+        }
+
+        /// <summary>
+        /// the border style of background.        
+        /// ||背景边框样式。
+        /// </summary>
+        public BorderStyle borderStyle
+        {
+            get { return m_BorderStyle; }
+            set { if (PropertyUtil.SetClass(ref m_BorderStyle, value)) SetComponentDirty(); }
         }
 
         public override void SetDefaultValue()

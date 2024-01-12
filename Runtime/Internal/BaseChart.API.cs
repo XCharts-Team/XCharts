@@ -171,6 +171,7 @@ namespace XCharts.Runtime
             {
                 OnInit();
                 DefaultChart();
+                m_DefaultChartInited = true;
             }
             else
             {

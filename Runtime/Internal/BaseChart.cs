@@ -19,7 +19,7 @@ namespace XCharts.Runtime
         [SerializeField] protected ThemeStyle m_Theme = new ThemeStyle();
         [SerializeField] protected Settings m_Settings;
         [SerializeField] protected DebugInfo m_DebugInfo = new DebugInfo();
-        [SerializeField] protected bool m_DefaultChartInited = false;
+        [SerializeField] protected bool m_ChartInited = false;
 
 #pragma warning disable 0414
         [SerializeField][ListForComponent(typeof(AngleAxis))] private List<AngleAxis> m_AngleAxes = new List<AngleAxis>();
@@ -136,6 +136,7 @@ namespace XCharts.Runtime
                 m_Settings = Settings.DefaultSettings;
             CheckTheme(true);
             base.Awake();
+            CheckChartInit();
             InitComponentHandlers();
             InitSerieHandlers();
             AnimationReset();
@@ -171,8 +172,18 @@ namespace XCharts.Runtime
                 rectTransform.sizeDelta = new Vector2(m_ChartWidth, m_ChartHeight);
             }
             ChartHelper.HideAllObject(transform);
+            m_ChartInited = true;
             if (m_OnInit != null)
                 m_OnInit();
+        }
+
+        protected void CheckChartInit()
+        {
+            if (!m_ChartInited)
+            {
+                OnInit();
+                DefaultChart();
+            }
         }
 
 #if UNITY_EDITOR
@@ -181,7 +192,6 @@ namespace XCharts.Runtime
             base.Reset();
             OnInit();
             DefaultChart();
-            m_DefaultChartInited = true;
             Awake();
         }
 

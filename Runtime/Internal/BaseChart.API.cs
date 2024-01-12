@@ -165,19 +165,10 @@ namespace XCharts.Runtime
         /// ||鼠标退出图例回调。参数：legendIndex, legendName
         /// </summary>
         public Action<Legend, int, string> onLegendExit { set { m_OnLegendExit = value; } internal get { return m_OnLegendExit; } }
-        public void Init(bool defaultChart = true)
-        {
-            if (defaultChart)
-            {
-                OnInit();
-                DefaultChart();
-                m_DefaultChartInited = true;
-            }
-            else
-            {
-                OnBeforeSerialize();
-            }
-        }
+
+        [Obsolete("No need to call Init() anymore.", true)]
+        public void Init(bool defaultChart = true) { }
+
         /// <summary>
         /// Redraw chart in next frame.
         /// ||在下一帧刷新整个图表。

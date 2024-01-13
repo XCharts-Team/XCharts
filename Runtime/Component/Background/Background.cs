@@ -10,7 +10,7 @@ namespace XCharts.Runtime
     /// </summary>
     [Serializable]
     [DisallowMultipleComponent]
-    [ComponentHandler(typeof(BackgroundHandler), false)]
+    [ComponentHandler(typeof(BackgroundHandler), false, 0)]
     public class Background : MainComponent
     {
         [SerializeField] private bool m_Show = true;

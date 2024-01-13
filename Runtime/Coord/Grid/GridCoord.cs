@@ -17,10 +17,10 @@ namespace XCharts.Runtime
     {
         [SerializeField] private bool m_Show = true;
         [SerializeField][Since("v3.8.0")] private int m_LayoutIndex = -1;
-        [SerializeField] private float m_Left = 0.1f;
+        [SerializeField] private float m_Left = 0.11f;
         [SerializeField] private float m_Right = 0.08f;
         [SerializeField] private float m_Top = 0.22f;
-        [SerializeField] private float m_Bottom = 0.12f;
+        [SerializeField] private float m_Bottom = 0.14f;
         [SerializeField] private Color32 m_BackgroundColor;
         [SerializeField] private bool m_ShowBorder = false;
         [SerializeField] private float m_BorderWidth = 0f;

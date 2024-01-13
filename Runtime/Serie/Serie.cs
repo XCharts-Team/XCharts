@@ -278,7 +278,7 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_ClickOffset = true;
         [SerializeField] private RoseType m_RoseType = RoseType.None;
         [SerializeField] private float m_Gap;
-        [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.48f };
+        [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.46f };
         [SerializeField] private float[] m_Radius = new float[2] { 0, 0.28f };
         [SerializeField][Since("v3.8.0")] private float m_MinRadius = 0f;
         [SerializeField][Since("v3.10.0")] private bool m_MinShowLabel = false;

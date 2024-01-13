@@ -49,7 +49,7 @@ namespace XCharts.Runtime
         {
             var serie = chart.AddSerie<Heatmap>(serieName);
             serie.itemStyle.show = true;
-            serie.itemStyle.borderWidth = 1;
+            serie.itemStyle.borderWidth = 2;
             serie.itemStyle.borderColor = Color.clear;
             return serie;
         }

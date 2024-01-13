@@ -70,6 +70,8 @@ slug: /changelog
 
 ## master
 
+* (2024.01.13) 增加`Chart`的更多快捷创建图表菜单
+* (2024.01.12) 屏蔽`Chart`的`Init()`接口，动态创建图表不再需要调用
 * (2024.01.09) 增加`Background`的`borderStyle`，给图表默认设置圆角
 * (2024.01.07) 修复`Tooltop`的第一个`ContentLabelStyle`设置`color`无效的问题
 * (2024.01.01) 增加`BorderStyle`边框样式

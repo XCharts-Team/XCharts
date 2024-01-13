@@ -3,6 +3,12 @@ using UnityEngine;
 
 namespace XCharts.Runtime
 {
+    /// <summary>
+    /// Heat map mainly use colors to represent values, which must be used along with visualMap component.
+    /// It can be used in either rectangular coordinate or geographic coordinate. But the behaviour on them are quite different. Rectangular coordinate must have two categories to use it.
+    /// ||热力图主要通过颜色去表现数值的大小，必须要配合 visualMap 组件使用。
+    /// 可以应用在直角坐标系以及地理坐标系上，这两个坐标系上的表现形式相差很大，直角坐标系上必须要使用两个类目轴。
+    /// </summary>
     [AddComponentMenu("XCharts/HeatmapChart", 18)]
     [ExecuteInEditMode]
     [RequireComponent(typeof(RectTransform))]
@@ -13,22 +19,25 @@ namespace XCharts.Runtime
         protected override void DefaultChart()
         {
             var grid = EnsureChartComponent<GridCoord>();
+            grid.UpdateRuntimeData(this);
             grid.left = 0.12f;
+
+            var heatmapGridWid = 18f;
+            int xSplitNumber = (int)(grid.context.width / heatmapGridWid);
+            int ySplitNumber = (int)(grid.context.height / heatmapGridWid);
 
             var xAxis = EnsureChartComponent<XAxis>();
             xAxis.type = Axis.AxisType.Category;
+            xAxis.splitLine.show = false;
             xAxis.boundaryGap = true;
-            xAxis.splitNumber = 10;
+            xAxis.splitNumber = xSplitNumber / 2;
 
             var yAxis = EnsureChartComponent<YAxis>();
             yAxis.type = Axis.AxisType.Category;
+            yAxis.splitLine.show = false;
             yAxis.boundaryGap = true;
-            yAxis.splitNumber = 10;
+            yAxis.splitNumber = ySplitNumber;
             RemoveData();
-
-            var heatmapGridWid = 10f;
-            int xSplitNumber = (int) (grid.context.width / heatmapGridWid);
-            int ySplitNumber = (int) (grid.context.height / heatmapGridWid);
 
             Heatmap.AddDefaultSerie(this, GenerateDefaultSerieName());
 
@@ -70,6 +79,33 @@ namespace XCharts.Runtime
                     var list = new List<double> { i, j, value };
                     AddData(0, list);
                 }
+            }
+        }
+
+        /// <summary>
+        /// default count heatmap chart.
+        /// || 默认计数热力图。
+        /// </summary>
+        public void DefaultCountHeatmapChart()
+        {
+            CheckChartInit();
+
+            var serie = GetSerie<Heatmap>(0);
+            serie.heatmapType = HeatmapType.Count;
+            var xAxis = GetChartComponent<XAxis>();
+            xAxis.type = Axis.AxisType.Value;
+            xAxis.splitNumber = 4;
+
+            var yAxis = GetChartComponent<YAxis>();
+            yAxis.type = Axis.AxisType.Value;
+            yAxis.splitNumber = 2;
+
+            serie.ClearData();
+            for (int i = 0; i < 100; i++)
+            {
+                var x = UnityEngine.Random.Range(0, 100);
+                var y = UnityEngine.Random.Range(0, 100);
+                AddData(0, x, y);
             }
         }
     }

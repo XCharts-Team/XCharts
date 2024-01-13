@@ -645,6 +645,21 @@ Background component.
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+Bar chart shows different data through the height of a bar, which is used in rectangular coordinate with at least 1 category axis.
+
+|public method|since|description|
+|--|--|--|
+|DefaultBarChart()||public void DefaultBarChart()<br/>default bar chart. |
+|DefaultCapsuleBarChart()||public void DefaultCapsuleBarChart()<br/>default capsule bar chart. |
+|DefaultCapsuleColumnChart()||public void DefaultCapsuleColumnChart()<br/>default capsule column chart. |
+|DefaultGroupedBarChart()||public void DefaultGroupedBarChart()<br/>default grouped bar chart. |
+|DefaultGroupedColumnChart()||public void DefaultGroupedColumnChart()<br/>default grouped column chart. |
+|DefaultPercentBarChart()||public void DefaultPercentBarChart()<br/>default percent bar chart. |
+|DefaultPercentColumnChart()||public void DefaultPercentColumnChart()<br/>default percent column chart. |
+|DefaultStackedBarChart()||public void DefaultStackedBarChart()<br/>default stacked bar chart. |
+|DefaultStackedColumnChart()||public void DefaultStackedColumnChart()<br/>default stacked column chart. |
+|DefaultZebraBarChart()||public void DefaultZebraBarChart()<br/>default zebra bar chart. |
+|DefaultZebraColumnChart()||public void DefaultZebraColumnChart()<br/>default zebra column chart. |
 
 ## BaseAxisTheme
 
@@ -765,7 +780,7 @@ Background component.
 |HasChartComponent&lt;T&gt;()||public bool HasChartComponent&lt;T&gt;()|
 |HasSerie()||public bool HasSerie(Type type)|
 |HasSerie&lt;T&gt;()||public bool HasSerie&lt;T&gt;() where T : Serie|
-|Init()||public void Init(bool defaultChart = true)|
+|Init()||public void Init(bool defaultChart = true) { }|
 |InitAxisRuntimeData()||public virtual void InitAxisRuntimeData(Axis axis) { }|
 |InsertSerie()||public void InsertSerie(Serie serie, int index = -1, bool addToHead = false)|
 |InsertSerie&lt;T&gt;()||public T InsertSerie&lt;T&gt;(int index, string serieName = null, bool show = true) where T : Serie|
@@ -977,6 +992,7 @@ The style of border.
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+A candlestick chart is a style of financial chart used to describe price movements of a security, derivative, or currency.
 
 ## ChartCached
 
@@ -1210,8 +1226,8 @@ the comment mark style.
 
 |public method|since|description|
 |--|--|--|
-|ComponentHandlerAttribute()||public ComponentHandlerAttribute(Type handler)|
-|ComponentHandlerAttribute()||public ComponentHandlerAttribute(Type handler, bool allowMultiple)|
+|ComponentHandlerAttribute()||public ComponentHandlerAttribute(Type handler, bool allowMultiple, int order = 3)|
+|ComponentHandlerAttribute()||public ComponentHandlerAttribute(Type handler, int order = 3)|
 
 ## ComponentHelper
 
@@ -1498,6 +1514,11 @@ Grid layout component. Used to manage the layout of multiple `GridCoord`, and th
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+Heat map mainly use colors to represent values, which must be used along with visualMap component. It can be used in either rectangular coordinate or geographic coordinate. But the behaviour on them are quite different. Rectangular coordinate must have two categories to use it.
+
+|public method|since|description|
+|--|--|--|
+|DefaultCountHeatmapChart()||public void DefaultCountHeatmapChart()<br/>default count heatmap chart. |
 
 ## IconStyle
 
@@ -1829,6 +1850,18 @@ Legend component.The legend component shows different sets of tags, colors, and 
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+Line chart relates all the data points symbol by broken lines, which is used to show the trend of data changing. It could be used in both rectangular coordinate andpolar coordinate.
+
+|public method|since|description|
+|--|--|--|
+|DefaultAreaLineChart()||public void DefaultAreaLineChart()<br/>default area line chart. |
+|DefaultDashLineChart()||public void DefaultDashLineChart()<br/>default dash line chart. |
+|DefaultSmoothAreaLineChart()||public void DefaultSmoothAreaLineChart()<br/>default smooth area line chart. |
+|DefaultSmoothLineChart()||public void DefaultSmoothLineChart()<br/>default smooth line chart. |
+|DefaultStackAreaLineChart()||public void DefaultStackAreaLineChart()<br/>default stack area line chart. |
+|DefaultStackLineChart()||public void DefaultStackLineChart()<br/>default stack line chart. |
+|DefaultStepLineChart()||public void DefaultStepLineChart()<br/>default step line chart. |
+|DefaultTimeLineChart()||public void DefaultTimeLineChart()<br/>default time line chart. |
 
 ## LineStyle
 
@@ -2103,6 +2136,7 @@ padding setting of item or text.
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+Parallel Coordinates is a common way of visualizing high-dimensional geometry and analyzing multivariate data.
 
 ## ParallelCoord
 
@@ -2136,6 +2170,15 @@ Grid component.
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+The pie chart is mainly used for showing proportion of different categories. Each arc length represents the proportion of data quantity.
+
+|public method|since|description|
+|--|--|--|
+|DefaultAreaRosePieChart()||public void DefaultAreaRosePieChart()<br/>default area rose pie chart. |
+|DefaultDonutPieChart()||public void DefaultDonutPieChart()<br/>default donut pie chart. |
+|DefaultLabelDonutPieChart()||public void DefaultLabelDonutPieChart()<br/>default label donut pie chart. |
+|DefaultLabelPieChart()||public void DefaultLabelPieChart()<br/>default label pie chart. |
+|DefaultRadiusRosePieChart()||public void DefaultRadiusRosePieChart()<br/>default rose pie chart. |
 
 ## PolarAxisTheme
 
@@ -2150,6 +2193,13 @@ Grid component.
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+Polar coordinates are usually used in a circular layout.
+
+|public method|since|description|
+|--|--|--|
+|DefaultHeatmapPolarChart()||public void DefaultHeatmapPolarChart()<br/>default heatmap polar chart. |
+|DefaultRadialBarPolarChart()||public void DefaultRadialBarPolarChart()<br/>default radial bar polar chart. |
+|DefaultTangentialBarPolarChart()||public void DefaultTangentialBarPolarChart()<br/>default tangential bar polar chart. |
 
 ## PolarCoord
 
@@ -2201,6 +2251,11 @@ Polar coordinate can be used in scatter and line chart. Every polar coordinate h
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+Radar chart is mainly used to show multi-variable data, such as the analysis of a football player's varied attributes. It relies radar component.
+
+|public method|since|description|
+|--|--|--|
+|DefaultCircleRadarChart()||public void DefaultCircleRadarChart()<br/>default circle radar chart. |
 
 ## RadarCoord
 
@@ -2271,6 +2326,11 @@ Radial axis of polar coordinate.
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+Ring chart is mainly used to show the proportion of each item and the relationship between the items.
+
+|public method|since|description|
+|--|--|--|
+|DefaultMultipleRingChart()||public void DefaultMultipleRingChart()<br/>default multiple ring chart. |
 
 ## RuntimeUtil
 
@@ -2299,6 +2359,11 @@ Radial axis of polar coordinate.
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+Scatter chart is mainly used to show the relationship between two data dimensions.
+
+|public method|since|description|
+|--|--|--|
+|DefaultBubbleChart()||public void DefaultBubbleChart()<br/>default bubble chart. |
 
 ## SelectStyle
 
@@ -2773,6 +2838,7 @@ Global parameter setting component. The default value can be used in general, an
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+A simplified bar chart is a simplified mode of a bar chart that provides better performance by simplifying components and configurations.
 
 ## SimplifiedCandlestick
 
@@ -2788,6 +2854,7 @@ Global parameter setting component. The default value can be used in general, an
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+A simplified candlestick chart is a simplified mode of a bar chart that provides better performance by simplifying components and configurations.
 
 ## SimplifiedLine
 
@@ -2803,6 +2870,7 @@ Global parameter setting component. The default value can be used in general, an
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+A simplified line chart is a simplified mode of a bar chart that provides better performance by simplifying components and configurations.
 
 ## Since
 

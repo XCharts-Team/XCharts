@@ -645,6 +645,21 @@ slug: /api
 
 > class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
 
+柱状图（或称条形图）是一种通过柱形的高度（横向的情况下则是宽度）来表现数据大小的一种常用图表类型。
+
+|API|版本|描述|
+|--|--|--|
+|DefaultBarChart()||public void DefaultBarChart()<br/>默认条形图。 |
+|DefaultCapsuleBarChart()||public void DefaultCapsuleBarChart()<br/>默认胶囊条形图。 |
+|DefaultCapsuleColumnChart()||public void DefaultCapsuleColumnChart()<br/>胶囊柱状图。 |
+|DefaultGroupedBarChart()||public void DefaultGroupedBarChart()<br/>默认分组条形图。 |
+|DefaultGroupedColumnChart()||public void DefaultGroupedColumnChart()<br/>默认分组柱状图。 |
+|DefaultPercentBarChart()||public void DefaultPercentBarChart()<br/>默认百分比条形图。 |
+|DefaultPercentColumnChart()||public void DefaultPercentColumnChart()<br/>默认百分比柱状图。 |
+|DefaultStackedBarChart()||public void DefaultStackedBarChart()<br/>默认堆叠条形图。 |
+|DefaultStackedColumnChart()||public void DefaultStackedColumnChart()<br/>默认堆叠分组柱状图。 |
+|DefaultZebraBarChart()||public void DefaultZebraBarChart()<br/>默认斑马条形图。 |
+|DefaultZebraColumnChart()||public void DefaultZebraColumnChart()<br/>斑马柱状图。 |
 
 ## BaseAxisTheme
 
@@ -765,7 +780,7 @@ slug: /api
 |HasChartComponent&lt;T&gt;()||public bool HasChartComponent&lt;T&gt;()|
 |HasSerie()||public bool HasSerie(Type type)|
 |HasSerie&lt;T&gt;()||public bool HasSerie&lt;T&gt;() where T : Serie|
-|Init()||public void Init(bool defaultChart = true)|
+|Init()||public void Init(bool defaultChart = true) { }|
 |InitAxisRuntimeData()||public virtual void InitAxisRuntimeData(Axis axis) { }|
 |InsertSerie()||public void InsertSerie(Serie serie, int index = -1, bool addToHead = false)|
 |InsertSerie&lt;T&gt;()||public T InsertSerie&lt;T&gt;(int index, string serieName = null, bool show = true) where T : Serie|
@@ -977,6 +992,7 @@ slug: /api
 
 > class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
 
+蜡烛图，也叫K线图，用于描述证券、衍生品或货币的价格走势的一种金融图表样式。
 
 ## ChartCached
 
@@ -1210,8 +1226,8 @@ slug: /api
 
 |API|版本|描述|
 |--|--|--|
-|ComponentHandlerAttribute()||public ComponentHandlerAttribute(Type handler)|
-|ComponentHandlerAttribute()||public ComponentHandlerAttribute(Type handler, bool allowMultiple)|
+|ComponentHandlerAttribute()||public ComponentHandlerAttribute(Type handler, bool allowMultiple, int order = 3)|
+|ComponentHandlerAttribute()||public ComponentHandlerAttribute(Type handler, int order = 3)|
 
 ## ComponentHelper
 
@@ -1498,6 +1514,11 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 > class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
 
+热力图主要通过颜色去表现数值的大小，必须要配合 visualMap 组件使用。 可以应用在直角坐标系以及地理坐标系上，这两个坐标系上的表现形式相差很大，直角坐标系上必须要使用两个类目轴。
+
+|API|版本|描述|
+|--|--|--|
+|DefaultCountHeatmapChart()||public void DefaultCountHeatmapChart()<br/>默认计数热力图。 |
 
 ## IconStyle
 
@@ -1829,6 +1850,18 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 > class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
 
+折线图是用折线将各个数据点标志连接起来的图表，用于展现数据的变化趋势。可用于直角坐标系和极坐标系上。 设置 areaStyle 后可以绘制面积图。
+
+|API|版本|描述|
+|--|--|--|
+|DefaultAreaLineChart()||public void DefaultAreaLineChart()<br/>默认面积折线图。 |
+|DefaultDashLineChart()||public void DefaultDashLineChart()<br/>默认虚线折线图。 |
+|DefaultSmoothAreaLineChart()||public void DefaultSmoothAreaLineChart()<br/>默认平滑面积折线图。 |
+|DefaultSmoothLineChart()||public void DefaultSmoothLineChart()<br/>默认平滑折线图。 |
+|DefaultStackAreaLineChart()||public void DefaultStackAreaLineChart()<br/>默认堆叠面积折线图。 |
+|DefaultStackLineChart()||public void DefaultStackLineChart()<br/>默认堆叠折线图。 |
+|DefaultStepLineChart()||public void DefaultStepLineChart()<br/>默认阶梯折线图。 |
+|DefaultTimeLineChart()||public void DefaultTimeLineChart()<br/>默认时间折线图。 |
 
 ## LineStyle
 
@@ -2103,6 +2136,7 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 
 > class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
 
+平行坐标系，通过绘制垂直于坐标轴的平行线来显示数据的一种可视化图表。
 
 ## ParallelCoord
 
@@ -2136,6 +2170,15 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 > class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
 
+饼图主要用于显示不同类目占比的情况，通过弧长来反映数据的大小占比。
+
+|API|版本|描述|
+|--|--|--|
+|DefaultAreaRosePieChart()||public void DefaultAreaRosePieChart()<br/>默认面积玫瑰饼图。 |
+|DefaultDonutPieChart()||public void DefaultDonutPieChart()<br/>默认甜甜圈饼图。 |
+|DefaultLabelDonutPieChart()||public void DefaultLabelDonutPieChart()<br/>默认带标签甜甜圈饼图。 |
+|DefaultLabelPieChart()||public void DefaultLabelPieChart()<br/>默认带标签饼图。 |
+|DefaultRadiusRosePieChart()||public void DefaultRadiusRosePieChart()<br/>默认玫瑰饼图。 |
 
 ## PolarAxisTheme
 
@@ -2150,6 +2193,13 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 > class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
 
+极坐标系，可以用于散点图和折线图。
+
+|API|版本|描述|
+|--|--|--|
+|DefaultHeatmapPolarChart()||public void DefaultHeatmapPolarChart()<br/>默认极坐标色块图。 |
+|DefaultRadialBarPolarChart()||public void DefaultRadialBarPolarChart()<br/>默认径向柱状极坐标图。 |
+|DefaultTangentialBarPolarChart()||public void DefaultTangentialBarPolarChart()<br/>默认切向柱状极坐标图。 |
 
 ## PolarCoord
 
@@ -2201,6 +2251,11 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 > class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
 
+雷达图主要用于显示多变量的数据，例如足球运动员的各项属性分析。依赖雷达组件。
+
+|API|版本|描述|
+|--|--|--|
+|DefaultCircleRadarChart()||public void DefaultCircleRadarChart()<br/>默认圆形雷达图。 |
 
 ## RadarCoord
 
@@ -2271,6 +2326,11 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 
 > class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
 
+环形图主要用于显示每一项的比例以及各项之间的关系。
+
+|API|版本|描述|
+|--|--|--|
+|DefaultMultipleRingChart()||public void DefaultMultipleRingChart()<br/>默认多圆环图。 |
 
 ## RuntimeUtil
 
@@ -2299,6 +2359,11 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 
 > class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
 
+散点图主要用于展现两个数据维度之间的关系。
+
+|API|版本|描述|
+|--|--|--|
+|DefaultBubbleChart()||public void DefaultBubbleChart()<br/>默认气泡图。 |
 
 ## SelectStyle
 
@@ -2773,6 +2838,7 @@ serie事件的数据。
 
 > class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
 
+简化柱状图是柱状图的简化模式，通过简化组件和配置，拥有更好的性能。
 
 ## SimplifiedCandlestick
 
@@ -2788,6 +2854,7 @@ serie事件的数据。
 
 > class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
 
+简化K线图是K线图的简化模式，通过简化组件和配置，拥有更好的性能。
 
 ## SimplifiedLine
 
@@ -2803,6 +2870,7 @@ serie事件的数据。
 
 > class in XCharts.Runtime / 继承自: [BaseChart](#basechart)
 
+简化折线图是折线图的简化模式，通过简化组件和配置，拥有更好的性能。
 
 ## Since
 

@@ -83,5 +83,13 @@ namespace XCharts.Editor
             var chart = AddChart<LineChart>("LineChart_Time", "Time Line");
             chart.DefaultTimeLineChart();
         }
+
+        [MenuItem("XCharts/LineChart/Log Line", priority = 44)]
+        [MenuItem("GameObject/XCharts/LineChart/Log Line", priority = 44)]
+        public static void AddLineChart_Log()
+        {
+            var chart = AddChart<LineChart>("LineChart_Log", "Log Line");
+            chart.DefaultLogLineChart();
+        }
     }
 }

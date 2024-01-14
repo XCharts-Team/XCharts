@@ -131,5 +131,16 @@ namespace XCharts.Runtime
             var xAxis = GetChartComponent<XAxis>();
             xAxis.type = Axis.AxisType.Time;
         }
+
+        /// <summary>
+        /// default logarithmic line chart.
+        /// || 默认对数轴折线图。
+        /// </summary>
+        public void DefaultLogLineChart()
+        {
+            CheckChartInit();
+            var yAxis = GetChartComponent<YAxis>();
+            yAxis.type = Axis.AxisType.Log;
+        }
     }
 }

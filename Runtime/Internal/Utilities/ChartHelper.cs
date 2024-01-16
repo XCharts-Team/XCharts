@@ -368,6 +368,28 @@ namespace XCharts.Runtime
             }
         }
 
+        public static void SetBackground(Image background, Background imageStyle)
+        {
+            if (background == null) return;
+            if (imageStyle.show)
+            {
+                background.gameObject.SetActive(true);
+                background.sprite = imageStyle.image;
+                background.color = imageStyle.imageColor;
+                background.type = imageStyle.imageType;
+                if (imageStyle.imageWidth > 0 && imageStyle.imageHeight > 0)
+                {
+                    background.rectTransform.sizeDelta = new Vector2(imageStyle.imageWidth, imageStyle.imageHeight);
+                }
+            }
+            else
+            {
+                background.sprite = null;
+                background.color = Color.clear;
+                background.gameObject.SetActive(false);
+            }
+        }
+
         public static ChartLabel AddAxisLabelObject(int total, int index, string name, Transform parent,
             Vector2 sizeDelta, Axis axis, ComponentTheme theme,
             string content, Color autoColor, TextAnchor autoAlignment = TextAnchor.MiddleCenter, Color32 iconDefaultColor = default(Color32))

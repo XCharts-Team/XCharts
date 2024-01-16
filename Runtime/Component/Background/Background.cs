@@ -17,6 +17,8 @@ namespace XCharts.Runtime
         [SerializeField] private Sprite m_Image;
         [SerializeField] private Image.Type m_ImageType;
         [SerializeField] private Color m_ImageColor = Color.white;
+        [SerializeField][Since("v3.10.0")] private float m_ImageWidth = 0;
+        [SerializeField][Since("v3.10.0")] private float m_ImageHeight = 0;
         [SerializeField] private bool m_AutoColor = true;
         [SerializeField][Since("v3.10.0")] private BorderStyle m_BorderStyle = new BorderStyle();
 
@@ -56,6 +58,26 @@ namespace XCharts.Runtime
         {
             get { return m_ImageColor; }
             set { if (PropertyUtil.SetColor(ref m_ImageColor, value)) SetComponentDirty(); }
+        }
+
+        /// <summary>
+        /// the width of background image.
+        /// ||背景图宽度。
+        /// </summary>
+        public float imageWidth
+        {
+            get { return m_ImageWidth; }
+            set { if (PropertyUtil.SetStruct(ref m_ImageWidth, value)) SetComponentDirty(); }
+        }
+
+        /// <summary>
+        /// the height of background image.
+        /// ||背景图高度。
+        /// </summary>
+        public float imageHeight
+        {
+            get { return m_ImageHeight; }
+            set { if (PropertyUtil.SetStruct(ref m_ImageHeight, value)) SetComponentDirty(); }
         }
 
         /// <summary>

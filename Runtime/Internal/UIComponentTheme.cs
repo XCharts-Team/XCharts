@@ -50,5 +50,13 @@ namespace XCharts.Runtime
                 else return ColorUtil.clearColor32;
             }
         }
+
+        public Color32 GetBackgroundColor(Background background)
+        {
+            if (background != null && background.show && !background.autoColor)
+                return background.imageColor;
+            else
+                return backgroundColor;
+        }
     }
 }

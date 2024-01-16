@@ -13,27 +13,30 @@ namespace XCharts.Runtime
     {
         internal static void DrawBackground(VertexHelper vh, UIComponent component)
         {
-            if (component.background.show == false ||
-                (component.background.sprite == null && ChartHelper.IsClearColor(component.background.color)))
-            {
-                var p1 = new Vector3(component.graphX, component.graphY);
-                var p2 = new Vector3(component.graphX + component.graphWidth, component.graphY);
-                var p3 = new Vector3(component.graphX + component.graphWidth, component.graphY + component.graphHeight);
-                var p4 = new Vector3(component.graphX, component.graphY + component.graphHeight);
-                UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, GetBackgroundColor(component));
-            }
+            var background = component.background;
+            if (!background.show)
+                return;
+            if (background.image != null)
+                return;
+
+            var backgroundColor = component.theme.GetBackgroundColor(background);
+            var borderWidth = background.borderStyle.GetRuntimeBorderWidth();
+            var borderColor = background.borderStyle.GetRuntimeBorderColor();
+            var cornerRadius = background.borderStyle.GetRuntimeCornerRadius();
+            UGL.DrawRoundRectangleWithBorder(vh, component.graphRect, backgroundColor, backgroundColor, cornerRadius,
+                borderWidth, borderColor);
         }
 
         internal static void InitBackground(UIComponent table)
         {
             if (table.background.show == false ||
-                (table.background.sprite == null && ChartHelper.IsClearColor(table.background.color)))
+                (table.background.image == null && ChartHelper.IsClearColor(table.background.imageColor)))
             {
                 ChartHelper.DestoryGameObject(table.transform, "Background");
                 return;
             }
-            var sizeDelta = table.background.width > 0 && table.background.height > 0 ?
-                new Vector2(table.background.width, table.background.height) :
+            var sizeDelta = table.background.imageWidth > 0 && table.background.imageHeight > 0 ?
+                new Vector2(table.background.imageWidth, table.background.imageHeight) :
                 table.graphSizeDelta;
             var backgroundObj = ChartHelper.AddObject("Background", table.transform, table.graphMinAnchor,
                 table.graphMaxAnchor, table.graphPivot, sizeDelta);
@@ -44,14 +47,7 @@ namespace XCharts.Runtime
                 table.graphMaxAnchor, table.graphPivot, sizeDelta);
             ChartHelper.SetBackground(backgroundImage, table.background);
             backgroundObj.transform.SetSiblingIndex(0);
-        }
-
-        public static Color32 GetBackgroundColor(UIComponent component)
-        {
-            if (component.background.show && !ChartHelper.IsClearColor(component.background.color))
-                return component.background.color;
-            else
-                return component.theme.backgroundColor;
+            backgroundObj.SetActive(table.background.show && table.background.image != null);
         }
     }
 }

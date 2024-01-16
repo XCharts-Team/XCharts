@@ -73,7 +73,7 @@ namespace XCharts.Editor
             return chart;
         }
 
-        public static T AddGraph<T>(string graphName) where T : BaseGraph
+        public static T AddGraph<T>(string graphName) where T : Graphic
         {
             var parent = GetParent();
             if (parent == null) return null;

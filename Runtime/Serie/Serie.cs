@@ -1862,7 +1862,7 @@ namespace XCharts.Runtime
                 serieData.context.highlight = flag;
         }
 
-        public float GetBarWidth(float categoryWidth, int barCount = 0)
+        public float GetBarWidth(float categoryWidth, int barCount = 0, float defaultRate = 0.6f)
         {
             var realWidth = 0f;
             if (categoryWidth < 2)
@@ -1871,7 +1871,7 @@ namespace XCharts.Runtime
             }
             else if (m_BarWidth == 0)
             {
-                var width = ChartHelper.GetActualValue(0.6f, categoryWidth);
+                var width = ChartHelper.GetActualValue(defaultRate, categoryWidth);
                 if (barCount == 0)
                     realWidth = width < 1 ? categoryWidth : width;
                 else

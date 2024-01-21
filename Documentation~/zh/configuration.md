@@ -640,6 +640,8 @@ import APITable from '@site/src/components/APITable';
 |image|||背景图。
 |imageType|||背景图填充类型。
 |imageColor|||背景图颜色。
+|imageWidth|0|v3.10.0|背景图宽度。
+|imageHeight|0|v3.10.0|背景图高度。
 |autoColor|true||当background组件开启时，是否自动使用主题背景色作为backgrounnd组件的颜色。当设置为false时，用imageColor作为颜色。
 |borderStyle||v3.10.0|背景边框样式。 [BorderStyle](#borderstyle)|
 

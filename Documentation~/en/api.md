@@ -201,7 +201,6 @@ slug: /api
 - [StateStyle](#statestyle)
 - [SubTitleTheme](#subtitletheme)
 - [SVG](#svg)
-- [SVGImage](#svgimage)
 - [SVGPath](#svgpath)
 - [SVGPathSeg](#svgpathseg)
 - [SymbolStyle](#symbolstyle)
@@ -1086,6 +1085,7 @@ A candlestick chart is a style of financial chart used to describe price movemen
 |SetActive()||public static void SetActive(Image image, bool active)|
 |SetActive()||public static void SetActive(Text text, bool active)|
 |SetActive()||public static void SetActive(Transform transform, bool active)<br/>通过设置scale实现是否显示，优化性能，减少GC |
+|SetBackground()||public static void SetBackground(Image background, Background imageStyle)|
 |SetBackground()||public static void SetBackground(Image background, ImageStyle imageStyle)|
 |SetColorOpacity()||public static void SetColorOpacity(ref Color32 color, float opacity)|
 
@@ -1856,6 +1856,7 @@ Line chart relates all the data points symbol by broken lines, which is used to 
 |--|--|--|
 |DefaultAreaLineChart()||public void DefaultAreaLineChart()<br/>default area line chart. |
 |DefaultDashLineChart()||public void DefaultDashLineChart()<br/>default dash line chart. |
+|DefaultLogLineChart()||public void DefaultLogLineChart()<br/>default logarithmic line chart. |
 |DefaultSmoothAreaLineChart()||public void DefaultSmoothAreaLineChart()<br/>default smooth area line chart. |
 |DefaultSmoothLineChart()||public void DefaultSmoothLineChart()<br/>default smooth line chart. |
 |DefaultStackAreaLineChart()||public void DefaultStackAreaLineChart()<br/>default stack area line chart. |
@@ -2417,7 +2418,7 @@ Configurations of select state.
 |CompareTo()||public int CompareTo(object obj)|
 |EnsureComponent()||public ISerieComponent EnsureComponent(Type type)|
 |EnsureComponent&lt;T&gt;()||public T EnsureComponent&lt;T&gt;() where T : ChildComponent, ISerieComponent<br/>Ensure the serie has the component. If not, add it. |
-|GetBarWidth()||public float GetBarWidth(float categoryWidth, int barCount = 0)|
+|GetBarWidth()||public float GetBarWidth(float categoryWidth, int barCount = 0, float defaultRate = 0.6f)|
 |GetComponent()||public ISerieComponent GetComponent(Type type)|
 |GetComponent&lt;T&gt;()||public T GetComponent&lt;T&gt;() where T : ChildComponent, ISerieComponent|
 |GetData()||public double GetData(int index, int dimension, DataZoom dataZoom = null)<br/>获得指定index指定维数的数据 |
@@ -2940,11 +2941,6 @@ the state style of serie.
 |DrawPath()||public static void DrawPath(VertexHelper vh, SVGPath path)|
 |Test()||public static void Test(VertexHelper vh)|
 
-## SVGImage
-
-> class in XCharts.Runtime / Inherits from: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic)
-
-
 ## SVGPath
 
 > class in XUGL
@@ -3246,15 +3242,15 @@ UI组件基类。
 > class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
 
 
+|public method|since|description|
+|--|--|--|
+|GetBackgroundColor()||public Color32 GetBackgroundColor(Background background)|
+
 ## UIHelper
 
 > class in XCharts.Runtime
 
 UI帮助类。
-
-|public method|since|description|
-|--|--|--|
-|GetBackgroundColor()||public static Color32 GetBackgroundColor(UIComponent component)|
 
 ## VisualMap
 

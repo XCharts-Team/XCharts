@@ -657,6 +657,8 @@ Background component.
 |image|||the image of background.
 |imageType|||the fill type of background image.
 |imageColor|||背景图颜色。
+|imageWidth|0|v3.10.0|the width of background image.
+|imageHeight|0|v3.10.0|the height of background image.
 |autoColor|true||Whether to use theme background color for component color when the background component is on.
 |borderStyle||v3.10.0|the border style of background. [BorderStyle](#borderstyle)|
 

@@ -162,15 +162,15 @@ namespace XCharts.Editor
             chart.DefaultMultipleRingChart();
         }
 
-        [MenuItem("XCharts/CandlestickChart", priority = 54)]
-        [MenuItem("GameObject/XCharts/CandlestickChart", priority = 54)]
+        [MenuItem("XCharts/CandlestickChart/Candlestick", priority = 54)]
+        [MenuItem("GameObject/XCharts/CandlestickChart/Candlestick", priority = 54)]
         public static void CandlestickChart()
         {
             AddChart<CandlestickChart>("CandlestickChart");
         }
 
-        [MenuItem("XCharts/ParallelChart", priority = 55)]
-        [MenuItem("GameObject/XCharts/ParallelChart", priority = 55)]
+        [MenuItem("XCharts/ParallelChart/Parallel", priority = 55)]
+        [MenuItem("GameObject/XCharts/ParallelChart/Parallel", priority = 55)]
         public static void ParallelChart()
         {
             AddChart<ParallelChart>("ParallelChart");

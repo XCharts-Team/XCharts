@@ -201,7 +201,6 @@ slug: /api
 - [StateStyle](#statestyle)
 - [SubTitleTheme](#subtitletheme)
 - [SVG](#svg)
-- [SVGImage](#svgimage)
 - [SVGPath](#svgpath)
 - [SVGPathSeg](#svgpathseg)
 - [SymbolStyle](#symbolstyle)
@@ -1086,6 +1085,7 @@ slug: /api
 |SetActive()||public static void SetActive(Image image, bool active)|
 |SetActive()||public static void SetActive(Text text, bool active)|
 |SetActive()||public static void SetActive(Transform transform, bool active)<br/>通过设置scale实现是否显示，优化性能，减少GC |
+|SetBackground()||public static void SetBackground(Image background, Background imageStyle)|
 |SetBackground()||public static void SetBackground(Image background, ImageStyle imageStyle)|
 |SetColorOpacity()||public static void SetColorOpacity(ref Color32 color, float opacity)|
 
@@ -1856,6 +1856,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |--|--|--|
 |DefaultAreaLineChart()||public void DefaultAreaLineChart()<br/>默认面积折线图。 |
 |DefaultDashLineChart()||public void DefaultDashLineChart()<br/>默认虚线折线图。 |
+|DefaultLogLineChart()||public void DefaultLogLineChart()<br/>默认对数轴折线图。 |
 |DefaultSmoothAreaLineChart()||public void DefaultSmoothAreaLineChart()<br/>默认平滑面积折线图。 |
 |DefaultSmoothLineChart()||public void DefaultSmoothLineChart()<br/>默认平滑折线图。 |
 |DefaultStackAreaLineChart()||public void DefaultStackAreaLineChart()<br/>默认堆叠面积折线图。 |
@@ -2417,7 +2418,7 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 |CompareTo()||public int CompareTo(object obj)|
 |EnsureComponent()||public ISerieComponent EnsureComponent(Type type)|
 |EnsureComponent&lt;T&gt;()||public T EnsureComponent&lt;T&gt;() where T : ChildComponent, ISerieComponent<br/>确保系列有该组件。如果没有，则添加。 |
-|GetBarWidth()||public float GetBarWidth(float categoryWidth, int barCount = 0)|
+|GetBarWidth()||public float GetBarWidth(float categoryWidth, int barCount = 0, float defaultRate = 0.6f)|
 |GetComponent()||public ISerieComponent GetComponent(Type type)|
 |GetComponent&lt;T&gt;()||public T GetComponent&lt;T&gt;() where T : ChildComponent, ISerieComponent|
 |GetData()||public double GetData(int index, int dimension, DataZoom dataZoom = null)<br/>获得指定index指定维数的数据 |
@@ -2940,11 +2941,6 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 |DrawPath()||public static void DrawPath(VertexHelper vh, SVGPath path)|
 |Test()||public static void Test(VertexHelper vh)|
 
-## SVGImage
-
-> class in XCharts.Runtime / 继承自: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic)
-
-
 ## SVGPath
 
 > class in XUGL
@@ -3246,15 +3242,15 @@ UI组件基类。
 > class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 
 
+|API|版本|描述|
+|--|--|--|
+|GetBackgroundColor()||public Color32 GetBackgroundColor(Background background)|
+
 ## UIHelper
 
 > class in XCharts.Runtime
 
 UI帮助类。
-
-|API|版本|描述|
-|--|--|--|
-|GetBackgroundColor()||public static Color32 GetBackgroundColor(UIComponent component)|
 
 ## VisualMap
 

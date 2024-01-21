@@ -29,7 +29,7 @@ namespace XCharts.Example
             if (chart == null)
             {
                 chart = gameObject.AddComponent<LineChart>();
-                chart.SetSize(580, 300);
+                chart.Init();
             }
             chart.EnsureChartComponent<Title>().show = true;
             chart.EnsureChartComponent<Title>().text = "Line Simple";

@@ -15,6 +15,7 @@ namespace XCharts.Example
             if (chart == null)
             {
                 chart = gameObject.AddComponent<BarChart>();
+                chart.Init();
             }
             var serie = chart.GetSerie(0);
             serie.animation.enable = true;

@@ -166,8 +166,18 @@ namespace XCharts.Runtime
         /// </summary>
         public Action<Legend, int, string> onLegendExit { set { m_OnLegendExit = value; } internal get { return m_OnLegendExit; } }
 
-        [Obsolete("No need to call Init() anymore.", true)]
-        public void Init(bool defaultChart = true) { }
+        public void Init(bool defaultChart = true)
+        {
+            if (defaultChart)
+            {
+                OnInit();
+                DefaultChart();
+            }
+            else
+            {
+                OnBeforeSerialize();
+            }
+        }
 
         /// <summary>
         /// Redraw chart in next frame.

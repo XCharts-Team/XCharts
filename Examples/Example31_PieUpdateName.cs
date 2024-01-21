@@ -17,6 +17,7 @@ namespace XCharts.Example
             if (chart == null)
             {
                 chart = gameObject.AddComponent<PieChart>();
+                chart.Init();
             }
             var serieIndex = 0;
             var serie = chart.GetSerie(serieIndex);

@@ -136,7 +136,6 @@ namespace XCharts.Runtime
                 m_Settings = Settings.DefaultSettings;
             CheckTheme(true);
             base.Awake();
-            CheckChartInit();
             InitComponentHandlers();
             InitSerieHandlers();
             AnimationReset();

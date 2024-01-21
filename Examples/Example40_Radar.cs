@@ -40,7 +40,11 @@ namespace XCharts.Example
         IEnumerator RadarAdd()
         {
             chart = gameObject.GetComponent<RadarChart>();
-            if (chart == null) chart = gameObject.AddComponent<RadarChart>();
+            if (chart == null)
+            {
+                chart = gameObject.AddComponent<RadarChart>();
+                chart.Init();
+            }
 
             chart.RemoveChartComponents<RadarCoord>();
             chart.RemoveData();

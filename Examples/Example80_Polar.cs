@@ -18,6 +18,7 @@ namespace XCharts.Example
             if (chart == null)
             {
                 chart = gameObject.AddComponent<BaseChart>();
+                chart.Init();
             }
             chart.EnsureChartComponent<PolarCoord>();
         }

@@ -779,7 +779,7 @@ slug: /api
 |HasChartComponent&lt;T&gt;()||public bool HasChartComponent&lt;T&gt;()|
 |HasSerie()||public bool HasSerie(Type type)|
 |HasSerie&lt;T&gt;()||public bool HasSerie&lt;T&gt;() where T : Serie|
-|Init()||public void Init(bool defaultChart = true) { }|
+|Init()||public void Init(bool defaultChart = true)|
 |InitAxisRuntimeData()||public virtual void InitAxisRuntimeData(Axis axis) { }|
 |InsertSerie()||public void InsertSerie(Serie serie, int index = -1, bool addToHead = false)|
 |InsertSerie&lt;T&gt;()||public T InsertSerie&lt;T&gt;(int index, string serieName = null, bool show = true) where T : Serie|

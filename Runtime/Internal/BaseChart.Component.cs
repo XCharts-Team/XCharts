@@ -459,13 +459,14 @@ namespace XCharts.Runtime
         internal bool GetSerieGridCoordAxis(Serie serie, out Axis axis, out Axis relativedAxis)
         {
             var yAxis = GetChartComponent<YAxis>(serie.yAxisIndex);
-            if (yAxis == null)
+            var xAxis = GetChartComponent<XAxis>(serie.xAxisIndex);
+            if (xAxis == null || yAxis == null)
             {
                 axis = null;
                 relativedAxis = null;
                 return false;
             }
-            var isY = yAxis.IsCategory();
+            var isY = yAxis.IsCategory() && !xAxis.IsCategory();
             if (isY)
             {
                 axis = yAxis;

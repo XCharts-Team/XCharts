@@ -305,7 +305,7 @@ namespace XCharts.Runtime
             {
                 GetSerieDataByXYAxis(serie, xAxis, yAxis);
             }
-            else if (yAxis.IsCategory())
+            else if (yAxis.IsCategory() && !xAxis.IsCategory())
             {
                 if (isTriggerAxis)
                 {
@@ -583,13 +583,17 @@ namespace XCharts.Runtime
 
         private bool IsYCategoryOfGrid(int gridIndex)
         {
-            var yAxes = chart.GetChartComponents<YAxis>();
-            foreach (var component in yAxes)
+            foreach (var component in chart.GetChartComponents<YAxis>())
             {
                 var yAxis = component as YAxis;
-                if (yAxis.gridIndex == gridIndex && yAxis.IsCategory()) return true;
+                if (yAxis.gridIndex == gridIndex && !yAxis.IsCategory()) return false;
             }
-            return false;
+            foreach (var component in chart.GetChartComponents<XAxis>())
+            {
+                var xAxis = component as XAxis;
+                if (xAxis.gridIndex == gridIndex && xAxis.IsCategory()) return false;
+            }
+            return true;
         }
 
         private void DrawXAxisIndicator(VertexHelper vh, Tooltip tooltip, GridCoord grid)

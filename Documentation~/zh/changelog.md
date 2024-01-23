@@ -70,6 +70,8 @@ slug: /changelog
 
 ## master
 
+* (2024.01.23) 增加`{y}`通配符用于获取Y轴的类目名
+* (2024.01.23) 增加`Line`支持X轴和Y轴都为`Category`类目轴
 * (2024.01.18) 修复`Animation`的`type`代码动态修改无效的问题
 * (2024.01.13) 增加`Chart`的更多快捷创建图表菜单
 * (2024.01.09) 增加`Background`的`borderStyle`，给图表默认设置圆角

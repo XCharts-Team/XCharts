@@ -503,7 +503,7 @@ namespace XCharts.Runtime
                             var content = string.IsNullOrEmpty(currLabel.formatter) ?
                                 ChartCached.NumberToStr(value, currLabel.numericFormatter) :
                                 SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,
-                                    currLabel, color);
+                                    currLabel, color, chart);
                             var offset = GetSerieDataLabelOffset(serieData, currLabel);
                             labelObject.SetActive(currLabel.show && !isIgnore && !serie.IsMinShowLabelValue(value));
                             labelObject.SetText(content);
@@ -525,7 +525,7 @@ namespace XCharts.Runtime
                         var content = string.IsNullOrEmpty(currLabel.formatter) ?
                             ChartCached.NumberToStr(value, currLabel.numericFormatter) :
                             SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,
-                                currLabel, color);
+                                currLabel, color, chart);
                         serieData.SetLabelActive(currLabel.show && !isIgnore && !serie.IsMinShowLabelValue(value));
                         serieData.labelObject.UpdateIcon(currLabel.icon);
                         serieData.labelObject.SetText(content);

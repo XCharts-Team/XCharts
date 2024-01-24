@@ -178,6 +178,7 @@ namespace XCharts.Runtime
 
             var barCount = chart.GetSerieBarRealCount<Bar>();
             float categoryWidth = AxisHelper.GetDataWidth(axis, axisLength, showData.Count, dataZoom);
+            float relativedCategoryWidth = AxisHelper.GetDataWidth(relativedAxis, relativedAxisLength, showData.Count, dataZoom);
             float barGap = chart.GetSerieBarGap<Bar>();
             float totalBarWidth = chart.GetSerieTotalWidth<Bar>(categoryWidth, barGap, barCount);
             float barWidth = serie.GetBarWidth(categoryWidth, barCount);
@@ -231,7 +232,7 @@ namespace XCharts.Runtime
 
                 var pX = 0f;
                 var pY = 0f;
-                UpdateXYPosition(m_SerieGrid, isY, axis, relativedAxis, i, categoryWidth, barWidth, isStack, value, ref pX, ref pY);
+                UpdateXYPosition(m_SerieGrid, isY, axis, relativedAxis, i, categoryWidth, relativedCategoryWidth, barWidth, isStack, value, ref pX, ref pY);
                 var barHig = 0f;
                 if (isPercentStack)
                 {
@@ -240,7 +241,7 @@ namespace XCharts.Runtime
                 }
                 else
                 {
-                    barHig = AxisHelper.GetAxisValueLength(m_SerieGrid, relativedAxis, categoryWidth, relativedValue);
+                    barHig = AxisHelper.GetAxisValueLength(m_SerieGrid, relativedAxis, relativedCategoryWidth, relativedValue);
                 }
                 float currHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, barHig);
                 Vector3 plb, plt, prt, prb, top;
@@ -295,7 +296,8 @@ namespace XCharts.Runtime
             }
         }
 
-        private void UpdateXYPosition(GridCoord grid, bool isY, Axis axis, Axis relativedAxis, int i, float categoryWidth, float barWidth, bool isStack,
+        private void UpdateXYPosition(GridCoord grid, bool isY, Axis axis, Axis relativedAxis, int i,
+            float categoryWidth, float relativedCategoryWidth, float barWidth, bool isStack,
             double value, ref float pX, ref float pY)
         {
             if (isY)
@@ -313,7 +315,7 @@ namespace XCharts.Runtime
                         pY = grid.context.y + valueLen - categoryWidth * 0.5f;
                     }
                 }
-                pX = AxisHelper.GetAxisValuePosition(grid, relativedAxis, categoryWidth, 0);
+                pX = AxisHelper.GetAxisValuePosition(grid, relativedAxis, relativedCategoryWidth, 0);
                 if (isStack)
                 {
                     for (int n = 0; n < m_StackSerieData.Count - 1; n++)
@@ -335,7 +337,7 @@ namespace XCharts.Runtime
                         pX = grid.context.x + valueLen - categoryWidth * 0.5f;
                     }
                 }
-                pY = AxisHelper.GetAxisValuePosition(grid, relativedAxis, categoryWidth, 0);
+                pY = AxisHelper.GetAxisValuePosition(grid, relativedAxis, relativedCategoryWidth, 0);
                 if (isStack)
                 {
                     for (int n = 0; n < m_StackSerieData.Count - 1; n++)

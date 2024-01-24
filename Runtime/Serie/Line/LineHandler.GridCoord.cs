@@ -279,7 +279,6 @@ namespace XCharts.Runtime
             var axisLength = isY ? m_SerieGrid.context.height : m_SerieGrid.context.width;
             var axisRelativedLength = isY ? m_SerieGrid.context.width : m_SerieGrid.context.height;
 
-
             int maxCount = serie.maxShow > 0 ?
                 (serie.maxShow > showData.Count ? showData.Count : serie.maxShow) :
                 showData.Count;

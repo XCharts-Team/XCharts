@@ -70,6 +70,7 @@ slug: /changelog
 
 ## master
 
+* (2024.01.27) 修复`TextLimit`在开启`TextMeshPro`后无效的问题 (#301)
 * (2024.01.24) 增加`Bar`支持X轴和Y轴都为`Category`类目轴
 * (2024.01.23) 增加`{y}`通配符用于获取Y轴的类目名
 * (2024.01.23) 增加`Line`支持X轴和Y轴都为`Category`类目轴

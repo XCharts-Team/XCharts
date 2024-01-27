@@ -263,9 +263,12 @@ namespace XCharts.Runtime
         public float GetPreferredWidth(string content)
         {
 #if dUI_TextMeshPro
-            if (m_TMPText != null) return 0; // TODO:
+            if (m_TMPText != null && !string.IsNullOrEmpty(content))
+            {
+                return m_TMPText.GetPreferredValues(content).x;
+            }
 #else
-            if (m_Text != null)
+            if (m_Text != null && !string.IsNullOrEmpty(content))
             {
                 var tg = m_Text.cachedTextGeneratorForLayout;
                 var setting = m_Text.GetGenerationSettings(Vector2.zero);

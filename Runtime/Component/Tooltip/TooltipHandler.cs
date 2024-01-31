@@ -530,7 +530,7 @@ namespace XCharts.Runtime
                     ref tooltip.context.data.title);
             }
             TooltipHelper.ResetTooltipParamsByItemFormatter(tooltip, chart);
-            if (tooltip.context.data.param.Count > 0)
+            if (tooltip.context.data.param.Count > 0 || !string.IsNullOrEmpty(tooltip.context.data.title))
             {
                 tooltip.SetActive(true);
                 if (tooltip.view != null)

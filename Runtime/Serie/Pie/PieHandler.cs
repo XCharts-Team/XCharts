@@ -215,6 +215,10 @@ namespace XCharts.Runtime
             {
                 dataTotalFilterMinAngle = GetTotalAngle(serie, runtimePieDataTotal, ref totalDegree);
             }
+            if (dataTotalFilterMinAngle == 0)
+            {
+                dataTotalFilterMinAngle = 360;
+            }
             for (int n = 0; n < data.Count; n++)
             {
                 var serieData = data[n];

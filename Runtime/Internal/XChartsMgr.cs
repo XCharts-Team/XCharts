@@ -22,7 +22,7 @@ namespace XCharts.Runtime
     public static class XChartsMgr
     {
         public static readonly string version = "3.10.0";
-        public static readonly int versionDate = 20240125;
+        public static readonly int versionDate = 20240201;
         public static string fullVersion { get { return version + "-" + versionDate; } }
 
         internal static List<BaseChart> chartList = new List<BaseChart>();

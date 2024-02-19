@@ -93,7 +93,7 @@ namespace XCharts.Runtime
                     column.SetActive(true);
                     column.SetText(param.columns[j]);
 
-                    if (j == 0 && contentLabelStyle0 && ChartHelper.IsClearColor(contentLabelStyle0.textStyle.color))
+                    if (j == 0 && contentLabelStyle0 != null && ChartHelper.IsClearColor(contentLabelStyle0.textStyle.color))
                         column.text.SetColor(param.color);
 
                     if (j >= m_ColumnMaxWidth.Count)

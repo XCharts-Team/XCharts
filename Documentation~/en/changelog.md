@@ -66,6 +66,11 @@
 
 ## master
 
+## v3.10.1
+
+* (2024.02.21) Release `v3.10.1`
+* (2024.02.19) Fix to `Tooltip` dot markers not adapting to color
+
 ## v3.10.0
 
 Highlights:

@@ -13,8 +13,8 @@ namespace XCharts.Runtime
     public class PolarCoord : CoordSystem, ISerieContainer
     {
         [SerializeField] private bool m_Show = true;
-        [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.45f };
-        [SerializeField] private float[] m_Radius = new float[2] { 0, 0.35f };
+        [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.44f };
+        [SerializeField] private float[] m_Radius = new float[2] { 0, 0.31f };
         [SerializeField] private Color m_BackgroundColor;
         [SerializeField][Since("v3.8.0")] private float m_IndicatorLabelOffset = 30f;
 

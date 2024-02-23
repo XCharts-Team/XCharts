@@ -17,10 +17,10 @@ namespace XCharts.Runtime
     {
         [SerializeField] private bool m_Show = true;
         [SerializeField][Since("v3.8.0")] private int m_LayoutIndex = -1;
-        [SerializeField] private float m_Left = 0.1f;
+        [SerializeField] private float m_Left = 0.11f;
         [SerializeField] private float m_Right = 0.08f;
         [SerializeField] private float m_Top = 0.22f;
-        [SerializeField] private float m_Bottom = 0.12f;
+        [SerializeField] private float m_Bottom = 0.14f;
         [SerializeField] private Color32 m_BackgroundColor;
         [SerializeField] private bool m_ShowBorder = false;
         [SerializeField] private float m_BorderWidth = 0f;
@@ -203,7 +203,7 @@ namespace XCharts.Runtime
         [Since("v3.7.0")]
         public bool ContainsX(float x)
         {
-            return x >= context.x && x <= context.x + context.width;
+            return x >= context.x - 0.01f && x <= context.x + context.width + 0.01f;
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace XCharts.Runtime
         [Since("v3.7.0")]
         public bool ContainsY(float y)
         {
-            return y >= context.y && y <= context.y + context.height;
+            return y >= context.y - 0.01f && y <= context.y + context.height + 0.01f;
         }
 
         /// <summary>
@@ -252,6 +252,27 @@ namespace XCharts.Runtime
         {
             if (pos.y < context.y) pos.y = context.y;
             else if (pos.y > context.y + context.height) pos.y = context.y + context.height;
+        }
+
+        /// <summary>
+        /// Determines whether a given line segment will not intersect the Grid boundary at all.
+        /// ||判断给定的线段是否与Grid边界是否完全不会相交。
+        /// </summary>
+        /// <param name="sp"></param>
+        /// <param name="ep"></param>
+        /// <returns></returns>
+        [Since("v3.10.0")] 
+        public bool NotAnyIntersect(Vector3 sp, Vector3 ep)
+        {
+            if (sp.x < context.x && ep.x < context.x)
+                return true;
+            if (sp.x > context.x + context.width && ep.x > context.x + context.width)
+                return true;
+            if (sp.y < context.y && ep.y < context.y)
+                return true;
+            if (sp.y > context.y + context.height && ep.y > context.y + context.height)
+                return true;
+            return false;
         }
 
         /// <summary>

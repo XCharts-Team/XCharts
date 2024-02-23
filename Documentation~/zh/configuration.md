@@ -94,6 +94,7 @@ import APITable from '@site/src/components/APITable';
 - [BaseAxisTheme](#baseaxistheme)
 - [BaseLine](#baseline)
 - [BlurStyle](#blurstyle)
+- [BorderStyle](#borderstyle)
 - [CommentItem](#commentitem)
 - [CommentMarkStyle](#commentmarkstyle)
 - [ComponentTheme](#componenttheme)
@@ -121,6 +122,7 @@ import APITable from '@site/src/components/APITable';
 - [RadiusAxisTheme](#radiusaxistheme)
 - [SelectStyle](#selectstyle)
 - [SerieData](#seriedata)
+- [SerieDataLink](#seriedatalink)
 - [SerieSymbol](#seriesymbol)
 - [SerieTheme](#serietheme)
 - [StageColor](#stagecolor)
@@ -638,7 +640,10 @@ import APITable from '@site/src/components/APITable';
 |image|||背景图。
 |imageType|||背景图填充类型。
 |imageColor|||背景图颜色。
+|imageWidth|0|v3.10.0|背景图宽度。
+|imageHeight|0|v3.10.0|背景图高度。
 |autoColor|true||当background组件开启时，是否自动使用主题背景色作为backgrounnd组件的颜色。当设置为false时，用imageColor作为颜色。
+|borderStyle||v3.10.0|背景边框样式。 [BorderStyle](#borderstyle)|
 
 ```mdx-code-block
 </APITable>
@@ -711,6 +716,30 @@ import APITable from '@site/src/components/APITable';
 
 淡出状态样式。
 
+## BorderStyle
+
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
+> 从 `v3.10.0` 开始支持
+
+边框样式。
+
+```mdx-code-block
+<APITable name="BorderStyle">
+```
+
+|参数|默认|版本|描述|
+|--|--|--|--|
+|show|false||是否显示边框。
+|borderWidth|||边框宽度。
+|borderColor|||边框颜色。
+|roundedCorner|true||是否显示圆角。
+|cornerRadius|||圆角半径。用数组分别指定4个圆角半径（顺时针左上，右上，右下，左下）。当为(1,1,1,1)时为全圆角。
+
+```mdx-code-block
+</APITable>
+```
+
 ## CalendarCoord
 
 > class in XCharts.Runtime / 继承自: [CoordSystem](#coordsystem), [IUpdateRuntimeData](#iupdateruntimedata), [ISerieContainer](#iseriecontainer)
@@ -725,7 +754,7 @@ import APITable from '@site/src/components/APITable';
 
 ## ChildComponent
 
-> class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle), [AxisAnimation](#axisanimation), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
+> class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle), [AxisAnimation](#axisanimation), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [BorderStyle](#borderstyle), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [SerieDataLink](#seriedatalink), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
 
 ## Comment
 
@@ -951,10 +980,10 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |--|--|--|--|
 |show|true||是否显示直角坐标系网格。
 |layoutIndex|-1|v3.8.0|网格所属的网格布局组件的索引。默认为-1，表示不属于任何网格布局组件。当设置了该值时，left、right、top、bottom属性将失效。
-|left|0.1f||grid 组件离容器左侧的距离。
+|left|0.11f||grid 组件离容器左侧的距离。
 |right|0.08f||grid 组件离容器右侧的距离。
 |top|0.22f||grid 组件离容器上侧的距离。
-|bottom|0.12f||grid 组件离容器下侧的距离。
+|bottom|0.14f||grid 组件离容器下侧的距离。
 |backgroundColor|||网格背景色，默认透明。
 |showBorder|false||是否显示网格边框。
 |borderWidth|0f||网格边框宽。
@@ -1214,7 +1243,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |rotate|||文本的旋转。
 |autoRotate|false|v3.6.0|是否自动旋转。
 |distance|||距离轴线的距离。
-|formatter|||标签内容字符串模版格式器。支持用 \n 换行。部分组件的格式器会不生效。<br/> 模板通配符有以下这些，部分只适用于固定的组件：<br/> `{.}`：圆点标记。<br/> `{a}`：系列名。<br/> `{b}`：类目值或数据名。<br/> `{c}`：数据值。<br/> `{d}`：百分比。<br/> `{e}`：数据名。<br/> `{f}`：数据和。<br/> `{g}`：数据总个数。<br/> `{h}`：十六进制颜色值。<br/> `{value}`：坐标轴或图例的值。<br/> 以下通配符适用UITable组件：<br/> `{name}`： 表格的行名。<br/> `{index}`：表格的行号。<br/> 以下通配符适用UIStatistc组件：<br/> `{title}`：标题文本。<br/> `{dd}`：天。<br/> `{hh}`：小时。<br/> `{mm}`：分钟。<br/> `{ss}`：秒。<br/> `{fff}`：毫秒。<br/> `{d}`：天。<br/> `{h}`：小时。<br/> `{m}`：分钟。<br/> `{s}`：秒。<br/> `{f}`：毫秒。<br/> 示例：“{b}:{c}”
+|formatter|||标签内容字符串模版格式器。支持用 \n 换行。部分组件的格式器会不生效。<br/> 模板通配符有以下这些，部分只适用于固定的组件：<br/> `{.}`：圆点标记。<br/> `{a}`：系列名。<br/> `{b}`：X轴类目名或数据名。<br/> `{c}`：数据值。<br/> `{d}`：百分比。<br/> `{e}`：数据名。<br/> `{f}`：数据和。<br/> `{g}`：数据总个数。<br/> `{h}`：十六进制颜色值。<br/> `{y}`：Y轴的类目名。<br/> `{value}`：坐标轴或图例的值。<br/> 以下通配符适用UITable组件：<br/> `{name}`： 表格的行名。<br/> `{index}`：表格的行号。<br/> 以下通配符适用UIStatistc组件：<br/> `{title}`：标题文本。<br/> `{dd}`：天。<br/> `{hh}`：小时。<br/> `{mm}`：分钟。<br/> `{ss}`：秒。<br/> `{fff}`：毫秒。<br/> `{d}`：天。<br/> `{h}`：小时。<br/> `{m}`：分钟。<br/> `{s}`：秒。<br/> `{f}`：毫秒。<br/> 示例：“{b}:{c}”
 |numericFormatter|||标准数字和日期格式字符串。用于将Double数值或DateTime日期格式化显示为字符串。numericFormatter用来作为Double.ToString()或DateTime.ToString()的参数。<br/> 数字格式使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。如：F1, E2<br/> 日期格式常见的格式：yyyy年，MM月，dd日，HH时，mm分，ss秒，fff毫秒。如：yyyy-MM-dd HH:mm:ss<br/> 数值格式化参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings <br/> 日期格式化参考：https://learn.microsoft.com/zh-cn/dotnet/standard/base-types/standard-date-and-time-format-strings
 |width|0||标签的宽度。一般不用指定，不指定时则自动是文字的宽度。
 |height|0||标签的高度。一般不用指定，不指定时则自动是文字的高度。
@@ -1265,6 +1294,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |itemOpacity|1||图例标记的图形的颜色透明度。
 |formatter|||不再使用，使用LabelStyle.formatter代替。
 |labelStyle|||文本样式。 [LabelStyle](#labelstyle)|
+|textLimit||v3.10.0|文本限制。 [TextLimit](#textlimit)|
 |data|||图例的数据数组。数组项通常为一个字符串，每一项代表一个系列的 name（如果是饼图，也可以是饼图单个数据的 name）。 如果 data 没有被指定，会自动从当前系列中获取。指定data时里面的数据项和serie匹配时才会生效。
 |icons|||自定义的图例标记图形。
 |colors|||图例标记的颜色列表。
@@ -1302,8 +1332,10 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 |参数|默认|版本|描述|
 |--|--|--|--|
+|depth|0|v3.10.0|层级深度。
 |label|||文本标签样式。 [LabelStyle](#labelstyle)|
 |upperLabel|||上方的文本标签样式。 [LabelStyle](#labelstyle)|
+|lineStyle||v3.10.0|线条样式。 [LineStyle](#linestyle)|
 |itemStyle|||数据项样式。 [ItemStyle](#itemstyle)|
 
 ```mdx-code-block
@@ -1313,6 +1345,8 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 ## LevelStyle
 
 > class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
+> 从 `v3.10.0` 开始支持
 
 ```mdx-code-block
 <APITable name="LevelStyle">
@@ -1756,6 +1790,8 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 |center|||中心点。
 |radius|||半径。radius[0]表示内径，radius[1]表示外径。
 |minRadius|0f|v3.8.0|最小半径。可用于限制玫瑰图的最小半径。
+|minShowLabel|false|v3.10.0|是否开启值小于指定值`minShowLabelValue`时不显示标签。
+|minShowLabelValue|0|v3.10.0|当开启`minShowLabel`时，值小于该值时不显示标签。
 |showDataDimension|||数据项里的数据维数。
 |showDataName|||在Editor的inpsector上是否显示name参数
 |clip|false||是否裁剪超出坐标系部分的图形。
@@ -1781,6 +1817,7 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 |animation|||起始动画。 [AnimationStyle](#animationstyle)|
 |itemStyle|||图形样式。 [ItemStyle](#itemstyle)|
 |data|||系列中的数据内容数组。SerieData可以设置1到n维数据。
+|links|||数据节点的边。
 
 ```mdx-code-block
 </APITable>
@@ -1807,6 +1844,28 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 |radius|||自定义半径。可用在饼图中自定义某个数据项的半径。
 |state||v3.2.0|数据项的默认状态。<br/>`SerieState`:<br/>- `Normal`: 正常状态。<br/>- `Emphasis`: 高亮状态。<br/>- `Blur`: 淡出状态。<br/>- `Select`: 选中状态。<br/>- `Auto`: 自动保持和父节点一致。一般用在SerieData。<br/>|
 |data|||可指定任意维数的数值列表。
+
+```mdx-code-block
+</APITable>
+```
+
+## SerieDataLink
+
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
+> 从 `v3.10.0` 开始支持
+
+数据节点之间的连线。可用于桑基图等，桑基图只支持有向无环图，请保证数据的连线是有向无环图。
+
+```mdx-code-block
+<APITable name="SerieDataLink">
+```
+
+|参数|默认|版本|描述|
+|--|--|--|--|
+|source|||边的源节点名称。
+|target|||边的目标节点名称。
+|value|||边的值。决定边的宽度。
 
 ```mdx-code-block
 </APITable>
@@ -2173,8 +2232,8 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 |type|||提示框指示器类型。<br/>`Tooltip.Type`:<br/>- `Line`: 直线指示器<br/>- `Shadow`: 阴影指示器<br/>- `None`: 无指示器<br/>- `Corss`: 十字准星指示器。坐标轴显示Label和交叉线。<br/>- `Auto`: 根据serie的类型自动选择显示指示器。<br/>|
 |trigger|||触发类型。<br/>`Tooltip.Trigger`:<br/>- `Item`: 数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。<br/>- `Axis`: 坐标轴触发，主要在柱状图，折线图等会使用类目轴的图表中使用。<br/>- `None`: 什么都不触发。<br/>- `Auto`: 根据serie的类型自动选择触发类型。<br/>|
 |position||v3.3.0|显示位置类型。<br/>`Tooltip.Position`:<br/>- `Auto`: 自适应。移动平台靠顶部显示，非移动平台跟随鼠标位置。<br/>- `Custom`: 自定义。完全自定义显示位置(x,y)。<br/>- `FixedX`: 只固定坐标X。Y跟随鼠标位置。<br/>- `FixedY`: <br/>|
-|itemFormatter|||提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。用|来表示多个列的分隔。 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。<br/> {i}或-表示忽略当前项。 {.}为当前所指示的serie或数据项的对应颜色的圆点。<br/> {a}为当前所指示的serie或数据项的系列名name。<br/> {b}为当前所指示的serie或数据项的数据项serieData的name，或者类目值（如折线图的X轴）。<br/> {c}为当前所指示的serie或数据项的y维（dimesion为1）的数值。<br/> {d}为当前所指示的serie或数据项的y维（dimesion为1）百分比值，注意不带%号。<br/> {e}为当前所指示的serie或数据项的数据项serieData的name。<br/> {f}为当前所指示的serie的默认维度的数据总和。<br/> {g}为当前所指示的serie的数据总个数。<br/> {h}为当前所指示的serie的十六进制颜色值。<br/> {c0}表示当前数据项维度为0的数据。<br/> {c1}表示当前数据项维度为1的数据。<br/> {d3}表示维度3的数据的百分比。它的分母是默认维度（一般是1维度）数据。<br/> |表示多个列的分隔。<br/> 示例："{i}", "{.}|{a}|{c}", "{.}|{b}|{c2:f2}"
-|titleFormatter|||提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符{i}表示忽略不显示title。 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。<br/> {.}为当前所指示或index为0的serie的对应颜色的圆点。<br/> {a}为当前所指示或index为0的serie的系列名name。<br/> {b}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。<br/> {c}为当前所指示或index为0的serie的y维（dimesion为1）的数值。<br/> {d}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。<br/> {e}为当前所指示或index为0的serie的数据项serieData的name。<br/> {h}为当前所指示或index为0的serie的数据项serieData的十六进制颜色值。<br/> {f}为数据总和。<br/> {g}为数据总个数。<br/> {.1}表示指定index为1的serie对应颜色的圆点。<br/> {a1}、{b1}、{c1}中的1表示指定index为1的serie。<br/> {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。<br/> {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。<br/> {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。<br/> {d:0.##} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。<br/> 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}"
+|itemFormatter|||提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。用|来表示多个列的分隔。 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。<br/> {i}或-表示忽略当前项。 {.}为当前所指示的serie或数据项的对应颜色的圆点。<br/> {a}为当前所指示的serie或数据项的系列名name。<br/> {b}为当前所指示的serie或数据项的数据项serieData的name，或者类目值（如折线图的X轴）。<br/> {c}为当前所指示的serie或数据项的y维（dimesion为1）的数值。<br/> {d}为当前所指示的serie或数据项的y维（dimesion为1）百分比值，注意不带%号。<br/> {e}为当前所指示的serie或数据项的数据项serieData的name。<br/> {f}为当前所指示的serie的默认维度的数据总和。<br/> {g}为当前所指示的serie的数据总个数。<br/> {h}为当前所指示的serie的十六进制颜色值。<br/> {y}为当前所指示的serie的y轴的类目值。<br/> {c0}表示当前数据项维度为0的数据。<br/> {c1}表示当前数据项维度为1的数据。<br/> {d3}表示维度3的数据的百分比。它的分母是默认维度（一般是1维度）数据。<br/> |表示多个列的分隔。<br/> 示例："{i}", "{.}|{a}|{c}", "{.}|{b}|{c2:f2}", "{.}|{b}|{y}"
+|titleFormatter|||提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符{i}表示忽略不显示title。 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。<br/> {.}为当前所指示或index为0的serie的对应颜色的圆点。<br/> {a}为当前所指示或index为0的serie的系列名name。<br/> {b}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。<br/> {c}为当前所指示或index为0的serie的y维（dimesion为1）的数值。<br/> {d}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。<br/> {e}为当前所指示或index为0的serie的数据项serieData的name。<br/> {h}为当前所指示或index为0的serie的数据项serieData的十六进制颜色值。<br/> {f}为数据总和。<br/> {g}为数据总个数。<br/> {f}为value所对应的y轴的类目值。<br/> {.1}表示指定index为1的serie对应颜色的圆点。<br/> {a1}、{b1}、{c1}中的1表示指定index为1的serie。<br/> {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。<br/> {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。<br/> {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。<br/> {d:0.##} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。<br/> 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}"
 |marker|||serie的符号标志。
 |fixedWidth|0||固定宽度。比 minWidth 优先。
 |fixedHeight|0||固定高度。比 minHeight 优先。

@@ -74,10 +74,10 @@ namespace XCharts.Example
                 var yAxis = chart.GetChartComponent<YAxis>();
                 if (xAxis != null && yAxis != null)
                 {
-                    chart.AddXAxisData((xAxis.data.Count + 1).ToString());
+                    chart.AddXAxisData((xAxis.GetAddedDataCount() + 1).ToString());
                     for (int i = 0; i < yAxis.data.Count; i++)
                     {
-                        chart.AddData(0, xAxis.data.Count - 1, i, Random.Range(10, 90));
+                        chart.AddData(0, xAxis.GetAddedDataCount() - 1, i, Random.Range(10, 90));
                     }
                 }
                 return;
@@ -89,7 +89,7 @@ namespace XCharts.Example
                 {
                     if (xAxis.type == Axis.AxisType.Category)
                     {
-                        chart.AddXAxisData("x" + (xAxis.data.Count + 1));
+                        chart.AddXAxisData("x" + (xAxis.GetAddedDataCount() + 1));
                     }
                 }
                 foreach (var serie in chart.series)
@@ -147,7 +147,7 @@ namespace XCharts.Example
                 var yAxis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
                 for (int i = 0; i < yAxis.data.Count; i++)
                 {
-                    chart.AddData(serie.index, xAxis.data.Count - 1, i, Random.Range(0, 150));
+                    chart.AddData(serie.index, xAxis.GetAddedDataCount() - 1, i, Random.Range(0, 150));
                 }
             }
             else

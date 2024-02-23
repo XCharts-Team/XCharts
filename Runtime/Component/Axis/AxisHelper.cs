@@ -68,7 +68,7 @@ namespace XCharts.Runtime
                     var min = axis is YAxis ? 20 : 80;
                     if (eachWid > min) return dataCount;
                     var tick = Mathf.CeilToInt(min / eachWid);
-                    return (int)(dataCount / tick);
+                    return tick <= 1 ? dataCount : (int)(dataCount / tick);
                 }
                 else
                 {
@@ -245,21 +245,20 @@ namespace XCharts.Runtime
         {
             if (index < 0)
                 return 0;
-
-            int num = GetScaleNumber(axis, coordinateWidth, dataZoom);
-            int splitNum = GetSplitNumber(axis, coordinateWidth, dataZoom);
-            if (num <= 0)
-                num = 1;
-
             if (axis.IsTime() || axis.IsValue())
             {
                 var value = axis.GetLabelValue(index);
                 var lastValue = axis.GetLabelValue(index - 1);
-                return axis.context.minMaxRange == 0 ? 0 :
-                    (float)(coordinateWidth * (value - lastValue) / axis.context.minMaxRange);
+                var width = axis.context.minMaxRange == 0 ? 0 :
+                    (float)(coordinateWidth * ((value - lastValue) / axis.context.minMaxRange));
+                return width;
             }
             else
             {
+                int num = GetScaleNumber(axis, coordinateWidth, dataZoom);
+                int splitNum = GetSplitNumber(axis, coordinateWidth, dataZoom);
+                if (num <= 0)
+                    num = 1;
                 var data = axis.GetDataList(dataZoom);
                 if (axis.IsCategory() && data.Count > 0 && splitNum > 0)
                 {
@@ -344,7 +343,7 @@ namespace XCharts.Runtime
                 int maxSplit = 0;
                 maxValue = ChartHelper.GetMaxLogValue(maxValue, axis.logBase, axis.logBaseE, out maxSplit);
                 minValue = ChartHelper.GetMinLogValue(minValue, axis.logBase, axis.logBaseE, out minSplit);
-                
+
                 var splitNumber = maxSplit + minSplit;
                 if (splitNumber > 15)
                     splitNumber = 15;
@@ -544,11 +543,14 @@ namespace XCharts.Runtime
         /// <param name="axis"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static int GetAxisValueSplitIndex(Axis axis, double value, int totalSplitNumber = -1)
+        public static int GetAxisValueSplitIndex(Axis axis, double value, bool checkMaxCache, int totalSplitNumber = -1)
         {
             if (axis.IsCategory())
             {
-                return (int)value;
+                if (checkMaxCache)
+                    return axis.maxCache > 0 ? (int)value - (axis.GetAddedDataCount() - axis.data.Count) : (int)value;
+                else
+                    return (int)value;
             }
             else
             {
@@ -633,7 +635,7 @@ namespace XCharts.Runtime
             var startX = grid.context.x + yAxis.offset;
             if (yAxis.IsRight())
                 startX += grid.context.width;
-            else if (yAxis.axisLine.onZero && relativedAxis != null && relativedAxis.IsValue() 
+            else if (yAxis.axisLine.onZero && relativedAxis != null && relativedAxis.IsValue()
                 && relativedAxis.gridIndex == yAxis.gridIndex)
                 startX += relativedAxis.context.offset;
             return startX;

@@ -14,7 +14,7 @@ namespace XCharts.Runtime
     {
         [SerializeField] private bool m_DebugModel = false;
         [SerializeField] protected UIComponentTheme m_Theme = new UIComponentTheme();
-        [SerializeField] private ImageStyle m_Background = new ImageStyle() { show = false };
+        [SerializeField] private Background m_Background = new Background() { show = true };
 
         protected bool m_DataDirty;
         private ThemeType m_CheckTheme = 0;
@@ -24,7 +24,7 @@ namespace XCharts.Runtime
         /// <summary>
         /// 背景样式。
         /// </summary>
-        public ImageStyle background { get { return m_Background; } set { m_Background = value; color = Color.white; } }
+        public Background background { get { return m_Background; } set { m_Background = value; color = Color.white; } }
         /// <summary>
         /// Update chart theme.
         /// ||切换内置主题。

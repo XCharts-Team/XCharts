@@ -81,6 +81,7 @@ namespace XCharts.Runtime
         [SerializeField] private float m_ItemOpacity = 1;
         [SerializeField] private string m_Formatter;
         [SerializeField] private LabelStyle m_LabelStyle = new LabelStyle();
+        [SerializeField][Since("v3.10.0")] private TextLimit m_TextLimit = new TextLimit();
         [SerializeField] private List<string> m_Data = new List<string>();
         [SerializeField] private List<Sprite> m_Icons = new List<Sprite>();
         [SerializeField] private List<Color> m_Colors = new List<Color>();
@@ -184,7 +185,7 @@ namespace XCharts.Runtime
         /// No longer used, the use of LabelStyle.formatter instead.
         /// ||不再使用，使用LabelStyle.formatter代替。
         /// </summary>
-        [Obsolete("Use LabelStyle.formatter instead.", false)] 
+        [Obsolete("Use LabelStyle.formatter instead.", false)]
         public string formatter
         {
             get { return m_Formatter; }
@@ -198,6 +199,15 @@ namespace XCharts.Runtime
         {
             get { return m_LabelStyle; }
             set { if (PropertyUtil.SetClass(ref m_LabelStyle, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// the limit of text. 
+        /// ||文本限制。
+        /// </summary>
+        public TextLimit textLimit
+        {
+            get { return m_TextLimit; }
+            set { if (value != null) { m_TextLimit = value; SetComponentDirty(); } }
         }
         /// <summary>
         /// the sytle of background.
@@ -264,7 +274,7 @@ namespace XCharts.Runtime
         /// </summary>
         public override bool componentDirty
         {
-            get { return m_ComponentDirty || location.componentDirty || labelStyle.componentDirty; }
+            get { return m_ComponentDirty || location.componentDirty || labelStyle.componentDirty || textLimit.componentDirty; }
         }
 
         public override void ClearComponentDirty()
@@ -272,6 +282,7 @@ namespace XCharts.Runtime
             base.ClearComponentDirty();
             location.ClearComponentDirty();
             labelStyle.ClearComponentDirty();
+            textLimit.ClearComponentDirty();
         }
 
         /// <summary>

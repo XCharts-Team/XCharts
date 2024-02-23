@@ -38,7 +38,11 @@ namespace XCharts.Example
         IEnumerator AddSimpleBar()
         {
             chart = gameObject.GetComponent<BarChart>();
-            if (chart == null) chart = gameObject.AddComponent<BarChart>();
+            if (chart == null)
+            {
+                chart = gameObject.AddComponent<BarChart>();
+                chart.Init();
+            }
             chart.EnsureChartComponent<Title>().text = "BarChart - 柱状图";
             chart.EnsureChartComponent<Title>().subText = "普通柱状图";
 

@@ -110,6 +110,7 @@ namespace XCharts.Runtime
                 if (!(serie is INeedSerieContainer))
                 {
                     showTooltip = true;
+                    containerSeries = null;
                     return;
                 }
             }
@@ -126,6 +127,7 @@ namespace XCharts.Runtime
         private void UpdateTooltip(Tooltip tooltip)
         {
             if (!showTooltip) return;
+            var anyTrigger = false;
             for (int i = chart.series.Count - 1; i >= 0; i--)
             {
                 var serie = chart.series[i];
@@ -133,20 +135,21 @@ namespace XCharts.Runtime
                 {
                     if (SetSerieTooltip(tooltip, serie))
                     {
+                        anyTrigger = true;
                         chart.RefreshTopPainter();
-                        return;
+                        break;
                     }
                 }
             }
             if (containerSeries != null)
             {
                 if (!SetSerieTooltip(tooltip, containerSeries))
-                {
                     showTooltip = false;
-                }
+                else
+                    anyTrigger = true;
                 ListPool<Serie>.Release(containerSeries);
             }
-            if (!showTooltip)
+            if (!showTooltip || !anyTrigger)
             {
                 if (tooltip.context.type == Tooltip.Type.Corss && m_PointerContainer != null && m_PointerContainer.IsPointerEnter())
                 {
@@ -302,7 +305,7 @@ namespace XCharts.Runtime
             {
                 GetSerieDataByXYAxis(serie, xAxis, yAxis);
             }
-            else if (yAxis.IsCategory())
+            else if (yAxis.IsCategory() && !xAxis.IsCategory())
             {
                 if (isTriggerAxis)
                 {
@@ -344,8 +347,8 @@ namespace XCharts.Runtime
 
         private void GetSerieDataByXYAxis(Serie serie, Axis xAxis, Axis yAxis)
         {
-            var xAxisIndex = AxisHelper.GetAxisValueSplitIndex(xAxis, xAxis.context.pointerValue);
-            var yAxisIndex = AxisHelper.GetAxisValueSplitIndex(yAxis, yAxis.context.pointerValue);
+            var xAxisIndex = AxisHelper.GetAxisValueSplitIndex(xAxis, xAxis.context.pointerValue, false);
+            var yAxisIndex = AxisHelper.GetAxisValueSplitIndex(yAxis, yAxis.context.pointerValue, false);
             serie.context.pointerItemDataIndex = -1;
             if (serie is Heatmap)
             {
@@ -358,8 +361,8 @@ namespace XCharts.Runtime
             }
             foreach (var serieData in serie.data)
             {
-                var x = AxisHelper.GetAxisValueSplitIndex(xAxis, serieData.GetData(0));
-                var y = AxisHelper.GetAxisValueSplitIndex(yAxis, serieData.GetData(1));
+                var x = AxisHelper.GetAxisValueSplitIndex(xAxis, serieData.GetData(0), true);
+                var y = AxisHelper.GetAxisValueSplitIndex(yAxis, serieData.GetData(1), true);
                 if (xAxisIndex == x && y == yAxisIndex)
                 {
                     serie.context.pointerItemDataIndex = serieData.index;
@@ -527,7 +530,7 @@ namespace XCharts.Runtime
                     ref tooltip.context.data.title);
             }
             TooltipHelper.ResetTooltipParamsByItemFormatter(tooltip, chart);
-            if (tooltip.context.data.param.Count > 0)
+            if (tooltip.context.data.param.Count > 0 || !string.IsNullOrEmpty(tooltip.context.data.title))
             {
                 tooltip.SetActive(true);
                 if (tooltip.view != null)
@@ -580,13 +583,17 @@ namespace XCharts.Runtime
 
         private bool IsYCategoryOfGrid(int gridIndex)
         {
-            var yAxes = chart.GetChartComponents<YAxis>();
-            foreach (var component in yAxes)
+            foreach (var component in chart.GetChartComponents<YAxis>())
             {
                 var yAxis = component as YAxis;
-                if (yAxis.gridIndex == gridIndex && yAxis.IsCategory()) return true;
+                if (yAxis.gridIndex == gridIndex && !yAxis.IsCategory()) return false;
             }
-            return false;
+            foreach (var component in chart.GetChartComponents<XAxis>())
+            {
+                var xAxis = component as XAxis;
+                if (xAxis.gridIndex == gridIndex && xAxis.IsCategory()) return false;
+            }
+            return true;
         }
 
         private void DrawXAxisIndicator(VertexHelper vh, Tooltip tooltip, GridCoord grid)

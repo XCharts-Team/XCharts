@@ -133,7 +133,26 @@ namespace XCharts.Editor
 
         public void AddChartComponent(Type type)
         {
-            chart.AddChartComponent(type);
+            var component = chart.AddChartComponent(type);
+            if (component != null)
+            {
+                if (component is YAxis)
+                {
+                    var yAxis = component as YAxis;
+                    if (yAxis.index == 1)
+                    {
+                        yAxis.position = Axis.AxisPosition.Right;
+                    }
+                }
+                else if (component is XAxis)
+                {
+                    var xAxis = component as XAxis;
+                    if (xAxis.index == 1)
+                    {
+                        xAxis.position = Axis.AxisPosition.Top;
+                    }
+                }
+            }
             m_ComponentsProperty = m_BaseEditor.RefreshComponent();
             RefreshEditors();
             EditorUtility.SetDirty(chart);

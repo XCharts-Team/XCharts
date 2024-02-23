@@ -24,7 +24,7 @@ namespace XCharts.Runtime
         }
 
         public static string GetFormatterContent(Serie serie, SerieData serieData,
-            double dataValue, double dataTotal, LabelStyle serieLabel, Color color)
+            double dataValue, double dataTotal, LabelStyle serieLabel, Color color, BaseChart chart = null)
         {
             if (serieLabel == null)
             {
@@ -45,7 +45,7 @@ namespace XCharts.Runtime
             {
                 var content = serieLabel.formatter;
                 FormatterHelper.ReplaceSerieLabelContent(ref content, numericFormatter, serie.dataCount, dataValue,
-                    dataTotal, serieName, dataName, dataName, color, serieData);
+                    dataTotal, serieName, dataName, dataName, color, serieData, chart);
                 if (serieLabel.formatterFunction == null)
                     return content;
                 else
@@ -70,7 +70,5 @@ namespace XCharts.Runtime
                 serieData.labelObject.text.SetColor(label.textStyle.color);
             }
         }
-
-        
     }
 }

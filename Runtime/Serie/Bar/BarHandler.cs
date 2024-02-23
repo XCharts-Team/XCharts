@@ -178,6 +178,7 @@ namespace XCharts.Runtime
 
             var barCount = chart.GetSerieBarRealCount<Bar>();
             float categoryWidth = AxisHelper.GetDataWidth(axis, axisLength, showData.Count, dataZoom);
+            float relativedCategoryWidth = AxisHelper.GetDataWidth(relativedAxis, relativedAxisLength, showData.Count, dataZoom);
             float barGap = chart.GetSerieBarGap<Bar>();
             float totalBarWidth = chart.GetSerieTotalWidth<Bar>(categoryWidth, barGap, barCount);
             float barWidth = serie.GetBarWidth(categoryWidth, barCount);
@@ -218,7 +219,7 @@ namespace XCharts.Runtime
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData, state);
                 var value = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
                 var relativedValue = serieData.GetCurrData(1, dataAddDuration, dataChangeDuration, relativedAxis.inverse, 0, 0, serie.animation.unscaledTime);
-                var borderWidth = relativedValue == 0 ? 0 : itemStyle.runtimeBorderWidth;
+                var borderWidth = relativedValue == 0 ? 0 : itemStyle.borderWidth;
                 var borderGap = relativedValue == 0 ? 0 : itemStyle.borderGap;
                 var borderGapAndWidth = borderWidth + borderGap;
                 var backgroundColor = itemStyle.backgroundColor;
@@ -231,7 +232,7 @@ namespace XCharts.Runtime
 
                 var pX = 0f;
                 var pY = 0f;
-                UpdateXYPosition(m_SerieGrid, isY, axis, relativedAxis, i, categoryWidth, barWidth, isStack, value, ref pX, ref pY);
+                UpdateXYPosition(m_SerieGrid, isY, axis, relativedAxis, i, categoryWidth, relativedCategoryWidth, barWidth, isStack, value, ref pX, ref pY);
                 var barHig = 0f;
                 if (isPercentStack)
                 {
@@ -240,7 +241,7 @@ namespace XCharts.Runtime
                 }
                 else
                 {
-                    barHig = AxisHelper.GetAxisValueLength(m_SerieGrid, relativedAxis, categoryWidth, relativedValue);
+                    barHig = AxisHelper.GetAxisValueLength(m_SerieGrid, relativedAxis, relativedCategoryWidth, relativedValue);
                 }
                 float currHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, barHig);
                 Vector3 plb, plt, prt, prb, top;
@@ -295,7 +296,8 @@ namespace XCharts.Runtime
             }
         }
 
-        private void UpdateXYPosition(GridCoord grid, bool isY, Axis axis, Axis relativedAxis, int i, float categoryWidth, float barWidth, bool isStack,
+        private void UpdateXYPosition(GridCoord grid, bool isY, Axis axis, Axis relativedAxis, int i,
+            float categoryWidth, float relativedCategoryWidth, float barWidth, bool isStack,
             double value, ref float pX, ref float pY)
         {
             if (isY)
@@ -313,7 +315,7 @@ namespace XCharts.Runtime
                         pY = grid.context.y + valueLen - categoryWidth * 0.5f;
                     }
                 }
-                pX = AxisHelper.GetAxisValuePosition(grid, relativedAxis, categoryWidth, 0);
+                pX = AxisHelper.GetAxisValuePosition(grid, relativedAxis, relativedCategoryWidth, 0);
                 if (isStack)
                 {
                     for (int n = 0; n < m_StackSerieData.Count - 1; n++)
@@ -335,7 +337,7 @@ namespace XCharts.Runtime
                         pX = grid.context.x + valueLen - categoryWidth * 0.5f;
                     }
                 }
-                pY = AxisHelper.GetAxisValuePosition(grid, relativedAxis, categoryWidth, 0);
+                pY = AxisHelper.GetAxisValuePosition(grid, relativedAxis, relativedCategoryWidth, 0);
                 if (isStack)
                 {
                     for (int n = 0; n < m_StackSerieData.Count - 1; n++)
@@ -398,7 +400,13 @@ namespace XCharts.Runtime
             float gap, float barWidth, float pX, float pY, Vector3 plb, Vector3 plt, Vector3 prt,
             Vector3 prb, bool isYAxis, GridCoord grid, Axis axis, Color32 areaColor, Color32 areaToColor, double value)
         {
-            var borderWidth = itemStyle.runtimeBorderWidth;
+            var borderWidth = itemStyle.borderWidth;
+            var borderColor = itemStyle.borderColor;
+            if (ChartHelper.IsClearColor(borderColor))
+            {
+                borderColor = areaColor;
+                borderColor.a = (byte)(areaColor.a * 1.2f);
+            }
             var cornerRadius = serie.barType == BarType.Capsule && !itemStyle.IsNeedCorner() ?
                 m_CapusleDefaultCornerRadius :
                 itemStyle.cornerRadius;
@@ -412,12 +420,12 @@ namespace XCharts.Runtime
                 cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert);
             if (serie.barType == BarType.Capsule)
             {
-                UGL.DrawBorder(vh, serieData.context.backgroundRect, borderWidth, itemStyle.borderColor,
+                UGL.DrawBorder(vh, serieData.context.backgroundRect, borderWidth, borderColor,
                     0, cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert, -borderWidth);
             }
             else
             {
-                UGL.DrawBorder(vh, serieData.context.rect, borderWidth, itemStyle.borderColor,
+                UGL.DrawBorder(vh, serieData.context.rect, borderWidth, borderColor,
                     0, cornerRadius, isYAxis, chart.settings.cicleSmoothness, invert, itemStyle.borderGap);
             }
         }

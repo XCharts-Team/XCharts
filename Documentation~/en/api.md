@@ -45,6 +45,7 @@ slug: /api
 - [BaseScatter](#basescatter)
 - [BaseSerie](#baseserie)
 - [BlurStyle](#blurstyle)
+- [BorderStyle](#borderstyle)
 - [CalendarCoord](#calendarcoord)
 - [Candlestick](#candlestick)
 - [CandlestickChart](#candlestickchart)
@@ -79,6 +80,9 @@ slug: /api
 - [EmphasisStyle](#emphasisstyle)
 - [EndLabelStyle](#endlabelstyle)
 - [FormatterHelper](#formatterhelper)
+- [Graph](#graph)
+- [GraphEdge](#graphedge)
+- [GraphNode](#graphnode)
 - [GridCoord](#gridcoord)
 - [GridCoordContext](#gridcoordcontext)
 - [GridLayout](#gridlayout)
@@ -119,6 +123,7 @@ slug: /api
 - [ListFor](#listfor)
 - [ListForComponent](#listforcomponent)
 - [ListForSerie](#listforserie)
+- [ListPool&lt;T&gt;](#listpoolt)
 - [Location](#location)
 - [MainComponent](#maincomponent)
 - [MainComponentContext](#maincomponentcontext)
@@ -169,6 +174,7 @@ slug: /api
 - [SerieDataComponentAttribute](#seriedatacomponentattribute)
 - [SerieDataContext](#seriedatacontext)
 - [SerieDataExtraFieldAttribute](#seriedataextrafieldattribute)
+- [SerieDataLink](#seriedatalink)
 - [SerieEventData](#serieeventdata)
 - [SerieEventDataPool](#serieeventdatapool)
 - [SerieHandler](#seriehandler)
@@ -195,7 +201,6 @@ slug: /api
 - [StateStyle](#statestyle)
 - [SubTitleTheme](#subtitletheme)
 - [SVG](#svg)
-- [SVGImage](#svgimage)
 - [SVGPath](#svgpath)
 - [SVGPathSeg](#svgpathseg)
 - [SymbolStyle](#symbolstyle)
@@ -426,6 +431,7 @@ The axis in rectangular coordinate.
 |ClearVerticesDirty()||public override void ClearVerticesDirty()|
 |Clone()||public Axis Clone()|
 |Copy()||public void Copy(Axis axis)|
+|GetAddedDataCount()||public int GetAddedDataCount()<br/>get the history data count. |
 |GetData()||public string GetData(int index)<br/>获得指定索引的类目数据 |
 |GetData()||public string GetData(int index, DataZoom dataZoom)<br/>获得在dataZoom范围内指定索引的类目数据 |
 |GetDistance()||public float GetDistance(double value, float axisLength)<br/>获得值在坐标轴上的距离 |
@@ -492,7 +498,7 @@ animation style of axis.
 |GetAxisValueDistance()||public static float GetAxisValueDistance(GridCoord grid, Axis axis, float scaleWidth, double value)<br/>获得数值value在坐标轴上相对起点的距离 |
 |GetAxisValueLength()||public static float GetAxisValueLength(GridCoord grid, Axis axis, float scaleWidth, double value)<br/>获得数值value在坐标轴上对应的长度 |
 |GetAxisValuePosition()||public static float GetAxisValuePosition(GridCoord grid, Axis axis, float scaleWidth, double value)<br/>获得数值value在坐标轴上的坐标位置 |
-|GetAxisValueSplitIndex()||public static int GetAxisValueSplitIndex(Axis axis, double value, int totalSplitNumber = -1)<br/>获得数值value在坐标轴上对应的split索引 |
+|GetAxisValueSplitIndex()||public static int GetAxisValueSplitIndex(Axis axis, double value, bool checkMaxCache, int totalSplitNumber = -1)<br/>获得数值value在坐标轴上对应的split索引 |
 |GetAxisXOrY()||public static float GetAxisXOrY(GridCoord grid, Axis axis, Axis relativedAxis)|
 |GetDataWidth()||public static float GetDataWidth(Axis axis, float coordinateWidth, int dataCount, DataZoom dataZoom)<br/>获得一个类目数据在坐标系中代表的宽度 |
 |GetEachWidth()||public static float GetEachWidth(Axis axis, float coordinateWidth, DataZoom dataZoom = null)|
@@ -638,6 +644,21 @@ Background component.
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+Bar chart shows different data through the height of a bar, which is used in rectangular coordinate with at least 1 category axis.
+
+|public method|since|description|
+|--|--|--|
+|DefaultBarChart()||public void DefaultBarChart()<br/>default bar chart. |
+|DefaultCapsuleBarChart()||public void DefaultCapsuleBarChart()<br/>default capsule bar chart. |
+|DefaultCapsuleColumnChart()||public void DefaultCapsuleColumnChart()<br/>default capsule column chart. |
+|DefaultGroupedBarChart()||public void DefaultGroupedBarChart()<br/>default grouped bar chart. |
+|DefaultGroupedColumnChart()||public void DefaultGroupedColumnChart()<br/>default grouped column chart. |
+|DefaultPercentBarChart()||public void DefaultPercentBarChart()<br/>default percent bar chart. |
+|DefaultPercentColumnChart()||public void DefaultPercentColumnChart()<br/>default percent column chart. |
+|DefaultStackedBarChart()||public void DefaultStackedBarChart()<br/>default stacked bar chart. |
+|DefaultStackedColumnChart()||public void DefaultStackedColumnChart()<br/>default stacked column chart. |
+|DefaultZebraBarChart()||public void DefaultZebraBarChart()<br/>default zebra bar chart. |
+|DefaultZebraColumnChart()||public void DefaultZebraColumnChart()<br/>default zebra column chart. |
 
 ## BaseAxisTheme
 
@@ -689,6 +710,7 @@ Background component.
 |AddData()||public SerieData AddData(string serieName, double xValue, double yValue, string dataName = null, string dataId = null)<br/>Add a (x,y) data to serie. |
 |AddData()||public SerieData AddData(string serieName, List&lt;double&gt; multidimensionalData, string dataName = null, string dataId = null)<br/>Add an arbitray dimension data to serie,such as (x,y,z,...). |
 |AddData()||public SerieData AddData(string serieName, params double[] multidimensionalData)<br/>Add an arbitray dimension data to serie,such as (x,y,z,...). |
+|AddLink()||public SerieDataLink AddLink(int serieIndex, string sourceName, string targetName, double value)<br/>Add a link data to serie. |
 |AddSerie&lt;T&gt;()||public T AddSerie&lt;T&gt;(string serieName = null, bool show = true, bool addToHead = false) where T : Serie|
 |AddXAxisData()||public void AddXAxisData(string category, int xAxisIndex = 0)<br/>Add a category data to xAxis. |
 |AddXAxisIcon()||public void AddXAxisIcon(Sprite icon, int xAxisIndex = 0)<br/>Add an icon to xAxis. |
@@ -707,9 +729,10 @@ Background component.
 |CanMultipleComponent()||public bool CanMultipleComponent(Type type)|
 |ClampInChart()||public void ClampInChart(ref Vector3 pos)|
 |ClampInGrid()||public Vector3 ClampInGrid(GridCoord grid, Vector3 pos)|
-|ClearComponentData()||public virtual void ClearComponentData()<br/>Clear the data of all components. |
+|ClearComponentData()|v3.4.0|public virtual void ClearComponentData()<br/>Clear the data of all components. |
 |ClearData()||public virtual void ClearData()<br/>Clear all components and series data. Note: serie only empties the data and does not remove serie. |
-|ClearSerieData()||public virtual void ClearSerieData()<br/>Clear the data of all series. |
+|ClearSerieData()|v3.4.0|public virtual void ClearSerieData()<br/>Clear the data of all series. |
+|ClearSerieLinks()|v3.10.0|public virtual void ClearSerieLinks()<br/>Clear the link data of all series. |
 |ClickLegendButton()||public void ClickLegendButton(int legendIndex, string legendName, bool show)<br/>点击图例按钮 |
 |ConvertSerie()||public bool ConvertSerie(Serie serie, Type type)|
 |ConvertSerie&lt;T&gt;()||public bool ConvertSerie&lt;T&gt;(Serie serie) where T : Serie|
@@ -733,7 +756,7 @@ Background component.
 |GetItemColor()||public Color32 GetItemColor(Serie serie, SerieData serieData, int colorIndex)|
 |GetLegendRealShowNameColor()||public Color32 GetLegendRealShowNameColor(string name)|
 |GetLegendRealShowNameIndex()||public int GetLegendRealShowNameIndex(string name)|
-|GetMarkColor()||public Color32 GetMarkColor(Serie serie, SerieData serieData)<br/>获得Serie的标识颜色。 |
+|GetMarkColor()|v3.4.0|public Color32 GetMarkColor(Serie serie, SerieData serieData)<br/>获得Serie的标识颜色。 |
 |GetOrAddChartComponent&lt;T&gt;()||public T GetOrAddChartComponent&lt;T&gt;() where T : MainComponent|
 |GetPainter()||public Painter GetPainter(int index)|
 |GetSerie()||public Serie GetSerie(int serieIndex)|
@@ -809,6 +832,7 @@ Background component.
 |RemoveSerie()||public void RemoveSerie(string serieName)|
 |RemoveSerie&lt;T&gt;()||public void RemoveSerie&lt;T&gt;() where T : Serie|
 |ReplaceSerie()||public bool ReplaceSerie(Serie oldSerie, Serie newSerie)|
+|ResetChartStatus()|v3.10.0|public void ResetChartStatus()<br/>reset chart status. When some parameters are set, due to the animation effect, the chart status may not be correct. |
 |ResetDataIndex()||public bool ResetDataIndex(int serieIndex)<br/>重置serie的数据项索引。避免数据项索引异常。 |
 |SetBasePainterMaterial()||public void SetBasePainterMaterial(Material material)<br/>设置Base Painter的材质球 |
 |SetMaxCache()||public void SetMaxCache(int maxCache)<br/>设置可缓存的最大数据量。当数据量超过该值时，会自动删除第一个值再加入最新值。 |
@@ -930,6 +954,20 @@ Settings related to base line.
 
 Configurations of blur state.
 
+## BorderStyle
+
+> class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
+
+> Since `v3.10.0`
+
+The style of border.
+
+|public method|since|description|
+|--|--|--|
+|GetRuntimeBorderColor()||public Color32 GetRuntimeBorderColor()|
+|GetRuntimeBorderWidth()||public float GetRuntimeBorderWidth()|
+|GetRuntimeCornerRadius()||public float[] GetRuntimeCornerRadius()|
+
 ## CalendarCoord
 
 > class in XCharts.Runtime / Inherits from: [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
@@ -953,6 +991,7 @@ Configurations of blur state.
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+A candlestick chart is a style of financial chart used to describe price movements of a security, derivative, or currency.
 
 ## ChartCached
 
@@ -1046,6 +1085,7 @@ Configurations of blur state.
 |SetActive()||public static void SetActive(Image image, bool active)|
 |SetActive()||public static void SetActive(Text text, bool active)|
 |SetActive()||public static void SetActive(Transform transform, bool active)<br/>通过设置scale实现是否显示，优化性能，减少GC |
+|SetBackground()||public static void SetBackground(Image background, Background imageStyle)|
 |SetBackground()||public static void SetBackground(Image background, ImageStyle imageStyle)|
 |SetColorOpacity()||public static void SetColorOpacity(ref Color32 color, float opacity)|
 
@@ -1097,6 +1137,7 @@ Configurations of blur state.
 |--|--|--|
 |ChartText()||public ChartText()|
 |ChartText()||public ChartText(GameObject textParent)|
+|GetColor()||public Color GetColor()|
 |GetPreferredHeight()||public float GetPreferredHeight()|
 |GetPreferredText()||public string GetPreferredText(string content, string suffix, float maxWidth)|
 |GetPreferredWidth()||public float GetPreferredWidth()|
@@ -1129,7 +1170,7 @@ Configurations of blur state.
 
 ## ChildComponent
 
-> class in XCharts.Runtime / Subclasses: [AnimationStyle](#animationstyle),[AxisAnimation](#axisanimation),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MLValue](#mlvalue),[MarqueeStyle](#marqueestyle),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
+> class in XCharts.Runtime / Subclasses: [AnimationStyle](#animationstyle),[AxisAnimation](#axisanimation),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[BorderStyle](#borderstyle),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MLValue](#mlvalue),[MarqueeStyle](#marqueestyle),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[SerieDataLink](#seriedatalink),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
 
 
 |public method|since|description|
@@ -1185,8 +1226,8 @@ the comment mark style.
 
 |public method|since|description|
 |--|--|--|
-|ComponentHandlerAttribute()||public ComponentHandlerAttribute(Type handler)|
-|ComponentHandlerAttribute()||public ComponentHandlerAttribute(Type handler, bool allowMultiple)|
+|ComponentHandlerAttribute()||public ComponentHandlerAttribute(Type handler, bool allowMultiple, int order = 3)|
+|ComponentHandlerAttribute()||public ComponentHandlerAttribute(Type handler, int order = 3)|
 
 ## ComponentHelper
 
@@ -1369,6 +1410,53 @@ Configurations of emphasis state.
 |TrimAndReplaceLine()||public static string TrimAndReplaceLine(string content)|
 |TrimAndReplaceLine()||public static string TrimAndReplaceLine(StringBuilder sb)|
 
+## Graph
+
+> class in XCharts.Runtime
+
+the data struct of graph.
+
+|public method|since|description|
+|--|--|--|
+|AddEdge()||public GraphEdge AddEdge(string nodeId1, string nodeId2, double value)|
+|AddNode()||public GraphNode AddNode(string nodeId, string nodeName, int dataIndex)|
+|BreadthFirstTraverse()||public void BreadthFirstTraverse(GraphNode startNode, System.Action&lt;GraphNode&gt; onTraverse)|
+|Clear()||public void Clear()|
+|DeepFirstTraverse()||public void DeepFirstTraverse(GraphNode startNode, System.Action&lt;GraphNode&gt; onTraverse)|
+|EachNode()||public void EachNode(System.Action&lt;GraphNode&gt; onEach)|
+|GetDepthNodes()||public List&lt;List&lt;GraphNode&gt;&gt; GetDepthNodes()|
+|GetEdge()||public GraphEdge GetEdge(string nodeId1, string nodeId2)|
+|GetMaxDepth()||public int GetMaxDepth()|
+|GetNode()||public GraphNode GetNode(string nodeId)|
+|GetNodeDepth()||// public int GetNodeDepth(GraphNode node)|
+|GetNodeDepth()||// public void GetNodeDepth(GraphNode node, ref int depth, int recursiveCount = 0)|
+|GetNodeDepth()||public int GetNodeDepth(GraphNode node, int recursiveCount = 0)|
+|GetNodesTotalValue()||public static double GetNodesTotalValue(List&lt;GraphNode&gt; nodes)|
+|GetRootNodes()||public List&lt;GraphNode&gt; GetRootNodes()|
+|Graph()||public Graph(bool directed)|
+|Refresh()||public void Refresh()|
+
+## GraphEdge
+
+> class in XCharts.Runtime
+
+The edge of graph.
+
+|public method|since|description|
+|--|--|--|
+|GraphEdge()||public GraphEdge(GraphNode node1, GraphNode node2, double value)|
+
+## GraphNode
+
+> class in XCharts.Runtime
+
+The node of graph.
+
+|public method|since|description|
+|--|--|--|
+|GraphNode()||public GraphNode(string id, string name, int dataIndex)|
+|ToString()||public override string ToString()|
+
 ## GridCoord
 
 > class in XCharts.Runtime / Inherits from: [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
@@ -1388,6 +1476,7 @@ Grid component.
 |ContainsX()|v3.7.0|public bool ContainsX(float x)<br/>Whether the given x is in the grid. |
 |ContainsY()|v3.7.0|public bool ContainsY(float y)<br/>Whether the given y is in the grid. |
 |IsPointerEnter()||public bool IsPointerEnter()<br/>Whether the pointer is in the grid. |
+|NotAnyIntersect()|v3.10.0|public bool NotAnyIntersect(Vector3 sp, Vector3 ep)<br/>Determines whether a given line segment will not intersect the Grid boundary at all. |
 |UpdateRuntimeData()||public void UpdateRuntimeData(BaseChart chart)|
 
 ## GridCoordContext
@@ -1425,6 +1514,11 @@ Grid layout component. Used to manage the layout of multiple `GridCoord`, and th
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+Heat map mainly use colors to represent values, which must be used along with visualMap component. It can be used in either rectangular coordinate or geographic coordinate. But the behaviour on them are quite different. Rectangular coordinate must have two categories to use it.
+
+|public method|since|description|
+|--|--|--|
+|DefaultCountHeatmapChart()||public void DefaultCountHeatmapChart()<br/>default count heatmap chart. |
 
 ## IconStyle
 
@@ -1567,7 +1661,6 @@ The interface for serie data component.
 |GetToColor()||public Color32 GetToColor()|
 |IsNeedCorner()||public bool IsNeedCorner()|
 |IsNeedGradient()||public bool IsNeedGradient()|
-|NeedShowBorder()||public bool NeedShowBorder()<br/>是否需要显示边框。 |
 |Reset()||public void Reset()|
 
 ## IUpdateRuntimeData
@@ -1735,6 +1828,8 @@ Legend component.The legend component shows different sets of tags, colors, and 
 
 > class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
 
+> Since `v3.10.0`
+
 
 ## Line
 
@@ -1755,6 +1850,19 @@ Legend component.The legend component shows different sets of tags, colors, and 
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+Line chart relates all the data points symbol by broken lines, which is used to show the trend of data changing. It could be used in both rectangular coordinate andpolar coordinate.
+
+|public method|since|description|
+|--|--|--|
+|DefaultAreaLineChart()||public void DefaultAreaLineChart()<br/>default area line chart. |
+|DefaultDashLineChart()||public void DefaultDashLineChart()<br/>default dash line chart. |
+|DefaultLogLineChart()||public void DefaultLogLineChart()<br/>default logarithmic line chart. |
+|DefaultSmoothAreaLineChart()||public void DefaultSmoothAreaLineChart()<br/>default smooth area line chart. |
+|DefaultSmoothLineChart()||public void DefaultSmoothLineChart()<br/>default smooth line chart. |
+|DefaultStackAreaLineChart()||public void DefaultStackAreaLineChart()<br/>default stack area line chart. |
+|DefaultStackLineChart()||public void DefaultStackLineChart()<br/>default stack line chart. |
+|DefaultStepLineChart()||public void DefaultStepLineChart()<br/>default step line chart. |
+|DefaultTimeLineChart()||public void DefaultTimeLineChart()<br/>default time line chart. |
 
 ## LineStyle
 
@@ -1805,6 +1913,17 @@ The style of line.
 |public method|since|description|
 |--|--|--|
 |ListForSerie()||public ListForSerie(Type type) : base(type)|
+
+## ListPool&lt;T&gt;
+
+> class in XCharts.Runtime
+
+
+|public method|since|description|
+|--|--|--|
+|ClearAll()||public static void ClearAll()|
+|Get()||public static List&lt;T&gt; Get()|
+|Release()||public static void Release(List&lt;T&gt; toRelease)|
 
 ## Location
 
@@ -2018,6 +2137,7 @@ padding setting of item or text.
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+Parallel Coordinates is a common way of visualizing high-dimensional geometry and analyzing multivariate data.
 
 ## ParallelCoord
 
@@ -2051,6 +2171,15 @@ Grid component.
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+The pie chart is mainly used for showing proportion of different categories. Each arc length represents the proportion of data quantity.
+
+|public method|since|description|
+|--|--|--|
+|DefaultAreaRosePieChart()||public void DefaultAreaRosePieChart()<br/>default area rose pie chart. |
+|DefaultDonutPieChart()||public void DefaultDonutPieChart()<br/>default donut pie chart. |
+|DefaultLabelDonutPieChart()||public void DefaultLabelDonutPieChart()<br/>default label donut pie chart. |
+|DefaultLabelPieChart()||public void DefaultLabelPieChart()<br/>default label pie chart. |
+|DefaultRadiusRosePieChart()||public void DefaultRadiusRosePieChart()<br/>default rose pie chart. |
 
 ## PolarAxisTheme
 
@@ -2065,6 +2194,13 @@ Grid component.
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+Polar coordinates are usually used in a circular layout.
+
+|public method|since|description|
+|--|--|--|
+|DefaultHeatmapPolarChart()||public void DefaultHeatmapPolarChart()<br/>default heatmap polar chart. |
+|DefaultRadialBarPolarChart()||public void DefaultRadialBarPolarChart()<br/>default radial bar polar chart. |
+|DefaultTangentialBarPolarChart()||public void DefaultTangentialBarPolarChart()<br/>default tangential bar polar chart. |
 
 ## PolarCoord
 
@@ -2116,6 +2252,11 @@ Polar coordinate can be used in scatter and line chart. Every polar coordinate h
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+Radar chart is mainly used to show multi-variable data, such as the analysis of a football player's varied attributes. It relies radar component.
+
+|public method|since|description|
+|--|--|--|
+|DefaultCircleRadarChart()||public void DefaultCircleRadarChart()<br/>default circle radar chart. |
 
 ## RadarCoord
 
@@ -2186,6 +2327,11 @@ Radial axis of polar coordinate.
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+Ring chart is mainly used to show the proportion of each item and the relationship between the items.
+
+|public method|since|description|
+|--|--|--|
+|DefaultMultipleRingChart()||public void DefaultMultipleRingChart()<br/>default multiple ring chart. |
 
 ## RuntimeUtil
 
@@ -2214,6 +2360,11 @@ Radial axis of polar coordinate.
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+Scatter chart is mainly used to show the relationship between two data dimensions.
+
+|public method|since|description|
+|--|--|--|
+|DefaultBubbleChart()||public void DefaultBubbleChart()<br/>default bubble chart. |
 
 ## SelectStyle
 
@@ -2242,6 +2393,7 @@ Configurations of select state.
 |AddData()||public SerieData AddData(List&lt;double&gt; valueList, string dataName = null, string dataId = null)<br/>将一组数据添加到系列中。 如果数据只有一个，默认添加到维度Y中。 |
 |AddData()||public SerieData AddData(params double[] values)<br/>添加任意维数据到系列中。 |
 |AddExtraComponent&lt;T&gt;()||public T AddExtraComponent&lt;T&gt;() where T : ChildComponent, ISerieComponent|
+|AddLink()||public SerieDataLink AddLink(string sourceName, string targetName, double value)<br/>Add a link data. |
 |AddSerieData()||public void AddSerieData(SerieData serieData)|
 |AddXYData()||public SerieData AddXYData(double xValue, double yValue, string dataName = null, string dataId = null)<br/>添加（x，y）数据到维度X和维度Y |
 |AddYData()||public SerieData AddYData(double value, string dataName = null, string dataId = null)<br/>添加一个数据到维度Y（此时维度X对应的数据是索引） |
@@ -2258,6 +2410,7 @@ Configurations of select state.
 |ClearData()||public override void ClearData()<br/>清空所有数据 |
 |ClearDirty()||public override void ClearDirty()|
 |ClearHighlight()||public void ClearHighlight()<br/>清除所有数据的高亮标志 |
+|ClearLinks()||public void ClearLinks()<br/>清空所有Link数据 |
 |ClearSerieNameDirty()||public void ClearSerieNameDirty()|
 |ClearVerticesDirty()||public override void ClearVerticesDirty()|
 |Clone()||public Serie Clone()|
@@ -2265,7 +2418,7 @@ Configurations of select state.
 |CompareTo()||public int CompareTo(object obj)|
 |EnsureComponent()||public ISerieComponent EnsureComponent(Type type)|
 |EnsureComponent&lt;T&gt;()||public T EnsureComponent&lt;T&gt;() where T : ChildComponent, ISerieComponent<br/>Ensure the serie has the component. If not, add it. |
-|GetBarWidth()||public float GetBarWidth(float categoryWidth, int barCount = 0)|
+|GetBarWidth()||public float GetBarWidth(float categoryWidth, int barCount = 0, float defaultRate = 0.6f)|
 |GetComponent()||public ISerieComponent GetComponent(Type type)|
 |GetComponent&lt;T&gt;()||public T GetComponent&lt;T&gt;() where T : ChildComponent, ISerieComponent|
 |GetData()||public double GetData(int index, int dimension, DataZoom dataZoom = null)<br/>获得指定index指定维数的数据 |
@@ -2284,6 +2437,9 @@ Configurations of select state.
 |IsIgnoreValue()||public bool IsIgnoreValue(SerieData serieData, double value)|
 |IsIgnoreValue()||public bool IsIgnoreValue(SerieData serieData, int dimension = 1)|
 |IsLegendName()||public bool IsLegendName(string legendName)|
+|IsMinShowLabelValue()||public bool IsMinShowLabelValue(double value)|
+|IsMinShowLabelValue()||public bool IsMinShowLabelValue(int index, int dimension = 1)|
+|IsMinShowLabelValue()||public bool IsMinShowLabelValue(SerieData serieData, int dimension = 1)|
 |IsPerformanceMode()||public bool IsPerformanceMode()<br/>是否为性能模式。性能模式下不绘制Symbol，不刷新Label，不单独设置数据项配置。 |
 |IsSerie&lt;T&gt;()||public bool IsSerie&lt;T&gt;() where T : Serie|
 |IsSerieDataLegendName()||public bool IsSerieDataLegendName(string legendName)|
@@ -2435,6 +2591,14 @@ The attribute for serie data component.
 |SerieDataExtraFieldAttribute()||public SerieDataExtraFieldAttribute(string field1, string field2, string field3, string field4, string field5, string field6)|
 |SerieDataExtraFieldAttribute()||public SerieDataExtraFieldAttribute(string field1, string field2, string field3, string field4, string field5, string field6, string field7)|
 
+## SerieDataLink
+
+> class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
+
+> Since `v3.10.0`
+
+the link of serie data. Used for sankey chart. Sankey chart only supports directed acyclic graph. make sure the data link is directed acyclic graph.
+
 ## SerieEventData
 
 > class in XCharts.Runtime
@@ -2472,6 +2636,7 @@ the data of serie event.
 |ForceUpdateSerieContext()||public virtual void ForceUpdateSerieContext() { }|
 |InitComponent()||public virtual void InitComponent() { }|
 |OnBeginDrag()||public virtual void OnBeginDrag(PointerEventData eventData) { }|
+|OnDataUpdate()||public virtual void OnDataUpdate() { }|
 |OnDrag()||public virtual void OnDrag(PointerEventData eventData) { }|
 |OnEndDrag()||public virtual void OnEndDrag(PointerEventData eventData) { }|
 |OnLegendButtonClick()||public virtual void OnLegendButtonClick(int index, string legendName, bool show) { }|
@@ -2674,6 +2839,7 @@ Global parameter setting component. The default value can be used in general, an
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+A simplified bar chart is a simplified mode of a bar chart that provides better performance by simplifying components and configurations.
 
 ## SimplifiedCandlestick
 
@@ -2689,6 +2855,7 @@ Global parameter setting component. The default value can be used in general, an
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+A simplified candlestick chart is a simplified mode of a bar chart that provides better performance by simplifying components and configurations.
 
 ## SimplifiedLine
 
@@ -2704,6 +2871,7 @@ Global parameter setting component. The default value can be used in general, an
 
 > class in XCharts.Runtime / Inherits from: [BaseChart](#basechart)
 
+A simplified line chart is a simplified mode of a bar chart that provides better performance by simplifying components and configurations.
 
 ## Since
 
@@ -2772,11 +2940,6 @@ the state style of serie.
 |DrawPath()||public static void DrawPath(VertexHelper vh, string path)|
 |DrawPath()||public static void DrawPath(VertexHelper vh, SVGPath path)|
 |Test()||public static void Test(VertexHelper vh)|
-
-## SVGImage
-
-> class in XCharts.Runtime / Inherits from: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic)
-
 
 ## SVGPath
 
@@ -3079,15 +3242,15 @@ UI组件基类。
 > class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
 
 
+|public method|since|description|
+|--|--|--|
+|GetBackgroundColor()||public Color32 GetBackgroundColor(Background background)|
+
 ## UIHelper
 
 > class in XCharts.Runtime
 
 UI帮助类。
-
-|public method|since|description|
-|--|--|--|
-|GetBackgroundColor()||public static Color32 GetBackgroundColor(UIComponent component)|
 
 ## VisualMap
 

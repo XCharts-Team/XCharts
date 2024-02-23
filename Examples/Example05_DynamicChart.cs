@@ -42,7 +42,6 @@ namespace XCharts.Example
         {
             var chartObject = CreateChartObject(chartName);
             var chart = chartObject.AddComponent<PieChart>();
-            chart.Init();
             chart.SetSize(580, 300);
 
             chart.EnsureChartComponent<Title>().show = true;
@@ -64,7 +63,6 @@ namespace XCharts.Example
         {
             var chartObject = CreateChartObject(chartName);
             var chart = chartObject.AddComponent<PieChart>();
-            chart.Init();
             chart.SetSize(580, 300);
 
             chart.EnsureChartComponent<Title>().show = true;

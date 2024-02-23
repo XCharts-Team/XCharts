@@ -606,7 +606,7 @@ namespace XCharts.Runtime
                     innerFill = stateStyle.areaStyle.innerFill;
                     toTop = stateStyle.areaStyle.toTop;
                     GetColor(ref color, stateStyle.areaStyle.color, stateStyle.itemStyle.color, stateStyle.areaStyle.opacity, theme, index);
-                    GetColor(ref color, stateStyle.areaStyle.toColor, color, stateStyle.areaStyle.opacity, theme, index);
+                    GetColor(ref toColor, stateStyle.areaStyle.toColor, color, stateStyle.areaStyle.opacity, theme, index);
                 }
                 else
                 {
@@ -645,7 +645,7 @@ namespace XCharts.Runtime
             }
         }
 
-        private static void GetColor(ref Color32 color, Color32 checkColor, Color32 itemColor,
+        public static void GetColor(ref Color32 color, Color32 checkColor, Color32 itemColor,
             float opacity, ThemeStyle theme, int colorIndex, bool setOpacity = true)
         {
             if (!ChartHelper.IsClearColor(checkColor)) color = checkColor;

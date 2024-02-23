@@ -8,7 +8,7 @@ namespace XCharts.Runtime
     public static class FormatterHelper
     {
         public const string PH_NN = "\n";
-        private static Regex s_Regex = new Regex(@"{([a-h|.]\d*)(:\d+(-\d+)?)?(:[c-g|x|p|r]\d*|:0\.#*)?}", RegexOptions.IgnoreCase);
+        private static Regex s_Regex = new Regex(@"{([a-h|.|y]\d*)(:\d+(-\d+)?)?(:[c-g|x|p|r]\d*|:0\.#*)?}", RegexOptions.IgnoreCase);
         private static Regex s_RegexSub = new Regex(@"(0\.#*)|(\d+-\d+)|(\w+)|(\.)", RegexOptions.IgnoreCase);
         private static Regex s_RegexN = new Regex(@"^\d+", RegexOptions.IgnoreCase);
         private static Regex s_RegexN_N = new Regex(@"\d+-\d+", RegexOptions.IgnoreCase);
@@ -16,8 +16,8 @@ namespace XCharts.Runtime
         private static Regex s_RegexNewLine = new Regex(@"[\\|/]+n|</br>|<br>|<br/>", RegexOptions.IgnoreCase);
         private static Regex s_RegexForAxisLabel = new Regex(@"{value(:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
         private static Regex s_RegexSubForAxisLabel = new Regex(@"(value)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
-        private static Regex s_RegexForSerieLabel = new Regex(@"{[a-h|\.]\d*(:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
-        private static Regex s_RegexSubForSerieLabel = new Regex(@"(\.)|([a-h]\d*)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
+        private static Regex s_RegexForSerieLabel = new Regex(@"{[a-h|\.|y]\d*(:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
+        private static Regex s_RegexSubForSerieLabel = new Regex(@"(\.)|([a-h|y]\d*)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
 
         public static bool NeedFormat(string content)
         {
@@ -25,7 +25,7 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// 替换字符串中的通配符，支持的通配符有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}、{h}。
+        /// 替换字符串中的通配符，支持的通配符有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}、{h}、{y}。
         /// </summary>
         /// <param name="content">要替换的字符串</param>
         /// <param name="dataIndex">选中的数据项serieData索引</param>
@@ -119,6 +119,33 @@ namespace XCharts.Runtime
                 {
                     content = content.Replace(old, ChartCached.NumberToStr(serie.dataCount, ""));
                 }
+                else if (p == 'y' || p == 'Y')
+                {
+                    if (chart != null)
+                    {
+                        var yAxis = chart.GetChartComponent<YAxis>(0);
+                        if (yAxis != null)
+                        {
+                            var bIndex = dataIndex;
+                            if (argsCount >= 2)
+                            {
+                                var args1Str = args[1].ToString();
+                                if (s_RegexN.IsMatch(args1Str)) bIndex = int.Parse(args1Str);
+                                if (s_RegexFn.IsMatch(args1Str)) numericFormatter = args1Str;
+                            }
+                            if (yAxis.IsCategory())
+                            {
+                                var yCategory = yAxis.GetData(bIndex);
+                                content = content.Replace(old, yCategory);
+                            }
+                            else
+                            {
+                                var value = yAxis.context.pointerValue;
+                                content = content.Replace(old, ChartCached.FloatToStr(value, numericFormatter));
+                            }
+                        }
+                    }
+                }
                 else if (p == 'c' || p == 'C' || p == 'd' || p == 'D' || p == 'f' || p == 'f')
                 {
                     var isPercent = p == 'd' || p == 'D';
@@ -184,7 +211,7 @@ namespace XCharts.Runtime
         }
 
         public static void ReplaceSerieLabelContent(ref string content, string numericFormatter, int dataCount, double value, double total,
-            string serieName, string category, string dataName, Color color, SerieData serieData)
+            string serieName, string category, string dataName, Color color, SerieData serieData, BaseChart chart = null)
         {
             var mc = s_RegexForSerieLabel.Matches(content);
             foreach (var m in mc)
@@ -252,6 +279,25 @@ namespace XCharts.Runtime
                 else if (p == 'h' || p == 'H')
                 {
                     content = content.Replace(old, "#" + ChartCached.ColorToStr(color));
+                }
+                else if (p == 'y' || p == 'Y')
+                {
+                    if (chart != null)
+                    {
+                        var yAxis = chart.GetChartComponent<YAxis>(0);
+                        if (yAxis != null)
+                        {
+                            if (yAxis.IsCategory())
+                            {
+                                var yCategory = yAxis.GetData(pIndex >= 0 ? pIndex : (int)value);
+                                content = content.Replace(old, yCategory);
+                            }
+                            else
+                            {
+                                content = content.Replace(old, ChartCached.NumberToStr(value, numericFormatter));
+                            }
+                        }
+                    }
                 }
             }
             content = TrimAndReplaceLine(content);

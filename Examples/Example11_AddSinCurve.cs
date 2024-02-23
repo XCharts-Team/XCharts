@@ -16,6 +16,7 @@ namespace XCharts.Example
             if (chart == null)
             {
                 chart = gameObject.AddComponent<LineChart>();
+                chart.Init();
             }
             chart.EnsureChartComponent<Title>().show = true;
             chart.EnsureChartComponent<Title>().text = "Sin Curve";

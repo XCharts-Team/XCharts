@@ -38,7 +38,11 @@ namespace XCharts.Example
         IEnumerator PieAdd()
         {
             chart = gameObject.GetComponent<PieChart>();
-            if (chart == null) chart = gameObject.AddComponent<PieChart>();
+            if (chart == null)
+            {
+                chart = gameObject.AddComponent<PieChart>();
+                chart.Init();
+            }
             yield return null;
             chart.GetChartComponent<Title>().text = "PieChart - 饼图";
             chart.GetChartComponent<Title>().subText = "基础饼图";

@@ -86,7 +86,18 @@ namespace XCharts.Runtime
         /// The type of animation.
         /// ||动画类型。
         /// </summary>
-        public AnimationType type { get { return m_Type; } set { m_Type = value; } }
+        public AnimationType type
+        {
+            get { return m_Type; }
+            set
+            {
+                m_Type = value;
+                if (m_Type != AnimationType.Default)
+                {
+                    context.type = m_Type;
+                }
+            }
+        }
         /// <summary>
         /// Whether to set graphic number threshold to animation. Animation will be disabled when graphic number is larger than threshold.
         /// ||是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画。

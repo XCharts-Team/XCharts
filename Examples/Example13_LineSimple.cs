@@ -25,12 +25,11 @@ namespace XCharts.Example
 
         void AddData()
         {
-            var chart = gameObject.GetComponent<SimplifiedLineChart>();
+            var chart = gameObject.GetComponent<LineChart>();
             if (chart == null)
             {
-                chart = gameObject.AddComponent<SimplifiedLineChart>();
+                chart = gameObject.AddComponent<LineChart>();
                 chart.Init();
-                chart.SetSize(580, 300);
             }
             chart.EnsureChartComponent<Title>().show = true;
             chart.EnsureChartComponent<Title>().text = "Line Simple";
@@ -49,9 +48,9 @@ namespace XCharts.Example
             xAxis.boundaryGap = true;
 
             chart.RemoveData();
-            chart.AddSerie<SimplifiedLine>();
-            chart.AddSerie<SimplifiedLine>();
-            for (int i = 0; i < 200; i++)
+            chart.AddSerie<Line>();
+            chart.AddSerie<Line>();
+            for (int i = 0; i < 20; i++)
             {
                 chart.AddXAxisData("x" + i);
                 chart.AddData(0, Random.Range(10, 20));

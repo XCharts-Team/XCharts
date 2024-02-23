@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace XCharts.Runtime
 {
-    internal static class ListPool<T>
+    public static class ListPool<T>
     {
         private static readonly ObjectPool<List<T>> s_ListPool = new ObjectPool<List<T>>(OnGet, OnClear);
         static void OnGet(List<T> l)

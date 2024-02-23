@@ -12,6 +12,8 @@ namespace XCharts.Editor
         private bool m_DataFoldout = false;
         private bool m_DataComponentFoldout = true;
         private Dictionary<int, bool> m_DataElementFoldout = new Dictionary<int, bool>();
+        private bool m_LinksFoldout = false;
+        private Dictionary<int, bool> m_LinksElementFoldout = new Dictionary<int, bool>();
 
         public override void OnInspectorGUI()
         {
@@ -31,10 +33,14 @@ namespace XCharts.Editor
             OnCustomInspectorGUI();
             OnExtraInspectorGUI();
             PropertyFieldData();
+            OnEndCustomInspectorGUI();
             --EditorGUI.indentLevel;
         }
 
         public virtual void OnCustomInspectorGUI()
+        { }
+
+        public virtual void OnEndCustomInspectorGUI()
         { }
 
         private void OnExtraInspectorGUI()
@@ -52,7 +58,7 @@ namespace XCharts.Editor
             m_DataFoldout = ChartEditorHelper.DrawHeader("Data", m_DataFoldout, false, null, null,
                 new HeaderMenuInfo("Import ECharts Data", () =>
                 {
-                    PraseExternalDataEditor.UpdateData(chart, serie, null);
+                    PraseExternalDataEditor.UpdateData(chart, serie, null, false);
                     PraseExternalDataEditor.ShowWindow();
                 }));
             if (!m_DataFoldout) return;
@@ -97,6 +103,48 @@ namespace XCharts.Editor
             EditorGUI.indentLevel--;
         }
 
+        protected void PropertyFieldLinks()
+        {
+            m_LinksFoldout = ChartEditorHelper.DrawHeader("Links", m_LinksFoldout, false, null, null,
+                new HeaderMenuInfo("Import ECharts Link", () =>
+                {
+                    //PraseExternalDataEditor.UpdateData(chart, serie, null, true);
+                    //PraseExternalDataEditor.ShowWindow();
+                }));
+            if (!m_LinksFoldout) return;
+            EditorGUI.indentLevel++;
+            var m_Links = FindProperty("m_Links");
+            var listSize = m_Links.arraySize;
+            listSize = EditorGUILayout.IntField("Size", listSize);
+            if (listSize < 0) listSize = 0;
+            if (listSize != m_Links.arraySize)
+            {
+                while (listSize > m_Links.arraySize) m_Links.arraySize++;
+                while (listSize < m_Links.arraySize) m_Links.arraySize--;
+            }
+            if (listSize > 30) // && !XCSettings.editorShowAllListData)
+            {
+                int num = listSize > 10 ? 10 : listSize;
+                for (int i = 0; i < num; i++)
+                {
+                    DrawSerieDataLink(m_Links, i);
+                }
+                if (num >= 10)
+                {
+                    ChartEditorHelper.DrawHeader("... ", false, false, null, null);
+                    DrawSerieDataLink(m_Links, listSize - 1);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < m_Links.arraySize; i++)
+                {
+                    DrawSerieDataLink(m_Links, i);
+                }
+            }
+            EditorGUI.indentLevel--;
+        }
+
         protected void PropertyFiledMore(System.Action action)
         {
             m_MoreFoldout = ChartEditorHelper.DrawHeader(MORE, m_MoreFoldout, false, null, null);
@@ -118,7 +166,7 @@ namespace XCharts.Editor
             var serieData = m_Datas.GetArrayElementAtIndex(index);
             var dataIndex = serieData.FindPropertyRelative("m_Index").intValue;
             m_DataElementFoldout[index] = ChartEditorHelper.DrawHeader("SerieData " + dataIndex, flag, false, null,
-                delegate(Rect drawRect)
+                delegate (Rect drawRect)
                 {
                     //drawRect.width -= 2f;
                     var maxX = drawRect.xMax;
@@ -240,6 +288,39 @@ namespace XCharts.Editor
                         PropertyField(prop.GetArrayElementAtIndex(0));
                 }
             }
+            EditorGUI.indentLevel--;
+        }
+
+        private void DrawSerieDataLink(SerializedProperty m_Datas, int index)
+        {
+            bool flag;
+            if (!m_LinksElementFoldout.TryGetValue(index, out flag))
+            {
+                flag = false;
+                m_LinksElementFoldout[index] = false;
+            }
+            var dataLink = m_Datas.GetArrayElementAtIndex(index);
+            m_LinksElementFoldout[index] = ChartEditorHelper.DrawHeader("Link " + index, flag, false, null,
+                delegate (Rect drawRect)
+                {
+                    var sourceIndex = dataLink.FindPropertyRelative("m_Source");
+                    var targetIndex = dataLink.FindPropertyRelative("m_Target");
+                    var value = dataLink.FindPropertyRelative("m_Value");
+                    ChartEditorHelper.MakeThreeField(ref drawRect, drawRect.width, sourceIndex, targetIndex, value, "");
+                });
+            if (m_LinksElementFoldout[index])
+            {
+                DrawSerieDataLinkDetail(m_Datas, index);
+            }
+        }
+
+        private void DrawSerieDataLinkDetail(SerializedProperty m_Links, int index)
+        {
+            EditorGUI.indentLevel++;
+            var dataLink = m_Links.GetArrayElementAtIndex(index);
+            PropertyField(dataLink.FindPropertyRelative("m_Source"));
+            PropertyField(dataLink.FindPropertyRelative("m_Target"));
+            PropertyField(dataLink.FindPropertyRelative("m_Value"));
             EditorGUI.indentLevel--;
         }
     }

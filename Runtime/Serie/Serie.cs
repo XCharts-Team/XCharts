@@ -278,9 +278,11 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_ClickOffset = true;
         [SerializeField] private RoseType m_RoseType = RoseType.None;
         [SerializeField] private float m_Gap;
-        [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.48f };
+        [SerializeField] private float[] m_Center = new float[2] { 0.5f, 0.46f };
         [SerializeField] private float[] m_Radius = new float[2] { 0, 0.28f };
         [SerializeField][Since("v3.8.0")] private float m_MinRadius = 0f;
+        [SerializeField][Since("v3.10.0")] private bool m_MinShowLabel = false;
+        [SerializeField][Since("v3.10.0")] private double m_MinShowLabelValue = 0;
 
         [SerializeField][Range(2, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
@@ -309,6 +311,7 @@ namespace XCharts.Runtime
         [SerializeField] private AnimationStyle m_Animation = new AnimationStyle();
         [SerializeField] private ItemStyle m_ItemStyle = new ItemStyle();
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
+        [SerializeField] private List<SerieDataLink> m_Links = new List<SerieDataLink>();
 
         [NonSerialized] internal int m_FilterStart;
         [NonSerialized] internal int m_FilterEnd;
@@ -962,9 +965,31 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_PlaceHolder, value)) SetAllDirty(); }
         }
         /// <summary>
+        /// Whether the label is not displayed when the enabled value is less than the specified value.
+        /// ||是否开启值小于指定值`minShowLabelValue`时不显示标签。
+        /// </summary>
+        public bool minShowLabel
+        {
+            get { return m_MinShowLabel; }
+            set { if (PropertyUtil.SetStruct(ref m_MinShowLabel, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// When 'minShowLabel' is enabled, labels are not displayed if the value is less than this value.
+        /// ||当开启`minShowLabel`时，值小于该值时不显示标签。
+        /// </summary>
+        public double minShowLabelValue
+        {
+            get { return m_MinShowLabelValue; }
+            set { if (PropertyUtil.SetStruct(ref m_MinShowLabelValue, value)) { SetVerticesDirty(); } }
+        }
+        /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。
         /// </summary>
         public List<SerieData> data { get { return m_Data; } }
+        /// <summary>
+        /// 数据节点的边。
+        /// </summary>
+        public List<SerieDataLink> links { get { return m_Links; } }
         /// <summary>
         /// 取色策略是否为按数据项分配。
         /// </summary>
@@ -1272,6 +1297,15 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
+        /// 清空所有Link数据
+        /// </summary>
+        public void ClearLinks()
+        {
+            m_Links.Clear();
+            SetVerticesDirty();
+        }
+
+        /// <summary>
         /// 移除指定索引的数据
         /// </summary>
         /// <param name="index"></param>
@@ -1305,7 +1339,7 @@ namespace XCharts.Runtime
         /// <param name="dataId">the unique id of data</param>
         public SerieData AddYData(double value, string dataName = null, string dataId = null)
         {
-            CheckMaxCache();
+            var flag = CheckMaxCache();
             int xValue = m_Data.Count;
             var serieData = SerieDataPool.Get();
             serieData.data.Add(xValue);
@@ -1314,6 +1348,7 @@ namespace XCharts.Runtime
             serieData.index = xValue;
             serieData.id = dataId;
             AddSerieData(serieData);
+            if (flag) ResetDataIndex();
             m_ShowDataDimension = 2;
             SetVerticesDirty();
             CheckDataName(dataName);
@@ -1352,7 +1387,7 @@ namespace XCharts.Runtime
         /// <param name="dataId">the unique id of data</param>
         public SerieData AddXYData(double xValue, double yValue, string dataName = null, string dataId = null)
         {
-            CheckMaxCache();
+            var flag = CheckMaxCache();
             var serieData = SerieDataPool.Get();
             serieData.data.Clear();
             serieData.data.Add(xValue);
@@ -1361,6 +1396,7 @@ namespace XCharts.Runtime
             serieData.index = m_Data.Count;
             serieData.id = dataId;
             AddSerieData(serieData);
+            if (flag) ResetDataIndex();
             m_ShowDataDimension = 2;
             SetVerticesDirty();
             CheckDataName(dataName);
@@ -1380,7 +1416,7 @@ namespace XCharts.Runtime
         /// <returns></returns>
         public SerieData AddData(double indexOrTimestamp, double open, double close, double lowest, double heighest, string dataName = null, string dataId = null)
         {
-            CheckMaxCache();
+            var flag = CheckMaxCache();
             var serieData = SerieDataPool.Get();
             serieData.data.Clear();
             serieData.data.Add(indexOrTimestamp);
@@ -1392,6 +1428,7 @@ namespace XCharts.Runtime
             serieData.index = m_Data.Count;
             serieData.id = dataId;
             AddSerieData(serieData);
+            if (flag) ResetDataIndex();
             m_ShowDataDimension = 5;
             SetVerticesDirty();
             CheckDataName(dataName);
@@ -1415,7 +1452,7 @@ namespace XCharts.Runtime
                 return AddXYData(valueList[0], valueList[1], dataName, dataId);
             else
             {
-                CheckMaxCache();
+                var flag = CheckMaxCache();
                 m_ShowDataDimension = valueList.Count;
                 var serieData = SerieDataPool.Get();
                 serieData.name = dataName;
@@ -1426,6 +1463,7 @@ namespace XCharts.Runtime
                     serieData.data.Add(valueList[i]);
                 }
                 AddSerieData(serieData);
+                if (flag) ResetDataIndex();
                 SetVerticesDirty();
                 CheckDataName(dataName);
                 labelDirty = true;
@@ -1449,7 +1487,7 @@ namespace XCharts.Runtime
                 return AddXYData(values[0], values[1], dataName, dataId);
             else
             {
-                CheckMaxCache();
+                var flag = CheckMaxCache();
                 m_ShowDataDimension = values.Length;
                 var serieData = SerieDataPool.Get();
                 serieData.name = dataName;
@@ -1460,6 +1498,7 @@ namespace XCharts.Runtime
                     serieData.data.Add(values[i]);
                 }
                 AddSerieData(serieData);
+                if (flag) ResetDataIndex();
                 SetVerticesDirty();
                 CheckDataName(dataName);
                 labelDirty = true;
@@ -1504,15 +1543,38 @@ namespace XCharts.Runtime
             }
         }
 
-        private void CheckMaxCache()
+        /// <summary>
+        /// Add a link data.
+        /// ||添加一个关系图的关系数据。
+        /// </summary>
+        /// <param name="sourceName"></param>
+        /// <param name="targetName"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public SerieDataLink AddLink(string sourceName, string targetName, double value)
         {
-            if (m_MaxCache <= 0) return;
+            var link = new SerieDataLink();
+            link.source = sourceName;
+            link.target = targetName;
+            link.value = value;
+            m_Links.Add(link);
+            SetVerticesDirty();
+            labelDirty = true;
+            return link;
+        }
+
+        private bool CheckMaxCache()
+        {
+            if (m_MaxCache <= 0) return false;
+            var flag = false;
             while (m_Data.Count >= m_MaxCache)
             {
                 m_NeedUpdateFilterData = true;
                 if (m_InsertDataToHead) RemoveData(m_Data.Count - 1);
                 else RemoveData(0);
+                flag = true;
             }
+            return flag;
         }
 
         /// <summary>
@@ -1800,7 +1862,7 @@ namespace XCharts.Runtime
                 serieData.context.highlight = flag;
         }
 
-        public float GetBarWidth(float categoryWidth, int barCount = 0)
+        public float GetBarWidth(float categoryWidth, int barCount = 0, float defaultRate = 0.6f)
         {
             var realWidth = 0f;
             if (categoryWidth < 2)
@@ -1809,7 +1871,7 @@ namespace XCharts.Runtime
             }
             else if (m_BarWidth == 0)
             {
-                var width = ChartHelper.GetActualValue(0.6f, categoryWidth);
+                var width = ChartHelper.GetActualValue(defaultRate, categoryWidth);
                 if (barCount == 0)
                     realWidth = width < 1 ? categoryWidth : width;
                 else
@@ -1860,6 +1922,24 @@ namespace XCharts.Runtime
                 return ChartHelper.IsIngore(data[index].context.position);
             }
             return false;
+        }
+
+        public bool IsMinShowLabelValue(int index, int dimension = 1)
+        {
+            var serieData = GetSerieData(index);
+            if (serieData != null)
+                return IsMinShowLabelValue(serieData, dimension);
+            return false;
+        }
+
+        public bool IsMinShowLabelValue(SerieData serieData, int dimension = 1)
+        {
+            return IsMinShowLabelValue(serieData.GetData(dimension));
+        }
+
+        public bool IsMinShowLabelValue(double value)
+        {
+            return m_MinShowLabel && value <= m_MinShowLabelValue;
         }
 
         public bool IsSerie<T>() where T : Serie

@@ -19,6 +19,7 @@ namespace XCharts.Example
             if (chart == null)
             {
                 chart = gameObject.AddComponent<RadarChart>();
+                chart.Init();
             }
         }
 

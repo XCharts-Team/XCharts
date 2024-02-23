@@ -11,6 +11,7 @@ namespace XCharts.Editor
         private static BaseChart s_Chart;
         private static Serie s_Serie;
         private static Axis s_Axis;
+        private static bool s_LinksData;
         private static PraseExternalDataEditor window;
         private static string inputJsonText = "";
 
@@ -23,11 +24,12 @@ namespace XCharts.Editor
             window.Show();
         }
 
-        public static void UpdateData(BaseChart chart, Serie serie, Axis axis)
+        public static void UpdateData(BaseChart chart, Serie serie, Axis axis, bool linksData)
         {
             s_Chart = chart;
             s_Serie = serie;
             s_Axis = axis;
+            s_LinksData = linksData;
             inputJsonText = UnityEngine.GUIUtility.systemCopyBuffer;
         }
 
@@ -97,7 +99,8 @@ namespace XCharts.Editor
         {
             arrayData = arrayData.Trim();
             if (!arrayData.StartsWith("data: Array")) return false;
-            serie.ClearData();
+            if (s_LinksData) serie.ClearLinks();
+            else serie.ClearData();
             var list = arrayData.Split('\n');
             for (int i = 1; i < list.Length; i++)
             {
@@ -140,7 +143,8 @@ namespace XCharts.Editor
         private static bool ParseJsonData(Serie serie, string jsonData)
         {
             if (!CheckJsonData(ref jsonData)) return false;
-            serie.ClearData();
+            if (s_LinksData) serie.ClearLinks();
+            else serie.ClearData();
             if (jsonData.IndexOf("],") > -1 || jsonData.IndexOf("] ,") > -1)
             {
                 string[] datas = jsonData.Split(new string[] { "],", "] ," }, StringSplitOptions.RemoveEmptyEntries);

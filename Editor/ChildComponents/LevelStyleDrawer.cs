@@ -27,11 +27,16 @@ namespace XCharts.Editor
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
-            ++EditorGUI.indentLevel;
-            PropertyField(prop, "m_Label");
-            PropertyField(prop, "m_UpperLabel");
-            PropertyField(prop, "m_ItemStyle");
-            --EditorGUI.indentLevel;
+            if (MakeComponentFoldout(prop, "m_Depth", true))
+            {
+                ++EditorGUI.indentLevel;
+                PropertyField(prop, "m_Depth");
+                PropertyField(prop, "m_Label");
+                PropertyField(prop, "m_UpperLabel");
+                PropertyField(prop, "m_LineStyle");
+                PropertyField(prop, "m_ItemStyle");
+                --EditorGUI.indentLevel;
+            }
         }
     }
 }

@@ -192,6 +192,7 @@ namespace XCharts.Runtime
         /// {h} is the hexadecimal color value of serieData for the serie data item currently indicated or index 0. <br />
         /// {f} is the sum of data. <br />
         /// {g} indicates the total number of data. <br />
+        /// {y} is category value of y axis. <br />
         /// {.1} represents a dot of the corresponding color with serie specified as index 1. <br />
         /// The 1 in {a1}, {b1}, {c1} represents serie where index is specified as 1. <br />
         /// {c1:2} represents the third data of the current indicator data item in serie with index 1 (one data item has multiple data, index 2 represents the third data). <br />
@@ -210,6 +211,7 @@ namespace XCharts.Runtime
         /// {h}为当前所指示或index为0的serie的数据项serieData的十六进制颜色值。<br/>
         /// {f}为数据总和。<br/>
         /// {g}为数据总个数。<br/>
+        /// {f}为value所对应的y轴的类目值。<br/>
         /// {.1}表示指定index为1的serie对应颜色的圆点。<br/>
         /// {a1}、{b1}、{c1}中的1表示指定index为1的serie。<br/>
         /// {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。<br/>
@@ -229,6 +231,7 @@ namespace XCharts.Runtime
         /// {d} is the percentage value of Y-dimensions (dimesion is 1) from serie that is currently indicated or whose index is 0, with no % sign.<br/>
         /// {e} is the name of the data item serieData that is currently indicated or whose index is 0.<br/>
         /// {f} is sum of data.<br/>
+        /// {y} is category value of y axis.<br/>
         /// {.1} represents a dot from serie corresponding color that specifies index as 1.<br/>
         /// 1 in {a1}, {b1}, {c1} represents a serie that specifies an index of 1.<br/>
         /// {c1:2} represents the third data from serie's current indication data item indexed to 1 (a data item has multiple data, index 2 represents the third data).<br/>
@@ -248,11 +251,12 @@ namespace XCharts.Runtime
         /// {f}为当前所指示的serie的默认维度的数据总和。<br/>
         /// {g}为当前所指示的serie的数据总个数。<br/>
         /// {h}为当前所指示的serie的十六进制颜色值。<br/>
+        /// {y}为当前所指示的serie的y轴的类目值。<br/>
         /// {c0}表示当前数据项维度为0的数据。<br/>
         /// {c1}表示当前数据项维度为1的数据。<br/>
         /// {d3}表示维度3的数据的百分比。它的分母是默认维度（一般是1维度）数据。<br/>
         /// |表示多个列的分隔。<br/>
-        /// 示例："{i}", "{.}|{a}|{c}", "{.}|{b}|{c2:f2}"
+        /// 示例："{i}", "{.}|{a}|{c}", "{.}|{b}|{c2:f2}", "{.}|{b}|{y}"
         /// </summary>
         public string itemFormatter { get { return m_ItemFormatter; } set { m_ItemFormatter = value; } }
         /// <summary>

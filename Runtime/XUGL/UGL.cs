@@ -1059,6 +1059,18 @@ namespace XUGL
             }
         }
 
+        public static void DrawRoundRectangleWithBorder(VertexHelper vh, Rect rect,
+            Color32 color, Color32 toColor, float[] cornerRadius, float borderWidth, Color32 borderColor,
+            float rotate = 0, float smoothness = 2)
+        {
+            DrawRoundRectangle(vh, rect.center, rect.width, rect.height, color, toColor, rotate, cornerRadius,
+                false, smoothness, false);
+            if (borderWidth > 0)
+            {
+                UGL.DrawBorder(vh, rect, borderWidth, borderColor, rotate, cornerRadius, true, smoothness);
+            }
+        }
+
         /// <summary>
         /// 绘制（圆角）边框
         /// </summary>
@@ -1933,7 +1945,7 @@ namespace XUGL
             }
         }
 
-        private static void DrawCurvesInternal(VertexHelper vh, List<Vector3> curvesPosList, float lineWidth,
+        public static void DrawCurvesInternal(VertexHelper vh, List<Vector3> curvesPosList, float lineWidth,
             Color32 lineColor, Direction dire, float currProgress = float.NaN)
         {
             if (curvesPosList.Count > 1)

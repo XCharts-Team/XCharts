@@ -40,7 +40,10 @@ namespace XCharts.Example
         IEnumerator AddSimpleLine()
         {
             chart = gameObject.GetComponent<LineChart>();
-            if (chart == null) chart = gameObject.AddComponent<LineChart>();
+            if (chart == null){
+                chart = gameObject.AddComponent<LineChart>();
+                chart.Init();
+            }
             chart.GetChartComponent<Title>().text = "LineChart - 折线图";
             chart.GetChartComponent<Title>().subText = "普通折线图";
 

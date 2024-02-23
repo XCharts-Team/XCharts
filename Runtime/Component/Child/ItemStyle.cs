@@ -228,18 +228,6 @@ namespace XCharts.Runtime
             get { return m_CornerRadius; }
             set { if (PropertyUtil.SetClass(ref m_CornerRadius, value, true)) SetVerticesDirty(); }
         }
-        /// <summary>
-        /// 实际边框宽。边框不显示时为0。
-        /// </summary>
-        public float runtimeBorderWidth { get { return NeedShowBorder() ? borderWidth : 0; } }
-
-        /// <summary>
-        /// 是否需要显示边框。
-        /// </summary>
-        public bool NeedShowBorder()
-        {
-            return borderWidth != 0 && !ChartHelper.IsClearColor(borderColor);
-        }
 
         public Color32 GetColor()
         {

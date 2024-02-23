@@ -70,7 +70,7 @@ namespace XCharts.Runtime
 #if dUI_TextMeshPro
             if (m_TMPText != null) m_TMPText.fontSize = fontSize;
 #else               
-            if (m_Text != null) m_Text.fontSize = (int) fontSize;
+            if (m_Text != null) m_Text.fontSize = (int)fontSize;
 #endif           
         }
 
@@ -102,6 +102,16 @@ namespace XCharts.Runtime
 #else              
             if (m_Text != null) m_Text.color = color;
 #endif
+        }
+
+        public Color GetColor()
+        {
+#if dUI_TextMeshPro
+            if (m_TMPText != null) return m_TMPText.color;
+#else
+            if (m_Text != null) return m_Text.color;
+#endif
+            return Color.clear;
         }
 
         public void SetLineSpacing(float lineSpacing)
@@ -253,9 +263,12 @@ namespace XCharts.Runtime
         public float GetPreferredWidth(string content)
         {
 #if dUI_TextMeshPro
-            if (m_TMPText != null) return 0; // TODO:
+            if (m_TMPText != null && !string.IsNullOrEmpty(content))
+            {
+                return m_TMPText.GetPreferredValues(content).x;
+            }
 #else
-            if (m_Text != null)
+            if (m_Text != null && !string.IsNullOrEmpty(content))
             {
                 var tg = m_Text.cachedTextGeneratorForLayout;
                 var setting = m_Text.GetGenerationSettings(Vector2.zero);
@@ -286,25 +299,18 @@ namespace XCharts.Runtime
 
         public string GetPreferredText(string content, string suffix, float maxWidth)
         {
-#if dUI_TextMeshPro
-            if (m_TMPText != null) return content; // TODO:
-#else
-            if (m_Text != null)
+            var sourWid = GetPreferredWidth(content);
+            if (sourWid < maxWidth) return content;
+            var suffixWid = GetPreferredWidth(suffix);
+            var textWid = maxWidth - 1.3f * suffixWid;
+            for (int i = content.Length; i > 0; i--)
             {
-                var sourWid = GetPreferredWidth(content);
-                if (sourWid < maxWidth) return content;
-                var suffixWid = GetPreferredWidth(suffix);
-                var textWid = maxWidth - 1.3f * suffixWid;
-                for (int i = content.Length; i > 0; i--)
+                var temp = content.Substring(0, i);
+                if (GetPreferredWidth(temp) < textWid)
                 {
-                    var temp = content.Substring(0, i);
-                    if (GetPreferredWidth(temp) < textWid)
-                    {
-                        return temp + suffix;
-                    }
+                    return temp + suffix;
                 }
             }
-#endif
             return string.Empty;
         }
 

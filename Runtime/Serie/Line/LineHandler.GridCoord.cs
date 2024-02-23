@@ -277,13 +277,14 @@ namespace XCharts.Runtime
                 return;
 
             var axisLength = isY ? m_SerieGrid.context.height : m_SerieGrid.context.width;
-
+            var axisRelativedLength = isY ? m_SerieGrid.context.width : m_SerieGrid.context.height;
 
             int maxCount = serie.maxShow > 0 ?
                 (serie.maxShow > showData.Count ? showData.Count : serie.maxShow) :
                 showData.Count;
             maxCount -= serie.context.dataZoomStartIndexOffset;
             var scaleWid = AxisHelper.GetDataWidth(axis, axisLength, maxCount, dataZoom);
+            var scaleRelativedWid = AxisHelper.GetDataWidth(relativedAxis, axisRelativedLength, maxCount, dataZoom);
             int rate = LineHelper.GetDataAverageRate(serie, m_SerieGrid, maxCount, false);
             var totalAverage = serie.sampleAverage > 0 ?
                 serie.sampleAverage :
@@ -330,7 +331,7 @@ namespace XCharts.Runtime
                         maxCount, totalAverage, i, 0, dataChangeDuration, ref dataChanging, relativedAxis, unscaledTime);
 
                     serieData.context.stackHeight = GetDataPoint(isY, axis, relativedAxis, m_SerieGrid, xValue, relativedValue,
-                        i, scaleWid, isStack, ref np);
+                        i, scaleWid, scaleRelativedWid, isStack, ref np);
                     serieData.context.isClip = false;
                     if (serie.clip && !m_SerieGrid.Contains(np))
                     {
@@ -356,7 +357,7 @@ namespace XCharts.Runtime
             serie.animation.InitProgress(serie.context.dataPoints, isY);
 
             VisualMapHelper.AutoSetLineMinMax(visualMap, serie, isY, axis, relativedAxis);
-            LineHelper.UpdateSerieDrawPoints(serie, chart.settings, chart.theme, visualMap, lineWidth, isY);
+            LineHelper.UpdateSerieDrawPoints(serie, chart.settings, chart.theme, visualMap, lineWidth, isY, m_SerieGrid);
             LineHelper.DrawSerieLineArea(vh, serie, lastSerie, chart.theme, visualMap, isY, axis, relativedAxis, m_SerieGrid);
             LineHelper.DrawSerieLine(vh, chart.theme, serie, visualMap, m_SerieGrid, axis, relativedAxis, lineWidth);
 
@@ -371,12 +372,12 @@ namespace XCharts.Runtime
         }
 
         private float GetDataPoint(bool isY, Axis axis, Axis relativedAxis, GridCoord grid, double xValue,
-            double yValue, int i, float scaleWid, bool isStack, ref Vector3 np)
+            double yValue, int i, float scaleWid, float scaleRelativedWid, bool isStack, ref Vector3 np)
         {
             float xPos, yPos;
             var gridXY = isY ? grid.context.x : grid.context.y;
             var valueHig = 0f;
-            valueHig = AxisHelper.GetAxisValueDistance(grid, relativedAxis, scaleWid, yValue);
+            valueHig = AxisHelper.GetAxisValueDistance(grid, relativedAxis, scaleRelativedWid, yValue);
             valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, valueHig);
             if (isY)
             {
@@ -399,7 +400,7 @@ namespace XCharts.Runtime
                 }
             }
             np = new Vector3(xPos, yPos);
-            return AxisHelper.GetAxisValueLength(grid, relativedAxis, scaleWid, yValue);
+            return AxisHelper.GetAxisValueLength(grid, relativedAxis, scaleRelativedWid, yValue);
         }
     }
 }

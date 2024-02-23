@@ -76,6 +76,7 @@ namespace XCharts.Runtime
             title.SetText(data.title);
 
             m_ColumnMaxWidth.Clear();
+            var contentLabelStyle0 = tooltip.GetContentLabelStyle(0);
             for (int i = 0; i < data.param.Count; i++)
             {
                 var item = GetItem(i);
@@ -92,7 +93,7 @@ namespace XCharts.Runtime
                     column.SetActive(true);
                     column.SetText(param.columns[j]);
 
-                    if (j == 0)
+                    if (j == 0 && contentLabelStyle0 != null && ChartHelper.IsClearColor(contentLabelStyle0.textStyle.color))
                         column.text.SetColor(param.color);
 
                     if (j >= m_ColumnMaxWidth.Count)

@@ -106,6 +106,23 @@ namespace XCharts.Editor
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
         }
 
+        public static void MakeThreeField(ref Rect drawRect, float rectWidth, SerializedProperty prop1,
+            SerializedProperty prop2, SerializedProperty prop3, string name)
+        {
+            EditorGUI.LabelField(drawRect, name);
+            var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH + GAP_WIDTH;
+            var diff = 13 + EditorGUI.indentLevel * 14;
+            var offset = diff - INDENT_WIDTH;
+            var tempWidth = (rectWidth - startX + diff) / 3;
+            var centerXRect = new Rect(startX, drawRect.y, tempWidth, drawRect.height - 1);
+            var centerYRect = new Rect(centerXRect.x + tempWidth - offset, drawRect.y, tempWidth - 1, drawRect.height - 1);
+            var centerZRect = new Rect(centerYRect.x + tempWidth - offset, drawRect.y, tempWidth - 1, drawRect.height - 1);
+            EditorGUI.PropertyField(centerXRect, prop1, GUIContent.none);
+            EditorGUI.PropertyField(centerYRect, prop2, GUIContent.none);
+            EditorGUI.PropertyField(centerZRect, prop3, GUIContent.none);
+            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+        }
+
         public static void MakeVector2(ref Rect drawRect, float rectWidth, SerializedProperty prop, string name)
         {
             EditorGUI.LabelField(drawRect, name);

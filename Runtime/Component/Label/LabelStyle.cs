@@ -123,13 +123,14 @@ namespace XCharts.Runtime
         /// Template placeholder have the following, some of which apply only to fixed components: <br />
         /// `{.}` : indicates the dot mark. <br />
         /// `{a}` : indicates the series name. <br />
-        /// `{b}` : category value or data name. <br />
+        /// `{b}` : category value of x axis or data name. <br />
         /// `{c}` : data value. <br />
         /// `{d}` : percentage. <br />
         /// `{e}` : indicates the data name. <br />
         /// `{f}` : data sum. <br />
         /// `{g}` : indicates the total number of data. <br />
         /// `{h}` : hexadecimal color value. <br />
+        /// `{y}` : category value of y axis. <br />
         /// `{value}` : The value of the axis or legend. <br />
         /// The following placeholder apply to `UITable` components: <br />
         /// `{name}` : indicates the row name of the table. <br />
@@ -151,13 +152,14 @@ namespace XCharts.Runtime
         /// 模板通配符有以下这些，部分只适用于固定的组件：<br/>
         /// `{.}`：圆点标记。<br/>
         /// `{a}`：系列名。<br/>
-        /// `{b}`：类目值或数据名。<br/>
+        /// `{b}`：X轴类目名或数据名。<br/>
         /// `{c}`：数据值。<br/>
         /// `{d}`：百分比。<br/>
         /// `{e}`：数据名。<br/>
         /// `{f}`：数据和。<br/>
         /// `{g}`：数据总个数。<br/>
         /// `{h}`：十六进制颜色值。<br/> 
+        /// `{y}`：Y轴的类目名。<br/> 
         /// `{value}`：坐标轴或图例的值。<br/>
         /// 以下通配符适用UITable组件：<br/>
         /// `{name}`： 表格的行名。<br/>

@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.10.0](#v3100)  
 [v3.9.0](#v390)  
 [v3.8.1](#v381)  
 [v3.8.0](#v380)  
@@ -64,6 +65,51 @@
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.10.1
+
+* (2024.02.21) Release `v3.10.1`
+* (2024.02.19) Fix to `Tooltip` dot markers not adapting to color
+
+## v3.10.0
+
+Highlights:
+
+* Added bi-category axis support
+* Added more segmentation shortcut menu to create charts, which can create dozens of charts with one click
+* Added chart border Settings to support rounded corner charts
+* Fixed several issues
+
+Extended features:
+
+* Added `SankeyChart` Sankey chart
+* Added `border` Settings for `UITable`
+
+Log details:
+
+* (2024.02.01) Release `v3.10.0`
+* (2024.01.31) Fix to Tooltip not displaying after itemFormatter is set to -
+* (2024.01.27) Fix to TextLimit not working after TextMeshPro is enabled (#301)
+* (2024.01.24) Added `Bar` to support both X and Y axes as` Category `axes
+* (2024.01.23) Added `{y}` wildcard to get the class name of the Y-axis
+* (2024.01.23) Added `Line` to support both X and Y axes as` Category `axes
+* (2024.01.18) Fixed dynamic modification of `Animation`s `type` code
+* (2024.01.13) Added more quick Chart creation menus for Chart
+* (2024.01.09) added `borderStyle` to `Background` to give the chart rounded corners by default
+* (2024.01.07) Fix to invalid first ContentLabelStyle setting color for Tooltop
+* (2024.01.01) Added `BorderStyle` border style
+* (2023.12.26) Added support for Heatmap's maxCache parameter
+* (2023.12.25) Optimizes the number of vertices drawn when `Line`` opens clip
+* (2023.12.22) Fixed an issue where some border data of `Scatter` map was not displayed
+* (2023.12.21) Fix to `TriggerTooltip()` interface may not fire when 0 or maximum index is specified
+* (2023.12.19) Fixed an issue where `Legend`'s `LabelStyle` does not take effect after setting its formatter
+* (2023.12.12) Added TextLimit for Legend to limit the length of the text displayed in the legend
+* (2023.12.11) Fix to coordinate drawing failure when `Serie` was added with `double-maxvalue`
+* (2023.12.10) Add `Serie` to `minShowLabel` to hide `labels` that are less than the specified value
+* (2023.12.09) Add depth to `LevelStyle` to specify the level to which it belongs
+* (2023.12.09) Added `LevelStyle` `LineStyle` to set line styles
+* (2023.12.09) Adding `Serie` to `Link` can be used to add node-edge relationships to Sankey diagrams
+* (2023.12.05) added `ResetChartStatus()` to actively reset chart status
 
 ## v3.9.0
 

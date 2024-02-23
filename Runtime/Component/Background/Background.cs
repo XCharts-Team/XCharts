@@ -10,14 +10,17 @@ namespace XCharts.Runtime
     /// </summary>
     [Serializable]
     [DisallowMultipleComponent]
-    [ComponentHandler(typeof(BackgroundHandler), false)]
+    [ComponentHandler(typeof(BackgroundHandler), false, 0)]
     public class Background : MainComponent
     {
         [SerializeField] private bool m_Show = true;
         [SerializeField] private Sprite m_Image;
         [SerializeField] private Image.Type m_ImageType;
         [SerializeField] private Color m_ImageColor = Color.white;
+        [SerializeField][Since("v3.10.0")] private float m_ImageWidth = 0;
+        [SerializeField][Since("v3.10.0")] private float m_ImageHeight = 0;
         [SerializeField] private bool m_AutoColor = true;
+        [SerializeField][Since("v3.10.0")] private BorderStyle m_BorderStyle = new BorderStyle();
 
         /// <summary>
         /// Whether to enable the background component.
@@ -58,6 +61,26 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
+        /// the width of background image.
+        /// ||背景图宽度。
+        /// </summary>
+        public float imageWidth
+        {
+            get { return m_ImageWidth; }
+            set { if (PropertyUtil.SetStruct(ref m_ImageWidth, value)) SetComponentDirty(); }
+        }
+
+        /// <summary>
+        /// the height of background image.
+        /// ||背景图高度。
+        /// </summary>
+        public float imageHeight
+        {
+            get { return m_ImageHeight; }
+            set { if (PropertyUtil.SetStruct(ref m_ImageHeight, value)) SetComponentDirty(); }
+        }
+
+        /// <summary>
         /// Whether to use theme background color for component color when the background component is on.
         /// ||当background组件开启时，是否自动使用主题背景色作为backgrounnd组件的颜色。当设置为false时，用imageColor作为颜色。
         /// </summary>
@@ -65,6 +88,16 @@ namespace XCharts.Runtime
         {
             get { return m_AutoColor; }
             set { if (PropertyUtil.SetStruct(ref m_AutoColor, value)) SetVerticesDirty(); }
+        }
+
+        /// <summary>
+        /// the border style of background.        
+        /// ||背景边框样式。
+        /// </summary>
+        public BorderStyle borderStyle
+        {
+            get { return m_BorderStyle; }
+            set { if (PropertyUtil.SetClass(ref m_BorderStyle, value)) SetComponentDirty(); }
         }
 
         public override void SetDefaultValue()

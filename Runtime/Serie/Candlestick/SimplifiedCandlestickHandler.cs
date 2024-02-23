@@ -125,8 +125,8 @@ namespace XCharts.Runtime
                 var heighest = serieData.GetCurrData(startDataIndex + 3, dataAddDuration, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
                 var isRise = yAxis.inverse ? close<open : close> open;
                 var borderWidth = open == 0 ? 0f :
-                    (itemStyle.runtimeBorderWidth == 0 ? theme.serie.candlestickBorderWidth :
-                        itemStyle.runtimeBorderWidth);
+                    (itemStyle.borderWidth == 0 ? theme.serie.candlestickBorderWidth :
+                        itemStyle.borderWidth);
                 if (serieData.IsDataChanged()) dataChanging = true;
                 float pX = grid.context.x + i * categoryWidth;
                 float zeroY = grid.context.y + yAxis.context.offset;

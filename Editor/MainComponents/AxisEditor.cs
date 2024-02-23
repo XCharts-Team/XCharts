@@ -92,7 +92,7 @@ namespace XCharts.Editor
             {
                 PropertyListField("m_Data", true, new HeaderMenuInfo("Import ECharts Axis Data", () =>
                 {
-                    PraseExternalDataEditor.UpdateData(chart, null, component as Axis);
+                    PraseExternalDataEditor.UpdateData(chart, null, component as Axis, false);
                     PraseExternalDataEditor.ShowWindow();
                 }));
             }

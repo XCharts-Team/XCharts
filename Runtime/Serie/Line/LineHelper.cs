@@ -470,7 +470,7 @@ namespace XCharts.Runtime
         }
 
         internal static void UpdateSerieDrawPoints(Serie serie, Settings setting, ThemeStyle theme, VisualMap visualMap,
-            float lineWidth, bool isY = false)
+            float lineWidth, bool isY, GridCoord grid)
         {
             serie.context.drawPoints.Clear();
             var last = Vector3.zero;
@@ -485,12 +485,12 @@ namespace XCharts.Runtime
                     UpdateStepLineDrawPoints(serie, setting, theme, isY, lineWidth);
                     break;
                 default:
-                    UpdateNormalLineDrawPoints(serie, setting, visualMap);
+                    UpdateNormalLineDrawPoints(serie, setting, visualMap, grid);
                     break;
             }
         }
 
-        private static void UpdateNormalLineDrawPoints(Serie serie, Settings setting, VisualMap visualMap)
+        private static void UpdateNormalLineDrawPoints(Serie serie, Settings setting, VisualMap visualMap, GridCoord grid)
         {
             var isVisualMapGradient = VisualMapHelper.IsNeedGradient(visualMap);
             if (isVisualMapGradient || serie.clip || (serie.lineStyle.IsNotSolidLine()))
@@ -499,11 +499,16 @@ namespace XCharts.Runtime
                 if (dataPoints.Count > 1)
                 {
                     var sp = dataPoints[0];
+                    var ip = Vector3.zero;
                     for (int i = 1; i < dataPoints.Count; i++)
                     {
                         var ep = dataPoints[i];
                         var ignore = serie.context.dataIgnores[i];
-
+                        if (serie.clip && grid.NotAnyIntersect(sp, ep))
+                        {
+                            sp = ep;
+                            continue;
+                        }
                         var dir = (ep - sp).normalized;
                         var dist = Vector3.Distance(sp, ep);
                         var segment = (int)(dist / setting.lineSegmentDistance);

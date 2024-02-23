@@ -19,6 +19,7 @@ namespace XCharts.Runtime
         [SerializeField] protected ThemeStyle m_Theme = new ThemeStyle();
         [SerializeField] protected Settings m_Settings;
         [SerializeField] protected DebugInfo m_DebugInfo = new DebugInfo();
+        [SerializeField] protected bool m_ChartInited = false;
 
 #pragma warning disable 0414
         [SerializeField][ListForComponent(typeof(AngleAxis))] private List<AngleAxis> m_AngleAxes = new List<AngleAxis>();
@@ -146,9 +147,14 @@ namespace XCharts.Runtime
         {
             RemoveAllChartComponent();
             OnBeforeSerialize();
+
             EnsureChartComponent<Title>();
             EnsureChartComponent<Tooltip>();
             EnsureChartComponent<Title>().text = GetType().Name;
+
+            var background = EnsureChartComponent<Background>();
+            background.borderStyle.show = true;
+            background.borderStyle.cornerRadius = new float[] { 10, 10, 10, 10 };
 
             if (m_Theme.sharedTheme != null)
                 m_Theme.sharedTheme.CopyTheme(ThemeType.Default);
@@ -158,11 +164,25 @@ namespace XCharts.Runtime
             var sizeDelta = rectTransform.sizeDelta;
             if (sizeDelta.x < 580 && sizeDelta.y < 300)
             {
-                rectTransform.sizeDelta = new Vector2(580, 300);
+                m_GraphWidth = 580;
+                m_GraphHeight = 300;
+                m_ChartWidth = m_GraphWidth;
+                m_ChartHeight = m_GraphHeight;
+                rectTransform.sizeDelta = new Vector2(m_ChartWidth, m_ChartHeight);
             }
             ChartHelper.HideAllObject(transform);
+            m_ChartInited = true;
             if (m_OnInit != null)
                 m_OnInit();
+        }
+
+        protected void CheckChartInit()
+        {
+            if (!m_ChartInited)
+            {
+                OnInit();
+                DefaultChart();
+            }
         }
 
 #if UNITY_EDITOR
@@ -198,7 +218,7 @@ namespace XCharts.Runtime
             foreach (var handler in m_SerieHandlers) handler.Update();
             foreach (var handler in m_ComponentHandlers) handler.Update();
             foreach (var handler in m_SerieHandlers) handler.AfterUpdate();
-            
+
             m_DebugInfo.Update();
             if (m_OnUpdate != null)
                 m_OnUpdate();

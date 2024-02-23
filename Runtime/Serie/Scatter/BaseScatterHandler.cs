@@ -164,11 +164,9 @@ namespace XCharts.Runtime
                 if (serieData.IsDataChanged())
                     dataChanging = true;
 
-                float pX = m_Grid.context.x + xAxis.axisLine.GetWidth(theme.axis.lineWidth);
-                float pY = m_Grid.context.y + yAxis.axisLine.GetWidth(theme.axis.lineWidth);
                 float xDataHig = GetDataHig(xAxis, xValue, m_Grid.context.width);
                 float yDataHig = GetDataHig(yAxis, yValue, m_Grid.context.height);
-                var pos = new Vector3(pX + xDataHig, pY + yDataHig);
+                var pos = new Vector3(m_Grid.context.x + xDataHig, m_Grid.context.y + yDataHig);
 
                 if (!m_Grid.Contains(pos))
                     continue;

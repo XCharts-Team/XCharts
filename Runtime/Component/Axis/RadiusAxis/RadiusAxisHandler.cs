@@ -179,7 +179,7 @@ namespace XCharts.Runtime
                     {
                         var outsideRaidus = totalWidth + radiusAxis.splitLine.GetWidth(chart.theme.axis.splitLineWidth) * 2;
                         var splitLineColor = radiusAxis.splitLine.GetColor(chart.theme.axis.splitLineColor);
-                        UGL.DrawDoughnut(vh, cenPos, totalWidth, outsideRaidus, splitLineColor, Color.clear);
+                        UGL.DrawDoughnut(vh, cenPos, totalWidth, outsideRaidus, splitLineColor, ColorUtil.clearColor32);
                     }
                 }
                 if (radiusAxis.show && radiusAxis.axisTick.show)

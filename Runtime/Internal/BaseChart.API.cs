@@ -165,6 +165,7 @@ namespace XCharts.Runtime
         /// ||鼠标退出图例回调。参数：legendIndex, legendName
         /// </summary>
         public Action<Legend, int, string> onLegendExit { set { m_OnLegendExit = value; } internal get { return m_OnLegendExit; } }
+
         public void Init(bool defaultChart = true)
         {
             if (defaultChart)
@@ -177,6 +178,7 @@ namespace XCharts.Runtime
                 OnBeforeSerialize();
             }
         }
+
         /// <summary>
         /// Redraw chart in next frame.
         /// ||在下一帧刷新整个图表。
@@ -222,14 +224,15 @@ namespace XCharts.Runtime
         public virtual void ClearData()
         {
             ClearSerieData();
+            ClearSerieLinks();
             ClearComponentData();
         }
 
-        [Since("v3.4.0")]
         /// <summary>
         /// Clear the data of all series.
         /// ||清空所有serie的数据。
         /// </summary>
+        [Since("v3.4.0")]
         public virtual void ClearSerieData()
         {
             foreach (var serie in m_Series)
@@ -238,11 +241,24 @@ namespace XCharts.Runtime
             RefreshChart();
         }
 
-        [Since("v3.4.0")]
+        /// <summary>
+        /// Clear the link data of all series.
+        /// ||清空所有serie的link数据。
+        /// </summary>
+        [Since("v3.10.0")]
+        public virtual void ClearSerieLinks()
+        {
+            foreach (var serie in m_Series)
+                serie.ClearLinks();
+            m_CheckAnimation = false;
+            RefreshChart();
+        }
+
         /// <summary>
         /// Clear the data of all components.
         /// ||清空所有组件的数据。
         /// </summary>
+        [Since("v3.4.0")]
         public virtual void ClearComponentData()
         {
             foreach (var component in m_Components)
@@ -625,13 +641,13 @@ namespace XCharts.Runtime
             return theme.GetBackgroundColor(background);
         }
 
-        [Since("v3.4.0")]
         /// <summary>
         /// 获得Serie的标识颜色。
         /// </summary>
         /// <param name="serie"></param>
         /// <param name="serieData"></param>
         /// <returns></returns>
+        [Since("v3.4.0")]
         public Color32 GetMarkColor(Serie serie, SerieData serieData)
         {
             var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
@@ -719,11 +735,22 @@ namespace XCharts.Runtime
         [Since("v3.7.0")]
         public void CancelTooltip()
         {
+            m_PointerEventData = null;
             var tooltip = GetChartComponent<Tooltip>();
             if (tooltip != null)
             {
                 tooltip.SetActive(false);
             }
+        }
+
+        /// <summary>
+        /// reset chart status. When some parameters are set, due to the animation effect, the chart status may not be correct.
+        /// ||重置图表状态。当设置某些参数后，由于动画影响，可能导致图表状态不正确，此时可以调用该接口重置图表状态。
+        /// </summary>
+        [Since("v3.10.0")]
+        public void ResetChartStatus()
+        {
+            foreach (var handler in m_SerieHandlers) handler.ForceUpdateSerieContext();
         }
     }
 }

@@ -119,10 +119,12 @@ namespace XCharts.Runtime
                 return;
 
             var axisLength = isY ? m_SerieGrid.context.height : m_SerieGrid.context.width;
+            var relativedAxisLength = isY ? m_SerieGrid.context.width : m_SerieGrid.context.height;
             var axisXY = isY ? m_SerieGrid.context.y : m_SerieGrid.context.x;
 
             var barCount = chart.GetSerieBarRealCount<SimplifiedBar>();
             float categoryWidth = AxisHelper.GetDataWidth(axis, axisLength, showData.Count, dataZoom);
+            float relativedCategoryWidth = AxisHelper.GetDataWidth(relativedAxis, relativedAxisLength, showData.Count, dataZoom);
             float barGap = chart.GetSerieBarGap<SimplifiedBar>();
             float totalBarWidth = chart.GetSerieTotalWidth<SimplifiedBar>(categoryWidth, barGap, barCount);
             float barWidth = serie.GetBarWidth(categoryWidth, barCount);
@@ -162,7 +164,7 @@ namespace XCharts.Runtime
                 var itemStyle = SerieHelper.GetItemStyle(serie, serieData);
                 var value = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
                 var relativedValue = serieData.GetCurrData(1, dataAddDuration, dataChangeDuration, relativedAxis.inverse, 0, 0, serie.animation.unscaledTime);
-                var borderWidth = relativedValue == 0 ? 0 : itemStyle.runtimeBorderWidth;
+                var borderWidth = relativedValue == 0 ? 0 : itemStyle.borderWidth;
 
                 if (!serieData.interact.TryGetColor(ref areaColor, ref areaToColor, ref interacting, interactDuration))
                 {
@@ -172,9 +174,9 @@ namespace XCharts.Runtime
 
                 var pX = 0f;
                 var pY = 0f;
-                UpdateXYPosition(m_SerieGrid, isY, axis, relativedAxis, i, categoryWidth, barWidth, value, ref pX, ref pY);
+                UpdateXYPosition(m_SerieGrid, isY, axis, relativedAxis, i, categoryWidth, relativedCategoryWidth, barWidth, value, ref pX, ref pY);
 
-                var barHig = AxisHelper.GetAxisValueLength(m_SerieGrid, relativedAxis, categoryWidth, relativedValue);
+                var barHig = AxisHelper.GetAxisValueLength(m_SerieGrid, relativedAxis, relativedCategoryWidth, relativedValue);
                 var currHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, barHig);
 
                 Vector3 plb, plt, prt, prb, top;
@@ -204,8 +206,8 @@ namespace XCharts.Runtime
             }
         }
 
-        private void UpdateXYPosition(GridCoord grid, bool isY, Axis axis, Axis relativedAxis, int i, float categoryWidth, float barWidth,
-            double value, ref float pX, ref float pY)
+        private void UpdateXYPosition(GridCoord grid, bool isY, Axis axis, Axis relativedAxis, int i, float categoryWidth,
+            float relativedCategoryWidth, float barWidth, double value, ref float pX, ref float pY)
         {
             if (isY)
             {
@@ -218,7 +220,7 @@ namespace XCharts.Runtime
                     if (axis.context.minMaxRange <= 0) pY = grid.context.y;
                     else pY = grid.context.y + (float)((value - axis.context.minValue) / axis.context.minMaxRange) * (grid.context.height - barWidth);
                 }
-                pX = AxisHelper.GetAxisValuePosition(grid, relativedAxis, categoryWidth, 0);
+                pX = AxisHelper.GetAxisValuePosition(grid, relativedAxis, relativedCategoryWidth, 0);
             }
             else
             {
@@ -231,7 +233,7 @@ namespace XCharts.Runtime
                     if (axis.context.minMaxRange <= 0) pX = grid.context.x;
                     else pX = grid.context.x + (float)((value - axis.context.minValue) / axis.context.minMaxRange) * (grid.context.width - barWidth);
                 }
-                pY = AxisHelper.GetAxisValuePosition(grid, relativedAxis, categoryWidth, 0);
+                pY = AxisHelper.GetAxisValuePosition(grid, relativedAxis, relativedCategoryWidth, 0);
             }
         }
 
@@ -290,7 +292,7 @@ namespace XCharts.Runtime
             Vector3 prb, bool isYAxis, GridCoord grid, Color32 areaColor, Color32 areaToColor)
         {
 
-            var borderWidth = itemStyle.runtimeBorderWidth;
+            var borderWidth = itemStyle.borderWidth;
             if (isYAxis)
             {
                 if (serie.clip)

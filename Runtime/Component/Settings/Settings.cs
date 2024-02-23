@@ -93,7 +93,7 @@ namespace XCharts.Runtime
         public float lineSmoothness
         {
             get { return m_LineSmoothness; }
-            set { if (PropertyUtil.SetStruct(ref m_LineSmoothStyle, value < 0 ? 1f : value)) SetVerticesDirty(); }
+            set { if (PropertyUtil.SetStruct(ref m_LineSmoothness, value < 0 ? 1f : value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The partition distance of a line segment. A line in a normal line chart is made up of many segments, 

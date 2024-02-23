@@ -16,6 +16,7 @@ namespace XCharts.Example
             if (chart == null)
             {
                 chart = gameObject.AddComponent<HeatmapChart>();
+                chart.Init();
             }
             chart.GetChartComponent<Title>().text = "HeatmapChart";
             chart.GetChartComponent<Tooltip>().type = Tooltip.Type.None;

@@ -2,6 +2,10 @@ using UnityEngine;
 
 namespace XCharts.Runtime
 {
+    /// <summary>
+    /// A simplified bar chart is a simplified mode of a bar chart that provides better performance by simplifying components and configurations.
+    /// || 简化柱状图是柱状图的简化模式，通过简化组件和配置，拥有更好的性能。
+    /// </summary>
     [AddComponentMenu("XCharts/SimplifiedBarChart", 27)]
     [ExecuteInEditMode]
     [RequireComponent(typeof(RectTransform))]

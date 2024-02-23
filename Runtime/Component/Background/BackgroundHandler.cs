@@ -12,7 +12,7 @@ namespace XCharts.Runtime
         public override void InitComponent()
         {
             component.painter = chart.painter;
-            component.refreshComponent = delegate()
+            component.refreshComponent = delegate ()
             {
                 var backgroundObj = ChartHelper.AddObject(s_BackgroundObjectName, chart.transform, chart.chartMinAnchor,
                     chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
@@ -27,7 +27,7 @@ namespace XCharts.Runtime
                 backgroundImage.color = chart.theme.GetBackgroundColor(component);
 
                 backgroundObj.transform.SetSiblingIndex(0);
-                backgroundObj.SetActive(component.show);
+                backgroundObj.SetActive(component.show && component.image != null);
             };
             component.refreshComponent();
         }
@@ -45,13 +45,12 @@ namespace XCharts.Runtime
             if (component.image != null)
                 return;
 
-            var p1 = new Vector3(chart.chartX, chart.chartY + chart.chartHeight);
-            var p2 = new Vector3(chart.chartX + chart.chartWidth, chart.chartY + chart.chartHeight);
-            var p3 = new Vector3(chart.chartX + chart.chartWidth, chart.chartY);
-            var p4 = new Vector3(chart.chartX, chart.chartY);
             var backgroundColor = chart.theme.GetBackgroundColor(component);
-
-            UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, backgroundColor);
+            var borderWidth = component.borderStyle.GetRuntimeBorderWidth();
+            var borderColor = component.borderStyle.GetRuntimeBorderColor();
+            var cornerRadius = component.borderStyle.GetRuntimeCornerRadius();
+            UGL.DrawRoundRectangleWithBorder(vh, chart.chartRect, backgroundColor, backgroundColor, cornerRadius,
+                borderWidth, borderColor);
         }
     }
 }

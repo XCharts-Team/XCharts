@@ -267,7 +267,11 @@ namespace XCharts
 
                 if (axis.interval == 0)
                 {
-                    if (axis.splitNumber > 0)
+                    if (range >= double.MaxValue / 2)
+                    {
+                        tick = range / 4;
+                    }
+                    else if (axis.splitNumber > 0)
                     {
                         tick = range / axis.splitNumber;
                     }
@@ -865,7 +869,6 @@ namespace XCharts
             for (int i = 0; i < size; i++)
             {
                 var scaleWidth = AxisHelper.GetScaleWidth(axis, axisLength, axis.IsTime() ? i : i + 1, dataZoom);
-
                 if (axis.boundaryGap && axis.axisTick.alignWithLabel)
                     current -= scaleWidth / 2;
 

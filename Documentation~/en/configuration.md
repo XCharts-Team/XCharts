@@ -94,6 +94,7 @@ import APITable from '@site/src/components/APITable';
 - [BaseAxisTheme](#baseaxistheme)
 - [BaseLine](#baseline)
 - [BlurStyle](#blurstyle)
+- [BorderStyle](#borderstyle)
 - [CommentItem](#commentitem)
 - [CommentMarkStyle](#commentmarkstyle)
 - [ComponentTheme](#componenttheme)
@@ -121,6 +122,7 @@ import APITable from '@site/src/components/APITable';
 - [RadiusAxisTheme](#radiusaxistheme)
 - [SelectStyle](#selectstyle)
 - [SerieData](#seriedata)
+- [SerieDataLink](#seriedatalink)
 - [SerieSymbol](#seriesymbol)
 - [SerieTheme](#serietheme)
 - [StageColor](#stagecolor)
@@ -655,7 +657,10 @@ Background component.
 |image|||the image of background.
 |imageType|||the fill type of background image.
 |imageColor|||背景图颜色。
+|imageWidth|0|v3.10.0|the width of background image.
+|imageHeight|0|v3.10.0|the height of background image.
 |autoColor|true||Whether to use theme background color for component color when the background component is on.
+|borderStyle||v3.10.0|the border style of background. [BorderStyle](#borderstyle)|
 
 ```mdx-code-block
 </APITable>
@@ -730,6 +735,31 @@ Settings related to base line.
 
 Configurations of blur state.
 
+## BorderStyle
+
+> class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
+
+> Since `v3.10.0`
+
+The style of border.
+
+```mdx-code-block
+<APITable name="BorderStyle">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|show|false||whether the border is visible.
+|borderWidth|||the width of border.
+|borderColor|||the color of border.
+|roundedCorner|true||whether the border is rounded corner.
+|cornerRadius|||The radius of rounded corner. Its unit is px. Use array to respectively specify the 4 corner radiuses((clockwise upper left, upper right, bottom right and bottom left)). When is set to (1,1,1,1), all corners are rounded.
+
+```mdx-code-block
+</APITable>
+```
+
 ## CalendarCoord
 
 > class in XCharts.Runtime / Inherits from: [CoordSystem](#coordsystem), [IUpdateRuntimeData](#iupdateruntimedata), [ISerieContainer](#iseriecontainer)
@@ -744,7 +774,7 @@ Configurations of blur state.
 
 ## ChildComponent
 
-> class in XCharts.Runtime / Subclasses: [AnimationStyle](#animationstyle), [AxisAnimation](#axisanimation), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
+> class in XCharts.Runtime / Subclasses: [AnimationStyle](#animationstyle), [AxisAnimation](#axisanimation), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [BorderStyle](#borderstyle), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [SerieDataLink](#seriedatalink), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
 
 ## Comment
 
@@ -979,10 +1009,10 @@ Grid component.
 |--|--|--|--|
 |show|true||Whether to show the grid in rectangular coordinate.
 |layoutIndex|-1|v3.8.0|The index of the grid layout component to which the grid belongs. The default is -1, which means that it does not belong to any grid layout component. When this value is set, the left, right, top, and bottom properties will be invalid.
-|left|0.1f||Distance between grid component and the left side of the container.
+|left|0.11f||Distance between grid component and the left side of the container.
 |right|0.08f||Distance between grid component and the right side of the container.
 |top|0.22f||Distance between grid component and the top side of the container.
-|bottom|0.12f||Distance between grid component and the bottom side of the container.
+|bottom|0.14f||Distance between grid component and the bottom side of the container.
 |backgroundColor|||Background color of grid, which is transparent by default.
 |showBorder|false||Whether to show the grid border.
 |borderWidth|0f||Border width of grid.
@@ -1250,7 +1280,7 @@ Text label of chart, to explain some data information about graphic item like va
 |rotate|||Rotation of label.
 |autoRotate|false|v3.6.0|auto rotate of label.
 |distance|||the distance of label to axis line.
-|formatter|||label content string template formatter. \n line wrapping is supported. Formatters for some components will not take effect. <br /> Template placeholder have the following, some of which apply only to fixed components: <br /> `{.}` : indicates the dot mark. <br /> `{a}` : indicates the series name. <br /> `{b}` : category value or data name. <br /> `{c}` : data value. <br /> `{d}` : percentage. <br /> `{e}` : indicates the data name. <br /> `{f}` : data sum. <br /> `{g}` : indicates the total number of data. <br /> `{h}` : hexadecimal color value. <br /> `{value}` : The value of the axis or legend. <br /> The following placeholder apply to `UITable` components: <br /> `{name}` : indicates the row name of the table. <br /> `{index}` : indicates the row number of the table. <br /> The following placeholder apply to `UIStatistc` components: <br /> `{title}` : title text. <br /> `{dd}` : day. <br /> `{hh}` : hours. <br /> `{mm}` : minutes. <br /> `{ss}` : second. <br /> `{fff}` : milliseconds. <br /> `{d}` : day. <br /> `{h}` : hours. <br /> `{m}` : minutes. <br /> `{s}` : second. <br /> `{f}` : milliseconds. <br /> Example :{b}:{c}<br />
+|formatter|||label content string template formatter. \n line wrapping is supported. Formatters for some components will not take effect. <br /> Template placeholder have the following, some of which apply only to fixed components: <br /> `{.}` : indicates the dot mark. <br /> `{a}` : indicates the series name. <br /> `{b}` : category value of x axis or data name. <br /> `{c}` : data value. <br /> `{d}` : percentage. <br /> `{e}` : indicates the data name. <br /> `{f}` : data sum. <br /> `{g}` : indicates the total number of data. <br /> `{h}` : hexadecimal color value. <br /> `{y}` : category value of y axis. <br /> `{value}` : The value of the axis or legend. <br /> The following placeholder apply to `UITable` components: <br /> `{name}` : indicates the row name of the table. <br /> `{index}` : indicates the row number of the table. <br /> The following placeholder apply to `UIStatistc` components: <br /> `{title}` : title text. <br /> `{dd}` : day. <br /> `{hh}` : hours. <br /> `{mm}` : minutes. <br /> `{ss}` : second. <br /> `{fff}` : milliseconds. <br /> `{d}` : day. <br /> `{h}` : hours. <br /> `{m}` : minutes. <br /> `{s}` : second. <br /> `{f}` : milliseconds. <br /> Example :{b}:{c}<br />
 |numericFormatter|||Standard number and date format string. Used to format a Double value or a DateTime date as a string. numericFormatter is used as an argument to either `Double.ToString ()` or `DateTime.ToString()`. <br /> The number format uses the Axx format: A is a single-character format specifier that supports C currency, D decimal, E exponent, F fixed-point number, G regular, N digit, P percentage, R round trip, and X hexadecimal. xx is precision specification, from 0-99. E.g. F1, E2<br /> Date format Common date formats are: yyyy year, MM month, dd day, HH hour, mm minute, ss second, fff millisecond. For example: yyyy-MM-dd HH:mm:ss<br /> number format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/> date format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/>
 |width|0||the width of label. If set as default value 0, it means than the label width auto set as the text width.
 |height|0||the height of label. If set as default value 0, it means than the label height auto set as the text height.
@@ -1302,6 +1332,7 @@ Legend component.The legend component shows different sets of tags, colors, and 
 |itemOpacity|1||the opacity of item color.
 |formatter|||No longer used, the use of LabelStyle.formatter instead.
 |labelStyle|||the style of text. [LabelStyle](#labelstyle)|
+|textLimit||v3.10.0|the limit of text. [TextLimit](#textlimit)|
 |data|||Data array of legend. An array item is usually a name representing string. (If it is a pie chart, it could also be the name of a single data in the pie chart) of a series. If data is not specified, it will be auto collected from series.
 |icons|||自定义的图例标记图形。
 |colors|||the colors of legend item.
@@ -1341,9 +1372,11 @@ Legend component.The legend component shows different sets of tags, colors, and 
 
 |field|default|since|comment|
 |--|--|--|--|
-|label|||文本标签样式。 [LabelStyle](#labelstyle)|
-|upperLabel|||上方的文本标签样式。 [LabelStyle](#labelstyle)|
-|itemStyle|||数据项样式。 [ItemStyle](#itemstyle)|
+|depth|0|v3.10.0|the depth of level.
+|label|||the label style of level. [LabelStyle](#labelstyle)|
+|upperLabel|||the upper label style of level. [LabelStyle](#labelstyle)|
+|lineStyle||v3.10.0|the line style of level. [LineStyle](#linestyle)|
+|itemStyle|||the item style of level. [ItemStyle](#itemstyle)|
 
 ```mdx-code-block
 </APITable>
@@ -1352,6 +1385,8 @@ Legend component.The legend component shows different sets of tags, colors, and 
 ## LevelStyle
 
 > class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
+
+> Since `v3.10.0`
 
 ```mdx-code-block
 <APITable name="LevelStyle">
@@ -1811,6 +1846,8 @@ Configurations of select state.
 |center|||the center of chart.
 |radius|||the radius of chart.
 |minRadius|0f|v3.8.0|the min radius of chart. It can be used to limit the minimum radius of the rose chart.
+|minShowLabel|false|v3.10.0|Whether the label is not displayed when the enabled value is less than the specified value.
+|minShowLabelValue|0|v3.10.0|When 'minShowLabel' is enabled, labels are not displayed if the value is less than this value.
 |showDataDimension|||数据项里的数据维数。
 |showDataName|||在Editor的inpsector上是否显示name参数
 |clip|false||If clip the overflow on the coordinate system.
@@ -1836,6 +1873,7 @@ Configurations of select state.
 |animation|||The start animation. [AnimationStyle](#animationstyle)|
 |itemStyle|||The style of data item. [ItemStyle](#itemstyle)|
 |data|||系列中的数据内容数组。SerieData可以设置1到n维数据。
+|links|||数据节点的边。
 
 ```mdx-code-block
 </APITable>
@@ -1863,6 +1901,29 @@ A data item of serie.
 |radius|||自定义半径。可用在饼图中自定义某个数据项的半径。
 |state||v3.2.0|the state of serie data.<br/>`SerieState`:<br/>- `Normal`: Normal state.<br/>- `Emphasis`: Emphasis state.<br/>- `Blur`: Blur state.<br/>- `Select`: Select state.<br/>- `Auto`: Auto state.<br/>|
 |data|||An arbitrary dimension data list of data item.
+
+```mdx-code-block
+</APITable>
+```
+
+## SerieDataLink
+
+> class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
+
+> Since `v3.10.0`
+
+the link of serie data. Used for sankey chart. Sankey chart only supports directed acyclic graph. make sure the data link is directed acyclic graph.
+
+```mdx-code-block
+<APITable name="SerieDataLink">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|source|||the source node name.
+|target|||the target node name.
+|value|||the value of link. decide the width of link.
 
 ```mdx-code-block
 </APITable>
@@ -2242,8 +2303,8 @@ Tooltip component.
 |type|||Indicator type.<br/>`Tooltip.Type`:<br/>- `Line`: line indicator.<br/>- `Shadow`: shadow crosshair indicator.<br/>- `None`: no indicator displayed.<br/>- `Corss`: crosshair indicator, which is actually the shortcut of enable two axisPointers of two orthometric axes.<br/>- `Auto`: Auto select indicator according to serie type.<br/>|
 |trigger|||Type of triggering.<br/>`Tooltip.Trigger`:<br/>- `Item`: Triggered by data item, which is mainly used for charts that don't have a category axis like scatter charts or pie charts.<br/>- `Axis`: Triggered by axes, which is mainly used for charts that have category axes, like bar charts or line charts.<br/>- `None`: Trigger nothing.<br/>- `Auto`: Auto select trigger according to serie type.<br/>|
 |position||v3.3.0|Type of position.<br/>`Tooltip.Position`:<br/>- `Auto`: Auto. The mobile platform is displayed at the top, and the non-mobile platform follows the mouse position.<br/>- `Custom`: Custom. Fully customize display position (x,y).<br/>- `FixedX`: Just fix the coordinate X. Y follows the mouse position.<br/>- `FixedY`: <br/>|
-|itemFormatter|||a string template formatter for a single Serie or data item content. Support for wrapping lines with \n. Template variables are {.}, {a}, {b}, {c}, {d}.<br/> {.} is the dot of the corresponding color of a Serie that is currently indicated or whose index is 0.<br/> {a} is the series name of the serie that is currently indicated or whose index is 0.<br/> {b} is the name of the data item serieData that is currently indicated or whose index is 0, or a category value (such as the X-axis of a line chart).<br/> {c} is the value of a Y-dimension (dimesion is 1) from a Serie that is currently indicated or whose index is 0.<br/> {d} is the percentage value of Y-dimensions (dimesion is 1) from serie that is currently indicated or whose index is 0, with no % sign.<br/> {e} is the name of the data item serieData that is currently indicated or whose index is 0.<br/> {f} is sum of data.<br/> {.1} represents a dot from serie corresponding color that specifies index as 1.<br/> 1 in {a1}, {b1}, {c1} represents a serie that specifies an index of 1.<br/> {c1:2} represents the third data from serie's current indication data item indexed to 1 (a data item has multiple data, index 2 represents the third data).<br/> {c1:2-2} represents the third data item from serie's third data item indexed to 1 (i.e., which data item must be specified to specify).<br/> {d1:2: F2} indicates that a formatted string with a value specified separately is F2 (numericFormatter is used when numericFormatter is not specified).<br/> {d:0.##} indicates that a formatted string with a value specified separately is 0.##   (used for percentage, reserved 2 valid digits while avoiding the situation similar to "100.00%" when using f2 ).<br/> Example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1} : {c1:1-1: f1}"<br/>
-|titleFormatter|||String template formatter for tooltip title content. \n line wrapping is supported. The placeholder {i} can be set separately to indicate that title is ignored and not displayed. Template variables are {.}, {a}, {b}, {c}, {d}, {e}, {f}, and {g}. <br /> {.} is the dot of the corresponding color of serie currently indicated or index 0. <br /> {a} is the series name name of serie currently indicated or index 0. <br /> {b} is the name of the serie data item serieData currently indicated or index 0, or the category value (such as the X-axis of a line chart). <br /> {c} is the value of the serie y-dimension (dimesion is 1) currently indicated or index is 0. <br /> {d} is the serie y-dimensional (dimesion 1) percentage value of the currently indicated or index 0, note without the % sign. <br /> {e} is the name of the serie data item serieData currently indicated or whose index is 0. <br /> {h} is the hexadecimal color value of serieData for the serie data item currently indicated or index 0. <br /> {f} is the sum of data. <br /> {g} indicates the total number of data. <br /> {.1} represents a dot of the corresponding color with serie specified as index 1. <br /> The 1 in {a1}, {b1}, {c1} represents serie where index is specified as 1. <br /> {c1:2} represents the third data of the current indicator data item in serie with index 1 (one data item has multiple data, index 2 represents the third data). <br /> {c1:2-2} represents the third data of serie third data item with index 1 (that is, the number of data items must be specified when specifying the number of data items). <br /> {d1:2:f2} indicates that a format string with a single value is f2 (numericFormatter is used if no value is specified). <br /> {d:0.##} indicates that the format string with a value specified alone is 0.## # (for percentages, preserving a 2-digit significant number while avoiding the "100.00%" situation with f2). <br /> example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1}, {c1:1-1: f1}"
+|itemFormatter|||a string template formatter for a single Serie or data item content. Support for wrapping lines with \n. Template variables are {.}, {a}, {b}, {c}, {d}.<br/> {.} is the dot of the corresponding color of a Serie that is currently indicated or whose index is 0.<br/> {a} is the series name of the serie that is currently indicated or whose index is 0.<br/> {b} is the name of the data item serieData that is currently indicated or whose index is 0, or a category value (such as the X-axis of a line chart).<br/> {c} is the value of a Y-dimension (dimesion is 1) from a Serie that is currently indicated or whose index is 0.<br/> {d} is the percentage value of Y-dimensions (dimesion is 1) from serie that is currently indicated or whose index is 0, with no % sign.<br/> {e} is the name of the data item serieData that is currently indicated or whose index is 0.<br/> {f} is sum of data.<br/> {y} is category value of y axis.<br/> {.1} represents a dot from serie corresponding color that specifies index as 1.<br/> 1 in {a1}, {b1}, {c1} represents a serie that specifies an index of 1.<br/> {c1:2} represents the third data from serie's current indication data item indexed to 1 (a data item has multiple data, index 2 represents the third data).<br/> {c1:2-2} represents the third data item from serie's third data item indexed to 1 (i.e., which data item must be specified to specify).<br/> {d1:2: F2} indicates that a formatted string with a value specified separately is F2 (numericFormatter is used when numericFormatter is not specified).<br/> {d:0.##} indicates that a formatted string with a value specified separately is 0.##   (used for percentage, reserved 2 valid digits while avoiding the situation similar to "100.00%" when using f2 ).<br/> Example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1} : {c1:1-1: f1}"<br/>
+|titleFormatter|||String template formatter for tooltip title content. \n line wrapping is supported. The placeholder {i} can be set separately to indicate that title is ignored and not displayed. Template variables are {.}, {a}, {b}, {c}, {d}, {e}, {f}, and {g}. <br /> {.} is the dot of the corresponding color of serie currently indicated or index 0. <br /> {a} is the series name name of serie currently indicated or index 0. <br /> {b} is the name of the serie data item serieData currently indicated or index 0, or the category value (such as the X-axis of a line chart). <br /> {c} is the value of the serie y-dimension (dimesion is 1) currently indicated or index is 0. <br /> {d} is the serie y-dimensional (dimesion 1) percentage value of the currently indicated or index 0, note without the % sign. <br /> {e} is the name of the serie data item serieData currently indicated or whose index is 0. <br /> {h} is the hexadecimal color value of serieData for the serie data item currently indicated or index 0. <br /> {f} is the sum of data. <br /> {g} indicates the total number of data. <br /> {y} is category value of y axis. <br /> {.1} represents a dot of the corresponding color with serie specified as index 1. <br /> The 1 in {a1}, {b1}, {c1} represents serie where index is specified as 1. <br /> {c1:2} represents the third data of the current indicator data item in serie with index 1 (one data item has multiple data, index 2 represents the third data). <br /> {c1:2-2} represents the third data of serie third data item with index 1 (that is, the number of data items must be specified when specifying the number of data items). <br /> {d1:2:f2} indicates that a format string with a single value is f2 (numericFormatter is used if no value is specified). <br /> {d:0.##} indicates that the format string with a value specified alone is 0.## # (for percentages, preserving a 2-digit significant number while avoiding the "100.00%" situation with f2). <br /> example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1}, {c1:1-1: f1}"
 |marker|||the marker of serie.
 |fixedWidth|0||Fixed width. Higher priority than minWidth.
 |fixedHeight|0||Fixed height. Higher priority than minHeight.

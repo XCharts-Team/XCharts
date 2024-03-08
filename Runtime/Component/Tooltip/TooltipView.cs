@@ -241,6 +241,7 @@ namespace XCharts.Runtime
 
             view.title = ChartHelper.AddChartLabel("title", view.gameObject.transform, tooltip.titleLabelStyle, theme.tooltip,
                 "", Color.clear, TextAnchor.MiddleLeft);
+            view.title.gameObject.SetActive(true);
 
             var item = CreateViewItem(0, view.gameObject.transform, tooltip, theme.tooltip);
             view.m_Items.Add(item);

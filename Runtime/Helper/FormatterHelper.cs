@@ -189,7 +189,7 @@ namespace XCharts.Runtime
                     if (isPercent)
                     {
                         var total = serie.GetDataTotal(dimensionIndex, serie.GetSerieData(bIndex));
-                        var percent = total == 0 ? 0 : value / serie.yTotal * 100;
+                        var percent = total == 0 ? 0 : value / total * 100;
                         content = content.Replace(old, ChartCached.FloatToStr(percent, numericFormatter));
                     }
                     else if (isTotal)

@@ -2,6 +2,8 @@
 # 更新日志
 
 [master](#master)  
+[v3.10.2](#v3102)  
+[v3.10.1](#v3101)  
 [v3.10.0](#v3100)  
 [v3.9.0](#v390)  
 [v3.8.1](#v381)  
@@ -65,6 +67,13 @@
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.10.2
+
+* (2024.03.11) Release `v3.10.2`
+* (2024.03.11) Fix to `Legend`'s `formatter` showing possible mismatches when setting {d} (#304)
+* (2024.03.11) Fix to `Tooltip` still showing after moving out of coordinate system
+* (2024.03.08) Fixed an issue where `Tooltip`'s title might not appear after upgrading from an older version
 
 ## v3.10.1
 

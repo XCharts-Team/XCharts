@@ -95,30 +95,29 @@ namespace XCharts.Runtime
         {
             showTooltip = false;
             if (tooltip.trigger == Tooltip.Trigger.None) return;
-            if (!chart.isPointerInChart || !tooltip.show)
+            if (chart.isPointerInChart && tooltip.show)
             {
-                if (tooltip.IsActive())
+                for (int i = chart.series.Count - 1; i >= 0; i--)
                 {
-                    tooltip.ClearValue();
-                    tooltip.SetActive(false);
+                    var serie = chart.series[i];
+                    if (!(serie is INeedSerieContainer))
+                    {
+                        showTooltip = true;
+                        containerSeries = null;
+                        return;
+                    }
                 }
-                return;
-            }
-            for (int i = chart.series.Count - 1; i >= 0; i--)
-            {
-                var serie = chart.series[i];
-                if (!(serie is INeedSerieContainer))
+                containerSeries = ListPool<Serie>.Get();
+                UpdatePointerContainerAndSeriesAndTooltip(tooltip, ref containerSeries);
+                if (containerSeries.Count > 0)
                 {
                     showTooltip = true;
-                    containerSeries = null;
-                    return;
                 }
             }
-            containerSeries = ListPool<Serie>.Get();
-            UpdatePointerContainerAndSeriesAndTooltip(tooltip, ref containerSeries);
-            if (containerSeries.Count > 0)
+            if (!showTooltip && tooltip.IsActive())
             {
-                showTooltip = true;
+                tooltip.ClearValue();
+                tooltip.SetActive(false);
             }
         }
 

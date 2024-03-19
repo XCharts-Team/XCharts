@@ -74,6 +74,7 @@ slug: /changelog
 ## master
 
 * (2024.03.20) 增加`Tooltip`的`triggerOn`设置触发条件
+* (2024.03.19) 修复`Pie`在设置`ItemStyle`的`opacity`时颜色不对的问题 (#309)
 
 ## v3.10.2
 

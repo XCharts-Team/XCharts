@@ -320,7 +320,7 @@ namespace XCharts.Runtime
             {
                 var style = GetItemStyle(serie, serieData, SerieState.Normal);
                 GetColor(ref color, style.color, style.color, style.opacity, theme, index, opacity);
-                GetColor(ref toColor, style.toColor, color, style.opacity, theme, index, opacity);
+                GetColor(ref toColor, style.toColor, color, style.opacity, theme, index, opacity, true);
                 switch (state)
                 {
                     case SerieState.Emphasis:
@@ -342,7 +342,7 @@ namespace XCharts.Runtime
             else
             {
                 GetColor(ref color, stateStyle.itemStyle.color, stateStyle.itemStyle.color, stateStyle.itemStyle.opacity, theme, index, opacity);
-                GetColor(ref toColor, stateStyle.itemStyle.toColor, color, stateStyle.itemStyle.opacity, theme, index, opacity);
+                GetColor(ref toColor, stateStyle.itemStyle.toColor, color, stateStyle.itemStyle.opacity, theme, index, opacity, true);
             }
         }
 
@@ -359,7 +359,7 @@ namespace XCharts.Runtime
             {
                 var style = GetItemStyle(serie, serieData, SerieState.Normal);
                 GetColor(ref color, style.color, style.color, style.opacity, theme, index, opacity);
-                GetColor(ref toColor, style.toColor, color, style.opacity, theme, index, opacity);
+                GetColor(ref toColor, style.toColor, color, style.opacity, theme, index, opacity, true);
                 backgroundColor = style.backgroundColor;
                 switch (state)
                 {
@@ -383,7 +383,7 @@ namespace XCharts.Runtime
             {
                 backgroundColor = stateStyle.itemStyle.backgroundColor;
                 GetColor(ref color, stateStyle.itemStyle.color, stateStyle.itemStyle.color, stateStyle.itemStyle.opacity, theme, index, opacity);
-                GetColor(ref toColor, stateStyle.itemStyle.toColor, color, stateStyle.itemStyle.opacity, theme, index, opacity);
+                GetColor(ref toColor, stateStyle.itemStyle.toColor, color, stateStyle.itemStyle.opacity, theme, index, opacity, true);
             }
         }
 
@@ -580,7 +580,7 @@ namespace XCharts.Runtime
                 innerFill = areaStyle.innerFill;
                 toTop = areaStyle.toTop;
                 GetColor(ref color, areaStyle.color, serie.itemStyle.color, areaStyle.opacity, theme, index);
-                GetColor(ref toColor, areaStyle.toColor, color, areaStyle.opacity, theme, index);
+                GetColor(ref toColor, areaStyle.toColor, color, areaStyle.opacity, theme, index, true);
                 switch (state)
                 {
                     case SerieState.Emphasis:
@@ -606,7 +606,7 @@ namespace XCharts.Runtime
                     innerFill = stateStyle.areaStyle.innerFill;
                     toTop = stateStyle.areaStyle.toTop;
                     GetColor(ref color, stateStyle.areaStyle.color, stateStyle.itemStyle.color, stateStyle.areaStyle.opacity, theme, index);
-                    GetColor(ref toColor, stateStyle.areaStyle.toColor, color, stateStyle.areaStyle.opacity, theme, index);
+                    GetColor(ref toColor, stateStyle.areaStyle.toColor, color, stateStyle.areaStyle.opacity, theme, index, true, true);
                 }
                 else
                 {
@@ -646,10 +646,14 @@ namespace XCharts.Runtime
         }
 
         public static void GetColor(ref Color32 color, Color32 checkColor, Color32 itemColor,
-            float opacity, ThemeStyle theme, int colorIndex, bool setOpacity = true)
+            float opacity, ThemeStyle theme, int colorIndex, bool setOpacity = true, bool resetOpacity = false)
         {
             if (!ChartHelper.IsClearColor(checkColor)) color = checkColor;
-            else if (!ChartHelper.IsClearColor(itemColor)) color = itemColor;
+            else if (!ChartHelper.IsClearColor(itemColor))
+            {
+                color = itemColor;
+                if (resetOpacity) opacity = 1;
+            }
             if (ChartHelper.IsClearColor(color) && colorIndex >= 0) color = theme.GetColor(colorIndex);
             if (setOpacity) ChartHelper.SetColorOpacity(ref color, opacity);
         }

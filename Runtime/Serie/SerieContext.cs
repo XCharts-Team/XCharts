@@ -119,6 +119,7 @@ namespace XCharts.Runtime
         public Tooltip.Type tooltipType;
         public Tooltip.Trigger tooltipTrigger;
         public int totalDataIndex;
+        public int clickTotalDataIndex;
         /// <summary>
         /// 水平方向的
         /// </summary>

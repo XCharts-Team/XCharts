@@ -566,6 +566,26 @@ namespace XCharts.Runtime
             }
         }
 
+        /// <summary>
+        /// set insert data to head.
+        /// ||设置数据插入到头部。
+        /// </summary>
+        /// <param name="insertDataToHead"></param>
+        [Since("v3.11.0")]
+        public void SetInsertDataToHead(bool insertDataToHead)
+        {
+            foreach (var serie in m_Series)
+                serie.insertDataToHead = insertDataToHead;
+
+            var coms = GetChartComponents<XAxis>();
+            foreach (var com in coms)
+            {
+                var axis = com as XAxis;
+                if (axis.type == Axis.AxisType.Category)
+                    axis.insertDataToHead = insertDataToHead;
+            }
+        }
+
         public Vector3 GetTitlePosition(Title title)
         {
             return chartPosition + title.location.GetPosition(chartWidth, chartHeight);
@@ -735,7 +755,8 @@ namespace XCharts.Runtime
         [Since("v3.7.0")]
         public void CancelTooltip()
         {
-            m_PointerEventData = null;
+            pointerMoveEventData = null;
+            pointerClickEventData = null;
             var tooltip = GetChartComponent<Tooltip>();
             if (tooltip != null)
             {

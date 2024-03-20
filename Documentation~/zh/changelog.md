@@ -73,6 +73,8 @@ slug: /changelog
 
 ## master
 
+* (2024.03.20) 增加`Tooltip`的`triggerOn`设置触发条件
+
 ## v3.10.2
 
 * (2024.03.11) 发布`v3.10.2`版本

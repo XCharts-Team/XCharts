@@ -17,24 +17,52 @@ namespace XCharts.Example
         public bool loopUpdate = false;
         public float loopUpadteTime = 1f;
         public int maxCache = 0;
+        public bool insertDataToHead = false;
 
         BaseChart chart;
         float lastAddTime;
         float lastUpdateTime;
         int dataCount;
 
+        int lastMaxCache = 0;
+        bool lastInsertDataToHead = false;
+
         void Awake()
         {
             chart = gameObject.GetComponent<BaseChart>();
+            chart.onInit = () =>
+            {
+                dataCount = chart.GetSerie(0).dataCount;
+                SetMaxCache(maxCache);
+                SetInsertDataToHead(insertDataToHead);
+                lastMaxCache = maxCache;
+                lastInsertDataToHead = insertDataToHead;
+            };
         }
 
-        void Start()
+        void SetMaxCache(int maxCache)
         {
-            if (maxCache > 0)
+            chart.SetMaxCache(maxCache);
+        }
+
+        void SetInsertDataToHead(bool insertDataToHead)
+        {
+            foreach (var serie in chart.series)
+                serie.insertDataToHead = insertDataToHead;
+
+            var coms = chart.GetChartComponents<XAxis>();
+            if (coms != null)
             {
-                chart.SetMaxCache(maxCache);
+                foreach (var com in coms)
+                {
+                    var axis = com as XAxis;
+                    if (axis.type == Axis.AxisType.Category)
+                    {
+                        axis.insertDataToHead = insertDataToHead;
+                        Debug.LogError("axis:" + axis + "," + insertDataToHead);
+                    }
+                }
             }
-            dataCount = chart.GetSerie(0).dataCount;
         }
 
         void Update()
@@ -50,6 +78,16 @@ namespace XCharts.Example
             else if (Input.GetKeyDown(KeyCode.C))
             {
                 chart.ClearData();
+            }
+            if (lastMaxCache != maxCache)
+            {
+                lastMaxCache = maxCache;
+                SetMaxCache(maxCache);
+            }
+            if (lastInsertDataToHead != insertDataToHead)
+            {
+                lastInsertDataToHead = insertDataToHead;
+                SetInsertDataToHead(insertDataToHead);
             }
             lastAddTime += Time.deltaTime;
             if (loopAdd && lastAddTime >= loopAddTime)
@@ -84,17 +122,24 @@ namespace XCharts.Example
             }
             else
             {
+                AddXAxisData();
                 var xAxis = chart.GetChartComponent<XAxis>();
-                if (xAxis != null)
-                {
-                    if (xAxis.type == Axis.AxisType.Category)
-                    {
-                        chart.AddXAxisData("x" + (xAxis.GetAddedDataCount() + 1));
-                    }
-                }
                 foreach (var serie in chart.series)
                 {
                     AddSerieRandomData(serie, xAxis);
+                }
+            }
+        }
+
+        void AddXAxisData()
+        {
+            var xAxes = chart.GetChartComponents<XAxis>();
+            foreach (var com in xAxes)
+            {
+                var xAxis = com as XAxis;
+                if (xAxis.type == Axis.AxisType.Category)
+                {
+                    chart.AddXAxisData("x" + (xAxis.GetAddedDataCount() + 1), xAxis.index);
                 }
             }
         }

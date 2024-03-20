@@ -835,6 +835,7 @@ slug: /api
 |ResetChartStatus()|v3.10.0|public void ResetChartStatus()<br/>重置图表状态。当设置某些参数后，由于动画影响，可能导致图表状态不正确，此时可以调用该接口重置图表状态。 |
 |ResetDataIndex()||public bool ResetDataIndex(int serieIndex)<br/>重置serie的数据项索引。避免数据项索引异常。 |
 |SetBasePainterMaterial()||public void SetBasePainterMaterial(Material material)<br/>设置Base Painter的材质球 |
+|SetInsertDataToHead()|v3.11.0|public void SetInsertDataToHead(bool insertDataToHead)<br/>设置数据插入到头部。 |
 |SetMaxCache()||public void SetMaxCache(int maxCache)<br/>设置可缓存的最大数据量。当数据量超过该值时，会自动删除第一个值再加入最新值。 |
 |SetPainterActive()||public void SetPainterActive(int index, bool flag)|
 |SetSerieActive()||public void SetSerieActive(int serieIndex, bool active)<br/>设置指定系列是否显示。 |
@@ -3093,6 +3094,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 |API|版本|描述|
 |--|--|--|
+|onClickIndex||public System.Action&lt;int&gt; onClickIndex<br/>Tooltip为Click触发时，点击的X轴索引的回调。 |
 |AddSerieDataIndex()||public void AddSerieDataIndex(int serieIndex, int dataIndex)|
 |ClearComponentDirty()||public override void ClearComponentDirty()|
 |ClearData()||public override void ClearData()|

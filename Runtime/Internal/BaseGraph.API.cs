@@ -43,16 +43,21 @@ namespace XCharts.Runtime
         public Vector2 graphMaxAnchor { get { return m_GraphMaxAnchor; } }
         public Vector2 graphAnchoredPosition { get { return m_GraphAnchoredPosition; } }
         /// <summary>
-        /// The postion of pointer.
+        /// The postion of pointer move.
         /// ||鼠标位置。
         /// </summary>
         public Vector2 pointerPos { get; protected set; }
+        public Vector2 clickPos { get; protected set; }
         /// <summary>
         /// Whether the mouse pointer is in the chart.
         /// ||鼠标是否在图表内。
         /// </summary>
-        public bool isPointerInChart
-        { get { return m_PointerEventData != null; } }
+        public bool isPointerInChart { get { return pointerMoveEventData != null; } }
+        /// <summary>
+        /// Whether the mouse click the chart.
+        /// ||鼠标是否点击了图表。
+        /// </summary>
+        public bool isPointerClick { get { return pointerClickEventData != null; } }
         /// <summary>
         /// 警告信息。
         /// </summary>

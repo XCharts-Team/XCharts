@@ -741,6 +741,7 @@ namespace XCharts.Runtime
 
         public override void OnPointerClick(PointerEventData eventData)
         {
+            serie.context.clickTotalDataIndex = serie.context.totalDataIndex;
             if (serie.onClick == null && chart.onSerieClick == null) return;
             if (!serie.context.pointerEnter) return;
             var dataIndex = GetPointerItemDataIndex();

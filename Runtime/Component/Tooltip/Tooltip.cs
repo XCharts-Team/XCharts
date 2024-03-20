@@ -73,6 +73,23 @@ namespace XCharts.Runtime
             Auto
         }
         /// <summary>
+        /// the condition of trigger tooltip.
+        /// ||触发条件。
+        /// </summary>
+        public enum TriggerOn
+        {
+            /// <summary>
+            /// Trigger when mouse move.
+            /// ||鼠标移动时触发。
+            /// </summary>
+            MouseMove,
+            /// <summary>
+            /// Trigger when mouse click.
+            /// ||鼠标点击时触发。
+            /// </summary>
+            Click,
+        }
+        /// <summary>
         /// Position type.
         /// ||坐标类型。
         /// </summary>
@@ -102,6 +119,7 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_Show = true;
         [SerializeField] private Type m_Type = Type.Auto;
         [SerializeField] private Trigger m_Trigger = Trigger.Auto;
+        [SerializeField][Since("v3.11.0")] private TriggerOn m_TriggerOn = TriggerOn.MouseMove;
         [SerializeField][Since("v3.3.0")] private Position m_Position = Position.Auto;
         [SerializeField] private string m_ItemFormatter;
         [SerializeField] private string m_TitleFormatter;
@@ -145,6 +163,12 @@ namespace XCharts.Runtime
         public TooltipView view;
 
         /// <summary>
+        /// the callback of tooltip click index.
+        /// ||Tooltip为Click触发时，点击的X轴索引的回调。
+        /// </summary>
+        public System.Action<int> onClickIndex { get; set; }
+
+        /// <summary>
         /// Whether to show the tooltip component.
         /// ||是否显示提示框组件。
         /// </summary>
@@ -170,6 +194,15 @@ namespace XCharts.Runtime
         {
             get { return m_Trigger; }
             set { if (PropertyUtil.SetStruct(ref m_Trigger, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// Condition of trigger tooltip.
+        /// ||触发条件。
+        /// </summary>
+        public TriggerOn triggerOn
+        {
+            get { return m_TriggerOn; }
+            set { if (PropertyUtil.SetStruct(ref m_TriggerOn, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Type of position.

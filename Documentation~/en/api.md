@@ -835,6 +835,7 @@ Bar chart shows different data through the height of a bar, which is used in rec
 |ResetChartStatus()|v3.10.0|public void ResetChartStatus()<br/>reset chart status. When some parameters are set, due to the animation effect, the chart status may not be correct. |
 |ResetDataIndex()||public bool ResetDataIndex(int serieIndex)<br/>重置serie的数据项索引。避免数据项索引异常。 |
 |SetBasePainterMaterial()||public void SetBasePainterMaterial(Material material)<br/>设置Base Painter的材质球 |
+|SetInsertDataToHead()|v3.11.0|public void SetInsertDataToHead(bool insertDataToHead)<br/>set insert data to head. |
 |SetMaxCache()||public void SetMaxCache(int maxCache)<br/>设置可缓存的最大数据量。当数据量超过该值时，会自动删除第一个值再加入最新值。 |
 |SetPainterActive()||public void SetPainterActive(int index, bool flag)|
 |SetSerieActive()||public void SetSerieActive(int serieIndex, bool active)<br/>Whether to show serie. |
@@ -3093,6 +3094,7 @@ Tooltip component.
 
 |public method|since|description|
 |--|--|--|
+|onClickIndex||public System.Action&lt;int&gt; onClickIndex<br/>the callback of tooltip click index. |
 |AddSerieDataIndex()||public void AddSerieDataIndex(int serieIndex, int dataIndex)|
 |ClearComponentDirty()||public override void ClearComponentDirty()|
 |ClearData()||public override void ClearData()|

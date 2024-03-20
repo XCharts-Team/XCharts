@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace XCharts.Runtime
 {
@@ -16,7 +17,28 @@ namespace XCharts.Runtime
         public override void Update()
         {
             UpdateAxisMinMaxValue(component.index, component);
-            UpdatePointerValue(component);
+            if (!chart.isTriggerOnClick)
+            {
+               UpdatePointerValue(component);
+            }
+        }
+
+        public override void OnPointerClick(PointerEventData eventData)
+        {
+            base.OnPointerClick(eventData);
+            if (chart.isTriggerOnClick)
+            {
+                UpdatePointerValue(component);
+            }
+        }
+
+        public override void OnPointerExit(PointerEventData eventData)
+        {
+            base.OnPointerExit(eventData);
+            if (chart.isTriggerOnClick)
+            {
+                component.context.pointerValue = double.PositiveInfinity;
+            }
         }
 
         public override void DrawBase(VertexHelper vh)

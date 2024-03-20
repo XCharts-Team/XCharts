@@ -42,9 +42,25 @@ namespace XCharts.Runtime
             double totalValue = 0;
             foreach (var node in nodes)
             {
-                totalValue += node.totalValues;
+                if (node.IsAnyInEdgesExpanded())
+                {
+                    totalValue += node.totalValues;
+                }
             }
             return totalValue;
+        }
+
+        public static int GetExpandedNodesCount(List<GraphNode> nodes)
+        {
+            int count = 0;
+            foreach (var node in nodes)
+            {
+                if (node.IsAnyInEdgesExpanded())
+                {
+                    count++;
+                }
+            }
+            return count;
         }
 
         public List<List<GraphNode>> GetDepthNodes()

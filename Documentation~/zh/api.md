@@ -80,7 +80,7 @@ slug: /api
 - [EmphasisStyle](#emphasisstyle)
 - [EndLabelStyle](#endlabelstyle)
 - [FormatterHelper](#formatterhelper)
-- [Graph](#graph)
+- [GraphData](#graphdata)
 - [GraphEdge](#graphedge)
 - [GraphNode](#graphnode)
 - [GridCoord](#gridcoord)
@@ -1410,7 +1410,7 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 |TrimAndReplaceLine()||public static string TrimAndReplaceLine(string content)|
 |TrimAndReplaceLine()||public static string TrimAndReplaceLine(StringBuilder sb)|
 
-## Graph
+## GraphData
 
 > class in XCharts.Runtime
 
@@ -1424,6 +1424,8 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 |Clear()||public void Clear()|
 |DeepFirstTraverse()||public void DeepFirstTraverse(GraphNode startNode, System.Action&lt;GraphNode&gt; onTraverse)|
 |EachNode()||public void EachNode(System.Action&lt;GraphNode&gt; onEach)|
+|ExpandAllNodes()||public void ExpandAllNodes(bool flag, int level = -1)|
+|ExpandNode()||public void ExpandNode(string nodeId, bool flag)|
 |GetDepthNodes()||public List&lt;List&lt;GraphNode&gt;&gt; GetDepthNodes()|
 |GetEdge()||public GraphEdge GetEdge(string nodeId1, string nodeId2)|
 |GetMaxDepth()||public int GetMaxDepth()|
@@ -1433,7 +1435,7 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 |GetNodeDepth()||public int GetNodeDepth(GraphNode node, int recursiveCount = 0)|
 |GetNodesTotalValue()||public static double GetNodesTotalValue(List&lt;GraphNode&gt; nodes)|
 |GetRootNodes()||public List&lt;GraphNode&gt; GetRootNodes()|
-|Graph()||public Graph(bool directed)|
+|GraphData()||public GraphData(bool directed)|
 |Refresh()||public void Refresh()|
 
 ## GraphEdge
@@ -1454,7 +1456,10 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 
 |API|版本|描述|
 |--|--|--|
+|Expand()||public void Expand(bool flag)|
 |GraphNode()||public GraphNode(string id, string name, int dataIndex)|
+|IsAllInEdgesCollapsed()||public bool IsAllInEdgesCollapsed()|
+|IsAnyInEdgesExpanded()||public bool IsAnyInEdgesExpanded()|
 |ToString()||public override string ToString()|
 
 ## GridCoord

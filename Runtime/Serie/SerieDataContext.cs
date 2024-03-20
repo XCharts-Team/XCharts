@@ -59,16 +59,13 @@ namespace XCharts.Runtime
         /// Whether the data item is highlighted.
         /// ||该数据项是否被高亮，一般由鼠标悬停或图例悬停触发高亮。
         /// </summary>
-        public bool highlight
-        {
-            get { return m_Highligth; }
-            set
-            {
-                m_Highligth = value;
-            }
-        }
-        private bool m_Highligth;
+        public bool highlight;
         public bool selected;
+        /// <summary>
+        /// the id of the node in the graph.
+        /// ||图中节点的id。
+        /// </summary> 
+        public string graphNodeId;
         public double inTotalValue;
         public double outTotalValue;
 

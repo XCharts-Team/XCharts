@@ -7,7 +7,7 @@ namespace XCharts.Runtime
     /// the data struct of graph.
     /// ||数据结构-图。
     /// </summary>
-    public class Graph
+    public class GraphData
     {
         public bool directed;
         public List<GraphNode> nodes = new List<GraphNode>();
@@ -16,7 +16,7 @@ namespace XCharts.Runtime
         public Dictionary<string, GraphNode> nodeMap = new Dictionary<string, GraphNode>();
         public Dictionary<string, GraphEdge> edgeMap = new Dictionary<string, GraphEdge>();
 
-        public Graph(bool directed)
+        public GraphData(bool directed)
         {
             this.directed = directed;
         }
@@ -108,7 +108,7 @@ namespace XCharts.Runtime
         // {
         //     if (recursiveCount > 50)
         //     {
-        //         XLog.Error("Graph.GetNodeDeep(): recursiveCount > 50, maybe graph is ring");
+        //         XLog.Error("GraphData.GetNodeDeep(): recursiveCount > 50, maybe graph is ring");
         //         return;
         //     }
         //     if (node.inDegree == 0)
@@ -129,7 +129,7 @@ namespace XCharts.Runtime
         {
             if (recursiveCount > 50)
             {
-                XLog.Error("Graph.GetNodeDeep(): recursiveCount > 50, maybe graph is ring");
+                XLog.Error("GraphData.GetNodeDeep(): recursiveCount > 50, maybe graph is ring");
                 return 0;
             }
             int depth = 0;
@@ -214,27 +214,27 @@ namespace XCharts.Runtime
             GraphNode node1, node2;
             if (!nodeMap.TryGetValue(nodeId1, out node1))
             {
-                XLog.Warning("Graph.AddEdge(): " + nodeId1 + " not exist");
+                XLog.Warning("GraphData.AddEdge(): " + nodeId1 + " not exist");
                 return null;
             }
             if (!nodeMap.TryGetValue(nodeId2, out node2))
             {
-                XLog.Warning("Graph.AddEdge(): " + nodeId2 + " not exist");
+                XLog.Warning("GraphData.AddEdge(): " + nodeId2 + " not exist");
                 return null;
             }
             if (node1 == null)
             {
-                XLog.Warning("Graph.AddEdge(): node1 is null");
+                XLog.Warning("GraphData.AddEdge(): node1 is null");
                 return null;
             }
             if (node2 == null)
             {
-                XLog.Warning("Graph.AddEdge(): node2 is null");
+                XLog.Warning("GraphData.AddEdge(): node2 is null");
                 return null;
             }
             if (node1 == node2)
             {
-                XLog.Warning("Graph.AddEdge(): node1 == node2");
+                XLog.Warning("GraphData.AddEdge(): node1 == node2");
                 return null;
             }
             string edgeKey = nodeId1 + "_" + nodeId2;
@@ -331,6 +331,26 @@ namespace XCharts.Runtime
                 }
             }
         }
+
+        public void ExpandNode(string nodeId, bool flag)
+        {
+            var node = GetNode(nodeId);
+            if (node != null)
+            {
+                node.Expand(flag);
+            }
+        }
+
+        public void ExpandAllNodes(bool flag, int level = -1)
+        {
+            foreach (var node in nodes)
+            {
+                if (level < 0 || node.level == level)
+                {
+                    node.Expand(flag);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -344,10 +364,12 @@ namespace XCharts.Runtime
         public List<GraphEdge> edges = new List<GraphEdge>();
         public List<GraphEdge> inEdges = new List<GraphEdge>();
         public List<GraphEdge> outEdges = new List<GraphEdge>();
-        public Graph hostGraph;
+        public GraphData hostGraph;
         public int dataIndex;
         public bool visited;
         public int depth = -1;
+        public bool expand = true;
+        public int level = 0;
 
         public GraphNode(string id, string name, int dataIndex)
         {
@@ -388,6 +410,36 @@ namespace XCharts.Runtime
         {
             return name;
         }
+
+        public bool IsAllInEdgesCollapsed()
+        {
+            if (inEdges.Count == 0) return false;
+            foreach (var edge in inEdges)
+            {
+                if (!edge.expand) return false;
+            }
+            return true;
+        }
+
+        public bool IsAnyInEdgesExpanded()
+        {
+            if (inEdges.Count == 0) return true;
+            foreach (var edge in inEdges)
+            {
+                if (edge.expand) return true;
+            }
+            return false;
+        }
+
+        public void Expand(bool flag)
+        {
+            if (expand == flag) return;
+            expand = flag;
+            foreach (var edge in outEdges)
+            {
+                edge.expand = flag;
+            }
+        }
     }
 
     /// <summary>
@@ -400,11 +452,12 @@ namespace XCharts.Runtime
         public GraphNode node1;
         public GraphNode node2;
         public double value;
-        public Graph hostGraph;
+        public GraphData hostGraph;
 
         public List<Vector3> points = new List<Vector3>();
         public float width;
         public bool highlight;
+        public bool expand = true;
 
         public GraphEdge(GraphNode node1, GraphNode node2, double value)
         {

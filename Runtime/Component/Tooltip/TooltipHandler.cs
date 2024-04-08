@@ -107,7 +107,11 @@ namespace XCharts.Runtime
             m_ShowTooltip = false;
             if (tooltip.trigger == Tooltip.Trigger.None) return;
             chart.isTriggerOnClick = tooltip.triggerOn == Tooltip.TriggerOn.Click;
-            if (!chart.isPointerInChart || !tooltip.show || (chart.isTriggerOnClick && !chart.isPointerClick))
+
+            if ((tooltip.show && chart.isPointerInChart) &&
+                ((tooltip.triggerOn == Tooltip.TriggerOn.Click && chart.isPointerClick) ||
+                (tooltip.triggerOn == Tooltip.TriggerOn.MouseMove))
+                )
             {
                 for (int i = chart.series.Count - 1; i >= 0; i--)
                 {
@@ -124,26 +128,16 @@ namespace XCharts.Runtime
                 if (m_ContainerSeries.Count > 0)
                 {
                     m_ShowTooltip = true;
-                    m_ContainerSeries = null;
                     return;
                 }
             }
-            m_ContainerSeries = ListPool<Serie>.Get();
-            UpdatePointerContainerAndSeriesAndTooltip(tooltip, ref m_ContainerSeries);
-            if (m_ContainerSeries.Count > 0)
+
+            if (!m_ShowTooltip && tooltip.IsActive())
             {
-                m_ShowTooltip = true;
-            }
-            else
-            {
-                m_ShowTooltip = false;
-                if (tooltip.IsActive())
-                {
-                    tooltip.ClearValue();
-                    tooltip.SetActive(false);
-                    component.context.xAxisClickIndex = -1;
-                    chart.pointerClickEventData = null;
-                }
+                tooltip.ClearValue();
+                tooltip.SetActive(false);
+                component.context.xAxisClickIndex = -1;
+                chart.pointerClickEventData = null;
             }
         }
 
@@ -151,7 +145,16 @@ namespace XCharts.Runtime
         private List<Serie> m_ContainerSeries;
         private void UpdateTooltip(Tooltip tooltip)
         {
-            if (!m_ShowTooltip) return;
+            if (!m_ShowTooltip)
+            {
+                if (m_ContainerSeries != null)
+                {
+                    ListPool<Serie>.Release(m_ContainerSeries);
+                    m_ContainerSeries = null;
+                }
+                return;
+            }
+
             var anyTrigger = false;
             for (int i = chart.series.Count - 1; i >= 0; i--)
             {
@@ -173,6 +176,7 @@ namespace XCharts.Runtime
                 else
                     anyTrigger = true;
                 ListPool<Serie>.Release(m_ContainerSeries);
+                m_ContainerSeries = null;
             }
             if (!m_ShowTooltip || !anyTrigger)
             {

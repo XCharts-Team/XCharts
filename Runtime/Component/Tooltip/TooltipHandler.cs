@@ -252,7 +252,8 @@ namespace XCharts.Runtime
             if (axis.IsCategory())
             {
                 var index = (int)axis.context.pointerValue;
-                var category = axis.GetData(index);
+                var dataZoom = chart.GetDataZoomOfAxis(axis);
+                var category = axis.GetData(index, dataZoom);
                 label.SetText(axis.indicatorLabel.GetFormatterContent(index, category));
             }
             else if (axis.IsTime())

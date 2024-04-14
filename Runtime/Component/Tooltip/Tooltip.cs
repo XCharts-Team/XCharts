@@ -244,7 +244,7 @@ namespace XCharts.Runtime
         /// {h}为当前所指示或index为0的serie的数据项serieData的十六进制颜色值。<br/>
         /// {f}为数据总和。<br/>
         /// {g}为数据总个数。<br/>
-        /// {f}为value所对应的y轴的类目值。<br/>
+        /// {y}为value所对应的y轴的类目值。<br/>
         /// {.1}表示指定index为1的serie对应颜色的圆点。<br/>
         /// {a1}、{b1}、{c1}中的1表示指定index为1的serie。<br/>
         /// {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。<br/>

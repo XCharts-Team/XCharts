@@ -73,6 +73,8 @@ slug: /changelog
 
 ## master
 
+* (2024.04.15) 优化`GridCoord`在开启`GridLayout`时也显示`Left` `Right` `Top` `Bottom`参数 (#316)
+* (2024.04.14) 修复`Tooltip`的`Cross`在开启`DataZoom`的情况下`label`位置不正确的问题 (#315)
 * (2024.04.12) 修复`Candlesticks`效果不对的问题 (#313)
 * (2024.03.20) 增加`Tooltip`的`triggerOn`设置触发条件
 * (2024.03.19) 修复`Pie`在设置`ItemStyle`的`opacity`时颜色不对的问题 (#309)

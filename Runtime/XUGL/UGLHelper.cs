@@ -310,7 +310,7 @@ namespace XUGL
         /// <param name="nbp">下一个点的下角点</param>
         /// <param name="itp">交汇点的上角点</param>
         /// <param name="ibp">交汇点的下角点</param>
-        internal static void GetLinePoints(Vector3 lp, Vector3 cp, Vector3 np, float width,
+        public static void GetLinePoints(Vector3 lp, Vector3 cp, Vector3 np, float width,
             ref Vector3 ltp, ref Vector3 lbp,
             ref Vector3 ntp, ref Vector3 nbp,
             ref Vector3 itp, ref Vector3 ibp,
@@ -397,6 +397,23 @@ namespace XUGL
             }
             return inside;
         }
+
+        public static bool IsPointInPolygon(Vector3 p, params Vector3[] polyons)
+        {
+            if (polyons.Length == 0) return false;
+            var inside = false;
+            var j = polyons.Length - 1;
+            for (int i = 0; i < polyons.Length; j = i++)
+            {
+                var pi = polyons[i];
+                var pj = polyons[j];
+                if (((pi.y <= p.y && p.y < pj.y) || (pj.y <= p.y && p.y < pi.y)) &&
+                    (p.x < (pj.x - pi.x) * (p.y - pi.y) / (pj.y - pi.y) + pi.x))
+                    inside = !inside;
+            }
+            return inside;
+        }
+
         public static bool IsPointInPolygon(Vector3 p, List<Vector2> polyons)
         {
             if (polyons.Count == 0) return false;

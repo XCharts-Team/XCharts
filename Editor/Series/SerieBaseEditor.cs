@@ -9,8 +9,8 @@ namespace XCharts.Editor
 {
     public class SerieBaseEditor
     {
-        internal BaseChart chart { get; private set; }
-        internal Serie serie { get; private set; }
+        public BaseChart chart { get; private set; }
+        public Serie serie { get; private set; }
 
         //Editor m_Inspector;
         internal SerializedProperty baseProperty;

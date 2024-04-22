@@ -386,6 +386,11 @@ namespace XCharts.Runtime
         public int depth = -1;
         public bool expand = true;
         public int level = 0;
+        public Vector3 position;
+        public Vector3 delta;
+        public float weight;
+        public float repulsion;
+        public Vector3 pp;
 
         public GraphNode(string id, string name, int dataIndex)
         {
@@ -472,6 +477,7 @@ namespace XCharts.Runtime
 
         public List<Vector3> points = new List<Vector3>();
         public float width;
+        public float distance;
         public bool highlight;
         public bool expand = true;
 

@@ -7,11 +7,23 @@ namespace XCharts.Runtime
     {
         public Vector3 position;
         public bool isIgnoreBreak;
+        public double xValue;
+        public double yValue;
+        public double zValue;
 
-        public PointInfo(Vector3 pos, bool ignore)
+        // public PointInfo(Vector3 pos, bool ignore)
+        // {
+        //     this.position = pos;
+        //     this.isIgnoreBreak = ignore;
+        // }
+
+        public PointInfo(Vector3 pos, bool ignore, double x = 0, double y = 0, double z = 0)
         {
             this.position = pos;
             this.isIgnoreBreak = ignore;
+            this.xValue = x;
+            this.yValue = y;
+            this.zValue = z;
         }
     }
 

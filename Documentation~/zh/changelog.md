@@ -73,6 +73,8 @@ slug: /changelog
 
 ## master
 
+* (2024.04.22) 增加`GridCoord3D`3D坐标系
+* (2024.04.15) 优化`DateTimeUtil`时间戳转`DateTime`接口时区的问题
 * (2024.04.15) 优化`GridCoord`在开启`GridLayout`时也显示`Left` `Right` `Top` `Bottom`参数 (#316)
 * (2024.04.14) 修复`Tooltip`的`Cross`在开启`DataZoom`的情况下`label`位置不正确的问题 (#315)
 * (2024.04.12) 修复`Candlesticks`效果不对的问题 (#313)

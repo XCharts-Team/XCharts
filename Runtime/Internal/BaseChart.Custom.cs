@@ -13,9 +13,13 @@ namespace XCharts.Runtime
             var needAnimationData = !axis.context.needAnimation;
             if (IsAllAxisValue())
             {
-                if (axis is XAxis)
+                if (axis is XAxis || axis is XAxis3D)
                 {
                     SeriesHelper.GetXMinMaxValue(this, axisIndex, axis.inverse, out tempMinValue, out tempMaxValue, false, false, needAnimationData);
+                }
+                else if (axis is ZAxis3D)
+                {
+                    SeriesHelper.GetZMinMaxValue(this, axisIndex, axis.inverse, out tempMinValue, out tempMaxValue, false, false, needAnimationData);
                 }
                 else
                 {

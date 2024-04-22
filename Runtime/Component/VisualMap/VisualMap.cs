@@ -386,8 +386,8 @@ namespace XCharts.Runtime
             }
         }
 
-        public float runtimeRangeMinHeight { get { return (float) ((rangeMin - min) / (max - min) * itemHeight); } }
-        public float runtimeRangeMaxHeight { get { return (float) ((rangeMax - min) / (max - min) * itemHeight); } }
+        public float runtimeRangeMinHeight { get { return (float)((rangeMin - min) / (max - min) * itemHeight); } }
+        public float runtimeRangeMaxHeight { get { return (float)((rangeMax - min) / (max - min) * itemHeight); } }
 
         public void AddColors(List<Color32> colors)
         {
@@ -411,6 +411,25 @@ namespace XCharts.Runtime
                     color = ThemeStyle.GetColor(str)
                 });
             }
+        }
+
+        public Color32 GetColor(double xValue, double yValue, double zValue, byte alpha = 255)
+        {
+            Color32 color;
+            if (m_Dimension == 0)
+            {
+                color = GetColor(xValue);
+            }
+            else if (m_Dimension == 1)
+            {
+                color = GetColor(yValue);
+            }
+            else
+            {
+                color = GetColor(zValue);
+            }
+            color.a = alpha;
+            return color;
         }
 
         public Color32 GetColor(double value)
@@ -437,7 +456,7 @@ namespace XCharts.Runtime
                 if (index == splitNumber - 1)
                     return m_InRange[index].color;
                 else
-                    return Color32.Lerp(m_InRange[index].color, m_InRange[index + 1].color, (float) rate);
+                    return Color32.Lerp(m_InRange[index].color, m_InRange[index + 1].color, (float)rate);
             }
         }
 

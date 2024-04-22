@@ -22,6 +22,7 @@ slug: /api
 - [AreaStyle](#areastyle)
 - [ArrowStyle](#arrowstyle)
 - [Axis](#axis)
+- [Axis3DHelper](#axis3dhelper)
 - [AxisAnimation](#axisanimation)
 - [AxisContext](#axiscontext)
 - [AxisHandler&lt;T&gt;](#axishandlert)
@@ -67,6 +68,7 @@ slug: /api
 - [ComponentTheme](#componenttheme)
 - [CoordOptionsAttribute](#coordoptionsattribute)
 - [CoordSystem](#coordsystem)
+- [DataHelper](#datahelper)
 - [DataZoom](#datazoom)
 - [DataZoomContext](#datazoomcontext)
 - [DataZoomHelper](#datazoomhelper)
@@ -84,6 +86,8 @@ slug: /api
 - [GraphEdge](#graphedge)
 - [GraphNode](#graphnode)
 - [GridCoord](#gridcoord)
+- [GridCoord3D](#gridcoord3d)
+- [GridCoord3DContext](#gridcoord3dcontext)
 - [GridCoordContext](#gridcoordcontext)
 - [GridLayout](#gridlayout)
 - [GridLayoutContext](#gridlayoutcontext)
@@ -119,6 +123,7 @@ slug: /api
 - [Line](#line)
 - [LineArrow](#linearrow)
 - [LineChart](#linechart)
+- [LineHelper](#linehelper)
 - [LineStyle](#linestyle)
 - [ListFor](#listfor)
 - [ListForComponent](#listforcomponent)
@@ -225,12 +230,14 @@ slug: /api
 - [UIComponent](#uicomponent)
 - [UIComponentTheme](#uicomponenttheme)
 - [UIHelper](#uihelper)
+- [ViewControl](#viewcontrol)
 - [VisualMap](#visualmap)
 - [VisualMapContext](#visualmapcontext)
 - [VisualMapHelper](#visualmaphelper)
 - [VisualMapRange](#visualmaprange)
 - [VisualMapTheme](#visualmaptheme)
 - [XAxis](#xaxis)
+- [XAxis3D](#xaxis3d)
 - [XChartsMgr](#xchartsmgr)
 - [XCResourceImporterWindow](#xcresourceimporterwindow)
 - [XCResourcesImporter](#xcresourcesimporter)
@@ -238,6 +245,8 @@ slug: /api
 - [XCThemeMgr](#xcthememgr)
 - [XLog](#xlog)
 - [YAxis](#yaxis)
+- [YAxis3D](#yaxis3d)
+- [ZAxis3D](#zaxis3d)
 
 
 ## AngleAxis
@@ -418,7 +427,7 @@ slug: /api
 
 ## Axis
 
-> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent) / 子类: [AngleAxis](#angleaxis),[ParallelAxis](#parallelaxis),[RadiusAxis](#radiusaxis),[SingleAxis](#singleaxis),[XAxis](#xaxis),[YAxis](#yaxis) 
+> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent) / 子类: [AngleAxis](#angleaxis),[ParallelAxis](#parallelaxis),[RadiusAxis](#radiusaxis),[SingleAxis](#singleaxis),[XAxis](#xaxis),[XAxis3D](#xaxis3d),[YAxis](#yaxis),[YAxis3D](#yaxis3d),[ZAxis3D](#zaxis3d) 
 
 直角坐标系的坐标轴组件。
 
@@ -434,7 +443,7 @@ slug: /api
 |GetAddedDataCount()||public int GetAddedDataCount()<br/>获得添加过的历史数据总数 |
 |GetData()||public string GetData(int index)<br/>获得指定索引的类目数据 |
 |GetData()||public string GetData(int index, DataZoom dataZoom)<br/>获得在dataZoom范围内指定索引的类目数据 |
-|GetDistance()||public float GetDistance(double value, float axisLength)<br/>获得值在坐标轴上的距离 |
+|GetDistance()||public float GetDistance(double value, float axisLength = 0)<br/>获得值在坐标轴上的距离 |
 |GetIcon()||public Sprite GetIcon(int index)|
 |GetLabelValue()||public double GetLabelValue(int index)|
 |GetLastLabelValue()||public double GetLastLabelValue()|
@@ -457,6 +466,17 @@ slug: /api
 |UpdateData()||public void UpdateData(int index, string category)<br/>更新类目数据 |
 |UpdateIcon()||public void UpdateIcon(int index, Sprite icon)<br/>更新图标 |
 |UpdateZeroOffset()||public void UpdateZeroOffset(float axisLength)|
+
+## Axis3DHelper
+
+> class in XCharts.Runtime
+
+
+|API|版本|描述|
+|--|--|--|
+|Get3DGridPosition()||public static Vector3 Get3DGridPosition(GridCoord3D grid, XAxis3D xAxis, YAxis3D yAxis, double xValue, double yValue)|
+|Get3DGridPosition()||public static Vector3 Get3DGridPosition(GridCoord3D grid, XAxis3D xAxis, YAxis3D yAxis, ZAxis3D zAxis, double xValue, double yValue, double zValue)|
+|GetLabelPosition()||public static Vector3 GetLabelPosition(int i, Axis axis, Axis relativedAxis, AxisTheme theme, float scaleWid)|
 
 ## AxisAnimation
 
@@ -1171,7 +1191,7 @@ slug: /api
 
 ## ChildComponent
 
-> class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle),[AxisAnimation](#axisanimation),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[BorderStyle](#borderstyle),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MLValue](#mlvalue),[MarqueeStyle](#marqueestyle),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[SerieDataLink](#seriedatalink),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
+> class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle),[AxisAnimation](#axisanimation),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[BorderStyle](#borderstyle),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MLValue](#mlvalue),[MarqueeStyle](#marqueestyle),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[ViewControl](#viewcontrol),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[SerieDataLink](#seriedatalink),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
 
 
 |API|版本|描述|
@@ -1269,9 +1289,14 @@ slug: /api
 
 ## CoordSystem
 
-> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent) / 子类: [RadarCoord](#radarcoord),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[ParallelCoord](#parallelcoord),[PolarCoord](#polarcoord),[SingleAxisCoord](#singleaxiscoord) 
+> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent) / 子类: [RadarCoord](#radarcoord),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[GridCoord3D](#gridcoord3d),[ParallelCoord](#parallelcoord),[PolarCoord](#polarcoord),[SingleAxisCoord](#singleaxiscoord) 
 
 坐标系系统。
+
+## DataHelper
+
+> class in XCharts.Runtime
+
 
 ## DataZoom
 
@@ -1332,6 +1357,7 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 |GetDateTime()||public static DateTime GetDateTime(int timestamp)|
 |GetTimestamp()||public static int GetTimestamp()|
 |GetTimestamp()||public static int GetTimestamp(DateTime time)|
+|GetTimestamp()||public static int GetTimestamp(string dateTime)|
 
 ## DebugInfo
 
@@ -1429,6 +1455,7 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 |ExpandNode()||public void ExpandNode(string nodeId, bool flag)|
 |GetDepthNodes()||public List&lt;List&lt;GraphNode&gt;&gt; GetDepthNodes()|
 |GetEdge()||public GraphEdge GetEdge(string nodeId1, string nodeId2)|
+|GetExpandedNodesCount()||public static int GetExpandedNodesCount(List&lt;GraphNode&gt; nodes)|
 |GetMaxDepth()||public int GetMaxDepth()|
 |GetNode()||public GraphNode GetNode(string nodeId)|
 |GetNodeDepth()||// public int GetNodeDepth(GraphNode node)|
@@ -1484,6 +1511,28 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |IsPointerEnter()||public bool IsPointerEnter()<br/>指针是否在网格内。 |
 |NotAnyIntersect()|v3.10.0|public bool NotAnyIntersect(Vector3 sp, Vector3 ep)<br/>判断给定的线段是否与Grid边界是否完全不会相交。 |
 |UpdateRuntimeData()||public void UpdateRuntimeData(BaseChart chart)|
+
+## GridCoord3D
+
+> class in XCharts.Runtime / 继承自: [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
+
+> 从 `v3.11.0` 开始支持
+
+Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart can be drawn in grid.
+
+|API|版本|描述|
+|--|--|--|
+|Clamp()||public void Clamp(ref Vector3 pos)<br/>将位置限制在网格内。 |
+|Contains()||public bool Contains(Vector3 pos)<br/>给定的位置是否在网格内。 |
+|IsLeft()||public bool IsLeft()<br/>The opening of the coordinate system faces to the left. 坐标系开口朝向左边。 |
+|IsPointerEnter()||public bool IsPointerEnter()<br/>指针是否在网格内。 |
+|NotAnyIntersect()||public bool NotAnyIntersect(Vector3 sp, Vector3 ep)<br/>判断给定的线段是否与Grid边界是否完全不会相交。 |
+|UpdateRuntimeData()||public void UpdateRuntimeData(BaseChart chart)|
+
+## GridCoord3DContext
+
+> class in XCharts.Runtime / 继承自: [MainComponentContext](#maincomponentcontext)
+
 
 ## GridCoordContext
 
@@ -1635,7 +1684,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## ISerieContainer
 
-> class in XCharts.Runtime / 子类: [RadarCoord](#radarcoord),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[ParallelCoord](#parallelcoord),[PolarCoord](#polarcoord) 
+> class in XCharts.Runtime / 子类: [RadarCoord](#radarcoord),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[GridCoord3D](#gridcoord3d),[ParallelCoord](#parallelcoord),[PolarCoord](#polarcoord) 
 
 
 ## ISerieDataComponent
@@ -1671,7 +1720,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## IUpdateRuntimeData
 
-> class in XCharts.Runtime / 子类: [SingleAxis](#singleaxis),[DataZoom](#datazoom),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[GridLayout](#gridlayout),[ParallelCoord](#parallelcoord) 
+> class in XCharts.Runtime / 子类: [SingleAxis](#singleaxis),[DataZoom](#datazoom),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[GridLayout](#gridlayout),[GridCoord3D](#gridcoord3d),[ParallelCoord](#parallelcoord) 
 
 
 ## LabelLine
@@ -1870,6 +1919,16 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |DefaultStepLineChart()||public void DefaultStepLineChart()<br/>默认阶梯折线图。 |
 |DefaultTimeLineChart()||public void DefaultTimeLineChart()<br/>默认时间折线图。 |
 
+## LineHelper
+
+> class in XCharts.Runtime
+
+
+|API|版本|描述|
+|--|--|--|
+|GetDataAverageRate()||public static int GetDataAverageRate(Serie serie, float axisLength, int maxCount, bool isYAxis)|
+|GetLineWidth()||public static float GetLineWidth(ref bool interacting, Serie serie, float defaultWidth)|
+
 ## LineStyle
 
 > class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent),[ISerieDataComponent](#iseriedatacomponent)
@@ -1967,7 +2026,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## MainComponentContext
 
-> class in XCharts.Runtime / 子类: [AxisContext](#axiscontext),[DataZoomContext](#datazoomcontext),[LegendContext](#legendcontext),[RadarCoordContext](#radarcoordcontext),[VisualMapContext](#visualmapcontext),[GridCoordContext](#gridcoordcontext),[GridLayoutContext](#gridlayoutcontext),[ParallelCoordContext](#parallelcoordcontext),[PolarCoordContext](#polarcoordcontext) 
+> class in XCharts.Runtime / 子类: [AxisContext](#axiscontext),[DataZoomContext](#datazoomcontext),[LegendContext](#legendcontext),[RadarCoordContext](#radarcoordcontext),[VisualMapContext](#visualmapcontext),[GridCoordContext](#gridcoordcontext),[GridLayoutContext](#gridlayoutcontext),[GridCoord3DContext](#gridcoord3dcontext),[ParallelCoordContext](#parallelcoordcontext),[PolarCoordContext](#polarcoordcontext) 
 
 
 ## MainComponentHandler
@@ -3220,6 +3279,7 @@ UGUI 图形库
 |IsClearColor()||public static bool IsClearColor(Color32 color)|
 |IsPointInPolygon()||public static bool IsPointInPolygon(Vector3 p, List&lt;Vector2&gt; polyons)|
 |IsPointInPolygon()||public static bool IsPointInPolygon(Vector3 p, List&lt;Vector3&gt; polyons)|
+|IsPointInPolygon()||public static bool IsPointInPolygon(Vector3 p, params Vector3[] polyons)|
 |IsPointInTriangle()||public static bool IsPointInTriangle(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 check)|
 |IsValueEqualsColor()||public static bool IsValueEqualsColor(Color color1, Color color2)|
 |IsValueEqualsColor()||public static bool IsValueEqualsColor(Color32 color1, Color32 color2)|
@@ -3259,6 +3319,14 @@ UI组件基类。
 
 UI帮助类。
 
+## ViewControl
+
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
+> 从 `v3.11.0` 开始支持
+
+3D视角控制组件。
+
 ## VisualMap
 
 > class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent)
@@ -3272,6 +3340,7 @@ UI帮助类。
 |ClearComponentDirty()||public override void ClearComponentDirty()|
 |ClearVerticesDirty()||public override void ClearVerticesDirty()|
 |GetColor()||public Color32 GetColor(double value)|
+|GetColor()||public Color32 GetColor(double xValue, double yValue, double zValue, byte alpha = 255)|
 |GetIndex()||public int GetIndex(double value)|
 |GetValue()||public double GetValue(Vector3 pos, Rect chartRect)|
 |IsInRangeMaxRect()||public bool IsInRangeMaxRect(Vector3 local, Rect chartRect, float triangleLen)|
@@ -3322,6 +3391,18 @@ UI帮助类。
 ## XAxis
 
 > class in XCharts.Runtime / 继承自: [Axis](#axis)
+
+直角坐标系 grid 中的 x 轴。
+
+|API|版本|描述|
+|--|--|--|
+|SetDefaultValue()||public override void SetDefaultValue()<br/>直角坐标系 grid 中的 x 轴。 |
+
+## XAxis3D
+
+> class in XCharts.Runtime / 继承自: [Axis](#axis)
+
+> 从 `v3.11.0` 开始支持
 
 直角坐标系 grid 中的 x 轴。
 
@@ -3427,6 +3508,30 @@ UI帮助类。
 ## YAxis
 
 > class in XCharts.Runtime / 继承自: [Axis](#axis)
+
+直角坐标系 grid 中的 y 轴。
+
+|API|版本|描述|
+|--|--|--|
+|SetDefaultValue()||public override void SetDefaultValue()<br/>直角坐标系 grid 中的 y 轴。 |
+
+## YAxis3D
+
+> class in XCharts.Runtime / 继承自: [Axis](#axis)
+
+> 从 `v3.11.0` 开始支持
+
+直角坐标系 grid 中的 y 轴。
+
+|API|版本|描述|
+|--|--|--|
+|SetDefaultValue()||public override void SetDefaultValue()<br/>直角坐标系 grid 中的 y 轴。 |
+
+## ZAxis3D
+
+> class in XCharts.Runtime / 继承自: [Axis](#axis)
+
+> 从 `v3.11.0` 开始支持
 
 直角坐标系 grid 中的 y 轴。
 

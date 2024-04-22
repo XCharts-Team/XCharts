@@ -106,6 +106,15 @@ namespace XCharts.Editor
     [ComponentEditor(typeof(YAxis))]
     public class YAxisEditor : AxisEditor { }
 
+    [ComponentEditor(typeof(XAxis3D))]
+    public class XAxis3DEditor : AxisEditor { }
+
+    [ComponentEditor(typeof(YAxis3D))]
+    public class YAxis3DEditor : AxisEditor { }
+
+    [ComponentEditor(typeof(ZAxis3D))]
+    public class ZAxis3DEditor : AxisEditor { }
+
     [ComponentEditor(typeof(SingleAxis))]
     public class SingleAxisEditor : AxisEditor
     {

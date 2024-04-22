@@ -369,6 +369,116 @@ namespace XCharts
             }
         }
 
+        protected void InitAxis3D(Axis relativedAxis, Orient orient)
+        {
+            Axis axis = component;
+            var axisLength = (axis.context.end - axis.context.start).magnitude;
+            chart.InitAxisRuntimeData(axis);
+
+            var objName = ChartCached.GetComponentObjectName(axis);
+            var axisObj = ChartHelper.AddObject(objName,
+                chart.transform,
+                chart.chartMinAnchor,
+                chart.chartMaxAnchor,
+                chart.chartPivot,
+                chart.chartSizeDelta);
+
+            axisObj.SetActive(axis.show);
+            axisObj.hideFlags = chart.chartHideFlags;
+            ChartHelper.HideAllObject(axisObj);
+
+            axis.gameObject = axisObj;
+            axis.context.labelObjectList.Clear();
+
+            if (!axis.show)
+                return;
+
+            var axisLabelTextStyle = axis.axisLabel.textStyle;
+            var dataZoom = chart.GetDataZoomOfAxis(axis);
+            var splitNumber = AxisHelper.GetScaleNumber(axis, axisLength, dataZoom);
+            var totalWidth = 0f;
+            var eachWidth = AxisHelper.GetEachWidth(axis, axisLength, dataZoom);
+            var gapWidth = axis.boundaryGap ? eachWidth / 2 : 0;
+
+            var textWidth = axis.axisLabel.width > 0 ?
+                axis.axisLabel.width :
+                AxisHelper.GetScaleWidth(axis, axisLength, 0, dataZoom);
+
+            var textHeight = axis.axisLabel.height > 0 ?
+                axis.axisLabel.height :
+                20f;
+
+            var isPercentStack = SeriesHelper.IsPercentStack<Bar>(chart.series);
+            var inside = axis.axisLabel.inside;
+            var defaultAlignment = orient == Orient.Horizonal ? TextAnchor.MiddleCenter :
+                ((inside && axis.IsLeft()) || (!inside && axis.IsRight()) ?
+                    TextAnchor.MiddleLeft :
+                    TextAnchor.MiddleRight);
+            if (axis.IsCategory() && axis.boundaryGap)
+                splitNumber -= 1;
+            axis.context.aligment = defaultAlignment;
+            for (int i = 0; i < splitNumber; i++)
+            {
+                var labelWidth = AxisHelper.GetScaleWidth(axis, axisLength, i + 1, dataZoom);
+                var labelName = AxisHelper.GetLabelName(axis, axisLength, i,
+                    axis.context.destMinValue,
+                    axis.context.destMaxValue,
+                    dataZoom, isPercentStack);
+
+                var label = ChartHelper.AddAxisLabelObject(splitNumber, i,
+                    ChartCached.GetAxisLabelName(i),
+                    axisObj.transform,
+                    new Vector2(textWidth, textHeight),
+                    axis, chart.theme.axis, labelName,
+                    Color.clear,
+                    defaultAlignment,
+                    chart.theme.GetColor(i));
+
+                if (i == 0)
+                    axis.axisLabel.SetRelatedText(label.text, labelWidth);
+
+                var pos = GetLabelPosition(totalWidth + gapWidth, i);
+                label.SetPosition(pos);
+                //CheckValueLabelActive(axis, i, label, pos);
+
+                axis.context.labelObjectList.Add(label);
+
+                totalWidth += labelWidth;
+            }
+            if (axis.axisName.show)
+            {
+                ChartLabel label = null;
+                var offset = axis.axisName.labelStyle.offset;
+                var autoColor = axis.axisLine.GetColor(chart.theme.axis.lineColor);
+                switch (axis.axisName.labelStyle.position)
+                {
+                    case LabelStyle.Position.Start:
+
+                        label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
+                            chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
+                        label.SetActive(axis.axisName.labelStyle.show);
+                        label.SetPosition(axis.context.start + offset);
+                        break;
+
+                    case LabelStyle.Position.Middle:
+
+                        label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
+                            chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
+                        label.SetActive(axis.axisName.labelStyle.show);
+                        label.SetPosition((axis.context.start + axis.context.end) / 2 + offset);
+                        break;
+
+                    default:
+
+                        label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
+                            chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
+                        label.SetActive(axis.axisName.labelStyle.show);
+                        label.SetPosition(axis.context.end + offset);
+                        break;
+                }
+            }
+        }
+
         protected void InitAxis(Axis relativedAxis, Orient orient,
             float axisStartX, float axisStartY, float axisLength, float relativedLength)
         {

@@ -15,6 +15,7 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_AutoColor;
         [SerializeField][Since("v3.3.0")] private bool m_ShowStartLine = true;
         [SerializeField][Since("v3.3.0")] private bool m_ShowEndLine = true;
+        [SerializeField][Since("v3.11.0")] private bool m_ShowZLine = true;
 
         /// <summary>
         /// The distance between the split line and axis line.
@@ -52,6 +53,15 @@ namespace XCharts.Runtime
         {
             get { return m_ShowEndLine; }
             set { if (PropertyUtil.SetStruct(ref m_ShowEndLine, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Whether to show the Z axis part of the split line. Generally used for 3D coordinate systems.
+        /// ||是否显示Z轴部分分割线。一般用于3D坐标系。
+        /// </summary> 
+        public bool showZLine
+        {
+            get { return m_ShowZLine; }
+            set { if (PropertyUtil.SetStruct(ref m_ShowZLine, value)) SetVerticesDirty(); }
         }
 
         public override bool vertsDirty { get { return m_VertsDirty || m_LineStyle.anyDirty; } }

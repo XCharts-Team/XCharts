@@ -5,17 +5,16 @@ using XUGL;
 
 namespace XCharts.Runtime
 {
-    internal static class LineHelper
+    public static class LineHelper
     {
         private static List<Vector3> s_CurvesPosList = new List<Vector3>();
 
-        public static int GetDataAverageRate(Serie serie, GridCoord grid, int maxCount, bool isYAxis)
+        public static int GetDataAverageRate(Serie serie, float axisLength, int maxCount, bool isYAxis)
         {
             var sampleDist = serie.sampleDist;
             var rate = 0;
-            var width = isYAxis ? grid.context.height : grid.context.width;
             if (sampleDist > 0)
-                rate = (int)((maxCount - serie.minShow) / (width / sampleDist));
+                rate = (int)((maxCount - serie.minShow) / (axisLength / sampleDist));
             if (rate < 1)
                 rate = 1;
             return rate;

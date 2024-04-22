@@ -311,7 +311,7 @@ namespace XCharts.Runtime
         public static void GetXMinMaxValue(BaseChart chart, int axisIndex, bool inverse, out double minValue,
             out double maxValue, bool isPolar = false, bool filterByDataZoom = true, bool needAnimation = false)
         {
-            GetMinMaxValue(chart, axisIndex, inverse, false, out minValue, out maxValue, isPolar, filterByDataZoom, needAnimation);
+            GetMinMaxValue(chart, axisIndex, inverse, 0, out minValue, out maxValue, isPolar, filterByDataZoom, needAnimation);
         }
 
         /// <summary>
@@ -324,13 +324,26 @@ namespace XCharts.Runtime
         public static void GetYMinMaxValue(BaseChart chart, int axisIndex, bool inverse, out double minValue,
             out double maxValue, bool isPolar = false, bool filterByDataZoom = true, bool needAnimation = false)
         {
-            GetMinMaxValue(chart, axisIndex, inverse, true, out minValue, out maxValue, isPolar, filterByDataZoom, needAnimation);
+            GetMinMaxValue(chart, axisIndex, inverse, 1, out minValue, out maxValue, isPolar, filterByDataZoom, needAnimation);
+        }
+
+        /// <summary>
+        /// 获得维度Z的最大最小值
+        /// </summary>
+        /// <param name="dataZoom"></param>
+        /// <param name="axisIndex"></param>
+        /// <param name="minValue"></param>
+        /// <param name="maxValue"></param>
+        public static void GetZMinMaxValue(BaseChart chart, int axisIndex, bool inverse, out double minValue,
+            out double maxValue, bool isPolar = false, bool filterByDataZoom = true, bool needAnimation = false)
+        {
+            GetMinMaxValue(chart, axisIndex, inverse, 2, out minValue, out maxValue, isPolar, filterByDataZoom, needAnimation);
         }
 
         private static Dictionary<int, List<Serie>> _stackSeriesForMinMax = new Dictionary<int, List<Serie>>();
         private static Dictionary<int, double> _serieTotalValueForMinMax = new Dictionary<int, double>();
         public static void GetMinMaxValue(BaseChart chart, int axisIndex,
-            bool inverse, bool yValue, out double minValue, out double maxValue, bool isPolar = false,
+            bool inverse, int dimension, out double minValue, out double maxValue, bool isPolar = false,
             bool filterByDataZoom = true, bool needAnimation = false)
         {
             double min = double.MaxValue;
@@ -371,8 +384,8 @@ namespace XCharts.Runtime
                             var performanceMode = serie.IsPerformanceMode();
                             foreach (var data in showData)
                             {
-                                var currData = performanceMode ? data.GetData(yValue ? 1 : 0, inverse) :
-                                    data.GetCurrData(yValue ? 1 : 0, dataAddDuration, updateDuration, unscaledTime, inverse);
+                                var currData = performanceMode ? data.GetData(dimension, inverse) :
+                                    data.GetCurrData(dimension, dataAddDuration, updateDuration, unscaledTime, inverse);
                                 if (!serie.IsIgnoreValue(data, currData))
                                 {
                                     if (currData > max) max = currData;
@@ -419,7 +432,7 @@ namespace XCharts.Runtime
                                 }
                                 else
                                 {
-                                    currData = showData[j].GetCurrData(yValue ? 1 : 0, dataAddDuration, updateDuration, unscaledTime, inverse);
+                                    currData = showData[j].GetCurrData(dimension, dataAddDuration, updateDuration, unscaledTime, inverse);
                                 }
                                 if (!serie.IsIgnoreValue(showData[j], currData))
                                     _serieTotalValueForMinMax[j] = _serieTotalValueForMinMax[j] + currData;

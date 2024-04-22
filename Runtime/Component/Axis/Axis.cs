@@ -75,7 +75,8 @@ namespace XCharts.Runtime
             Left,
             Right,
             Bottom,
-            Top
+            Top,
+            Center
         }
 
         [SerializeField] protected bool m_Show = true;
@@ -729,10 +730,14 @@ namespace XCharts.Runtime
         /// <param name="value"></param>
         /// <param name="axisLength"></param>
         /// <returns></returns>
-        public float GetDistance(double value, float axisLength)
+        public float GetDistance(double value, float axisLength = 0)
         {
             if (context.minMaxRange == 0)
                 return 0;
+            if (axisLength == 0)
+            {
+                axisLength = context.length;
+            }
 
             if (IsCategory() && boundaryGap)
             {

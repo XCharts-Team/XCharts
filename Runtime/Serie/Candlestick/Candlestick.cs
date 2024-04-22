@@ -16,7 +16,6 @@ namespace XCharts.Runtime
         public static Serie AddDefaultSerie(BaseChart chart, string serieName)
         {
             var serie = chart.AddSerie<Candlestick>(serieName);
-            var defaultDataCount = 5;
             var lastValue = 50d;
             for (int i = 0; i < 5; i++)
             {

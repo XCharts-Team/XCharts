@@ -56,6 +56,7 @@ import APITable from '@site/src/components/APITable';
 - [CoordSystem](#coordsystem)
 - [DataZoom](#datazoom)
 - [GridCoord](#gridcoord)
+- [GridCoord3D](#gridcoord3d)
 - [GridLayout](#gridlayout)
 - [Legend](#legend)
 - [MarkArea](#markarea)
@@ -72,7 +73,10 @@ import APITable from '@site/src/components/APITable';
 - [Tooltip](#tooltip)
 - [VisualMap](#visualmap)
 - [XAxis](#xaxis)
+- [XAxis3D](#xaxis3d)
 - [YAxis](#yaxis)
+- [YAxis3D](#yaxis3d)
+- [ZAxis3D](#zaxis3d)
 
 
 ## ChildComponent 子组件
@@ -137,6 +141,7 @@ import APITable from '@site/src/components/APITable';
 - [TitleTheme](#titletheme)
 - [TooltipTheme](#tooltiptheme)
 - [UIComponentTheme](#uicomponenttheme)
+- [ViewControl](#viewcontrol)
 - [VisualMapRange](#visualmaprange)
 - [VisualMapTheme](#visualmaptheme)
 
@@ -379,7 +384,7 @@ import APITable from '@site/src/components/APITable';
 
 ## Axis
 
-> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent) / 子类: [AngleAxis](#angleaxis), [ParallelAxis](#parallelaxis), [RadiusAxis](#radiusaxis), [SingleAxis](#singleaxis), [XAxis](#xaxis), [YAxis](#yaxis)
+> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent) / 子类: [AngleAxis](#angleaxis), [ParallelAxis](#parallelaxis), [RadiusAxis](#radiusaxis), [SingleAxis](#singleaxis), [XAxis](#xaxis), [XAxis3D](#xaxis3d), [YAxis](#yaxis), [YAxis3D](#yaxis3d), [ZAxis3D](#zaxis3d)
 
 直角坐标系的坐标轴组件。
 
@@ -395,7 +400,7 @@ import APITable from '@site/src/components/APITable';
 |gridIndex|||坐标轴所在的 grid 的索引，默认位于第一个 grid。
 |polarIndex|||坐标轴所在的 ploar 的索引，默认位于第一个 polar。
 |parallelIndex|||坐标轴所在的 parallel 的索引，默认位于第一个 parallel。
-|position|||坐标轴在Grid中的位置。<br/>`Axis.AxisPosition`:<br/>- `Left`: 坐标轴在Grid中的位置<br/>- `Right`: 坐标轴在Grid中的位置<br/>- `Bottom`: 坐标轴在Grid中的位置<br/>- `Top`: 坐标轴在Grid中的位置<br/>|
+|position|||坐标轴在Grid中的位置。<br/>`Axis.AxisPosition`:<br/>- `Left`: 坐标轴在Grid中的位置<br/>- `Right`: 坐标轴在Grid中的位置<br/>- `Bottom`: 坐标轴在Grid中的位置<br/>- `Top`: 坐标轴在Grid中的位置<br/>- `Center`: 坐标轴在Grid中的位置<br/>|
 |offset|||坐标轴相对默认位置的偏移。在相同position有多个坐标轴时有用。
 |min|||设定的坐标轴刻度最小值，当minMaxType为Custom时有效。
 |max|||设定的坐标轴刻度最大值，当minMaxType为Custom时有效。
@@ -591,6 +596,7 @@ import APITable from '@site/src/components/APITable';
 |autoColor|||自动设置颜色。
 |showStartLine|true|v3.3.0|是否显示第一条分割线。
 |showEndLine|true|v3.3.0|是否显示最后一条分割线。
+|showZLine|true|v3.11.0|是否显示Z轴部分分割线。一般用于3D坐标系。
 
 ```mdx-code-block
 </APITable>
@@ -754,7 +760,7 @@ import APITable from '@site/src/components/APITable';
 
 ## ChildComponent
 
-> class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle), [AxisAnimation](#axisanimation), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [BorderStyle](#borderstyle), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [SerieDataLink](#seriedatalink), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
+> class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle), [AxisAnimation](#axisanimation), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [BorderStyle](#borderstyle), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [ViewControl](#viewcontrol), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [SerieDataLink](#seriedatalink), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
 
 ## Comment
 
@@ -841,7 +847,7 @@ import APITable from '@site/src/components/APITable';
 
 ## CoordSystem
 
-> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent) / 子类: [RadarCoord](#radarcoord), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [ParallelCoord](#parallelcoord), [PolarCoord](#polarcoord), [SingleAxisCoord](#singleaxiscoord)
+> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent) / 子类: [RadarCoord](#radarcoord), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [GridCoord3D](#gridcoord3d), [ParallelCoord](#parallelcoord), [PolarCoord](#polarcoord), [SingleAxisCoord](#singleaxiscoord)
 
 坐标系系统。
 
@@ -988,6 +994,36 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |showBorder|false||是否显示网格边框。
 |borderWidth|0f||网格边框宽。
 |borderColor|||网格边框颜色。
+
+```mdx-code-block
+</APITable>
+```
+
+## GridCoord3D
+
+> class in XCharts.Runtime / 继承自: [CoordSystem](#coordsystem), [IUpdateRuntimeData](#iupdateruntimedata), [ISerieContainer](#iseriecontainer)
+
+> 从 `v3.11.0` 开始支持
+
+Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart can be drawn in grid.
+
+```mdx-code-block
+<APITable name="GridCoord3D">
+```
+
+|参数|默认|版本|描述|
+|--|--|--|--|
+|show|true||是否显示直角坐标系网格。
+|left|0.15f||grid 组件离容器左侧的距离。
+|right|0.2f||grid 组件离容器右侧的距离。
+|top|0.3f||grid 组件离容器上侧的距离。
+|bottom|0.15f||grid 组件离容器下侧的距离。
+|showBorder|false||是否显示网格边框。
+|boxWidth|0.55f||坐标系的宽度。
+|boxHeight|0.4f||坐标系的高度。
+|boxDepth|0.2f||坐标系的深度。
+|xYExchanged|false||
+|viewControl|||3D视角控制组件。 [ViewControl](#viewcontrol)|
 
 ```mdx-code-block
 </APITable>
@@ -1143,7 +1179,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## ISerieContainer
 
-> class in XCharts.Runtime / 子类: [RadarCoord](#radarcoord), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [ParallelCoord](#parallelcoord), [PolarCoord](#polarcoord)
+> class in XCharts.Runtime / 子类: [RadarCoord](#radarcoord), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [GridCoord3D](#gridcoord3d), [ParallelCoord](#parallelcoord), [PolarCoord](#polarcoord)
 
 ## ISerieDataComponent
 
@@ -1194,7 +1230,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## IUpdateRuntimeData
 
-> class in XCharts.Runtime / 子类: [SingleAxis](#singleaxis), [DataZoom](#datazoom), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [GridLayout](#gridlayout), [ParallelCoord](#parallelcoord)
+> class in XCharts.Runtime / 子类: [SingleAxis](#singleaxis), [DataZoom](#datazoom), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [GridLayout](#gridlayout), [GridCoord3D](#gridcoord3d), [ParallelCoord](#parallelcoord)
 
 ## LabelLine
 
@@ -2234,7 +2270,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 |triggerOn||v3.11.0|触发条件。<br/>`Tooltip.TriggerOn`:<br/>- `MouseMove`: 鼠标移动时触发。<br/>- `Click`: 鼠标点击时触发。<br/>|
 |position||v3.3.0|显示位置类型。<br/>`Tooltip.Position`:<br/>- `Auto`: 自适应。移动平台靠顶部显示，非移动平台跟随鼠标位置。<br/>- `Custom`: 自定义。完全自定义显示位置(x,y)。<br/>- `FixedX`: 只固定坐标X。Y跟随鼠标位置。<br/>- `FixedY`: <br/>|
 |itemFormatter|||提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。用|来表示多个列的分隔。 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。<br/> {i}或-表示忽略当前项。 {.}为当前所指示的serie或数据项的对应颜色的圆点。<br/> {a}为当前所指示的serie或数据项的系列名name。<br/> {b}为当前所指示的serie或数据项的数据项serieData的name，或者类目值（如折线图的X轴）。<br/> {c}为当前所指示的serie或数据项的y维（dimesion为1）的数值。<br/> {d}为当前所指示的serie或数据项的y维（dimesion为1）百分比值，注意不带%号。<br/> {e}为当前所指示的serie或数据项的数据项serieData的name。<br/> {f}为当前所指示的serie的默认维度的数据总和。<br/> {g}为当前所指示的serie的数据总个数。<br/> {h}为当前所指示的serie的十六进制颜色值。<br/> {y}为当前所指示的serie的y轴的类目值。<br/> {c0}表示当前数据项维度为0的数据。<br/> {c1}表示当前数据项维度为1的数据。<br/> {d3}表示维度3的数据的百分比。它的分母是默认维度（一般是1维度）数据。<br/> |表示多个列的分隔。<br/> 示例："{i}", "{.}|{a}|{c}", "{.}|{b}|{c2:f2}", "{.}|{b}|{y}"
-|titleFormatter|||提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符{i}表示忽略不显示title。 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。<br/> {.}为当前所指示或index为0的serie的对应颜色的圆点。<br/> {a}为当前所指示或index为0的serie的系列名name。<br/> {b}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。<br/> {c}为当前所指示或index为0的serie的y维（dimesion为1）的数值。<br/> {d}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。<br/> {e}为当前所指示或index为0的serie的数据项serieData的name。<br/> {h}为当前所指示或index为0的serie的数据项serieData的十六进制颜色值。<br/> {f}为数据总和。<br/> {g}为数据总个数。<br/> {f}为value所对应的y轴的类目值。<br/> {.1}表示指定index为1的serie对应颜色的圆点。<br/> {a1}、{b1}、{c1}中的1表示指定index为1的serie。<br/> {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。<br/> {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。<br/> {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。<br/> {d:0.##} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。<br/> 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}"
+|titleFormatter|||提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符{i}表示忽略不显示title。 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。<br/> {.}为当前所指示或index为0的serie的对应颜色的圆点。<br/> {a}为当前所指示或index为0的serie的系列名name。<br/> {b}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。<br/> {c}为当前所指示或index为0的serie的y维（dimesion为1）的数值。<br/> {d}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。<br/> {e}为当前所指示或index为0的serie的数据项serieData的name。<br/> {h}为当前所指示或index为0的serie的数据项serieData的十六进制颜色值。<br/> {f}为数据总和。<br/> {g}为数据总个数。<br/> {y}为value所对应的y轴的类目值。<br/> {.1}表示指定index为1的serie对应颜色的圆点。<br/> {a1}、{b1}、{c1}中的1表示指定index为1的serie。<br/> {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。<br/> {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。<br/> {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。<br/> {d:0.##} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。<br/> 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}"
 |marker|||serie的符号标志。
 |fixedWidth|0||固定宽度。比 minWidth 优先。
 |fixedHeight|0||固定高度。比 minHeight 优先。
@@ -2299,6 +2335,27 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 |show|true||
 |sharedTheme|||主题配置。 [Theme](#theme)|
 |transparentBackground|false||
+
+```mdx-code-block
+</APITable>
+```
+
+## ViewControl
+
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
+> 从 `v3.11.0` 开始支持
+
+3D视角控制组件。
+
+```mdx-code-block
+<APITable name="ViewControl">
+```
+
+|参数|默认|版本|描述|
+|--|--|--|--|
+|alpha|90f||视角在x-z平面的角度。
+|beta|55f||视角在y-z平面的角度。
 
 ```mdx-code-block
 </APITable>
@@ -2391,6 +2448,14 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 直角坐标系 grid 中的 x 轴。
 
+## XAxis3D
+
+> class in XCharts.Runtime / 继承自: [Axis](#axis)
+
+> 从 `v3.11.0` 开始支持
+
+直角坐标系 grid 中的 x 轴。
+
 ## XCResourcesImporter
 
 > class in XCharts.Runtime
@@ -2448,6 +2513,22 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 ## YAxis
 
 > class in XCharts.Runtime / 继承自: [Axis](#axis)
+
+直角坐标系 grid 中的 y 轴。
+
+## YAxis3D
+
+> class in XCharts.Runtime / 继承自: [Axis](#axis)
+
+> 从 `v3.11.0` 开始支持
+
+直角坐标系 grid 中的 y 轴。
+
+## ZAxis3D
+
+> class in XCharts.Runtime / 继承自: [Axis](#axis)
+
+> 从 `v3.11.0` 开始支持
 
 直角坐标系 grid 中的 y 轴。
 

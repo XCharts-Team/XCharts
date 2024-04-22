@@ -317,13 +317,29 @@ namespace XCharts.Runtime
             GridCoord grid = null;
             if (dataZoom.xAxisIndexs != null && dataZoom.xAxisIndexs.Count > 0)
             {
-                var xAxis = GetChartComponent<XAxis>(dataZoom.xAxisIndexs[0]);
-                grid = GetChartComponent<GridCoord>(xAxis.gridIndex);
+                for (int i = 0; i < dataZoom.xAxisIndexs.Count; i++)
+                {
+                    var xAxis = GetChartComponent<XAxis>(dataZoom.xAxisIndexs[i]);
+                    var tempGrid = GetChartComponent<GridCoord>(xAxis.gridIndex);
+                    if (tempGrid.IsPointerEnter())
+                    {
+                        grid = tempGrid;
+                        break;
+                    }
+                }
             }
             else if (dataZoom.yAxisIndexs != null && dataZoom.yAxisIndexs.Count > 0)
             {
-                var yAxis = GetChartComponent<YAxis>(dataZoom.yAxisIndexs[0]);
-                grid = GetChartComponent<GridCoord>(yAxis.gridIndex);
+                for (int i = 0; i < dataZoom.yAxisIndexs.Count; i++)
+                {
+                    var yAxis = GetChartComponent<YAxis>(dataZoom.yAxisIndexs[i]);
+                    var tempGrid = GetChartComponent<GridCoord>(yAxis.gridIndex);
+                    if (tempGrid.IsPointerEnter())
+                    {
+                        grid = tempGrid;
+                        break;
+                    }
+                }
             }
             if (grid == null) return GetChartComponent<GridCoord>();
             else return grid;

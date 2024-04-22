@@ -73,6 +73,7 @@ slug: /changelog
 
 ## master
 
+* (2024.04.22) 修复`DataZoom`控制多个轴时的`GridCoord`获取可能不正确的问题 (#317)
 * (2024.04.22) 增加`GridCoord3D`3D坐标系
 * (2024.04.15) 优化`DateTimeUtil`时间戳转`DateTime`接口时区的问题
 * (2024.04.15) 优化`GridCoord`在开启`GridLayout`时也显示`Left` `Right` `Top` `Bottom`参数 (#316)

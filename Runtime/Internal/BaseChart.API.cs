@@ -532,6 +532,7 @@ namespace XCharts.Runtime
                 xAxis.context.maxValue = 0;
                 yAxis.context.minValue = 0;
                 yAxis.context.maxValue = 0;
+                ResetChartStatus();
                 RefreshChart();
             }
         }
@@ -771,6 +772,7 @@ namespace XCharts.Runtime
         [Since("v3.10.0")]
         public void ResetChartStatus()
         {
+            foreach (var component in m_Components) component.ResetStatus();
             foreach (var handler in m_SerieHandlers) handler.ForceUpdateSerieContext();
         }
     }

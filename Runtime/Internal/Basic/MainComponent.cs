@@ -54,6 +54,8 @@ namespace XCharts.Runtime
 
         public virtual void Reset() { }
 
+        public virtual void ResetStatus() { }
+
         public virtual void ClearData() { }
 
         public virtual void ClearDirty()
@@ -120,7 +122,7 @@ namespace XCharts.Runtime
 
         internal override void SetComponent(MainComponent component)
         {
-            this.component = (T) component;
+            this.component = (T)component;
         }
     }
 }

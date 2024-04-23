@@ -459,6 +459,17 @@ namespace XCharts.Runtime
             base.SetComponentDirty();
         }
 
+        /// <summary>
+        /// 重置状态。
+        /// </summary>
+        public override void ResetStatus()
+        {
+            context.minValue = 0;
+            context.maxValue = 0;
+            context.destMinValue = 0;
+            context.destMaxValue = 0;
+        }
+
         public Axis Clone()
         {
             var axis = new Axis();

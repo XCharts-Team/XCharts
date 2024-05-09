@@ -107,6 +107,7 @@ slug: /api
 - [ISimplifiedSerie](#isimplifiedserie)
 - [ItemStyle](#itemstyle)
 - [IUpdateRuntimeData](#iupdateruntimedata)
+- [JsonUtil](#jsonutil)
 - [LabelLine](#labelline)
 - [LabelStyle](#labelstyle)
 - [Lang](#lang)
@@ -236,6 +237,7 @@ slug: /api
 - [VisualMapHelper](#visualmaphelper)
 - [VisualMapRange](#visualmaprange)
 - [VisualMapTheme](#visualmaptheme)
+- [Wrapper&lt;T&gt;](#wrappert)
 - [XAxis](#xaxis)
 - [XAxis3D](#xaxis3d)
 - [XChartsMgr](#xchartsmgr)
@@ -461,6 +463,7 @@ The axis in rectangular coordinate.
 |IsTop()||public bool IsTop()|
 |IsValue()||public bool IsValue()<br/>是否为数值轴。 |
 |RemoveData()||public void RemoveData(int dataIndex)|
+|ResetStatus()||public override void ResetStatus()<br/>重置状态。 |
 |SetComponentDirty()||public override void SetComponentDirty()|
 |SetNeedUpdateFilterData()||public void SetNeedUpdateFilterData()|
 |UpdateData()||public void UpdateData(int index, string category)<br/>更新类目数据 |
@@ -730,7 +733,7 @@ Bar chart shows different data through the height of a bar, which is used in rec
 |AddData()||public SerieData AddData(string serieName, double xValue, double yValue, string dataName = null, string dataId = null)<br/>Add a (x,y) data to serie. |
 |AddData()||public SerieData AddData(string serieName, List&lt;double&gt; multidimensionalData, string dataName = null, string dataId = null)<br/>Add an arbitray dimension data to serie,such as (x,y,z,...). |
 |AddData()||public SerieData AddData(string serieName, params double[] multidimensionalData)<br/>Add an arbitray dimension data to serie,such as (x,y,z,...). |
-|AddLink()||public SerieDataLink AddLink(int serieIndex, string sourceName, string targetName, double value)<br/>Add a link data to serie. |
+|AddLink()||public SerieDataLink AddLink(int serieIndex, string sourceId, string targetId, double value = 0)<br/>Add a link data to serie. |
 |AddSerie&lt;T&gt;()||public T AddSerie&lt;T&gt;(string serieName = null, bool show = true, bool addToHead = false) where T : Serie|
 |AddXAxisData()||public void AddXAxisData(string category, int xAxisIndex = 0)<br/>Add a category data to xAxis. |
 |AddXAxisIcon()||public void AddXAxisIcon(Sprite icon, int xAxisIndex = 0)<br/>Add an icon to xAxis. |
@@ -1446,7 +1449,7 @@ the data struct of graph.
 |public method|since|description|
 |--|--|--|
 |AddEdge()||public GraphEdge AddEdge(string nodeId1, string nodeId2, double value)|
-|AddNode()||public GraphNode AddNode(string nodeId, string nodeName, int dataIndex)|
+|AddNode()||public GraphNode AddNode(string nodeId, string nodeName, int dataIndex, double value)|
 |BreadthFirstTraverse()||public void BreadthFirstTraverse(GraphNode startNode, System.Action&lt;GraphNode&gt; onTraverse)|
 |Clear()||public void Clear()|
 |DeepFirstTraverse()||public void DeepFirstTraverse(GraphNode startNode, System.Action&lt;GraphNode&gt; onTraverse)|
@@ -1722,6 +1725,18 @@ The interface for serie data component.
 
 > class in XCharts.Runtime / Subclasses: [SingleAxis](#singleaxis),[DataZoom](#datazoom),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[GridLayout](#gridlayout),[GridCoord3D](#gridcoord3d),[ParallelCoord](#parallelcoord) 
 
+
+## JsonUtil
+
+> class in XCharts.Runtime
+
+
+|public method|since|description|
+|--|--|--|
+|GetJsonArray&lt;T&gt;()||public static T[] GetJsonArray&lt;T&gt;(string json)|
+|GetJsonObject&lt;T&gt;()||public static T GetJsonObject&lt;T&gt;(string json)|
+|GetWebJson&lt;T&gt;()||public static IEnumerator GetWebJson&lt;T&gt;(string url, Action&lt;T[]&gt; callback)|
+|GetWebJson&lt;T&gt;()||public static IEnumerator GetWebJson&lt;T&gt;(string url, Action&lt;T&gt; callback)|
 
 ## LabelLine
 
@@ -2019,6 +2034,7 @@ Location type. Quick to set the general location.
 |CompareTo()||public int CompareTo(object obj)|
 |OnRemove()||public virtual void OnRemove()|
 |Reset()||public virtual void Reset() { }|
+|ResetStatus()||public virtual void ResetStatus() { }|
 |SetAllDirty()||public virtual void SetAllDirty()|
 |SetComponentDirty()||public virtual void SetComponentDirty()|
 |SetDefaultValue()||public virtual void SetDefaultValue() { }|
@@ -2458,8 +2474,8 @@ Configurations of select state.
 |AddData()||public SerieData AddData(List&lt;double&gt; valueList, string dataName = null, string dataId = null)<br/>将一组数据添加到系列中。 如果数据只有一个，默认添加到维度Y中。 |
 |AddData()||public SerieData AddData(params double[] values)<br/>添加任意维数据到系列中。 |
 |AddExtraComponent&lt;T&gt;()||public T AddExtraComponent&lt;T&gt;() where T : ChildComponent, ISerieComponent|
-|AddLink()||public SerieDataLink AddLink(string sourceName, string targetName, double value)<br/>Add a link data. |
-|AddSerieData()||public void AddSerieData(SerieData serieData)|
+|AddLink()||public virtual SerieDataLink AddLink(string sourceId, string targetId, double value = 0)<br/>Add a link data. |
+|AddSerieData()||public virtual void AddSerieData(SerieData serieData)|
 |AddXYData()||public SerieData AddXYData(double xValue, double yValue, string dataName = null, string dataId = null)<br/>添加（x，y）数据到维度X和维度Y |
 |AddYData()||public SerieData AddYData(double value, string dataName = null, string dataId = null)<br/>添加一个数据到维度Y（此时维度X对应的数据是索引） |
 |AnimationEnable()||public void AnimationEnable(bool flag)<br/>启用或取消初始动画 |
@@ -3387,6 +3403,11 @@ VisualMap component. Mapping data to visual elements such as colors.
 |--|--|--|
 |Copy()||public void Copy(VisualMapTheme theme)|
 |VisualMapTheme()||public VisualMapTheme(ThemeType theme) : base(theme)|
+
+## Wrapper&lt;T&gt;
+
+> class in XCharts.Runtime
+
 
 ## XAxis
 

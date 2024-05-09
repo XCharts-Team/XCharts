@@ -199,6 +199,7 @@ import APITable from '@site/src/components/APITable';
 - [LangCandlestick](#langcandlestick)
 - [LangTime](#langtime)
 - [MainComponent](#maincomponent)
+- [Wrapper&lt;T&gt;](#wrappert)
 - [XCResourcesImporter](#xcresourcesimporter)
 - [XCSettings](#xcsettings)
 
@@ -2519,6 +2520,10 @@ VisualMap component. Mapping data to visual elements such as colors.
 ```mdx-code-block
 </APITable>
 ```
+
+## Wrapper&lt;T&gt;
+
+> class in XCharts.Runtime
 
 ## XAxis
 

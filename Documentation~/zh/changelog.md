@@ -73,6 +73,7 @@ slug: /changelog
 
 ## master
 
+* (2024.05.09) 增加`JsonUtil`工具类
 * (2024.04.23) 修复`ConvertXYAxis()`多次调用后图表异常的问题
 * (2024.04.22) 修复`DataZoom`控制多个轴时的`GridCoord`获取可能不正确的问题 (#317)
 * (2024.04.22) 增加`GridCoord3D`3D坐标系

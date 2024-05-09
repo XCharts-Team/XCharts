@@ -1357,7 +1357,7 @@ namespace XCharts.Runtime
             return serieData;
         }
 
-        public void AddSerieData(SerieData serieData)
+        public virtual void AddSerieData(SerieData serieData)
         {
             if (m_InsertDataToHead)
                 m_Data.Insert(0, serieData);
@@ -1547,15 +1547,15 @@ namespace XCharts.Runtime
         /// Add a link data.
         /// ||添加一个关系图的关系数据。
         /// </summary>
-        /// <param name="sourceName"></param>
-        /// <param name="targetName"></param>
+        /// <param name="sourceId"></param>
+        /// <param name="targetId"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public SerieDataLink AddLink(string sourceName, string targetName, double value)
+        public virtual SerieDataLink AddLink(string sourceId, string targetId, double value = 0)
         {
             var link = new SerieDataLink();
-            link.source = sourceName;
-            link.target = targetName;
+            link.source = sourceId;
+            link.target = targetId;
             link.value = value;
             m_Links.Add(link);
             SetVerticesDirty();

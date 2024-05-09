@@ -209,7 +209,7 @@ namespace XCharts.Runtime
             }
         }
 
-        public GraphNode AddNode(string nodeId, string nodeName, int dataIndex)
+        public GraphNode AddNode(string nodeId, string nodeName, int dataIndex, double value)
         {
             if (nodeMap.ContainsKey(nodeId))
             {
@@ -248,9 +248,9 @@ namespace XCharts.Runtime
                 XLog.Warning("GraphData.AddEdge(): node2 is null");
                 return null;
             }
-            if (node1 == node2)
+            if (directed && node1 == node2)
             {
-                XLog.Warning("GraphData.AddEdge(): node1 == node2");
+                XLog.Warning("GraphData.AddEdge(): node1 == node2:" + node1);
                 return null;
             }
             string edgeKey = nodeId1 + "_" + nodeId2;
@@ -377,6 +377,7 @@ namespace XCharts.Runtime
     {
         public string id;
         public string name;
+        public double value;
         public List<GraphEdge> edges = new List<GraphEdge>();
         public List<GraphEdge> inEdges = new List<GraphEdge>();
         public List<GraphEdge> outEdges = new List<GraphEdge>();
@@ -386,11 +387,10 @@ namespace XCharts.Runtime
         public int depth = -1;
         public bool expand = true;
         public int level = 0;
-        public Vector3 position;
-        public Vector3 delta;
+        public Vector3 position = Vector3.zero;
+        public Vector3 pp = Vector3.zero;
         public float weight;
         public float repulsion;
-        public Vector3 pp;
 
         public GraphNode(string id, string name, int dataIndex)
         {

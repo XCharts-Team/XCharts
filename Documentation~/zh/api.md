@@ -107,6 +107,7 @@ slug: /api
 - [ISimplifiedSerie](#isimplifiedserie)
 - [ItemStyle](#itemstyle)
 - [IUpdateRuntimeData](#iupdateruntimedata)
+- [JsonUtil](#jsonutil)
 - [LabelLine](#labelline)
 - [LabelStyle](#labelstyle)
 - [Lang](#lang)
@@ -236,6 +237,7 @@ slug: /api
 - [VisualMapHelper](#visualmaphelper)
 - [VisualMapRange](#visualmaprange)
 - [VisualMapTheme](#visualmaptheme)
+- [Wrapper&lt;T&gt;](#wrappert)
 - [XAxis](#xaxis)
 - [XAxis3D](#xaxis3d)
 - [XChartsMgr](#xchartsmgr)
@@ -461,6 +463,7 @@ slug: /api
 |IsTop()||public bool IsTop()|
 |IsValue()||public bool IsValue()<br/>是否为数值轴。 |
 |RemoveData()||public void RemoveData(int dataIndex)|
+|ResetStatus()||public override void ResetStatus()<br/>重置状态。 |
 |SetComponentDirty()||public override void SetComponentDirty()|
 |SetNeedUpdateFilterData()||public void SetNeedUpdateFilterData()|
 |UpdateData()||public void UpdateData(int index, string category)<br/>更新类目数据 |
@@ -730,7 +733,7 @@ slug: /api
 |AddData()||public SerieData AddData(string serieName, double xValue, double yValue, string dataName = null, string dataId = null)<br/>添加（x,y）数据到指定系列中。 |
 |AddData()||public SerieData AddData(string serieName, List&lt;double&gt; multidimensionalData, string dataName = null, string dataId = null)<br/>添加多维数据（x,y,z...）到指定的系列中。 |
 |AddData()||public SerieData AddData(string serieName, params double[] multidimensionalData)<br/>添加多维数据（x,y,z...）到指定的系列中。 |
-|AddLink()||public SerieDataLink AddLink(int serieIndex, string sourceName, string targetName, double value)<br/>添加一个关系图的关系数据。 |
+|AddLink()||public SerieDataLink AddLink(int serieIndex, string sourceId, string targetId, double value = 0)<br/>添加一个关系图的关系数据。 |
 |AddSerie&lt;T&gt;()||public T AddSerie&lt;T&gt;(string serieName = null, bool show = true, bool addToHead = false) where T : Serie|
 |AddXAxisData()||public void AddXAxisData(string category, int xAxisIndex = 0)<br/>添加一个类目数据到指定的x轴。 |
 |AddXAxisIcon()||public void AddXAxisIcon(Sprite icon, int xAxisIndex = 0)<br/>添加一个图标到指定的x轴。 |
@@ -1446,7 +1449,7 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 |API|版本|描述|
 |--|--|--|
 |AddEdge()||public GraphEdge AddEdge(string nodeId1, string nodeId2, double value)|
-|AddNode()||public GraphNode AddNode(string nodeId, string nodeName, int dataIndex)|
+|AddNode()||public GraphNode AddNode(string nodeId, string nodeName, int dataIndex, double value)|
 |BreadthFirstTraverse()||public void BreadthFirstTraverse(GraphNode startNode, System.Action&lt;GraphNode&gt; onTraverse)|
 |Clear()||public void Clear()|
 |DeepFirstTraverse()||public void DeepFirstTraverse(GraphNode startNode, System.Action&lt;GraphNode&gt; onTraverse)|
@@ -1722,6 +1725,18 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 > class in XCharts.Runtime / 子类: [SingleAxis](#singleaxis),[DataZoom](#datazoom),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[GridLayout](#gridlayout),[GridCoord3D](#gridcoord3d),[ParallelCoord](#parallelcoord) 
 
+
+## JsonUtil
+
+> class in XCharts.Runtime
+
+
+|API|版本|描述|
+|--|--|--|
+|GetJsonArray&lt;T&gt;()||public static T[] GetJsonArray&lt;T&gt;(string json)|
+|GetJsonObject&lt;T&gt;()||public static T GetJsonObject&lt;T&gt;(string json)|
+|GetWebJson&lt;T&gt;()||public static IEnumerator GetWebJson&lt;T&gt;(string url, Action&lt;T[]&gt; callback)|
+|GetWebJson&lt;T&gt;()||public static IEnumerator GetWebJson&lt;T&gt;(string url, Action&lt;T&gt; callback)|
 
 ## LabelLine
 
@@ -2019,6 +2034,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |CompareTo()||public int CompareTo(object obj)|
 |OnRemove()||public virtual void OnRemove()|
 |Reset()||public virtual void Reset() { }|
+|ResetStatus()||public virtual void ResetStatus() { }|
 |SetAllDirty()||public virtual void SetAllDirty()|
 |SetComponentDirty()||public virtual void SetComponentDirty()|
 |SetDefaultValue()||public virtual void SetDefaultValue() { }|
@@ -2458,8 +2474,8 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 |AddData()||public SerieData AddData(List&lt;double&gt; valueList, string dataName = null, string dataId = null)<br/>将一组数据添加到系列中。 如果数据只有一个，默认添加到维度Y中。 |
 |AddData()||public SerieData AddData(params double[] values)<br/>添加任意维数据到系列中。 |
 |AddExtraComponent&lt;T&gt;()||public T AddExtraComponent&lt;T&gt;() where T : ChildComponent, ISerieComponent|
-|AddLink()||public SerieDataLink AddLink(string sourceName, string targetName, double value)<br/>添加一个关系图的关系数据。 |
-|AddSerieData()||public void AddSerieData(SerieData serieData)|
+|AddLink()||public virtual SerieDataLink AddLink(string sourceId, string targetId, double value = 0)<br/>添加一个关系图的关系数据。 |
+|AddSerieData()||public virtual void AddSerieData(SerieData serieData)|
 |AddXYData()||public SerieData AddXYData(double xValue, double yValue, string dataName = null, string dataId = null)<br/>添加（x，y）数据到维度X和维度Y |
 |AddYData()||public SerieData AddYData(double value, string dataName = null, string dataId = null)<br/>添加一个数据到维度Y（此时维度X对应的数据是索引） |
 |AnimationEnable()||public void AnimationEnable(bool flag)<br/>启用或取消初始动画 |
@@ -3387,6 +3403,11 @@ UI帮助类。
 |--|--|--|
 |Copy()||public void Copy(VisualMapTheme theme)|
 |VisualMapTheme()||public VisualMapTheme(ThemeType theme) : base(theme)|
+
+## Wrapper&lt;T&gt;
+
+> class in XCharts.Runtime
+
 
 ## XAxis
 

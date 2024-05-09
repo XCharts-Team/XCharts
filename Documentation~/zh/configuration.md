@@ -199,6 +199,7 @@ import APITable from '@site/src/components/APITable';
 - [LangCandlestick](#langcandlestick)
 - [LangTime](#langtime)
 - [MainComponent](#maincomponent)
+- [Wrapper&lt;T&gt;](#wrappert)
 - [XCResourcesImporter](#xcresourcesimporter)
 - [XCSettings](#xcsettings)
 
@@ -2441,6 +2442,10 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 ```mdx-code-block
 </APITable>
 ```
+
+## Wrapper&lt;T&gt;
+
+> class in XCharts.Runtime
 
 ## XAxis
 

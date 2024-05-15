@@ -401,7 +401,7 @@ slug: /api
 |API|版本|描述|
 |--|--|--|
 |CheckDataAnimation()||public static float CheckDataAnimation(BaseChart chart, Serie serie, int dataIndex, float destProgress, float startPorgress = 0)|
-|GetAnimationPosition()||public static bool GetAnimationPosition(AnimationStyle animation, bool isY, Vector3 lp, Vector3 cp, float progress, ref Vector3 ip)|
+|GetAnimationPosition()||public static bool GetAnimationPosition(AnimationStyle animation, bool isY, Vector3 lp, Vector3 cp, float progress, ref Vector3 ip, ref float rate)|
 |UpdateAnimationType()||public static void UpdateAnimationType(AnimationStyle animation, AnimationType defaultType, bool enableSerieDataAnimation)|
 |UpdateSerieAnimation()||public static void UpdateSerieAnimation(Serie serie)|
 

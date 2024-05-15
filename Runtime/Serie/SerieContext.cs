@@ -57,7 +57,9 @@ namespace XCharts.Runtime
         /// 线段终点
         /// </summary>
         public Vector3 lineEndPostion;
-        public double lineEndValue;
+        public double lineEndValueX;
+        public double lineEndValueY;
+        public double lineEndValueZ;
         /// <summary>
         /// 内半径
         /// </summary>

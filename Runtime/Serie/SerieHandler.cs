@@ -557,7 +557,7 @@ namespace XCharts.Runtime
             m_EndLabel.SetActive(active);
             if (active)
             {
-                var value = serie.context.lineEndValue;
+                var value = serie.context.lineEndValueY;
                 var content = SerieLabelHelper.GetFormatterContent(serie, null, value, 0,
                     endLabelStyle, Color.clear);
                 m_EndLabel.SetText(content);

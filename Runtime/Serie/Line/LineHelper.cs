@@ -302,11 +302,12 @@ namespace XCharts.Runtime
                     isBreak = true;
                     var ip = Vector3.zero;
                     var progress = serie.animation.GetCurrDetail();
-                    if (AnimationStyleHelper.GetAnimationPosition(serie.animation, isY, lp, cp, progress, ref ip))
+                    var rate = 0f;
+                    if (AnimationStyleHelper.GetAnimationPosition(serie.animation, isY, lp, cp, progress, ref ip, ref rate))
                         cp = np = ip;
                 }
                 serie.context.lineEndPostion = cp;
-                serie.context.lineEndValue = AxisHelper.GetAxisPositionValue(grid, relativedAxis, cp);
+                serie.context.lineEndValueY = AxisHelper.GetAxisPositionValue(grid, relativedAxis, cp);
                 var handled = false;
                 var isClip = false;
                 if (serie.clip)
@@ -382,7 +383,7 @@ namespace XCharts.Runtime
                         AddLineVertToVertexHelper(vh, clp, crp, lineColor, isVisualMapGradient, isLineStyleGradient,
                             visualMap, serie.lineStyle, grid, axis, relativedAxis, true, lastDataIsIgnore, isIgnore);
                         serie.context.lineEndPostion = cp;
-                        serie.context.lineEndValue = AxisHelper.GetAxisPositionValue(grid, relativedAxis, cp);
+                        serie.context.lineEndValueY = AxisHelper.GetAxisPositionValue(grid, relativedAxis, cp);
                         break;
                     }
                 }

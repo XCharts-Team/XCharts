@@ -6,6 +6,15 @@ using XCharts.Runtime;
 
 namespace XCharts.Editor
 {
+    public class HeaderCallbackContext
+    {
+        public int fieldCount = 0;
+        public SerializedProperty serieData;
+        public bool showName;
+        public int index;
+        public int dimension;
+    }
+
     public class HeaderMenuInfo
     {
         public string name;
@@ -570,6 +579,31 @@ namespace XCharts.Editor
             if (drawCallback != null)
             {
                 drawCallback(rect);
+            }
+            var e = Event.current;
+            if (e.type == EventType.MouseDown)
+            {
+                if (labelRect.Contains(e.mousePosition))
+                {
+                    if (e.button == 0)
+                    {
+                        state = !state;
+                        e.Use();
+                    }
+                }
+            }
+            return state;
+        }
+
+        public static bool DrawSerieDataHeader(string title, bool state, bool drawBackground, SerializedProperty activeField,
+            HeaderCallbackContext context, Action<Rect, HeaderCallbackContext> drawCallback, params HeaderMenuInfo[] menus)
+        {
+            var rect = GUILayoutUtility.GetRect(1f, HEADER_HEIGHT);
+            var labelRect = DrawHeaderInternal(rect, title, ref state, drawBackground, activeField);
+            DrawMenu(rect, menus);
+            if (drawCallback != null)
+            {
+                drawCallback(rect, context);
             }
             var e = Event.current;
             if (e.type == EventType.MouseDown)

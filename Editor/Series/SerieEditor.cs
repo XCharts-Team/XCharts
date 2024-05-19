@@ -53,14 +53,18 @@ namespace XCharts.Editor
             }
         }
 
+        private HeaderMenuInfo headMenuInfo = new HeaderMenuInfo("Import ECharts Data", null);
+
+        private void HeadMenuInfoCallback()
+        {
+            PraseExternalDataEditor.UpdateData(chart, serie, null, false);
+            PraseExternalDataEditor.ShowWindow();
+        }
+
         private void PropertyFieldData()
         {
-            m_DataFoldout = ChartEditorHelper.DrawHeader("Data", m_DataFoldout, false, null, null,
-                new HeaderMenuInfo("Import ECharts Data", () =>
-                {
-                    PraseExternalDataEditor.UpdateData(chart, serie, null, false);
-                    PraseExternalDataEditor.ShowWindow();
-                }));
+            headMenuInfo.action = HeadMenuInfoCallback;
+            m_DataFoldout = ChartEditorHelper.DrawHeader("Data", m_DataFoldout, false, null, null, headMenuInfo);
             if (!m_DataFoldout) return;
             EditorGUI.indentLevel++;
             var m_Datas = FindProperty("m_Data");
@@ -103,14 +107,18 @@ namespace XCharts.Editor
             EditorGUI.indentLevel--;
         }
 
+        private HeaderMenuInfo linkHeadMenuInfo = new HeaderMenuInfo("Import ECharts Link", null);
+
+        private void LinkHeadMenuInfoCallback()
+        {
+            PraseExternalDataEditor.UpdateData(chart, serie, null, false);
+            PraseExternalDataEditor.ShowWindow();
+        }
+
         protected void PropertyFieldLinks()
         {
-            m_LinksFoldout = ChartEditorHelper.DrawHeader("Links", m_LinksFoldout, false, null, null,
-                new HeaderMenuInfo("Import ECharts Link", () =>
-                {
-                    //PraseExternalDataEditor.UpdateData(chart, serie, null, true);
-                    //PraseExternalDataEditor.ShowWindow();
-                }));
+            linkHeadMenuInfo.action = LinkHeadMenuInfoCallback;
+            m_LinksFoldout = ChartEditorHelper.DrawHeader("Links", m_LinksFoldout, false, null, null, linkHeadMenuInfo);
             if (!m_LinksFoldout) return;
             EditorGUI.indentLevel++;
             var m_Links = FindProperty("m_Links");
@@ -154,6 +162,75 @@ namespace XCharts.Editor
             }
         }
 
+        private void DrawSerieDataHeader(Rect drawRect,HeaderCallbackContext context)
+        {
+            var serieData = context.serieData;
+            var fieldCount = context.fieldCount;
+            var showName = context.showName;
+            var index = context.index;
+            var dimension = context.dimension;
+
+            //drawRect.width -= 2f;
+            var maxX = drawRect.xMax;
+            var currentWidth = drawRect.width;
+            var lastX = drawRect.x;
+            var lastWid = drawRect.width;
+            var lastFieldWid = EditorGUIUtility.fieldWidth;
+            var lastLabelWid = EditorGUIUtility.labelWidth;
+            var sereName = serieData.FindPropertyRelative("m_Name");
+            var data = serieData.FindPropertyRelative("m_Data");
+#if UNITY_2019_3_OR_NEWER
+                    var gap = 2;
+                    var namegap = 3;
+#else
+            var gap = 0;
+            var namegap = 0;
+#endif
+            if (fieldCount <= 1)
+            {
+                while (2 > data.arraySize)
+                {
+                    var value = data.arraySize == 0 ? index : 0;
+                    data.arraySize++;
+                    data.GetArrayElementAtIndex(data.arraySize - 1).floatValue = value;
+                }
+                SerializedProperty element = data.GetArrayElementAtIndex(1);
+                var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15 + gap;
+                drawRect.x = startX;
+                drawRect.xMax = maxX;
+                EditorGUI.PropertyField(drawRect, element, GUIContent.none);
+            }
+            else
+            {
+                var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15 + gap;
+                var dataWidTotal = (currentWidth - (startX + 20.5f + 1));
+                var dataWid = dataWidTotal / fieldCount;
+                var xWid = dataWid - 0;
+                for (int i = 0; i < dimension; i++)
+                {
+                    var dataCount = i < 1 ? 2 : i + 1;
+                    while (dataCount > data.arraySize)
+                    {
+                        var value = data.arraySize == 0 ? index : 0;
+                        data.arraySize++;
+                        data.GetArrayElementAtIndex(data.arraySize - 1).floatValue = value;
+                    }
+                    drawRect.x = startX + i * xWid;
+                    drawRect.width = dataWid + 25;
+                    SerializedProperty element = data.GetArrayElementAtIndex(dimension <= 1 ? 1 : i);
+                    EditorGUI.PropertyField(drawRect, element, GUIContent.none);
+                }
+                if (showName)
+                {
+                    drawRect.x = startX + (fieldCount - 1) * xWid;
+                    drawRect.width = dataWid + 40 + dimension * namegap - 2.5f;
+                    EditorGUI.PropertyField(drawRect, sereName, GUIContent.none);
+                }
+                EditorGUIUtility.fieldWidth = lastFieldWid;
+                EditorGUIUtility.labelWidth = lastLabelWid;
+            }
+        }
+
         private void DrawSerieData(int dimension, SerializedProperty m_Datas, int index, bool showName)
         {
             bool flag;
@@ -165,70 +242,14 @@ namespace XCharts.Editor
             var fieldCount = dimension + (showName ? 1 : 0);
             var serieData = m_Datas.GetArrayElementAtIndex(index);
             var dataIndex = serieData.FindPropertyRelative("m_Index").intValue;
-            m_DataElementFoldout[index] = ChartEditorHelper.DrawHeader("SerieData " + dataIndex, flag, false, null,
-                delegate (Rect drawRect)
-                {
-                    //drawRect.width -= 2f;
-                    var maxX = drawRect.xMax;
-                    var currentWidth = drawRect.width;
-                    var lastX = drawRect.x;
-                    var lastWid = drawRect.width;
-                    var lastFieldWid = EditorGUIUtility.fieldWidth;
-                    var lastLabelWid = EditorGUIUtility.labelWidth;
-                    //var serieData = m_Datas.GetArrayElementAtIndex(index);
-                    var sereName = serieData.FindPropertyRelative("m_Name");
-                    var data = serieData.FindPropertyRelative("m_Data");
-#if UNITY_2019_3_OR_NEWER
-                    var gap = 2;
-                    var namegap = 3;
-#else
-                    var gap = 0;
-                    var namegap = 0;
-#endif
-                    if (fieldCount <= 1)
-                    {
-                        while (2 > data.arraySize)
-                        {
-                            var value = data.arraySize == 0 ? index : 0;
-                            data.arraySize++;
-                            data.GetArrayElementAtIndex(data.arraySize - 1).floatValue = value;
-                        }
-                        SerializedProperty element = data.GetArrayElementAtIndex(1);
-                        var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15 + gap;
-                        drawRect.x = startX;
-                        drawRect.xMax = maxX;
-                        EditorGUI.PropertyField(drawRect, element, GUIContent.none);
-                    }
-                    else
-                    {
-                        var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15 + gap;
-                        var dataWidTotal = (currentWidth - (startX + 20.5f + 1));
-                        var dataWid = dataWidTotal / fieldCount;
-                        var xWid = dataWid - 0;
-                        for (int i = 0; i < dimension; i++)
-                        {
-                            var dataCount = i < 1 ? 2 : i + 1;
-                            while (dataCount > data.arraySize)
-                            {
-                                var value = data.arraySize == 0 ? index : 0;
-                                data.arraySize++;
-                                data.GetArrayElementAtIndex(data.arraySize - 1).floatValue = value;
-                            }
-                            drawRect.x = startX + i * xWid;
-                            drawRect.width = dataWid + 25;
-                            SerializedProperty element = data.GetArrayElementAtIndex(dimension <= 1 ? 1 : i);
-                            EditorGUI.PropertyField(drawRect, element, GUIContent.none);
-                        }
-                        if (showName)
-                        {
-                            drawRect.x = startX + (fieldCount - 1) * xWid;
-                            drawRect.width = dataWid + 40 + dimension * namegap - 2.5f;
-                            EditorGUI.PropertyField(drawRect, sereName, GUIContent.none);
-                        }
-                        EditorGUIUtility.fieldWidth = lastFieldWid;
-                        EditorGUIUtility.labelWidth = lastLabelWid;
-                    }
-                });
+            var callbackContext = new HeaderCallbackContext(){
+                serieData = serieData,
+                fieldCount = fieldCount,
+                showName = showName,
+                index = index,
+                dimension = dimension
+            };
+            m_DataElementFoldout[index] = ChartEditorHelper.DrawSerieDataHeader("SerieData " + dataIndex, flag, false, null, callbackContext, DrawSerieDataHeader);
             if (m_DataElementFoldout[index])
             {
                 if (!(serie is ISimplifiedSerie))

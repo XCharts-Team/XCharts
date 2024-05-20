@@ -4,8 +4,8 @@
   "author": "monitor1394",
   "license": "MIT",
   "version": "3.11.0-preview1",
-  "date": "20240223",
-  "checkdate": "20240223",
+  "date": "20240520",
+  "checkdate": "20240520",
   "unity": "2018.3",
   "description": "A charting and data visualization library for Unity. Support line chart, bar chart, pie chart, radar chart, scatter chart, heatmap chart, ring chart, candlestick chart, polar chart and parallel coordinates.",
   "keywords": [

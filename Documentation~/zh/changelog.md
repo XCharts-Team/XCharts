@@ -73,6 +73,7 @@ slug: /changelog
 
 ## master
 
+* (2024.05.29) 调整`XCharts`在`Hierarchy`视图下的右键菜单到`UI/XCharts`下
 * (2024.05.29) 增加`3D`坐标系对类目轴的支持
 * (2024.05.19) 优化`Editor`下的编辑性能
 * (2024.05.09) 增加`JsonUtil`工具类

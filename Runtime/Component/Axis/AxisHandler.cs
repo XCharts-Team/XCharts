@@ -147,7 +147,7 @@ namespace XCharts
             if (axis.IsCategory())
             {
                 axis.context.minValue = 0;
-                axis.context.maxValue = SeriesHelper.GetMaxSerieDataCount(chart.series) - 1;
+                axis.context.maxValue = axis.data.Count > 0 ? axis.data.Count - 1 : SeriesHelper.GetMaxSerieDataCount(chart.series) - 1;
                 axis.context.minMaxRange = axis.context.maxValue;
                 return;
             }
@@ -373,6 +373,7 @@ namespace XCharts
         {
             Axis axis = component;
             var axisLength = (axis.context.end - axis.context.start).magnitude;
+            if (axisLength == 0) return;
             chart.InitAxisRuntimeData(axis);
 
             var objName = ChartCached.GetComponentObjectName(axis);
@@ -439,8 +440,6 @@ namespace XCharts
 
                 var pos = GetLabelPosition(totalWidth + gapWidth, i);
                 label.SetPosition(pos);
-                //CheckValueLabelActive(axis, i, label, pos);
-
                 axis.context.labelObjectList.Add(label);
 
                 totalWidth += labelWidth;

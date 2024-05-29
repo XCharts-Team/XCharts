@@ -73,10 +73,12 @@ slug: /changelog
 
 ## master
 
+* (2024.05.29) 增加`3D`坐标系对类目轴的支持
+* (2024.05.19) 优化`Editor`下的编辑性能
 * (2024.05.09) 增加`JsonUtil`工具类
 * (2024.04.23) 修复`ConvertXYAxis()`多次调用后图表异常的问题
 * (2024.04.22) 修复`DataZoom`控制多个轴时的`GridCoord`获取可能不正确的问题 (#317)
-* (2024.04.22) 增加`GridCoord3D`3D坐标系
+* (2024.04.22) 增加`3D`坐标系
 * (2024.04.15) 优化`DateTimeUtil`时间戳转`DateTime`接口时区的问题
 * (2024.04.15) 优化`GridCoord`在开启`GridLayout`时也显示`Left` `Right` `Top` `Bottom`参数 (#316)
 * (2024.04.14) 修复`Tooltip`的`Cross`在开启`DataZoom`的情况下`label`位置不正确的问题 (#315)

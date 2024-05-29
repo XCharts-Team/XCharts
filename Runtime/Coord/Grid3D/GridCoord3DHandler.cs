@@ -12,7 +12,7 @@ namespace XCharts.Runtime
         {
             var grid = component;
             grid.painter = chart.painter;
-            grid.refreshComponent = delegate()
+            grid.refreshComponent = delegate ()
             {
                 grid.UpdateRuntimeData(chart);
                 chart.OnCoordinateChanged();
@@ -49,19 +49,9 @@ namespace XCharts.Runtime
             }
         }
 
-        public override void DrawBase(VertexHelper vh)
-        {
-            if (!SeriesHelper.IsAnyClipSerie(chart.series))
-            {
-                DrawCoord(vh, component);
-            }
-        }
         public override void DrawUpper(VertexHelper vh)
         {
-            if (SeriesHelper.IsAnyClipSerie(chart.series))
-            {
-                DrawCoord(vh, component);
-            }
+            DrawCoord(vh, component);
         }
 
         private void DrawCoord(VertexHelper vh, GridCoord3D grid)
@@ -69,11 +59,20 @@ namespace XCharts.Runtime
             if (!grid.show) return;
             if (grid.showBorder)
             {
-                var borderWidth = chart.theme.axis.lineWidth * 2;
+                var borderWidth = chart.theme.axis.lineWidth;
                 var borderColor = chart.theme.axis.lineColor;
-                UGL.DrawBorder(vh, grid.context.maxRect, borderWidth, borderColor);
-                // UGL.DrawBorder(vh, grid.context.center, grid.context.width - borderWidth,
-                //     grid.context.height - borderWidth, borderWidth, borderColor);
+                if (grid.IsLeft())
+                {
+                    UGL.DrawLine(vh, grid.context.pointA, grid.context.pointE, borderWidth, borderColor);
+                    UGL.DrawLine(vh, grid.context.pointE, grid.context.pointF, borderWidth, borderColor);
+                    UGL.DrawLine(vh, grid.context.pointE, grid.context.pointH, borderWidth, borderColor);
+                }
+                else
+                {
+                    UGL.DrawLine(vh, grid.context.pointD, grid.context.pointH, borderWidth, borderColor);
+                    UGL.DrawLine(vh, grid.context.pointE, grid.context.pointH, borderWidth, borderColor);
+                    UGL.DrawLine(vh, grid.context.pointG, grid.context.pointH, borderWidth, borderColor);
+                }
             }
         }
     }

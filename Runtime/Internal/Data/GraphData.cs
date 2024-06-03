@@ -367,6 +367,15 @@ namespace XCharts.Runtime
                 }
             }
         }
+
+        public bool IsAllNodeInZeroPosition()
+        {
+            foreach (var node in nodes)
+            {
+                if (node.position != Vector3.zero) return false;
+            }
+            return true;
+        }
     }
 
     /// <summary>

@@ -150,6 +150,18 @@ namespace XCharts.Runtime
             }
             if (serie.interactDirty)
             {
+                if (serie.animation.enable && serie.animation.interaction.enable)
+                {
+                    Color32 color1, toColor1;
+                    bool needInteract = false;
+                    foreach (var serieData in serie.data)
+                    {
+                        var state = SerieHelper.GetSerieState(serie, serieData, true);
+                        SerieHelper.GetItemColor(out color1, out toColor1, serie, serieData, chart.theme, state);
+                        serieData.interact.SetColor(ref needInteract, color1, toColor1);
+                    }
+                }
+                chart.RefreshChart();
                 serie.interactDirty = false;
                 m_ForceUpdateSerieContext = true;
             }

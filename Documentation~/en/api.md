@@ -1467,6 +1467,7 @@ the data struct of graph.
 |GetNodesTotalValue()||public static double GetNodesTotalValue(List&lt;GraphNode&gt; nodes)|
 |GetRootNodes()||public List&lt;GraphNode&gt; GetRootNodes()|
 |GraphData()||public GraphData(bool directed)|
+|IsAllNodeInZeroPosition()||public bool IsAllNodeInZeroPosition()|
 |Refresh()||public void Refresh()|
 
 ## GraphEdge

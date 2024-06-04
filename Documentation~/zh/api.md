@@ -1467,6 +1467,7 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 |GetNodesTotalValue()||public static double GetNodesTotalValue(List&lt;GraphNode&gt; nodes)|
 |GetRootNodes()||public List&lt;GraphNode&gt; GetRootNodes()|
 |GraphData()||public GraphData(bool directed)|
+|IsAllNodeInZeroPosition()||public bool IsAllNodeInZeroPosition()|
 |Refresh()||public void Refresh()|
 
 ## GraphEdge

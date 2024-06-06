@@ -73,6 +73,7 @@ slug: /changelog
 
 ## master
 
+* (2024.06.06) 修复`Serie`在`Clone`时动画异常问题 (#320)
 * (2024.06.04) 修复`Serie`的`state`在代码动态设置时不刷新的问题
 * (2024.05.29) 调整`XCharts`在`Hierarchy`视图下的右键菜单到`UI/XCharts`下
 * (2024.05.29) 增加`3D`坐标系对类目轴的支持

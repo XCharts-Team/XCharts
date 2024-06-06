@@ -2083,6 +2083,7 @@ namespace XCharts.Runtime
         {
             var newSerie = Activator.CreateInstance(GetType()) as Serie;
             SerieHelper.CopySerie(this, newSerie);
+            newSerie.animation = new AnimationStyle();
             return newSerie;
         }
     }

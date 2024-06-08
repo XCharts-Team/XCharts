@@ -169,6 +169,11 @@ namespace XCharts.Runtime
                     }
                 }
             }
+            if (!anyTrigger && m_ContainerSeries == null)
+            {
+                m_ContainerSeries = ListPool<Serie>.Get();
+                UpdatePointerContainerAndSeriesAndTooltip(tooltip, ref m_ContainerSeries);
+            }
             if (m_ContainerSeries != null)
             {
                 if (!SetSerieTooltip(tooltip, m_ContainerSeries))

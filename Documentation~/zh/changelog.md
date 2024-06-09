@@ -73,6 +73,7 @@ slug: /changelog
 
 ## master
 
+* (2024.06.09) 增加`Axis`的`m_MinCategorySpacing`设置类目轴默认的最小类目间距
 * (2024.06.09) 修复`Tooltip`的`Cross`在`Axis`是类目轴并且开启`DataZoom`的情况下指示位置不准确的问题
 * (2024.06.06) 修复`Serie`在`Clone`时动画异常问题 (#320)
 * (2024.06.04) 修复`Serie`的`state`在代码动态设置时不刷新的问题

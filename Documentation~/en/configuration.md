@@ -422,6 +422,7 @@ The axis in rectangular coordinate.
 |inverse|false||Whether the axis are reversed or not. Invalid in `Category` axis.
 |clockwise|true||Whether the positive position of axis is in clockwise. True for clockwise by default.
 |insertDataToHead|||Whether to add new data at the head or at the end of the list.
+|minCategorySpacing|0|v3.11.0|The minimum spacing between categories.
 |icons|||类目数据对应的图标。
 |data|||Category data, available in type: 'Category' axis.
 |axisLine|||axis Line. [AxisLine](#axisline)|

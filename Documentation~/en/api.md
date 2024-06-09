@@ -443,6 +443,7 @@ The axis in rectangular coordinate.
 |Clone()||public Axis Clone()|
 |Copy()||public void Copy(Axis axis)|
 |GetAddedDataCount()||public int GetAddedDataCount()<br/>get the history data count. |
+|GetCategoryPosition()||public Vector3 GetCategoryPosition(int categoryIndex, int dataCount = 0)|
 |GetData()||public string GetData(int index)<br/>获得指定索引的类目数据 |
 |GetData()||public string GetData(int index, DataZoom dataZoom)<br/>获得在dataZoom范围内指定索引的类目数据 |
 |GetDistance()||public float GetDistance(double value, float axisLength = 0)<br/>获得值在坐标轴上的距离 |

@@ -415,6 +415,7 @@ import APITable from '@site/src/components/APITable';
 |inverse|false||是否反向坐标轴。在类目轴中无效。
 |clockwise|true||刻度增长是否按顺时针，默认顺时针。
 |insertDataToHead|||添加新数据时是在列表的头部还是尾部加入。
+|minCategorySpacing|0|v3.11.0|类目之间的最小间距。
 |icons|||类目数据对应的图标。
 |data|||类目数据，在类目轴（type: 'category'）中有效。
 |axisLine|||坐标轴轴线。 [AxisLine](#axisline)|

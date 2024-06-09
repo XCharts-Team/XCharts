@@ -64,6 +64,7 @@ namespace XCharts.Editor
             if (type == Axis.AxisType.Category)
             {
                 PropertyField("m_MaxCache");
+                PropertyField("m_MinCategorySpacing");
                 PropertyField("m_BoundaryGap");
             }
             else

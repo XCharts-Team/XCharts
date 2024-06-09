@@ -99,6 +99,7 @@ namespace XCharts.Runtime
         [SerializeField] protected bool m_Inverse = false;
         [SerializeField] private bool m_Clockwise = true;
         [SerializeField] private bool m_InsertDataToHead;
+        [SerializeField][Since("v3.11.0")] private float m_MinCategorySpacing = 0;
         [SerializeField] protected List<Sprite> m_Icons = new List<Sprite>();
         [SerializeField] protected List<string> m_Data = new List<string>();
         [SerializeField] protected AxisLine m_AxisLine = AxisLine.defaultAxisLine;
@@ -405,6 +406,15 @@ namespace XCharts.Runtime
         {
             get { return m_InsertDataToHead; }
             set { if (PropertyUtil.SetStruct(ref m_InsertDataToHead, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// The minimum spacing between categories.
+        /// ||类目之间的最小间距。
+        /// </summary>
+        public float minCategorySpacing
+        {
+            get { return m_MinCategorySpacing; }
+            set { if (PropertyUtil.SetStruct(ref m_MinCategorySpacing, value)) SetAllDirty(); }
         }
 
         public override bool vertsDirty

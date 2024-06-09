@@ -935,5 +935,43 @@ namespace XCharts.Runtime
                     (float)(Math.Abs(context.minValue) * (axisLength / (Math.Abs(context.minValue) + Math.Abs(context.maxValue))))
                 );
         }
+
+        public Vector3 GetCategoryPosition(int categoryIndex, int dataCount = 0)
+        {
+            if (dataCount <= 0)
+            {
+                dataCount = data.Count;
+            }
+            if (IsCategory() && dataCount > 0)
+            {
+                Vector3 pos;
+                if (boundaryGap)
+                {
+                    var each = context.length / dataCount;
+                    pos = context.start + context.dire * (each * (categoryIndex + 0.5f));
+                }
+                else
+                {
+                    var each = context.length / (dataCount - 1);
+                    pos = context.start + context.dire * (each * categoryIndex);
+                }
+                if (axisLabel.distance != 0)
+                {
+                    if (this is YAxis)
+                    {
+                        pos.x = GetLabelObjectPosition(0).x;
+                    }
+                    else
+                    {
+                        pos.y = GetLabelObjectPosition(0).y;
+                    }
+                }
+                return pos;
+            }
+            else
+            {
+                return Vector3.zero;
+            }
+        }
     }
 }

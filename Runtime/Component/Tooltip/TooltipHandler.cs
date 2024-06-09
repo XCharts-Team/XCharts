@@ -701,7 +701,7 @@ namespace XCharts.Runtime
                         case Tooltip.Type.Line:
                             float pX = grid.context.x;
                             pX += xAxis.IsCategory() ?
-                                (float)(xAxis.context.axisTooltipValue * splitWidth + (xAxis.boundaryGap ? splitWidth / 2 : 0)) :
+                                (float)(xAxis.context.pointerValue * splitWidth + (xAxis.boundaryGap ? splitWidth / 2 : 0)) :
                                 xAxis.GetDistance(xAxis.context.axisTooltipValue, grid.context.width);
                             if (pX < grid.context.x)
                                 break;

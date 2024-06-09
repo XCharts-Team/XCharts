@@ -58,7 +58,7 @@ namespace XCharts
                                 (!axis.boundaryGap && (local.y > pY - splitWid / 2 && local.y <= pY + splitWid / 2)))
                             {
                                 axis.context.pointerValue = j;
-                                axis.context.pointerLabelPosition = axis.GetLabelObjectPosition(j);
+                                axis.context.pointerLabelPosition = axis.GetCategoryPosition(j, dataCount);
                                 if (j != lastPointerValue)
                                 {
                                     if (chart.onAxisPointerValueChanged != null)
@@ -78,7 +78,7 @@ namespace XCharts
                                 (!axis.boundaryGap && (local.x > pX - splitWid / 2 && local.x <= pX + splitWid / 2)))
                             {
                                 axis.context.pointerValue = j;
-                                axis.context.pointerLabelPosition = axis.GetLabelObjectPosition(j);
+                                axis.context.pointerLabelPosition = axis.GetCategoryPosition(j, dataCount);
                                 if (j != lastPointerValue)
                                 {
                                     if (chart.onAxisPointerValueChanged != null)

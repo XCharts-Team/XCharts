@@ -22,7 +22,7 @@ namespace XCharts.Runtime
             radiusAxis.axisLabel.show = false;
 
             var tooltip = EnsureChartComponent<Tooltip>();
-            tooltip.type = Tooltip.Type.Corss;
+            tooltip.type = Tooltip.Type.Cross;
             tooltip.trigger = Tooltip.Trigger.Axis;
 
             RemoveData();

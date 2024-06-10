@@ -37,7 +37,7 @@ namespace XCharts.Runtime
             /// crosshair indicator, which is actually the shortcut of enable two axisPointers of two orthometric axes.
             /// ||十字准星指示器。坐标轴显示Label和交叉线。
             /// </summary>
-            Corss,
+            Cross,
             /// <summary>
             /// Auto select indicator according to serie type.
             /// ||根据serie的类型自动选择显示指示器。

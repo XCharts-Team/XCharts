@@ -185,7 +185,7 @@ namespace XCharts.Runtime
             }
             if (!m_ShowTooltip || !anyTrigger)
             {
-                if (tooltip.context.type == Tooltip.Type.Corss && m_PointerContainer != null && m_PointerContainer.IsPointerEnter())
+                if (tooltip.context.type == Tooltip.Type.Cross && m_PointerContainer != null && m_PointerContainer.IsPointerEnter())
                 {
                     m_ShowTooltip = true;
                     tooltip.SetActive(true);
@@ -210,7 +210,7 @@ namespace XCharts.Runtime
             if (tooltip.context.type == Tooltip.Type.None) return;
             if (m_PointerContainer != null)
             {
-                if (tooltip.context.type == Tooltip.Type.Corss)
+                if (tooltip.context.type == Tooltip.Type.Cross)
                 {
                     if (m_PointerContainer is GridCoord)
                     {
@@ -517,7 +517,7 @@ namespace XCharts.Runtime
             {
                 axis.context.axisTooltipValue = serie.GetSerieData(serie.context.pointerItemDataIndex).GetData(dimension);
             }
-            else if (component.type == Tooltip.Type.Corss)
+            else if (component.type == Tooltip.Type.Cross)
             {
                 axis.context.axisTooltipValue = axis.context.pointerValue;
             }
@@ -697,7 +697,7 @@ namespace XCharts.Runtime
                     float splitWidth = AxisHelper.GetDataWidth(xAxis, grid.context.width, dataCount, dataZoom);
                     switch (tooltip.context.type)
                     {
-                        case Tooltip.Type.Corss:
+                        case Tooltip.Type.Cross:
                         case Tooltip.Type.Line:
                             float pX = grid.context.x;
                             pX += xAxis.IsCategory() ?
@@ -709,7 +709,7 @@ namespace XCharts.Runtime
                             Vector2 ep = new Vector2(pX, grid.context.y + grid.context.height);
                             var lineColor = TooltipHelper.GetLineColor(tooltip, chart.theme.tooltip.lineColor);
                             ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, sp, ep, lineColor);
-                            if (tooltip.context.type == Tooltip.Type.Corss)
+                            if (tooltip.context.type == Tooltip.Type.Cross)
                             {
                                 sp = new Vector2(grid.context.x, chart.pointerPos.y);
                                 ep = new Vector2(grid.context.x + grid.context.width, chart.pointerPos.y);
@@ -763,7 +763,7 @@ namespace XCharts.Runtime
                     float splitWidth = AxisHelper.GetDataWidth(yAxis, grid.context.height, dataCount, dataZoom);
                     switch (tooltip.context.type)
                     {
-                        case Tooltip.Type.Corss:
+                        case Tooltip.Type.Cross:
                         case Tooltip.Type.Line:
                             float pY = (float)(grid.context.y + yAxis.context.pointerValue * splitWidth +
                                 (yAxis.boundaryGap ? splitWidth / 2 : 0));
@@ -773,7 +773,7 @@ namespace XCharts.Runtime
                             Vector2 ep = new Vector2(grid.context.x + grid.context.width, pY);
                             var lineColor = TooltipHelper.GetLineColor(tooltip, chart.theme.tooltip.lineColor);
                             ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, sp, ep, lineColor);
-                            if (tooltip.context.type == Tooltip.Type.Corss)
+                            if (tooltip.context.type == Tooltip.Type.Cross)
                             {
                                 sp = new Vector2(chart.pointerPos.x, grid.context.y);
                                 ep = new Vector2(chart.pointerPos.x, grid.context.y + grid.context.height);
@@ -818,7 +818,7 @@ namespace XCharts.Runtime
 
             switch (tooltip.context.type)
             {
-                case Tooltip.Type.Corss:
+                case Tooltip.Type.Cross:
                     ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, sp, ep, lineColor);
                     var dist = Vector2.Distance(chart.pointerPos, cenPos);
                     if (dist > radius) dist = radius;

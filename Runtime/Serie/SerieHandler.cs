@@ -10,6 +10,7 @@ namespace XCharts.Runtime
     {
         public BaseChart chart { get; internal set; }
         public SerieHandlerAttribute attribute { get; internal set; }
+        public bool inited { get; internal set; }
         public virtual int defaultDimension { get; internal set; }
 
         public virtual void InitComponent() { }

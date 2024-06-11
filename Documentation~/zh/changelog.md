@@ -73,7 +73,8 @@ slug: /changelog
 
 ## master
 
-* (2024.06.09) 调整`Tooltip`的`Corss`重命名为`Cross`
+* (2024.06.11) 修复`Tooltip`在`Cross`时`Axis`的`IndicatorLabel`可能不显示的问题 (#315)
+* (2024.06.10) 调整`Tooltip`的`Corss`重命名为`Cross`
 * (2024.06.09) 增加`Axis`的`minCategorySpacing`设置类目轴默认的最小类目间距
 * (2024.06.09) 修复`Tooltip`的`Cross`在`Axis`是类目轴并且开启`DataZoom`的情况下指示位置不准确的问题
 * (2024.06.06) 修复`Serie`在`Clone`时动画异常问题 (#320)

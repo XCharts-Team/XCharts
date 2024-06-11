@@ -93,6 +93,7 @@ namespace XCharts.Runtime
         public int order { get; internal set; }
         public BaseChart chart { get; internal set; }
         public ComponentHandlerAttribute attribute { get; internal set; }
+        public bool inited { get; internal set; }
 
         public virtual void InitComponent() { }
         public virtual void RemoveComponent() { }

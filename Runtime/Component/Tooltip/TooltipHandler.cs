@@ -65,6 +65,7 @@ namespace XCharts.Runtime
 
                 m_LabelRoot = ChartHelper.AddObject("label", tooltip.gameObject.transform, chart.chartMinAnchor,
                     chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
+                m_LabelRoot.transform.SetSiblingIndex(0);
                 ChartHelper.HideAllObject(m_LabelRoot);
                 m_IndicatorLabels.Clear();
                 foreach (var com in chart.components)

@@ -73,6 +73,7 @@ slug: /changelog
 
 ## master
 
+* (2024.06.11) 修复`Axis`的`IndicatorLabel`可能会遮挡住`Tooltip`的问题
 * (2024.06.11) 修复`Tooltip`在`Cross`时`Axis`的`IndicatorLabel`可能不显示的问题 (#315)
 * (2024.06.10) 调整`Tooltip`的`Corss`重命名为`Cross`
 * (2024.06.09) 增加`Axis`的`minCategorySpacing`设置类目轴默认的最小类目间距

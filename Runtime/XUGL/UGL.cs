@@ -1986,6 +1986,36 @@ namespace XUGL
             }
         }
 
+        public static void DrawEdge(VertexHelper vh, List<Vector3> topList, List<Vector3> bottomList,
+            Color32 lineColor, Color32 lineToColor, Direction dire, float currProgress = float.NaN)
+        {
+            if (topList.Count < 2 || bottomList.Count < 2) return;
+            var minCount = Mathf.Min(topList.Count, bottomList.Count);
+            var isGradient = !UGLHelper.IsValueEqualsColor(lineColor, lineToColor);
+            AddVertToVertexHelper(vh, topList[0], bottomList[0], lineColor, false);
+            for (int i = 1; i < minCount; i++)
+            {
+                var up = topList[i];
+                var dn = bottomList[i];
+                if (currProgress != float.NaN)
+                {
+                    if (dire == Direction.YAxis && up.y > currProgress)
+                        break;
+                    if (dire == Direction.XAxis && up.x > currProgress)
+                        break;
+                }
+                if (isGradient)
+                {
+                    var tcolor = Color32.Lerp(lineColor, lineToColor, i * 1.0f / minCount);
+                    AddVertToVertexHelper(vh, up, dn, tcolor);
+                }
+                else
+                {
+                    AddVertToVertexHelper(vh, up, dn, lineColor);
+                }
+            }
+        }
+
         public static void DrawSvgPath(VertexHelper vh, string path)
         {
             SVG.DrawPath(vh, path);

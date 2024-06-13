@@ -484,7 +484,8 @@ namespace XCharts.Runtime
         public double value;
         public GraphData hostGraph;
 
-        public List<Vector3> points = new List<Vector3>();
+        public List<Vector3> upPoints = new List<Vector3>();
+        public List<Vector3> downPoints = new List<Vector3>();
         public float width;
         public float distance;
         public bool highlight;
@@ -495,6 +496,25 @@ namespace XCharts.Runtime
             this.node1 = node1;
             this.node2 = node2;
             this.value = value;
+        }
+
+        public bool IsPointInEdge(Vector2 point)
+        {
+            if (upPoints.Count == 0 || downPoints.Count == 0) return false;
+            var lastCount = upPoints.Count - 1;
+            if (point.x < upPoints[0].x || point.x > upPoints[lastCount].x) return false;
+            if (point.y > upPoints[0].y && point.y > upPoints[lastCount].y) return false;
+            if (point.y < downPoints[0].y && point.y < downPoints[lastCount].y) return false;
+
+            for (int i = 0; i < upPoints.Count - 1; i++)
+            {
+                var diff = point.x - upPoints[i].x;
+                if (diff <= 0)
+                {
+                    return point.y < upPoints[i].y && point.y > downPoints[i].y;
+                }
+            }
+            return false;
         }
     }
 }

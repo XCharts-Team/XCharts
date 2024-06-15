@@ -73,6 +73,7 @@ slug: /changelog
 
 ## master
 
+* (2024.06.15) 增加`Editor`下`Data`的添加、删除、上下移动操作按钮
 * (2024.06.11) 修复`Axis`的`IndicatorLabel`可能会遮挡住`Tooltip`的问题
 * (2024.06.11) 修复`Tooltip`在`Cross`时`Axis`的`IndicatorLabel`可能不显示的问题 (#315)
 * (2024.06.10) 调整`Tooltip`的`Corss`重命名为`Cross`

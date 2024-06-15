@@ -162,7 +162,7 @@ namespace XCharts.Editor
             }
         }
 
-        private void DrawSerieDataHeader(Rect drawRect,HeaderCallbackContext context)
+        private void DrawSerieDataHeader(Rect drawRect, HeaderCallbackContext context)
         {
             var serieData = context.serieData;
             var fieldCount = context.fieldCount;
@@ -180,12 +180,18 @@ namespace XCharts.Editor
             var sereName = serieData.FindPropertyRelative("m_Name");
             var data = serieData.FindPropertyRelative("m_Data");
 #if UNITY_2019_3_OR_NEWER
-                    var gap = 2;
-                    var namegap = 3;
+            var gap = 2;
+            var namegap = 3;
+            var buttomLength = 30;
 #else
             var gap = 0;
             var namegap = 0;
+            var buttomLength = 30;
 #endif
+            if (showName)
+            {
+                buttomLength += 12;
+            }
             if (fieldCount <= 1)
             {
                 while (2 > data.arraySize)
@@ -197,13 +203,13 @@ namespace XCharts.Editor
                 SerializedProperty element = data.GetArrayElementAtIndex(1);
                 var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15 + gap;
                 drawRect.x = startX;
-                drawRect.xMax = maxX;
+                drawRect.xMax = maxX - buttomLength;
                 EditorGUI.PropertyField(drawRect, element, GUIContent.none);
             }
             else
             {
                 var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15 + gap;
-                var dataWidTotal = (currentWidth - (startX + 20.5f + 1));
+                var dataWidTotal = currentWidth - (startX + 20.5f + 1) - buttomLength;
                 var dataWid = dataWidTotal / fieldCount;
                 var xWid = dataWid - 0;
                 for (int i = 0; i < dimension; i++)
@@ -226,6 +232,9 @@ namespace XCharts.Editor
                     drawRect.width = dataWid + 40 + dimension * namegap - 2.5f;
                     EditorGUI.PropertyField(drawRect, sereName, GUIContent.none);
                 }
+                drawRect.x = lastX;
+                drawRect.width = lastWid;
+                ChartEditorHelper.UpDownAddDeleteButton(drawRect, context.listProp, index);
                 EditorGUIUtility.fieldWidth = lastFieldWid;
                 EditorGUIUtility.labelWidth = lastLabelWid;
             }
@@ -242,12 +251,14 @@ namespace XCharts.Editor
             var fieldCount = dimension + (showName ? 1 : 0);
             var serieData = m_Datas.GetArrayElementAtIndex(index);
             var dataIndex = serieData.FindPropertyRelative("m_Index").intValue;
-            var callbackContext = new HeaderCallbackContext(){
+            var callbackContext = new HeaderCallbackContext()
+            {
                 serieData = serieData,
                 fieldCount = fieldCount,
                 showName = showName,
                 index = index,
-                dimension = dimension
+                dimension = dimension,
+                listProp = m_Datas
             };
             m_DataElementFoldout[index] = ChartEditorHelper.DrawSerieDataHeader("SerieData " + dataIndex, flag, false, null, callbackContext, DrawSerieDataHeader);
             if (m_DataElementFoldout[index])
@@ -327,7 +338,10 @@ namespace XCharts.Editor
                     var sourceIndex = dataLink.FindPropertyRelative("m_Source");
                     var targetIndex = dataLink.FindPropertyRelative("m_Target");
                     var value = dataLink.FindPropertyRelative("m_Value");
-                    ChartEditorHelper.MakeThreeField(ref drawRect, drawRect.width, sourceIndex, targetIndex, value, "");
+                    var hig = ChartEditorHelper.MakeThreeField(ref drawRect, drawRect.width, sourceIndex, targetIndex, value, "");
+                    var btnRect = drawRect;
+                    btnRect.y -= hig;
+                    ChartEditorHelper.UpDownAddDeleteButton(btnRect, m_Datas, index);
                 });
             if (m_LinksElementFoldout[index])
             {

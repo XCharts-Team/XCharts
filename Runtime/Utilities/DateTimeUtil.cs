@@ -6,7 +6,11 @@ namespace XCharts.Runtime
 {
     public static class DateTimeUtil
     {
+#if UNITY_2018_3_OR_NEWER
+        private static readonly DateTime k_DateTime1970 = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(1970, 1, 1), TimeZoneInfo.Local);     
+#else
         private static readonly DateTime k_DateTime1970 = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+#endif
         public static readonly int ONE_SECOND = 1;
         public static readonly int ONE_MINUTE = ONE_SECOND * 60;
         public static readonly int ONE_HOUR = ONE_MINUTE * 60;

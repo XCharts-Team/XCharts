@@ -35,7 +35,9 @@ namespace XCharts.Runtime
         protected bool m_PainerDirty = false;
         protected bool m_IsOnValidate = false;
         protected Vector3 m_LastLocalPosition;
-        protected PointerEventData m_PointerEventData;
+        internal PointerEventData pointerMoveEventData;
+        internal PointerEventData pointerClickEventData;
+        internal bool isTriggerOnClick = false;
 
         protected Action<PointerEventData, BaseGraph> m_OnPointerClick;
         protected Action<PointerEventData, BaseGraph> m_OnPointerDown;
@@ -213,17 +215,23 @@ namespace XCharts.Runtime
 
         private void CheckPointerPos()
         {
-            if (!isPointerInChart) return;
             if (canvas == null) return;
-            Vector2 mousePos = m_PointerEventData.position;
+            if (pointerMoveEventData != null)
+            {
+                pointerPos = MousePos2ChartPos(pointerMoveEventData.position);
+            }
+        }
+
+        private Vector2 MousePos2ChartPos(Vector2 mousePos)
+        {
             Vector2 local;
             if (!ScreenPointToChartPoint(mousePos, out local))
             {
-                pointerPos = Vector2.zero;
+                return Vector2.zero;
             }
             else
             {
-                pointerPos = local;
+                return local;
             }
         }
 
@@ -269,6 +277,8 @@ namespace XCharts.Runtime
 
         public virtual void OnPointerClick(PointerEventData eventData)
         {
+            pointerClickEventData = eventData;
+            clickPos = MousePos2ChartPos(pointerClickEventData.position);
             if (m_OnPointerClick != null) m_OnPointerClick(eventData, this);
         }
 
@@ -284,13 +294,14 @@ namespace XCharts.Runtime
 
         public virtual void OnPointerEnter(PointerEventData eventData)
         {
-            m_PointerEventData = eventData;
+            pointerMoveEventData = eventData;
             if (m_OnPointerEnter != null) m_OnPointerEnter(eventData, this);
         }
 
         public virtual void OnPointerExit(PointerEventData eventData)
         {
-            m_PointerEventData = null;
+            pointerMoveEventData = null;
+            pointerClickEventData = null;
             if (m_OnPointerExit != null) m_OnPointerExit(eventData, this);
         }
 

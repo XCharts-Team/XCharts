@@ -37,7 +37,7 @@ namespace XCharts.Runtime
                 animationType = attribute.type;
                 enableSerieDataAnimation = attribute.enableSerieDataAddedAnimation;
             }
-            UpdateAnimationType(serie.animation, animationType,enableSerieDataAnimation);
+            UpdateAnimationType(serie.animation, animationType, enableSerieDataAnimation);
         }
 
         public static void UpdateAnimationType(AnimationStyle animation, AnimationType defaultType, bool enableSerieDataAnimation)
@@ -48,12 +48,12 @@ namespace XCharts.Runtime
             animation.context.enableSerieDataAddedAnimation = enableSerieDataAnimation;
         }
 
-        public static bool GetAnimationPosition(AnimationStyle animation, bool isY, Vector3 lp, Vector3 cp, float progress, ref Vector3 ip)
+        public static bool GetAnimationPosition(AnimationStyle animation, bool isY, Vector3 lp, Vector3 cp, float progress, ref Vector3 ip, ref float rate)
         {
             if (animation.context.type == AnimationType.AlongPath)
             {
                 var dist = Vector3.Distance(lp, cp);
-                var rate = (dist - animation.context.currentPathDistance + animation.GetCurrDetail()) / dist;
+                rate = (dist - animation.context.currentPathDistance + animation.GetCurrDetail()) / dist;
                 ip = Vector3.Lerp(lp, cp, rate);
                 return true;
             }
@@ -62,7 +62,15 @@ namespace XCharts.Runtime
                 var startPos = isY ? new Vector3(-10000, progress) : new Vector3(progress, -10000);
                 var endPos = isY ? new Vector3(10000, progress) : new Vector3(progress, 10000);
 
-                return UGLHelper.GetIntersection(lp, cp, startPos, endPos, ref ip);
+                if (UGLHelper.GetIntersection(lp, cp, startPos, endPos, ref ip))
+                {
+                    rate = Vector3.Distance(lp, ip) / Vector3.Distance(lp, cp);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
     }

@@ -10,6 +10,7 @@ namespace XCharts.Runtime
     {
         public BaseChart chart { get; internal set; }
         public SerieHandlerAttribute attribute { get; internal set; }
+        public bool inited { get; internal set; }
         public virtual int defaultDimension { get; internal set; }
 
         public virtual void InitComponent() { }
@@ -150,6 +151,18 @@ namespace XCharts.Runtime
             }
             if (serie.interactDirty)
             {
+                if (serie.animation.enable && serie.animation.interaction.enable)
+                {
+                    Color32 color1, toColor1;
+                    bool needInteract = false;
+                    foreach (var serieData in serie.data)
+                    {
+                        var state = SerieHelper.GetSerieState(serie, serieData, true);
+                        SerieHelper.GetItemColor(out color1, out toColor1, serie, serieData, chart.theme, state);
+                        serieData.interact.SetColor(ref needInteract, color1, toColor1);
+                    }
+                }
+                chart.RefreshChart();
                 serie.interactDirty = false;
                 m_ForceUpdateSerieContext = true;
             }
@@ -557,7 +570,7 @@ namespace XCharts.Runtime
             m_EndLabel.SetActive(active);
             if (active)
             {
-                var value = serie.context.lineEndValue;
+                var value = serie.context.lineEndValueY;
                 var content = SerieLabelHelper.GetFormatterContent(serie, null, value, 0,
                     endLabelStyle, Color.clear);
                 m_EndLabel.SetText(content);
@@ -741,6 +754,7 @@ namespace XCharts.Runtime
 
         public override void OnPointerClick(PointerEventData eventData)
         {
+            serie.context.clickTotalDataIndex = serie.context.totalDataIndex;
             if (serie.onClick == null && chart.onSerieClick == null) return;
             if (!serie.context.pointerEnter) return;
             var dataIndex = GetPointerItemDataIndex();

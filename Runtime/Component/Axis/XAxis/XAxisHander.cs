@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace XCharts.Runtime
 {
@@ -16,7 +17,28 @@ namespace XCharts.Runtime
         public override void Update()
         {
             UpdateAxisMinMaxValue(component.index, component);
-            UpdatePointerValue(component);
+            if (!chart.isTriggerOnClick)
+            {
+               UpdatePointerValue(component);
+            }
+        }
+
+        public override void OnPointerClick(PointerEventData eventData)
+        {
+            base.OnPointerClick(eventData);
+            if (chart.isTriggerOnClick)
+            {
+                UpdatePointerValue(component);
+            }
+        }
+
+        public override void OnPointerExit(PointerEventData eventData)
+        {
+            base.OnPointerExit(eventData);
+            if (chart.isTriggerOnClick)
+            {
+                component.context.pointerValue = double.PositiveInfinity;
+            }
         }
 
         public override void DrawBase(VertexHelper vh)
@@ -35,6 +57,11 @@ namespace XCharts.Runtime
                 var relativedAxis = chart.GetChartComponent<YAxis>(axis.gridIndex);
                 axis.context.x = grid.context.x;
                 axis.context.y = AxisHelper.GetXAxisXOrY(grid, axis, relativedAxis);
+                axis.context.start = new Vector3(grid.context.x, axis.context.y);
+                axis.context.end = new Vector3(grid.context.x + grid.context.width, axis.context.y);
+                var vec = axis.context.end - axis.context.start;
+                axis.context.dire = vec.normalized;
+                axis.context.length = vec.magnitude;
                 axis.context.zeroY = grid.context.y;
                 axis.context.zeroX = grid.context.x + axis.context.offset;
             }

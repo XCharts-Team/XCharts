@@ -11,6 +11,7 @@ namespace XCharts.Editor
             ++EditorGUI.indentLevel;
             PropertyField("m_Type");
             PropertyField("m_Trigger");
+            PropertyField("m_TriggerOn");
             PropertyField("m_Position");
             PropertyField("m_FixedX");
             PropertyField("m_FixedY");

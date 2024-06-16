@@ -22,6 +22,7 @@ slug: /api
 - [AreaStyle](#areastyle)
 - [ArrowStyle](#arrowstyle)
 - [Axis](#axis)
+- [Axis3DHelper](#axis3dhelper)
 - [AxisAnimation](#axisanimation)
 - [AxisContext](#axiscontext)
 - [AxisHandler&lt;T&gt;](#axishandlert)
@@ -67,6 +68,7 @@ slug: /api
 - [ComponentTheme](#componenttheme)
 - [CoordOptionsAttribute](#coordoptionsattribute)
 - [CoordSystem](#coordsystem)
+- [DataHelper](#datahelper)
 - [DataZoom](#datazoom)
 - [DataZoomContext](#datazoomcontext)
 - [DataZoomHelper](#datazoomhelper)
@@ -80,10 +82,12 @@ slug: /api
 - [EmphasisStyle](#emphasisstyle)
 - [EndLabelStyle](#endlabelstyle)
 - [FormatterHelper](#formatterhelper)
-- [Graph](#graph)
+- [GraphData](#graphdata)
 - [GraphEdge](#graphedge)
 - [GraphNode](#graphnode)
 - [GridCoord](#gridcoord)
+- [GridCoord3D](#gridcoord3d)
+- [GridCoord3DContext](#gridcoord3dcontext)
 - [GridCoordContext](#gridcoordcontext)
 - [GridLayout](#gridlayout)
 - [GridLayoutContext](#gridlayoutcontext)
@@ -103,6 +107,7 @@ slug: /api
 - [ISimplifiedSerie](#isimplifiedserie)
 - [ItemStyle](#itemstyle)
 - [IUpdateRuntimeData](#iupdateruntimedata)
+- [JsonUtil](#jsonutil)
 - [LabelLine](#labelline)
 - [LabelStyle](#labelstyle)
 - [Lang](#lang)
@@ -119,6 +124,7 @@ slug: /api
 - [Line](#line)
 - [LineArrow](#linearrow)
 - [LineChart](#linechart)
+- [LineHelper](#linehelper)
 - [LineStyle](#linestyle)
 - [ListFor](#listfor)
 - [ListForComponent](#listforcomponent)
@@ -225,12 +231,15 @@ slug: /api
 - [UIComponent](#uicomponent)
 - [UIComponentTheme](#uicomponenttheme)
 - [UIHelper](#uihelper)
+- [ViewControl](#viewcontrol)
 - [VisualMap](#visualmap)
 - [VisualMapContext](#visualmapcontext)
 - [VisualMapHelper](#visualmaphelper)
 - [VisualMapRange](#visualmaprange)
 - [VisualMapTheme](#visualmaptheme)
+- [Wrapper&lt;T&gt;](#wrappert)
 - [XAxis](#xaxis)
+- [XAxis3D](#xaxis3d)
 - [XChartsMgr](#xchartsmgr)
 - [XCResourceImporterWindow](#xcresourceimporterwindow)
 - [XCResourcesImporter](#xcresourcesimporter)
@@ -238,6 +247,8 @@ slug: /api
 - [XCThemeMgr](#xcthememgr)
 - [XLog](#xlog)
 - [YAxis](#yaxis)
+- [YAxis3D](#yaxis3d)
+- [ZAxis3D](#zaxis3d)
 
 
 ## AngleAxis
@@ -390,7 +401,7 @@ slug: /api
 |API|版本|描述|
 |--|--|--|
 |CheckDataAnimation()||public static float CheckDataAnimation(BaseChart chart, Serie serie, int dataIndex, float destProgress, float startPorgress = 0)|
-|GetAnimationPosition()||public static bool GetAnimationPosition(AnimationStyle animation, bool isY, Vector3 lp, Vector3 cp, float progress, ref Vector3 ip)|
+|GetAnimationPosition()||public static bool GetAnimationPosition(AnimationStyle animation, bool isY, Vector3 lp, Vector3 cp, float progress, ref Vector3 ip, ref float rate)|
 |UpdateAnimationType()||public static void UpdateAnimationType(AnimationStyle animation, AnimationType defaultType, bool enableSerieDataAnimation)|
 |UpdateSerieAnimation()||public static void UpdateSerieAnimation(Serie serie)|
 
@@ -418,7 +429,7 @@ slug: /api
 
 ## Axis
 
-> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent) / 子类: [AngleAxis](#angleaxis),[ParallelAxis](#parallelaxis),[RadiusAxis](#radiusaxis),[SingleAxis](#singleaxis),[XAxis](#xaxis),[YAxis](#yaxis) 
+> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent) / 子类: [AngleAxis](#angleaxis),[ParallelAxis](#parallelaxis),[RadiusAxis](#radiusaxis),[SingleAxis](#singleaxis),[XAxis](#xaxis),[XAxis3D](#xaxis3d),[YAxis](#yaxis),[YAxis3D](#yaxis3d),[ZAxis3D](#zaxis3d) 
 
 直角坐标系的坐标轴组件。
 
@@ -432,9 +443,10 @@ slug: /api
 |Clone()||public Axis Clone()|
 |Copy()||public void Copy(Axis axis)|
 |GetAddedDataCount()||public int GetAddedDataCount()<br/>获得添加过的历史数据总数 |
+|GetCategoryPosition()||public Vector3 GetCategoryPosition(int categoryIndex, int dataCount = 0)|
 |GetData()||public string GetData(int index)<br/>获得指定索引的类目数据 |
 |GetData()||public string GetData(int index, DataZoom dataZoom)<br/>获得在dataZoom范围内指定索引的类目数据 |
-|GetDistance()||public float GetDistance(double value, float axisLength)<br/>获得值在坐标轴上的距离 |
+|GetDistance()||public float GetDistance(double value, float axisLength = 0)<br/>获得值在坐标轴上的距离 |
 |GetIcon()||public Sprite GetIcon(int index)|
 |GetLabelValue()||public double GetLabelValue(int index)|
 |GetLastLabelValue()||public double GetLastLabelValue()|
@@ -452,11 +464,23 @@ slug: /api
 |IsTop()||public bool IsTop()|
 |IsValue()||public bool IsValue()<br/>是否为数值轴。 |
 |RemoveData()||public void RemoveData(int dataIndex)|
+|ResetStatus()||public override void ResetStatus()<br/>重置状态。 |
 |SetComponentDirty()||public override void SetComponentDirty()|
 |SetNeedUpdateFilterData()||public void SetNeedUpdateFilterData()|
 |UpdateData()||public void UpdateData(int index, string category)<br/>更新类目数据 |
 |UpdateIcon()||public void UpdateIcon(int index, Sprite icon)<br/>更新图标 |
 |UpdateZeroOffset()||public void UpdateZeroOffset(float axisLength)|
+
+## Axis3DHelper
+
+> class in XCharts.Runtime
+
+
+|API|版本|描述|
+|--|--|--|
+|Get3DGridPosition()||public static Vector3 Get3DGridPosition(GridCoord3D grid, XAxis3D xAxis, YAxis3D yAxis, double xValue, double yValue)|
+|Get3DGridPosition()||public static Vector3 Get3DGridPosition(GridCoord3D grid, XAxis3D xAxis, YAxis3D yAxis, ZAxis3D zAxis, double xValue, double yValue, double zValue)|
+|GetLabelPosition()||public static Vector3 GetLabelPosition(int i, Axis axis, Axis relativedAxis, AxisTheme theme, float scaleWid)|
 
 ## AxisAnimation
 
@@ -710,7 +734,7 @@ slug: /api
 |AddData()||public SerieData AddData(string serieName, double xValue, double yValue, string dataName = null, string dataId = null)<br/>添加（x,y）数据到指定系列中。 |
 |AddData()||public SerieData AddData(string serieName, List&lt;double&gt; multidimensionalData, string dataName = null, string dataId = null)<br/>添加多维数据（x,y,z...）到指定的系列中。 |
 |AddData()||public SerieData AddData(string serieName, params double[] multidimensionalData)<br/>添加多维数据（x,y,z...）到指定的系列中。 |
-|AddLink()||public SerieDataLink AddLink(int serieIndex, string sourceName, string targetName, double value)<br/>添加一个关系图的关系数据。 |
+|AddLink()||public SerieDataLink AddLink(int serieIndex, string sourceId, string targetId, double value = 0)<br/>添加一个关系图的关系数据。 |
 |AddSerie&lt;T&gt;()||public T AddSerie&lt;T&gt;(string serieName = null, bool show = true, bool addToHead = false) where T : Serie|
 |AddXAxisData()||public void AddXAxisData(string category, int xAxisIndex = 0)<br/>添加一个类目数据到指定的x轴。 |
 |AddXAxisIcon()||public void AddXAxisIcon(Sprite icon, int xAxisIndex = 0)<br/>添加一个图标到指定的x轴。 |
@@ -835,6 +859,7 @@ slug: /api
 |ResetChartStatus()|v3.10.0|public void ResetChartStatus()<br/>重置图表状态。当设置某些参数后，由于动画影响，可能导致图表状态不正确，此时可以调用该接口重置图表状态。 |
 |ResetDataIndex()||public bool ResetDataIndex(int serieIndex)<br/>重置serie的数据项索引。避免数据项索引异常。 |
 |SetBasePainterMaterial()||public void SetBasePainterMaterial(Material material)<br/>设置Base Painter的材质球 |
+|SetInsertDataToHead()|v3.11.0|public void SetInsertDataToHead(bool insertDataToHead)<br/>设置数据插入到头部。 |
 |SetMaxCache()||public void SetMaxCache(int maxCache)<br/>设置可缓存的最大数据量。当数据量超过该值时，会自动删除第一个值再加入最新值。 |
 |SetPainterActive()||public void SetPainterActive(int index, bool flag)|
 |SetSerieActive()||public void SetSerieActive(int serieIndex, bool active)<br/>设置指定系列是否显示。 |
@@ -1170,7 +1195,7 @@ slug: /api
 
 ## ChildComponent
 
-> class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle),[AxisAnimation](#axisanimation),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[BorderStyle](#borderstyle),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MLValue](#mlvalue),[MarqueeStyle](#marqueestyle),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[SerieDataLink](#seriedatalink),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
+> class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle),[AxisAnimation](#axisanimation),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[BorderStyle](#borderstyle),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MLValue](#mlvalue),[MarqueeStyle](#marqueestyle),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[ViewControl](#viewcontrol),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[SerieDataLink](#seriedatalink),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
 
 
 |API|版本|描述|
@@ -1268,9 +1293,14 @@ slug: /api
 
 ## CoordSystem
 
-> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent) / 子类: [RadarCoord](#radarcoord),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[ParallelCoord](#parallelcoord),[PolarCoord](#polarcoord),[SingleAxisCoord](#singleaxiscoord) 
+> class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent) / 子类: [RadarCoord](#radarcoord),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[GridCoord3D](#gridcoord3d),[ParallelCoord](#parallelcoord),[PolarCoord](#polarcoord),[SingleAxisCoord](#singleaxiscoord) 
 
 坐标系系统。
+
+## DataHelper
+
+> class in XCharts.Runtime
+
 
 ## DataZoom
 
@@ -1331,6 +1361,7 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 |GetDateTime()||public static DateTime GetDateTime(int timestamp)|
 |GetTimestamp()||public static int GetTimestamp()|
 |GetTimestamp()||public static int GetTimestamp(DateTime time)|
+|GetTimestamp()||public static int GetTimestamp(string dateTime)|
 
 ## DebugInfo
 
@@ -1410,7 +1441,7 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 |TrimAndReplaceLine()||public static string TrimAndReplaceLine(string content)|
 |TrimAndReplaceLine()||public static string TrimAndReplaceLine(StringBuilder sb)|
 
-## Graph
+## GraphData
 
 > class in XCharts.Runtime
 
@@ -1419,13 +1450,16 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 |API|版本|描述|
 |--|--|--|
 |AddEdge()||public GraphEdge AddEdge(string nodeId1, string nodeId2, double value)|
-|AddNode()||public GraphNode AddNode(string nodeId, string nodeName, int dataIndex)|
+|AddNode()||public GraphNode AddNode(string nodeId, string nodeName, int dataIndex, double value)|
 |BreadthFirstTraverse()||public void BreadthFirstTraverse(GraphNode startNode, System.Action&lt;GraphNode&gt; onTraverse)|
 |Clear()||public void Clear()|
 |DeepFirstTraverse()||public void DeepFirstTraverse(GraphNode startNode, System.Action&lt;GraphNode&gt; onTraverse)|
 |EachNode()||public void EachNode(System.Action&lt;GraphNode&gt; onEach)|
+|ExpandAllNodes()||public void ExpandAllNodes(bool flag, int level = -1)|
+|ExpandNode()||public void ExpandNode(string nodeId, bool flag)|
 |GetDepthNodes()||public List&lt;List&lt;GraphNode&gt;&gt; GetDepthNodes()|
 |GetEdge()||public GraphEdge GetEdge(string nodeId1, string nodeId2)|
+|GetExpandedNodesCount()||public static int GetExpandedNodesCount(List&lt;GraphNode&gt; nodes)|
 |GetMaxDepth()||public int GetMaxDepth()|
 |GetNode()||public GraphNode GetNode(string nodeId)|
 |GetNodeDepth()||// public int GetNodeDepth(GraphNode node)|
@@ -1433,7 +1467,8 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 |GetNodeDepth()||public int GetNodeDepth(GraphNode node, int recursiveCount = 0)|
 |GetNodesTotalValue()||public static double GetNodesTotalValue(List&lt;GraphNode&gt; nodes)|
 |GetRootNodes()||public List&lt;GraphNode&gt; GetRootNodes()|
-|Graph()||public Graph(bool directed)|
+|GraphData()||public GraphData(bool directed)|
+|IsAllNodeInZeroPosition()||public bool IsAllNodeInZeroPosition()|
 |Refresh()||public void Refresh()|
 
 ## GraphEdge
@@ -1445,6 +1480,7 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 |API|版本|描述|
 |--|--|--|
 |GraphEdge()||public GraphEdge(GraphNode node1, GraphNode node2, double value)|
+|IsPointInEdge()||public bool IsPointInEdge(Vector2 point)|
 
 ## GraphNode
 
@@ -1454,7 +1490,10 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 
 |API|版本|描述|
 |--|--|--|
+|Expand()||public void Expand(bool flag)|
 |GraphNode()||public GraphNode(string id, string name, int dataIndex)|
+|IsAllInEdgesCollapsed()||public bool IsAllInEdgesCollapsed()|
+|IsAnyInEdgesExpanded()||public bool IsAnyInEdgesExpanded()|
 |ToString()||public override string ToString()|
 
 ## GridCoord
@@ -1478,6 +1517,28 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |IsPointerEnter()||public bool IsPointerEnter()<br/>指针是否在网格内。 |
 |NotAnyIntersect()|v3.10.0|public bool NotAnyIntersect(Vector3 sp, Vector3 ep)<br/>判断给定的线段是否与Grid边界是否完全不会相交。 |
 |UpdateRuntimeData()||public void UpdateRuntimeData(BaseChart chart)|
+
+## GridCoord3D
+
+> class in XCharts.Runtime / 继承自: [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
+
+> 从 `v3.11.0` 开始支持
+
+Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart can be drawn in grid.
+
+|API|版本|描述|
+|--|--|--|
+|Clamp()||public void Clamp(ref Vector3 pos)<br/>将位置限制在网格内。 |
+|Contains()||public bool Contains(Vector3 pos)<br/>给定的位置是否在网格内。 |
+|IsLeft()||public bool IsLeft()<br/>The opening of the coordinate system faces to the left. 坐标系开口朝向左边。 |
+|IsPointerEnter()||public bool IsPointerEnter()<br/>指针是否在网格内。 |
+|NotAnyIntersect()||public bool NotAnyIntersect(Vector3 sp, Vector3 ep)<br/>判断给定的线段是否与Grid边界是否完全不会相交。 |
+|UpdateRuntimeData()||public void UpdateRuntimeData(BaseChart chart)|
+
+## GridCoord3DContext
+
+> class in XCharts.Runtime / 继承自: [MainComponentContext](#maincomponentcontext)
+
 
 ## GridCoordContext
 
@@ -1629,7 +1690,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## ISerieContainer
 
-> class in XCharts.Runtime / 子类: [RadarCoord](#radarcoord),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[ParallelCoord](#parallelcoord),[PolarCoord](#polarcoord) 
+> class in XCharts.Runtime / 子类: [RadarCoord](#radarcoord),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[GridCoord3D](#gridcoord3d),[ParallelCoord](#parallelcoord),[PolarCoord](#polarcoord) 
 
 
 ## ISerieDataComponent
@@ -1665,8 +1726,20 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## IUpdateRuntimeData
 
-> class in XCharts.Runtime / 子类: [SingleAxis](#singleaxis),[DataZoom](#datazoom),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[GridLayout](#gridlayout),[ParallelCoord](#parallelcoord) 
+> class in XCharts.Runtime / 子类: [SingleAxis](#singleaxis),[DataZoom](#datazoom),[CalendarCoord](#calendarcoord),[GridCoord](#gridcoord),[GridLayout](#gridlayout),[GridCoord3D](#gridcoord3d),[ParallelCoord](#parallelcoord) 
 
+
+## JsonUtil
+
+> class in XCharts.Runtime
+
+
+|API|版本|描述|
+|--|--|--|
+|GetJsonArray&lt;T&gt;()||public static T[] GetJsonArray&lt;T&gt;(string json)|
+|GetJsonObject&lt;T&gt;()||public static T GetJsonObject&lt;T&gt;(string json)|
+|GetWebJson&lt;T&gt;()||public static IEnumerator GetWebJson&lt;T&gt;(string url, Action&lt;T[]&gt; callback)|
+|GetWebJson&lt;T&gt;()||public static IEnumerator GetWebJson&lt;T&gt;(string url, Action&lt;T&gt; callback)|
 
 ## LabelLine
 
@@ -1864,6 +1937,16 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |DefaultStepLineChart()||public void DefaultStepLineChart()<br/>默认阶梯折线图。 |
 |DefaultTimeLineChart()||public void DefaultTimeLineChart()<br/>默认时间折线图。 |
 
+## LineHelper
+
+> class in XCharts.Runtime
+
+
+|API|版本|描述|
+|--|--|--|
+|GetDataAverageRate()||public static int GetDataAverageRate(Serie serie, float axisLength, int maxCount, bool isYAxis)|
+|GetLineWidth()||public static float GetLineWidth(ref bool interacting, Serie serie, float defaultWidth)|
+
 ## LineStyle
 
 > class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent),[ISerieDataComponent](#iseriedatacomponent)
@@ -1954,6 +2037,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |CompareTo()||public int CompareTo(object obj)|
 |OnRemove()||public virtual void OnRemove()|
 |Reset()||public virtual void Reset() { }|
+|ResetStatus()||public virtual void ResetStatus() { }|
 |SetAllDirty()||public virtual void SetAllDirty()|
 |SetComponentDirty()||public virtual void SetComponentDirty()|
 |SetDefaultValue()||public virtual void SetDefaultValue() { }|
@@ -1961,7 +2045,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 
 ## MainComponentContext
 
-> class in XCharts.Runtime / 子类: [AxisContext](#axiscontext),[DataZoomContext](#datazoomcontext),[LegendContext](#legendcontext),[RadarCoordContext](#radarcoordcontext),[VisualMapContext](#visualmapcontext),[GridCoordContext](#gridcoordcontext),[GridLayoutContext](#gridlayoutcontext),[ParallelCoordContext](#parallelcoordcontext),[PolarCoordContext](#polarcoordcontext) 
+> class in XCharts.Runtime / 子类: [AxisContext](#axiscontext),[DataZoomContext](#datazoomcontext),[LegendContext](#legendcontext),[RadarCoordContext](#radarcoordcontext),[VisualMapContext](#visualmapcontext),[GridCoordContext](#gridcoordcontext),[GridLayoutContext](#gridlayoutcontext),[GridCoord3DContext](#gridcoord3dcontext),[ParallelCoordContext](#parallelcoordcontext),[PolarCoordContext](#polarcoordcontext) 
 
 
 ## MainComponentHandler
@@ -2393,8 +2477,8 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 |AddData()||public SerieData AddData(List&lt;double&gt; valueList, string dataName = null, string dataId = null)<br/>将一组数据添加到系列中。 如果数据只有一个，默认添加到维度Y中。 |
 |AddData()||public SerieData AddData(params double[] values)<br/>添加任意维数据到系列中。 |
 |AddExtraComponent&lt;T&gt;()||public T AddExtraComponent&lt;T&gt;() where T : ChildComponent, ISerieComponent|
-|AddLink()||public SerieDataLink AddLink(string sourceName, string targetName, double value)<br/>添加一个关系图的关系数据。 |
-|AddSerieData()||public void AddSerieData(SerieData serieData)|
+|AddLink()||public virtual SerieDataLink AddLink(string sourceId, string targetId, double value = 0)<br/>添加一个关系图的关系数据。 |
+|AddSerieData()||public virtual void AddSerieData(SerieData serieData)|
 |AddXYData()||public SerieData AddXYData(double xValue, double yValue, string dataName = null, string dataId = null)<br/>添加（x，y）数据到维度X和维度Y |
 |AddYData()||public SerieData AddYData(double value, string dataName = null, string dataId = null)<br/>添加一个数据到维度Y（此时维度X对应的数据是索引） |
 |AnimationEnable()||public void AnimationEnable(bool flag)<br/>启用或取消初始动画 |
@@ -3088,6 +3172,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 
 |API|版本|描述|
 |--|--|--|
+|onClickIndex||public System.Action&lt;int&gt; onClickIndex<br/>Tooltip为Click触发时，点击的X轴索引的回调。 |
 |AddSerieDataIndex()||public void AddSerieDataIndex(int serieIndex, int dataIndex)|
 |ClearComponentDirty()||public override void ClearComponentDirty()|
 |ClearData()||public override void ClearData()|
@@ -3213,6 +3298,7 @@ UGUI 图形库
 |IsClearColor()||public static bool IsClearColor(Color32 color)|
 |IsPointInPolygon()||public static bool IsPointInPolygon(Vector3 p, List&lt;Vector2&gt; polyons)|
 |IsPointInPolygon()||public static bool IsPointInPolygon(Vector3 p, List&lt;Vector3&gt; polyons)|
+|IsPointInPolygon()||public static bool IsPointInPolygon(Vector3 p, params Vector3[] polyons)|
 |IsPointInTriangle()||public static bool IsPointInTriangle(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 check)|
 |IsValueEqualsColor()||public static bool IsValueEqualsColor(Color color1, Color color2)|
 |IsValueEqualsColor()||public static bool IsValueEqualsColor(Color32 color1, Color32 color2)|
@@ -3252,6 +3338,14 @@ UI组件基类。
 
 UI帮助类。
 
+## ViewControl
+
+> class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
+
+> 从 `v3.11.0` 开始支持
+
+3D视角控制组件。
+
 ## VisualMap
 
 > class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent)
@@ -3265,6 +3359,7 @@ UI帮助类。
 |ClearComponentDirty()||public override void ClearComponentDirty()|
 |ClearVerticesDirty()||public override void ClearVerticesDirty()|
 |GetColor()||public Color32 GetColor(double value)|
+|GetColor()||public Color32 GetColor(double xValue, double yValue, double zValue, byte alpha = 255)|
 |GetIndex()||public int GetIndex(double value)|
 |GetValue()||public double GetValue(Vector3 pos, Rect chartRect)|
 |IsInRangeMaxRect()||public bool IsInRangeMaxRect(Vector3 local, Rect chartRect, float triangleLen)|
@@ -3312,9 +3407,26 @@ UI帮助类。
 |Copy()||public void Copy(VisualMapTheme theme)|
 |VisualMapTheme()||public VisualMapTheme(ThemeType theme) : base(theme)|
 
+## Wrapper&lt;T&gt;
+
+> class in XCharts.Runtime
+
+
 ## XAxis
 
 > class in XCharts.Runtime / 继承自: [Axis](#axis)
+
+直角坐标系 grid 中的 x 轴。
+
+|API|版本|描述|
+|--|--|--|
+|SetDefaultValue()||public override void SetDefaultValue()<br/>直角坐标系 grid 中的 x 轴。 |
+
+## XAxis3D
+
+> class in XCharts.Runtime / 继承自: [Axis](#axis)
+
+> 从 `v3.11.0` 开始支持
 
 直角坐标系 grid 中的 x 轴。
 
@@ -3420,6 +3532,30 @@ UI帮助类。
 ## YAxis
 
 > class in XCharts.Runtime / 继承自: [Axis](#axis)
+
+直角坐标系 grid 中的 y 轴。
+
+|API|版本|描述|
+|--|--|--|
+|SetDefaultValue()||public override void SetDefaultValue()<br/>直角坐标系 grid 中的 y 轴。 |
+
+## YAxis3D
+
+> class in XCharts.Runtime / 继承自: [Axis](#axis)
+
+> 从 `v3.11.0` 开始支持
+
+直角坐标系 grid 中的 y 轴。
+
+|API|版本|描述|
+|--|--|--|
+|SetDefaultValue()||public override void SetDefaultValue()<br/>直角坐标系 grid 中的 y 轴。 |
+
+## ZAxis3D
+
+> class in XCharts.Runtime / 继承自: [Axis](#axis)
+
+> 从 `v3.11.0` 开始支持
 
 直角坐标系 grid 中的 y 轴。
 

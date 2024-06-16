@@ -16,14 +16,17 @@ namespace XCharts.Runtime
         public static Serie AddDefaultSerie(BaseChart chart, string serieName)
         {
             var serie = chart.AddSerie<Candlestick>(serieName);
-            var defaultDataCount = 5;
-            for (int i = 0; i < defaultDataCount; i++)
+            var lastValue = 50d;
+            for (int i = 0; i < 5; i++)
             {
-                var open = Random.Range(20, 60);
-                var close = Random.Range(40, 90);
-                var lowest = Random.Range(0, 50);
-                var heighest = Random.Range(50, 100);
+                var open = lastValue;
+                var close = open + Random.Range(-20, 20);
+                var min = open < close ? open : close;
+                var max = open > close ? open : close;
+                var lowest = min + Random.Range(-10, -10);
+                var heighest = max + Random.Range(10, 10);
                 chart.AddData(serie.index, i, open, close, lowest, heighest);
+                lastValue = close;
             }
             return serie;
         }

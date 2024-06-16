@@ -144,11 +144,23 @@ namespace XCharts.Runtime
                 float currHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, barHig);
                 Vector3 plb, plt, prt, prb, top;
 
-                plb = new Vector3(pX + gap + borderWidth, pY + borderWidth);
-                plt = new Vector3(pX + gap + borderWidth, pY + currHig - borderWidth);
-                prt = new Vector3(pX + gap + barWidth - borderWidth, pY + currHig - borderWidth);
-                prb = new Vector3(pX + gap + barWidth - borderWidth, pY + borderWidth);
-                top = new Vector3(pX + gap + barWidth / 2, pY + currHig - borderWidth);
+                var offset = 2 * borderWidth;
+                if (isRise)
+                {
+                    plb = new Vector3(pX + gap + offset, pY + offset);
+                    plt = new Vector3(pX + gap + offset, pY + currHig - offset);
+                    prt = new Vector3(pX + gap + barWidth - offset, pY + currHig - offset);
+                    prb = new Vector3(pX + gap + barWidth - offset, pY + offset);
+                    top = new Vector3(pX + gap + barWidth / 2, pY + currHig - offset);
+                }
+                else
+                {
+                    plb = new Vector3(pX + gap + offset, pY - offset);
+                    plt = new Vector3(pX + gap + offset, pY + currHig + offset);
+                    prt = new Vector3(pX + gap + barWidth - offset, pY + currHig + offset);
+                    prb = new Vector3(pX + gap + barWidth - offset, pY - offset);
+                    top = new Vector3(pX + gap + barWidth / 2, pY + currHig + offset);
+                }
                 // if (serie.clip)
                 // {
                 //     plb = chart.ClampInGrid(grid, plb);

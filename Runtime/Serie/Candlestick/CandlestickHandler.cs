@@ -124,7 +124,7 @@ namespace XCharts.Runtime
                 var close = serieData.GetCurrData(startDataIndex + 1, dataAddDuration, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
                 var lowest = serieData.GetCurrData(startDataIndex + 2, dataAddDuration, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
                 var heighest = serieData.GetCurrData(startDataIndex + 3, dataAddDuration, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
-                var isRise = yAxis.inverse ? close<open : close> open;
+                var isRise = yAxis.inverse ? close < open : close > open;
                 var borderWidth = open == 0 ? 0f :
                     (itemStyle.borderWidth == 0 ? theme.serie.candlestickBorderWidth :
                         itemStyle.borderWidth);
@@ -138,18 +138,30 @@ namespace XCharts.Runtime
                 var minCut = (yMinValue > 0 ? yMinValue : 0);
                 if (valueTotal != 0)
                 {
-                    barHig = (float) ((close - open) / valueTotal * grid.context.height);
-                    pY += (float) ((open - minCut) / valueTotal * grid.context.height);
+                    barHig = (float)((close - open) / valueTotal * grid.context.height);
+                    pY += (float)((open - minCut) / valueTotal * grid.context.height);
                 }
                 serieData.context.stackHeight = barHig;
                 float currHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, barHig);
                 Vector3 plb, plt, prt, prb, top;
 
-                plb = new Vector3(pX + gap + borderWidth, pY + borderWidth);
-                plt = new Vector3(pX + gap + borderWidth, pY + currHig - borderWidth);
-                prt = new Vector3(pX + gap + barWidth - borderWidth, pY + currHig - borderWidth);
-                prb = new Vector3(pX + gap + barWidth - borderWidth, pY + borderWidth);
-                top = new Vector3(pX + gap + barWidth / 2, pY + currHig - borderWidth);
+                var offset = 2 * borderWidth;
+                if (isRise)
+                {
+                    plb = new Vector3(pX + gap + offset, pY + offset);
+                    plt = new Vector3(pX + gap + offset, pY + currHig - offset);
+                    prt = new Vector3(pX + gap + barWidth - offset, pY + currHig - offset);
+                    prb = new Vector3(pX + gap + barWidth - offset, pY + offset);
+                    top = new Vector3(pX + gap + barWidth / 2, pY + currHig - offset);
+                }
+                else
+                {
+                    plb = new Vector3(pX + gap + offset, pY - offset);
+                    plt = new Vector3(pX + gap + offset, pY + currHig + offset);
+                    prt = new Vector3(pX + gap + barWidth - offset, pY + currHig + offset);
+                    prb = new Vector3(pX + gap + barWidth - offset, pY - offset);
+                    top = new Vector3(pX + gap + barWidth / 2, pY + currHig + offset);
+                }
                 if (serie.clip)
                 {
                     plb = chart.ClampInGrid(grid, plb);
@@ -169,8 +181,8 @@ namespace XCharts.Runtime
                 var itemWidth = Mathf.Abs(prt.x - plb.x);
                 var itemHeight = Mathf.Abs(plt.y - prb.y);
                 var center = new Vector3((plb.x + prt.x) / 2, (plt.y + prb.y) / 2);
-                var lowPos = new Vector3(center.x, zeroY + (float) ((lowest - minCut) / valueTotal * grid.context.height));
-                var heighPos = new Vector3(center.x, zeroY + (float) ((heighest - minCut) / valueTotal * grid.context.height));
+                var lowPos = new Vector3(center.x, zeroY + (float)((lowest - minCut) / valueTotal * grid.context.height));
+                var heighPos = new Vector3(center.x, zeroY + (float)((heighest - minCut) / valueTotal * grid.context.height));
                 var openCenterPos = new Vector3(center.x, prb.y);
                 var closeCenterPos = new Vector3(center.x, prt.y);
                 if (intensive)

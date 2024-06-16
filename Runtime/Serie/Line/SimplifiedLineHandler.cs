@@ -169,7 +169,7 @@ namespace XCharts.Runtime
             var scaleWid = AxisHelper.GetDataWidth(axis, axisLength, maxCount, dataZoom);
             var scaleRelativedWid = AxisHelper.GetDataWidth(relativedAxis, axisRelativedLength, maxCount, dataZoom);
 
-            int rate = LineHelper.GetDataAverageRate(serie, m_SerieGrid, maxCount, false);
+            int rate = LineHelper.GetDataAverageRate(serie, axisLength, maxCount, false);
             var totalAverage = serie.sampleAverage > 0 ?
                 serie.sampleAverage :
                 DataHelper.DataAverage(ref showData, serie.sampleType, serie.minShow, maxCount, rate);

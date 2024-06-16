@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace XCharts.Runtime
 {
-    internal static class DataHelper
+    public static class DataHelper
     {
         public static double DataAverage(ref List<SerieData> showData, SampleType sampleType,
             int minCount, int maxCount, int rate)

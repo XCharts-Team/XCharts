@@ -45,6 +45,7 @@ namespace XCharts.Runtime
                 axis.context.x = parallel.context.x;
                 axis.context.y = parallel.context.y + (axis.index) * each;
                 axis.context.width = parallel.context.width;
+                axis.context.length = parallel.context.width;
             }
             else
             {
@@ -52,6 +53,7 @@ namespace XCharts.Runtime
                 axis.context.x = parallel.context.x + (axis.index) * each;
                 axis.context.y = parallel.context.y;
                 axis.context.width = parallel.context.height;
+                axis.context.length = parallel.context.height;
             }
             axis.context.orient = m_Orient;
             axis.context.height = 0;

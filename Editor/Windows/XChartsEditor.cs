@@ -96,21 +96,21 @@ namespace XCharts.Editor
         }
 
         [MenuItem("XCharts/EmptyChart", priority = 43)]
-        [MenuItem("GameObject/XCharts/EmptyChart", priority = 43)]
+        [MenuItem("GameObject/UI/XCharts/EmptyChart", priority = 43)]
         public static void AddBaseChart()
         {
             AddChart<BaseChart>("EmptyChart");
         }
 
         [MenuItem("XCharts/RadarChart/Polygon Radar", priority = 47)]
-        [MenuItem("GameObject/XCharts/RadarChart/Polygon Radar", priority = 47)]
+        [MenuItem("GameObject/UI/XCharts/RadarChart/Polygon Radar", priority = 47)]
         public static void AddRadarChart()
         {
             AddChart<RadarChart>("RadarChart");
         }
 
         [MenuItem("XCharts/RadarChart/Cirle Radar", priority = 47)]
-        [MenuItem("GameObject/XCharts/RadarChart/Cirle Radar", priority = 47)]
+        [MenuItem("GameObject/UI/XCharts/RadarChart/Cirle Radar", priority = 47)]
         public static void AddRadarChart_CirleRadar()
         {
             var chart = AddChart<RadarChart>("RadarChart");
@@ -118,14 +118,14 @@ namespace XCharts.Editor
         }
 
         [MenuItem("XCharts/ScatterChart/Scatter", priority = 48)]
-        [MenuItem("GameObject/XCharts/ScatterChart/Scatter", priority = 48)]
+        [MenuItem("GameObject/UI/XCharts/ScatterChart/Scatter", priority = 48)]
         public static void AddScatterChart()
         {
             AddChart<ScatterChart>("ScatterChart");
         }
 
         [MenuItem("XCharts/ScatterChart/Bubble", priority = 48)]
-        [MenuItem("GameObject/XCharts/ScatterChart/Bubble", priority = 48)]
+        [MenuItem("GameObject/UI/XCharts/ScatterChart/Bubble", priority = 48)]
         public static void AddScatterChart_Bubble()
         {
             var chart = AddChart<ScatterChart>("ScatterChart");
@@ -133,14 +133,14 @@ namespace XCharts.Editor
         }
 
         [MenuItem("XCharts/HeatmapChart/Heatmap", priority = 49)]
-        [MenuItem("GameObject/XCharts/HeatmapChart/Heatmap", priority = 49)]
+        [MenuItem("GameObject/UI/XCharts/HeatmapChart/Heatmap", priority = 49)]
         public static void AddHeatmapChart()
         {
             AddChart<HeatmapChart>("HeatmapChart");
         }
 
         [MenuItem("XCharts/HeatmapChart/Count Heatmap", priority = 49)]
-        [MenuItem("GameObject/XCharts/HeatmapChart/Count Heatmap", priority = 49)]
+        [MenuItem("GameObject/UI/XCharts/HeatmapChart/Count Heatmap", priority = 49)]
         public static void AddHeatmapChart_Count()
         {
             var chart = AddChart<HeatmapChart>("HeatmapChart");
@@ -148,14 +148,14 @@ namespace XCharts.Editor
         }
 
         [MenuItem("XCharts/RingChart/Ring", priority = 51)]
-        [MenuItem("GameObject/XCharts/RingChart/Ring", priority = 51)]
+        [MenuItem("GameObject/UI/XCharts/RingChart/Ring", priority = 51)]
         public static void AddRingChart()
         {
             AddChart<RingChart>("RingChart");
         }
 
         [MenuItem("XCharts/RingChart/Multiple Ring", priority = 51)]
-        [MenuItem("GameObject/XCharts/RingChart/Multiple Ring", priority = 51)]
+        [MenuItem("GameObject/UI/XCharts/RingChart/Multiple Ring", priority = 51)]
         public static void AddRingChart_MultiRing()
         {
             var chart = AddChart<RingChart>("RingChart");
@@ -163,35 +163,35 @@ namespace XCharts.Editor
         }
 
         [MenuItem("XCharts/CandlestickChart/Candlestick", priority = 54)]
-        [MenuItem("GameObject/XCharts/CandlestickChart/Candlestick", priority = 54)]
+        [MenuItem("GameObject/UI/XCharts/CandlestickChart/Candlestick", priority = 54)]
         public static void CandlestickChart()
         {
             AddChart<CandlestickChart>("CandlestickChart");
         }
 
         [MenuItem("XCharts/ParallelChart/Parallel", priority = 55)]
-        [MenuItem("GameObject/XCharts/ParallelChart/Parallel", priority = 55)]
+        [MenuItem("GameObject/UI/XCharts/ParallelChart/Parallel", priority = 55)]
         public static void ParallelChart()
         {
             AddChart<ParallelChart>("ParallelChart");
         }
 
         [MenuItem("XCharts/SimplifiedChart/Line", priority = 56)]
-        [MenuItem("GameObject/XCharts/SimplifiedChart/Line", priority = 56)]
+        [MenuItem("GameObject/UI/XCharts/SimplifiedChart/Line", priority = 56)]
         public static void SimplifiedLineChart()
         {
             AddChart<SimplifiedLineChart>("SimplifiedLineChart");
         }
 
         [MenuItem("XCharts/SimplifiedChart/Bar", priority = 57)]
-        [MenuItem("GameObject/XCharts/SimplifiedChart/Bar", priority = 57)]
+        [MenuItem("GameObject/UI/XCharts/SimplifiedChart/Bar", priority = 57)]
         public static void SimplifiedBarChart()
         {
             AddChart<SimplifiedBarChart>("SimplifiedBarChart");
         }
 
         [MenuItem("XCharts/SimplifiedChart/Candlestick", priority = 58)]
-        [MenuItem("GameObject/XCharts/SimplifiedChart/Candlestick", priority = 58)]
+        [MenuItem("GameObject/UI/XCharts/SimplifiedChart/Candlestick", priority = 58)]
         public static void SimplifiedCandlestickChart()
         {
             AddChart<SimplifiedCandlestickChart>("SimplifiedCandlestickChart");

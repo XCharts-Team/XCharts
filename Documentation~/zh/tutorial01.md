@@ -44,7 +44,7 @@ XCharts可通过以下任意一种方式导入到项目：
 
 ## 添加一个简单图表
 
-在`Hierarchy`视图下右键或菜单栏`GameObject`下拉选择`XCharts->LineChart`，即可快速创建一个默认的折线图出来：
+在`Hierarchy`视图下右键`UI->XCharts->LineChart`或菜单栏`GameObject`下拉选择`XCharts->LineChart`，即可快速创建一个默认的折线图出来：
 
 ![linechart1](img/tutorial01_linechart1.png)
 

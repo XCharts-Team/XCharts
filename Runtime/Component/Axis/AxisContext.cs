@@ -15,6 +15,9 @@ namespace XCharts.Runtime
         /// 坐标轴的起点Y
         /// </summary>
         public float y;
+        public Vector3 start;
+        public Vector3 end;
+        public Vector3 dire;
         /// <summary>
         /// 坐标轴原点X
         /// </summary>
@@ -25,6 +28,7 @@ namespace XCharts.Runtime
         public float zeroY;
         public float width;
         public float height;
+        public float length;
         public Vector3 position;
         public float left;
         public float right;

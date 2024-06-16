@@ -75,7 +75,8 @@ namespace XCharts.Runtime
             Left,
             Right,
             Bottom,
-            Top
+            Top,
+            Center
         }
 
         [SerializeField] protected bool m_Show = true;
@@ -98,6 +99,7 @@ namespace XCharts.Runtime
         [SerializeField] protected bool m_Inverse = false;
         [SerializeField] private bool m_Clockwise = true;
         [SerializeField] private bool m_InsertDataToHead;
+        [SerializeField][Since("v3.11.0")] private float m_MinCategorySpacing = 0;
         [SerializeField] protected List<Sprite> m_Icons = new List<Sprite>();
         [SerializeField] protected List<string> m_Data = new List<string>();
         [SerializeField] protected AxisLine m_AxisLine = AxisLine.defaultAxisLine;
@@ -405,6 +407,15 @@ namespace XCharts.Runtime
             get { return m_InsertDataToHead; }
             set { if (PropertyUtil.SetStruct(ref m_InsertDataToHead, value)) SetAllDirty(); }
         }
+        /// <summary>
+        /// The minimum spacing between categories.
+        /// ||类目之间的最小间距。
+        /// </summary>
+        public float minCategorySpacing
+        {
+            get { return m_MinCategorySpacing; }
+            set { if (PropertyUtil.SetStruct(ref m_MinCategorySpacing, value)) SetAllDirty(); }
+        }
 
         public override bool vertsDirty
         {
@@ -456,6 +467,17 @@ namespace XCharts.Runtime
         {
             context.isNeedUpdateFilterData = true;
             base.SetComponentDirty();
+        }
+
+        /// <summary>
+        /// 重置状态。
+        /// </summary>
+        public override void ResetStatus()
+        {
+            context.minValue = 0;
+            context.maxValue = 0;
+            context.destMinValue = 0;
+            context.destMaxValue = 0;
         }
 
         public Axis Clone()
@@ -729,10 +751,14 @@ namespace XCharts.Runtime
         /// <param name="value"></param>
         /// <param name="axisLength"></param>
         /// <returns></returns>
-        public float GetDistance(double value, float axisLength)
+        public float GetDistance(double value, float axisLength = 0)
         {
             if (context.minMaxRange == 0)
                 return 0;
+            if (axisLength == 0)
+            {
+                axisLength = context.length;
+            }
 
             if (IsCategory() && boundaryGap)
             {
@@ -918,6 +944,44 @@ namespace XCharts.Runtime
                     axisLength :
                     (float)(Math.Abs(context.minValue) * (axisLength / (Math.Abs(context.minValue) + Math.Abs(context.maxValue))))
                 );
+        }
+
+        public Vector3 GetCategoryPosition(int categoryIndex, int dataCount = 0)
+        {
+            if (dataCount <= 0)
+            {
+                dataCount = data.Count;
+            }
+            if (IsCategory() && dataCount > 0)
+            {
+                Vector3 pos;
+                if (boundaryGap)
+                {
+                    var each = context.length / dataCount;
+                    pos = context.start + context.dire * (each * (categoryIndex + 0.5f));
+                }
+                else
+                {
+                    var each = context.length / (dataCount - 1);
+                    pos = context.start + context.dire * (each * categoryIndex);
+                }
+                if (axisLabel.distance != 0)
+                {
+                    if (this is YAxis)
+                    {
+                        pos.x = GetLabelObjectPosition(0).x;
+                    }
+                    else
+                    {
+                        pos.y = GetLabelObjectPosition(0).y;
+                    }
+                }
+                return pos;
+            }
+            else
+            {
+                return Vector3.zero;
+            }
         }
     }
 }

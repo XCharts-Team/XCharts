@@ -6,6 +6,16 @@ using XCharts.Runtime;
 
 namespace XCharts.Editor
 {
+    public class HeaderCallbackContext
+    {
+        public int fieldCount = 0;
+        public SerializedProperty serieData;
+        public bool showName;
+        public int index;
+        public int dimension;
+        public SerializedProperty listProp;
+    }
+
     public class HeaderMenuInfo
     {
         public string name;
@@ -43,6 +53,8 @@ namespace XCharts.Editor
         public const float GAP_WIDTH = 0;
         public const float DIFF_WIDTH = 1;
 #endif
+        public const float ICON_WIDHT = 10;
+        public const float ICON_GAP = 0;
         static Dictionary<string, GUIContent> s_GUIContentCache;
 
         static ChartEditorHelper()
@@ -106,21 +118,23 @@ namespace XCharts.Editor
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
         }
 
-        public static void MakeThreeField(ref Rect drawRect, float rectWidth, SerializedProperty prop1,
-            SerializedProperty prop2, SerializedProperty prop3, string name)
+        public static float MakeThreeField(ref Rect drawRect, float rectWidth, SerializedProperty prop1,
+            SerializedProperty prop2, SerializedProperty prop3, string name, bool btnSpacing = true)
         {
             EditorGUI.LabelField(drawRect, name);
             var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH + GAP_WIDTH;
-            var diff = 13 + EditorGUI.indentLevel * 14;
+            var diff = 13f + EditorGUI.indentLevel * 14;
             var offset = diff - INDENT_WIDTH;
-            var tempWidth = (rectWidth - startX + diff) / 3;
+            var tempWidth = (rectWidth - startX + diff - (btnSpacing ? (ICON_WIDHT + ICON_GAP) * 4 : 0)) / 3 + 8.5f;
             var centerXRect = new Rect(startX, drawRect.y, tempWidth, drawRect.height - 1);
             var centerYRect = new Rect(centerXRect.x + tempWidth - offset, drawRect.y, tempWidth - 1, drawRect.height - 1);
             var centerZRect = new Rect(centerYRect.x + tempWidth - offset, drawRect.y, tempWidth - 1, drawRect.height - 1);
             EditorGUI.PropertyField(centerXRect, prop1, GUIContent.none);
             EditorGUI.PropertyField(centerYRect, prop2, GUIContent.none);
             EditorGUI.PropertyField(centerZRect, prop3, GUIContent.none);
-            drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            var hig = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            drawRect.y += hig;
+            return hig;
         }
 
         public static void MakeVector2(ref Rect drawRect, float rectWidth, SerializedProperty prop, string name)
@@ -335,15 +349,12 @@ namespace XCharts.Editor
         {
             EditorGUI.indentLevel++;
             var listSize = listProp.arraySize;
-            var iconWidth = 10;
-            var iconGap = 0f;
-
             if (showSize)
             {
                 var headerHeight = DrawSplitterAndBackground(drawRect);
                 if (showOrder)
                 {
-                    var elementRect = new Rect(drawRect.x, drawRect.y, drawRect.width - iconWidth + 2, drawRect.height);
+                    var elementRect = new Rect(drawRect.x, drawRect.y, drawRect.width - ICON_WIDHT + 2, drawRect.height);
                     var oldColor = GUI.contentColor;
                     GUI.contentColor = Color.black;
                     GUI.contentColor = oldColor;
@@ -396,40 +407,14 @@ namespace XCharts.Editor
                     DrawSplitterAndBackground(drawRect);
                     if (showOrder)
                     {
-                        var temp = INDENT_WIDTH + GAP_WIDTH + iconGap;
                         var isSerie = "Serie".Equals(element.type);
                         var elementRect = isSerie ?
-                            new Rect(drawRect.x, drawRect.y, drawRect.width + INDENT_WIDTH - 2 * iconGap, drawRect.height) :
-                            new Rect(drawRect.x, drawRect.y, drawRect.width - 4 * iconWidth, drawRect.height);
+                            new Rect(drawRect.x, drawRect.y, drawRect.width + INDENT_WIDTH - 2 * ICON_GAP, drawRect.height) :
+                            new Rect(drawRect.x, drawRect.y, drawRect.width - 4 * ICON_WIDHT, drawRect.height);
                         EditorGUI.PropertyField(elementRect, element, new GUIContent("Element " + i));
-                        var iconRect = new Rect(drawRect.width - 4 * iconWidth + temp, drawRect.y, iconWidth, drawRect.height);
-                        var oldColor = GUI.contentColor;
-                        GUI.contentColor = Color.black;
-                        if (GUI.Button(iconRect, EditorCustomStyles.iconUp, EditorCustomStyles.invisibleButton))
-                        {
-                            if (i > 0) listProp.MoveArrayElement(i, i - 1);
-                        }
-                        iconRect = new Rect(drawRect.width - 3 * iconWidth + temp, drawRect.y, iconWidth, drawRect.height);
-                        if (GUI.Button(iconRect, EditorCustomStyles.iconDown, EditorCustomStyles.invisibleButton))
-                        {
-                            if (i < listProp.arraySize - 1) listProp.MoveArrayElement(i, i + 1);
-                        }
-                        iconRect = new Rect(drawRect.width - 2 * iconWidth + temp, drawRect.y, iconWidth, drawRect.height);
-                        if (GUI.Button(iconRect, EditorCustomStyles.iconAdd, EditorCustomStyles.invisibleButton))
-                        {
-                            if (i < listProp.arraySize && i >= 0) listProp.InsertArrayElementAtIndex(i);
-                        }
-                        iconRect = new Rect(drawRect.width - iconWidth + temp, drawRect.y, iconWidth, drawRect.height);
-                        if (GUI.Button(iconRect, EditorCustomStyles.iconRemove, EditorCustomStyles.invisibleButton))
-                        {
-                            if (i < listProp.arraySize && i >= 0) listProp.DeleteArrayElementAtIndex(i);
-                        }
-                        else
-                        {
-                            drawRect.y += EditorGUI.GetPropertyHeight(element);
-                            height += EditorGUI.GetPropertyHeight(element);
-                        }
-                        GUI.contentColor = oldColor;
+                        UpDownAddDeleteButton(drawRect, listProp, i);
+                        drawRect.y += EditorGUI.GetPropertyHeight(element);
+                        height += EditorGUI.GetPropertyHeight(element);
                     }
                     else
                     {
@@ -440,6 +425,34 @@ namespace XCharts.Editor
                 }
             }
             EditorGUI.indentLevel--;
+        }
+
+        public static void UpDownAddDeleteButton(Rect drawRect, SerializedProperty listProp, int i)
+        {
+            var temp = INDENT_WIDTH + GAP_WIDTH + ICON_GAP;
+            var iconRect = new Rect(drawRect.width - 4 * ICON_WIDHT + temp, drawRect.y, ICON_WIDHT, drawRect.height);
+            var oldColor = GUI.contentColor;
+            GUI.contentColor = Color.black;
+            if (GUI.Button(iconRect, EditorCustomStyles.iconUp, EditorCustomStyles.invisibleButton))
+            {
+                if (i > 0) listProp.MoveArrayElement(i, i - 1);
+            }
+            iconRect = new Rect(drawRect.width - 3 * ICON_WIDHT + temp, drawRect.y, ICON_WIDHT, drawRect.height);
+            if (GUI.Button(iconRect, EditorCustomStyles.iconDown, EditorCustomStyles.invisibleButton))
+            {
+                if (i < listProp.arraySize - 1) listProp.MoveArrayElement(i, i + 1);
+            }
+            iconRect = new Rect(drawRect.width - 2 * ICON_WIDHT + temp, drawRect.y, ICON_WIDHT, drawRect.height);
+            if (GUI.Button(iconRect, EditorCustomStyles.iconAdd, EditorCustomStyles.invisibleButton))
+            {
+                if (i < listProp.arraySize && i >= 0) listProp.InsertArrayElementAtIndex(i);
+            }
+            iconRect = new Rect(drawRect.width - ICON_WIDHT + temp, drawRect.y, ICON_WIDHT, drawRect.height);
+            if (GUI.Button(iconRect, EditorCustomStyles.iconRemove, EditorCustomStyles.invisibleButton))
+            {
+                if (i < listProp.arraySize && i >= 0) listProp.DeleteArrayElementAtIndex(i);
+            }
+            GUI.contentColor = oldColor;
         }
 
         public static bool PropertyField(ref Rect drawRect, Dictionary<string, float> heights, string key,
@@ -570,6 +583,31 @@ namespace XCharts.Editor
             if (drawCallback != null)
             {
                 drawCallback(rect);
+            }
+            var e = Event.current;
+            if (e.type == EventType.MouseDown)
+            {
+                if (labelRect.Contains(e.mousePosition))
+                {
+                    if (e.button == 0)
+                    {
+                        state = !state;
+                        e.Use();
+                    }
+                }
+            }
+            return state;
+        }
+
+        public static bool DrawSerieDataHeader(string title, bool state, bool drawBackground, SerializedProperty activeField,
+            HeaderCallbackContext context, Action<Rect, HeaderCallbackContext> drawCallback, params HeaderMenuInfo[] menus)
+        {
+            var rect = GUILayoutUtility.GetRect(1f, HEADER_HEIGHT);
+            var labelRect = DrawHeaderInternal(rect, title, ref state, drawBackground, activeField);
+            DrawMenu(rect, menus);
+            if (drawCallback != null)
+            {
+                drawCallback(rect, context);
             }
             var e = Event.current;
             if (e.type == EventType.MouseDown)

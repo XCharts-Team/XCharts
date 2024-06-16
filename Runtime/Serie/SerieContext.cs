@@ -7,11 +7,23 @@ namespace XCharts.Runtime
     {
         public Vector3 position;
         public bool isIgnoreBreak;
+        public double xValue;
+        public double yValue;
+        public double zValue;
 
-        public PointInfo(Vector3 pos, bool ignore)
+        // public PointInfo(Vector3 pos, bool ignore)
+        // {
+        //     this.position = pos;
+        //     this.isIgnoreBreak = ignore;
+        // }
+
+        public PointInfo(Vector3 pos, bool ignore, double x = 0, double y = 0, double z = 0)
         {
             this.position = pos;
             this.isIgnoreBreak = ignore;
+            this.xValue = x;
+            this.yValue = y;
+            this.zValue = z;
         }
     }
 
@@ -45,7 +57,9 @@ namespace XCharts.Runtime
         /// 线段终点
         /// </summary>
         public Vector3 lineEndPostion;
-        public double lineEndValue;
+        public double lineEndValueX;
+        public double lineEndValueY;
+        public double lineEndValueZ;
         /// <summary>
         /// 内半径
         /// </summary>
@@ -119,6 +133,7 @@ namespace XCharts.Runtime
         public Tooltip.Type tooltipType;
         public Tooltip.Trigger tooltipTrigger;
         public int totalDataIndex;
+        public int clickTotalDataIndex;
         /// <summary>
         /// 水平方向的
         /// </summary>

@@ -46,6 +46,7 @@ namespace XCharts.Editor
             PropertyField(prop, "m_AutoColor");
             PropertyField(prop, "m_ShowStartLine");
             PropertyField(prop, "m_ShowEndLine");
+            PropertyField(prop, "m_ShowZLine");
         }
     }
 

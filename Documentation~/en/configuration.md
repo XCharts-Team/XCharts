@@ -56,6 +56,7 @@ import APITable from '@site/src/components/APITable';
 - [CoordSystem](#coordsystem)
 - [DataZoom](#datazoom)
 - [GridCoord](#gridcoord)
+- [GridCoord3D](#gridcoord3d)
 - [GridLayout](#gridlayout)
 - [Legend](#legend)
 - [MarkArea](#markarea)
@@ -72,7 +73,10 @@ import APITable from '@site/src/components/APITable';
 - [Tooltip](#tooltip)
 - [VisualMap](#visualmap)
 - [XAxis](#xaxis)
+- [XAxis3D](#xaxis3d)
 - [YAxis](#yaxis)
+- [YAxis3D](#yaxis3d)
+- [ZAxis3D](#zaxis3d)
 
 
 ## ChildComponent
@@ -137,6 +141,7 @@ import APITable from '@site/src/components/APITable';
 - [TitleTheme](#titletheme)
 - [TooltipTheme](#tooltiptheme)
 - [UIComponentTheme](#uicomponenttheme)
+- [ViewControl](#viewcontrol)
 - [VisualMapRange](#visualmaprange)
 - [VisualMapTheme](#visualmaptheme)
 
@@ -194,6 +199,7 @@ import APITable from '@site/src/components/APITable';
 - [LangCandlestick](#langcandlestick)
 - [LangTime](#langtime)
 - [MainComponent](#maincomponent)
+- [Wrapper&lt;T&gt;](#wrappert)
 - [XCResourcesImporter](#xcresourcesimporter)
 - [XCSettings](#xcsettings)
 
@@ -385,7 +391,7 @@ The style of area.
 
 ## Axis
 
-> class in XCharts.Runtime / Inherits from: [MainComponent](#maincomponent) / Subclasses: [AngleAxis](#angleaxis), [ParallelAxis](#parallelaxis), [RadiusAxis](#radiusaxis), [SingleAxis](#singleaxis), [XAxis](#xaxis), [YAxis](#yaxis)
+> class in XCharts.Runtime / Inherits from: [MainComponent](#maincomponent) / Subclasses: [AngleAxis](#angleaxis), [ParallelAxis](#parallelaxis), [RadiusAxis](#radiusaxis), [SingleAxis](#singleaxis), [XAxis](#xaxis), [XAxis3D](#xaxis3d), [YAxis](#yaxis), [YAxis3D](#yaxis3d), [ZAxis3D](#zaxis3d)
 
 The axis in rectangular coordinate.
 
@@ -402,7 +408,7 @@ The axis in rectangular coordinate.
 |gridIndex|||The index of the grid on which the axis are located, by default, is in the first grid.
 |polarIndex|||The index of the polar on which the axis are located, by default, is in the first polar.
 |parallelIndex|||The index of the parallel on which the axis are located, by default, is in the first parallel.
-|position|||the position of axis in grid.<br/>`Axis.AxisPosition`:<br/>- `Left`: the position of axis in grid.<br/>- `Right`: the position of axis in grid.<br/>- `Bottom`: the position of axis in grid.<br/>- `Top`: the position of axis in grid.<br/>|
+|position|||the position of axis in grid.<br/>`Axis.AxisPosition`:<br/>- `Left`: the position of axis in grid.<br/>- `Right`: the position of axis in grid.<br/>- `Bottom`: the position of axis in grid.<br/>- `Top`: the position of axis in grid.<br/>- `Center`: the position of axis in grid.<br/>|
 |offset|||the offset of axis from the default position. Useful when the same position has multiple axes.
 |min|||The minimun value of axis.Valid when `minMaxType` is `Custom`
 |max|||The maximum value of axis.Valid when `minMaxType` is `Custom`
@@ -416,6 +422,7 @@ The axis in rectangular coordinate.
 |inverse|false||Whether the axis are reversed or not. Invalid in `Category` axis.
 |clockwise|true||Whether the positive position of axis is in clockwise. True for clockwise by default.
 |insertDataToHead|||Whether to add new data at the head or at the end of the list.
+|minCategorySpacing|0|v3.11.0|The minimum spacing between categories.
 |icons|||类目数据对应的图标。
 |data|||Category data, available in type: 'Category' axis.
 |axisLine|||axis Line. [AxisLine](#axisline)|
@@ -606,6 +613,7 @@ Split line of axis in grid area.
 |autoColor|||auto color.
 |showStartLine|true|v3.3.0|Whether to show the first split line.
 |showEndLine|true|v3.3.0|Whether to show the last split line.
+|showZLine|true|v3.11.0|Whether to show the Z axis part of the split line. Generally used for 3D coordinate systems.
 
 ```mdx-code-block
 </APITable>
@@ -774,7 +782,7 @@ The style of border.
 
 ## ChildComponent
 
-> class in XCharts.Runtime / Subclasses: [AnimationStyle](#animationstyle), [AxisAnimation](#axisanimation), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [BorderStyle](#borderstyle), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [SerieDataLink](#seriedatalink), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
+> class in XCharts.Runtime / Subclasses: [AnimationStyle](#animationstyle), [AxisAnimation](#axisanimation), [AxisName](#axisname), [AxisSplitArea](#axissplitarea), [AreaStyle](#areastyle), [ArrowStyle](#arrowstyle), [BaseLine](#baseline), [BorderStyle](#borderstyle), [IconStyle](#iconstyle), [ImageStyle](#imagestyle), [ItemStyle](#itemstyle), [Level](#level), [LevelStyle](#levelstyle), [LineArrow](#linearrow), [LineStyle](#linestyle), [Location](#location), [MLValue](#mlvalue), [MarqueeStyle](#marqueestyle), [Padding](#padding), [StageColor](#stagecolor), [SymbolStyle](#symbolstyle), [TextLimit](#textlimit), [TextStyle](#textstyle), [CommentItem](#commentitem), [CommentMarkStyle](#commentmarkstyle), [LabelLine](#labelline), [LabelStyle](#labelstyle), [MarkAreaData](#markareadata), [MarkLineData](#marklinedata), [StateStyle](#statestyle), [VisualMapRange](#visualmaprange), [ViewControl](#viewcontrol), [UIComponentTheme](#uicomponenttheme), [SerieData](#seriedata), [SerieDataLink](#seriedatalink), [ComponentTheme](#componenttheme), [SerieTheme](#serietheme), [ThemeStyle](#themestyle)
 
 ## Comment
 
@@ -865,7 +873,7 @@ the comment mark style.
 
 ## CoordSystem
 
-> class in XCharts.Runtime / Inherits from: [MainComponent](#maincomponent) / Subclasses: [RadarCoord](#radarcoord), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [ParallelCoord](#parallelcoord), [PolarCoord](#polarcoord), [SingleAxisCoord](#singleaxiscoord)
+> class in XCharts.Runtime / Inherits from: [MainComponent](#maincomponent) / Subclasses: [RadarCoord](#radarcoord), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [GridCoord3D](#gridcoord3d), [ParallelCoord](#parallelcoord), [PolarCoord](#polarcoord), [SingleAxisCoord](#singleaxiscoord)
 
 Coordinate system component.
 
@@ -1017,6 +1025,37 @@ Grid component.
 |showBorder|false||Whether to show the grid border.
 |borderWidth|0f||Border width of grid.
 |borderColor|||The color of grid border.
+
+```mdx-code-block
+</APITable>
+```
+
+## GridCoord3D
+
+> class in XCharts.Runtime / Inherits from: [CoordSystem](#coordsystem), [IUpdateRuntimeData](#iupdateruntimedata), [ISerieContainer](#iseriecontainer)
+
+> Since `v3.11.0`
+
+Grid component.
+
+```mdx-code-block
+<APITable name="GridCoord3D">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|show|true||Whether to show the grid in rectangular coordinate.
+|left|0.15f||Distance between grid component and the left side of the container.
+|right|0.2f||Distance between grid component and the right side of the container.
+|top|0.3f||Distance between grid component and the top side of the container.
+|bottom|0.15f||Distance between grid component and the bottom side of the container.
+|showBorder|false||Whether to show the grid border.
+|boxWidth|0.55f||The width of the box in the coordinate system.
+|boxHeight|0.4f||The height of the box in the coordinate system.
+|boxDepth|0.2f||The depth of the box in the coordinate system.
+|xYExchanged|false||
+|viewControl|||View control component in 3D coordinate system. [ViewControl](#viewcontrol)|
 
 ```mdx-code-block
 </APITable>
@@ -1177,7 +1216,7 @@ The interface for serie component.
 
 ## ISerieContainer
 
-> class in XCharts.Runtime / Subclasses: [RadarCoord](#radarcoord), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [ParallelCoord](#parallelcoord), [PolarCoord](#polarcoord)
+> class in XCharts.Runtime / Subclasses: [RadarCoord](#radarcoord), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [GridCoord3D](#gridcoord3d), [ParallelCoord](#parallelcoord), [PolarCoord](#polarcoord)
 
 ## ISerieDataComponent
 
@@ -1229,7 +1268,7 @@ The interface for serie data component.
 
 ## IUpdateRuntimeData
 
-> class in XCharts.Runtime / Subclasses: [SingleAxis](#singleaxis), [DataZoom](#datazoom), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [GridLayout](#gridlayout), [ParallelCoord](#parallelcoord)
+> class in XCharts.Runtime / Subclasses: [SingleAxis](#singleaxis), [DataZoom](#datazoom), [CalendarCoord](#calendarcoord), [GridCoord](#gridcoord), [GridLayout](#gridlayout), [GridCoord3D](#gridcoord3d), [ParallelCoord](#parallelcoord)
 
 ## LabelLine
 
@@ -2300,8 +2339,9 @@ Tooltip component.
 |field|default|since|comment|
 |--|--|--|--|
 |show|true||Whether to show the tooltip component.
-|type|||Indicator type.<br/>`Tooltip.Type`:<br/>- `Line`: line indicator.<br/>- `Shadow`: shadow crosshair indicator.<br/>- `None`: no indicator displayed.<br/>- `Corss`: crosshair indicator, which is actually the shortcut of enable two axisPointers of two orthometric axes.<br/>- `Auto`: Auto select indicator according to serie type.<br/>|
+|type|||Indicator type.<br/>`Tooltip.Type`:<br/>- `Line`: line indicator.<br/>- `Shadow`: shadow crosshair indicator.<br/>- `None`: no indicator displayed.<br/>- `Cross`: crosshair indicator, which is actually the shortcut of enable two axisPointers of two orthometric axes.<br/>- `Auto`: Auto select indicator according to serie type.<br/>|
 |trigger|||Type of triggering.<br/>`Tooltip.Trigger`:<br/>- `Item`: Triggered by data item, which is mainly used for charts that don't have a category axis like scatter charts or pie charts.<br/>- `Axis`: Triggered by axes, which is mainly used for charts that have category axes, like bar charts or line charts.<br/>- `None`: Trigger nothing.<br/>- `Auto`: Auto select trigger according to serie type.<br/>|
+|triggerOn||v3.11.0|Condition of trigger tooltip.<br/>`Tooltip.TriggerOn`:<br/>- `MouseMove`: Trigger when mouse move.<br/>- `Click`: Trigger when mouse click.<br/>|
 |position||v3.3.0|Type of position.<br/>`Tooltip.Position`:<br/>- `Auto`: Auto. The mobile platform is displayed at the top, and the non-mobile platform follows the mouse position.<br/>- `Custom`: Custom. Fully customize display position (x,y).<br/>- `FixedX`: Just fix the coordinate X. Y follows the mouse position.<br/>- `FixedY`: <br/>|
 |itemFormatter|||a string template formatter for a single Serie or data item content. Support for wrapping lines with \n. Template variables are {.}, {a}, {b}, {c}, {d}.<br/> {.} is the dot of the corresponding color of a Serie that is currently indicated or whose index is 0.<br/> {a} is the series name of the serie that is currently indicated or whose index is 0.<br/> {b} is the name of the data item serieData that is currently indicated or whose index is 0, or a category value (such as the X-axis of a line chart).<br/> {c} is the value of a Y-dimension (dimesion is 1) from a Serie that is currently indicated or whose index is 0.<br/> {d} is the percentage value of Y-dimensions (dimesion is 1) from serie that is currently indicated or whose index is 0, with no % sign.<br/> {e} is the name of the data item serieData that is currently indicated or whose index is 0.<br/> {f} is sum of data.<br/> {y} is category value of y axis.<br/> {.1} represents a dot from serie corresponding color that specifies index as 1.<br/> 1 in {a1}, {b1}, {c1} represents a serie that specifies an index of 1.<br/> {c1:2} represents the third data from serie's current indication data item indexed to 1 (a data item has multiple data, index 2 represents the third data).<br/> {c1:2-2} represents the third data item from serie's third data item indexed to 1 (i.e., which data item must be specified to specify).<br/> {d1:2: F2} indicates that a formatted string with a value specified separately is F2 (numericFormatter is used when numericFormatter is not specified).<br/> {d:0.##} indicates that a formatted string with a value specified separately is 0.##   (used for percentage, reserved 2 valid digits while avoiding the situation similar to "100.00%" when using f2 ).<br/> Example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1} : {c1:1-1: f1}"<br/>
 |titleFormatter|||String template formatter for tooltip title content. \n line wrapping is supported. The placeholder {i} can be set separately to indicate that title is ignored and not displayed. Template variables are {.}, {a}, {b}, {c}, {d}, {e}, {f}, and {g}. <br /> {.} is the dot of the corresponding color of serie currently indicated or index 0. <br /> {a} is the series name name of serie currently indicated or index 0. <br /> {b} is the name of the serie data item serieData currently indicated or index 0, or the category value (such as the X-axis of a line chart). <br /> {c} is the value of the serie y-dimension (dimesion is 1) currently indicated or index is 0. <br /> {d} is the serie y-dimensional (dimesion 1) percentage value of the currently indicated or index 0, note without the % sign. <br /> {e} is the name of the serie data item serieData currently indicated or whose index is 0. <br /> {h} is the hexadecimal color value of serieData for the serie data item currently indicated or index 0. <br /> {f} is the sum of data. <br /> {g} indicates the total number of data. <br /> {y} is category value of y axis. <br /> {.1} represents a dot of the corresponding color with serie specified as index 1. <br /> The 1 in {a1}, {b1}, {c1} represents serie where index is specified as 1. <br /> {c1:2} represents the third data of the current indicator data item in serie with index 1 (one data item has multiple data, index 2 represents the third data). <br /> {c1:2-2} represents the third data of serie third data item with index 1 (that is, the number of data items must be specified when specifying the number of data items). <br /> {d1:2:f2} indicates that a format string with a single value is f2 (numericFormatter is used if no value is specified). <br /> {d:0.##} indicates that the format string with a value specified alone is 0.## # (for percentages, preserving a 2-digit significant number while avoiding the "100.00%" situation with f2). <br /> example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1}, {c1:1-1: f1}"
@@ -2371,6 +2411,28 @@ Tooltip component.
 |show|true||
 |sharedTheme|||the asset of theme. [Theme](#theme)|
 |transparentBackground|false||
+
+```mdx-code-block
+</APITable>
+```
+
+## ViewControl
+
+> class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
+
+> Since `v3.11.0`
+
+View control component in 3D coordinate system.
+
+```mdx-code-block
+<APITable name="ViewControl">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|alpha|90f||The angle of the view in the x-z plane.
+|beta|55f||The angle of the view in the y-z plane.
 
 ```mdx-code-block
 </APITable>
@@ -2460,9 +2522,21 @@ VisualMap component. Mapping data to visual elements such as colors.
 </APITable>
 ```
 
+## Wrapper&lt;T&gt;
+
+> class in XCharts.Runtime
+
 ## XAxis
 
 > class in XCharts.Runtime / Inherits from: [Axis](#axis)
+
+The x axis in cartesian(rectangular) coordinate.
+
+## XAxis3D
+
+> class in XCharts.Runtime / Inherits from: [Axis](#axis)
+
+> Since `v3.11.0`
 
 The x axis in cartesian(rectangular) coordinate.
 
@@ -2524,6 +2598,22 @@ The x axis in cartesian(rectangular) coordinate.
 ## YAxis
 
 > class in XCharts.Runtime / Inherits from: [Axis](#axis)
+
+The x axis in cartesian(rectangular) coordinate.
+
+## YAxis3D
+
+> class in XCharts.Runtime / Inherits from: [Axis](#axis)
+
+> Since `v3.11.0`
+
+The x axis in cartesian(rectangular) coordinate.
+
+## ZAxis3D
+
+> class in XCharts.Runtime / Inherits from: [Axis](#axis)
+
+> Since `v3.11.0`
 
 The x axis in cartesian(rectangular) coordinate.
 

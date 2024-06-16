@@ -124,9 +124,15 @@ namespace XCharts.Runtime
             base.InitComponent();
             SeriesHelper.UpdateSerieNameList(this, ref m_LegendRealShowName);
             foreach (var handler in m_ComponentHandlers)
+            {
                 handler.InitComponent();
+                handler.inited = true;
+            }
             foreach (var handler in m_SerieHandlers)
+            {
                 handler.InitComponent();
+                handler.inited = true;
+            }
             m_DebugInfo.Init(this);
         }
 
@@ -216,7 +222,15 @@ namespace XCharts.Runtime
             foreach (var handler in m_SerieHandlers) handler.BeforeUpdate();
             foreach (var handler in m_ComponentHandlers) handler.BeforceSerieUpdate();
             foreach (var handler in m_SerieHandlers) handler.Update();
-            foreach (var handler in m_ComponentHandlers) handler.Update();
+            foreach (var handler in m_ComponentHandlers)
+            {
+                if (!handler.inited)
+                {
+                    handler.InitComponent();
+                    handler.inited = true;
+                }
+                handler.Update();
+            }
             foreach (var handler in m_SerieHandlers) handler.AfterUpdate();
 
             m_DebugInfo.Update();

@@ -34,7 +34,7 @@ namespace XCharts.Example
         void AddData()
         {
             chart.RemoveData();
-            chart.GetChartComponent<Tooltip>().type = Tooltip.Type.Corss;
+            chart.GetChartComponent<Tooltip>().type = Tooltip.Type.Cross;
             var angleAxis = chart.GetChartComponent<AngleAxis>();
             angleAxis.type = Axis.AxisType.Value;
             angleAxis.minMaxType = Axis.AxisMinMaxType.Custom;

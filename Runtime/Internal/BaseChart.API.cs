@@ -532,6 +532,7 @@ namespace XCharts.Runtime
                 xAxis.context.maxValue = 0;
                 yAxis.context.minValue = 0;
                 yAxis.context.maxValue = 0;
+                ResetChartStatus();
                 RefreshChart();
             }
         }
@@ -563,6 +564,26 @@ namespace XCharts.Runtime
                 {
                     (component as Axis).maxCache = maxCache;
                 }
+            }
+        }
+
+        /// <summary>
+        /// set insert data to head.
+        /// ||设置数据插入到头部。
+        /// </summary>
+        /// <param name="insertDataToHead"></param>
+        [Since("v3.11.0")]
+        public void SetInsertDataToHead(bool insertDataToHead)
+        {
+            foreach (var serie in m_Series)
+                serie.insertDataToHead = insertDataToHead;
+
+            var coms = GetChartComponents<XAxis>();
+            foreach (var com in coms)
+            {
+                var axis = com as XAxis;
+                if (axis.type == Axis.AxisType.Category)
+                    axis.insertDataToHead = insertDataToHead;
             }
         }
 
@@ -735,7 +756,8 @@ namespace XCharts.Runtime
         [Since("v3.7.0")]
         public void CancelTooltip()
         {
-            m_PointerEventData = null;
+            pointerMoveEventData = null;
+            pointerClickEventData = null;
             var tooltip = GetChartComponent<Tooltip>();
             if (tooltip != null)
             {
@@ -750,6 +772,7 @@ namespace XCharts.Runtime
         [Since("v3.10.0")]
         public void ResetChartStatus()
         {
+            foreach (var component in m_Components) component.ResetStatus();
             foreach (var handler in m_SerieHandlers) handler.ForceUpdateSerieContext();
         }
     }

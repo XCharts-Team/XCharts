@@ -35,6 +35,11 @@ namespace XCharts.Runtime
                 var relativedAxis = chart.GetChartComponent<XAxis>(axis.gridIndex);
                 axis.context.x = AxisHelper.GetYAxisXOrY(grid, axis, relativedAxis);
                 axis.context.y = grid.context.y;
+                axis.context.start = new Vector3(axis.context.x, grid.context.y);
+                axis.context.end = new Vector3(axis.context.x, grid.context.y + grid.context.height);
+                var vect = axis.context.end - axis.context.start;
+                axis.context.dire = vect.normalized;
+                axis.context.length = vect.magnitude;
                 axis.context.zeroX = axis.context.x;
                 axis.context.zeroY = axis.context.y + axis.context.offset;
             }

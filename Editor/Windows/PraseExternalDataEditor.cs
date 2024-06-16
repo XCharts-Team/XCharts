@@ -8,6 +8,8 @@ namespace XCharts.Editor
 {
     public class PraseExternalDataEditor : UnityEditor.EditorWindow
     {
+        [SerializeField] private int m_DataDimension = 1;
+        [SerializeField] private double m_DefaultYValue = 0;
         private static BaseChart s_Chart;
         private static Serie s_Serie;
         private static Axis s_Axis;
@@ -46,8 +48,13 @@ namespace XCharts.Editor
                 return;
             }
             EditorGUILayout.LabelField("Input external data (echarts data):");
+            m_DataDimension = EditorGUILayout.IntField("Data Dimension", m_DataDimension);
+            if (m_DataDimension < 1)
+                m_DataDimension = 1;
+            else if (m_DataDimension == 2)
+                m_DefaultYValue = EditorGUILayout.DoubleField("Default Y Value", m_DefaultYValue);
             inputJsonText = EditorGUILayout.TextArea(inputJsonText, GUILayout.Height(400));
-            if (GUILayout.Button("Add"))
+            if (GUILayout.Button("Try Add"))
             {
                 if (s_Serie != null)
                 {
@@ -76,7 +83,7 @@ namespace XCharts.Editor
             }
         }
 
-        private static bool ParseArrayData(Axis axis, string arrayData)
+        private bool ParseArrayData(Axis axis, string arrayData)
         {
             arrayData = arrayData.Trim();
             if (!arrayData.StartsWith("data: Array")) return false;
@@ -95,7 +102,7 @@ namespace XCharts.Editor
             return true;
         }
 
-        private static bool ParseArrayData(Serie serie, string arrayData)
+        private bool ParseArrayData(Serie serie, string arrayData)
         {
             arrayData = arrayData.Trim();
             if (!arrayData.StartsWith("data: Array")) return false;
@@ -120,7 +127,7 @@ namespace XCharts.Editor
             return true;
         }
 
-        private static bool ParseJsonData(Axis axis, string jsonData)
+        private bool ParseJsonData(Axis axis, string jsonData)
         {
             if (!CheckJsonData(ref jsonData)) return false;
             axis.data.Clear();
@@ -140,7 +147,7 @@ namespace XCharts.Editor
         /// 从json中导入数据
         /// </summary>
         /// <param name="jsonData"></param>
-        private static bool ParseJsonData(Serie serie, string jsonData)
+        private bool ParseJsonData(Serie serie, string jsonData)
         {
             if (!CheckJsonData(ref jsonData)) return false;
             if (s_LinksData) serie.ClearLinks();
@@ -156,7 +163,10 @@ namespace XCharts.Editor
                     if (data.Length == 2 && !double.TryParse(data[0], out value))
                     {
                         double.TryParse(data[1], out value);
-                        serieData.data = new List<double>() { i, value };
+                        if (m_DataDimension == 2)
+                            serieData.data = new List<double>() { i, m_DefaultYValue, value };
+                        else
+                            serieData.data = new List<double>() { i, value };
                         serieData.name = data[0].Replace("\"", "").Trim();
                     }
                     else
@@ -187,7 +197,10 @@ namespace XCharts.Editor
                         if (a.StartsWith("value:"))
                         {
                             double value = double.Parse(a.Substring(6, a.Length - 6));
-                            serieData.data = new List<double>() { i, value };
+                            if (m_DataDimension == 2)
+                                serieData.data = new List<double>() { i, m_DefaultYValue, value };
+                            else
+                                serieData.data = new List<double>() { i, value };
                         }
                         else if (a.StartsWith("name:"))
                         {
@@ -213,7 +226,10 @@ namespace XCharts.Editor
                     if (flag)
                     {
                         var serieData = new SerieData();
-                        serieData.data = new List<double>() { i, value };
+                        if (m_DataDimension == 2)
+                            serieData.data = new List<double>() { i, m_DefaultYValue, value };
+                        else
+                            serieData.data = new List<double>() { i, value };
                         serie.AddSerieData(serieData);
                     }
                 }

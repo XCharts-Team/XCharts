@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.11.0](#v3110)  
 [v3.10.2](#v3102)  
 [v3.10.1](#v3101)  
 [v3.10.0](#v3100)  
@@ -67,6 +68,42 @@
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.11.0
+
+Release Highlights:
+
+* Added `Line3DChart` for 3D line charts
+* Added `GraphChart` for relationship graphs
+* Added support for 3D coordinate systems
+* Added `triggerOn` setting for `Tooltip` to define trigger conditions
+* Various bug fixes and optimizations
+
+Changelog Details:
+
+* (2024.06.16) Released version `v3.11.0`
+* (2024.06.15) Added buttons for adding, deleting, and moving data up and down under `Editor`
+* (2024.06.11) Fixed issue where `Axis`'s `IndicatorLabel` might overlap with `Tooltip`
+* (2024.06.11) Fixed issue where `Tooltip`'s `Axis` `IndicatorLabel` might not display when in `Cross` mode (#315)
+* (2024.06.10) Renamed `Tooltip`'s `Corss` to `Cross`
+* (2024.06.09) Added `minCategorySpacing` setting for `Axis` to define the default minimum category spacing
+* (2024.06.09) Fixed inaccurate indicator position of `Tooltip`'s `Cross` when `Axis` is a category axis and `DataZoom` is enabled
+* (2024.06.06) Fixed animation issue when `Serie` is cloned (#320)
+* (2024.06.04) Fixed issue where `Serie`'s `state` does not refresh when set dynamically via code
+* (2024.05.29) Adjusted the right-click menu of `XCharts` in the `Hierarchy` view to `UI/XCharts`
+* (2024.05.29) Added support for 3D coordinate systems to category axes
+* (2024.05.19) Optimized editing performance in `Editor`
+* (2024.05.09) Added utility class `JsonUtil`
+* (2024.05.01) Fixed the issue where `Tooltip` caused garbage collection (GC) on every frame (#311) (by @stefanbursuc)
+* (2024.04.23) Fixed chart exception issue after multiple calls to `ConvertXYAxis()`
+* (2024.04.22) Fixed potential incorrect retrieval of `GridCoord` when `DataZoom` controls multiple axes (#317)
+* (2024.04.22) Added 3D coordinate system
+* (2024.04.15) Optimized `DateTimeUtil` for timezone issues when converting timestamps to `DateTime`
+* (2024.04.15) Optimized `GridCoord` to display `Left` `Right` `Top` `Bottom` parameters even when `GridLayout` is enabled (#316)
+* (2024.04.14) Fixed incorrect label position of `Tooltip`'s `Cross` when `DataZoom` is enabled (#315)
+* (2024.04.12) Fixed incorrect effect of `Candlesticks` (#313)
+* (2024.03.20) Added `triggerOn` setting for `Tooltip` to define trigger conditions
+* (2024.03.19) Fixed color issue when setting `opacity` in `Pie`'s `ItemStyle` (#309)
 
 ## v3.10.2
 
@@ -200,7 +237,7 @@ Log details:
 * (2023.08.22) Fixed `Bar` display hidden drawing performance exception
 * (2023.08.22) Improved Zebra histogram rendering performance (#276)
 * (2023.08.16) Added Daemon daemon to resolve an error after TMP is enabled locally
-* (2023.08.15) Fixed `Data` displaying axes incorrectly when data is between -1 and 1 (#273) (by **Ambitroc**)
+* (2023.08.15) Fixed `Data` displaying axes incorrectly when data is between -1 and 1 (#273) (b y@Ambitroc)
 * (2023.08.14) Fixed `XCharts` updating error after` TextMeshPro `and` NewInputSystem `are enabled locally (#272)
 * (2023.08.12) Fixed `Chart` error when deleted at runtime (#269)
 * (2023.08.11) Fixed an issue where data could not be added when DataZoom was enabled
@@ -241,7 +278,7 @@ Log details:
 
 * (2022.06.08) Release v3.7.0
 * (2023.06.04) Added `HelpDoc` help document skip
-* (2023.05.30) Fixed Serie name with `_` line causing `Legend` to not fire (#252) (by **svr2kos2**)
+* (2023.05.30) Fixed Serie name with `_` line causing `Legend` to not fire (#252) (by @svr2kos2)
 * (2023.05.10) Added `MinMaxAuto` range type for `Axis`
 * (2023.05.10) Added support for `Clip` for `Line`
 * (2023.05.04) Fixed `Axis` setting` CeilRate `not taking effect in range -1 to 1
@@ -260,9 +297,9 @@ Log details:
 
 * (2023.04.01) Release `v3.6.0` version
 * (2023.03.14) Fix for Tooltip's `titleFormater` setting `{b}` may not take effect
-* (2023.03.14) Fix for `BarChart` not drawing bar background when data is 0 (#250) (by **Ambitroc**)
+* (2023.03.14) Fix for `BarChart` not drawing bar background when data is 0 (#250) (by @Ambitroc)
 * (2023.03.12) Added `LabelStyle` `autoRotate` to set automatic rotation of angled vertical text
-* (2023.03.10) Added `VR` and other non-mouse input for Point location acquisition (#248) (by **Ambitroc**)
+* (2023.03.10) Added `VR` and other non-mouse input for Point location acquisition (#248) (by @Ambitroc)
 * (2023.03.09) Adds callbacks to Chart's `onSerieClick`, `onSerieDown`, `onSerieEnter` and `onSerieExit`
 * (2023.03.09) Fixed click-check offset for `Pie` not taking effect
 * (2023.03.04) Added Positions for Legend to customize legend positions
@@ -276,7 +313,7 @@ Log details:
 * (2023.02.02) Fixed bug where datazoom xaxis label could be displayed off-chart when datazoom is turned on
 * (2023.02.02) Optimizes the `ignore` setting of `SerieData` to ignore data
 * (2023.02.01) Fix `XChartsMgr.ContainsChart()` interface exception
-* (2023.01.31) Added support for `InputSystem` (#242) (by **Bian-Sh**)
+* (2023.01.31) Added support for `InputSystem` (#242) (by @Bian-Sh)
 * (2023.01.11) Fixed chart not refreshing after removing Component from Inspector (#241)
 * (2023.01.06) Fixed bug with `Pie` displaying abnormal Label when the last few values are 0 (#240)
 * (2023.01.03) deletes serie `MarkColor` and adds ItemStyle `MarkColor`

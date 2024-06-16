@@ -79,11 +79,14 @@ slug: /support
 | 102 | [漏斗图](https://xcharts-team.github.io/docs/funnel)      |FunnelChart        | 98¥   |
 | 103 | [3D金字塔](https://xcharts-team.github.io/docs/pyramid)    |PyramidChart       | 98¥   |
 | 104 | [树形矩图](https://xcharts-team.github.io/docs/treemap)    |TreemapChart       | 98¥   |
+| 105 | [桑基图](https://xcharts-team.github.io/docs/sankey)    |SankeyChart       | 98¥   |
 | 201 | [3D柱图](https://xcharts-team.github.io/docs/bar3d)      |Bar3DChart         | 198¥  |
 | 202 | [3D饼图](https://xcharts-team.github.io/docs/pie3d)      |Pie3DChart         | 198¥  |
 | 203 | [甘特图](https://xcharts-team.github.io/docs/gantt)      |GanttChart         | 198¥  |
 | 204 | [仪表盘](https://xcharts-team.github.io/docs/gauge)      |GaugeChart         | 198¥  |
 | 205 | [水位图](https://xcharts-team.github.io/docs/liquid)      |LiquidChart        | 198¥  |
+| 206 | [3D折线图](https://xcharts-team.github.io/docs/line3d)      |Line3DChart        | 198¥  |
+| 207 | [关系图](https://xcharts-team.github.io/docs/graph)      |GraphChart        | 198¥  |
 
 扩展图表的在线效果图也可以查看[WebGL在线Demo](https://xcharts-team.github.io/examples/)
 

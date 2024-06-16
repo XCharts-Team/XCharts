@@ -14,14 +14,14 @@ namespace XCharts.Editor
     public partial class XChartsEditor
     {
         [MenuItem("XCharts/LineChart/Basic Line", priority = 44)]
-        [MenuItem("GameObject/XCharts/LineChart/Basic Line", priority = 44)]
+        [MenuItem("GameObject/UI/XCharts/LineChart/Basic Line", priority = 44)]
         public static void AddLineChart()
         {
             AddChart<LineChart>("LineChart");
         }
 
         [MenuItem("XCharts/LineChart/Area Line", priority = 44)]
-        [MenuItem("GameObject/XCharts/LineChart/Area Line", priority = 44)]
+        [MenuItem("GameObject/UI/XCharts/LineChart/Area Line", priority = 44)]
         public static void AddLineChart_Area()
         {
             var chart = AddChart<LineChart>("LineChart_Area", "Area Line");
@@ -29,7 +29,7 @@ namespace XCharts.Editor
         }
 
         [MenuItem("XCharts/LineChart/Smooth Line", priority = 44)]
-        [MenuItem("GameObject/XCharts/LineChart/Smooth Line", priority = 44)]
+        [MenuItem("GameObject/UI/XCharts/LineChart/Smooth Line", priority = 44)]
         public static void AddLineChart_Smooth()
         {
             var chart = AddChart<LineChart>("LineChart_Smooth", "Smooth Line");
@@ -37,7 +37,7 @@ namespace XCharts.Editor
         }
 
         [MenuItem("XCharts/LineChart/Smooth Area", priority = 44)]
-        [MenuItem("GameObject/XCharts/LineChart/Smooth Area Line", priority = 44)]
+        [MenuItem("GameObject/UI/XCharts/LineChart/Smooth Area Line", priority = 44)]
         public static void AddLineChart_SmoothArea()
         {
             var chart = AddChart<LineChart>("LineChart_SmoothArea", "Smooth Area Line");
@@ -45,7 +45,7 @@ namespace XCharts.Editor
         }
 
         [MenuItem("XCharts/LineChart/Stack Line", priority = 44)]
-        [MenuItem("GameObject/XCharts/LineChart/Stack Line", priority = 44)]
+        [MenuItem("GameObject/UI/XCharts/LineChart/Stack Line", priority = 44)]
         public static void AddLineChart_Stack()
         {
             var chart = AddChart<LineChart>("LineChart_Stack", "Stack Line");
@@ -53,7 +53,7 @@ namespace XCharts.Editor
         }
 
         [MenuItem("XCharts/LineChart/Stack Area Line", priority = 44)]
-        [MenuItem("GameObject/XCharts/LineChart/Stack Area Line", priority = 44)]
+        [MenuItem("GameObject/UI/XCharts/LineChart/Stack Area Line", priority = 44)]
         public static void AddLineChart_StackArea()
         {
             var chart = AddChart<LineChart>("LineChart_StackArea", "Stack Area Line");
@@ -61,7 +61,7 @@ namespace XCharts.Editor
         }
 
         [MenuItem("XCharts/LineChart/Step Line", priority = 44)]
-        [MenuItem("GameObject/XCharts/LineChart/Step Line", priority = 44)]
+        [MenuItem("GameObject/UI/XCharts/LineChart/Step Line", priority = 44)]
         public static void AddLineChart_Step()
         {
             var chart = AddChart<LineChart>("LineChart_Step", "Step Line");
@@ -69,7 +69,7 @@ namespace XCharts.Editor
         }
 
         [MenuItem("XCharts/LineChart/Dashed Line", priority = 44)]
-        [MenuItem("GameObject/XCharts/LineChart/Dashed Line", priority = 44)]
+        [MenuItem("GameObject/UI/XCharts/LineChart/Dashed Line", priority = 44)]
         public static void AddLineChart_Dash()
         {
             var chart = AddChart<LineChart>("LineChart_Dashed", "Dashed Line");
@@ -77,7 +77,7 @@ namespace XCharts.Editor
         }
 
         [MenuItem("XCharts/LineChart/Time Line", priority = 44)]
-        [MenuItem("GameObject/XCharts/LineChart/Time Line", priority = 44)]
+        [MenuItem("GameObject/UI/XCharts/LineChart/Time Line", priority = 44)]
         public static void AddLineChart_Time()
         {
             var chart = AddChart<LineChart>("LineChart_Time", "Time Line");
@@ -85,7 +85,7 @@ namespace XCharts.Editor
         }
 
         [MenuItem("XCharts/LineChart/Log Line", priority = 44)]
-        [MenuItem("GameObject/XCharts/LineChart/Log Line", priority = 44)]
+        [MenuItem("GameObject/UI/XCharts/LineChart/Log Line", priority = 44)]
         public static void AddLineChart_Log()
         {
             var chart = AddChart<LineChart>("LineChart_Log", "Log Line");

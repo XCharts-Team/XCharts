@@ -123,6 +123,12 @@ namespace XCharts.Runtime
             else
                 context.y = chartY + context.bottom;
 
+            context.start = new Vector3(context.x, context.y);
+            if (m_Orient == Orient.Horizonal)
+                context.end = new Vector3(context.x + context.width, context.y);
+            else
+                context.end = new Vector3(context.x, context.y + context.height);
+            context.length = (context.end - context.start).magnitude;
             context.position = new Vector3(context.x, context.y);
         }
 

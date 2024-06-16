@@ -447,16 +447,16 @@ namespace XCharts.Runtime
         /// ||添加一个关系图的关系数据。
         /// </summary>
         /// <param name="serieIndex">the index of serie</param>
-        /// <param name="sourceName">the source name of link</param>
-        /// <param name="targetName">the target name of link</param>
+        /// <param name="sourceId">the source id of link</param>
+        /// <param name="targetId">the target id of link</param>
         /// <param name="value">the value of link</param>
         /// <returns></returns>
-        public SerieDataLink AddLink(int serieIndex, string sourceName, string targetName, double value)
+        public SerieDataLink AddLink(int serieIndex, string sourceId, string targetId, double value = 0)
         {
             var serie = GetSerie(serieIndex);
             if (serie != null)
             {
-                var link = serie.AddLink(sourceName, targetName, value);
+                var link = serie.AddLink(sourceId, targetId, value);
                 RefreshPainter(serie.painter);
                 return link;
             }

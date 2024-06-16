@@ -1480,6 +1480,7 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 |API|版本|描述|
 |--|--|--|
 |GraphEdge()||public GraphEdge(GraphNode node1, GraphNode node2, double value)|
+|IsPointInEdge()||public bool IsPointInEdge(Vector2 point)|
 
 ## GraphNode
 

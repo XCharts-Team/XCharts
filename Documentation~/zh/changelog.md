@@ -6,6 +6,7 @@ slug: /changelog
 # 更新日志
 
 [master](#master)  
+[v3.11.0](#v3110)  
 [v3.10.2](#v3102)  
 [v3.10.1](#v3101)  
 [v3.10.0](#v3100)  
@@ -73,6 +74,19 @@ slug: /changelog
 
 ## master
 
+## v3.11.0
+
+版本要点：
+
+* 增加`Line3DChart`3D折线图
+* 增加`GraphChart`关系图
+* 增加`3D`坐标系支持
+* 增加`Tooltip`的`triggerOn`设置触发条件
+* 其他问题修复和优化
+
+日志详情：
+
+* (2024.06.16) 发布`v3.11.0`版本
 * (2024.06.15) 增加`Editor`下`Data`的添加、删除、上下移动操作按钮
 * (2024.06.11) 修复`Axis`的`IndicatorLabel`可能会遮挡住`Tooltip`的问题
 * (2024.06.11) 修复`Tooltip`在`Cross`时`Axis`的`IndicatorLabel`可能不显示的问题 (#315)

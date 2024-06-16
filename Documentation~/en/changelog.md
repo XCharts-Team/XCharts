@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.11.0](#v3110)  
 [v3.10.2](#v3102)  
 [v3.10.1](#v3101)  
 [v3.10.0](#v3100)  
@@ -67,6 +68,41 @@
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.11.0
+
+Release Highlights:
+
+* Added `Line3DChart` for 3D line charts
+* Added `GraphChart` for relationship graphs
+* Added support for 3D coordinate systems
+* Added `triggerOn` setting for `Tooltip` to define trigger conditions
+* Various bug fixes and optimizations
+
+Changelog Details:
+
+* (2024.06.16) Released version `v3.11.0`
+* (2024.06.15) Added buttons for adding, deleting, and moving data up and down under `Editor`
+* (2024.06.11) Fixed issue where `Axis`'s `IndicatorLabel` might overlap with `Tooltip`
+* (2024.06.11) Fixed issue where `Tooltip`'s `Axis` `IndicatorLabel` might not display when in `Cross` mode (#315)
+* (2024.06.10) Renamed `Tooltip`'s `Corss` to `Cross`
+* (2024.06.09) Added `minCategorySpacing` setting for `Axis` to define the default minimum category spacing
+* (2024.06.09) Fixed inaccurate indicator position of `Tooltip`'s `Cross` when `Axis` is a category axis and `DataZoom` is enabled
+* (2024.06.06) Fixed animation issue when `Serie` is cloned (#320)
+* (2024.06.04) Fixed issue where `Serie`'s `state` does not refresh when set dynamically via code
+* (2024.05.29) Adjusted the right-click menu of `XCharts` in the `Hierarchy` view to `UI/XCharts`
+* (2024.05.29) Added support for 3D coordinate systems to category axes
+* (2024.05.19) Optimized editing performance in `Editor`
+* (2024.05.09) Added utility class `JsonUtil`
+* (2024.04.23) Fixed chart exception issue after multiple calls to `ConvertXYAxis()`
+* (2024.04.22) Fixed potential incorrect retrieval of `GridCoord` when `DataZoom` controls multiple axes (#317)
+* (2024.04.22) Added 3D coordinate system
+* (2024.04.15) Optimized `DateTimeUtil` for timezone issues when converting timestamps to `DateTime`
+* (2024.04.15) Optimized `GridCoord` to display `Left` `Right` `Top` `Bottom` parameters even when `GridLayout` is enabled (#316)
+* (2024.04.14) Fixed incorrect label position of `Tooltip`'s `Cross` when `DataZoom` is enabled (#315)
+* (2024.04.12) Fixed incorrect effect of `Candlesticks` (#313)
+* (2024.03.20) Added `triggerOn` setting for `Tooltip` to define trigger conditions
+* (2024.03.19) Fixed color issue when setting `opacity` in `Pie`'s `ItemStyle` (#309)
 
 ## v3.10.2
 

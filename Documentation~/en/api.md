@@ -1480,6 +1480,7 @@ The edge of graph.
 |public method|since|description|
 |--|--|--|
 |GraphEdge()||public GraphEdge(GraphNode node1, GraphNode node2, double value)|
+|IsPointInEdge()||public bool IsPointInEdge(Vector2 point)|
 
 ## GraphNode
 

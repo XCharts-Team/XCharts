@@ -484,6 +484,8 @@ namespace XCharts.Runtime
             var dataAddDuration = serie.animation.GetAdditionDuration();
             var unscaledTime = serie.animation.unscaledTime;
             var needCheck = serie.context.dataIndexs.Count > 0;
+            var allLabelZeroPosition = true;
+            var anyLabelActive = false;
             foreach (var serieData in serie.data)
             {
                 if (serieData.labelObject == null && serieData.context.dataLabels.Count <= 0)
@@ -518,7 +520,16 @@ namespace XCharts.Runtime
                                 SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,
                                     currLabel, color, chart);
                             var offset = GetSerieDataLabelOffset(serieData, currLabel);
-                            labelObject.SetActive(currLabel.show && !isIgnore && !serie.IsMinShowLabelValue(value));
+                            var active = currLabel.show && !isIgnore && !serie.IsMinShowLabelValue(value);
+                            if (active)
+                            {
+                                anyLabelActive = true;
+                                if (!ChartHelper.IsZeroVector(serieData.context.dataPoints[i]))
+                                {
+                                    allLabelZeroPosition = false;
+                                }
+                            }
+                            labelObject.SetActive(active);
                             labelObject.SetText(content);
                             labelObject.SetPosition(serieData.context.dataPoints[i] + offset);
                             labelObject.UpdateIcon(currLabel.icon);
@@ -539,10 +550,19 @@ namespace XCharts.Runtime
                             ChartCached.NumberToStr(value, currLabel.numericFormatter) :
                             SerieLabelHelper.GetFormatterContent(serie, serieData, value, total,
                                 currLabel, color, chart);
-                        serieData.SetLabelActive(currLabel.show && !isIgnore && !serie.IsMinShowLabelValue(value));
+                        var labelPos = UpdateLabelPosition(serieData, currLabel);
+                        var active = currLabel.show && !isIgnore && !serie.IsMinShowLabelValue(value);
+                        if (active)
+                        {
+                            anyLabelActive = true;
+                            if (!ChartHelper.IsZeroVector(labelPos))
+                            {
+                                allLabelZeroPosition = false;
+                            }
+                        }
+                        serieData.SetLabelActive(active);
                         serieData.labelObject.UpdateIcon(currLabel.icon);
                         serieData.labelObject.SetText(content);
-                        UpdateLabelPosition(serieData, currLabel);
                         if (currLabel.textStyle.autoColor)
                         {
                             var dataAutoColor = GetSerieDataAutoColor(serieData);
@@ -553,6 +573,17 @@ namespace XCharts.Runtime
                 }
                 else
                 {
+                    serieData.SetLabelActive(false);
+                }
+            }
+            if (anyLabelActive && allLabelZeroPosition)
+            {
+                foreach (var serieData in serie.data)
+                {
+                    if (serieData.labelObject == null && serieData.context.dataLabels.Count <= 0)
+                    {
+                        continue;
+                    }
                     serieData.SetLabelActive(false);
                 }
             }
@@ -579,7 +610,7 @@ namespace XCharts.Runtime
             m_EndLabel.isAnimationEnd = serie.animation.IsFinish();
         }
 
-        protected void UpdateLabelPosition(SerieData serieData, LabelStyle currLabel)
+        protected Vector3 UpdateLabelPosition(SerieData serieData, LabelStyle currLabel)
         {
             var labelPosition = GetSerieDataLabelPosition(serieData, currLabel);
             var offset = GetSerieDataLabelOffset(serieData, currLabel);
@@ -591,6 +622,7 @@ namespace XCharts.Runtime
                 else
                     serieData.labelObject.SetRotate(-serieData.context.angle + currLabel.rotate);
             }
+            return labelPosition;
         }
 
         public virtual Vector3 GetSerieDataLabelPosition(SerieData serieData, LabelStyle label)

@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.11.1](#v3111)  
 [v3.11.0](#v3110)  
 [v3.10.2](#v3102)  
 [v3.10.1](#v3101)  
@@ -68,6 +69,12 @@
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.11.1
+
+* (2024.07.01) Release `v3.11.1`
+* (2024.07.01) Fixed an issue where `Serie` has multiple abnormal colors
+* (2024.06.23) Fixed an issue where `labels` would pile up during initialization
 
 ## v3.11.0
 

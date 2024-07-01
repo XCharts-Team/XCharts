@@ -155,6 +155,7 @@ namespace XCharts.Runtime
                 {
                     Color32 color1, toColor1;
                     bool needInteract = false;
+                    serie.context.colorIndex = chart.GetLegendRealShowNameIndex(serie.legendName);
                     foreach (var serieData in serie.data)
                     {
                         var state = SerieHelper.GetSerieState(serie, serieData, true);

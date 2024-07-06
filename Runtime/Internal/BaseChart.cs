@@ -175,6 +175,7 @@ namespace XCharts.Runtime
                 m_ChartWidth = m_GraphWidth;
                 m_ChartHeight = m_GraphHeight;
                 rectTransform.sizeDelta = new Vector2(m_ChartWidth, m_ChartHeight);
+                UpdateSize();
             }
             ChartHelper.HideAllObject(transform);
             m_ChartInited = true;

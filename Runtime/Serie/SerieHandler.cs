@@ -368,7 +368,7 @@ namespace XCharts.Runtime
                     var textName = string.Format("{0}_{1}_{2}_{3}", s_SerieLabelObjectName, serie.index, serieData.index, i);
                     var label = ChartHelper.AddChartLabel(textName, serieLabelRoot.transform, serieLabel, chart.theme.common,
                         "", dataAutoColor, TextAnchor.MiddleCenter);
-                    label.SetActive(serieLabel.show);
+                    label.SetActive(false);
                     serieData.context.dataLabels.Add(label);
                 }
             }
@@ -377,7 +377,7 @@ namespace XCharts.Runtime
                 var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, serie.index, serieData.index);
                 var label = ChartHelper.AddChartLabel(textName, serieLabelRoot.transform, serieLabel, chart.theme.common,
                     "", dataAutoColor, TextAnchor.MiddleCenter);
-                label.SetActive(serieLabel.show);
+                label.SetActive(false);
                 serieData.labelObject = label;
             }
 
@@ -581,10 +581,6 @@ namespace XCharts.Runtime
             {
                 foreach (var serieData in serie.data)
                 {
-                    if (serieData.labelObject == null && serieData.context.dataLabels.Count <= 0)
-                    {
-                        continue;
-                    }
                     serieData.SetLabelActive(false);
                 }
             }

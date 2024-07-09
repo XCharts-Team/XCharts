@@ -50,7 +50,7 @@ namespace XCharts.Runtime
             var borderColor = component.borderStyle.GetRuntimeBorderColor();
             var cornerRadius = component.borderStyle.GetRuntimeCornerRadius();
             UGL.DrawRoundRectangleWithBorder(vh, chart.chartRect, backgroundColor, backgroundColor, cornerRadius,
-                borderWidth, borderColor);
+                borderWidth, borderColor, 0, 1f);
         }
     }
 }

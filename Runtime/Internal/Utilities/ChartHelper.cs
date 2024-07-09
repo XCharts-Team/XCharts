@@ -41,22 +41,22 @@ namespace XCharts.Runtime
             return s_Builder.ToString();
         }
 
-        public static void SetActive(GameObject gameObject, bool active)
+        public static bool SetActive(GameObject gameObject, bool active)
         {
-            if (gameObject == null) return;
-            SetActive(gameObject.transform, active);
+            if (gameObject == null) return false;
+            return SetActive(gameObject.transform, active);
         }
 
-        public static void SetActive(Image image, bool active)
+        public static bool SetActive(Image image, bool active)
         {
-            if (image == null) return;
-            SetActive(image.gameObject, active);
+            if (image == null) return false;
+            return SetActive(image.gameObject, active);
         }
 
-        public static void SetActive(Text text, bool active)
+        public static bool SetActive(Text text, bool active)
         {
-            if (text == null) return;
-            SetActive(text.gameObject, active);
+            if (text == null) return false;
+            return SetActive(text.gameObject, active);
         }
 
         /// <summary>
@@ -64,12 +64,14 @@ namespace XCharts.Runtime
         /// </summary>
         /// <param name="transform"></param>
         /// <param name="active"></param>   
-        public static void SetActive(Transform transform, bool active)
+        public static bool SetActive(Transform transform, bool active)
         {
-            if (transform == null) return;
+            if (transform == null) return false;
             if (active) transform.localScale = Vector3.one;
             else transform.localScale = Vector3.zero;
+            return true;
         }
+
         public static void HideAllObject(GameObject obj, string match = null)
         {
             if (obj == null) return;
@@ -460,7 +462,7 @@ namespace XCharts.Runtime
                 label.color = (!labelStyle.background.autoColor || autoColor == Color.clear) ?
                     labelStyle.background.color : autoColor;
                 label.sprite = labelStyle.background.sprite;
-                if(label.type != labelStyle.background.type)
+                if (label.type != labelStyle.background.type)
                     label.type = labelStyle.background.type;
             }
             else

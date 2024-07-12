@@ -41,6 +41,23 @@ namespace XCharts.Runtime
             return s_Builder.ToString();
         }
 
+        public static bool IsActiveByScale(GameObject gameObject)
+        {
+            if (gameObject == null) return false;
+            return IsActiveByScale(gameObject.transform);
+        }
+
+        public static bool IsActiveByScale(Image image)
+        {
+            if (image == null) return false;
+            return IsActiveByScale(image.gameObject);
+        }
+
+        public static bool IsActiveByScale(Transform transform)
+        {
+            return transform.localScale != Vector3.zero;
+        }
+
         public static bool SetActive(GameObject gameObject, bool active)
         {
             if (gameObject == null) return false;

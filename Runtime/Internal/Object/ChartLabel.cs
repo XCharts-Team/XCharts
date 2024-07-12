@@ -22,7 +22,6 @@ namespace XCharts.Runtime
         private Align m_Align = Align.Left;
         private Image m_IconImage;
         private bool m_Active = true;
-        private bool m_WakeActive = true;
 
         public Image icon
         {
@@ -57,7 +56,7 @@ namespace XCharts.Runtime
         protected override void Awake()
         {
             raycastTarget = false;
-            SetActive(m_WakeActive, true);
+            m_Active = ChartHelper.IsActiveByScale(gameObject);
         }
 
         public void SetTextPadding(TextPadding padding)
@@ -203,7 +202,6 @@ namespace XCharts.Runtime
 
         public void SetActive(bool flag, bool force = false)
         {
-            m_WakeActive = flag;
             if (m_Active == flag && !force) return;
             if (ChartHelper.SetActive(gameObject, flag))
             {

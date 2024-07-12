@@ -67,7 +67,7 @@ namespace XCharts.Runtime
         {
             var label = ChartHelper.AddChartLabel(name, parent, labelStyle, theme.common,
                 "", color, TextAnchor.MiddleCenter);
-            label.SetActive(labelStyle.show);
+            label.SetActive(labelStyle.show, true);
             return label.gameObject;
         }
     }

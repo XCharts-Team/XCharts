@@ -368,7 +368,7 @@ namespace XCharts.Runtime
                     var textName = string.Format("{0}_{1}_{2}_{3}", s_SerieLabelObjectName, serie.index, serieData.index, i);
                     var label = ChartHelper.AddChartLabel(textName, serieLabelRoot.transform, serieLabel, chart.theme.common,
                         "", dataAutoColor, TextAnchor.MiddleCenter);
-                    label.SetActive(false);
+                    label.SetActive(false, true);
                     serieData.context.dataLabels.Add(label);
                 }
             }
@@ -377,7 +377,7 @@ namespace XCharts.Runtime
                 var textName = ChartCached.GetSerieLabelName(s_SerieLabelObjectName, serie.index, serieData.index);
                 var label = ChartHelper.AddChartLabel(textName, serieLabelRoot.transform, serieLabel, chart.theme.common,
                     "", dataAutoColor, TextAnchor.MiddleCenter);
-                label.SetActive(false);
+                label.SetActive(false, true);
                 serieData.labelObject = label;
             }
 
@@ -441,7 +441,7 @@ namespace XCharts.Runtime
                     var label = ChartHelper.AddChartLabel("title_" + 0, serieTitleRoot.transform, titleStyle, chart.theme.common,
                         content, color, TextAnchor.MiddleCenter);
                     serie.context.titleObject = label;
-                    label.SetActive(titleStyle.show);
+                    label.SetActive(titleStyle.show, true);
                     var labelPosition = GetSerieDataTitlePosition(null, titleStyle);
                     var offset = titleStyle.GetOffset(serie.context.insideRadius);
                     label.SetPosition(labelPosition + offset);
@@ -468,7 +468,7 @@ namespace XCharts.Runtime
                     var label = ChartHelper.AddChartLabel("title_" + i, serieTitleRoot.transform, titleStyle, chart.theme.common,
                         content, color, TextAnchor.MiddleCenter);
                     serieData.titleObject = label;
-                    label.SetActive(titleStyle.show);
+                    label.SetActive(titleStyle.show, true);
                     var labelPosition = GetSerieDataTitlePosition(serieData, titleStyle);
                     var offset = titleStyle.GetOffset(serie.context.insideRadius);
                     label.SetPosition(labelPosition + offset);

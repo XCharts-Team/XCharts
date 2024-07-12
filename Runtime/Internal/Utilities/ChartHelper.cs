@@ -555,7 +555,7 @@ namespace XCharts.Runtime
         {
             var label = ChartHelper.AddChartLabel(name, parent, labelStyle, theme.tooltip,
                 "", Color.clear, alignment);
-            label.SetActive(tooltip.show && labelStyle.show);
+            label.SetActive(tooltip.show && labelStyle.show, true);
             return label;
         }
 

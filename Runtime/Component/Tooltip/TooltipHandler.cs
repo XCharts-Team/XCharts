@@ -255,7 +255,7 @@ namespace XCharts.Runtime
         {
             if (label == null) return;
             if (double.IsNaN(axis.context.pointerValue)) return;
-            label.SetActive(true);
+            label.SetActive(true, true);
             label.SetTextActive(true);
             label.SetPosition(axis.context.pointerLabelPosition + axis.indicatorLabel.offset);
 

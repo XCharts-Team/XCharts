@@ -455,7 +455,7 @@ namespace XCharts
 
                         label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                             chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
-                        label.SetActive(axis.axisName.labelStyle.show);
+                        label.SetActive(axis.axisName.labelStyle.show, true);
                         label.SetPosition(axis.context.start + offset);
                         break;
 
@@ -463,7 +463,7 @@ namespace XCharts
 
                         label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                             chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
-                        label.SetActive(axis.axisName.labelStyle.show);
+                        label.SetActive(axis.axisName.labelStyle.show, true);
                         label.SetPosition((axis.context.start + axis.context.end) / 2 + offset);
                         break;
 
@@ -471,7 +471,7 @@ namespace XCharts
 
                         label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                             chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
-                        label.SetActive(axis.axisName.labelStyle.show);
+                        label.SetActive(axis.axisName.labelStyle.show, true);
                         label.SetPosition(axis.context.end + offset);
                         break;
                 }
@@ -574,7 +574,7 @@ namespace XCharts
 
                             label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                                 chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleRight);
-                            label.SetActive(axis.axisName.labelStyle.show);
+                            label.SetActive(axis.axisName.labelStyle.show, true);
                             label.SetPosition(axis.position == Axis.AxisPosition.Top ?
                                 new Vector2(zeroPos.x - offset.x, axisStartY + relativedLength + offset.y + axis.offset) :
                                 new Vector2(zeroPos.x - offset.x, posY + offset.y));
@@ -584,7 +584,7 @@ namespace XCharts
 
                             label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                                 chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
-                            label.SetActive(axis.axisName.labelStyle.show);
+                            label.SetActive(axis.axisName.labelStyle.show, true);
                             label.SetPosition(axis.position == Axis.AxisPosition.Top ?
                                 new Vector2(axisStartX + axisLength / 2 + offset.x, axisStartY + relativedLength - offset.y + axis.offset) :
                                 new Vector2(axisStartX + axisLength / 2 + offset.x, posY + offset.y));
@@ -594,7 +594,7 @@ namespace XCharts
 
                             label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                                 chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleLeft);
-                            label.SetActive(axis.axisName.labelStyle.show);
+                            label.SetActive(axis.axisName.labelStyle.show, true);
                             label.SetPosition(axis.position == Axis.AxisPosition.Top ?
                                 new Vector2(axisStartX + axisLength + offset.x, axisStartY + relativedLength + offset.y + axis.offset) :
                                 new Vector2(axisStartX + axisLength + offset.x, posY + offset.y));
@@ -611,7 +611,7 @@ namespace XCharts
 
                             label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                                 chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
-                            label.SetActive(axis.axisName.labelStyle.show);
+                            label.SetActive(axis.axisName.labelStyle.show, true);
                             label.SetPosition(axis.position == Axis.AxisPosition.Right ?
                                 new Vector2(axisStartX + relativedLength + offset.x + axis.offset, axisStartY - offset.y) :
                                 new Vector2(posX + offset.x, axisStartY - offset.y));
@@ -621,7 +621,7 @@ namespace XCharts
 
                             label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                                 chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
-                            label.SetActive(axis.axisName.labelStyle.show);
+                            label.SetActive(axis.axisName.labelStyle.show, true);
                             label.SetPosition(axis.position == Axis.AxisPosition.Right ?
                                 new Vector2(axisStartX + relativedLength - offset.x + axis.offset, axisStartY + axisLength / 2 + offset.y) :
                                 new Vector2(posX + offset.x, axisStartY + axisLength / 2 + offset.y));
@@ -631,7 +631,7 @@ namespace XCharts
                             //LabelStyle.Position
                             label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                                 chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
-                            label.SetActive(axis.axisName.labelStyle.show);
+                            label.SetActive(axis.axisName.labelStyle.show, true);
                             label.SetPosition(axis.position == Axis.AxisPosition.Right ?
                                 new Vector2(axisStartX + relativedLength + offset.x + axis.offset, axisStartY + axisLength + offset.y) :
                                 new Vector2(posX + offset.x, axisStartY + axisLength + offset.y));

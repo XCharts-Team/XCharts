@@ -34,7 +34,7 @@ namespace XCharts.Runtime
                     var labelPos = chart.chartPosition + item.location.GetPosition(chart.chartWidth, chart.chartHeight);
                     var label = ChartHelper.AddChartLabel(s_CommentObjectName + i, commentObj.transform, labelStyle, chart.theme.common,
                         GetContent(item), Color.clear, TextAnchor.MiddleCenter);
-                    label.SetActive(comment.show && item.show);
+                    label.SetActive(comment.show && item.show, true);
                     label.SetPosition(labelPos);
                     label.text.SetLocalPosition(labelStyle.offset);
                 }

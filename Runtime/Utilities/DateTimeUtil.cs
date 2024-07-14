@@ -49,6 +49,11 @@ namespace XCharts.Runtime
             }
         }
 
+        public static DateTime GetDateTime(double timestamp)
+        {
+            return k_DateTime1970.AddSeconds(timestamp);
+        }
+
         public static DateTime GetDateTime(int timestamp)
         {
             return k_DateTime1970.AddSeconds(timestamp);
@@ -97,6 +102,8 @@ namespace XCharts.Runtime
         /// <param name="splitNumber"></param>
         internal static float UpdateTimeAxisDateTimeList(List<double> list, int minTimestamp, int maxTimestamp, int splitNumber)
         {
+            var firstValue = list.Count > 0 ? list[0] : 0;
+            var secondValue = list.Count > 1 ? list[1] : 0;
             list.Clear();
             var range = maxTimestamp - minTimestamp;
             if (range <= 0) return 0;
@@ -107,7 +114,8 @@ namespace XCharts.Runtime
             if (range >= ONE_YEAR * MIN_TIME_SPLIT_NUMBER)
             {
                 var num = Math.Max(range / (splitNumber * ONE_YEAR), 1);
-                var dtStart = new DateTime(dtMin.Year + 1, 1, 1);
+                var dtStart = (firstValue == 0 || secondValue == 0) ? new DateTime(dtMin.Year + 1, 1, 1) :
+                    (minTimestamp > firstValue ? DateTimeUtil.GetDateTime(secondValue) : DateTimeUtil.GetDateTime(firstValue));
                 tick = num * 365 * 24 * 3600;
                 while (dtStart.Ticks < dtMax.Ticks)
                 {
@@ -118,7 +126,8 @@ namespace XCharts.Runtime
             else if (range >= ONE_MONTH * MIN_TIME_SPLIT_NUMBER)
             {
                 var num = Math.Max(range / (splitNumber * ONE_MONTH), 1);
-                var dtStart = new DateTime(dtMin.Year, dtMin.Month, 1).AddMonths(1);
+                var dtStart = (firstValue == 0 || secondValue == 0) ? (new DateTime(dtMin.Year, dtMin.Month, 1).AddMonths(1)) :
+                    (minTimestamp > firstValue ? DateTimeUtil.GetDateTime(secondValue) : DateTimeUtil.GetDateTime(firstValue));
                 tick = num * 30 * 24 * 3600;
                 while (dtStart.Ticks < dtMax.Ticks)
                 {

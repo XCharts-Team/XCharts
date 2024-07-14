@@ -107,13 +107,12 @@ namespace XCharts.Runtime
             list.Clear();
             var range = maxTimestamp - minTimestamp;
             if (range <= 0) return 0;
-            if (splitNumber <= 0) splitNumber = 1;
             var dtMin = DateTimeUtil.GetDateTime(minTimestamp);
             var dtMax = DateTimeUtil.GetDateTime(maxTimestamp);
             int tick = 0;
             if (range >= ONE_YEAR * MIN_TIME_SPLIT_NUMBER)
             {
-                var num = Math.Max(range / (splitNumber * ONE_YEAR), 1);
+                var num = splitNumber <= 0 ? 1 : Math.Max(range / (splitNumber * ONE_YEAR), 1);
                 var dtStart = (firstValue == 0 || secondValue == 0) ? new DateTime(dtMin.Year + 1, 1, 1) :
                     (minTimestamp > firstValue ? DateTimeUtil.GetDateTime(secondValue) : DateTimeUtil.GetDateTime(firstValue));
                 tick = num * 365 * 24 * 3600;
@@ -125,7 +124,7 @@ namespace XCharts.Runtime
             }
             else if (range >= ONE_MONTH * MIN_TIME_SPLIT_NUMBER)
             {
-                var num = Math.Max(range / (splitNumber * ONE_MONTH), 1);
+                var num = splitNumber <= 0 ? 1 : Math.Max(range / (splitNumber * ONE_MONTH), 1);
                 var dtStart = (firstValue == 0 || secondValue == 0) ? (new DateTime(dtMin.Year, dtMin.Month, 1).AddMonths(1)) :
                     (minTimestamp > firstValue ? DateTimeUtil.GetDateTime(secondValue) : DateTimeUtil.GetDateTime(firstValue));
                 tick = num * 30 * 24 * 3600;

@@ -59,6 +59,21 @@ namespace XCharts.Runtime
             return k_DateTime1970.AddSeconds(timestamp);
         }
 
+        public static string GetDefaultDateTimeString(int timestamp, double range = 0)
+        {
+            var dateString = String.Empty;
+            var dateTime = GetDateTime(timestamp);
+            if (range <= 0 || range >= DateTimeUtil.ONE_DAY)
+            {
+                dateString = dateTime.ToString("yyyy-MM-dd");
+            }
+            else
+            {
+                dateString = dateTime.ToString(s_SecondDateFormatter);
+            }
+            return dateString;
+        }
+
         internal static string GetDateTimeFormatString(DateTime dateTime, double range)
         {
             var dateString = String.Empty;
@@ -143,19 +158,22 @@ namespace XCharts.Runtime
             else if (range >= ONE_HOUR * MIN_TIME_SPLIT_NUMBER)
             {
                 tick = GetTickSecond(range, splitNumber, ONE_HOUR);
-                var startTimestamp = (minTimestamp - minTimestamp % tick) + tick;
+                var let = minTimestamp % tick;
+                var startTimestamp = let == 0 ? minTimestamp : (minTimestamp - let) + tick;
                 AddTickTimestamp(list, startTimestamp, maxTimestamp, tick);
             }
             else if (range >= ONE_MINUTE * MIN_TIME_SPLIT_NUMBER)
             {
                 tick = GetTickSecond(range, splitNumber, ONE_MINUTE);
-                var startTimestamp = (minTimestamp - minTimestamp % tick) + tick;
+                var let = minTimestamp % tick;
+                var startTimestamp = let == 0 ? minTimestamp : (minTimestamp - let) + tick;
                 AddTickTimestamp(list, startTimestamp, maxTimestamp, tick);
             }
             else
             {
                 tick = GetTickSecond(range, splitNumber, ONE_SECOND);
-                var startTimestamp = (minTimestamp - minTimestamp % tick) + tick;
+                var let = minTimestamp % tick;
+                var startTimestamp = let == 0 ? minTimestamp : (minTimestamp - let) + tick;
                 AddTickTimestamp(list, startTimestamp, maxTimestamp, tick);
             }
             return tick;

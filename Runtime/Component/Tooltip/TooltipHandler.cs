@@ -571,11 +571,13 @@ namespace XCharts.Runtime
             var isTriggerByAxis = false;
             var isTriggerByItem = tooltip.context.trigger == Tooltip.Trigger.Item;
             var dataIndex = -1;
+            var timestamp = -1;
+            double axisRange = 0;
             tooltip.context.data.param.Clear();
             tooltip.context.pointer = GetTooltipPointerPos();
             if (m_PointerContainer is GridCoord)
             {
-                GetAxisCategory(m_PointerContainer.index, ref dataIndex, ref category);
+                GetAxisCategory(m_PointerContainer.index, ref dataIndex, ref category, ref timestamp, ref axisRange);
                 if (tooltip.context.trigger == Tooltip.Trigger.Axis)
                 {
                     isTriggerByAxis = true;
@@ -585,7 +587,9 @@ namespace XCharts.Runtime
                         tooltip.context.data.title = series[0].serieName;
                     }
                     else
+                    {
                         tooltip.context.data.title = category;
+                    }
                 }
                 else if (tooltip.context.trigger == Tooltip.Trigger.Item)
                 {
@@ -604,6 +608,15 @@ namespace XCharts.Runtime
                 serie.context.isTriggerByAxis = isTriggerByAxis;
                 if (isTriggerByAxis && dataIndex >= 0 && serie.context.pointerItemDataIndex < 0)
                     serie.context.pointerItemDataIndex = dataIndex;
+                if (timestamp >= 0)
+                {
+                    showCategory = false;
+                    var serieData = serie.GetSerieData(serie.context.pointerItemDataIndex);
+                    if (serieData != null)
+                    {
+                        tooltip.context.data.title = DateTimeUtil.GetDefaultDateTimeString((int)serieData.GetData(0), axisRange);
+                    }
+                }
                 serie.handler.UpdateTooltipSerieParams(dataIndex, showCategory, category,
                     tooltip.marker, tooltip.itemFormatter, tooltip.numericFormatter,
                     tooltip.ignoreDataDefaultContent,
@@ -626,20 +639,28 @@ namespace XCharts.Runtime
             return false;
         }
 
-        private bool GetAxisCategory(int gridIndex, ref int dataIndex, ref string category)
+        private bool GetAxisCategory(int gridIndex, ref int dataIndex, ref string category, ref int timestamp, ref double axisRange)
         {
             foreach (var component in chart.components)
             {
                 if (component is Axis)
                 {
                     var axis = component as Axis;
-                    if (axis.gridIndex == gridIndex && axis.IsCategory())
+                    if (axis.gridIndex == gridIndex)
                     {
-                        dataIndex = double.IsNaN(axis.context.pointerValue)
-                            ? axis.context.dataZoomStartIndex
-                            : axis.context.dataZoomStartIndex + (int)axis.context.axisTooltipValue;
-                        category = axis.GetData(dataIndex);
-                        return true;
+                        if (axis.IsCategory())
+                        {
+                            dataIndex = double.IsNaN(axis.context.pointerValue)
+                                ? axis.context.dataZoomStartIndex
+                                : axis.context.dataZoomStartIndex + (int)axis.context.axisTooltipValue;
+                            category = axis.GetData(dataIndex);
+                            return true;
+                        }
+                        else if (axis.IsTime())
+                        {
+                            timestamp = (int)axis.context.pointerValue;
+                            axisRange = axis.context.minMaxRange;
+                        }
                     }
                 }
             }

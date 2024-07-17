@@ -476,6 +476,7 @@ namespace XCharts
                         break;
                 }
             }
+            UpdateAxisMinMaxValue(axis.index, axis);
         }
 
         protected void InitAxis(Axis relativedAxis, Orient orient,
@@ -639,6 +640,7 @@ namespace XCharts
                     }
                 }
             }
+            UpdateAxisMinMaxValue(axis.index, axis);
         }
 
         internal static Vector3 GetLabelPosition(int i, Orient orient, Axis axis, Axis relativedAxis, AxisTheme theme,

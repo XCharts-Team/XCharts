@@ -75,6 +75,7 @@ slug: /changelog
 
 ## master
 
+* (2024.07.17) 修复`MarkLine`的`Label`在初始化时可能会闪烁的问题
 * (2024.07.16) 优化`Axis`为`Time`时间轴时的`Tooltip`默认效果
 * (2024.07.15) 优化`Axis`为`Time`时间轴时的分割效果
 * (2024.07.14) 优化`Axis`为`Time`时间轴时的移动表现

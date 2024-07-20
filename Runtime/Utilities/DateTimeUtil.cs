@@ -127,7 +127,7 @@ namespace XCharts.Runtime
             int tick = 0;
             if (range >= ONE_YEAR * MIN_TIME_SPLIT_NUMBER)
             {
-                var num = splitNumber <= 0 ? 1 : Math.Max(range / (splitNumber * ONE_YEAR), 1);
+                var num = splitNumber <= 0 ? GetSplitNumber(range, ONE_YEAR) : Math.Max(range / (splitNumber * ONE_YEAR), 1);
                 var dtStart = (firstValue == 0 || secondValue == 0) ? new DateTime(dtMin.Year + 1, 1, 1) :
                     (minTimestamp > firstValue ? DateTimeUtil.GetDateTime(secondValue) : DateTimeUtil.GetDateTime(firstValue));
                 tick = num * 365 * 24 * 3600;
@@ -139,7 +139,7 @@ namespace XCharts.Runtime
             }
             else if (range >= ONE_MONTH * MIN_TIME_SPLIT_NUMBER)
             {
-                var num = splitNumber <= 0 ? 1 : Math.Max(range / (splitNumber * ONE_MONTH), 1);
+                var num = splitNumber <= 0 ? GetSplitNumber(range, ONE_MONTH) : Math.Max(range / (splitNumber * ONE_MONTH), 1);
                 var dtStart = (firstValue == 0 || secondValue == 0) ? (new DateTime(dtMin.Year, dtMin.Month, 1).AddMonths(1)) :
                     (minTimestamp > firstValue ? DateTimeUtil.GetDateTime(secondValue) : DateTimeUtil.GetDateTime(firstValue));
                 tick = num * 30 * 24 * 3600;
@@ -177,6 +177,16 @@ namespace XCharts.Runtime
                 AddTickTimestamp(list, startTimestamp, maxTimestamp, tick);
             }
             return tick;
+        }
+
+        private static int GetSplitNumber(int range, int tickSecond)
+        {
+            var num = 1;
+            while (range / (num * tickSecond) > 8)
+            {
+                num++;
+            }
+            return num;
         }
 
         private static int GetTickSecond(int range, int splitNumber, int tickSecond)

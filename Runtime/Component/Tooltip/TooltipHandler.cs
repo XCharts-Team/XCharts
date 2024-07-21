@@ -359,7 +359,7 @@ namespace XCharts.Runtime
                     serie.context.pointerEnter = true;
                     serie.context.pointerAxisDataIndexs.Add(index);
                     serie.context.pointerItemDataIndex = index;
-                    yAxis.context.axisTooltipValue = yAxis.context.pointerValue;
+                    yAxis.context.axisTooltipValue = index;
                 }
             }
             else if (yAxis.IsTime())
@@ -652,7 +652,7 @@ namespace XCharts.Runtime
                         {
                             dataIndex = double.IsNaN(axis.context.pointerValue)
                                 ? axis.context.dataZoomStartIndex
-                                : axis.context.dataZoomStartIndex + (int)axis.context.axisTooltipValue;
+                                : (int)axis.context.axisTooltipValue;
                             category = axis.GetData(dataIndex);
                             return true;
                         }

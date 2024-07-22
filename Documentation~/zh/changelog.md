@@ -75,6 +75,7 @@ slug: /changelog
 
 ## master
 
+* (2024.07.22) 优化`Pie`的`Label`在`Tooltip`触发时的表现
 * (2024.07.21) 修复`Tooltip`在开启`DataZoom`时指示内容不准确的问题
 * (2024.07.17) 修复`MarkLine`的`Label`在初始化时可能会闪烁的问题
 * (2024.07.16) 优化`Axis`为`Time`时间轴时的`Tooltip`默认效果

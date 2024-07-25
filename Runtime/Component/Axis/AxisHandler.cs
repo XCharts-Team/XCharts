@@ -139,7 +139,7 @@ namespace XCharts
             }
         }
 
-        internal void UpdateAxisMinMaxValue(int axisIndex, Axis axis, bool updateChart = true)
+        internal void UpdateAxisMinMaxValue(int axisIndex, Axis axis, bool cancelAnimation = false)
         {
             if (!axis.show)
                 return;
@@ -173,7 +173,7 @@ namespace XCharts
             {
                 m_LastSplitNumber = axis.splitNumber;
                 m_LastInterval = axis.interval;
-                axis.UpdateMinMaxValue(tempMinValue, tempMaxValue, axis.context.needAnimation);
+                axis.UpdateMinMaxValue(tempMinValue, tempMaxValue, !cancelAnimation && axis.context.needAnimation);
                 axis.context.offset = 0;
                 axis.context.lastCheckInverse = axis.inverse;
                 UpdateAxisTickValueList(axis);
@@ -198,7 +198,7 @@ namespace XCharts
                 }
             }
 
-            if (axis.context.needAnimation && (axis.context.minValue != axis.context.destMinValue || axis.context.maxValue != axis.context.destMaxValue))
+            if (!cancelAnimation && axis.context.needAnimation && (axis.context.minValue != axis.context.destMinValue || axis.context.maxValue != axis.context.destMaxValue))
             {
                 var duration = axis.animation.duration == 0
                     ? SeriesHelper.GetMinAnimationDuration(chart.series) / 1000f
@@ -476,7 +476,7 @@ namespace XCharts
                         break;
                 }
             }
-            UpdateAxisMinMaxValue(axis.index, axis);
+            UpdateAxisMinMaxValue(axis.index, axis, true);
         }
 
         protected void InitAxis(Axis relativedAxis, Orient orient,
@@ -640,7 +640,7 @@ namespace XCharts
                     }
                 }
             }
-            UpdateAxisMinMaxValue(axis.index, axis);
+            UpdateAxisMinMaxValue(axis.index, axis, true);
         }
 
         internal static Vector3 GetLabelPosition(int i, Orient orient, Axis axis, Axis relativedAxis, AxisTheme theme,

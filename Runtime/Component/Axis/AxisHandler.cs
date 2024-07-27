@@ -191,11 +191,8 @@ namespace XCharts
                     }
                 }
 
-                if (updateChart)
-                {
-                    UpdateAxisLabelText(axis);
-                    chart.RefreshChart();
-                }
+                UpdateAxisLabelText(axis);
+                chart.RefreshChart();
             }
 
             if (!cancelAnimation && axis.context.needAnimation && (axis.context.minValue != axis.context.destMinValue || axis.context.maxValue != axis.context.destMaxValue))

@@ -75,6 +75,7 @@ slug: /changelog
 
 ## master
 
+* (2024.07.29) 修复`Tooltip`在微信小游戏平台上报错的兼容问题 (#326)
 * (2024.07.27) 调整`Axis`的`AxisName`的默认位置
 * (2024.07.22) 优化`Pie`的`Label`在`Tooltip`触发时的表现
 * (2024.07.21) 修复`Tooltip`在开启`DataZoom`时指示内容不准确的问题

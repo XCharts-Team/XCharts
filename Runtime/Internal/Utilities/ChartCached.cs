@@ -12,7 +12,7 @@ namespace XCharts.Runtime
         private const string NUMERIC_FORMATTER_X = "X";
         private const string NUMERIC_FORMATTER_x = "x";
         private static readonly string s_DefaultAxis = "axis_";
-        private static CultureInfo ci = new CultureInfo("en-us"); // "en-us", "zh-cn", "ar-iq", "de-de"
+        private static CultureInfo ci = GetDefaultCultureInfo(); // "en-us", "zh-cn", "ar-iq", "de-de"
         private static Dictionary<Color, string> s_ColorToStr = new Dictionary<Color, string>(100);
         private static Dictionary<int, string> s_SerieLabelName = new Dictionary<int, string>(1000);
         private static Dictionary<Color, string> s_ColorDotStr = new Dictionary<Color, string>(100);
@@ -23,6 +23,18 @@ namespace XCharts.Runtime
         private static Dictionary<double, Dictionary<string, string>> s_NumberToStr = new Dictionary<double, Dictionary<string, string>>();
         private static Dictionary<int, Dictionary<string, string>> s_PrecisionToStr = new Dictionary<int, Dictionary<string, string>>();
         private static Dictionary<string, Dictionary<int, string>> s_StringIntDict = new Dictionary<string, Dictionary<int, string>>();
+
+        private static CultureInfo GetDefaultCultureInfo()
+        {
+            try
+            {
+                return new CultureInfo("en-us");
+            }
+            catch (Exception)
+            {
+                return CultureInfo.InvariantCulture;
+            }
+        }
 
         public static string FloatToStr(double value, string numericFormatter = "F", int precision = 0)
         {

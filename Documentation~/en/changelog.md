@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.11.2](#v3112)  
 [v3.11.1](#v3111)  
 [v3.11.0](#v3110)  
 [v3.10.2](#v3102)  
@@ -69,6 +70,20 @@
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.11.2
+
+* (2024.08.01) Release `v3.11.2`
+* (2024.07.29) Fixed compatibility issue with `Tooltip` reporting error on wechat mini game platform (#326)
+* (2024.07.27) Adjust the default position of `AxisName` for `Axis`
+* (2024.07.22) Improved the behavior of `Pie`'s `Label` when `Tooltip` is triggered
+* (2024.07.21) Fix to `Tooltip` indicating inaccurate content when opening `DataZoom`
+* (2024.07.17) Fixed an issue where `Label` of `MarkLine` could flash during initialization
+* (2024.07.16) Optimized the default effect of `Tooltip` when `Axis` is `Time` timeline
+* (2024.07.15) Optimized segmentation when Axis is Time
+* (2024.07.14) Improved movement performance when `Axis` is `Time`
+* (2024.07.12) Optimized the initial display effect of `Label`
+* (2024.07.06) Fix to `Chart` background not adaptive when dynamically created (#323)
 
 ## v3.11.1
 

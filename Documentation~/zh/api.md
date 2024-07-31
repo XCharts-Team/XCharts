@@ -1086,6 +1086,9 @@ slug: /api
 |GetVertialDire()||public static Vector3 GetVertialDire(Vector3 dire)|
 |HideAllObject()||public static void HideAllObject(GameObject obj, string match = null)|
 |HideAllObject()||public static void HideAllObject(Transform parent, string match = null)|
+|IsActiveByScale()||public static bool IsActiveByScale(GameObject gameObject)|
+|IsActiveByScale()||public static bool IsActiveByScale(Image image)|
+|IsActiveByScale()||public static bool IsActiveByScale(Transform transform)|
 |IsClearColor()||public static bool IsClearColor(Color color)|
 |IsClearColor()||public static bool IsClearColor(Color32 color)|
 |IsColorAlphaZero()||public static bool IsColorAlphaZero(Color color)|
@@ -1106,10 +1109,10 @@ slug: /api
 |RemoveComponent&lt;T&gt;()||public static void RemoveComponent&lt;T&gt;(GameObject gameObject)|
 |RotateRound()||public static Vector3 RotateRound(Vector3 position, Vector3 center, Vector3 axis, float angle)|
 |SaveAsImage()||public static Texture2D SaveAsImage(RectTransform rectTransform, Canvas canvas, string imageType = "png", string path = "")|
-|SetActive()||public static void SetActive(GameObject gameObject, bool active)|
-|SetActive()||public static void SetActive(Image image, bool active)|
-|SetActive()||public static void SetActive(Text text, bool active)|
-|SetActive()||public static void SetActive(Transform transform, bool active)<br/>通过设置scale实现是否显示，优化性能，减少GC |
+|SetActive()||public static bool SetActive(GameObject gameObject, bool active)|
+|SetActive()||public static bool SetActive(Image image, bool active)|
+|SetActive()||public static bool SetActive(Text text, bool active)|
+|SetActive()||public static bool SetActive(Transform transform, bool active)<br/>通过设置scale实现是否显示，优化性能，减少GC |
 |SetBackground()||public static void SetBackground(Image background, Background imageStyle)|
 |SetBackground()||public static void SetBackground(Image background, ImageStyle imageStyle)|
 |SetColorOpacity()||public static void SetColorOpacity(ref Color32 color, float opacity)|
@@ -1127,7 +1130,7 @@ slug: /api
 |GetTextWidth()||public float GetTextWidth()|
 |GetWidth()||public float GetWidth()|
 |IsActiveByScale()||public bool IsActiveByScale()|
-|SetActive()||public void SetActive(bool flag)|
+|SetActive()||public void SetActive(bool flag, bool force = false)|
 |SetIcon()||public void SetIcon(Image image)|
 |SetIconActive()||public void SetIconActive(bool flag)|
 |SetIconSize()||public void SetIconSize(float width, float height)|
@@ -1358,7 +1361,9 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 
 |API|版本|描述|
 |--|--|--|
+|GetDateTime()||public static DateTime GetDateTime(double timestamp)|
 |GetDateTime()||public static DateTime GetDateTime(int timestamp)|
+|GetDefaultDateTimeString()||public static string GetDefaultDateTimeString(int timestamp, double range = 0)|
 |GetTimestamp()||public static int GetTimestamp()|
 |GetTimestamp()||public static int GetTimestamp(DateTime time)|
 |GetTimestamp()||public static int GetTimestamp(string dateTime)|

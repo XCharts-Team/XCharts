@@ -16,6 +16,7 @@ namespace XCharts.Editor
             PropertyField("m_RoundCap");
             PropertyField("m_Clockwise");
             PropertyField("m_AvoidLabelOverlap");
+            PropertyField("m_RadiusGradient");
 
             PropertyField("m_ItemStyle");
             PropertyField("m_Animation");

@@ -9,7 +9,20 @@ namespace XCharts.Runtime
     [SerieDataExtraField()]
     public class Ring : Serie
     {
+        [SerializeField][Since("v3.12.0")] private bool m_RadiusGradient = false;
+
+        /// <summary>
+        /// Whether to use gradient color in pie chart.
+        /// || 是否开启半径方向的渐变效果。
+        /// </summary>
+        public bool radiusGradient
+        {
+            get { return m_RadiusGradient; }
+            set { if (PropertyUtil.SetStruct(ref m_RadiusGradient, value)) { SetVerticesDirty(); } }
+        }
+
         public override SerieColorBy defaultColorBy { get { return SerieColorBy.Data; } }
+
         public static Serie AddDefaultSerie(BaseChart chart, string serieName)
         {
             var serie = chart.AddSerie<Ring>(serieName);

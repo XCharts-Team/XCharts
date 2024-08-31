@@ -76,6 +76,9 @@ slug: /changelog
 
 ## master
 
+* (2024.09.01) 增加`Ring`的`radiusGradient`参数设置渐变方向
+* (2024.09.01) 优化`Axis`为时间轴时首个Label的位置
+
 ## v3.11.2
 
 * (2024.08.01) 发布`v3.11.2`版本

@@ -154,7 +154,8 @@ namespace XCharts.Runtime
             else if (range >= ONE_DAY * MIN_TIME_SPLIT_NUMBER)
             {
                 tick = GetTickSecond(range, splitNumber, ONE_DAY);
-                var startTimestamp = (minTimestamp - minTimestamp % tick) + tick;
+                var let = minTimestamp % tick;
+                var startTimestamp = let == 0 ? minTimestamp : (minTimestamp - let) + tick;
                 AddTickTimestamp(list, startTimestamp, maxTimestamp, tick);
             }
             else if (range >= ONE_HOUR * MIN_TIME_SPLIT_NUMBER)

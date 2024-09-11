@@ -1031,7 +1031,11 @@ slug: /api
 |GetSerieLabelName()||public static string GetSerieLabelName(string prefix, int i, int j)|
 |GetString()||public static string GetString(string prefix, int suffix)|
 |IntToStr()||public static string IntToStr(int value, string numericFormatter = "")|
+|NumberToDateStr()||public static string NumberToDateStr(double timestamp, string formatter)|
+|NumberToDateTime()||public static DateTime NumberToDateTime(double timestamp)|
 |NumberToStr()||public static string NumberToStr(double value, string formatter)|
+|NumberToTimeSpan()||public static TimeSpan NumberToTimeSpan(double timestamp)|
+|NumberToTimeStr()||public static string NumberToTimeStr(double timestamp, string formatter)|
 
 ## ChartConst
 
@@ -1361,12 +1365,13 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 
 |API|版本|描述|
 |--|--|--|
-|GetDateTime()||public static DateTime GetDateTime(double timestamp)|
-|GetDateTime()||public static DateTime GetDateTime(int timestamp)|
+|GetDateTime()||public static DateTime GetDateTime(double timestamp, bool local = true)|
 |GetDefaultDateTimeString()||public static string GetDefaultDateTimeString(int timestamp, double range = 0)|
 |GetTimestamp()||public static int GetTimestamp()|
-|GetTimestamp()||public static int GetTimestamp(DateTime time)|
-|GetTimestamp()||public static int GetTimestamp(string dateTime)|
+|GetTimestamp()||public static int GetTimestamp(DateTime time, bool local = false)|
+|GetTimestamp()||public static int GetTimestamp(string dateTime, bool local = false)|
+|IsDateOrTimeRegex()||public static bool IsDateOrTimeRegex(string regex)|
+|IsDateOrTimeRegex()||public static bool IsDateOrTimeRegex(string regex, ref bool date, ref string formatter)|
 
 ## DebugInfo
 

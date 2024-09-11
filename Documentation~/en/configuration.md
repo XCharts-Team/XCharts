@@ -1259,7 +1259,7 @@ The interface for serie data component.
 |opacity|1||透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
 |itemMarker|||提示框单项的字符标志。用在Tooltip中。
 |itemFormatter|||提示框单项的字符串模版格式器。具体配置参考`Tooltip`的`formatter`
-|numericFormatter|||Standard numeric format strings.
+|numericFormatter|||Standard number and date format string. Used to format a Double value or a DateTime date as a string. numericFormatter is used as an argument to either `Double.ToString ()` or `DateTime.ToString()`. <br /> The number format uses the Axx format: A is a single-character format specifier that supports C currency, D decimal, E exponent, F fixed-point number, G regular, N digit, P percentage, R round trip, and X hexadecimal. xx is precision specification, from 0-99. E.g. F1, E2<br /> Date format: Starts with `date`, which is used to format DateTime. Common date formats are: yyyy year, MM month, dd day, HH hour, mm minute, ss second, fff millisecond. For example: date:yyyy-MM-dd HH:mm:ss<br /> Time format: Starts with `time`, which is used to format TimeSpan. Common time formats are: d day, HH hour, mm minute, ss second, fffffff fractional part. Only the version of Unity2018 or later can support formatting, and the characters inside should be escaped. For example: time:HH\:mm\:ss<br /> number format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/> date format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/> Note: The date and time formats are only supported by 'v3.12.0' or later.<br/>
 |cornerRadius|||The radius of rounded corner. Its unit is px. Use array to respectively specify the 4 corner radiuses((clockwise upper left, upper right, bottom right and bottom left)).
 
 ```mdx-code-block
@@ -1320,7 +1320,7 @@ Text label of chart, to explain some data information about graphic item like va
 |autoRotate|false|v3.6.0|auto rotate of label.
 |distance|||the distance of label to axis line.
 |formatter|||label content string template formatter. \n line wrapping is supported. Formatters for some components will not take effect. <br /> Template placeholder have the following, some of which apply only to fixed components: <br /> `{.}` : indicates the dot mark. <br /> `{a}` : indicates the series name. <br /> `{b}` : category value of x axis or data name. <br /> `{c}` : data value. <br /> `{d}` : percentage. <br /> `{e}` : indicates the data name. <br /> `{f}` : data sum. <br /> `{g}` : indicates the total number of data. <br /> `{h}` : hexadecimal color value. <br /> `{y}` : category value of y axis. <br /> `{value}` : The value of the axis or legend. <br /> The following placeholder apply to `UITable` components: <br /> `{name}` : indicates the row name of the table. <br /> `{index}` : indicates the row number of the table. <br /> The following placeholder apply to `UIStatistc` components: <br /> `{title}` : title text. <br /> `{dd}` : day. <br /> `{hh}` : hours. <br /> `{mm}` : minutes. <br /> `{ss}` : second. <br /> `{fff}` : milliseconds. <br /> `{d}` : day. <br /> `{h}` : hours. <br /> `{m}` : minutes. <br /> `{s}` : second. <br /> `{f}` : milliseconds. <br /> Example :{b}:{c}<br />
-|numericFormatter|||Standard number and date format string. Used to format a Double value or a DateTime date as a string. numericFormatter is used as an argument to either `Double.ToString ()` or `DateTime.ToString()`. <br /> The number format uses the Axx format: A is a single-character format specifier that supports C currency, D decimal, E exponent, F fixed-point number, G regular, N digit, P percentage, R round trip, and X hexadecimal. xx is precision specification, from 0-99. E.g. F1, E2<br /> Date format Common date formats are: yyyy year, MM month, dd day, HH hour, mm minute, ss second, fff millisecond. For example: yyyy-MM-dd HH:mm:ss<br /> number format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/> date format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/>
+|numericFormatter|||Standard number and date format string. Used to format a Double value or a DateTime date as a string. numericFormatter is used as an argument to either `Double.ToString ()` or `DateTime.ToString()`. <br /> The number format uses the Axx format: A is a single-character format specifier that supports C currency, D decimal, E exponent, F fixed-point number, G regular, N digit, P percentage, R round trip, and X hexadecimal. xx is precision specification, from 0-99. E.g. F1, E2<br /> Date format: Starts with `date`, which is used to format DateTime. Common date formats are: yyyy year, MM month, dd day, HH hour, mm minute, ss second, fff millisecond. For example: date:yyyy-MM-dd HH:mm:ss<br /> Time format: Starts with `time`, which is used to format TimeSpan. Common time formats are: d day, HH hour, mm minute, ss second, fffffff fractional part. Only the version of Unity2018 or later can support formatting, and the characters inside should be escaped. For example: time:HH\:mm\:ss<br /> number format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/> date format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/> Note: The date and time formats are only supported by 'v3.12.0' or later.<br/>
 |width|0||the width of label. If set as default value 0, it means than the label width auto set as the text width.
 |height|0||the height of label. If set as default value 0, it means than the label height auto set as the text height.
 |icon|||the sytle of icon. [IconStyle](#iconstyle)|
@@ -1812,6 +1812,19 @@ Radial axis of polar coordinate.
 ## Ring
 
 > class in XCharts.Runtime / Inherits from: [Serie](#serie)
+
+```mdx-code-block
+<APITable name="Ring">
+```
+
+
+|field|default|since|comment|
+|--|--|--|--|
+|radiusGradient|false|v3.12.0|Whether to use gradient color in pie chart.
+
+```mdx-code-block
+</APITable>
+```
 
 ## Scatter
 
@@ -2350,7 +2363,7 @@ Tooltip component.
 |fixedHeight|0||Fixed height. Higher priority than minHeight.
 |minWidth|0||Minimum width. If fixedWidth has a value, get fixedWidth first.
 |minHeight|0||Minimum height. If fixedHeight has a value, take priority over fixedHeight.
-|numericFormatter|||Standard number and date format string. Used to format a Double value or a DateTime date as a string. numericFormatter is used as an argument to either `Double.ToString ()` or `DateTime.ToString()`. <br /> The number format uses the Axx format: A is a single-character format specifier that supports C currency, D decimal, E exponent, F fixed-point number, G regular, N digit, P percentage, R round trip, and X hexadecimal. xx is precision specification, from 0-99. E.g. F1, E2<br /> Date format Common date formats are: yyyy year, MM month, dd day, HH hour, mm minute, ss second, fff millisecond. For example: yyyy-MM-dd HH:mm:ss<br /> number format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/> date format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/>
+|numericFormatter|||Standard number and date format string. Used to format a Double value or a DateTime date as a string. numericFormatter is used as an argument to either `Double.ToString ()` or `DateTime.ToString()`. <br /> The number format uses the Axx format: A is a single-character format specifier that supports C currency, D decimal, E exponent, F fixed-point number, G regular, N digit, P percentage, R round trip, and X hexadecimal. xx is precision specification, from 0-99. E.g. F1, E2<br /> Date format: Starts with `date`, which is used to format DateTime. Common date formats are: yyyy year, MM month, dd day, HH hour, mm minute, ss second, fff millisecond. For example: date:yyyy-MM-dd HH:mm:ss<br /> Time format: Starts with `time`, which is used to format TimeSpan. Common time formats are: d day, HH hour, mm minute, ss second, fffffff fractional part. Only the version of Unity2018 or later can support formatting, and the characters inside should be escaped. For example: time:HH\:mm\:ss<br /> number format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/> date format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/> Note: The date and time formats are only supported by 'v3.12.0' or later.<br/>
 |paddingLeftRight|10||the text padding of left and right. defaut:5.
 |paddingTopBottom|10||the text padding of top and bottom. defaut:5.
 |ignoreDataShow|false||Whether to show ignored data on tooltip.

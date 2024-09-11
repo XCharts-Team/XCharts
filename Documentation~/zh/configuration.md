@@ -1223,7 +1223,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |opacity|1||透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
 |itemMarker|||提示框单项的字符标志。用在Tooltip中。
 |itemFormatter|||提示框单项的字符串模版格式器。具体配置参考`Tooltip`的`formatter`
-|numericFormatter|||标准数字格式字符串。用于将数值格式化显示为字符串。 使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。 参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings
+|numericFormatter|||标准数字和日期格式字符串。用于将Double数值或DateTime日期格式化显示为字符串。numericFormatter用来作为Double.ToString()或DateTime.ToString()的参数。<br/> 数字格式使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。如：F1, E2<br/> 日期格式：以`date`开头，用来格式化DateTime，常见格式有：yyyy年，MM月，dd日，HH时，mm分，ss秒，fff毫秒。如：date:yyyy-MM-dd HH:mm:ss<br/> 时间格式：以`time`开头，用来格式化TimeSpan，常见格式有：d日，HH时，mm分，ss秒，fffffff小数部分。 需要Unity2018以上版本才支持格式化，并且里面的字符要转义。如：time:d\.HH\:mm\:ss<br/> 数值格式化参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings <br/> 日期格式化参考：https://learn.microsoft.com/zh-cn/dotnet/standard/base-types/standard-date-and-time-format-strings <br/> 时间格式化参考：https://learn.microsoft.com/zh-cn/dotnet/standard/base-types/standard-timespan-format-strings <br/> 注意：date和time格式需要`v3.12.0`以上版本才支持。
 |cornerRadius|||圆角半径。用数组分别指定4个圆角半径（顺时针左上，右上，右下，左下）。
 
 ```mdx-code-block
@@ -1282,7 +1282,7 @@ Drawing grid in rectangular coordinate. Line chart, bar chart, and scatter chart
 |autoRotate|false|v3.6.0|是否自动旋转。
 |distance|||距离轴线的距离。
 |formatter|||标签内容字符串模版格式器。支持用 \n 换行。部分组件的格式器会不生效。<br/> 模板通配符有以下这些，部分只适用于固定的组件：<br/> `{.}`：圆点标记。<br/> `{a}`：系列名。<br/> `{b}`：X轴类目名或数据名。<br/> `{c}`：数据值。<br/> `{d}`：百分比。<br/> `{e}`：数据名。<br/> `{f}`：数据和。<br/> `{g}`：数据总个数。<br/> `{h}`：十六进制颜色值。<br/> `{y}`：Y轴的类目名。<br/> `{value}`：坐标轴或图例的值。<br/> 以下通配符适用UITable组件：<br/> `{name}`： 表格的行名。<br/> `{index}`：表格的行号。<br/> 以下通配符适用UIStatistc组件：<br/> `{title}`：标题文本。<br/> `{dd}`：天。<br/> `{hh}`：小时。<br/> `{mm}`：分钟。<br/> `{ss}`：秒。<br/> `{fff}`：毫秒。<br/> `{d}`：天。<br/> `{h}`：小时。<br/> `{m}`：分钟。<br/> `{s}`：秒。<br/> `{f}`：毫秒。<br/> 示例：“{b}:{c}”
-|numericFormatter|||标准数字和日期格式字符串。用于将Double数值或DateTime日期格式化显示为字符串。numericFormatter用来作为Double.ToString()或DateTime.ToString()的参数。<br/> 数字格式使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。如：F1, E2<br/> 日期格式常见的格式：yyyy年，MM月，dd日，HH时，mm分，ss秒，fff毫秒。如：yyyy-MM-dd HH:mm:ss<br/> 数值格式化参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings <br/> 日期格式化参考：https://learn.microsoft.com/zh-cn/dotnet/standard/base-types/standard-date-and-time-format-strings
+|numericFormatter|||标准数字和日期格式字符串。用于将Double数值或DateTime日期格式化显示为字符串。numericFormatter用来作为Double.ToString()或DateTime.ToString()的参数。<br/> 数字格式使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。如：F1, E2<br/> 日期格式：以`date`开头，用来格式化DateTime，常见格式有：yyyy年，MM月，dd日，HH时，mm分，ss秒，fff毫秒。如：date:yyyy-MM-dd HH:mm:ss<br/> 时间格式：以`time`开头，用来格式化TimeSpan，常见格式有：d日，HH时，mm分，ss秒，fffffff小数部分。 需要Unity2018以上版本才支持格式化，并且里面的字符要转义。如：time:d\.HH\:mm\:ss<br/> 数值格式化参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings <br/> 日期格式化参考：https://learn.microsoft.com/zh-cn/dotnet/standard/base-types/standard-date-and-time-format-strings <br/> 时间格式化参考：https://learn.microsoft.com/zh-cn/dotnet/standard/base-types/standard-timespan-format-strings <br/> 注意：date和time格式需要`v3.12.0`以上版本才支持。
 |width|0||标签的宽度。一般不用指定，不指定时则自动是文字的宽度。
 |height|0||标签的高度。一般不用指定，不指定时则自动是文字的高度。
 |icon|||图标样式。 [IconStyle](#iconstyle)|
@@ -1756,6 +1756,18 @@ Radar coordinate conponnet for radar charts. 雷达图坐标系组件，只适�
 ## Ring
 
 > class in XCharts.Runtime / 继承自: [Serie](#serie)
+
+```mdx-code-block
+<APITable name="Ring">
+```
+
+|参数|默认|版本|描述|
+|--|--|--|--|
+|radiusGradient|false|v3.12.0|是否开启半径方向的渐变效果。
+
+```mdx-code-block
+</APITable>
+```
 
 ## Scatter
 
@@ -2278,7 +2290,7 @@ Serie的状态样式。Serie的状态有正常，高亮，淡出，选中四种�
 |fixedHeight|0||固定高度。比 minHeight 优先。
 |minWidth|0||最小宽度。如若 fixedWidth 设有值，优先取 fixedWidth。
 |minHeight|0||最小高度。如若 fixedHeight 设有值，优先取 fixedHeight。
-|numericFormatter|||标准数字和日期格式字符串。用于将Double数值或DateTime日期格式化显示为字符串。numericFormatter用来作为Double.ToString()或DateTime.ToString()的参数。<br/> 数字格式使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。如：F1, E2<br/> 日期格式常见的格式：yyyy年，MM月，dd日，HH时，mm分，ss秒，fff毫秒。如：yyyy-MM-dd HH:mm:ss<br/> 数值格式化参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings <br/> 日期格式化参考：https://learn.microsoft.com/zh-cn/dotnet/standard/base-types/standard-date-and-time-format-strings
+|numericFormatter|||标准数字和日期格式字符串。用于将Double数值或DateTime日期格式化显示为字符串。numericFormatter用来作为Double.ToString()或DateTime.ToString()的参数。<br/> 数字格式使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。如：F1, E2<br/> 日期格式：以`date`开头，用来格式化DateTime，常见格式有：yyyy年，MM月，dd日，HH时，mm分，ss秒，fff毫秒。如：date:yyyy-MM-dd HH:mm:ss<br/> 时间格式：以`time`开头，用来格式化TimeSpan，常见格式有：d日，HH时，mm分，ss秒，fffffff小数部分。 需要Unity2018以上版本才支持格式化，并且里面的字符要转义。如：time:d\.HH\:mm\:ss<br/> 数值格式化参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings <br/> 日期格式化参考：https://learn.microsoft.com/zh-cn/dotnet/standard/base-types/standard-date-and-time-format-strings <br/> 时间格式化参考：https://learn.microsoft.com/zh-cn/dotnet/standard/base-types/standard-timespan-format-strings <br/> 注意：date和time格式需要`v3.12.0`以上版本才支持。
 |paddingLeftRight|10||左右边距。
 |paddingTopBottom|10||上下边距。
 |ignoreDataShow|false||是否显示忽略数据在tooltip上。

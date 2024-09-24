@@ -212,7 +212,7 @@ Angle axis of Polar Coordinate.
 
 ### AngleAxis.startAngle
 
-`float` `default: 0`
+`float` `0`
 
 Starting angle of axis. 0 degrees by default, standing for right position of center.
 
@@ -270,25 +270,25 @@ the animation info.
 
 ### AnimationInfo.delay
 
-`float` `default: 0` `v3.8.0`
+`float` `0` `v3.8.0`
 
 the delay time before animation start.
 
 ### AnimationInfo.duration
 
-`float` `default: 1000` `v3.8.0`
+`float` `1000` `v3.8.0`
 
 the duration of animation.
 
 ### AnimationInfo.enable
 
-`bool` `default: true` `v3.8.0`
+`bool` `true` `v3.8.0`
 
 whether enable animation.
 
 ### AnimationInfo.reverse
 
-`bool` `default: false` `v3.8.0`
+`bool` `false` `v3.8.0`
 
 whether enable reverse animation.
 
@@ -302,21 +302,21 @@ Interactive animation of charts.
 
 ### AnimationInteraction.offset
 
-`MLValue` `v3.8.0`
+[MLValue](#mlvalue) `v3.8.0`
 
-the mlvalue of offset. Such as the offset of the pie chart when the sector is selected. [MLValue](#mlvalue)
+the mlvalue of offset. Such as the offset of the pie chart when the sector is selected.
 
 ### AnimationInteraction.radius
 
-`MLValue` `v3.8.0`
+[MLValue](#mlvalue) `v3.8.0`
 
-the mlvalue of radius. [MLValue](#mlvalue)
+the mlvalue of radius.
 
 ### AnimationInteraction.width
 
-`MLValue` `v3.8.0`
+[MLValue](#mlvalue) `v3.8.0`
 
-the mlvalue of width. [MLValue](#mlvalue)
+the mlvalue of width.
 
 ## AnimationStyle
 
@@ -326,19 +326,19 @@ the animation of serie. support animation type: fadeIn, fadeOut, change, additio
 
 ### AnimationStyle.addition
 
-`AnimationAddition` `v3.8.0`
+[AnimationAddition](#animationaddition) `v3.8.0`
 
-Add data animation configuration. [AnimationAddition](#animationaddition)
+Add data animation configuration.
 
 ### AnimationStyle.change
 
-`AnimationChange` `v3.8.0`
+[AnimationChange](#animationchange) `v3.8.0`
 
-Update data animation configuration. [AnimationChange](#animationchange)
+Update data animation configuration.
 
 ### AnimationStyle.easting
 
-`AnimationEasing`
+[AnimationEasing](#animationeasing)
 
 
 
@@ -348,43 +348,43 @@ Options:
 
 ### AnimationStyle.enable
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to enable animation.
 
 ### AnimationStyle.fadeIn
 
-`AnimationFadeIn` `v3.8.0`
+[AnimationFadeIn](#animationfadein) `v3.8.0`
 
-Fade in animation configuration. [AnimationFadeIn](#animationfadein)
+Fade in animation configuration.
 
 ### AnimationStyle.fadeOut
 
-`AnimationFadeOut` `v3.8.0`
+[AnimationFadeOut](#animationfadeout) `v3.8.0`
 
-Fade out animation configuration. [AnimationFadeOut](#animationfadeout)
+Fade out animation configuration.
 
 ### AnimationStyle.hiding
 
-`AnimationHiding` `v3.8.0`
+[AnimationHiding](#animationhiding) `v3.8.0`
 
-Data hiding animation configuration. [AnimationHiding](#animationhiding)
+Data hiding animation configuration.
 
 ### AnimationStyle.interaction
 
-`AnimationInteraction` `v3.8.0`
+[AnimationInteraction](#animationinteraction) `v3.8.0`
 
-Interaction animation configuration. [AnimationInteraction](#animationinteraction)
+Interaction animation configuration.
 
 ### AnimationStyle.threshold
 
-`int` `default: 2000`
+`int` `2000`
 
 Whether to set graphic number threshold to animation. Animation will be disabled when graphic number is larger than threshold.
 
 ### AnimationStyle.type
 
-`AnimationType`
+[AnimationType](#animationtype)
 
 The type of animation.
 
@@ -423,13 +423,13 @@ Whether to fill only polygonal areas. Currently, only convex polygons are suppor
 
 ### AreaStyle.opacity
 
-`float` `default: 0.6f`
+`float` `0.6f`
 
 Opacity of the component. Supports value from 0 to 1, and the component will not be drawn when set to 0.
 
 ### AreaStyle.origin
 
-`AreaStyle.AreaOrigin`
+[AreaStyle.AreaOrigin](#areastyleareaorigin)
 
 the origin of area.
 
@@ -441,7 +441,7 @@ Options:
 
 ### AreaStyle.show
 
-`bool` `default: true`
+`bool` `true`
 
 Set this to false to prevent the areafrom showing.
 
@@ -453,7 +453,7 @@ Gradient color, start color to toColor.
 
 ### AreaStyle.toTop
 
-`bool` `default: true` `v3.6.0`
+`bool` `true` `v3.6.0`
 
 Whether to fill the gradient color to the top. The default is true, which means that the gradient color is filled to the top. If it is false, the gradient color is filled to the actual position.
 
@@ -463,31 +463,31 @@ class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
 
 ### ArrowStyle.color
 
-`Color32` `default: Color.clear`
+`Color32` `Color.clear`
 
 the color of arrow.
 
 ### ArrowStyle.dent
 
-`float` `default: 3`
+`float` `3`
 
 The dent of arrow.
 
 ### ArrowStyle.height
 
-`float` `default: 15`
+`float` `15`
 
 The height of arrow.
 
 ### ArrowStyle.offset
 
-`float` `default: 0`
+`float` `0`
 
 The offset of arrow.
 
 ### ArrowStyle.width
 
-`float` `default: 10`
+`float` `10`
 
 The widht of arrow.
 
@@ -499,49 +499,49 @@ The axis in rectangular coordinate.
 
 ### Axis.animation
 
-`AxisAnimation`
+[AxisAnimation](#axisanimation)
 
-animation of axis. [AxisAnimation](#axisanimation)
+animation of axis.
 
 ### Axis.axisLabel
 
-`AxisLabel`
+[AxisLabel](#axislabel)
 
-axis label. [AxisLabel](#axislabel)
+axis label.
 
 ### Axis.axisLine
 
-`AxisLine`
+[AxisLine](#axisline)
 
-axis Line. [AxisLine](#axisline)
+axis Line.
 
 ### Axis.axisName
 
-`AxisName`
+[AxisName](#axisname)
 
-axis name. [AxisName](#axisname)
+axis name.
 
 ### Axis.axisTick
 
-`AxisTick`
+[AxisTick](#axistick)
 
-axis tick. [AxisTick](#axistick)
+axis tick.
 
 ### Axis.boundaryGap
 
-`bool` `default: true`
+`bool` `true`
 
 The boundary gap on both sides of a coordinate axis, which is valid only for category axis with type: 'Category'.
 
 ### Axis.ceilRate
 
-`double` `default: 0`
+`double` `0`
 
 The ratio of maximum and minimum values rounded upward. The default is 0, which is automatically calculated.
 
 ### Axis.clockwise
 
-`bool` `default: true`
+`bool` `true`
 
 Whether the positive position of axis is in clockwise. True for clockwise by default.
 
@@ -565,9 +565,9 @@ The index of the grid on which the axis are located, by default, is in the first
 
 ### Axis.indicatorLabel
 
-`LabelStyle` `v3.4.0`
+[LabelStyle](#labelstyle) `v3.4.0`
 
-Style of axis tooltip indicator label. [LabelStyle](#labelstyle)
+Style of axis tooltip indicator label.
 
 ### Axis.insertDataToHead
 
@@ -577,25 +577,25 @@ Whether to add new data at the head or at the end of the list.
 
 ### Axis.interval
 
-`double` `default: 0`
+`double` `0`
 
 Compulsively set segmentation interval for axis.This is unavailable for category axis.
 
 ### Axis.inverse
 
-`bool` `default: false`
+`bool` `false`
 
 Whether the axis are reversed or not. Invalid in `Category` axis.
 
 ### Axis.logBase
 
-`float` `default: 10`
+`float` `10`
 
 Base of logarithm, which is valid only for numeric axes with type: 'Log'.
 
 ### Axis.logBaseE
 
-`bool` `default: false`
+`bool` `false`
 
 On the log axis, if base e is the natural number, and is true, logBase fails.
 
@@ -607,7 +607,7 @@ The maximum value of axis.Valid when `minMaxType` is `Custom`
 
 ### Axis.maxCache
 
-`int` `default: 0`
+`int` `0`
 
 The max number of axis data cache.
 
@@ -619,13 +619,13 @@ The minimun value of axis.Valid when `minMaxType` is `Custom`
 
 ### Axis.minCategorySpacing
 
-`float` `default: 0` `v3.11.0`
+`float` `0` `v3.11.0`
 
 The minimum spacing between categories.
 
 ### Axis.minMaxType
 
-`Axis.AxisMinMaxType`
+[Axis.AxisMinMaxType](#axisaxisminmaxtype)
 
 the type of axis minmax.
 
@@ -638,15 +638,15 @@ Options:
 
 ### Axis.minorSplitLine
 
-`AxisMinorSplitLine` `v3.2.0`
+[AxisMinorSplitLine](#axisminorsplitline) `v3.2.0`
 
-axis minor split line. [AxisMinorSplitLine](#axisminorsplitline)
+axis minor split line.
 
 ### Axis.minorTick
 
-`AxisMinorTick` `v3.2.0`
+[AxisMinorTick](#axisminortick) `v3.2.0`
 
-axis minor tick. [AxisMinorTick](#axisminortick)
+axis minor tick.
 
 ### Axis.offset
 
@@ -668,7 +668,7 @@ The index of the polar on which the axis are located, by default, is in the firs
 
 ### Axis.position
 
-`Axis.AxisPosition`
+[Axis.AxisPosition](#axisaxisposition)
 
 the position of axis in grid.
 
@@ -682,31 +682,31 @@ Options:
 
 ### Axis.show
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to show axis.
 
 ### Axis.splitArea
 
-`AxisSplitArea`
+[AxisSplitArea](#axissplitarea)
 
-axis split area. [AxisSplitArea](#axissplitarea)
+axis split area.
 
 ### Axis.splitLine
 
-`AxisSplitLine`
+[AxisSplitLine](#axissplitline)
 
-axis split line. [AxisSplitLine](#axissplitline)
+axis split line.
 
 ### Axis.splitNumber
 
-`int` `default: 0`
+`int` `0`
 
 Number of segments that the axis is split into.
 
 ### Axis.type
 
-`Axis.AxisType`
+[Axis.AxisType](#axisaxistype)
 
 the type of axis.
 
@@ -733,7 +733,7 @@ the duration of animation (ms). When it is set to 0, the animation duration will
 
 ### AxisAnimation.show
 
-`bool` `default: true`
+`bool` `true`
 
 whether to enable animation.
 
@@ -751,45 +751,45 @@ Settings related to axis label.
 
 ### AxisLabel.inside
 
-`bool` `default: false`
+`bool` `false`
 
 Set this to true so the axis labels face the inside direction.
 
 ### AxisLabel.interval
 
-`int` `default: 0`
+`int` `0`
 
 The display interval of the axis label.
 
 ### AxisLabel.onZero
 
-`bool` `default: false`
+`bool` `false`
 
 刻度标签显示在0刻度上。
 
 ### AxisLabel.showAsPositiveNumber
 
-`bool` `default: false`
+`bool` `false`
 
 Show negative number as positive number.
 
 ### AxisLabel.showEndLabel
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to display the last label.
 
 ### AxisLabel.showStartLabel
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to display the first label.
 
 ### AxisLabel.textLimit
 
-`TextLimit`
+[TextLimit](#textlimit)
 
-文本限制。 [TextLimit](#textlimit)
+文本限制。
 
 ## AxisLine
 
@@ -799,9 +799,9 @@ Settings related to axis line.
 
 ### AxisLine.arrow
 
-`ArrowStyle`
+[ArrowStyle](#arrowstyle)
 
-the arrow of line. [ArrowStyle](#arrowstyle)
+the arrow of line.
 
 ### AxisLine.onZero
 
@@ -847,10 +847,9 @@ Settings related to axis minor tick.
 
 `bool`
 
-
 ### AxisMinorTick.splitNumber
 
-`int` `default: 5`
+`int` `5`
 
 Number of segments that the axis is split into.
 
@@ -862,9 +861,9 @@ the name of axis.
 
 ### AxisName.labelStyle
 
-`LabelStyle`
+[LabelStyle](#labelstyle)
 
-The text style of axis name. [LabelStyle](#labelstyle)
+The text style of axis name.
 
 ### AxisName.name
 
@@ -928,19 +927,19 @@ Interval of Axis splitLine.
 
 ### AxisSplitLine.showEndLine
 
-`bool` `default: true` `v3.3.0`
+`bool` `true` `v3.3.0`
 
 Whether to show the last split line.
 
 ### AxisSplitLine.showStartLine
 
-`bool` `default: true` `v3.3.0`
+`bool` `true` `v3.3.0`
 
 Whether to show the first split line.
 
 ### AxisSplitLine.showZLine
 
-`bool` `default: true` `v3.11.0`
+`bool` `true` `v3.11.0`
 
 Whether to show the Z axis part of the split line. Generally used for 3D coordinate systems.
 
@@ -963,7 +962,6 @@ Align axis tick with label, which is available only when boundaryGap is set to b
 ### AxisTick.autoColor
 
 `bool`
-
 
 ### AxisTick.distance
 
@@ -991,7 +989,7 @@ Whether to display the first tick.
 
 ### AxisTick.splitNumber
 
-`int` `default: 0`
+`int` `0`
 
 Number of segments that the axis is split into.
 
@@ -1003,15 +1001,15 @@ Background component.
 
 ### Background.autoColor
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to use theme background color for component color when the background component is on.
 
 ### Background.borderStyle
 
-`BorderStyle` `v3.10.0`
+[BorderStyle](#borderstyle) `v3.10.0`
 
-the border style of background. [BorderStyle](#borderstyle)
+the border style of background.
 
 ### Background.image
 
@@ -1027,7 +1025,7 @@ the image of background.
 
 ### Background.imageHeight
 
-`float` `default: 0` `v3.10.0`
+`float` `0` `v3.10.0`
 
 the height of background image.
 
@@ -1039,13 +1037,13 @@ the fill type of background image.
 
 ### Background.imageWidth
 
-`float` `default: 0` `v3.10.0`
+`float` `0` `v3.10.0`
 
 the width of background image.
 
 ### Background.show
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to enable the background component.
 
@@ -1065,13 +1063,13 @@ the color of line.
 
 ### BaseAxisTheme.lineLength
 
-`float` `default: 0f`
+`float` `0f`
 
 the length of line.
 
 ### BaseAxisTheme.lineType
 
-`LineStyle.Type`
+[LineStyle.Type](#linestyletype)
 
 the type of line.
 
@@ -1086,7 +1084,7 @@ Options:
 
 ### BaseAxisTheme.lineWidth
 
-`float` `default: 1f`
+`float` `1f`
 
 the width of line.
 
@@ -1110,13 +1108,13 @@ the color of split line.
 
 ### BaseAxisTheme.splitLineLength
 
-`float` `default: 0f`
+`float` `0f`
 
 the length of split line.
 
 ### BaseAxisTheme.splitLineType
 
-`LineStyle.Type`
+[LineStyle.Type](#linestyletype)
 
 the type of split line.
 
@@ -1131,7 +1129,7 @@ Options:
 
 ### BaseAxisTheme.splitLineWidth
 
-`float` `default: 1f`
+`float` `1f`
 
 the width of split line.
 
@@ -1143,13 +1141,13 @@ the color of tick.
 
 ### BaseAxisTheme.tickLength
 
-`float` `default: 5f`
+`float` `5f`
 
 the length of tick.
 
 ### BaseAxisTheme.tickWidth
 
-`float` `default: 1f`
+`float` `1f`
 
 the width of tick.
 
@@ -1161,9 +1159,9 @@ Settings related to base line.
 
 ### BaseLine.lineStyle
 
-`LineStyle`
+[LineStyle](#linestyle)
 
-线条样式 [LineStyle](#linestyle)
+线条样式
 
 ### BaseLine.show
 
@@ -1215,13 +1213,13 @@ The radius of rounded corner. Its unit is px. Use array to respectively specify 
 
 ### BorderStyle.roundedCorner
 
-`bool` `default: true`
+`bool` `true`
 
 whether the border is rounded corner.
 
 ### BorderStyle.show
 
-`bool` `default: false`
+`bool` `false`
 
 whether the border is visible.
 
@@ -1255,19 +1253,19 @@ The items of comment.
 
 ### Comment.labelStyle
 
-`LabelStyle`
+[LabelStyle](#labelstyle)
 
-The text style of all comments. [LabelStyle](#labelstyle)
+The text style of all comments.
 
 ### Comment.markStyle
 
-`CommentMarkStyle`
+[CommentMarkStyle](#commentmarkstyle)
 
-The text style of all comments. [CommentMarkStyle](#commentmarkstyle)
+The text style of all comments.
 
 ### Comment.show
 
-`bool` `default: true`
+`bool` `true`
 
 Set this to false to prevent the comment from showing.
 
@@ -1285,15 +1283,15 @@ content of comment.
 
 ### CommentItem.labelStyle
 
-`LabelStyle`
+[LabelStyle](#labelstyle)
 
-The text style of all comments. [LabelStyle](#labelstyle)
+The text style of all comments.
 
 ### CommentItem.location
 
-`Location` `v3.5.0`
+[Location](#location) `v3.5.0`
 
-The location of comment. [Location](#location)
+The location of comment.
 
 ### CommentItem.markRect
 
@@ -1303,13 +1301,13 @@ the mark rect of comment.
 
 ### CommentItem.markStyle
 
-`CommentMarkStyle`
+[CommentMarkStyle](#commentmarkstyle)
 
-the mark rect style. [CommentMarkStyle](#commentmarkstyle)
+the mark rect style.
 
 ### CommentItem.show
 
-`bool` `default: true`
+`bool` `true`
 
 Set this to false to prevent this comment item from showing.
 
@@ -1321,13 +1319,13 @@ the comment mark style.
 
 ### CommentMarkStyle.lineStyle
 
-`LineStyle`
+[LineStyle](#linestyle)
 
-line style of comment mark area. [LineStyle](#linestyle)
+line style of comment mark area.
 
 ### CommentMarkStyle.show
 
-`bool` `default: true`
+`bool` `true`
 
 Set this to false to prevent this comment item from showing.
 
@@ -1343,7 +1341,7 @@ the font of text.
 
 ### ComponentTheme.fontSize
 
-`int` `default: 18`
+`int` `18`
 
 the font size of text.
 
@@ -1379,9 +1377,9 @@ DataZoom component is used for zooming a specific area, which enables user to in
 
 ### DataZoom.areaStyle
 
-`AreaStyle`
+[AreaStyle](#areastyle)
 
-阴影填充样式。 [AreaStyle](#areastyle)
+阴影填充样式。
 
 ### DataZoom.backgroundColor
 
@@ -1409,7 +1407,7 @@ Distance between dataZoom component and the bottom side of the container. bottom
 
 ### DataZoom.enable
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to show dataZoom.
 
@@ -1433,7 +1431,7 @@ the color of dataZoom data area.
 
 ### DataZoom.filterMode
 
-`DataZoom.FilterMode`
+[DataZoom.FilterMode](#datazoomfiltermode)
 
 The mode of data filter.
 
@@ -1446,9 +1444,9 @@ Options:
 
 ### DataZoom.labelStyle
 
-`LabelStyle`
+[LabelStyle](#labelstyle)
 
-label style. [LabelStyle](#labelstyle)
+label style.
 
 ### DataZoom.left
 
@@ -1458,25 +1456,25 @@ Distance between dataZoom component and the left side of the container. left val
 
 ### DataZoom.lineStyle
 
-`LineStyle`
+[LineStyle](#linestyle)
 
-阴影线条样式。 [LineStyle](#linestyle)
+阴影线条样式。
 
 ### DataZoom.marqueeStyle
 
-`MarqueeStyle` `v3.5.0`
+[MarqueeStyle](#marqueestyle) `v3.5.0`
 
-选取框样式。 [MarqueeStyle](#marqueestyle)
+选取框样式。
 
 ### DataZoom.minShowNum
 
-`int` `default: 2`
+`int` `2`
 
 Minimum number of display data. Minimum number of data displayed when DataZoom is enlarged to maximum.
 
 ### DataZoom.orient
 
-`Orient`
+[Orient](#orient)
 
 Specify whether the layout of dataZoom component is horizontal or vertical. What's more, it indicates whether the horizontal axis or vertical axis is controlled by default in catesian coordinate system.
 
@@ -1487,7 +1485,7 @@ Options:
 
 ### DataZoom.rangeMode
 
-`DataZoom.RangeMode`
+[DataZoom.RangeMode](#datazoomrangemode)
 
 Use absolute value or percent value in DataZoom.start and DataZoom.end.
 
@@ -1504,7 +1502,7 @@ Distance between dataZoom component and the right side of the container. right v
 
 ### DataZoom.scrollSensitivity
 
-`float` `default: 1.1f`
+`float` `1.1f`
 
 The sensitivity of dataZoom scroll. The larger the number, the more sensitive it is.
 
@@ -1540,13 +1538,13 @@ Whether built-in support is supported. Built into the coordinate system to allow
 
 ### DataZoom.supportInsideDrag
 
-`bool` `default: true`
+`bool` `true`
 
 Whether insde drag is supported.
 
 ### DataZoom.supportInsideScroll
 
-`bool` `default: true`
+`bool` `true`
 
 Whether inside scrolling is supported.
 
@@ -1638,32 +1636,29 @@ class in XCharts.Runtime
 
 ### DebugInfo.foldSeries
 
-`bool` `default: false`
+`bool` `false`
 
 Whether to fold series in inspector view.
 
 ### DebugInfo.labelStyle
 
-`LabelStyle`
-
- [LabelStyle](#labelstyle)
+[LabelStyle](#labelstyle)
 
 ### DebugInfo.show
 
-`bool` `default: true`
+`bool` `true`
 
 Whether show debug component.
 
 ### DebugInfo.showAllChartObject
 
-`bool` `default: false`
+`bool` `false`
 
 Whether show children components of chart in hierarchy view.
 
 ### DebugInfo.showDebugInfo
 
-`bool` `default: false`
-
+`bool` `false`
 
 ## EffectScatter
 
@@ -1679,7 +1674,7 @@ Configurations of emphasis state.
 
 ### EmphasisStyle.blurScope
 
-`EmphasisStyle.BlurScope`
+[EmphasisStyle.BlurScope](#emphasisstyleblurscope)
 
 The range of fade out when focus is enabled.
 
@@ -1691,7 +1686,7 @@ Options:
 
 ### EmphasisStyle.focus
 
-`EmphasisStyle.FocusType`
+[EmphasisStyle.FocusType](#emphasisstylefocustype)
 
 When the data is highlighted, whether to fade out of other data to focus the highlighted.
 
@@ -1703,7 +1698,7 @@ Options:
 
 ### EmphasisStyle.scale
 
-`float` `default: 1.1f`
+`float` `1.1f`
 
 Whether to scale to highlight the data in emphasis state.
 
@@ -1731,49 +1726,49 @@ The color of grid border.
 
 ### GridCoord.borderWidth
 
-`float` `default: 0f`
+`float` `0f`
 
 Border width of grid.
 
 ### GridCoord.bottom
 
-`float` `default: 0.14f`
+`float` `0.14f`
 
 Distance between grid component and the bottom side of the container.
 
 ### GridCoord.layoutIndex
 
-`int` `default: -1` `v3.8.0`
+`int` `-1` `v3.8.0`
 
 The index of the grid layout component to which the grid belongs. The default is -1, which means that it does not belong to any grid layout component. When this value is set, the left, right, top, and bottom properties will be invalid.
 
 ### GridCoord.left
 
-`float` `default: 0.11f`
+`float` `0.11f`
 
 Distance between grid component and the left side of the container.
 
 ### GridCoord.right
 
-`float` `default: 0.08f`
+`float` `0.08f`
 
 Distance between grid component and the right side of the container.
 
 ### GridCoord.show
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to show the grid in rectangular coordinate.
 
 ### GridCoord.showBorder
 
-`bool` `default: false`
+`bool` `false`
 
 Whether to show the grid border.
 
 ### GridCoord.top
 
-`float` `default: 0.22f`
+`float` `0.22f`
 
 Distance between grid component and the top side of the container.
 
@@ -1787,68 +1782,67 @@ Grid component.
 
 ### GridCoord3D.bottom
 
-`float` `default: 0.15f`
+`float` `0.15f`
 
 Distance between grid component and the bottom side of the container.
 
 ### GridCoord3D.boxDepth
 
-`float` `default: 0.2f`
+`float` `0.2f`
 
 The depth of the box in the coordinate system.
 
 ### GridCoord3D.boxHeight
 
-`float` `default: 0.4f`
+`float` `0.4f`
 
 The height of the box in the coordinate system.
 
 ### GridCoord3D.boxWidth
 
-`float` `default: 0.55f`
+`float` `0.55f`
 
 The width of the box in the coordinate system.
 
 ### GridCoord3D.left
 
-`float` `default: 0.15f`
+`float` `0.15f`
 
 Distance between grid component and the left side of the container.
 
 ### GridCoord3D.right
 
-`float` `default: 0.2f`
+`float` `0.2f`
 
 Distance between grid component and the right side of the container.
 
 ### GridCoord3D.show
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to show the grid in rectangular coordinate.
 
 ### GridCoord3D.showBorder
 
-`bool` `default: false`
+`bool` `false`
 
 Whether to show the grid border.
 
 ### GridCoord3D.top
 
-`float` `default: 0.3f`
+`float` `0.3f`
 
 Distance between grid component and the top side of the container.
 
 ### GridCoord3D.viewControl
 
-`ViewControl`
+[ViewControl](#viewcontrol)
 
-View control component in 3D coordinate system. [ViewControl](#viewcontrol)
+View control component in 3D coordinate system.
 
 ### GridCoord3D.xYExchanged
 
-`bool` `default: false`
-
+`bool` `false`
 
 ## GridLayout
 
@@ -1860,55 +1854,55 @@ Grid layout component. Used to manage the layout of multiple `GridCoord`, and th
 
 ### GridLayout.bottom
 
-`float` `default: 0.12f`
+`float` `0.12f`
 
 Distance between grid component and the bottom side of the container.
 
 ### GridLayout.column
 
-`int` `default: 2`
+`int` `2`
 
 the column count of grid layout.
 
 ### GridLayout.inverse
 
-`bool` `default: false`
+`bool` `false`
 
 Whether to inverse the grid layout.
 
 ### GridLayout.left
 
-`float` `default: 0.1f`
+`float` `0.1f`
 
 Distance between grid component and the left side of the container.
 
 ### GridLayout.right
 
-`float` `default: 0.08f`
+`float` `0.08f`
 
 Distance between grid component and the right side of the container.
 
 ### GridLayout.row
 
-`int` `default: 2`
+`int` `2`
 
 the row count of grid layout.
 
 ### GridLayout.show
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to show the grid in rectangular coordinate.
 
 ### GridLayout.spacing
 
-`Vector2` `default: Vector2.zero`
+`Vector2` `Vector2.zero`
 
 the spacing of grid layout.
 
 ### GridLayout.top
 
-`float` `default: 0.22f`
+`float` `0.22f`
 
 Distance between grid component and the top side of the container.
 
@@ -1918,7 +1912,7 @@ class in XCharts.Runtime / Inherits from: [Serie](#serie), [INeedSerieContainer]
 
 ### Heatmap.heatmapType
 
-`HeatmapType` `v3.3.0`
+[HeatmapType](#heatmaptype) `v3.3.0`
 
 The mapping type of heatmap.
 
@@ -1933,7 +1927,7 @@ class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
 
 ### IconStyle.align
 
-`Align`
+[Align](#align)
 
 水平方向对齐方式。
 
@@ -1945,7 +1939,7 @@ Options:
 
 ### IconStyle.autoHideWhenLabelEmpty
 
-`bool` `default: false`
+`bool` `false`
 
 当label内容为空时是否自动隐藏图标
 
@@ -1957,13 +1951,13 @@ Options:
 
 ### IconStyle.height
 
-`float` `default: 20`
+`float` `20`
 
 图标高。
 
 ### IconStyle.layer
 
-`IconStyle.Layer`
+[IconStyle.Layer](#iconstylelayer)
 
 显示在上层还是在下层。
 
@@ -1980,7 +1974,7 @@ Options:
 
 ### IconStyle.show
 
-`bool` `default: false`
+`bool` `false`
 
 Whether the data icon is show.
 
@@ -1998,7 +1992,7 @@ How to display the icon.
 
 ### IconStyle.width
 
-`float` `default: 20`
+`float` `20`
 
 图标宽。
 
@@ -2020,13 +2014,13 @@ class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent), [IS
 
 ### ImageStyle.height
 
-`float` `default: 0`
+`float` `0`
 
 图标高。
 
 ### ImageStyle.show
 
-`bool` `default: true`
+`bool` `true`
 
 Whether the data icon is show.
 
@@ -2044,7 +2038,7 @@ How to display the image.
 
 ### ImageStyle.width
 
-`float` `default: 0`
+`float` `0`
 
 图标宽。
 
@@ -2056,19 +2050,19 @@ Indicator of radar chart, which is used to assign multiple variables(dimensions)
 
 ### Indicator.axisLine
 
-`AxisLine`
+[AxisLine](#axisline)
 
-axis line. [AxisLine](#axisline)
+axis line.
 
 ### Indicator.axisName
 
-`AxisName`
+[AxisName](#axisname)
 
-Name options for radar indicators. [AxisName](#axisname)
+Name options for radar indicators.
 
 ### Indicator.ceilRate
 
-`double` `default: 0`
+`double` `0`
 
 The ratio of maximum and minimum values rounded upward. The default is 0, which is automatically calculated.
 
@@ -2080,25 +2074,25 @@ the center of radar chart.
 
 ### Indicator.connectCenter
 
-`bool` `default: false`
+`bool` `false`
 
 Whether serie data connect to radar center with line.
 
 ### Indicator.gridIndex
 
-`int` `default: -1` `v3.8.0`
+`int` `-1` `v3.8.0`
 
 Index of layout component that serie uses. Default is -1 means not use layout, otherwise use the first layout component.
 
 ### Indicator.indicator
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to show indicator.
 
 ### Indicator.indicatorGap
 
-`float` `default: 10`
+`float` `10`
 
 The gap of indicator and radar.
 
@@ -2116,7 +2110,7 @@ the indicator list.
 
 ### Indicator.lineGradient
 
-`bool` `default: true`
+`bool` `true`
 
 Whether need gradient for data line.
 
@@ -2140,7 +2134,7 @@ The name of indicator.
 
 ### Indicator.outRangeColor
 
-`Color32` `default: Color.red`
+`Color32` `Color.red`
 
 The color displayed when data out of range.
 
@@ -2152,7 +2146,7 @@ The position type of indicator.
 
 ### Indicator.radius
 
-`float` `default: 100`
+`float` `100`
 
 the radius of radar.
 
@@ -2176,19 +2170,19 @@ Radar render type, in which 'Polygon' and 'Circle' are supported.
 
 ### Indicator.splitArea
 
-`AxisSplitArea`
+[AxisSplitArea](#axissplitarea)
 
-Split area of axis in grid area. [AxisSplitArea](#axissplitarea)
+Split area of axis in grid area.
 
 ### Indicator.splitLine
 
-`AxisSplitLine`
+[AxisSplitLine](#axissplitline)
 
-split line. [AxisSplitLine](#axissplitline)
+split line.
 
 ### Indicator.splitNumber
 
-`int` `default: 5`
+`int` `5`
 
 Segments of indicator axis.
 
@@ -2260,7 +2254,7 @@ class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent), [IS
 
 ### ItemStyle.borderGap
 
-`float` `default: 0`
+`float` `0`
 
 边框间隙。
 
@@ -2272,7 +2266,7 @@ class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent), [IS
 
 ### ItemStyle.borderWidth
 
-`float` `default: 0`
+`float` `0`
 
 边框宽。
 
@@ -2332,13 +2326,13 @@ Standard number and date format string. Used to format a Double value or a DateT
 
 ### ItemStyle.opacity
 
-`float` `default: 1`
+`float` `1`
 
 透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
 
 ### ItemStyle.show
 
-`bool` `default: true`
+`bool` `true`
 
 是否启用。
 
@@ -2366,49 +2360,49 @@ class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent), [IS
 
 ### LabelLine.endSymbol
 
-`SymbolStyle`
+[SymbolStyle](#symbolstyle)
 
-The symbol of the end point of labelline. [SymbolStyle](#symbolstyle)
+The symbol of the end point of labelline.
 
 ### LabelLine.lineAngle
 
-`float` `default: 60`
+`float` `60`
 
 the angle of visual guild line. Valid for broken line and curve line. Invalid in Pie.
 
 ### LabelLine.lineColor
 
-`Color32` `default: Color32(0,0,0,0)`
+`Color32` `Color32(0,0,0,0)`
 
 the color of visual guild line.
 
 ### LabelLine.lineEndX
 
-`float` `default: 0f` `v3.8.0`
+`float` `0f` `v3.8.0`
 
 The fixed x position of the end point of visual guide line.
 
 ### LabelLine.lineGap
 
-`float` `default: 1.0f`
+`float` `1.0f`
 
 the gap of container and guild line.
 
 ### LabelLine.lineLength1
 
-`float` `default: 25f`
+`float` `25f`
 
 The length of the first segment of visual guide line.
 
 ### LabelLine.lineLength2
 
-`float` `default: 15f`
+`float` `15f`
 
 The length of the second segment of visual guide line.
 
 ### LabelLine.lineType
 
-`LabelLine.LineType`
+[LabelLine.LineType](#labellinelinetype)
 
 the type of visual guide line.
 
@@ -2420,21 +2414,21 @@ Options:
 
 ### LabelLine.lineWidth
 
-`float` `default: 1.0f`
+`float` `1.0f`
 
 the width of visual guild line.
 
 ### LabelLine.show
 
-`bool` `default: true`
+`bool` `true`
 
 Whether the label line is showed.
 
 ### LabelLine.startSymbol
 
-`SymbolStyle`
+[SymbolStyle](#symbolstyle)
 
-The symbol of the start point of labelline. [SymbolStyle](#symbolstyle)
+The symbol of the start point of labelline.
 
 ## LabelStyle
 
@@ -2444,21 +2438,21 @@ Text label of chart, to explain some data information about graphic item like va
 
 ### LabelStyle.autoOffset
 
-`bool` `default: false`
+`bool` `false`
 
 Whether to automatically offset. When turned on, the Y offset will automatically determine the opening of the curve to determine whether to offset up or down.
 
 ### LabelStyle.autoRotate
 
-`bool` `default: false` `v3.6.0`
+`bool` `false` `v3.6.0`
 
 auto rotate of label.
 
 ### LabelStyle.background
 
-`ImageStyle`
+[ImageStyle](#imagestyle)
 
-the sytle of background. [ImageStyle](#imagestyle)
+the sytle of background.
 
 ### LabelStyle.distance
 
@@ -2474,15 +2468,15 @@ label content string template formatter. \n line wrapping is supported. Formatte
 
 ### LabelStyle.height
 
-`float` `default: 0`
+`float` `0`
 
 the height of label. If set as default value 0, it means than the label height auto set as the text height.
 
 ### LabelStyle.icon
 
-`IconStyle`
+[IconStyle](#iconstyle)
 
-the sytle of icon. [IconStyle](#iconstyle)
+the sytle of icon.
 
 ### LabelStyle.numericFormatter
 
@@ -2510,25 +2504,25 @@ Rotation of label.
 
 ### LabelStyle.show
 
-`bool` `default: true`
+`bool` `true`
 
 Whether the label is showed.
 
 ### LabelStyle.textPadding
 
-`TextPadding`
+[TextPadding](#textpadding)
 
-the text padding of label. [TextPadding](#textpadding)
+the text padding of label.
 
 ### LabelStyle.textStyle
 
-`TextStyle`
+[TextStyle](#textstyle)
 
-the sytle of text. [TextStyle](#textstyle)
+the sytle of text.
 
 ### LabelStyle.width
 
-`float` `default: 0`
+`float` `0`
 
 the width of label. If set as default value 0, it means than the label width auto set as the text width.
 
@@ -2554,9 +2548,9 @@ Legend component.The legend component shows different sets of tags, colors, and 
 
 ### Legend.background
 
-`ImageStyle` `v3.1.0`
+[ImageStyle](#imagestyle) `v3.1.0`
 
-the sytle of background. [ImageStyle](#imagestyle)
+the sytle of background.
 
 ### Legend.colors
 
@@ -2584,7 +2578,7 @@ No longer used, the use of LabelStyle.formatter instead.
 
 ### Legend.iconType
 
-`Legend.Type`
+[Legend.Type](#legendtype)
 
 Type of legend.
 
@@ -2601,49 +2595,49 @@ Options:
 
 ### Legend.itemAutoColor
 
-`bool` `default: true`
+`bool` `true`
 
 Whether the legend symbol matches the color automatically.
 
 ### Legend.itemGap
 
-`float` `default: 10f`
+`float` `10f`
 
 The distance between each legend, horizontal distance in horizontal layout, and vertical distance in vertical layout.
 
 ### Legend.itemHeight
 
-`float` `default: 12.0f`
+`float` `12.0f`
 
 Image height of legend symbol.
 
 ### Legend.itemOpacity
 
-`float` `default: 1`
+`float` `1`
 
 the opacity of item color.
 
 ### Legend.itemWidth
 
-`float` `default: 25.0f`
+`float` `25.0f`
 
 Image width of legend symbol.
 
 ### Legend.labelStyle
 
-`LabelStyle`
+[LabelStyle](#labelstyle)
 
-the style of text. [LabelStyle](#labelstyle)
+the style of text.
 
 ### Legend.location
 
-`Location`
+[Location](#location)
 
-The location of legend. [Location](#location)
+The location of legend.
 
 ### Legend.orient
 
-`Orient`
+[Orient](#orient)
 
 Specify whether the layout of legend component is horizontal or vertical.
 
@@ -2654,9 +2648,9 @@ Options:
 
 ### Legend.padding
 
-`Padding` `v3.1.0`
+[Padding](#padding) `v3.1.0`
 
-the paddinng of item and background. [Padding](#padding)
+the paddinng of item and background.
 
 ### Legend.positions
 
@@ -2666,7 +2660,7 @@ the custom positions of legend item.
 
 ### Legend.selectedMode
 
-`Legend.SelectedMode`
+[Legend.SelectedMode](#legendselectedmode)
 
 Selected mode of legend, which controls whether series can be toggled displaying by clicking legends.
 
@@ -2678,15 +2672,15 @@ Options:
 
 ### Legend.show
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to show legend component.
 
 ### Legend.textLimit
 
-`TextLimit` `v3.10.0`
+[TextLimit](#textlimit) `v3.10.0`
 
-the limit of text. [TextLimit](#textlimit)
+the limit of text.
 
 ## LegendTheme
 
@@ -2704,33 +2698,33 @@ class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
 
 ### Level.depth
 
-`int` `default: 0` `v3.10.0`
+`int` `0` `v3.10.0`
 
 the depth of level.
 
 ### Level.itemStyle
 
-`ItemStyle`
+[ItemStyle](#itemstyle)
 
-the item style of level. [ItemStyle](#itemstyle)
+the item style of level.
 
 ### Level.label
 
-`LabelStyle`
+[LabelStyle](#labelstyle)
 
-the label style of level. [LabelStyle](#labelstyle)
+the label style of level.
 
 ### Level.lineStyle
 
-`LineStyle` `v3.10.0`
+[LineStyle](#linestyle) `v3.10.0`
 
-the line style of level. [LineStyle](#linestyle)
+the line style of level.
 
 ### Level.upperLabel
 
-`LabelStyle`
+[LabelStyle](#labelstyle)
 
-the upper label style of level. [LabelStyle](#labelstyle)
+the upper label style of level.
 
 ## LevelStyle
 
@@ -2746,7 +2740,7 @@ class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
 
 ### LevelStyle.show
 
-`bool` `default: false`
+`bool` `false`
 
 是否启用LevelStyle
 
@@ -2760,13 +2754,13 @@ class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent), [IS
 
 ### LineArrow.arrow
 
-`ArrowStyle`
+[ArrowStyle](#arrowstyle)
 
-the arrow of line. [ArrowStyle](#arrowstyle)
+the arrow of line.
 
 ### LineArrow.position
 
-`LineArrow.Position`
+[LineArrow.Position](#linearrowposition)
 
 The position of arrow.
 
@@ -2795,37 +2789,37 @@ the color of line, default use serie color.
 
 ### LineStyle.dashLength
 
-`float` `default: 4` `v3.8.1`
+`float` `4` `v3.8.1`
 
 the length of dash line. default value is 0, which means the length of dash line is 12 times of line width. Represents a multiple of the number of segments in a line chart.
 
 ### LineStyle.dotLength
 
-`float` `default: 2` `v3.8.1`
+`float` `2` `v3.8.1`
 
 the length of dot line. default value is 0, which means the length of dot line is 2 times of line width. Represents a multiple of the number of segments in a line chart.
 
 ### LineStyle.gapLength
 
-`float` `default: 2` `v3.8.1`
+`float` `2` `v3.8.1`
 
 the length of gap line. default value is 0, which means the length of gap line is 3 times of line width. Represents a multiple of the number of segments in a line chart.
 
 ### LineStyle.length
 
-`float` `default: 0`
+`float` `0`
 
 the length of line.
 
 ### LineStyle.opacity
 
-`float` `default: 1`
+`float` `1`
 
 Opacity of the line. Supports value from 0 to 1, and the line will not be drawn when set to 0.
 
 ### LineStyle.show
 
-`bool` `default: true`
+`bool` `true`
 
 Whether show line.
 
@@ -2843,7 +2837,7 @@ the end color of line, default use serie color.
 
 ### LineStyle.type
 
-`LineStyle.Type`
+[LineStyle.Type](#linestyletype)
 
 the type of line.
 
@@ -2858,7 +2852,7 @@ Options:
 
 ### LineStyle.width
 
-`float` `default: 0`
+`float` `0`
 
 the width of line.
 
@@ -2870,7 +2864,7 @@ Location type. Quick to set the general location.
 
 ### Location.align
 
-`Location.Align`
+[Location.Align](#locationalign)
 
 对齐方式。
 
@@ -2922,39 +2916,39 @@ Used to mark an area in chart. For example, mark a time interval.
 
 ### MarkArea.end
 
-`MarkAreaData`
+[MarkAreaData](#markareadata)
 
-标域范围的结束数据。 [MarkAreaData](#markareadata)
+标域范围的结束数据。
 
 ### MarkArea.itemStyle
 
-`ItemStyle`
+[ItemStyle](#itemstyle)
 
-标域样式。 [ItemStyle](#itemstyle)
+标域样式。
 
 ### MarkArea.label
 
-`LabelStyle`
+[LabelStyle](#labelstyle)
 
-标域文本样式。 [LabelStyle](#labelstyle)
+标域文本样式。
 
 ### MarkArea.serieIndex
 
-`int` `default: 0`
+`int` `0`
 
 Serie index of markArea. 标域影响的Serie索引。
 
 ### MarkArea.show
 
-`bool` `default: true`
+`bool` `true`
 
 是否显示标域。
 
 ### MarkArea.start
 
-`MarkAreaData`
+[MarkAreaData](#markareadata)
 
-标域范围的起始数据。 [MarkAreaData](#markareadata)
+标域范围的起始数据。
 
 ### MarkArea.text
 
@@ -2970,7 +2964,7 @@ class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
 
 ### MarkAreaData.dimension
 
-`int` `default: 1`
+`int` `1`
 
 From which dimension of data to calculate the maximum and minimum value and so on.
 
@@ -2982,7 +2976,7 @@ Name of the marker, which will display as a label.
 
 ### MarkAreaData.type
 
-`MarkAreaType`
+[MarkAreaType](#markareatype)
 
 Special markArea types, are used to label maximum value, minimum value and so on.
 
@@ -3026,9 +3020,9 @@ Use a line in the chart to illustrate.
 
 ### MarkLine.animation
 
-`AnimationStyle`
+[AnimationStyle](#animationstyle)
 
-The animation of markline. [AnimationStyle](#animationstyle)
+The animation of markline.
 
 ### MarkLine.data
 
@@ -3038,19 +3032,19 @@ A list of marked data. When the group of data item is 0, each data item represen
 
 ### MarkLine.onTop
 
-`bool` `default: true` `v3.9.0`
+`bool` `true` `v3.9.0`
 
 whether the markline is on top.
 
 ### MarkLine.serieIndex
 
-`int` `default: 0`
+`int` `0`
 
 The serie index of markLine.
 
 ### MarkLine.show
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to display the marking line.
 
@@ -3064,33 +3058,33 @@ Data of marking line.
 
 ### MarkLineData.dimension
 
-`int` `default: 1`
+`int` `1`
 
 From which dimension of data to calculate the maximum and minimum value and so on.
 
 ### MarkLineData.endSymbol
 
-`SymbolStyle`
+[SymbolStyle](#symbolstyle)
 
-The symbol of the end point of markline. [SymbolStyle](#symbolstyle)
+The symbol of the end point of markline.
 
 ### MarkLineData.group
 
-`int` `default: 0`
+`int` `0`
 
 Grouping. When the group is not 0, it means that this data is the starting point or end point of the marking line. Data consistent with the group form a marking line.
 
 ### MarkLineData.label
 
-`LabelStyle`
+[LabelStyle](#labelstyle)
 
-Text styles of label. You can set position to Start, Middle, and End to display text in different locations. [LabelStyle](#labelstyle)
+Text styles of label. You can set position to Start, Middle, and End to display text in different locations.
 
 ### MarkLineData.lineStyle
 
-`LineStyle`
+[LineStyle](#linestyle)
 
-The line style of markline. [LineStyle](#linestyle)
+The line style of markline.
 
 ### MarkLineData.name
 
@@ -3100,13 +3094,13 @@ Name of the marker, which will display as a label.
 
 ### MarkLineData.startSymbol
 
-`SymbolStyle`
+[SymbolStyle](#symbolstyle)
 
-The symbol of the start point of markline. [SymbolStyle](#symbolstyle)
+The symbol of the start point of markline.
 
 ### MarkLineData.type
 
-`MarkLineType`
+[MarkLineType](#marklinetype)
 
 Special label types, are used to label maximum value, minimum value and so on.
 
@@ -3144,7 +3138,7 @@ That's the value on the Y-axis. The value specified when the Y axis is the categ
 
 ### MarkLineData.zeroPosition
 
-`bool` `default: false`
+`bool` `false`
 
 Is the origin of the coordinate system.
 
@@ -3158,25 +3152,25 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 
 ### MarqueeStyle.apply
 
-`bool` `default: false` `v3.5.0`
+`bool` `false` `v3.5.0`
 
 Check whether the scope is applied to the DataZoom. If this parameter is set to true, the range after the selection is complete is the DataZoom selection range.
 
 ### MarqueeStyle.areaStyle
 
-`AreaStyle` `v3.5.0`
+[AreaStyle](#areastyle) `v3.5.0`
 
-The area style of marquee. [AreaStyle](#areastyle)
+The area style of marquee.
 
 ### MarqueeStyle.lineStyle
 
-`LineStyle` `v3.5.0`
+[LineStyle](#linestyle) `v3.5.0`
 
-The line style of marquee border. [LineStyle](#linestyle)
+The line style of marquee border.
 
 ### MarqueeStyle.realRect
 
-`bool` `default: false` `v3.5.0`
+`bool` `false` `v3.5.0`
 
 Whether to select the actual box selection area. When true, the actual range between the mouse's actual point and the end point is used as the box selection area.
 
@@ -3190,7 +3184,7 @@ class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
 
 ### MLValue.type
 
-`MLValue.Type`
+[MLValue.Type](#mlvaluetype)
 
 
 
@@ -3204,7 +3198,6 @@ Options:
 
 `float`
 
-
 ## Padding
 
 class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent) / Subclasses: [TextPadding](#textpadding)
@@ -3213,31 +3206,31 @@ padding setting of item or text.
 
 ### Padding.bottom
 
-`float` `default: 0`
+`float` `0`
 
 padding of bottom.
 
 ### Padding.left
 
-`float` `default: 2f`
+`float` `2f`
 
 padding of left.
 
 ### Padding.right
 
-`float` `default: 2f`
+`float` `2f`
 
 padding of right.
 
 ### Padding.show
 
-`bool` `default: true`
+`bool` `true`
 
 show padding. 是否显示。
 
 ### Padding.top
 
-`float` `default: 0`
+`float` `0`
 
 padding of top.
 
@@ -3263,19 +3256,19 @@ Background color of grid, which is transparent by default.
 
 ### ParallelCoord.bottom
 
-`float` `default: 0.12f`
+`float` `0.12f`
 
 Distance between grid component and the bottom side of the container.
 
 ### ParallelCoord.left
 
-`float` `default: 0.1f`
+`float` `0.1f`
 
 Distance between grid component and the left side of the container.
 
 ### ParallelCoord.orient
 
-`Orient`
+[Orient](#orient)
 
 Orientation of the axis. By default, it's 'Vertical'. You can set it to be 'Horizonal' to make a vertical axis.
 
@@ -3286,19 +3279,19 @@ Options:
 
 ### ParallelCoord.right
 
-`float` `default: 0.08f`
+`float` `0.08f`
 
 Distance between grid component and the right side of the container.
 
 ### ParallelCoord.show
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to show the grid in rectangular coordinate.
 
 ### ParallelCoord.top
 
-`float` `default: 0.22f`
+`float` `0.22f`
 
 Distance between grid component and the top side of the container.
 
@@ -3308,7 +3301,7 @@ class in XCharts.Runtime / Inherits from: [Serie](#serie)
 
 ### Pie.radiusGradient
 
-`bool` `default: false` `v3.8.1`
+`bool` `false` `v3.8.1`
 
 Whether to use gradient color in pie chart.
 
@@ -3336,7 +3329,7 @@ The center of ploar. The center[0] is the x-coordinate, and the center[1] is the
 
 ### PolarCoord.indicatorLabelOffset
 
-`float` `default: 30f` `v3.8.0`
+`float` `30f` `v3.8.0`
 
 The offset of indicator label.
 
@@ -3348,7 +3341,7 @@ the radius of polar.
 
 ### PolarCoord.show
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to show the polor component.
 
@@ -3358,7 +3351,7 @@ class in XCharts.Runtime / Inherits from: [Serie](#serie), [INeedSerieContainer]
 
 ### Radar.smooth
 
-`bool` `default: false` `v3.2.0`
+`bool` `false` `v3.2.0`
 
 Whether use smooth curve.
 
@@ -3388,7 +3381,7 @@ class in XCharts.Runtime / Inherits from: [Serie](#serie)
 
 ### Ring.radiusGradient
 
-`bool` `default: false` `v3.12.0`
+`bool` `false` `v3.12.0`
 
 Whether to use gradient color in pie chart.
 
@@ -3412,7 +3405,7 @@ class in XCharts.Runtime / Inherits from: [BaseSerie](#baseserie), [IComparable]
 
 ### Serie.align
 
-`Align`
+[Align](#align)
 
 组件水平方向对齐方式。
 
@@ -3424,37 +3417,37 @@ Options:
 
 ### Serie.animation
 
-`AnimationStyle`
+[AnimationStyle](#animationstyle)
 
-The start animation. [AnimationStyle](#animationstyle)
+The start animation.
 
 ### Serie.avoidLabelOverlap
 
-`bool` `default: false`
+`bool` `false`
 
 If the pie chart and labels are displayed externally, whether to enable the label overlap prevention policy is disabled by default. If labels are crowded and overlapped, the positions of labels are moved to prevent label overlap.
 
 ### Serie.barGap
 
-`float` `default: 0.1f`
+`float` `0.1f`
 
 The gap between bars between different series, is a percent value like '0.3f' , which means 30% of the bar width, can be set as a fixed value. Set barGap as '-1' can overlap bars that belong to different series, which is useful when making a series of bar be background. In a single coodinate system, this attribute is shared by multiple 'bar' series. This attribute should be set on the last 'bar' series in the coodinate system, then it will be adopted by all 'bar' series in the coordinate system.
 
 ### Serie.barMaxWidth
 
-`float` `default: 0` `v3.5.0`
+`float` `0` `v3.5.0`
 
 The max width of the bar. Adaptive when default 0.
 
 ### Serie.barPercentStack
 
-`bool` `default: false`
+`bool` `false`
 
 柱形图是否为百分比堆积。相同stack的serie只要有一个barPercentStack为true，则就显示成百分比堆叠柱状图。
 
 ### Serie.barType
 
-`BarType`
+[BarType](#bartype)
 
 柱形图类型。
 
@@ -3466,19 +3459,19 @@ Options:
 
 ### Serie.barWidth
 
-`float` `default: 0`
+`float` `0`
 
 The width of the bar. Adaptive when default 0.
 
 ### Serie.barZebraGap
 
-`float` `default: 2f`
+`float` `2f`
 
 斑马线的间距。
 
 ### Serie.barZebraWidth
 
-`float` `default: 4f`
+`float` `4f`
 
 斑马线的粗细。
 
@@ -3496,25 +3489,25 @@ the center of chart.
 
 ### Serie.clickOffset
 
-`bool` `default: true`
+`bool` `true`
 
 Whether offset when mouse click pie chart item.
 
 ### Serie.clip
 
-`bool` `default: false`
+`bool` `false`
 
 If clip the overflow on the coordinate system.
 
 ### Serie.clockwise
 
-`bool` `default: true`
+`bool` `true`
 
 是否顺时针。
 
 ### Serie.colorBy
 
-`SerieColorBy` `v3.2.0`
+[SerieColorBy](#seriecolorby) `v3.2.0`
 
 The policy to take color from theme.
 
@@ -3538,7 +3531,7 @@ the chart coord system of serie.
 
 ### Serie.dataSortType
 
-`SerieDataSortType`
+[SerieDataSortType](#seriedatasorttype)
 
 组件的数据排序。
 
@@ -3562,25 +3555,25 @@ gap of item.
 
 ### Serie.gridIndex
 
-`int` `default: -1` `v3.8.0`
+`int` `-1` `v3.8.0`
 
 Index of layout component that serie uses. Default is -1 means not use layout, otherwise use the first layout component.
 
 ### Serie.ignore
 
-`bool` `default: false`
+`bool` `false`
 
 是否开启忽略数据。当为 true 时，数据值为 ignoreValue 时不进行绘制。
 
 ### Serie.ignoreLineBreak
 
-`bool` `default: false`
+`bool` `false`
 
 忽略数据时折线是断开还是连接。默认false为连接。
 
 ### Serie.ignoreValue
 
-`double` `default: 0`
+`double` `0`
 
 忽略数据的默认值。当ignore为true才有效。
 
@@ -3598,19 +3591,19 @@ Whether to add new data at the head or at the end of the list.
 
 ### Serie.itemStyle
 
-`ItemStyle`
+[ItemStyle](#itemstyle)
 
-The style of data item. [ItemStyle](#itemstyle)
+The style of data item.
 
 ### Serie.large
 
-`bool` `default: true`
+`bool` `true`
 
 是否开启大数据量优化，在数据图形特别多而出现卡顿时候可以开启。 开启后配合 largeThreshold 在数据量大于指定阈值的时候对绘制进行优化。 缺点：优化后不能自定义设置单个数据项的样式，不能显示Label。
 
 ### Serie.largeThreshold
 
-`int` `default: 200`
+`int` `200`
 
 Turn on the threshold for mass optimization. Enter performance mode only when large is enabled and the amount of data is greater than the threshold.
 
@@ -3622,13 +3615,13 @@ Distance between component and the left side of the container.
 
 ### Serie.lineStyle
 
-`LineStyle`
+[LineStyle](#linestyle)
 
-The style of line. [LineStyle](#linestyle)
+The style of line.
 
 ### Serie.lineType
 
-`LineType`
+[LineType](#linetype)
 
 The type of line chart.
 
@@ -3666,7 +3659,7 @@ The max number of data to show in chart.
 
 ### Serie.maxSize
 
-`float` `default: 1f`
+`float` `1f`
 
 数据最大值 max 映射的宽度。
 
@@ -3684,7 +3677,7 @@ The minimum angle of sector(0-360). It prevents some sector from being too small
 
 ### Serie.minRadius
 
-`float` `default: 0f` `v3.8.0`
+`float` `0f` `v3.8.0`
 
 the min radius of chart. It can be used to limit the minimum radius of the rose chart.
 
@@ -3696,25 +3689,25 @@ The min number of data to show in chart.
 
 ### Serie.minShowLabel
 
-`bool` `default: false` `v3.10.0`
+`bool` `false` `v3.10.0`
 
 Whether the label is not displayed when the enabled value is less than the specified value.
 
 ### Serie.minShowLabelValue
 
-`double` `default: 0` `v3.10.0`
+`double` `0` `v3.10.0`
 
 When 'minShowLabel' is enabled, labels are not displayed if the value is less than this value.
 
 ### Serie.minSize
 
-`float` `default: 0f`
+`float` `0f`
 
 数据最小值 min 映射的宽度。
 
 ### Serie.orient
 
-`Orient`
+[Orient](#orient)
 
 组件的朝向。
 
@@ -3725,31 +3718,31 @@ Options:
 
 ### Serie.parallelIndex
 
-`int` `default: 0`
+`int` `0`
 
 Index of parallel coord component that serie uses.
 
 ### Serie.placeHolder
 
-`bool` `default: false`
+`bool` `false`
 
 占位模式。占位模式时，数据有效但不参与渲染和显示。
 
 ### Serie.polarIndex
 
-`int` `default: 0`
+`int` `0`
 
 Index of polar component that serie uses.
 
 ### Serie.radarIndex
 
-`int` `default: 0`
+`int` `0`
 
 Index of radar component that radar chart uses.
 
 ### Serie.radarType
 
-`RadarType`
+[RadarType](#radartype)
 
 雷达图类型。
 
@@ -3772,7 +3765,7 @@ Distance between component and the right side of the container.
 
 ### Serie.roseType
 
-`RoseType`
+[RoseType](#rosetype)
 
 Whether to show as Nightingale chart.
 
@@ -3790,19 +3783,19 @@ Options:
 
 ### Serie.sampleAverage
 
-`float` `default: 0`
+`float` `0`
 
 设定的采样平均值。当sampleType 为 Peak 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为0时会实时计算所有数据的平均值。
 
 ### Serie.sampleDist
 
-`float` `default: 0`
+`float` `0`
 
 the min pixel dist of sample.
 
 ### Serie.sampleType
 
-`SampleType`
+[SampleType](#sampletype)
 
 the type of sample.
 
@@ -3828,13 +3821,13 @@ the type of serie.
 
 ### Serie.show
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to show serie in chart.
 
 ### Serie.showAsPositiveNumber
 
-`bool` `default: false`
+`bool` `false`
 
 Show negative number as positive number.
 
@@ -3852,13 +3845,13 @@ Show negative number as positive number.
 
 ### Serie.singleAxisIndex
 
-`int` `default: 0`
+`int` `0`
 
 Index of single axis component that serie uses.
 
 ### Serie.smoothLimit
 
-`bool` `default: false` `v3.4.0`
+`bool` `false` `v3.4.0`
 
 Whether to restrict the curve. When true, the curve between two continuous data of the same value is restricted to not exceed the data point, and is flat to the data point.
 
@@ -3882,7 +3875,7 @@ If stack the value. On the same category axis, the series with the same stack na
 
 ### Serie.state
 
-`SerieState` `v3.2.0`
+[SerieState](#seriestate) `v3.2.0`
 
 The default state of a serie.
 
@@ -3896,9 +3889,9 @@ Options:
 
 ### Serie.symbol
 
-`SerieSymbol`
+[SerieSymbol](#seriesymbol)
 
-the symbol of serie data item. [SerieSymbol](#seriesymbol)
+the symbol of serie data item.
 
 ### Serie.top
 
@@ -3908,19 +3901,19 @@ Distance between component and the top side of the container.
 
 ### Serie.vesselIndex
 
-`int` `default: 0`
+`int` `0`
 
 Index of vesel component that liquid chart uses.
 
 ### Serie.xAxisIndex
 
-`int` `default: 0`
+`int` `0`
 
 the index of XAxis.
 
 ### Serie.yAxisIndex
 
-`int` `default: 0`
+`int` `0`
 
 the index of YAxis.
 
@@ -3980,7 +3973,7 @@ Whether the data item is selected.
 
 ### SerieData.state
 
-`SerieState` `v3.2.0`
+[SerieState](#seriestate) `v3.2.0`
 
 the state of serie data.
 
@@ -4026,19 +4019,19 @@ class in XCharts.Runtime / Inherits from: [SymbolStyle](#symbolstyle), [ISerieDa
 
 ### SerieSymbol.dataIndex
 
-`int` `default: 1`
+`int` `1`
 
 whitch data index is when the sizeType assined as FromData.
 
 ### SerieSymbol.dataScale
 
-`float` `default: 1`
+`float` `1`
 
 the scale of data when sizeType assined as FromData.
 
 ### SerieSymbol.forceShowLast
 
-`bool` `default: false`
+`bool` `false`
 
 whether to show the last symbol.
 
@@ -4050,19 +4043,19 @@ the interval of show symbol.
 
 ### SerieSymbol.maxSize
 
-`float` `default: 0f` `v3.3.0`
+`float` `0f` `v3.3.0`
 
 Maximum symbol size.
 
 ### SerieSymbol.minSize
 
-`float` `default: 0f` `v3.3.0`
+`float` `0f` `v3.3.0`
 
 Minimum symbol size.
 
 ### SerieSymbol.repeat
 
-`bool` `default: false`
+`bool` `false`
 
 图形是否重复。
 
@@ -4074,7 +4067,7 @@ the function of size when sizeType assined as Function.
 
 ### SerieSymbol.sizeType
 
-`SymbolSizeType`
+[SymbolSizeType](#symbolsizetype)
 
 the type of symbol size.
 
@@ -4096,31 +4089,31 @@ class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
 
 ### SerieTheme.candlestickBorderColor
 
-`Color32` `default: Color32(235, 84, 84, 255)`
+`Color32` `Color32(235, 84, 84, 255)`
 
 K线图阳线（跌）边框色
 
 ### SerieTheme.candlestickBorderColor0
 
-`Color32` `default: Color32(71, 178, 98, 255)`
+`Color32` `Color32(71, 178, 98, 255)`
 
 K线图阴线（跌）边框色
 
 ### SerieTheme.candlestickBorderWidth
 
-`float` `default: 1`
+`float` `1`
 
 K线图边框宽度
 
 ### SerieTheme.candlestickColor
 
-`Color32` `default: Color32(235, 84, 84, 255)`
+`Color32` `Color32(235, 84, 84, 255)`
 
 K线图阳线（涨）填充色
 
 ### SerieTheme.candlestickColor0
 
-`Color32` `default: Color32(71, 178, 98, 255)`
+`Color32` `Color32(71, 178, 98, 255)`
 
 K线图阴线（跌）填充色
 
@@ -4150,7 +4143,7 @@ Global parameter setting component. The default value can be used in general, an
 
 ### Settings.axisMaxSplitNumber
 
-`float` `default: 50` `v3.1.0`
+`float` `50` `v3.1.0`
 
 the max splitnumber of axis.
 
@@ -4162,7 +4155,7 @@ Base Pointer 材质球，设置后会影响Axis等。
 
 ### Settings.cicleSmoothness
 
-`float` `default: 2f`
+`float` `2f`
 
 the smoothess of cricle.
 
@@ -4174,37 +4167,37 @@ The radius of rounded corner. Its unit is px. Use array to respectively specify 
 
 ### Settings.legendIconLineWidth
 
-`float` `default: 2`
+`float` `2`
 
 the width of line serie legend.
 
 ### Settings.lineSegmentDistance
 
-`float` `default: 3f`
+`float` `3f`
 
 The partition distance of a line segment. A line in a normal line chart is made up of many segments, the number of which is determined by the change in value. The smaller the number of segments, the higher the number of vertices. When the area with gradient is filled, the larger the value, the worse the transition effect.
 
 ### Settings.lineSmoothness
 
-`float` `default: 2f`
+`float` `2f`
 
 Smoothness of curve. The smaller the value, the smoother the curve, but the number of vertices will increase.
 
 ### Settings.lineSmoothStyle
 
-`float` `default: 2.5f`
+`float` `2.5f`
 
 Curve smoothing factor. By adjusting the smoothing coefficient, the curvature of the curve can be changed, and different curves with slightly different appearance can be obtained.
 
 ### Settings.maxPainter
 
-`int` `default: 10`
+`int` `10`
 
 max painter.
 
 ### Settings.reversePainter
 
-`bool` `default: false`
+`bool` `false`
 
 Painter是否逆序。逆序时index大的serie最先绘制。
 
@@ -4216,8 +4209,7 @@ Serie Pointer 材质球，设置后会影响所有Serie。
 
 ### Settings.show
 
-`bool` `default: true`
-
+`bool` `true`
 
 ### Settings.topPainterMaterial
 
@@ -4251,25 +4243,25 @@ Single axis.
 
 ### SingleAxis.bottom
 
-`float` `default: 0.2f`
+`float` `0.2f`
 
 Distance between component and the bottom side of the container.
 
 ### SingleAxis.height
 
-`float` `default: 50`
+`float` `50`
 
 height of axis.
 
 ### SingleAxis.left
 
-`float` `default: 0.1f`
+`float` `0.1f`
 
 Distance between component and the left side of the container.
 
 ### SingleAxis.orient
 
-`Orient`
+[Orient](#orient)
 
 Orientation of the axis. By default, it's 'Horizontal'. You can set it to be 'Vertical' to make a vertical axis.
 
@@ -4280,19 +4272,19 @@ Options:
 
 ### SingleAxis.right
 
-`float` `default: 0.1f`
+`float` `0.1f`
 
 Distance between component and the right side of the container.
 
 ### SingleAxis.top
 
-`float` `default: 0f`
+`float` `0f`
 
 Distance between component and the top side of the container.
 
 ### SingleAxis.width
 
-`float` `default: 0`
+`float` `0`
 
 width of axis.
 
@@ -4326,45 +4318,45 @@ the state style of serie.
 
 ### StateStyle.areaStyle
 
-`AreaStyle`
+[AreaStyle](#areastyle)
 
-区域样式。 [AreaStyle](#areastyle)
+区域样式。
 
 ### StateStyle.itemStyle
 
-`ItemStyle`
+[ItemStyle](#itemstyle)
 
-图形样式。 [ItemStyle](#itemstyle)
+图形样式。
 
 ### StateStyle.label
 
-`LabelStyle`
+[LabelStyle](#labelstyle)
 
-图形文本标签。 [LabelStyle](#labelstyle)
+图形文本标签。
 
 ### StateStyle.labelLine
 
-`LabelLine`
+[LabelLine](#labelline)
 
-图形文本引导线样式。 [LabelLine](#labelline)
+图形文本引导线样式。
 
 ### StateStyle.lineStyle
 
-`LineStyle`
+[LineStyle](#linestyle)
 
-折线样式。 [LineStyle](#linestyle)
+折线样式。
 
 ### StateStyle.show
 
-`bool` `default: true`
+`bool` `true`
 
 是否启用高亮样式。
 
 ### StateStyle.symbol
 
-`SerieSymbol`
+[SerieSymbol](#seriesymbol)
 
-标记样式。 [SerieSymbol](#seriesymbol)
+标记样式。
 
 ## SubTitleTheme
 
@@ -4384,13 +4376,13 @@ class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent) / Su
 
 ### SymbolStyle.gap
 
-`float` `default: 0`
+`float` `0`
 
 the gap of symbol and line segment.
 
 ### SymbolStyle.height
 
-`float` `default: 0f`
+`float` `0f`
 
 图形的高。
 
@@ -4408,25 +4400,25 @@ the fill type of image.
 
 ### SymbolStyle.offset
 
-`Vector2` `default: Vector2.zero`
+`Vector2` `Vector2.zero`
 
 图形的偏移。
 
 ### SymbolStyle.show
 
-`bool` `default: true`
+`bool` `true`
 
 Whether the symbol is showed.
 
 ### SymbolStyle.size
 
-`float` `default: 0f`
+`float` `0f`
 
 the size of symbol.
 
 ### SymbolStyle.type
 
-`SymbolType`
+[SymbolType](#symboltype)
 
 the type of symbol.
 
@@ -4449,7 +4441,7 @@ Options:
 
 ### SymbolStyle.width
 
-`float` `default: 0f`
+`float` `0f`
 
 图形的宽。
 
@@ -4461,19 +4453,19 @@ Text character limitation and adaptation component. When the length of the text 
 
 ### TextLimit.enable
 
-`bool` `default: false`
+`bool` `false`
 
 Whether to enable text limit.
 
 ### TextLimit.gap
 
-`float` `default: 1`
+`float` `1`
 
 White pixel distance at both ends.
 
 ### TextLimit.maxWidth
 
-`float` `default: 0`
+`float` `0`
 
 Set the maximum width. A default of 0 indicates automatic fetch; otherwise, custom.
 
@@ -4503,19 +4495,19 @@ Settings related to text.
 
 ### TextStyle.autoAlign
 
-`bool` `default: true`
+`bool` `true`
 
 文本是否让系统自动选对齐方式。为false时才会用alignment。
 
 ### TextStyle.autoColor
 
-`bool` `default: false`
+`bool` `false`
 
 是否开启自动颜色。当开启时，会自动设置颜色。
 
 ### TextStyle.autoWrap
 
-`bool` `default: false`
+`bool` `false`
 
 是否自动换行。
 
@@ -4533,7 +4525,7 @@ the font of text. When `null`, the theme's font is used by default.
 
 ### TextStyle.fontSize
 
-`int` `default: 0`
+`int` `0`
 
 font size.
 
@@ -4545,26 +4537,25 @@ font style.
 
 ### TextStyle.lineSpacing
 
-`float` `default: 1f`
+`float` `1f`
 
 text line spacing.
 
 ### TextStyle.rotate
 
-`float` `default: 0`
+`float` `0`
 
 Rotation of text.
 
 ### TextStyle.show
 
-`bool` `default: true`
+`bool` `true`
 
 Settings related to text.
 
 ### TextStyle.tMPAlignment
 
 `TextAlignmentOptions`
-
 
 ### TextStyle.tMPFont
 
@@ -4576,11 +4567,9 @@ the font of textmeshpro.
 
 `FontStyles`
 
-
 ### TextStyle.tMPSpriteAsset
 
 `TMP_SpriteAsset` `v3.1.0`
-
 
 ## Theme
 
@@ -4590,9 +4579,7 @@ Theme.
 
 ### Theme.axis
 
-`AxisTheme`
-
- [AxisTheme](#axistheme)
+[AxisTheme](#axistheme)
 
 ### Theme.backgroundColor
 
@@ -4608,9 +4595,7 @@ The color list of palette. If no color is set in series, the colors would be ado
 
 ### Theme.common
 
-`ComponentTheme`
-
- [ComponentTheme](#componenttheme)
+[ComponentTheme](#componenttheme)
 
 ### Theme.contrastColor
 
@@ -4620,9 +4605,7 @@ the contrast color of chart.
 
 ### Theme.dataZoom
 
-`DataZoomTheme`
-
- [DataZoomTheme](#datazoomtheme)
+[DataZoomTheme](#datazoomtheme)
 
 ### Theme.font
 
@@ -4632,21 +4615,15 @@ the font of chart text。
 
 ### Theme.legend
 
-`LegendTheme`
-
- [LegendTheme](#legendtheme)
+[LegendTheme](#legendtheme)
 
 ### Theme.serie
 
-`SerieTheme`
-
- [SerieTheme](#serietheme)
+[SerieTheme](#serietheme)
 
 ### Theme.subTitle
 
-`SubTitleTheme`
-
- [SubTitleTheme](#subtitletheme)
+[SubTitleTheme](#subtitletheme)
 
 ### Theme.themeName
 
@@ -4656,7 +4633,7 @@ the name of theme.
 
 ### Theme.themeType
 
-`ThemeType`
+[ThemeType](#themetype)
 
 the theme of chart.
 
@@ -4669,9 +4646,7 @@ Options:
 
 ### Theme.title
 
-`TitleTheme`
-
- [TitleTheme](#titletheme)
+[TitleTheme](#titletheme)
 
 ### Theme.tMPFont
 
@@ -4681,15 +4656,11 @@ the font of chart text。
 
 ### Theme.tooltip
 
-`TooltipTheme`
-
- [TooltipTheme](#tooltiptheme)
+[TooltipTheme](#tooltiptheme)
 
 ### Theme.visualMap
 
-`VisualMapTheme`
-
- [VisualMapTheme](#visualmaptheme)
+[VisualMapTheme](#visualmaptheme)
 
 ## ThemeStyle
 
@@ -4707,32 +4678,29 @@ the custom background color of chart.
 
 `List<Color32>`
 
-
 ### ThemeStyle.customFont
 
 `Font`
 
-
 ### ThemeStyle.enableCustomTheme
 
-`bool` `default: false`
+`bool` `false`
 
 Whether to customize theme colors. When set to true, you can use 'sync color to custom' to synchronize the theme color to the custom color. It can also be set manually.
 
 ### ThemeStyle.sharedTheme
 
-`Theme`
+[Theme](#theme)
 
-the asset of theme. [Theme](#theme)
+the asset of theme.
 
 ### ThemeStyle.show
 
-`bool` `default: true`
-
+`bool` `true`
 
 ### ThemeStyle.transparentBackground
 
-`bool` `default: false`
+`bool` `false`
 
 Whether the background color is transparent. When true, the background color is not drawn.
 
@@ -4744,33 +4712,33 @@ Title component, including main title and subtitle.
 
 ### Title.itemGap
 
-`float` `default: 0`
+`float` `0`
 
 [default:8] The gap between the main title and subtitle.
 
 ### Title.labelStyle
 
-`LabelStyle`
+[LabelStyle](#labelstyle)
 
-The text style of main title. [LabelStyle](#labelstyle)
+The text style of main title.
 
 ### Title.location
 
-`Location`
+[Location](#location)
 
-The location of title component. [Location](#location)
+The location of title component.
 
 ### Title.show
 
-`bool` `default: true`
+`bool` `true`
 
 [default:true] Set this to false to prevent the title from showing.
 
 ### Title.subLabelStyle
 
-`LabelStyle`
+[LabelStyle](#labelstyle)
 
-The text style of sub title. [LabelStyle](#labelstyle)
+The text style of sub title.
 
 ### Title.subText
 
@@ -4802,7 +4770,7 @@ Tooltip component.
 
 ### Tooltip.alwayShowContent
 
-`bool` `default: false`
+`bool` `false`
 
 Whether to trigger after always display.
 
@@ -4826,13 +4794,13 @@ The background type of tooltip.
 
 ### Tooltip.borderColor
 
-`Color32` `default: Color32(230, 230, 230, 255)`
+`Color32` `Color32(230, 230, 230, 255)`
 
 the color of tooltip border.
 
 ### Tooltip.borderWidth
 
-`float` `default: 2f`
+`float` `2f`
 
 the width of tooltip border.
 
@@ -4844,25 +4812,25 @@ the textstyle list of content.
 
 ### Tooltip.fixedHeight
 
-`float` `default: 0`
+`float` `0`
 
 Fixed height. Higher priority than minHeight.
 
 ### Tooltip.fixedWidth
 
-`float` `default: 0`
+`float` `0`
 
 Fixed width. Higher priority than minWidth.
 
 ### Tooltip.fixedX
 
-`float` `default: 0f`
+`float` `0f`
 
 the x positionn of fixedX.
 
 ### Tooltip.fixedY
 
-`float` `default: 0.7f`
+`float` `0.7f`
 
 the y position of fixedY.
 
@@ -4874,7 +4842,7 @@ The default display character information for ignored data.
 
 ### Tooltip.ignoreDataShow
 
-`bool` `default: false`
+`bool` `false`
 
 Whether to show ignored data on tooltip.
 
@@ -4886,15 +4854,15 @@ a string template formatter for a single Serie or data item content. Support for
 
 ### Tooltip.itemHeight
 
-`float` `default: 25f`
+`float` `25f`
 
 height of content text.
 
 ### Tooltip.lineStyle
 
-`LineStyle`
+[LineStyle](#linestyle)
 
-the line style of indicator line. [LineStyle](#linestyle)
+the line style of indicator line.
 
 ### Tooltip.marker
 
@@ -4904,13 +4872,13 @@ the marker of serie.
 
 ### Tooltip.minHeight
 
-`float` `default: 0`
+`float` `0`
 
 Minimum height. If fixedHeight has a value, take priority over fixedHeight.
 
 ### Tooltip.minWidth
 
-`float` `default: 0`
+`float` `0`
 
 Minimum width. If fixedWidth has a value, get fixedWidth first.
 
@@ -4922,25 +4890,25 @@ Standard number and date format string. Used to format a Double value or a DateT
 
 ### Tooltip.offset
 
-`Vector2` `default: Vector2(18f, -25f)`
+`Vector2` `Vector2(18f, -25f)`
 
 The position offset of tooltip relative to the mouse position.
 
 ### Tooltip.paddingLeftRight
 
-`int` `default: 10`
+`int` `10`
 
 the text padding of left and right. defaut:5.
 
 ### Tooltip.paddingTopBottom
 
-`int` `default: 10`
+`int` `10`
 
 the text padding of top and bottom. defaut:5.
 
 ### Tooltip.position
 
-`Tooltip.Position` `v3.3.0`
+[Tooltip.Position](#tooltipposition) `v3.3.0`
 
 Type of position.
 
@@ -4953,13 +4921,13 @@ Options:
 
 ### Tooltip.show
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to show the tooltip component.
 
 ### Tooltip.showContent
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to show the tooltip floating layer, whose default value is true. It should be configurated to be false, if you only need tooltip to trigger the event or show the axisPointer without content.
 
@@ -4971,19 +4939,19 @@ String template formatter for tooltip title content. \n line wrapping is support
 
 ### Tooltip.titleHeight
 
-`float` `default: 25f`
+`float` `25f`
 
 height of title text.
 
 ### Tooltip.titleLabelStyle
 
-`LabelStyle`
+[LabelStyle](#labelstyle)
 
-the textstyle of title. [LabelStyle](#labelstyle)
+the textstyle of title.
 
 ### Tooltip.trigger
 
-`Tooltip.Trigger`
+[Tooltip.Trigger](#tooltiptrigger)
 
 Type of triggering.
 
@@ -4996,7 +4964,7 @@ Options:
 
 ### Tooltip.triggerOn
 
-`Tooltip.TriggerOn` `v3.11.0`
+[Tooltip.TriggerOn](#tooltiptriggeron) `v3.11.0`
 
 Condition of trigger tooltip.
 
@@ -5007,7 +4975,7 @@ Options:
 
 ### Tooltip.type
 
-`Tooltip.Type`
+[Tooltip.Type](#tooltiptype)
 
 Indicator type.
 
@@ -5049,7 +5017,7 @@ the color of line.
 
 ### TooltipTheme.lineType
 
-`LineStyle.Type`
+[LineStyle.Type](#linestyletype)
 
 the type of line.
 
@@ -5064,7 +5032,7 @@ Options:
 
 ### TooltipTheme.lineWidth
 
-`float` `default: 1f`
+`float` `1f`
 
 the width of line.
 
@@ -5074,19 +5042,17 @@ class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
 
 ### UIComponentTheme.sharedTheme
 
-`Theme`
+[Theme](#theme)
 
-the asset of theme. [Theme](#theme)
+the asset of theme.
 
 ### UIComponentTheme.show
 
-`bool` `default: true`
-
+`bool` `true`
 
 ### UIComponentTheme.transparentBackground
 
-`bool` `default: false`
-
+`bool` `false`
 
 ## ViewControl
 
@@ -5098,13 +5064,13 @@ View control component in 3D coordinate system.
 
 ### ViewControl.alpha
 
-`float` `default: 90f`
+`float` `90f`
 
 The angle of the view in the x-z plane.
 
 ### ViewControl.beta
 
-`float` `default: 55f`
+`float` `55f`
 
 The angle of the view in the y-z plane.
 
@@ -5116,31 +5082,31 @@ VisualMap component. Mapping data to visual elements such as colors.
 
 ### VisualMap.autoMinMax
 
-`bool` `default: true`
+`bool` `true`
 
 Automatically set min, Max value 自动设置min，max的值
 
 ### VisualMap.borderWidth
 
-`float` `default: 0`
+`float` `0`
 
 Border line width.
 
 ### VisualMap.calculable
 
-`bool` `default: false`
+`bool` `false`
 
 Whether the handle used for dragging is displayed (the handle can be dragged to adjust the selected range).
 
 ### VisualMap.dimension
 
-`int` `default: -1`
+`int` `-1`
 
 Specifies "which dimension" of the data to map to the visual element. "Data" is series.data.
 
 ### VisualMap.hoverLink
 
-`bool` `default: true`
+`bool` `true`
 
 When the hoverLink function is turned on, when the mouse hovers over the visualMap component, the corresponding value of the mouse position is highlighted in the corresponding graphic element in the diagram.
 
@@ -5152,43 +5118,43 @@ When the hoverLink function is turned on, when the mouse hovers over the visualM
 
 ### VisualMap.itemGap
 
-`float` `default: 10f`
+`float` `10f`
 
 每个图元之间的间隔距离。
 
 ### VisualMap.itemHeight
 
-`float` `default: 140f`
+`float` `140f`
 
 The height of the figure, that is, the height of the color bar.
 
 ### VisualMap.itemWidth
 
-`float` `default: 20f`
+`float` `20f`
 
 The width of the figure, that is, the width of the color bar.
 
 ### VisualMap.location
 
-`Location`
+[Location](#location)
 
-The location of component. [Location](#location)
+The location of component.
 
 ### VisualMap.max
 
-`double` `default: 0`
+`double` `0`
 
 范围最大值
 
 ### VisualMap.min
 
-`double` `default: 0`
+`double` `0`
 
 范围最小值
 
 ### VisualMap.orient
 
-`Orient`
+[Orient](#orient)
 
 Specify whether the layout of component is horizontal or vertical.
 
@@ -5211,13 +5177,13 @@ Specifies the position of the numeric value corresponding to the handle. Range s
 
 ### VisualMap.realtime
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to update in real time while dragging.
 
 ### VisualMap.selectedMode
 
-`VisualMap.SelectedMode`
+[VisualMap.SelectedMode](#visualmapselectedmode)
 
 the selected mode for Piecewise visualMap.
 
@@ -5228,25 +5194,25 @@ Options:
 
 ### VisualMap.serieIndex
 
-`int` `default: 0`
+`int` `0`
 
 the serie index of visualMap.
 
 ### VisualMap.show
 
-`bool` `default: true`
+`bool` `true`
 
 Whether to enable components.
 
 ### VisualMap.showUI
 
-`bool` `default: false`
+`bool` `false`
 
 Whether to display components. If set to false, it will not show up, but the data mapping function still exists.
 
 ### VisualMap.splitNumber
 
-`int` `default: 5`
+`int` `5`
 
 For continuous data, it is automatically evenly divided into several segments and automatically matches the size of inRange color list when the default is 0.
 
@@ -5264,7 +5230,7 @@ The distance between the two text bodies.
 
 ### VisualMap.type
 
-`VisualMap.Type`
+[VisualMap.Type](#visualmaptype)
 
 the type of visualmap component.
 
@@ -5275,13 +5241,13 @@ Options:
 
 ### VisualMap.workOnArea
 
-`bool` `default: false`
+`bool` `false`
 
 Whether the visualmap is work on areaStyle of linechart.
 
 ### VisualMap.workOnLine
 
-`bool` `default: true`
+`bool` `true`
 
 Whether the visualmap is work on linestyle of linechart.
 
@@ -5337,7 +5303,7 @@ the width of border.
 
 ### VisualMapTheme.triangeLen
 
-`float` `default: 20f`
+`float` `20f`
 
 可视化组件的调节三角形边长。
 
@@ -5369,7 +5335,7 @@ class in XCharts.Runtime / Inherits from: [ScriptableObject](https://docs.unity3
 
 ### XCSettings.axisLineType
 
-`LineStyle.Type`
+[LineStyle.Type](#linestyletype)
 
 
 
@@ -5384,12 +5350,11 @@ Options:
 
 ### XCSettings.axisLineWidth
 
-`float` `default: 0.8f`
-
+`float` `0.8f`
 
 ### XCSettings.axisSplitLineType
 
-`LineStyle.Type`
+[LineStyle.Type](#linestyletype)
 
 
 
@@ -5404,165 +5369,133 @@ Options:
 
 ### XCSettings.axisSplitLineWidth
 
-`float` `default: 0.8f`
-
+`float` `0.8f`
 
 ### XCSettings.axisTickLength
 
-`float` `default: 5f`
-
+`float` `5f`
 
 ### XCSettings.axisTickWidth
 
-`float` `default: 0.8f`
-
+`float` `0.8f`
 
 ### XCSettings.cicleSmoothness
 
-`float` `default: 2f`
-
+`float` `2f`
 
 ### XCSettings.customThemes
 
 `List<Theme>`
 
-
 ### XCSettings.dataZoomBorderWidth
 
-`float` `default: 0.5f`
-
+`float` `0.5f`
 
 ### XCSettings.dataZoomDataLineWidth
 
-`float` `default: 0.5f`
-
+`float` `0.5f`
 
 ### XCSettings.editorShowAllListData
 
-`bool` `default: false`
-
+`bool` `false`
 
 ### XCSettings.font
 
 `Font`
 
-
 ### XCSettings.fontSizeLv1
 
-`int` `default: 28`
+`int` `28`
 
 一级字体大小。
 
 ### XCSettings.fontSizeLv2
 
-`int` `default: 24`
-
+`int` `24`
 
 ### XCSettings.fontSizeLv3
 
-`int` `default: 20`
-
+`int` `20`
 
 ### XCSettings.fontSizeLv4
 
-`int` `default: 18`
-
+`int` `18`
 
 ### XCSettings.gaugeAxisLineWidth
 
-`float` `default: 15f`
-
+`float` `15f`
 
 ### XCSettings.gaugeAxisSplitLineLength
 
-`float` `default: 15f`
-
+`float` `15f`
 
 ### XCSettings.gaugeAxisSplitLineWidth
 
-`float` `default: 0.8f`
-
+`float` `0.8f`
 
 ### XCSettings.gaugeAxisTickLength
 
-`float` `default: 5f`
-
+`float` `5f`
 
 ### XCSettings.gaugeAxisTickWidth
 
-`float` `default: 0.8f`
-
+`float` `0.8f`
 
 ### XCSettings.lang
 
-`Lang`
-
- [Lang](#lang)
+[Lang](#lang)
 
 ### XCSettings.lineSegmentDistance
 
-`float` `default: 3f`
-
+`float` `3f`
 
 ### XCSettings.lineSmoothness
 
-`float` `default: 2f`
-
+`float` `2f`
 
 ### XCSettings.lineSmoothStyle
 
-`float` `default: 3f`
-
+`float` `3f`
 
 ### XCSettings.maxPainter
 
-`int` `default: 10`
-
+`int` `10`
 
 ### XCSettings.serieCandlestickBorderWidth
 
-`float` `default: 1f`
-
+`float` `1f`
 
 ### XCSettings.serieLineSymbolSize
 
-`float` `default: 5f`
-
+`float` `5f`
 
 ### XCSettings.serieLineWidth
 
-`float` `default: 1.8f`
-
+`float` `1.8f`
 
 ### XCSettings.serieScatterSymbolSize
 
-`float` `default: 20f`
-
+`float` `20f`
 
 ### XCSettings.serieSelectedRate
 
-`float` `default: 1.3f`
-
+`float` `1.3f`
 
 ### XCSettings.tMPFont
 
 `TMP_FontAsset`
 
-
 ### XCSettings.tootipLineWidth
 
-`float` `default: 0.8f`
-
+`float` `0.8f`
 
 ### XCSettings.visualMapBorderWidth
 
-`float` `default: 0f`
-
+`float` `0f`
 
 ### XCSettings.visualMapTriangeLen
 
-`float` `default: 20f`
-
+`float` `20f`
 
 ## YAxis
 

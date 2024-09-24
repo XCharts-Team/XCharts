@@ -76,6 +76,7 @@ slug: /changelog
 
 ## master
 
+* (2024.09.24) 完善`Legend`的`formatter`对多Serie的支持 (#332)
 * (2024.09.22) 调整`Documentation`文档显示样式
 * (2024.09.09) 增加`numericFormatter`对`date`和`time`的支持
 * (2024.09.03) 完善`AreaStyle`的`origin`参数设置区域填充起始位置

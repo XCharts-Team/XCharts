@@ -7869,6 +7869,11 @@ public static void GetStackSeries(List&lt;Serie&gt; series, ref Dictionary&lt;in
 public static bool IsAnyClipSerie(List&lt;Serie&gt; series)  
 是否有需裁剪的serie。
 
+### SeriesHelper.IsAnyColorByDataSerie
+
+public static bool IsAnyColorByDataSerie(List&lt;Serie&gt; series)  
+是否有任何一个系列是按数据颜色的。
+
 ### SeriesHelper.IsLegalLegendName
 
 public static bool IsLegalLegendName(string name)  

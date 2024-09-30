@@ -22,9 +22,7 @@ XCharts是一个Unity图表插件，目前只能在Unity平台使用。
 
 ## XCharts的获取和导入
 
-XCharts主要通过Github来维护更新和发布，可以到Github主页进行下载获取源码和Pacakge，Github主页：https://github.com/XCharts-Team。
-
-对于无Github访问条件的用户，可以访问[【国内镜像】](https://gitee.com/monitor1394/unity-ugui-XCharts)进行下载。国内镜像的版本更新可能会相对滞后。
+XCharts主要通过Github来维护更新和发布，可以到【Github主页】(https://github.com/XCharts-Team)进行下载获取源码和Pacakge；对于无Github访问条件的用户，可以访问[【国内镜像】](https://gitee.com/monitor1394/unity-ugui-XCharts)进行下载。国内镜像的版本更新可能会相对滞后。
 
 XCharts可通过以下任意一种方式导入到你的项目：
 
@@ -60,7 +58,7 @@ XCharts-Daemon的导入方式可参考刚才的XCharts导入方式。可以通�
 
 ### 添加一个简单图表
 
-在`Hierarchy`视图下右键`UI->XCharts->LineChart`或菜单栏`XCharts`下拉选择`LineChart`，即可快速创建一个默认的折线图出来：
+在`Hierarchy`视图下右键`UI->XCharts->LineChart`或菜单栏`XCharts`下拉选择`LineChart`，即可快速创建一个默认的折线图：
 
 ![linechart1](img/tutorial01_linechart1.png)
 
@@ -224,7 +222,7 @@ for (int i = 0; i < 10; i++)
 
 XCharts默认使用的是Unity默认字体`Arial`，在WebGL平台上可能无法显示中文。在将XCharts用在你的项目时，建议先设置好字体：
 
-- 找到`XCharts/Resources/XCSetting.asset`文件，修改里面的`Font`并保存。
+- 找到`XCharts/Resources/XCSetting.asset`资源，修改里面的`Font`并保存。
 - 找到`XCharts/Resources/XCTheme-Default.asset`和`XCharts/Resources/XCTheme-Default.asset`两个字体配置，点击`Sync Font from Setting`和`Sync Font to Sub Theme`按钮将字体同步到主题配置文件上。
 
 字体设置好后，新创建的图表就会用新设置的字体了。对于旧图表，可以点击`Rebuild Chart Object`进行刷新。

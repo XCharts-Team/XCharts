@@ -2,6 +2,7 @@
 # 更新日志
 
 [master](#master)  
+[v3.12.0](#v3120)  
 [v3.11.2](#v3112)  
 [v3.11.1](#v3111)  
 [v3.11.0](#v3110)  
@@ -70,6 +71,28 @@
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.12.0
+
+Version Highlights:
+
+* Added `radiusGradient` parameter for `Ring` to set the gradient direction
+* Added support for `date` and `time` in `numericFormatter`
+* Improved `origin` parameter setting for `AreaStyle` to define the starting position of area filling
+* Adjusted and perfected the documentation
+* Other optimizations and fixes
+
+Log Details:
+
+* (2024.09.30) Released version `v3.12.0`
+* (2024.09.27) Improved the `5-minute tutorial`
+* (2024.09.24) Improved support for multiple Series in `Legend`'s `formatter` (#332)
+* (2024.09.22) Adjusted the display style of the `Documentation`
+* (2024.09.09) Added support for `date` and `time` in `numericFormatter`
+* (2024.09.03) Improved the setting of the `origin` parameter for `AreaStyle` to define the starting position of area filling
+* (2024.09.01) Added `radiusGradient` parameter for `Ring` to set the gradient direction
+* (2024.09.01) Optimized the position of the first Label when `Axis` is used as a time axis
+
 
 ## v3.11.2
 

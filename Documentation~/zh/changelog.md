@@ -6,6 +6,7 @@ slug: /changelog
 # 更新日志
 
 [master](#master)  
+[v3.12.0](#v3120)  
 [v3.11.2](#v3112)  
 [v3.11.1](#v3111)  
 [v3.11.0](#v3110)  
@@ -76,6 +77,19 @@ slug: /changelog
 
 ## master
 
+## v3.12.0
+
+版本要点：
+
+* 增加`Ring`的`radiusGradient`参数设置渐变方向
+* 增加`numericFormatter`对`date`和`time`的支持
+* 完善`AreaStyle`的`origin`参数设置区域填充起始位置
+* 调整和完善文档
+* 其他优化和修复
+
+日志详情：
+
+* (2024.09.30) 发布`v3.12.0`版本
 * (2024.09.27) 完善`5分钟教程`
 * (2024.09.24) 完善`Legend`的`formatter`对多Serie的支持 (#332)
 * (2024.09.22) 调整`Documentation`文档显示样式

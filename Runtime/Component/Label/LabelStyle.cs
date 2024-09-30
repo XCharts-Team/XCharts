@@ -184,16 +184,29 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetClass(ref m_Formatter, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// Standard number and date format string. Used to format a Double value or a DateTime date as a string. numericFormatter is used as an argument to either `Double.ToString ()` or `DateTime.ToString()`. <br />
-        /// The number format uses the Axx format: A is a single-character format specifier that supports C currency, D decimal, E exponent, F fixed-point number, G regular, N digit, P percentage, R round trip, and X hexadecimal. xx is precision specification, from 0-99. E.g. F1, E2<br />
-        /// Date format Common date formats are: yyyy year, MM month, dd day, HH hour, mm minute, ss second, fff millisecond. For example: yyyy-MM-dd HH:mm:ss<br />
+        /// Standard number and date format string. Used to format a Double value or a DateTime date as a string. 
+        /// numericFormatter is used as an argument to either `Double.ToString ()` or `DateTime.ToString()`. <br />
+        /// The number format uses the Axx format: A is a single-character format specifier that supports C currency, 
+        /// D decimal, E exponent, F fixed-point number, G regular, N digit, P percentage, R round trip, and X hexadecimal. 
+        /// xx is precision specification, from 0-99. E.g. F1, E2<br />
+        /// Date format: Starts with `date`, which is used to format DateTime. Common date formats are: 
+        /// yyyy year, MM month, dd day, HH hour, mm minute, ss second, fff millisecond. For example: date:yyyy-MM-dd HH:mm:ss<br />
+        /// Time format: Starts with `time`, which is used to format TimeSpan. Common time formats are: 
+        /// d day, HH hour, mm minute, ss second, fffffff fractional part. 
+        /// Only the version of Unity2018 or later can support formatting, and the characters inside should be escaped.
+        /// For example: time:HH\:mm\:ss<br />
         /// number format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/>
         /// date format reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings<br/>
+        /// Note: The date and time formats are only supported by 'v3.12.0' or later.<br/>
         /// ||标准数字和日期格式字符串。用于将Double数值或DateTime日期格式化显示为字符串。numericFormatter用来作为Double.ToString()或DateTime.ToString()的参数。<br/>
         /// 数字格式使用Axx的形式：A是格式说明符的单字符，支持C货币、D十进制、E指数、F定点数、G常规、N数字、P百分比、R往返、X十六进制的。xx是精度说明，从0-99。如：F1, E2<br/>
-        /// 日期格式常见的格式：yyyy年，MM月，dd日，HH时，mm分，ss秒，fff毫秒。如：yyyy-MM-dd HH:mm:ss<br/>
+        /// 日期格式：以`date`开头，用来格式化DateTime，常见格式有：yyyy年，MM月，dd日，HH时，mm分，ss秒，fff毫秒。如：date:yyyy-MM-dd HH:mm:ss<br/>
+        /// 时间格式：以`time`开头，用来格式化TimeSpan，常见格式有：d日，HH时，mm分，ss秒，fffffff小数部分。
+        /// 需要Unity2018以上版本才支持格式化，并且里面的字符要转义。如：time:d\.HH\:mm\:ss<br/>
         /// 数值格式化参考：https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-numeric-format-strings <br/>
-        /// 日期格式化参考：https://learn.microsoft.com/zh-cn/dotnet/standard/base-types/standard-date-and-time-format-strings
+        /// 日期格式化参考：https://learn.microsoft.com/zh-cn/dotnet/standard/base-types/standard-date-and-time-format-strings <br/>
+        /// 时间格式化参考：https://learn.microsoft.com/zh-cn/dotnet/standard/base-types/standard-timespan-format-strings <br/>
+        /// 注意：date和time格式需要`v3.12.0`以上版本才支持。
         /// </summary>
         public string numericFormatter
         {
@@ -405,7 +418,7 @@ namespace XCharts.Runtime
         public virtual string GetFormatterContent(int labelIndex, double value, double minValue, double maxValue, bool isLog = false)
         {
             var newNumericFormatter = numericFormatter;
-            if (value == 0)
+            if (value == 0 && !DateTimeUtil.IsDateOrTimeRegex(newNumericFormatter))
             {
                 newNumericFormatter = "f0";
             }
@@ -444,6 +457,8 @@ namespace XCharts.Runtime
             }
         }
 
+        private static bool isDateFormatter = false;
+        private static string newFormatter = null;
         public string GetFormatterDateTime(int labelIndex, double value, double minValue, double maxValue)
         {
             var timestamp = (int)value;
@@ -457,7 +472,17 @@ namespace XCharts.Runtime
             {
                 try
                 {
-                    dateString = dateTime.ToString(numericFormatter);
+                    if(DateTimeUtil.IsDateOrTimeRegex(numericFormatter, ref isDateFormatter, ref newFormatter))
+                    {
+                        if(isDateFormatter)
+                            dateString = ChartCached.NumberToDateStr(timestamp, newFormatter);
+                        else
+                            dateString = ChartCached.NumberToTimeStr(timestamp, newFormatter);
+                    }
+                    else
+                    {
+                        dateString = dateTime.ToString(numericFormatter);
+                    }
                 }
                 catch
                 {

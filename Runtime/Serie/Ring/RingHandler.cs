@@ -162,7 +162,7 @@ namespace XCharts.Runtime
                 DrawBackground(vh, serie, serieData, j, insideRadius, outsideRadius);
                 UGL.DrawDoughnut(vh, serie.context.center, insideRadius, outsideRadius, itemColor, itemToColor,
                     Color.clear, startDegree, toDegree, borderWidth, borderColor, 0, chart.settings.cicleSmoothness,
-                    roundCap, serie.clockwise);
+                    roundCap, serie.clockwise, serie.radiusGradient);
                 DrawCenter(vh, serie, serieData, insideRadius, j == data.Count - 1);
             }
 

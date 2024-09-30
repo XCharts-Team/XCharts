@@ -86,7 +86,7 @@ namespace XCharts.Runtime
                     content, Color.clear, TextAnchor.MiddleCenter);
                 var pos = MarkLineHelper.GetLabelPosition(data);
                 label.SetIconActive(false);
-                label.SetActive(data.label.show && data.runtimeInGrid);
+                label.SetActive(false, true);
                 label.SetPosition(pos);
                 data.runtimeLabel = label;
             };

@@ -2,6 +2,9 @@
 # 更新日志
 
 [master](#master)  
+[v3.12.0](#v3120)  
+[v3.11.2](#v3112)  
+[v3.11.1](#v3111)  
 [v3.11.0](#v3110)  
 [v3.10.2](#v3102)  
 [v3.10.1](#v3101)  
@@ -68,6 +71,48 @@
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.12.0
+
+Version Highlights:
+
+* Added `radiusGradient` parameter for `Ring` to set the gradient direction
+* Added support for `date` and `time` in `numericFormatter`
+* Improved `origin` parameter setting for `AreaStyle` to define the starting position of area filling
+* Adjusted and perfected the documentation
+* Other optimizations and fixes
+
+Log Details:
+
+* (2024.09.30) Released version `v3.12.0`
+* (2024.09.27) Improved the `5-minute tutorial`
+* (2024.09.24) Improved support for multiple Series in `Legend`'s `formatter` (#332)
+* (2024.09.22) Adjusted the display style of the `Documentation`
+* (2024.09.09) Added support for `date` and `time` in `numericFormatter`
+* (2024.09.03) Improved the setting of the `origin` parameter for `AreaStyle` to define the starting position of area filling
+* (2024.09.01) Added `radiusGradient` parameter for `Ring` to set the gradient direction
+* (2024.09.01) Optimized the position of the first Label when `Axis` is used as a time axis
+
+
+## v3.11.2
+
+* (2024.08.01) Release `v3.11.2`
+* (2024.07.29) Fixed compatibility issue with `Tooltip` reporting error on wechat mini game platform (#326)
+* (2024.07.27) Adjust the default position of `AxisName` for `Axis`
+* (2024.07.22) Improved the behavior of `Pie`'s `Label` when `Tooltip` is triggered
+* (2024.07.21) Fix to `Tooltip` indicating inaccurate content when opening `DataZoom`
+* (2024.07.17) Fixed an issue where `Label` of `MarkLine` could flash during initialization
+* (2024.07.16) Optimized the default effect of `Tooltip` when `Axis` is `Time` timeline
+* (2024.07.15) Optimized segmentation when Axis is Time
+* (2024.07.14) Improved movement performance when `Axis` is `Time`
+* (2024.07.12) Optimized the initial display effect of `Label`
+* (2024.07.06) Fix to `Chart` background not adaptive when dynamically created (#323)
+
+## v3.11.1
+
+* (2024.07.01) Release `v3.11.1`
+* (2024.07.01) Fixed an issue where `Serie` has multiple abnormal colors
+* (2024.06.23) Fixed an issue where `labels` would pile up during initialization
 
 ## v3.11.0
 

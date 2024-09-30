@@ -124,7 +124,7 @@ namespace XCharts.Runtime
                 label.text.SetAlignment(textStyle.GetAlignment(TextAnchor.MiddleCenter));
                 label.SetText(labelName);
                 label.SetPosition(GetLabelPosition(polar, axis, angleAxis.context.startAngle, totalWidth));
-                label.SetActive(true);
+                label.SetActive(true, true);
                 label.SetTextActive(true);
 
                 axis.context.labelObjectList.Add(label);

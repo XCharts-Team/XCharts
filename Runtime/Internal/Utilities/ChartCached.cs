@@ -12,7 +12,7 @@ namespace XCharts.Runtime
         private const string NUMERIC_FORMATTER_X = "X";
         private const string NUMERIC_FORMATTER_x = "x";
         private static readonly string s_DefaultAxis = "axis_";
-        private static CultureInfo ci = new CultureInfo("en-us"); // "en-us", "zh-cn", "ar-iq", "de-de"
+        private static CultureInfo ci = GetDefaultCultureInfo(); // "en-us", "zh-cn", "ar-iq", "de-de"
         private static Dictionary<Color, string> s_ColorToStr = new Dictionary<Color, string>(100);
         private static Dictionary<int, string> s_SerieLabelName = new Dictionary<int, string>(1000);
         private static Dictionary<Color, string> s_ColorDotStr = new Dictionary<Color, string>(100);
@@ -23,6 +23,20 @@ namespace XCharts.Runtime
         private static Dictionary<double, Dictionary<string, string>> s_NumberToStr = new Dictionary<double, Dictionary<string, string>>();
         private static Dictionary<int, Dictionary<string, string>> s_PrecisionToStr = new Dictionary<int, Dictionary<string, string>>();
         private static Dictionary<string, Dictionary<int, string>> s_StringIntDict = new Dictionary<string, Dictionary<int, string>>();
+        private static Dictionary<double, DateTime> s_TimestampToDateTimeDict = new Dictionary<double, DateTime>();
+        private static Dictionary<double, TimeSpan> s_NumberToTimeSpanDict = new Dictionary<double, TimeSpan>();
+
+        private static CultureInfo GetDefaultCultureInfo()
+        {
+            try
+            {
+                return new CultureInfo("en-us");
+            }
+            catch (Exception)
+            {
+                return CultureInfo.InvariantCulture;
+            }
+        }
 
         public static string FloatToStr(double value, string numericFormatter = "F", int precision = 0)
         {
@@ -52,9 +66,18 @@ namespace XCharts.Runtime
             }
             if (!s_NumberToStr[value].ContainsKey(formatter))
             {
+                bool isDateFormatter = false;
+                string newFormatter = null;
                 if (string.IsNullOrEmpty(formatter))
                 {
                     s_NumberToStr[value][formatter] = value.ToString();
+                }
+                else if (DateTimeUtil.IsDateOrTimeRegex(formatter,ref isDateFormatter, ref newFormatter))
+                {
+                    if(isDateFormatter)
+                        s_NumberToStr[value][formatter] = NumberToDateStr(value, newFormatter);
+                    else
+                        s_NumberToStr[value][formatter] = NumberToTimeStr(value, newFormatter);                    
                 }
                 else if (formatter.StartsWith(NUMERIC_FORMATTER_D) ||
                     formatter.StartsWith(NUMERIC_FORMATTER_d) ||
@@ -75,6 +98,56 @@ namespace XCharts.Runtime
         public static string IntToStr(int value, string numericFormatter = "")
         {
             return NumberToStr(value, numericFormatter);
+        }
+
+        public static string NumberToDateStr(double timestamp, string formatter)
+        {
+            var dt = NumberToDateTime(timestamp);
+            try
+            {
+                return dt.ToString(formatter, ci);
+            }
+            catch (Exception)
+            {
+                XLog.LogError("Not support DateTime format: " + formatter);
+                return timestamp.ToString();
+            }
+        }
+
+        public static string NumberToTimeStr(double timestamp, string formatter)
+        {
+            try
+            {
+            var ts = NumberToTimeSpan(timestamp);
+#if UNITY_2018_3_OR_NEWER
+                return ts.ToString(formatter, ci);
+#else
+                return ts.ToString();
+#endif
+            }
+            catch (Exception)
+            {
+                XLog.LogError("Not support TimeSpan format: " + formatter);
+                return timestamp.ToString();
+            }                    
+        }
+
+        public static DateTime NumberToDateTime(double timestamp)
+        {
+            if (!s_TimestampToDateTimeDict.ContainsKey(timestamp))
+            {
+                s_TimestampToDateTimeDict[timestamp] = DateTimeUtil.GetDateTime(timestamp);
+            }
+            return s_TimestampToDateTimeDict[timestamp];
+        }
+
+        public static TimeSpan NumberToTimeSpan(double timestamp)
+        {
+            if(!s_NumberToTimeSpanDict.ContainsKey(timestamp))
+            {
+                s_NumberToTimeSpanDict[timestamp] = TimeSpan.FromSeconds(timestamp);
+            }
+            return s_NumberToTimeSpanDict[timestamp];
         }
 
         public static string ColorToStr(Color color)

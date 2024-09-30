@@ -139,7 +139,7 @@ namespace XCharts
             }
         }
 
-        internal void UpdateAxisMinMaxValue(int axisIndex, Axis axis, bool updateChart = true)
+        internal void UpdateAxisMinMaxValue(int axisIndex, Axis axis, bool cancelAnimation = false)
         {
             if (!axis.show)
                 return;
@@ -173,7 +173,7 @@ namespace XCharts
             {
                 m_LastSplitNumber = axis.splitNumber;
                 m_LastInterval = axis.interval;
-                axis.UpdateMinMaxValue(tempMinValue, tempMaxValue, axis.context.needAnimation);
+                axis.UpdateMinMaxValue(tempMinValue, tempMaxValue, !cancelAnimation && axis.context.needAnimation);
                 axis.context.offset = 0;
                 axis.context.lastCheckInverse = axis.inverse;
                 UpdateAxisTickValueList(axis);
@@ -191,14 +191,11 @@ namespace XCharts
                     }
                 }
 
-                if (updateChart)
-                {
-                    UpdateAxisLabelText(axis);
-                    chart.RefreshChart();
-                }
+                UpdateAxisLabelText(axis);
+                chart.RefreshChart();
             }
 
-            if (axis.context.needAnimation && (axis.context.minValue != axis.context.destMinValue || axis.context.maxValue != axis.context.destMaxValue))
+            if (!cancelAnimation && axis.context.needAnimation && (axis.context.minValue != axis.context.destMinValue || axis.context.maxValue != axis.context.destMaxValue))
             {
                 var duration = axis.animation.duration == 0
                     ? SeriesHelper.GetMinAnimationDuration(chart.series) / 1000f
@@ -455,7 +452,7 @@ namespace XCharts
 
                         label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                             chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
-                        label.SetActive(axis.axisName.labelStyle.show);
+                        label.SetActive(axis.axisName.labelStyle.show, true);
                         label.SetPosition(axis.context.start + offset);
                         break;
 
@@ -463,7 +460,7 @@ namespace XCharts
 
                         label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                             chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
-                        label.SetActive(axis.axisName.labelStyle.show);
+                        label.SetActive(axis.axisName.labelStyle.show, true);
                         label.SetPosition((axis.context.start + axis.context.end) / 2 + offset);
                         break;
 
@@ -471,11 +468,12 @@ namespace XCharts
 
                         label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                             chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
-                        label.SetActive(axis.axisName.labelStyle.show);
+                        label.SetActive(axis.axisName.labelStyle.show, true);
                         label.SetPosition(axis.context.end + offset);
                         break;
                 }
             }
+            UpdateAxisMinMaxValue(axis.index, axis, true);
         }
 
         protected void InitAxis(Axis relativedAxis, Orient orient,
@@ -574,7 +572,7 @@ namespace XCharts
 
                             label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                                 chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleRight);
-                            label.SetActive(axis.axisName.labelStyle.show);
+                            label.SetActive(axis.axisName.labelStyle.show, true);
                             label.SetPosition(axis.position == Axis.AxisPosition.Top ?
                                 new Vector2(zeroPos.x - offset.x, axisStartY + relativedLength + offset.y + axis.offset) :
                                 new Vector2(zeroPos.x - offset.x, posY + offset.y));
@@ -584,7 +582,7 @@ namespace XCharts
 
                             label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                                 chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
-                            label.SetActive(axis.axisName.labelStyle.show);
+                            label.SetActive(axis.axisName.labelStyle.show, true);
                             label.SetPosition(axis.position == Axis.AxisPosition.Top ?
                                 new Vector2(axisStartX + axisLength / 2 + offset.x, axisStartY + relativedLength - offset.y + axis.offset) :
                                 new Vector2(axisStartX + axisLength / 2 + offset.x, posY + offset.y));
@@ -594,7 +592,7 @@ namespace XCharts
 
                             label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                                 chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleLeft);
-                            label.SetActive(axis.axisName.labelStyle.show);
+                            label.SetActive(axis.axisName.labelStyle.show, true);
                             label.SetPosition(axis.position == Axis.AxisPosition.Top ?
                                 new Vector2(axisStartX + axisLength + offset.x, axisStartY + relativedLength + offset.y + axis.offset) :
                                 new Vector2(axisStartX + axisLength + offset.x, posY + offset.y));
@@ -611,7 +609,7 @@ namespace XCharts
 
                             label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                                 chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
-                            label.SetActive(axis.axisName.labelStyle.show);
+                            label.SetActive(axis.axisName.labelStyle.show, true);
                             label.SetPosition(axis.position == Axis.AxisPosition.Right ?
                                 new Vector2(axisStartX + relativedLength + offset.x + axis.offset, axisStartY - offset.y) :
                                 new Vector2(posX + offset.x, axisStartY - offset.y));
@@ -621,7 +619,7 @@ namespace XCharts
 
                             label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                                 chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
-                            label.SetActive(axis.axisName.labelStyle.show);
+                            label.SetActive(axis.axisName.labelStyle.show, true);
                             label.SetPosition(axis.position == Axis.AxisPosition.Right ?
                                 new Vector2(axisStartX + relativedLength - offset.x + axis.offset, axisStartY + axisLength / 2 + offset.y) :
                                 new Vector2(posX + offset.x, axisStartY + axisLength / 2 + offset.y));
@@ -631,7 +629,7 @@ namespace XCharts
                             //LabelStyle.Position
                             label = ChartHelper.AddChartLabel(s_DefaultAxisName, axisObj.transform, axis.axisName.labelStyle,
                                 chart.theme.axis, axis.axisName.name, autoColor, TextAnchor.MiddleCenter);
-                            label.SetActive(axis.axisName.labelStyle.show);
+                            label.SetActive(axis.axisName.labelStyle.show, true);
                             label.SetPosition(axis.position == Axis.AxisPosition.Right ?
                                 new Vector2(axisStartX + relativedLength + offset.x + axis.offset, axisStartY + axisLength + offset.y) :
                                 new Vector2(posX + offset.x, axisStartY + axisLength + offset.y));
@@ -639,6 +637,7 @@ namespace XCharts
                     }
                 }
             }
+            UpdateAxisMinMaxValue(axis.index, axis, true);
         }
 
         internal static Vector3 GetLabelPosition(int i, Orient orient, Axis axis, Axis relativedAxis, AxisTheme theme,
@@ -720,12 +719,6 @@ namespace XCharts
             if (AxisHelper.NeedShowSplit(axis))
             {
                 var size = AxisHelper.GetScaleNumber(axis, axisLength, dataZoom);
-                if (axis.IsTime())
-                {
-                    size += 1;
-                    if (!ChartHelper.IsEquals(axis.GetLastLabelValue(), axis.context.maxValue))
-                        size += 1;
-                }
                 var tickWidth = axis.axisTick.GetWidth(theme.tickWidth);
                 var tickColor = axis.axisTick.GetColor(theme.tickColor);
                 var current = orient == Orient.Horizonal ? startX : startY;

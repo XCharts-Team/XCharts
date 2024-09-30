@@ -58,7 +58,7 @@ namespace XCharts.Runtime
 
             var label = ChartHelper.AddChartLabel("content", btnObj.transform, legend.labelStyle, theme.legend,
                 content, contentColor, TextAnchor.MiddleLeft);
-            label.SetActive(true);
+            label.SetActive(true, true);
 
             var item = new LegendItem();
             item.index = i;

@@ -56,7 +56,7 @@ namespace XCharts.Runtime
         protected override void Awake()
         {
             raycastTarget = false;
-            SetActive(true);
+            m_Active = ChartHelper.IsActiveByScale(gameObject);
         }
 
         public void SetTextPadding(TextPadding padding)
@@ -200,10 +200,13 @@ namespace XCharts.Runtime
             return m_Active;
         }
 
-        public void SetActive(bool flag)
+        public void SetActive(bool flag, bool force = false)
         {
-            m_Active = flag;
-            ChartHelper.SetActive(gameObject, flag);
+            if (m_Active == flag && !force) return;
+            if (ChartHelper.SetActive(gameObject, flag))
+            {
+                m_Active = flag;
+            }
         }
 
         public void SetTextActive(bool flag)
@@ -247,7 +250,7 @@ namespace XCharts.Runtime
                 AdjustIconPos();
                 if (m_HideIconIfTextEmpty && isIconActive)
                 {
-                    ChartHelper.SetActive(m_IconImage.gameObject, !string.IsNullOrEmpty(text));
+                    SetIconActive(!string.IsNullOrEmpty(text));
                 }
             }
             return false;

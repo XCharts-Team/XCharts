@@ -87,11 +87,14 @@ namespace XCharts.Runtime
                 ChartHelper.HideAllObject(legendObject);
                 if (!legend.show) return;
                 var textLimitInitFlag = false;
+                var isAnySerieColorByData = SeriesHelper.IsAnyColorByDataSerie(chart.series);
                 for (int i = 0; i < datas.Count; i++)
                 {
                     if (!SeriesHelper.IsLegalLegendName(datas[i])) continue;
                     string legendName = datas[i];
-                    var legendContent = GetFormatterContent(legend, i, datas[i]);
+                    var serieIndex =  isAnySerieColorByData ? 0 : i;
+                    var dataIndex =  isAnySerieColorByData ? i : 0;
+                    var legendContent = GetFormatterContent(legend, dataIndex, datas[i], serieIndex);
                     if (legend.textLimit.enable)
                         legendContent = legend.textLimit.GetLimitContent(legendContent);
                     var readIndex = chart.m_LegendRealShowName.IndexOf(datas[i]);
@@ -158,7 +161,7 @@ namespace XCharts.Runtime
             legend.refreshComponent();
         }
 
-        private string GetFormatterContent(Legend legend, int dataIndex, string category)
+        private string GetFormatterContent(Legend legend, int dataIndex, string category, int serieIndex)
         {
 #pragma warning disable 0618
             if (string.IsNullOrEmpty(legend.formatter) && string.IsNullOrEmpty(legend.labelStyle.formatter))
@@ -168,7 +171,7 @@ namespace XCharts.Runtime
                 var formatter = string.IsNullOrEmpty(legend.labelStyle.formatter) ? legend.formatter : legend.labelStyle.formatter;
                 var content = formatter.Replace("{name}", category);
                 content = content.Replace("{value}", category);
-                var serie = chart.GetSerie(0);
+                var serie = chart.GetSerie(serieIndex);
                 FormatterHelper.ReplaceContent(ref content, dataIndex, legend.labelStyle.numericFormatter, serie, chart, category);
                 return content;
             }

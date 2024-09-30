@@ -45,7 +45,7 @@ namespace XCharts.Runtime
                 var label = ChartHelper.AddChartLabel("label", m_MarkLineLabelRoot.transform, markArea.label, chart.theme.axis,
                     component.text, Color.clear, TextAnchor.MiddleCenter);
                 UpdateRuntimeData(component);
-                label.SetActive(markArea.label.show);
+                label.SetActive(markArea.label.show, true);
                 label.SetPosition(component.runtimeLabelPosition);
                 label.SetText(component.text);
                 markArea.runtimeLabel = label;

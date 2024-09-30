@@ -133,6 +133,21 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
+        /// check if series has any serie which is color by data.
+        /// || 是否有任何一个系列是按数据颜色的。
+        /// </summary>
+        /// <param name="series"></param>
+        /// <returns></returns>
+        public static bool IsAnyColorByDataSerie(List<Serie> series)
+        {
+            foreach (var serie in series)
+            {
+                if (serie.defaultColorBy == SerieColorBy.Data) return true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// 获得上一个同堆叠且显示的serie。
         /// </summary>
         /// <param name="serie"></param>

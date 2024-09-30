@@ -1,103 +1,143 @@
 ---
-title: Introductory tutorial: Get started with XCharts 3.0 in 5 minutes
+title: Tutorial: Getting Started with XCharts 3.0 in 5 Minutes
 sidebar_position: 11
 slug: /tutorial01
 ---
 
-# Tutorial: Get started with XCharts 3.0 in 5 minutes
+# Tutorial: Getting Started with XCharts 3.0 in 5 Minutes
 
-> Note: This tutorial is for XCharts 3.x version only
 
-## What do I need to know before using XCharts
+> Note: This tutorial is only applicable to the XCharts 3.x version. For the 2.x version, please refer to [Tutorial: Mastering XCharts 2.0](https://github.com/XCharts-Team/XCharts/blob/2.0/Doc/Tutorial%3A5-Minute-Start-to-XCharts.md) 
 
-- Have used Unity, know the basic operation of Unity.
-- Understand UGUI and can use UGUI.
-- Understand MonoBehavior script usage in Unity, know how to hang scripts, manipulate scripts with code.
+## Prerequisites for XCharts
 
-## Get and import XCharts
+XCharts is a Unity chart plugin, currently only available for use on the Unity platform.
 
-XCharts can be imported into a project in any of the following ways:
+Before using XCharts, you need to:
 
-- Source XCharts directly into the project
+- Have a basic understanding of how to use Unity.
+- Understand the basic usage of UGUI for making UI.
+- Know how to use Unity's MonoBehavior scripts, how to attach scripts, and how to manipulate scripts with code.
 
-    After downloading the XCharts source code, copy the XCharts directory directly to the Assets directory of the Unity project.
+If you are new to Unity, it is recommended to learn some basic Unity tutorials before using XCharts.
 
-- Import XCharts through `Assets/Import Package`
+## Obtaining and Importing XCharts
 
-    After downloading the.unitypackage file for XCharts, open Unity and go to the menu bar Assets--&gt; Import Package--&gt; Select.unitypackage import to start using XCharts.
+XCharts is primarily maintained and released through Github. You can download the source code and Package from the [Github Homepage](https://github.com/XCharts-Team).
 
-- Import XCharts through the Package Manager
+XCharts can be imported into your project in any of the following ways:
 
-    For Unity 2018.3 and later, XCharts can be imported through the Package Manager. After opening the Package Manager, run the `Add package form git URL...`, input XCharts dead simple URL: ` https://github.com/XCharts-Team/XCharts.git use XCharts after ` wait a moment.
+### Copying the XCharts Source Code Directly into the Project
 
-    You can also add the package directly to the manifest.json file: Open the manifest.json file in the Packages directory and add it under dependencies:
+After downloading the XCharts source code, simply copy the XCharts directory into the Assets directory of your Unity project. Once compiled, it is ready to use.
 
-    ``` json
-    "com.monitor1394.xcharts" : "https://github.com/XCharts-Team/XCharts.git",
-    ```
+### Importing XCharts through Import Package
 
-    To update XCharts, remove com.monitor1394.xcharts from the manifest.json file under lock (some versions of Unity may be packages-lock.json) and re-download and compile.
+After downloading the .unitypackage file of XCharts, open Unity, go to the menu bar Assets-->Import Package-->select the downloaded .unitypackage to import. After the import is complete and compiled, you can start using XCharts.
 
-- Recommended daemon into XCharts (not required)
+### Importing XCharts through Package Manager
 
-    [XCharts Daemon](https://github.com/XCharts-Team/XCharts-Daemon) can ensure update compilation is normal, when the local open TextMeshPro or NewInputSystem would be very useful. After importing Xchart-daemon into a project, when updating XCharts, the Daemon will automatically refresh asmdef according to the status of local TMP, etc., to ensure normal compilation and facilitate the execution of automated processes such as CI-CD.
+For Unity versions above 2018.3, you can import XCharts through the Package Manager. Open the Package Manager, then use `Add package from git URL...`, enter the GitHub URL of XCharts: `https://github.com/XCharts-Team/XCharts.git`. After compiling, you can use XCharts.
 
-## Add a simple chart
+For some Unity versions, you can also directly add the package to the `manifest.json` file: Open the `manifest.json` file under the `Packages` directory, and add the following under `dependencies`:
 
-Right-click in `Hierarchy` view or menu bar `GameObject` drop down and select `XCharts->LineChart`, can quickly create a default line chart out:
+>"com.monitor1394.xcharts": "https://github.com/XCharts-Team/XCharts.git",
+
+If you need to update `XCharts`, delete the relevant content of `com.monitor1394.xcharts` under the `lock` of the `manifest.json` file (some Unity versions may be the packages-lock.json file), and it will re-download and compile.
+
+### Recommended Import of XCharts Daemon
+
+The daemon [XCharts-Daemon](https://github.com/XCharts-Team/XCharts-Daemon) ensures that the compilation is normal when updating. It is very useful when TextMeshPro or NewInputSystem is turned on locally. After importing XCharts-Daemon into the project, the daemon will automatically refresh XCharts' asmdef according to the local situation of TMP when updating XCharts, ensuring that the compilation is normal without manual intervention, which is convenient for automated processes such as CI/CD.
+
+The import method of XCharts-Daemon can refer to the previous import method of XCharts. It can be imported into the project through source code or Package. The GitHub URL of XCharts-Daemon: https://github.com/XCharts-Team/XCharts-Daemon.git
+
+## Basic Usage of XCharts
+
+After importing XCharts and compiling, the XCharts menu will appear in the Unity editor's menu bar, and you can start using XCharts.
+
+>Note: The XCharts menu in the Unity menu bar indicates that XCharts is available.
+
+### Adding a Simple Chart
+
+In the `Hierarchy` view, right-click `UI->XCharts->LineChart` or select `LineChart` from the menu bar `XCharts` to quickly create a default line chart:
 
 ![linechart1](img/tutorial01_linechart1.png)
 
-## Add multiple Seire
+If you need to create a chart under a certain node, you can select the node and right-click `UI->XCharts->LineChart` to create a chart under the node.
 
-In the Inspector view, locate LineChart's panel, and with the `Add Serie` button, you can add a second Line line:
+### Modifying Chart Data
+
+For the newly created chart, its data can be modified on the Inspector panel.
+
+For X-axis data, you can add, delete, and modify by expanding: `XAxis->Data`:
+
+![op_axisdata](img/tutorial01_axisdata.png)
+
+For Serie data, you can add, delete, and modify by expanding: `Serie->Data`:
+
+![op_seriedata](img/tutorial01_seriedata.png)
+
+Serie supports multi-dimensional data, and generally, a line chart only uses two-dimensional data: the first dimension represents the ID of the X-axis category data, and the second dimension represents the corresponding value.
+
+### Adding Multiple Series
+
+In the `Inspector` view, find the `LineChart` panel, and click the `Add Serie` button to add a second `Line` line:
 
 ![op_addserie](img/tutorial01_addserie.png)
 ![linechart2](img/tutorial01_linechart2.png)
 
-## Add other components
+>Note: Series are added through the `Add Serie` button. Different types of Series can be added. [What kinds of Series does XCharts have?](https://xcharts-team.github.io/docs/configuration#serie-系列) 
 
-The default chart does not have a `Legend`, and a `Legend` Component can be added via the `Add Component` button:
+### Adding Other Main Components
+
+By default, the chart does not have a `Legend`. If you need a `Legend` component, you can add it through the `Add Component` button:
 
 ![op_addcomponent](img/tutorial01_addcomponent.png)
 
-## Add Serie components
+>Note: Main components are added through the `Add Component` button. [What main components does XCharts have?](https://xcharts-team.github.io/docs/configuration/#maincomponent-主组件) 
 
-Serie comes with only a few common components, and others are added as needed. For example, if you need to fill a line chart area with color, you can add a separate `AreaStyle` component to Serie:
+### Adding Serie Components
+
+Serie only comes with a few common components, and other components need to be added when used. For example, if you need to fill the area color for the line chart, you can add an `AreaStyle` component to `Serie` separately:
 
 ![op_addseriecomponent](img/tutorial01_addseriecomponent.png)
 ![linechart3](img/tutorial01_linechart3.png)
 
-## Add the SerieData component
+>Note: Serie components are added through the button on the right side of Serie. [What components can be added to Serie in XCharts?](https://xcharts-team.github.io/docs/configuration/#iseriecomponent-可添加到serie的组件) 
 
-If you need to personalize the configuration of each data item, you can add a Component to each SerieData separately. For example, we give the second data of the line chart a separate display `Label`:
+### Adding SerieData Components
+
+If you need to customize the configuration of each data item individually, you can add components to each `SerieData` separately. For example, we can display `Label` for the second data of the line chart individually:
 
 ![op_addseriedatacomponent](img/tutorial01_addseriedatacomponent.png)
 ![linechart4](img/tutorial01_linechart4.png)
 
-## More components and configuration parameters
+>Note: SerieData components are added through the button on the right side of SerieData after expanding. [What components can be added to SerieData in XCharts?](https://xcharts-team.github.io/docs/configuration/#iseriedatacomponent-可添加到seriedata的组件) 
 
-XCharts has been iteratively optimized and now has dozens of main and sub-components, each with a few to dozens of configurable parameters to support a variety of flexible and complex functions.
+### More Components and Configuration Parameters
 
-Using XCharts for the first time, you can add various charts in the `Inspector` view, add or adjust the components in the chart, and the `Game` view gives real-time feedback on the effects of adjustments to familiarize yourself with the use of various components. Detailed parameter descriptions of each component can be found in the [XCharts Configuration](Configuration.md).
+XCharts has been continuously iterated and optimized, and now has dozens of main components and sub-components, each with several to dozens of configurable parameters to support a variety of functions.
 
-## How to adjust parameters quickly
+When using XCharts for the first time, it is recommended to personally test the actual effects of each chart, each component. The `Inspector` view can directly add various charts, components, and adjust various configuration parameters, and the `Game` view will provide real-time feedback on the adjustments. A detailed description of each component's parameters can be found in the [XCharts Configuration Manual](configuration.md).
 
-XCharts is configuration and data driven. Want what effect, only need to adjust the configuration parameters under the corresponding component can be, do not need to change the nodes under the `Hierarchy` view, because those nodes are generated by the `XCharts` internal according to the configuration and data, even if changed will be restored in the refresh.
+### How to Quickly Adjust Parameters
 
-How to quickly locate the component corresponding to the effect you want to change requires a certain understanding of the component. For example, if we want to show an arrow at the end of the X-axis, how do we position it? First, position the X-axis to `XAxis0`; Second, locate the axis to `AxisLine`; Finally, check to see if there are any parameters in the AxisLine component that can achieve this effect, and check [XCharts configuration](Configuration.md) for uncertain parameters.
+XCharts is driven by data and parameters. To achieve the desired effect, simply adjust the configuration parameters under the corresponding component. Do not modify the nodes under the `Hierarchy` view, as those nodes are generated by XCharts internally based on configuration and data, and will be restored upon refresh.
 
-`XCharts` provides a full range of parameter configuration from the global` Theme `, series` Serie `, and single data item `SerieData`. The priority in descending order is: `SerieData` -> `Serie` -> `Theme`. Take the color of `ItemStyle` for example:
+To quickly locate the component corresponding to the effect you want to change, you need to have a certain understanding of the components. For example, we want to display an arrow at the end of the X-axis line. How to locate it? The first step, the X-axis is located at `XAxis0`; the second step, the axis line is located at `AxisLine`; finally, check if there is such a parameter under the `AxisLine` component to achieve this effect. If you are not sure about the parameters, you can refer to the [XCharts Configuration Manual](configuration.md).
 
-1. If the `ItemStyle` of `SerieData` has a color value other than `0000`, this color value is preferred.
-2. If the ItemStyle of `Serie` is configured with a color value other than `0000`, this color value takes precedence.
-3. Otherwise, the Color value is taken from the Color Palette of the Theme.
+`XCharts` provides comprehensive parameter configuration from the global `Theme`, series `Serie`, and individual data items `SerieData`. The priority order from high to low is: `SerieData`->`Serie`->`Theme`. Take the color of `ItemStyle` as
+ an example:
 
-Usually, `0000` indicates the theme default color, and 0 or null indicates the theme default.
+1. If the `ItemStyle` of `SerieData` has a color value other than `0000`, this color value is used first.
+2. If the `ItemStyle` of `Serie` has a color value other than `0000`, this color value is used.
+3. Otherwise, the color value is taken from the `Color Palette` of the theme `Theme`.
 
-## Add line charts with code
+>Note: The color value is usually `0000` when using the default color of the theme; other parameters are `0` or null when using the default configuration of the theme; pay attention to transparency when setting colors.
 
-Attach the `LineChart` script to the gameObject:
+### Adding a Line Chart with Code
+
+Attach the `LineChart` script to `gameObject`:
 
 ```csharp
 var chart = gameObject.GetComponent<LineChart>();
@@ -108,10 +148,10 @@ if (chart == null)
 }
 ```
 
-Resize:
+Adjust the size:
 
 ```csharp
-chart.SetSize(580, 300);//代码动态设置尺寸，或直接操作chart.rectTransform，或直接在Inspector上改
+chart.SetSize(580, 300);//Dynamically set the size with code, or directly operate chart.rectTransform, or directly change it in the Inspector
 ```
 
 Set the title:
@@ -121,7 +161,7 @@ var title = chart.EnsureChartComponent<Title>();
 title.text = "Simple Line";
 ```
 
-Set whether prompt boxes and legends are displayed:
+Set whether to display the tooltip and legend:
 
 ```csharp
 var tooltip = chart.EnsureChartComponent<Tooltip>();
@@ -131,7 +171,7 @@ var legend = chart.EnsureChartComponent<Legend>();
 legend.show = false;
 ```
 
-Set axes:
+Set the coordinate axis:
 
 ```csharp
 var xAxis = chart.EnsureChartComponent<XAxis>();
@@ -143,14 +183,22 @@ var yAxis = chart.EnsureChartComponent<YAxis>();
 yAxis.type =  Axis.AxisType.Value;
 ```
 
-Clear default data and add `Line` type `Serie` for receiving data:
+Clear all default data (including Series), add a `Line` type `Serie` to receive data:
 
 ```csharp
 chart.RemoveData();
 chart.AddSerie<Line>("line");
 ```
 
-Add 10 data:
+If the Serie is fixed, it is recommended to only clear the data, not to remove the Serie:
+
+```csharp
+chart.ClearData();
+```
+
+This way, you can set the configuration parameters of Serie in the UI in advance.
+
+Add 10 data points:
 
 ```csharp
 for (int i = 0; i < 10; i++)
@@ -160,59 +208,74 @@ for (int i = 0; i < 10; i++)
 }
 ```
 
-So a simple line chart comes out:
+Now, a simple line chart is ready:
 
 ![tutorial01_linechart_simple](img/tutorial01_linechart_simple.png)
 
-If there are multiple series in a Chart, the data of Axis only needs to be added once, rather than repeated in multiple cycles. Remember: the number of data in Axis should be the same as the number in Serie.
+If there are multiple series in a Chart, the data of Axis only needs to be added once, and should not be repeated in multiple loops.
 
-See `Examples`: `Example13_LineSimple.cs` for the complete code
+>Remember: The number of Axis data should be consistent with the number of Serie data.
 
-You can also use code to control more parameters, there are more Examples under `Examples`, all the configurable parameters seen in the `Inspector` can be set by code. All parameters in [XCharts configuration](Configuration.md) can be controlled by code.
+For the complete code, please refer to `Examples`: `Example13_LineSimple.cs`  
 
-In addition, unless customized, it is recommended to call the `public` interface provided under `Chart`, especially in the data-related operations section. These interfaces do some associated processing inside, such as refreshing charts. Common interfaces are:
+You can also control more parameters with code. There are more examples in `Examples`. All parameters that can be configured in the `Inspector` can be set with code. All parameters in the [XCharts Configuration Manual](configuration.md) can be controlled by code.
 
-1. `Chart.ClearData()` : Clear chart data (without removing Series)
-2. `Chart.RemoveData()` : Clear chart data (will remove all Serie)
-3. `chart.AddSerie()` : AddSerie
-4. `chart.AddXAxisData()` : Add X-axis data
-5. `chart.AddData()` : Adds Serie data
-6. `chart.UpdateData()` : Updates Serie data
-7. `chart.UpdateXAxisData()` : Updates the X-axis data
-8. `chart.UpdateDataName()` : Updates the Serie data name
+### Setting the Default Font
 
-XCharts has an automatic refresh mechanism inside, but it only triggers under certain conditions. If you call the interface of the internal component, encounter the component did not refresh, and indeed can not find the reason, you can use the following two interfaces to force refresh:
+The default font used by XCharts is Unity's default font `Arial`, which may not display Chinese characters on the WebGL platform. When using XCharts in your project, it is recommended to set the font first:
 
-1. `chart.RefreshAllComponent()` : refresh chart component, to initialize all of the components, often is not recommended.
-2. `chart.RefreshChart()` : refreshes the chart drawing, only the drawing part is refreshed, and the component text, position, etc., is not refreshed.
-3. Individual components can also refresh only themselves by `SetAllDirty()`.
+- Find the `XCharts/Resources/XCSetting.asset` resource and modify the `Font` inside and save.
+- Find the `XCharts/Resources/XCTheme-Default.asset` and `XCharts/Resources/XCTheme-Dark.asset` font configurations, and click the `Sync Font from Setting` and `Sync Font to Sub Theme` buttons to synchronize the font to the theme configuration files.
 
-## Use TextMeshPro
+After the font is set, newly created charts will use the newly set font. For old charts, you can click the `Rebuild Chart Object` button to refresh.
 
-XCharts supports TextMeshPro, but it is disabled by default and needs to be switched manually. It can be turned on and off in the following ways:
+>Note: It is recommended to set the font before using XCharts; when updating XCharts, pay attention to the potential restoration of the set font.
+
+### Using TextMeshPro
+
+XCharts supports TextMeshPro, but it is not enabled by default and needs to be switched on manually. It can be turned on and off in the following ways:
 
 ![textmeshpro1](img/tutorial01_textmeshpro.png)
 
-After opening, you need to set the global font used by TextMeshPro, or you can set it separately in the Theme:
+After turning it on, you need to set the global font to be used by TextMeshPro, and it can also be set individually in the Theme:
 
 ![textmeshpro-font](img/tutorial01_textmeshpro_font.png)
 
-It is recommended to plan whether to use TextMeshPro at the beginning of the project and set the font. When switching TMP with many existing charts, some charts may not refresh automatically. You can manually click the `Rebuild Chart Object` button to rebuild the chart, which can be initialized normally.
+It is recommended to plan whether to use TextMeshPro at the beginning of the project and set the font accordingly. When switching to TMP in a project with many charts, some charts may not refresh automatically, and you can manually click the `Rebuild Chart Object` button to rebuild the chart, which will initialize normally.
 
-When updating XCharts for TMP projects, you may encounter problems with missing TMP references and failing to compile. These problems can be solved in one of two ways:
+If you have enabled TMP in your project, you may encounter compilation failures due to lost TMP references when updating XCharts. This can be solved in the following two ways:
 
-1. Find `XCharts.Runtime.asmdef` and `XCharts.Editor.asmdef` and manually add references to `TextMeshPro`
-2. Remove the `dUI_TextMeshPro` macro for Scripting Define Symbols in PlayerSetting
+1. Find `XCharts.Runtime.asmdef` and `XCharts.Editor.asmdef`, and manually add references to `TextMeshPro`.
+2. Remove the `dUI_TextMeshPro` macro from the `Scripting Define Symbols` in `PlayerSetting`.
 
-Version `3.8.0` after adding daemon[XCharts - Daemon](https://github.com/XCharts-Team/XCharts-Daemon), will be XCharts-Daemon import project, When updating XCharts, the daemon automatically refreshes the asmdef based on the locally enabled TMP to ensure proper compilation.
+After the `3.8.0` version, the [XCharts-Daemon](https://github.com/XCharts-Team/XCharts-Daemon) daemon was added. After importing XCharts-Daemon into the project, the daemon will automatically refresh the asmdef based on the local situation of the enabled TMP when updating XCharts, ensuring normal compilation.
 
-## Change chart parameters with code
+## XCharts Code Control
 
-All parameters seen on Inspector can be modified with code, the key is to identify whether the parameters you want to change are on the component, on the Serie, or on the specific data item SerieData.
+All parameters seen in the `Inspector` can be modified with code. The key is to locate the parameter you want to change, whether it is on the component, the Serie, or the specific data item SerieData.
 
-### Change the parameters on the main component
+In addition, unless customized, it is recommended to call the `public` interfaces provided under `Chart`, especially for data-related and list operations. These interfaces will do some associated processing internally, such as refreshing the chart. Common interfaces include:
 
-You need to obtain the component first, and then modify the parameters in it:
+1. `chart.ClearData()`: Clear chart data (does not remove Series)
+2. `chart.RemoveData()`: Clear chart data (will remove all Series)
+3. `chart.AddSerie()`: Add Serie
+4. `chart.AddXAxisData()`: Add X-axis data
+5. `chart.AddData()`: Add Serie data
+6. `chart.UpdateData()`: Update Serie data
+7. `chart.UpdateXAxisData()`: Update X-axis data
+8. `chart.UpdateDataName()`: Update the name of Serie data
+
+XCharts has an automatic refresh mechanism, but it is also triggered under certain conditions. If you have called the internal component interfaces and encountered components that have not been refreshed, and you cannot find the reason, you can use the following two interfaces to force a refresh:
+
+1. `chart.RefreshAllComponent()`: Refresh chart components, which will re-initialize all components. It is not recommended to use it frequently.
+2. `chart.RefreshChart()`: Refresh chart rendering, which only refreshes the rendering part and will not refresh component text, position, etc.
+3. Each component can also refresh itself by calling `SetAllDirty()`.
+
+>Note: Use APIs to manipulate data and various lists, not directly access the list for processing.
+
+### Changing Parameters on Main Components
+
+You need to obtain the component first, then modify its parameters:
 
 ```csharp
 var title = chart.EnsureChartComponent<Title>();
@@ -225,11 +288,11 @@ xAxis.boundaryGap = true;
 xAxis.type = Axis.AxisType.Category;
 ```
 
-> Note: When the earlier version does not have the EnsureChartComponent() interface, GetOrAddChartComponent() is used.
+> Note: In older versions without the `EnsureChartComponent()` interface, use `GetOrAddChartComponent()`
 
-### Change Serie parameters
+### Changing Serie Parameters
 
-For newly added Serie:
+For newly added Series:
 
 ```csharp
 var serie = chart.AddSerie<Pie>();
@@ -241,7 +304,7 @@ serie.animation.dataChangeEnable = true;
 serie.roundCap = true;
 ```
 
-For existing Serie:
+For existing Series:
 
 ```csharp
 var serie = chart.GetSerie<Pie>();
@@ -253,7 +316,7 @@ serie.animation.dataChangeEnable = true;
 serie.roundCap = true;
 ```
 
-Add additional components to Serie:
+Adding additional components to Serie:
 
 ```csharp
 serie.EnsureComponent<AreaStyle>();
@@ -262,14 +325,14 @@ var label = serie1.EnsureComponent<LabelStyle>();
 label.offset = new Vector3(0,20,0);
 ```
 
-### Change the parameter on the data item SerieData
+### Changing Parameters on Data Item SerieData
 
 ```csharp
 var serieData = chart.AddData(0, 20);
-//var serieData = serie.GetSerieData(0); //从已有数据中获取
+//var serieData = serie.GetSerieData(0); //To get from existing data
 serieData.radius = 10;
 
-var itemStyle = serieData.EnsureComponent<ItemStyle>(); //给数据项添加ItemStyle组件
+var itemStyle = serieData.EnsureComponent<ItemStyle>(); //Add ItemStyle component to the data item
 itemStyle.color = Color.blue;
 
 ```

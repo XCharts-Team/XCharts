@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace XCharts.Runtime
 {
@@ -25,6 +26,7 @@ namespace XCharts.Runtime
             splitLine.lineStyle.type = LineStyle.Type.None;
             axisLabel.textLimit.enable = false;
             axisTick.showStartTick = true;
+            axisName.labelStyle.offset = new Vector3(0, 22, 0);
         }
     }
 }

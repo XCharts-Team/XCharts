@@ -35,12 +35,27 @@ namespace XCharts.Runtime
                 return;
             }
             var gridXY = (isY ? grid.context.x : grid.context.y);
+            var min = gridXY;
+            var max = gridXY + (isY ? grid.context.width : grid.context.height);
+            var start = 0f;
+            switch(serie.areaStyle.origin)
+            {
+                case AreaStyle.AreaOrigin.Start:
+                    start = min;
+                    break;
+                case AreaStyle.AreaOrigin.End:
+                    start = max;
+                    break;
+                default:
+                    start = gridXY + relativedAxis.context.offset;
+                    break;
+            }
             if (lastStackSerie == null)
             {
                 DrawSerieLineNormalArea(vh, serie, isY,
-                    gridXY + relativedAxis.context.offset,
-                    gridXY,
-                    gridXY + (isY ? grid.context.width : grid.context.height),
+                    start,
+                    min,
+                    max,
                     areaColor,
                     areaToColor,
                     visualMap,
@@ -52,9 +67,9 @@ namespace XCharts.Runtime
             else
             {
                 DrawSerieLineStackArea(vh, serie, lastStackSerie, isY,
-                    gridXY + relativedAxis.context.offset,
-                    gridXY,
-                    gridXY + (isY ? grid.context.width : grid.context.height),
+                    start,
+                    min,
+                    max,
                     areaColor,
                     areaToColor,
                     visualMap,

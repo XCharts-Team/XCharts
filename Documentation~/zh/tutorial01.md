@@ -22,7 +22,7 @@ XCharts是一个Unity图表插件，目前只能在Unity平台使用。
 
 ## XCharts的获取和导入
 
-XCharts主要通过Github来维护更新和发布，可以到【Github主页】(https://github.com/XCharts-Team)进行下载获取源码和Pacakge；对于无Github访问条件的用户，可以访问[【国内镜像】](https://gitee.com/monitor1394/unity-ugui-XCharts)进行下载。国内镜像的版本更新可能会相对滞后。
+XCharts主要通过Github来维护更新和发布，可以到[【Github主页】](https://github.com/XCharts-Team)进行下载获取源码和Pacakge；对于无Github访问条件的用户，可以访问[【国内镜像】](https://gitee.com/monitor1394/unity-ugui-XCharts)进行下载。国内镜像的版本更新可能会相对滞后。
 
 XCharts可通过以下任意一种方式导入到你的项目：
 

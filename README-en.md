@@ -1,45 +1,45 @@
 <p align="center">
   <a href="">
-    <img src="" alt="" width="" height="">
+    <img src="" alt="" width="" height=""></img>
   </a>
 </p>
-<h2 align="center">XCharts</h3>
+<h2 align="center">XCharts</h2>
 <p align="center">
   A powerful, easy-to-use, configurable charting and data visualization library for Unity.
-  <br>
+  <br/>
   Unity数据可视化图表插件。
-  <br>
+  <br/>
   <a href="https://github.com/XCharts-Team/XCharts">中文文档</a>
 </p>
 <p align="center">
   <a href="https://github.com/XCharts-Team/XCharts/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/XCharts-Team/XCharts">
+    <img src="https://img.shields.io/github/license/XCharts-Team/XCharts"></img>
   </a>
   <a href="https://github.com/XCharts-Team/XCharts/releases">
-    <img src="https://img.shields.io/github/v/release/XCharts-Team/XCharts?include_prereleases">
+    <img src="https://img.shields.io/github/v/release/XCharts-Team/XCharts?include_prereleases"></img>
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/repo-size/monitor1394/unity-ugui-xcharts">
+    <img src="https://img.shields.io/github/repo-size/monitor1394/unity-ugui-xcharts"></img>
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/languages/code-size/monitor1394/unity-ugui-xcharts">
+    <img src="https://img.shields.io/github/languages/code-size/monitor1394/unity-ugui-xcharts"></img>
   </a>
   <a href="">
-    <img src="https://img.shields.io/badge/Unity-5.6+-green">
+    <img src="https://img.shields.io/badge/Unity-5.6+-green"></img>
   </a>
   <a href="">
-    <img src="https://img.shields.io/badge/TextMeshPro-YES-green">
+    <img src="https://img.shields.io/badge/TextMeshPro-YES-green"></img>
   </a>
 </p>
 <p align="center">
   <a href="">
-    <img src="https://img.shields.io/github/stars/XCharts-Team/XCharts?style=social">
+    <img src="https://img.shields.io/github/stars/XCharts-Team/XCharts?style=social"></img>
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/forks/XCharts-Team/XCharts?style=social">
+    <img src="https://img.shields.io/github/forks/XCharts-Team/XCharts?style=social"></img>
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/issues-closed/XCharts-Team/XCharts?color=green&label=%20%20%20%20issues&logoColor=green&style=social">
+    <img src="https://img.shields.io/github/issues-closed/XCharts-Team/XCharts?color=green&label=%20%20%20%20issues&logoColor=green&style=social"></img>
   </a>
 </p>
 

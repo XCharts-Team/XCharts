@@ -2,7 +2,6 @@
 sidebar_position: 31
 slug: /configuration
 ---
-import APITable from '@site/src/components/APITable';
 
 # Chart Configuration
 

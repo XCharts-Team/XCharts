@@ -3303,7 +3303,7 @@ public static string CheckChart(BaseChart chart)
 
 ## ChildComponent
 
-class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle),[AxisAnimation](#axisanimation),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[BorderStyle](#borderstyle),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MLValue](#mlvalue),[MarqueeStyle](#marqueestyle),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[ViewControl](#viewcontrol),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[SerieDataLink](#seriedatalink),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
+class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle),[AxisAnimation](#axisanimation),[AxisName](#axisname),[AxisSplitArea](#axissplitarea),[AreaStyle](#areastyle),[ArrowStyle](#arrowstyle),[BaseLine](#baseline),[BorderStyle](#borderstyle),[IconStyle](#iconstyle),[ImageStyle](#imagestyle),[ItemStyle](#itemstyle),[Level](#level),[LevelStyle](#levelstyle),[LineArrow](#linearrow),[LineStyle](#linestyle),[Location](#location),[MarqueeStyle](#marqueestyle),[MLValue](#mlvalue),[Padding](#padding),[StageColor](#stagecolor),[SymbolStyle](#symbolstyle),[TextLimit](#textlimit),[TextStyle](#textstyle),[CommentItem](#commentitem),[CommentMarkStyle](#commentmarkstyle),[LabelLine](#labelline),[LabelStyle](#labelstyle),[MarkAreaData](#markareadata),[MarkLineData](#marklinedata),[StateStyle](#statestyle),[VisualMapRange](#visualmaprange),[ViewControl](#viewcontrol),[UIComponentTheme](#uicomponenttheme),[SerieData](#seriedata),[SerieDataLink](#seriedatalink),[ComponentTheme](#componenttheme),[SerieTheme](#serietheme),[ThemeStyle](#themestyle) 
 
 ### ChildComponent.anyDirty
 
@@ -6411,8 +6411,6 @@ class in XCharts.Runtime / 继承自: [StateStyle](#statestyle),[ISerieComponent
 
 class in XCharts.Runtime / 继承自: [BaseSerie](#baseserie),[IComparable](https://docs.unity3d.com/ScriptReference/30_search.html?q=icomparable) / 子类: [SerieHandler&lt;T&gt;](#seriehandlert),[Bar](#bar),[SimplifiedBar](#simplifiedbar),[Candlestick](#candlestick),[SimplifiedCandlestick](#simplifiedcandlestick),[Heatmap](#heatmap),[Line](#line),[SimplifiedLine](#simplifiedline),[Parallel](#parallel),[Pie](#pie),[Radar](#radar),[Ring](#ring),[BaseScatter](#basescatter) 
 
-系列。系列一般由数据和配置组成，用来表示具体的图表图形，如折线图的一条折线，柱图的一组柱子等。一个图表中可以包含多个不同类型的系列。
-
 ### Serie.areaStyle
 
 public AreaStyle areaStyle  
@@ -8612,7 +8610,7 @@ public bool ignoreDataShow
 ### Tooltip.itemFormatter
 
 public string itemFormatter  
-提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。用|来表示多个列的分隔。 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。<br/> {i}或-表示忽略当前项。 {.}为当前所指示的serie或数据项的对应颜色的圆点。<br/> {a}为当前所指示的serie或数据项的系列名name。<br/> {b}为当前所指示的serie或数据项的数据项serieData的name，或者类目值（如折线图的X轴）。<br/> {c}为当前所指示的serie或数据项的y维（dimesion为1）的数值。<br/> {d}为当前所指示的serie或数据项的y维（dimesion为1）百分比值，注意不带%号。<br/> {e}为当前所指示的serie或数据项的数据项serieData的name。<br/> {f}为当前所指示的serie的默认维度的数据总和。<br/> {g}为当前所指示的serie的数据总个数。<br/> {h}为当前所指示的serie的十六进制颜色值。<br/> {y}为当前所指示的serie的y轴的类目值。<br/> {c0}表示当前数据项维度为0的数据。<br/> {c1}表示当前数据项维度为1的数据。<br/> {d3}表示维度3的数据的百分比。它的分母是默认维度（一般是1维度）数据。<br/> |表示多个列的分隔。<br/> 示例："{i}", "{.}|{a}|{c}", "{.}|{b}|{c2:f2}", "{.}|{b}|{y}"
+提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。用|来表示多个列的分隔。 模板变量有\{.\}、\{a\}、\{b\}、\{c\}、\{d\}、\{e\}、\{f\}、\{g\}。<br/> \{i\}或-表示忽略当前项。 \{.\}为当前所指示的serie或数据项的对应颜色的圆点。<br/> \{a\}为当前所指示的serie或数据项的系列名name。<br/> \{b\}为当前所指示的serie或数据项的数据项serieData的name，或者类目值（如折线图的X轴）。<br/> \{c\}为当前所指示的serie或数据项的y维（dimesion为1）的数值。<br/> \{d\}为当前所指示的serie或数据项的y维（dimesion为1）百分比值，注意不带%号。<br/> \{e\}为当前所指示的serie或数据项的数据项serieData的name。<br/> \{f\}为当前所指示的serie的默认维度的数据总和。<br/> \{g\}为当前所指示的serie的数据总个数。<br/> \{h\}为当前所指示的serie的十六进制颜色值。<br/> \{y\}为当前所指示的serie的y轴的类目值。<br/> \{c0\}表示当前数据项维度为0的数据。<br/> \{c1\}表示当前数据项维度为1的数据。<br/> \{d3\}表示维度3的数据的百分比。它的分母是默认维度（一般是1维度）数据。<br/> |表示多个列的分隔。<br/> 示例："\{i\}", "\{.\}|\{a\}|\{c\}", "\{.\}|\{b\}|\{c2:f2\}", "\{.\}|\{b\}|\{y\}"
 
 ### Tooltip.marker
 
@@ -8662,7 +8660,7 @@ public bool showContent
 ### Tooltip.titleFormatter
 
 public string titleFormatter  
-提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符{i}表示忽略不显示title。 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。<br/> {.}为当前所指示或index为0的serie的对应颜色的圆点。<br/> {a}为当前所指示或index为0的serie的系列名name。<br/> {b}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。<br/> {c}为当前所指示或index为0的serie的y维（dimesion为1）的数值。<br/> {d}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。<br/> {e}为当前所指示或index为0的serie的数据项serieData的name。<br/> {h}为当前所指示或index为0的serie的数据项serieData的十六进制颜色值。<br/> {f}为数据总和。<br/> {g}为数据总个数。<br/> {y}为value所对应的y轴的类目值。<br/> {.1}表示指定index为1的serie对应颜色的圆点。<br/> {a1}、{b1}、{c1}中的1表示指定index为1的serie。<br/> {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。<br/> {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。<br/> {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。<br/> {d:0.##} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。<br/> 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}"
+提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符\{i\}表示忽略不显示title。 模板变量有\{.\}、\{a\}、\{b\}、\{c\}、\{d\}、\{e\}、\{f\}、\{g\}。<br/> \{.\}为当前所指示或index为0的serie的对应颜色的圆点。<br/> \{a\}为当前所指示或index为0的serie的系列名name。<br/> \{b\}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。<br/> \{c\}为当前所指示或index为0的serie的y维（dimesion为1）的数值。<br/> \{d\}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。<br/> \{e\}为当前所指示或index为0的serie的数据项serieData的name。<br/> \{h\}为当前所指示或index为0的serie的数据项serieData的十六进制颜色值。<br/> \{f\}为数据总和。<br/> \{g\}为数据总个数。<br/> \{y\}为value所对应的y轴的类目值。<br/> \{.1\}表示指定index为1的serie对应颜色的圆点。<br/> \{a1\}、\{b1\}、\{c1\}中的1表示指定index为1的serie。<br/> \{c1:2\}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。<br/> \{c1:2-2\}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。<br/> \{d1:2:f2\}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。<br/> \{d:0.##\} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。<br/> 示例："\{a\}:\{c\}"、"\{a1\}:\{c1:f1\}"、"\{a1\}:\{c1:0:f1\}"、"\{a1\}:\{c1:1-1:f1\}"
 
 ### Tooltip.AddSerieDataIndex
 

@@ -1,10 +1,10 @@
 ---
-title: Tutorial: Getting Started with XCharts 3.0 in 5 Minutes
+title: Getting Started with XCharts 3.0 in 5 Minutes
 sidebar_position: 11
 slug: /tutorial01
 ---
 
-# Tutorial: Getting Started with XCharts 3.0 in 5 Minutes
+# Getting Started with XCharts 3.0 in 5 Minutes
 
 
 > Note: This tutorial is only applicable to the XCharts 3.x version. For the 2.x version, please refer to [Tutorial: Mastering XCharts 2.0](https://github.com/XCharts-Team/XCharts/blob/2.0/Doc/Tutorial%3A5-Minute-Start-to-XCharts.md) 

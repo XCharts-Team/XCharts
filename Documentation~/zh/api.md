@@ -2347,7 +2347,7 @@ public void UpdateYAxisIcon(int index, Sprite icon, int yAxisIndex = 0)
 
 ## BaseGraph
 
-class in XCharts.Runtime / 继承自: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic),[IPointerDownHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=ipointerdownhandler),[IPointerUpHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=ipointeruphandler),[](#) / 子类: [BaseChart](#basechart),[UIComponent](#uicomponent) 
+class in XCharts.Runtime / 继承自: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic),[IPointerDownHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=ipointerdownhandler),[IPointerUpHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=ipointeruphandler), / 子类: [BaseChart](#basechart),[UIComponent](#uicomponent) 
 
 ### BaseGraph.chartHideFlags
 
@@ -5858,7 +5858,7 @@ class in  / 子类: [XLog](#xlog)
 
 ## ObjectPool&lt;T&gt; where T
 
-class in XCharts.Runtime / 继承自: [new()](#new())
+class in XCharts.Runtime / 继承自: new()
 
 ### ObjectPool&lt;T&gt; where T.countActive
 

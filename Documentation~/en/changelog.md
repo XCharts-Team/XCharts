@@ -1,5 +1,5 @@
 
-# 更新日志
+# Changelog
 
 [master](#master)  
 [v3.12.0](#v3120)  
@@ -153,7 +153,7 @@ Changelog Details:
 ## v3.10.2
 
 * (2024.03.11) Release `v3.10.2`
-* (2024.03.11) Fix to `Legend`'s `formatter` showing possible mismatches when setting {d} (#304)
+* (2024.03.11) Fix to `Legend`'s `formatter` showing possible mismatches when setting `{d}` (#304)
 * (2024.03.11) Fix to `Tooltip` still showing after moving out of coordinate system
 * (2024.03.08) Fixed an issue where `Tooltip`'s title might not appear after upgrading from an older version
 
@@ -629,7 +629,7 @@ Details:
 * (2022.03.20) Release `v2.7.0` version
 * (2022.02.21) Fixed chart name repeat check error #183
 * (2022.02.17) Fixed bug where axis split line might be displayed outside the coordinate system #181
-* (2022.02.08) Fixed {d} formatter error when value is 0
+* (2022.02.08) Fixed `{d}` formatter error when value is 0
 * (2022.02.08) Fixed `YAxis` `AxisLabel`'s `onZero` does not work
 * (2022.01.06) Improved `Zebra` bar chart
 

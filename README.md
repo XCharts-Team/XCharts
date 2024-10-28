@@ -1,14 +1,8 @@
+
+
 <p align="center">
-  <a href="">
-    <img src="" alt="" width="" height=""></img>
-  </a>
-</p>
-<h2 align="center">XCharts</h2>
-<p align="center">
-  A powerful, easy-to-use, configurable charting and data visualization library for Unity.
-  <br/>
-  Unity数据可视化图表插件。
-  <br/>
+  <h2 align="center">XCharts</h2>
+  A powerful, easy-to-use, configurable charting and data visualization library for Unity.<br/>Unity数据可视化图表插件。<br/>
   <a href="README-en.md">English README</a>
 </p>
 <p align="center">

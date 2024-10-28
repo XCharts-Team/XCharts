@@ -1,13 +1,16 @@
 ---
-title: Getting Started with XCharts 3.0 in 5 Minutes
+title: Getting Started
 sidebar_position: 11
 slug: /tutorial01
 ---
 
-# Getting Started with XCharts 3.0 in 5 Minutes
+# Getting Started with XCharts in 5 Minutes
 
+:::warning
 
-> Note: This tutorial is only applicable to the XCharts 3.x version. For the 2.x version, please refer to [Tutorial: Mastering XCharts 2.0](https://github.com/XCharts-Team/XCharts/blob/2.0/Doc/Tutorial%3A5-Minute-Start-to-XCharts.md) 
+Note: This tutorial is only applicable to the XCharts 3.x version. For the 2.x version, please refer to [Tutorial: Mastering XCharts 2.0](https://github.com/XCharts-Team/XCharts/blob/2.0/Doc/tutorial--get-start-with-xcharts-in-5-minute-EN.md)
+
+:::
 
 ## Prerequisites for XCharts
 
@@ -55,7 +58,11 @@ The import method of XCharts-Daemon can refer to the previous import method of X
 
 After importing XCharts and compiling, the XCharts menu will appear in the Unity editor's menu bar, and you can start using XCharts.
 
->Note: The XCharts menu in the Unity menu bar indicates that XCharts is available.
+:::tip
+
+Note: The XCharts menu in the Unity menu bar indicates that XCharts is available.
+
+:::
 
 ### Adding a Simple Chart
 
@@ -86,7 +93,11 @@ In the `Inspector` view, find the `LineChart` panel, and click the `Add Serie` b
 ![op_addserie](img/tutorial01_addserie.png)
 ![linechart2](img/tutorial01_linechart2.png)
 
->Note: Series are added through the `Add Serie` button. Different types of Series can be added. [What kinds of Series does XCharts have?](https://xcharts-team.github.io/docs/configuration#serie-系列) 
+:::tip
+
+Series are added through the `Add Serie` button. Different types of Series can be added. [What kinds of Series does XCharts have?](https://xcharts-team.github.io/docs/configuration#serie-系列)
+
+:::
 
 ### Adding Other Main Components
 
@@ -94,7 +105,11 @@ By default, the chart does not have a `Legend`. If you need a `Legend` component
 
 ![op_addcomponent](img/tutorial01_addcomponent.png)
 
->Note: Main components are added through the `Add Component` button. [What main components does XCharts have?](https://xcharts-team.github.io/docs/configuration/#maincomponent-主组件) 
+:::tip
+
+Main components are added through the `Add Component` button. [What main components does XCharts have?](https://xcharts-team.github.io/docs/configuration/#maincomponent-主组件) 
+
+:::
 
 ### Adding Serie Components
 
@@ -103,7 +118,11 @@ Serie only comes with a few common components, and other components need to be a
 ![op_addseriecomponent](img/tutorial01_addseriecomponent.png)
 ![linechart3](img/tutorial01_linechart3.png)
 
->Note: Serie components are added through the button on the right side of Serie. [What components can be added to Serie in XCharts?](https://xcharts-team.github.io/docs/configuration/#iseriecomponent-可添加到serie的组件) 
+:::tip
+
+Serie components are added through the button on the right side of Serie. [What components can be added to Serie in XCharts?](https://xcharts-team.github.io/docs/configuration/#iseriecomponent-可添加到serie的组件)
+
+:::
 
 ### Adding SerieData Components
 
@@ -112,7 +131,11 @@ If you need to customize the configuration of each data item individually, you c
 ![op_addseriedatacomponent](img/tutorial01_addseriedatacomponent.png)
 ![linechart4](img/tutorial01_linechart4.png)
 
->Note: SerieData components are added through the button on the right side of SerieData after expanding. [What components can be added to SerieData in XCharts?](https://xcharts-team.github.io/docs/configuration/#iseriedatacomponent-可添加到seriedata的组件) 
+:::tip
+
+SerieData components are added through the button on the right side of SerieData after expanding. [What components can be added to SerieData in XCharts?](https://xcharts-team.github.io/docs/configuration/#iseriedatacomponent-可添加到seriedata的组件) 
+
+:::
 
 ### More Components and Configuration Parameters
 
@@ -133,7 +156,11 @@ To quickly locate the component corresponding to the effect you want to change, 
 2. If the `ItemStyle` of `Serie` has a color value other than `0000`, this color value is used.
 3. Otherwise, the color value is taken from the `Color Palette` of the theme `Theme`.
 
->Note: The color value is usually `0000` when using the default color of the theme; other parameters are `0` or null when using the default configuration of the theme; pay attention to transparency when setting colors.
+:::tip
+
+The color value is usually `0000` when using the default color of the theme; other parameters are `0` or null when using the default configuration of the theme; pay attention to transparency when setting colors.
+
+:::
 
 ### Adding a Line Chart with Code
 
@@ -214,7 +241,11 @@ Now, a simple line chart is ready:
 
 If there are multiple series in a Chart, the data of Axis only needs to be added once, and should not be repeated in multiple loops.
 
->Remember: The number of Axis data should be consistent with the number of Serie data.
+:::tip
+
+Remember: The number of Axis data should be consistent with the number of Serie data.
+
+:::
 
 For the complete code, please refer to `Examples`: `Example13_LineSimple.cs`  
 
@@ -229,7 +260,11 @@ The default font used by XCharts is Unity's default font `Arial`, which may not 
 
 After the font is set, newly created charts will use the newly set font. For old charts, you can click the `Rebuild Chart Object` button to refresh.
 
->Note: It is recommended to set the font before using XCharts; when updating XCharts, pay attention to the potential restoration of the set font.
+:::tip
+
+It is recommended to set the font before using XCharts; when updating XCharts, pay attention to the potential restoration of the set font.
+
+:::
 
 ### Using TextMeshPro
 
@@ -271,7 +306,11 @@ XCharts has an automatic refresh mechanism, but it is also triggered under certa
 2. `chart.RefreshChart()`: Refresh chart rendering, which only refreshes the rendering part and will not refresh component text, position, etc.
 3. Each component can also refresh itself by calling `SetAllDirty()`.
 
->Note: Use APIs to manipulate data and various lists, not directly access the list for processing.
+:::tip
+
+Use APIs to manipulate data and various lists, not directly access the list for processing.
+
+:::
 
 ### Changing Parameters on Main Components
 
@@ -288,7 +327,11 @@ xAxis.boundaryGap = true;
 xAxis.type = Axis.AxisType.Category;
 ```
 
-> Note: In older versions without the `EnsureChartComponent()` interface, use `GetOrAddChartComponent()`
+:::tip
+
+In older versions without the `EnsureChartComponent()` interface, use `GetOrAddChartComponent()`
+
+:::
 
 ### Changing Serie Parameters
 

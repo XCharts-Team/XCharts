@@ -6,7 +6,11 @@ slug: /tutorial01
 
 # 教程：5分钟上手 XCharts 3.0
 
-> Note：本教程仅适用XCharts 3.x版本，2.x版本请看 [教程：5分钟上手XCharts 2.0](https://github.com/XCharts-Team/XCharts/blob/2.0/Doc/教程：5分钟上手XCharts.md)
+:::warning
+
+Note：本教程仅适用XCharts 3.x版本，2.x版本请看 [教程：5分钟上手XCharts 2.0](https://github.com/XCharts-Team/XCharts/blob/2.0/Doc/教程：5分钟上手XCharts.md)
+
+:::
 
 ## XCharts的前提条件
 
@@ -54,7 +58,11 @@ XCharts-Daemon的导入方式可参考刚才的XCharts导入方式。可以通�
 
 导入XCharts并编译通过后，Unity编辑器的菜单栏会显示XCharts，这时可以开始使用XCharts了。
 
->Note：Unity的菜单栏出现XCharts菜单时才表示XCharts可用。
+:::tip
+
+Unity的菜单栏出现XCharts菜单时才表示XCharts可用。
+
+:::
 
 ### 添加一个简单图表
 
@@ -85,7 +93,11 @@ Serie支持多维数据，一般折线图只用到二维数据：第一维表示
 ![op_addserie](img/tutorial01_addserie.png)
 ![linechart2](img/tutorial01_linechart2.png)
 
->Note：Serie通过`Add Serie`按钮添加。可添加不同类型的Serie。[XCharts有哪些Serie？](https://xcharts-team.github.io/docs/configuration#serie-系列)
+:::tip
+
+Serie通过`Add Serie`按钮添加。可添加不同类型的Serie。[XCharts有哪些Serie？](https://xcharts-team.github.io/docs/configuration#serie-系列)
+
+:::
 
 ### 添加其他主组件
 
@@ -93,7 +105,11 @@ Serie支持多维数据，一般折线图只用到二维数据：第一维表示
 
 ![op_addcomponent](img/tutorial01_addcomponent.png)
 
->Note：主组件通过`Add Component`按钮添加。[XCharts有哪些主组件？](https://xcharts-team.github.io/docs/configuration/#maincomponent-主组件)
+:::tip
+
+主组件通过`Add Component`按钮添加。[XCharts有哪些主组件？](https://xcharts-team.github.io/docs/configuration/#maincomponent-主组件)
+
+:::
 
 ### 添加Serie组件
 
@@ -102,7 +118,11 @@ Serie只自带了几个常见的组件，其他组件用到时需额外添加。
 ![op_addseriecomponent](img/tutorial01_addseriecomponent.png)
 ![linechart3](img/tutorial01_linechart3.png)
 
->Note：Serie组件通过Serie右边的按钮添加。[XCharts有哪些Serie组件？](https://xcharts-team.github.io/docs/configuration/#iseriecomponent-可添加到serie的组件)
+:::tip
+
+Serie组件通过Serie右边的按钮添加。[XCharts有哪些Serie组件？](https://xcharts-team.github.io/docs/configuration/#iseriecomponent-可添加到serie的组件)
+
+:::
 
 ### 添加SerieData组件
 
@@ -111,7 +131,11 @@ Serie只自带了几个常见的组件，其他组件用到时需额外添加。
 ![op_addseriedatacomponent](img/tutorial01_addseriedatacomponent.png)
 ![linechart4](img/tutorial01_linechart4.png)
 
->Note：SerieData组件通过展开SerieData后Component右边的按钮添加。[XCharts有哪些SerieData组件？](https://xcharts-team.github.io/docs/configuration/#iseriedatacomponent-可添加到seriedata的组件)
+:::tip
+
+SerieData组件通过展开SerieData后Component右边的按钮添加。[XCharts有哪些SerieData组件？](https://xcharts-team.github.io/docs/configuration/#iseriedatacomponent-可添加到seriedata的组件)
+
+:::
 
 ### 更多组件和配置参数
 
@@ -131,7 +155,11 @@ XCharts是数据和参数驱动的。想要什么效果，只需要去调整对�
 2. 如果`Serie`的`ItemStyle`配置有非`0000`颜色值，则优先用这个颜色值。
 3. 否则颜色值取自主题`Theme`的`Color Palette`。
 
->Note：通常颜色值为0000时表示用主题默认颜色；其他参数为0或null时表示用主题默认配置；设置颜色时注意透明度。
+:::tip
+
+通常颜色值为0000时表示用主题默认颜色；其他参数为0或null时表示用主题默认配置；设置颜色时注意透明度。
+
+:::
 
 ### 用代码添加折线图
 
@@ -212,7 +240,11 @@ for (int i = 0; i < 10; i++)
 
 如果一个Chart里面有多个系列时，则Axis的data只需要加一次，不要多个循环加重复了。
 
->记住：Axis的数据个数要和Serie的数据个数一致。
+:::danger
+
+请确保Axis的数据个数和Serie的数据个数一致。
+
+:::
 
 完整代码请查阅`Examples`：`Example13_LineSimple.cs`  
 
@@ -227,7 +259,11 @@ XCharts默认使用的是Unity默认字体`Arial`，在WebGL平台上可能无�
 
 字体设置好后，新创建的图表就会用新设置的字体了。对于旧图表，可以点击`Rebuild Chart Object`进行刷新。
 
->Note：使用XCharts前建议先设置好字体；更新XCharts时注意设置的字体可能被还原的问题。
+:::warning
+
+使用XCharts前建议先设置好字体；更新XCharts时注意设置的字体可能被还原的问题。
+
+:::
 
 ### 使用TextMeshPro
 
@@ -269,7 +305,11 @@ XCharts内部有自动刷新机制，但也是在一定条件才会触发。如�
 2. `chart.RefreshChart()`：刷新图表绘制，只刷新绘制部分，不会刷新组件文本，位置等部分。
 3. 各个组件也可以通过`SetAllDirty()`只刷新自己。
 
->Note：用API去操作数据和各种list，而不是直接访问list进行处理
+:::danger
+
+用API去操作数据和各种list，而不是直接访问list进行处理
+
+:::
 
 ### 改主组件上的参数
 
@@ -286,7 +326,11 @@ xAxis.boundaryGap = true;
 xAxis.type = Axis.AxisType.Category;
 ```
 
-> 注：低版本没有`EnsureChartComponent()`接口时，用`GetOrAddChartComponent()`
+:::note
+
+低版本没有`EnsureChartComponent()`接口时，用`GetOrAddChartComponent()`
+
+:::
 
 ### 改Serie的参数
 

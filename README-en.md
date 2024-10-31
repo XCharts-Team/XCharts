@@ -1,8 +1,8 @@
 <p align="center">
   <h2 align="center">XCharts</h2>
-  A powerful, easy-to-use, configurable charting and data visualization library for Unity.
-  <br/>Unity数据可视化图表插件。<br/>
-  <a href="https://github.com/XCharts-Team/XCharts">中文文档</a>
+  <h4 align="center">A powerful, easy-to-use, configurable charting and data visualization library for Unity.</br>
+  Unity数据可视化图表插件。</h4>
+  <h4 align="center"><a href="https://github.com/XCharts-Team/XCharts">中文文档</a></h4>
 </p>
 <p align="center">
   <a href="https://github.com/XCharts-Team/XCharts/blob/master/LICENSE">
@@ -40,14 +40,14 @@
 
 ## Overview
 
-A powerful and easy-to-use data visualization library for Unity.  It supports more than ten built-in charts, including line, bar, pie, radar, scatter, heatmap, ring, candlestick, polar, parallel coordinates, as well as extended charts such as 3d pie, 3d bar, 3d pyramid, funnel, gauge, liquid, pictorialbar, gantt, treemap, sankey, line3d and graph chart.
+A powerful and easy-to-use data visualization library for Unity.  It supports more than ten built-in charts, including line, bar, pie, radar, scatter, heatmap, ring, candlestick, polar, parallel coordinates, as well as extension charts such as 3d pie, 3d bar, 3d pyramid, funnel, gauge, liquid, pictorialbar, gantt, treemap, sankey, line3d and graph chart.
 
 ## Key Features
 
 - __Pure Code Rendering__: Charts are rendered with pure code, eliminating the need for extra texture or shader resources.
 - __Visual Configuration__: Configure parameters visually with real-time preview and support for dynamic configuration and data adjustments at runtime.
 - __High Customizability__: Themes and configuration parameters can be adjusted as needed, with support for custom drawing and callbacks.
-- __Built-in and Extended Charts__: Supports a variety of chart types, including 3D charts and special chart types like gauges and treemaps.
+- __Built-in and Extension Charts__: Supports a variety of chart types, including 3D charts and special chart types like gauges and treemaps.
 - __Multiple Chart Combinations__: Combine multiple charts of the same or different types within a single instance.
 - __Various Coordinate Systems__: Supports different coordinate systems such as Cartesian, polar, and single axes.
 - __Rich Components__: Includes titles, legends, tooltips, and more.

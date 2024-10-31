@@ -1,3 +1,7 @@
+---
+sidebar_position: 61
+slug: /changelog
+---
 
 # Changelog
 
@@ -171,7 +175,7 @@ Highlights:
 * Added chart border Settings to support rounded corner charts
 * Fixed several issues
 
-Extended features:
+Extension features:
 
 * Added `SankeyChart` Sankey chart
 * Added `border` Settings for `UITable`
@@ -212,7 +216,7 @@ Highlights:
 * Perfect code comments and documentation
 * Fixed several issues
 
-Extended features:
+Extension features:
 
 * `UITable` adds the carousel function
 * `UITable` adds data api and callback functions

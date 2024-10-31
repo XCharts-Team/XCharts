@@ -123,7 +123,7 @@ slug: /faq
 
 ## FAQ 30：导入或更新XCharts时TMP报错如何处理？
 
-XCharts默认时不开启TMP，所以asmdef上没有TMP的引用。当本地开启TMP后再更新XCharts可能会出现这个问题。可通过以下两种方式解决：
+XCharts默认时不开启TMP，所以asmdef上没有TMP的引用。当本地开启TMP后再更新XCharts可能会出现这个问题。可通过以下两种方式的任意一种解决：
 
 1. 找到`XCharts.Runtime.asmdef`和`XCharts.Editor.asmdef`，手动加上 `TextMeshPro`的引用
 2. 移除`PlayerSetting`中`Scripting Define Symbols`的`dUI_TextMeshPro`宏
@@ -136,8 +136,7 @@ XCharts默认时不开启TMP，所以asmdef上没有TMP的引用。当本地开�
 
 ## FAQ 32：2.x版本升级3.x版本时常见的问题有哪些？
 
-1. 'XCharts.Runtime.XChartsMgr' is missing the class attribute 'ExtensionOfNativeClass'!
-3.x版本时不需要挂载XChartsMgr，直接删掉场景上的`_xcharts_`节点即可。
+1. 出现：`'XCharts.Runtime.XChartsMgr' is missing the class attribute 'ExtensionOfNativeClass'!`的问题时，是因为3.x版本时不需要挂载XChartsMgr，直接删掉场景上的`_xcharts_`节点即可。
 
 ## FAQ 33：折线图如何两边不留空白而从0坐标开始显示？
 
@@ -145,7 +144,7 @@ XCharts默认时不开启TMP，所以asmdef上没有TMP的引用。当本地开�
 
 ## FAQ 34：如何设置部分Serie不显示Tooltip？
 
-`serie`的`itemStyle`的`itemFormatter`设置为`-`可以忽略`tooltip`。
+`serie`的`itemStyle`的`itemFormatter`设置为`-`可以忽略该`serie`的`tooltip`。
 
 ## FAQ 35：区域折线图在用半透明颜色时有时候会一条叠加的线
 

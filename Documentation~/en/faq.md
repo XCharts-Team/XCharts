@@ -1,3 +1,8 @@
+---
+sidebar_position: 41
+slug: /faq
+---
+
 # FAQ
 
 ## FAQ 1: How to adjust the margin between the axis and the background?

@@ -1,8 +1,7 @@
+<h2 align="center">XCharts</h2>
 <p align="center">
-  <h2 align="center">XCharts</h2>
-  <h4 align="center">A powerful, easy-to-use, configurable charting and data visualization library for Unity.</br>
-  Unity数据可视化图表插件。</h4>
-  <h4 align="center"><a href="https://github.com/XCharts-Team/XCharts">中文文档</a></h4>
+A powerful, easy-to-use, configurable charting and data visualization library for Unity.<br/>Unity数据可视化图表插件。<br/>
+<a href="https://github.com/XCharts-Team/XCharts">中文文档</a>
 </p>
 <p align="center">
   <a href="https://github.com/XCharts-Team/XCharts/blob/master/LICENSE">

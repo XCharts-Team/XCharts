@@ -39,11 +39,11 @@ namespace XCharts.Runtime
 
                 m_LabelObject = ChartHelper.AddChartLabel(s_TitleObjectName, titleObject.transform, title.labelStyle, chart.theme.title,
                     GetTitleText(title), Color.clear, title.location.runtimeTextAlignment);
-                m_LabelObject.SetActive(title.show && title.labelStyle.show);
+                m_LabelObject.SetActive(title.show && title.labelStyle.show, true);
 
                 m_SubLabelObject = ChartHelper.AddChartLabel(s_SubTitleObjectName, titleObject.transform, title.subLabelStyle, chart.theme.subTitle,
                     GetSubTitleText(title), Color.clear, title.location.runtimeTextAlignment);
-                m_SubLabelObject.SetActive(title.show && title.subLabelStyle.show);
+                m_SubLabelObject.SetActive(title.show && title.subLabelStyle.show, true);
                 m_SubLabelObject.transform.localPosition = subTitlePosition + title.subLabelStyle.offset;
             };
             title.refreshComponent();

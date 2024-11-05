@@ -95,7 +95,7 @@ In the `Inspector` view, find the `LineChart` panel, and click the `Add Serie` b
 
 :::tip
 
-Series are added through the `Add Serie` button. Different types of Series can be added. [What kinds of Series does XCharts have?](https://xcharts-team.github.io/docs/configuration#serie-系列)
+Series are added through the `Add Serie` button. Different types of Series can be added. [What kinds of Series does XCharts have?](https://xcharts-team.github.io/en/docs/configuration#serie-系列)
 
 :::
 
@@ -107,7 +107,7 @@ By default, the chart does not have a `Legend`. If you need a `Legend` component
 
 :::tip
 
-Main components are added through the `Add Component` button. [What main components does XCharts have?](https://xcharts-team.github.io/docs/configuration/#maincomponent-主组件) 
+Main components are added through the `Add Component` button. [What main components does XCharts have?](https://xcharts-team.github.io/en/docs/configuration/#maincomponent-主组件) 
 
 :::
 
@@ -120,7 +120,7 @@ Serie only comes with a few common components, and other components need to be a
 
 :::tip
 
-Serie components are added through the button on the right side of Serie. [What components can be added to Serie in XCharts?](https://xcharts-team.github.io/docs/configuration/#iseriecomponent-可添加到serie的组件)
+Serie components are added through the button on the right side of Serie. [What components can be added to Serie in XCharts?](https://xcharts-team.github.io/en/docs/configuration/#iseriecomponent-可添加到serie的组件)
 
 :::
 
@@ -133,7 +133,7 @@ If you need to customize the configuration of each data item individually, you c
 
 :::tip
 
-SerieData components are added through the button on the right side of SerieData after expanding. [What components can be added to SerieData in XCharts?](https://xcharts-team.github.io/docs/configuration/#iseriedatacomponent-可添加到seriedata的组件) 
+SerieData components are added through the button on the right side of SerieData after expanding. [What components can be added to SerieData in XCharts?](https://xcharts-team.github.io/en/docs/configuration/#iseriedatacomponent-可添加到seriedata的组件) 
 
 :::
 

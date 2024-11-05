@@ -381,7 +381,7 @@ Log details:
 
 Highlights:
 
-* Updated documentation structure, added [Official XCharts Homepage](https://xcharts-team.github.io)
+* Updated documentation structure, added [Official XCharts Homepage](https://xcharts-team.github.io/en)
 * Added support for the DataZoom box selected.
 * Added support for maximum width Settings for bars.
 * Other optimizations.

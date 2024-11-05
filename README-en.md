@@ -59,7 +59,7 @@ A powerful and easy-to-use data visualization library for Unity.  It supports mo
 
 ## Documentation
 
-- [XCharts3.0 Homepage](https://xcharts-team.github.io)
+- [XCharts3.0 Homepage](https://xcharts-team.github.io/en)
 - [XCharts3.0 Tutorial](Documentation~/en/tutorial01.md)  
 - [XCharts3.0 API](Documentation~/en/api.md)  
 - [XCharts3.0 FAQ](Documentation~/en/faq.md)  
@@ -78,7 +78,7 @@ A powerful and easy-to-use data visualization library for Unity.  It supports mo
 - `XCharts3.0` is not fully compatible with `XCharts2.0`. Upgrading to 3.0 may require code adjustments and reconfiguration of some charts.
 - `XCharts2.0` is in the maintenance phase with only critical bug fixes applied.
 - While XCharts supports Unity 5.6 and above, compatibility issues may arise due to limited testing.
-- This repository contains only the `XCharts` source code. For demos, visit the [XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo) repo or the [Online Demo](https://xcharts-team.github.io/examples/).
+- This repository contains only the `XCharts` source code. For demos, visit the [XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo) repo or the [Online Demo](https://xcharts-team.github.io/en/examples/).
 
 ## Getting Started
 

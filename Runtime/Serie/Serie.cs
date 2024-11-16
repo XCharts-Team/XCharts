@@ -2007,7 +2007,7 @@ namespace XCharts.Runtime
         /// </summary>
         public void AnimationEnable(bool flag)
         {
-            if (!animation.enable)
+            if (animation.enable != flag)
             {
                 animation.enable = flag;
                 SetVerticesDirty();

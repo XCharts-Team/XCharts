@@ -344,31 +344,83 @@ namespace XUGL
                 return;
             }
 
-            var ldist = (Vector3.Distance(cp, lp) + 1) * dir1;
-            var rdist = (Vector3.Distance(cp, np) + 1) * dir2;
+            var ldist = (Vector3.Distance(cp, lp) + width) * dir1;
+            var rdist = (Vector3.Distance(cp, np) + width) * dir2;
 
-            bitp = true;
-            if (!UGLHelper.GetIntersection(ltp, ltp + ldist, ntp, ntp + rdist, ref itp))
+            bitp = UGLHelper.GetIntersection(ltp, ltp + ldist, ntp, ntp + rdist, ref itp);
+            bibp = UGLHelper.GetIntersection(lbp, lbp + ldist, nbp, nbp + rdist, ref ibp);
+            if (bitp == bibp)
             {
-                itp = cp - dir1v;
-                clp = cp - dir1v;
-                crp = cp - dir2v;
-                bitp = false;
+                if (!bitp)
+                {
+                    if (cp == np)
+                    {
+                        ltp = cp - dir1v;
+                        clp = cp + dir1v;
+                        crp = cp + dir1v;
+                    }
+                    else
+                    {
+                        Vector3 ibp2 = Vector3.zero;
+                        if (UGLHelper.GetIntersection(lbp, lbp + ldist, ntp, nbp, ref ibp2))
+                        {
+                            bibp = true;
+                            ibp = ibp2;
+                            clp = cp - dir1v;
+                            crp = cp - dir2v;
+                        }
+                        else if (UGLHelper.GetIntersection(ltp, ltp + ldist, nbp, ntp, ref ibp2))
+                        {
+                            bitp = true;
+                            itp = ibp2;
+                            clp = cp + dir1v;
+                            crp = cp + dir2v;
+                        }
+                        else
+                        {
+                            if (IsUp(lp, cp, np))
+                            {
+                                bibp = true;
+
+                                clp = cp - dir1v;
+                                crp = cp - dir2v;
+                                ibp = cp - Vector3.Cross((crp - clp).normalized, Vector3.back).normalized * width * 2f;
+                            }
+                            else
+                            {
+                                bitp = true;
+                                clp = cp + dir1v;
+                                crp = cp + dir2v;
+                                itp = cp + Vector3.Cross((crp - clp).normalized, Vector3.back).normalized * width * 2f;
+                            }
+
+                        }
+                    }
+                }
             }
-            bibp = true;
-            if (!UGLHelper.GetIntersection(lbp, lbp + ldist, nbp, nbp + rdist, ref ibp))
+            else
             {
-                ibp = cp + dir1v;
-                clp = cp + dir1v;
-                crp = cp + dir2v;
-                bibp = false;
+                if (!bitp)
+                {
+                    itp = cp;
+                    clp = cp - dir1v;
+                    crp = cp - dir2v;
+                }
+                else
+                {
+                    ibp = cp;
+                    clp = cp + dir1v;
+                    crp = cp + dir2v;
+                }
             }
-            if (bitp == false && bibp == false && cp == np)
-            {
-                ltp = cp - dir1v;
-                clp = cp + dir1v;
-                crp = cp + dir1v;
-            }
+        }
+
+        public static bool IsUp(Vector3 p1, Vector3 p2, Vector3 p3)
+        {
+            var v1 = p1 - p2;
+            var v2 = p3 - p2;
+            var cross = v1.x * v2.y - v1.y * v2.x;
+            return cross > 0;
         }
 
         public static bool IsPointInTriangle(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 check)

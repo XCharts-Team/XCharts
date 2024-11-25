@@ -259,17 +259,27 @@ namespace XUGL
         /// <returns>相交则返回 true, 否则返回 false</returns>
         public static bool GetIntersection(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4, ref Vector3 intersection)
         {
-            var d = (p2.x - p1.x) * (p4.y - p3.y) - (p2.y - p1.y) * (p4.x - p3.x);
-            if (d == 0)
+            float dx1 = p2.x - p1.x;
+            float dy1 = p2.y - p1.y;
+            float dx2 = p4.x - p3.x;
+            float dy2 = p4.y - p3.y;
+
+            float d = dx1 * dy2 - dy1 * dx2;
+            if (Mathf.Abs(d) < 1e-6f)
                 return false;
 
-            var u = ((p3.x - p1.x) * (p4.y - p3.y) - (p3.y - p1.y) * (p4.x - p3.x)) / d;
-            var v = ((p3.x - p1.x) * (p2.y - p1.y) - (p3.y - p1.y) * (p2.x - p1.x)) / d;
-            if (u < 0 || u > 1 || v < 0 || v > 1)
-                return false;
+            float dx3 = p3.x - p1.x;
+            float dy3 = p3.y - p1.y;
 
-            intersection.x = p1.x + u * (p2.x - p1.x);
-            intersection.y = p1.y + u * (p2.y - p1.y);
+            float u = (dx3 * dy2 - dy3 * dx2) / d;
+            if (u < 0 || u > 1) return false;
+
+            float v = (dx3 * dy1 - dy3 * dx1) / d;
+            if (v < 0 || v > 1) return false;
+
+            intersection.x = p1.x + u * dx1;
+            intersection.y = p1.y + u * dy1;
+            intersection.z = p1.z;
             return true;
         }
 
@@ -337,7 +347,8 @@ namespace XUGL
             clp = cp - dir2v;
             crp = cp + dir2v;
 
-            if (Vector3.Cross(dir1, dir2) == Vector3.zero && np != cp)
+            float crossMagnitude = Vector3.Cross(dir1, dir2).sqrMagnitude;
+            if (crossMagnitude < 1e-6f && np != cp)
             {
                 itp = clp;
                 ibp = crp;

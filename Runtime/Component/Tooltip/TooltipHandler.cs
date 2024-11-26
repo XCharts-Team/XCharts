@@ -546,7 +546,7 @@ namespace XCharts.Runtime
 
             tooltip.SetActive(m_ShowTooltip);
             tooltip.view.Refresh();
-            TooltipHelper.LimitInRect(tooltip, chart.chartRect);
+            TooltipHelper.LimitInRect(chart, tooltip, chart.chartRect);
             return true;
         }
 
@@ -633,7 +633,7 @@ namespace XCharts.Runtime
                 tooltip.SetActive(m_ShowTooltip);
                 if (tooltip.view != null)
                     tooltip.view.Refresh();
-                TooltipHelper.LimitInRect(tooltip, chart.chartRect);
+                TooltipHelper.LimitInRect(chart, tooltip, chart.chartRect);
                 return true;
             }
             return false;

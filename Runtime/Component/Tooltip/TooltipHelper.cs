@@ -58,7 +58,7 @@ namespace XCharts.Runtime
             return "-".Equals(itemFormatter) ||"{i}".Equals(itemFormatter, StringComparison.CurrentCultureIgnoreCase);
         }
 
-        public static void LimitInRect(Tooltip tooltip, Rect chartRect)
+        public static void LimitInRect(BaseChart chart, Tooltip tooltip, Rect chartRect)
         {
             if (tooltip.view == null)
                 return;
@@ -78,6 +78,18 @@ namespace XCharts.Runtime
             }
             if (pos.y > chartRect.y + chartRect.height)
                 pos.y = chartRect.y + chartRect.height;
+            var screenGap = 10;
+            var screenPos = chart.LocalPointToScreenPoint(pos);
+            if (screenPos.x < screenGap)
+                pos.x += Mathf.Abs(screenPos.x) + screenGap;
+            if (screenPos.x + tooltip.context.width > Screen.width - screenGap)
+                pos.x -= Mathf.Abs(screenPos.x + tooltip.context.width - Screen.width) + screenGap;
+
+            if (screenPos.y < tooltip.context.height + screenGap)
+                pos.y += Mathf.Abs(screenPos.y - tooltip.context.height) + screenGap;
+            if (screenPos.y > Screen.height - screenGap)
+                pos.y -= Mathf.Abs(screenPos.y - Screen.height) + screenGap;
+
             tooltip.UpdateContentPos(pos, chartRect.width / 2, chartRect.height / 2);
         }
 

@@ -19,7 +19,11 @@ namespace XCharts.Editor
             GameObject selectObj = Selection.activeGameObject;
             if (selectObj == null)
             {
+#if UNITY_2023_1_OR_NEWER
+                var canvas = UnityEngine.Object.FindFirstObjectByType<Canvas>();
+#else
                 var canvas = GameObject.FindObjectOfType<Canvas>();
+#endif
                 if (canvas != null) return canvas.transform;
                 else
                 {

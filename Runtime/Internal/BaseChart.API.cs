@@ -656,10 +656,12 @@ namespace XCharts.Runtime
             }
         }
 
+        private Background m_Background;
         public Color32 GetChartBackgroundColor()
         {
-            var background = GetChartComponent<Background>();
-            return theme.GetBackgroundColor(background);
+            if (m_Background == null) m_Background = GetChartComponent<Background>();
+            //var background = GetChartComponent<Background>();
+            return theme.GetBackgroundColor(m_Background);
         }
 
         /// <summary>

@@ -90,7 +90,6 @@ namespace XCharts.Runtime
             if (screenPos.y > Screen.height - screenGap)
                 pos.y -= Mathf.Abs(screenPos.y - Screen.height) + screenGap;
 
-            Debug.Log("rect: " + chartRect);
             UpdateContentPos(tooltip, pos, chartRect);
         }
 

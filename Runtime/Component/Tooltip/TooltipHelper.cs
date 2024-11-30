@@ -90,7 +90,44 @@ namespace XCharts.Runtime
             if (screenPos.y > Screen.height - screenGap)
                 pos.y -= Mathf.Abs(screenPos.y - Screen.height) + screenGap;
 
-            tooltip.UpdateContentPos(pos, chartRect.width / 2, chartRect.height / 2);
+            Debug.Log("rect: " + chartRect);
+            UpdateContentPos(tooltip, pos, chartRect);
+        }
+
+        /// <summary>
+        /// 更新文本框位置
+        /// </summary>
+        /// <param name="pos"></param>
+        private static void UpdateContentPos(Tooltip tooltip, Vector2 pos, Rect chartRect)
+        {
+            if (tooltip.view != null)
+            {
+                var width = chartRect.width;
+                var height = chartRect.height;
+                switch (tooltip.position)
+                {
+                    case Tooltip.Position.Auto:
+#if UNITY_ANDROID || UNITY_IOS
+                        if (tooltip.fixedY == 0) pos.y = chartRect.x + ChartHelper.GetActualValue(0.7f, height);
+                        else pos.y = chartRect.y + ChartHelper.GetActualValue(tooltip.fixedY, height);
+#endif
+                        break;
+                    case Tooltip.Position.Custom:
+                        pos = new Vector2(chartRect.x, chartRect.y);
+                        pos.x += ChartHelper.GetActualValue(tooltip.fixedX, width);
+                        pos.y += ChartHelper.GetActualValue(tooltip.fixedY, height);
+                        break;
+                    case Tooltip.Position.FixedX:
+                        pos = new Vector2(chartRect.x, pos.y);
+                        pos.x += ChartHelper.GetActualValue(tooltip.fixedX, width);
+                        break;
+                    case Tooltip.Position.FixedY:
+                        pos = new Vector2(pos.x, chartRect.y);
+                        pos.y += ChartHelper.GetActualValue(tooltip.fixedY, height);
+                        break;
+                }
+                tooltip.view.UpdatePosition(pos);
+            }
         }
 
         public static string GetItemNumericFormatter(Tooltip tooltip, Serie serie, SerieData serieData)

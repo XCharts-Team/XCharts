@@ -6,6 +6,7 @@ slug: /changelog
 # Changelog
 
 [master](#master)  
+[v3.12.1](#v3121)  
 [v3.12.0](#v3120)  
 [v3.11.2](#v3112)  
 [v3.11.1](#v3111)  
@@ -75,6 +76,28 @@ slug: /changelog
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.12.1
+
+Version Highlights:
+
+* Enhanced Chinese and English support for the official website documentation.  
+* Optimized the rendering performance of line charts when data points are densely packed.  
+* Other issue fixes.  
+
+Log Details:
+
+* (2024.12.01) Released `v3.12.1` version.
+* (2024.11.30) Fixed an issue where the `Tooltip` displayed incorrectly on mobile devices when setting other anchors in charts.
+* (2024.11.27) Resolved some code warning issues in `Unity6`.
+* (2024.11.26) Fixed a problem where the `Tooltip` might exceed the screen and appear incomplete under specific circumstances.
+* (2024.11.24) Fixed an issue where `UITable` would also select items during dragging.
+* (2024.11.22) Fixed an abnormal effect issue when dynamically changing the `Time` timeline with `Animation` enabled.
+* (2024.11.18) Optimized `Line` rendering for better performance when data points are densely packed.
+* (2024.11.16) Fixed an issue where `Animation` could not be enabled through code (#334).
+* (2024.11.13) Fixed a problem where dynamically modifying the `start` and `end` of `DataZoom` through code did not refresh the chart.
+* (2024.11.05) Fixed an issue where the `Title` remained visible after being set to hidden.
+* (2024.11.01) Improved `website` documentation in both English and Chinese.
 
 ## v3.12.0
 

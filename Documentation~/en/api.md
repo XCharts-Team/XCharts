@@ -3,7 +3,7 @@ sidebar_position: 41
 slug: /api
 ---
 
-# Chart API
+# API
 
 ## All Class
 
@@ -2347,7 +2347,7 @@ public void UpdateYAxisIcon(int index, Sprite icon, int yAxisIndex = 0)
 
 ## BaseGraph
 
-class in XCharts.Runtime / Inherits from: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic),[IPointerDownHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=ipointerdownhandler),[IPointerUpHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=ipointeruphandler),[](#) / Subclasses: [BaseChart](#basechart),[UIComponent](#uicomponent) 
+class in XCharts.Runtime / Inherits from: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic),[IPointerDownHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=ipointerdownhandler),[IPointerUpHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=ipointeruphandler), / Subclasses: [BaseChart](#basechart),[UIComponent](#uicomponent) 
 
 ### BaseGraph.chartHideFlags
 
@@ -5858,7 +5858,7 @@ class in  / Subclasses: [XLog](#xlog)
 
 ## ObjectPool&lt;T&gt; where T
 
-class in XCharts.Runtime / Inherits from: [new()](#new())
+class in XCharts.Runtime / Inherits from: new()
 
 ### ObjectPool&lt;T&gt; where T.countActive
 
@@ -8612,7 +8612,7 @@ Whether to show ignored data on tooltip.
 ### Tooltip.itemFormatter
 
 public string itemFormatter  
-a string template formatter for a single Serie or data item content. Support for wrapping lines with \n. Template variables are {.}, {a}, {b}, {c}, {d}.<br/> {.} is the dot of the corresponding color of a Serie that is currently indicated or whose index is 0.<br/> {a} is the series name of the serie that is currently indicated or whose index is 0.<br/> {b} is the name of the data item serieData that is currently indicated or whose index is 0, or a category value (such as the X-axis of a line chart).<br/> {c} is the value of a Y-dimension (dimesion is 1) from a Serie that is currently indicated or whose index is 0.<br/> {d} is the percentage value of Y-dimensions (dimesion is 1) from serie that is currently indicated or whose index is 0, with no % sign.<br/> {e} is the name of the data item serieData that is currently indicated or whose index is 0.<br/> {f} is sum of data.<br/> {y} is category value of y axis.<br/> {.1} represents a dot from serie corresponding color that specifies index as 1.<br/> 1 in {a1}, {b1}, {c1} represents a serie that specifies an index of 1.<br/> {c1:2} represents the third data from serie's current indication data item indexed to 1 (a data item has multiple data, index 2 represents the third data).<br/> {c1:2-2} represents the third data item from serie's third data item indexed to 1 (i.e., which data item must be specified to specify).<br/> {d1:2: F2} indicates that a formatted string with a value specified separately is F2 (numericFormatter is used when numericFormatter is not specified).<br/> {d:0.##} indicates that a formatted string with a value specified separately is 0.##   (used for percentage, reserved 2 valid digits while avoiding the situation similar to "100.00%" when using f2 ).<br/> Example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1} : {c1:1-1: f1}"<br/>
+a string template formatter for a single Serie or data item content. Support for wrapping lines with \n. Template variables are \{.\}, \{a\}, \{b\}, \{c\}, \{d\}.<br/> \{.\} is the dot of the corresponding color of a Serie that is currently indicated or whose index is 0.<br/> \{a\} is the series name of the serie that is currently indicated or whose index is 0.<br/> \{b\} is the name of the data item serieData that is currently indicated or whose index is 0, or a category value (such as the X-axis of a line chart).<br/> \{c\} is the value of a Y-dimension (dimesion is 1) from a Serie that is currently indicated or whose index is 0.<br/> \{d\} is the percentage value of Y-dimensions (dimesion is 1) from serie that is currently indicated or whose index is 0, with no % sign.<br/> \{e\} is the name of the data item serieData that is currently indicated or whose index is 0.<br/> \{f\} is sum of data.<br/> \{y\} is category value of y axis.<br/> \{.1\} represents a dot from serie corresponding color that specifies index as 1.<br/> 1 in \{a1\}, \{b1\}, \{c1\} represents a serie that specifies an index of 1.<br/> \{c1:2\} represents the third data from serie's current indication data item indexed to 1 (a data item has multiple data, index 2 represents the third data).<br/> \{c1:2-2\} represents the third data item from serie's third data item indexed to 1 (i.e., which data item must be specified to specify).<br/> \{d1:2: F2\} indicates that a formatted string with a value specified separately is F2 (numericFormatter is used when numericFormatter is not specified).<br/> \{d:0.##\} indicates that a formatted string with a value specified separately is 0.##   (used for percentage, reserved 2 valid digits while avoiding the situation similar to "100.00%" when using f2 ).<br/> Example: "\{a\}, \{c\}", "\{a1\}, \{c1: f1\}", "\{a1\}, \{c1:0: f1\}", "\{a1\} : \{c1:1-1: f1\}"<br/>
 
 ### Tooltip.marker
 
@@ -8662,7 +8662,7 @@ Whether to show the tooltip floating layer, whose default value is true. It shou
 ### Tooltip.titleFormatter
 
 public string titleFormatter  
-String template formatter for tooltip title content. \n line wrapping is supported. The placeholder {i} can be set separately to indicate that title is ignored and not displayed. Template variables are {.}, {a}, {b}, {c}, {d}, {e}, {f}, and {g}. <br /> {.} is the dot of the corresponding color of serie currently indicated or index 0. <br /> {a} is the series name name of serie currently indicated or index 0. <br /> {b} is the name of the serie data item serieData currently indicated or index 0, or the category value (such as the X-axis of a line chart). <br /> {c} is the value of the serie y-dimension (dimesion is 1) currently indicated or index is 0. <br /> {d} is the serie y-dimensional (dimesion 1) percentage value of the currently indicated or index 0, note without the % sign. <br /> {e} is the name of the serie data item serieData currently indicated or whose index is 0. <br /> {h} is the hexadecimal color value of serieData for the serie data item currently indicated or index 0. <br /> {f} is the sum of data. <br /> {g} indicates the total number of data. <br /> {y} is category value of y axis. <br /> {.1} represents a dot of the corresponding color with serie specified as index 1. <br /> The 1 in {a1}, {b1}, {c1} represents serie where index is specified as 1. <br /> {c1:2} represents the third data of the current indicator data item in serie with index 1 (one data item has multiple data, index 2 represents the third data). <br /> {c1:2-2} represents the third data of serie third data item with index 1 (that is, the number of data items must be specified when specifying the number of data items). <br /> {d1:2:f2} indicates that a format string with a single value is f2 (numericFormatter is used if no value is specified). <br /> {d:0.##} indicates that the format string with a value specified alone is 0.## # (for percentages, preserving a 2-digit significant number while avoiding the "100.00%" situation with f2). <br /> example: "{a}, {c}", "{a1}, {c1: f1}", "{a1}, {c1:0: f1}", "{a1}, {c1:1-1: f1}"
+String template formatter for tooltip title content. \n line wrapping is supported. The placeholder \{i\} can be set separately to indicate that title is ignored and not displayed. Template variables are \{.\}, \{a\}, \{b\}, \{c\}, \{d\}, \{e\}, \{f\}, and \{g\}. <br /> \{.\} is the dot of the corresponding color of serie currently indicated or index 0. <br /> \{a\} is the series name name of serie currently indicated or index 0. <br /> \{b\} is the name of the serie data item serieData currently indicated or index 0, or the category value (such as the X-axis of a line chart). <br /> \{c\} is the value of the serie y-dimension (dimesion is 1) currently indicated or index is 0. <br /> \{d\} is the serie y-dimensional (dimesion 1) percentage value of the currently indicated or index 0, note without the % sign. <br /> \{e\} is the name of the serie data item serieData currently indicated or whose index is 0. <br /> \{h\} is the hexadecimal color value of serieData for the serie data item currently indicated or index 0. <br /> \{f\} is the sum of data. <br /> \{g\} indicates the total number of data. <br /> \{y\} is category value of y axis. <br /> \{.1\} represents a dot of the corresponding color with serie specified as index 1. <br /> The 1 in \{a1\}, \{b1\}, \{c1\} represents serie where index is specified as 1. <br /> \{c1:2\} represents the third data of the current indicator data item in serie with index 1 (one data item has multiple data, index 2 represents the third data). <br /> \{c1:2-2\} represents the third data of serie third data item with index 1 (that is, the number of data items must be specified when specifying the number of data items). <br /> \{d1:2:f2\} indicates that a format string with a single value is f2 (numericFormatter is used if no value is specified). <br /> \{d:0.##\} indicates that the format string with a value specified alone is 0.## # (for percentages, preserving a 2-digit significant number while avoiding the "100.00%" situation with f2). <br /> example: "\{a\}, \{c\}", "\{a1\}, \{c1: f1\}", "\{a1\}, \{c1:0: f1\}", "\{a1\}, \{c1:1-1: f1\}"
 
 ### Tooltip.AddSerieDataIndex
 
@@ -8721,11 +8721,6 @@ public void SetActive(bool flag)
 
 public void SetContentActive(bool flag)  
 设置文本框是否显示
-
-### Tooltip.UpdateContentPos
-
-public void UpdateContentPos(Vector2 pos, float width, float height)  
-更新文本框位置
 
 ## Tooltip.Position
 
@@ -8804,7 +8799,7 @@ public static bool IsIgnoreFormatter(string itemFormatter)
 
 ### TooltipHelper.LimitInRect
 
-public static void LimitInRect(Tooltip tooltip, Rect chartRect)  
+public static void LimitInRect(BaseChart chart, Tooltip tooltip, Rect chartRect)  
 
 ## TooltipTheme
 
@@ -9000,6 +8995,10 @@ public static bool IsPointInPolygon(Vector3 p, params Vector3[] polyons)
 ### UGLHelper.IsPointInTriangle
 
 public static bool IsPointInTriangle(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 check)  
+
+### UGLHelper.IsUp
+
+public static bool IsUp(Vector3 p1, Vector3 p2, Vector3 p3)  
 
 ### UGLHelper.IsValueEqualsColor
 

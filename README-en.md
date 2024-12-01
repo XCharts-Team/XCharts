@@ -1,45 +1,37 @@
+<h2 align="center">XCharts</h2>
 <p align="center">
-  <a href="">
-    <img src="" alt="" width="" height="">
-  </a>
-</p>
-<h2 align="center">XCharts</h3>
-<p align="center">
-  A powerful, easy-to-use, configurable charting and data visualization library for Unity.
-  <br>
-  Unity数据可视化图表插件。
-  <br>
-  <a href="https://github.com/XCharts-Team/XCharts">中文文档</a>
+A powerful, easy-to-use, configurable charting and data visualization library for Unity.<br/>Unity数据可视化图表插件。<br/>
+<a href="https://github.com/XCharts-Team/XCharts">中文文档</a>
 </p>
 <p align="center">
   <a href="https://github.com/XCharts-Team/XCharts/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/XCharts-Team/XCharts">
+    <img src="https://img.shields.io/github/license/XCharts-Team/XCharts"></img>
   </a>
   <a href="https://github.com/XCharts-Team/XCharts/releases">
-    <img src="https://img.shields.io/github/v/release/XCharts-Team/XCharts?include_prereleases">
+    <img src="https://img.shields.io/github/v/release/XCharts-Team/XCharts?include_prereleases"></img>
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/repo-size/monitor1394/unity-ugui-xcharts">
+    <img src="https://img.shields.io/github/repo-size/monitor1394/unity-ugui-xcharts"></img>
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/languages/code-size/monitor1394/unity-ugui-xcharts">
+    <img src="https://img.shields.io/github/languages/code-size/monitor1394/unity-ugui-xcharts"></img>
   </a>
   <a href="">
-    <img src="https://img.shields.io/badge/Unity-5.6+-green">
+    <img src="https://img.shields.io/badge/Unity-5.6+-green"></img>
   </a>
   <a href="">
-    <img src="https://img.shields.io/badge/TextMeshPro-YES-green">
+    <img src="https://img.shields.io/badge/TextMeshPro-YES-green"></img>
   </a>
 </p>
 <p align="center">
   <a href="">
-    <img src="https://img.shields.io/github/stars/XCharts-Team/XCharts?style=social">
+    <img src="https://img.shields.io/github/stars/XCharts-Team/XCharts?style=social"></img>
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/forks/XCharts-Team/XCharts?style=social">
+    <img src="https://img.shields.io/github/forks/XCharts-Team/XCharts?style=social"></img>
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/issues-closed/XCharts-Team/XCharts?color=green&label=%20%20%20%20issues&logoColor=green&style=social">
+    <img src="https://img.shields.io/github/issues-closed/XCharts-Team/XCharts?color=green&label=%20%20%20%20issues&logoColor=green&style=social"></img>
   </a>
 </p>
 
@@ -47,14 +39,14 @@
 
 ## Overview
 
-A powerful and easy-to-use data visualization library for Unity.  It supports more than ten built-in charts, including line, bar, pie, radar, scatter, heatmap, ring, candlestick, polar, parallel coordinates, as well as extended charts such as 3d pie, 3d bar, 3d pyramid, funnel, gauge, liquid, pictorialbar, gantt, treemap, sankey, line3d and graph chart.
+A powerful and easy-to-use data visualization library for Unity.  It supports more than ten built-in charts, including line, bar, pie, radar, scatter, heatmap, ring, candlestick, polar, parallel coordinates, as well as extension charts such as 3d pie, 3d bar, 3d pyramid, funnel, gauge, liquid, pictorialbar, gantt, treemap, sankey, line3d and graph chart.
 
 ## Key Features
 
 - __Pure Code Rendering__: Charts are rendered with pure code, eliminating the need for extra texture or shader resources.
 - __Visual Configuration__: Configure parameters visually with real-time preview and support for dynamic configuration and data adjustments at runtime.
 - __High Customizability__: Themes and configuration parameters can be adjusted as needed, with support for custom drawing and callbacks.
-- __Built-in and Extended Charts__: Supports a variety of chart types, including 3D charts and special chart types like gauges and treemaps.
+- __Built-in and Extension Charts__: Supports a variety of chart types, including 3D charts and special chart types like gauges and treemaps.
 - __Multiple Chart Combinations__: Combine multiple charts of the same or different types within a single instance.
 - __Various Coordinate Systems__: Supports different coordinate systems such as Cartesian, polar, and single axes.
 - __Rich Components__: Includes titles, legends, tooltips, and more.
@@ -67,7 +59,7 @@ A powerful and easy-to-use data visualization library for Unity.  It supports mo
 
 ## Documentation
 
-- [XCharts3.0 Homepage](https://xcharts-team.github.io)
+- [XCharts3.0 Homepage](https://xcharts-team.github.io/en)
 - [XCharts3.0 Tutorial](Documentation~/en/tutorial01.md)  
 - [XCharts3.0 API](Documentation~/en/api.md)  
 - [XCharts3.0 FAQ](Documentation~/en/faq.md)  
@@ -86,7 +78,7 @@ A powerful and easy-to-use data visualization library for Unity.  It supports mo
 - `XCharts3.0` is not fully compatible with `XCharts2.0`. Upgrading to 3.0 may require code adjustments and reconfiguration of some charts.
 - `XCharts2.0` is in the maintenance phase with only critical bug fixes applied.
 - While XCharts supports Unity 5.6 and above, compatibility issues may arise due to limited testing.
-- This repository contains only the `XCharts` source code. For demos, visit the [XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo) repo or the [Online Demo](https://xcharts-team.github.io/examples/).
+- This repository contains only the `XCharts` source code. For demos, visit the [XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo) repo or the [Online Demo](https://xcharts-team.github.io/en/examples/).
 
 ## Getting Started
 

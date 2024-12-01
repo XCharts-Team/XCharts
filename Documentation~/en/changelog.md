@@ -1,7 +1,12 @@
+---
+sidebar_position: 61
+slug: /changelog
+---
 
-# 更新日志
+# Changelog
 
 [master](#master)  
+[v3.12.1](#v3121)  
 [v3.12.0](#v3120)  
 [v3.11.2](#v3112)  
 [v3.11.1](#v3111)  
@@ -71,6 +76,28 @@
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.12.1
+
+Version Highlights:
+
+* Enhanced Chinese and English support for the official website documentation.  
+* Optimized the rendering performance of line charts when data points are densely packed.  
+* Other issue fixes.  
+
+Log Details:
+
+* (2024.12.01) Released `v3.12.1` version.
+* (2024.11.30) Fixed an issue where the `Tooltip` displayed incorrectly on mobile devices when setting other anchors in charts.
+* (2024.11.27) Resolved some code warning issues in `Unity6`.
+* (2024.11.26) Fixed a problem where the `Tooltip` might exceed the screen and appear incomplete under specific circumstances.
+* (2024.11.24) Fixed an issue where `UITable` would also select items during dragging.
+* (2024.11.22) Fixed an abnormal effect issue when dynamically changing the `Time` timeline with `Animation` enabled.
+* (2024.11.18) Optimized `Line` rendering for better performance when data points are densely packed.
+* (2024.11.16) Fixed an issue where `Animation` could not be enabled through code (#334).
+* (2024.11.13) Fixed a problem where dynamically modifying the `start` and `end` of `DataZoom` through code did not refresh the chart.
+* (2024.11.05) Fixed an issue where the `Title` remained visible after being set to hidden.
+* (2024.11.01) Improved `website` documentation in both English and Chinese.
 
 ## v3.12.0
 
@@ -153,7 +180,7 @@ Changelog Details:
 ## v3.10.2
 
 * (2024.03.11) Release `v3.10.2`
-* (2024.03.11) Fix to `Legend`'s `formatter` showing possible mismatches when setting {d} (#304)
+* (2024.03.11) Fix to `Legend`'s `formatter` showing possible mismatches when setting `{d}` (#304)
 * (2024.03.11) Fix to `Tooltip` still showing after moving out of coordinate system
 * (2024.03.08) Fixed an issue where `Tooltip`'s title might not appear after upgrading from an older version
 
@@ -171,7 +198,7 @@ Highlights:
 * Added chart border Settings to support rounded corner charts
 * Fixed several issues
 
-Extended features:
+Extension features:
 
 * Added `SankeyChart` Sankey chart
 * Added `border` Settings for `UITable`
@@ -212,7 +239,7 @@ Highlights:
 * Perfect code comments and documentation
 * Fixed several issues
 
-Extended features:
+Extension features:
 
 * `UITable` adds the carousel function
 * `UITable` adds data api and callback functions
@@ -377,7 +404,7 @@ Log details:
 
 Highlights:
 
-* Updated documentation structure, added [Official XCharts Homepage](https://xcharts-team.github.io)
+* Updated documentation structure, added [Official XCharts Homepage](https://xcharts-team.github.io/en)
 * Added support for the DataZoom box selected.
 * Added support for maximum width Settings for bars.
 * Other optimizations.
@@ -629,7 +656,7 @@ Details:
 * (2022.03.20) Release `v2.7.0` version
 * (2022.02.21) Fixed chart name repeat check error #183
 * (2022.02.17) Fixed bug where axis split line might be displayed outside the coordinate system #181
-* (2022.02.08) Fixed {d} formatter error when value is 0
+* (2022.02.08) Fixed `{d}` formatter error when value is 0
 * (2022.02.08) Fixed `YAxis` `AxisLabel`'s `onZero` does not work
 * (2022.01.06) Improved `Zebra` bar chart
 

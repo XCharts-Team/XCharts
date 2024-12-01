@@ -2347,7 +2347,7 @@ public void UpdateYAxisIcon(int index, Sprite icon, int yAxisIndex = 0)
 
 ## BaseGraph
 
-class in XCharts.Runtime / 继承自: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic),[IPointerDownHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=ipointerdownhandler),[IPointerUpHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=ipointeruphandler),[](#) / 子类: [BaseChart](#basechart),[UIComponent](#uicomponent) 
+class in XCharts.Runtime / 继承自: [MaskableGraphic](https://docs.unity3d.com/ScriptReference/30_search.html?q=maskablegraphic),[IPointerDownHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=ipointerdownhandler),[IPointerUpHandler](https://docs.unity3d.com/ScriptReference/30_search.html?q=ipointeruphandler), / 子类: [BaseChart](#basechart),[UIComponent](#uicomponent) 
 
 ### BaseGraph.chartHideFlags
 
@@ -5858,7 +5858,7 @@ class in  / 子类: [XLog](#xlog)
 
 ## ObjectPool&lt;T&gt; where T
 
-class in XCharts.Runtime / 继承自: [new()](#new())
+class in XCharts.Runtime / 继承自: new()
 
 ### ObjectPool&lt;T&gt; where T.countActive
 
@@ -8612,7 +8612,7 @@ public bool ignoreDataShow
 ### Tooltip.itemFormatter
 
 public string itemFormatter  
-提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。用|来表示多个列的分隔。 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。<br/> {i}或-表示忽略当前项。 {.}为当前所指示的serie或数据项的对应颜色的圆点。<br/> {a}为当前所指示的serie或数据项的系列名name。<br/> {b}为当前所指示的serie或数据项的数据项serieData的name，或者类目值（如折线图的X轴）。<br/> {c}为当前所指示的serie或数据项的y维（dimesion为1）的数值。<br/> {d}为当前所指示的serie或数据项的y维（dimesion为1）百分比值，注意不带%号。<br/> {e}为当前所指示的serie或数据项的数据项serieData的name。<br/> {f}为当前所指示的serie的默认维度的数据总和。<br/> {g}为当前所指示的serie的数据总个数。<br/> {h}为当前所指示的serie的十六进制颜色值。<br/> {y}为当前所指示的serie的y轴的类目值。<br/> {c0}表示当前数据项维度为0的数据。<br/> {c1}表示当前数据项维度为1的数据。<br/> {d3}表示维度3的数据的百分比。它的分母是默认维度（一般是1维度）数据。<br/> |表示多个列的分隔。<br/> 示例："{i}", "{.}|{a}|{c}", "{.}|{b}|{c2:f2}", "{.}|{b}|{y}"
+提示框单个serie或数据项内容的字符串模版格式器。支持用 \n 换行。用|来表示多个列的分隔。 模板变量有\{.\}、\{a\}、\{b\}、\{c\}、\{d\}、\{e\}、\{f\}、\{g\}。<br/> \{i\}或-表示忽略当前项。 \{.\}为当前所指示的serie或数据项的对应颜色的圆点。<br/> \{a\}为当前所指示的serie或数据项的系列名name。<br/> \{b\}为当前所指示的serie或数据项的数据项serieData的name，或者类目值（如折线图的X轴）。<br/> \{c\}为当前所指示的serie或数据项的y维（dimesion为1）的数值。<br/> \{d\}为当前所指示的serie或数据项的y维（dimesion为1）百分比值，注意不带%号。<br/> \{e\}为当前所指示的serie或数据项的数据项serieData的name。<br/> \{f\}为当前所指示的serie的默认维度的数据总和。<br/> \{g\}为当前所指示的serie的数据总个数。<br/> \{h\}为当前所指示的serie的十六进制颜色值。<br/> \{y\}为当前所指示的serie的y轴的类目值。<br/> \{c0\}表示当前数据项维度为0的数据。<br/> \{c1\}表示当前数据项维度为1的数据。<br/> \{d3\}表示维度3的数据的百分比。它的分母是默认维度（一般是1维度）数据。<br/> |表示多个列的分隔。<br/> 示例："\{i\}", "\{.\}|\{a\}|\{c\}", "\{.\}|\{b\}|\{c2:f2\}", "\{.\}|\{b\}|\{y\}"
 
 ### Tooltip.marker
 
@@ -8662,7 +8662,7 @@ public bool showContent
 ### Tooltip.titleFormatter
 
 public string titleFormatter  
-提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符{i}表示忽略不显示title。 模板变量有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}。<br/> {.}为当前所指示或index为0的serie的对应颜色的圆点。<br/> {a}为当前所指示或index为0的serie的系列名name。<br/> {b}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。<br/> {c}为当前所指示或index为0的serie的y维（dimesion为1）的数值。<br/> {d}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。<br/> {e}为当前所指示或index为0的serie的数据项serieData的name。<br/> {h}为当前所指示或index为0的serie的数据项serieData的十六进制颜色值。<br/> {f}为数据总和。<br/> {g}为数据总个数。<br/> {y}为value所对应的y轴的类目值。<br/> {.1}表示指定index为1的serie对应颜色的圆点。<br/> {a1}、{b1}、{c1}中的1表示指定index为1的serie。<br/> {c1:2}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。<br/> {c1:2-2}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。<br/> {d1:2:f2}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。<br/> {d:0.##} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。<br/> 示例："{a}:{c}"、"{a1}:{c1:f1}"、"{a1}:{c1:0:f1}"、"{a1}:{c1:1-1:f1}"
+提示框标题内容的字符串模版格式器。支持用 \n 换行。可以单独设置占位符\{i\}表示忽略不显示title。 模板变量有\{.\}、\{a\}、\{b\}、\{c\}、\{d\}、\{e\}、\{f\}、\{g\}。<br/> \{.\}为当前所指示或index为0的serie的对应颜色的圆点。<br/> \{a\}为当前所指示或index为0的serie的系列名name。<br/> \{b\}为当前所指示或index为0的serie的数据项serieData的name，或者类目值（如折线图的X轴）。<br/> \{c\}为当前所指示或index为0的serie的y维（dimesion为1）的数值。<br/> \{d\}为当前所指示或index为0的serie的y维（dimesion为1）百分比值，注意不带%号。<br/> \{e\}为当前所指示或index为0的serie的数据项serieData的name。<br/> \{h\}为当前所指示或index为0的serie的数据项serieData的十六进制颜色值。<br/> \{f\}为数据总和。<br/> \{g\}为数据总个数。<br/> \{y\}为value所对应的y轴的类目值。<br/> \{.1\}表示指定index为1的serie对应颜色的圆点。<br/> \{a1\}、\{b1\}、\{c1\}中的1表示指定index为1的serie。<br/> \{c1:2\}表示索引为1的serie的当前指示数据项的第3个数据（一个数据项有多个数据，index为2表示第3个数据）。<br/> \{c1:2-2\}表示索引为1的serie的第3个数据项的第3个数据（也就是要指定第几个数据项时必须要指定第几个数据）。<br/> \{d1:2:f2\}表示单独指定了数值的格式化字符串为f2（不指定时用numericFormatter）。<br/> \{d:0.##\} 表示单独指定了数值的格式化字符串为 0.## （用于百分比，保留2位有效数同时又能避免使用 f2 而出现的类似于"100.00%"的情况 ）。<br/> 示例："\{a\}:\{c\}"、"\{a1\}:\{c1:f1\}"、"\{a1\}:\{c1:0:f1\}"、"\{a1\}:\{c1:1-1:f1\}"
 
 ### Tooltip.AddSerieDataIndex
 
@@ -8721,11 +8721,6 @@ public void SetActive(bool flag)
 
 public void SetContentActive(bool flag)  
 设置文本框是否显示
-
-### Tooltip.UpdateContentPos
-
-public void UpdateContentPos(Vector2 pos, float width, float height)  
-更新文本框位置
 
 ## Tooltip.Position
 
@@ -8804,7 +8799,7 @@ public static bool IsIgnoreFormatter(string itemFormatter)
 
 ### TooltipHelper.LimitInRect
 
-public static void LimitInRect(Tooltip tooltip, Rect chartRect)  
+public static void LimitInRect(BaseChart chart, Tooltip tooltip, Rect chartRect)  
 
 ## TooltipTheme
 
@@ -9000,6 +8995,10 @@ public static bool IsPointInPolygon(Vector3 p, params Vector3[] polyons)
 ### UGLHelper.IsPointInTriangle
 
 public static bool IsPointInTriangle(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 check)  
+
+### UGLHelper.IsUp
+
+public static bool IsUp(Vector3 p1, Vector3 p2, Vector3 p3)  
 
 ### UGLHelper.IsValueEqualsColor
 

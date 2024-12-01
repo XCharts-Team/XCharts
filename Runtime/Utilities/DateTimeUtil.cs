@@ -161,6 +161,7 @@ namespace XCharts.Runtime
                     ? (new DateTime(dtMin.Year, dtMin.Month, 1).AddMonths(1))
                     : (minTimestamp > firstValue ? DateTimeUtil.GetDateTime(secondValue) : DateTimeUtil.GetDateTime(firstValue));
                 tick = num * 365 * 24 * 3600;
+                dtStart = new DateTime(dtStart.Year, dtStart.Month, 1);
                 while (dtStart.Ticks < dtMax.Ticks)
                 {
                     list.Add(DateTimeUtil.GetTimestamp(dtStart));
@@ -173,6 +174,7 @@ namespace XCharts.Runtime
                 var dtStart = (firstValue == 0 || secondValue == 0 || (minTimestamp > firstValue && minTimestamp > secondValue))
                     ? (new DateTime(dtMin.Year, dtMin.Month, 1).AddMonths(1))
                     : (minTimestamp > firstValue ? DateTimeUtil.GetDateTime(secondValue) : DateTimeUtil.GetDateTime(firstValue));
+                dtStart = new DateTime(dtStart.Year, dtStart.Month, 1);
                 tick = num * 30 * 24 * 3600;
                 while (dtStart.Ticks < dtMax.Ticks)
                 {

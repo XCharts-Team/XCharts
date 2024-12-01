@@ -1,15 +1,8 @@
-<p align="center">
-  <a href="">
-    <img src="" alt="" width="" height=""></img>
-  </a>
-</p>
+
 <h2 align="center">XCharts</h2>
 <p align="center">
-  A powerful, easy-to-use, configurable charting and data visualization library for Unity.
-  <br/>
-  Unity数据可视化图表插件。
-  <br/>
-  <a href="README-en.md">English README</a>
+A powerful, easy-to-use, configurable charting and data visualization library for Unity.<br/>Unity数据可视化图表插件。<br/>
+<a href="README-en.md">English README</a>
 </p>
 <p align="center">
   <a href="https://github.com/XCharts-Team/XCharts/blob/master/LICENSE">
@@ -133,10 +126,10 @@
 
 ## FAQ
 
-- __XCharts可以免费使用吗？__ 
+- __XCharts可以免费使用吗？__  
 `XCharts`使用`MIT`协议，可以免费使用。也可以订阅`VIP`享受更多增值服务。
 
-- __XCharts支持代码动态添加和修改数据吗？支持从`Excel`或数据库中获取数据吗？__ 
+- __XCharts支持代码动态添加和修改数据吗？支持从`Excel`或数据库中获取数据吗？__  
 `XCharts`提供了各种数据操作的接口，支持代码动态修改配置，添加和修改数据，但数据来源需要自己解析和获取，再调用`XCharts`的接口添加到图表。
 
 - __XCharts除了用在Unity平台，还能用在Winform或WPF等平台吗？__  

@@ -58,7 +58,7 @@ namespace XCharts.Runtime
             return "-".Equals(itemFormatter) ||"{i}".Equals(itemFormatter, StringComparison.CurrentCultureIgnoreCase);
         }
 
-        public static void LimitInRect(Tooltip tooltip, Rect chartRect)
+        public static void LimitInRect(BaseChart chart, Tooltip tooltip, Rect chartRect)
         {
             if (tooltip.view == null)
                 return;
@@ -78,7 +78,55 @@ namespace XCharts.Runtime
             }
             if (pos.y > chartRect.y + chartRect.height)
                 pos.y = chartRect.y + chartRect.height;
-            tooltip.UpdateContentPos(pos, chartRect.width / 2, chartRect.height / 2);
+            var screenGap = 10;
+            var screenPos = chart.LocalPointToScreenPoint(pos);
+            if (screenPos.x < screenGap)
+                pos.x += Mathf.Abs(screenPos.x) + screenGap;
+            if (screenPos.x + tooltip.context.width > Screen.width - screenGap)
+                pos.x -= Mathf.Abs(screenPos.x + tooltip.context.width - Screen.width) + screenGap;
+
+            if (screenPos.y < tooltip.context.height + screenGap)
+                pos.y += Mathf.Abs(screenPos.y - tooltip.context.height) + screenGap;
+            if (screenPos.y > Screen.height - screenGap)
+                pos.y -= Mathf.Abs(screenPos.y - Screen.height) + screenGap;
+
+            UpdateContentPos(tooltip, pos, chartRect);
+        }
+
+        /// <summary>
+        /// 更新文本框位置
+        /// </summary>
+        /// <param name="pos"></param>
+        private static void UpdateContentPos(Tooltip tooltip, Vector2 pos, Rect chartRect)
+        {
+            if (tooltip.view != null)
+            {
+                var width = chartRect.width;
+                var height = chartRect.height;
+                switch (tooltip.position)
+                {
+                    case Tooltip.Position.Auto:
+#if UNITY_ANDROID || UNITY_IOS
+                        if (tooltip.fixedY == 0) pos.y = chartRect.x + ChartHelper.GetActualValue(0.7f, height);
+                        else pos.y = chartRect.y + ChartHelper.GetActualValue(tooltip.fixedY, height);
+#endif
+                        break;
+                    case Tooltip.Position.Custom:
+                        pos = new Vector2(chartRect.x, chartRect.y);
+                        pos.x += ChartHelper.GetActualValue(tooltip.fixedX, width);
+                        pos.y += ChartHelper.GetActualValue(tooltip.fixedY, height);
+                        break;
+                    case Tooltip.Position.FixedX:
+                        pos = new Vector2(chartRect.x, pos.y);
+                        pos.x += ChartHelper.GetActualValue(tooltip.fixedX, width);
+                        break;
+                    case Tooltip.Position.FixedY:
+                        pos = new Vector2(pos.x, chartRect.y);
+                        pos.y += ChartHelper.GetActualValue(tooltip.fixedY, height);
+                        break;
+                }
+                tooltip.view.UpdatePosition(pos);
+            }
         }
 
         public static string GetItemNumericFormatter(Tooltip tooltip, Serie serie, SerieData serieData)

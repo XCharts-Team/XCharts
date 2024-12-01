@@ -4,6 +4,7 @@ using System;
 using System.Reflection;
 using System.Text;
 using UnityEditor;
+using UnityEditor.Build;
 using UnityEngine;
 
 namespace XCharts.Runtime
@@ -16,6 +17,22 @@ namespace XCharts.Runtime
         {
             var flag = false;
             var num = 0;
+#if UNITY_2022_1_OR_NEWER
+            foreach (var buildTargetGroup in (BuildTargetGroup[]) Enum.GetValues(typeof(BuildTargetGroup)))
+            {
+                if (IsValidBuildTargetGroup(buildTargetGroup))
+                {
+                    var buildTargetName = NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup);
+                    var symbols = PlayerSettings.GetScriptingDefineSymbols(buildTargetName);
+                    symbols = symbols.Replace(" ", "");
+                    if (Array.IndexOf(symbols.Split(';'), symbol) != -1) continue;
+                    flag = true;
+                    num++;
+                    var defines = symbols + (symbols.Length > 0 ? ";" + symbol : symbol);
+                    PlayerSettings.SetScriptingDefineSymbols(buildTargetName, defines);
+                }
+            }
+#else
             foreach (var buildTargetGroup in (BuildTargetGroup[]) Enum.GetValues(typeof(BuildTargetGroup)))
             {
                 if (IsValidBuildTargetGroup(buildTargetGroup))
@@ -29,6 +46,7 @@ namespace XCharts.Runtime
                     PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTargetGroup, defines);
                 }
             }
+#endif
             if (flag)
             {
                 Debug.LogFormat("Added global define symbol \"{0}\" to {1} BuildTargetGroups.", symbol, num);
@@ -39,6 +57,29 @@ namespace XCharts.Runtime
         {
             var flag = false;
             var num = 0;
+#if UNITY_2022_1_OR_NEWER
+            foreach (var buildTargetGroup in (BuildTargetGroup[]) Enum.GetValues(typeof(BuildTargetGroup)))
+            {
+                if (IsValidBuildTargetGroup(buildTargetGroup))
+                {
+                    var buildTargetName = NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup);
+                    var symbols = PlayerSettings.GetScriptingDefineSymbols(buildTargetName).Split(';');
+                    if (Array.IndexOf(symbols, symbol) == -1) continue;
+                    flag = true;
+                    num++;
+                    s_StringBuilder.Length = 0;
+                    foreach (var str in symbols)
+                    {
+                        if (!str.Equals(symbol))
+                        {
+                            if (s_StringBuilder.Length > 0) s_StringBuilder.Append(";");
+                            s_StringBuilder.Append(str);
+                        }
+                    }
+                    PlayerSettings.SetScriptingDefineSymbols(buildTargetName, s_StringBuilder.ToString());
+                }
+            }
+#else
             foreach (var buildTargetGroup in (BuildTargetGroup[]) Enum.GetValues(typeof(BuildTargetGroup)))
             {
                 if (IsValidBuildTargetGroup(buildTargetGroup))
@@ -59,6 +100,7 @@ namespace XCharts.Runtime
                     PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTargetGroup, s_StringBuilder.ToString());
                 }
             }
+#endif
             if (flag)
             {
                 Debug.LogFormat("Removed global define symbol \"{0}\" to {1} BuildTargetGroups.", symbol, num);

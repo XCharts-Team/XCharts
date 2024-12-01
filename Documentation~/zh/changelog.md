@@ -6,6 +6,7 @@ slug: /changelog
 # 更新日志
 
 [master](#master)  
+[v3.12.1](#v3121)  
 [v3.12.0](#v3120)  
 [v3.11.2](#v3112)  
 [v3.11.1](#v3111)  
@@ -77,6 +78,28 @@ slug: /changelog
 
 ## master
 
+## v3.12.1
+
+版本要点：
+
+* 完善官网文档的中英文支持
+* 优化折线图数据密集时的绘制效果
+* 其他问题修复
+
+日志详情：
+
+* (2024.12.01) 发布`v3.12.1`版本
+* (2024.11.30) 修复`Tooltip`在图表设置其他锚点时手机上显示位置异常的问题
+* (2024.11.27) 修复`Unity6`的一些代码警告问题
+* (2024.11.26) 修复`Tooltip`在特殊情况下可能会超出屏幕显示不完整的问题
+* (2024.11.24) 修复`UITable`在拖拽时也会点选的问题
+* (2024.11.22) 修复`Time`时间轴在开启`Animation`时动态变更效果异常的问题
+* (2024.11.18) 优化`Line`在数据点过密时有更好的绘制效果
+* (2024.11.16) 修复`Animation`无法通过代码开启的问题 (#334)
+* (2024.11.13) 修复`DataZoom`的start和end在代码动态修改时图表不刷新的问题
+* (2024.11.05) 修复`Title`设置隐藏后运行还显示的问题
+* (2024.11.01) 完善`website`中英文文档
+
 ## v3.12.0
 
 版本要点：
@@ -129,6 +152,8 @@ slug: /changelog
 * 其他问题修复和优化
 
 日志详情：
+
+
 
 * (2024.06.16) 发布`v3.11.0`版本
 * (2024.06.15) 增加`Editor`下`Data`的添加、删除、上下移动操作按钮
@@ -189,12 +214,19 @@ slug: /changelog
 * (2024.01.23) 增加`{y}`通配符用于获取Y轴的类目名
 * (2024.01.23) 增加`Line`支持X轴和Y轴都为`Category`类目轴
 * (2024.01.18) 修复`Animation`的`type`代码动态修改无效的问题
+* (2024.01.16) 增加`UIImage`图片组件
+* (2024.01.16) 优化`Background`组件，可设置圆角和边框
 * (2024.01.13) 增加`Chart`的更多快捷创建图表菜单
 * (2024.01.09) 增加`Background`的`borderStyle`，给图表默认设置圆角
 * (2024.01.07) 修复`Tooltop`的第一个`ContentLabelStyle`设置`color`无效的问题
+* (2024.01.03) 增加`UITable`的`carouselStyle`的`hoverPause`
+* (2024.01.02) 增加`UITable`的`scrollStyle`的`borderStyle`
+* (2024.01.02) 增加`UITable`的`columnHeadStyle`的`opaque`
+* (2024.01.01) 调整`UITable`的`border`边框相关设置，用`BorderStyle`代替
 * (2024.01.01) 增加`BorderStyle`边框样式
 * (2023.12.26) 增加`Heatmap`的`maxCache`参数支持
 * (2023.12.25) 优化`Line`开启`clip`时绘制的顶点数
+* (2023.12.22) 增加`UITable`的行边框
 * (2023.12.22) 修复`Scatter`散点图部分边界数据不显示的问题
 * (2023.12.21) 修复`TriggerTooltip()`接口在指定0或最大index时可能无法触发的问题
 * (2023.12.19) 修复`Legend`的`LabelStyle`设置`formatter`后不生效的问题
@@ -233,15 +265,27 @@ slug: /changelog
 * (2023.11.23) 增加`Axis`的`Animation`支持动画效果
 * (2023.11.16) 取消`Legend`的`formatter`，用`LabelStyle`的代替
 * (2023.11.14) 完善`LabelStyle`的`formatter`的注释和文档(#291)
+* (2023.11.14) 增加`UITable`的`GetData()`和`GetContent()`接口
+* (2023.11.12) 增加`UITable`的`onTableClick`点击表格回调
+* (2023.11.11) 重构`UITable`的`SeparatorStyle`，可分开设置行列的分割线
 * (2023.11.11) 修复`Documentation`部分注释生成文档不完整的问题 (#290)
 * (2023.11.11) 修复`Legend`的`formatter`在数据变更时没有自动刷新的问题
+* (2023.11.05) 增加`UITable`的`ColumnStyle`，重构Column相关参数
+* (2023.11.05) 增加`UITable`的`RowStyle`，重构Row相关参数
 * (2023.11.05) 修复`SerieEventData`的`value`一直是0的问题 (#287)
 * (2023.11.03) 修复`Bar`设置渐变色时鼠标移出效果异常的问题 (#285)
 * (2023.11.02) 优化`SerieData`设置`ignore`时`formatter`的忽略问题
+* (2023.11.01) 增加`UITable`的`CarouselStyle`轮播功能
+* (2023.11.01) 增加`UITable`的`AddColumn()`和`UpdateColumn()`接口
 * (2023.11.01) 增加`MarkLine`的`onTop`设置是否显示在最上层
+* (2023.10.23) 修复`UITable`点击`Rebuild Object`异常的问题
+* (2023.10.23) 修复`UITable`尺寸变化时不刷新的问题
 * (2023.10.21) 修复`Pie`有0数据时`Label`的位置异常的问题
 * (2023.10.21) 增加`Axis`的对数轴支持子刻度
 * (2023.10.19) 修复`Pie`设置玫瑰图时引导线异常的问题
+* (2023.10.17) 修复`UITable`首次初始化异常的问题
+* (2023.10.17) 增加`UITable`的数据操作接口
+* (2023.10.17) 增加`UITable`的`RefreshTable()`刷新接口
 * (2023.10.15) 修复`Line`设置`Animation`为`AlongPath`时动画异常的问题 (#281)
 * (2023.10.12) 修复`MarkLine`指定`yValue`时对数值轴无效的问题
 * (2023.10.11) 修复`Serie`的`showDataDimension`设置无效的问题

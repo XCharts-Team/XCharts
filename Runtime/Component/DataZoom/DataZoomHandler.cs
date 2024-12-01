@@ -17,6 +17,8 @@ namespace XCharts.Runtime
         private bool m_CheckDataZoomLabel;
         private float m_DataZoomLastStartIndex;
         private float m_DataZoomLastEndIndex;
+        private float m_LastStart;
+        private float m_LastEnd;
 
         public override void InitComponent()
         {
@@ -62,6 +64,10 @@ namespace XCharts.Runtime
         {
             CheckDataZoomScale(component);
             CheckDataZoomLabel(component);
+            if (m_LastStart != component.start || m_LastEnd != component.end)
+            {
+                UpdateDataZoomRange(component, component.start, component.end);
+            }
         }
 
         public override void DrawUpper(VertexHelper vh)
@@ -404,6 +410,8 @@ namespace XCharts.Runtime
                 dataZoom.start = start;
             if (!dataZoom.endLock)
                 dataZoom.end = end;
+            m_LastStart = dataZoom.start;
+            m_LastEnd = dataZoom.end;
             if (dataZoom.realtime)
             {
                 chart.OnDataZoomRangeChanged(dataZoom);

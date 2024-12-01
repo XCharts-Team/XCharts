@@ -550,37 +550,6 @@ namespace XCharts.Runtime
         }
 
         /// <summary>
-        /// 更新文本框位置
-        /// </summary>
-        /// <param name="pos"></param>
-        public void UpdateContentPos(Vector2 pos, float width, float height)
-        {
-            if (view != null)
-            {
-                switch (m_Position)
-                {
-                    case Position.Auto:
-#if UNITY_ANDROID || UNITY_IOS
-                        if (m_FixedY == 0) pos.y = ChartHelper.GetActualValue(0.7f, height);
-                        else pos.y = ChartHelper.GetActualValue(m_FixedY, height);
-#endif
-                        break;
-                    case Position.Custom:
-                        pos.x = ChartHelper.GetActualValue(m_FixedX, width);
-                        pos.y = ChartHelper.GetActualValue(m_FixedY, height);
-                        break;
-                    case Position.FixedX:
-                        pos.x = ChartHelper.GetActualValue(m_FixedX, width);
-                        break;
-                    case Position.FixedY:
-                        pos.y = ChartHelper.GetActualValue(m_FixedY, height);
-                        break;
-                }
-                view.UpdatePosition(pos);
-            }
-        }
-
-        /// <summary>
         /// 设置文本框是否显示
         /// </summary>
         /// <param name="flag"></param>

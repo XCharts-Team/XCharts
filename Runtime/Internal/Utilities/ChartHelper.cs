@@ -297,7 +297,11 @@ namespace XCharts.Runtime
             chartText.tmpText.fontStyle = textStyle.tmpFontStyle;
             chartText.tmpText.richText = true;
             chartText.tmpText.raycastTarget = false;
+#if UNITY_2023_2_OR_NEWER
+            chartText.tmpText.textWrappingMode = textStyle.autoWrap ? TextWrappingModes.Normal : TextWrappingModes.NoWrap;
+#else
             chartText.tmpText.enableWordWrapping = textStyle.autoWrap;
+#endif
 #else
             chartText.text = EnsureComponent<Text>(txtObj);
             chartText.text.font = textStyle.font == null ? theme.font : textStyle.font;

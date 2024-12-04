@@ -319,7 +319,7 @@ namespace XCharts.Runtime
             chartText.SetActive(textStyle.show);
 
             RectTransform rect = EnsureComponent<RectTransform>(txtObj);
-            rect.localPosition = Vector3.zero;
+            rect.anchoredPosition3D = Vector3.zero;
             rect.sizeDelta = sizeDelta;
             rect.anchorMin = anchorMin;
             rect.anchorMax = anchorMax;
@@ -492,7 +492,7 @@ namespace XCharts.Runtime
             return label;
         }
 
-        private static void UpdateAnchorAndPivotByTextAlignment(TextAnchor alignment, out Vector2 anchorMin, out Vector2 anchorMax,
+        public static void UpdateAnchorAndPivotByTextAlignment(TextAnchor alignment, out Vector2 anchorMin, out Vector2 anchorMax,
             out Vector2 pivot)
         {
             switch (alignment)

@@ -78,6 +78,9 @@ slug: /changelog
 
 ## master
 
+* (2024.11.04) 增加`UIText`扩展组件
+* (2024.12.04) 删除`TextStyle`的无用配置项`tmpAlignment`
+
 ## v3.12.1
 
 版本要点：

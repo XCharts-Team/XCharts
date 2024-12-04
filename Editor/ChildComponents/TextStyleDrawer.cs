@@ -27,14 +27,13 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_Color");
                 PropertyField(prop, "m_FontSize");
                 PropertyField(prop, "m_LineSpacing");
+                PropertyField(prop, "m_Alignment");
+                PropertyField(prop, "m_AutoAlign");
 #if dUI_TextMeshPro
                 PropertyField(prop, "m_TMPFontStyle");
                 PropertyField(prop, "m_TMPSpriteAsset");
-                PropertyField(prop, "m_TMPAlignment");
 #else
                 PropertyField(prop, "m_FontStyle");
-                PropertyField(prop, "m_Alignment");
-                PropertyField(prop, "m_AutoAlign");
                 PropertyField(prop, "m_AutoWrap");
 #endif
                 --EditorGUI.indentLevel;

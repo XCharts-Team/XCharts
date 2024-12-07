@@ -314,7 +314,7 @@ namespace XCharts.Runtime
             }
             var objName = s_SerieRootObjectName + "_" + serie.index;
             m_SerieRoot = ChartHelper.AddObject(objName, chart.transform, chart.chartMinAnchor,
-                chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
+                chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta, -1, chart.childrenNodeNames);
             m_SerieRoot.hideFlags = chart.chartHideFlags;
             ChartHelper.SetActive(m_SerieRoot, true);
             ChartHelper.HideAllObject(m_SerieRoot);

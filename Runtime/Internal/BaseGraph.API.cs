@@ -158,8 +158,8 @@ namespace XCharts.Runtime
         /// </summary>
         public void RebuildChartObject()
         {
-            ChartHelper.DestroyAllChildren(transform);
-            SetAllComponentDirty();
+            ChartHelper.DestoryGameObjectByMatch(transform, m_ChildNodeNames);
+            //SetAllComponentDirty();
         }
 
         public bool ScreenPointToChartPoint(Vector2 screenPoint, out Vector2 chartPoint)

@@ -379,7 +379,7 @@ namespace XCharts
                 chart.chartMinAnchor,
                 chart.chartMaxAnchor,
                 chart.chartPivot,
-                chart.chartSizeDelta);
+                chart.chartSizeDelta, -1, chart.childrenNodeNames);
 
             axisObj.SetActive(axis.show);
             axisObj.hideFlags = chart.chartHideFlags;
@@ -488,7 +488,7 @@ namespace XCharts
                 chart.chartMinAnchor,
                 chart.chartMaxAnchor,
                 chart.chartPivot,
-                chart.chartSizeDelta);
+                chart.chartSizeDelta, -1, chart.childrenNodeNames);
 
             axisObj.SetActive(axis.show);
             axisObj.hideFlags = chart.chartHideFlags;

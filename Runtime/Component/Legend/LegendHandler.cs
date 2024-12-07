@@ -55,7 +55,7 @@ namespace XCharts.Runtime
             {
                 legend.OnChanged();
                 var legendObject = ChartHelper.AddObject(s_LegendObjectName + legend.index, chart.transform, chart.chartMinAnchor,
-                    chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
+                    chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta, -1, chart.childrenNodeNames);
                 legend.gameObject = legendObject;
                 legendObject.hideFlags = chart.chartHideFlags;
                 //ChartHelper.DestoryGameObjectByMatch(legendObject.transform, "_");

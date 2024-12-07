@@ -22,7 +22,7 @@ namespace XCharts.Runtime
                     chart.chartMinAnchor,
                     chart.chartMaxAnchor,
                     chart.chartPivot,
-                    chart.chartSizeDelta);
+                    chart.chartSizeDelta, -1, chart.childrenNodeNames);
 
                 commentObj.SetActive(comment.show);
                 commentObj.hideFlags = chart.chartHideFlags;

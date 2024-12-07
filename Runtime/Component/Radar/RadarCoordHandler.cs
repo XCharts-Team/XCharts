@@ -41,7 +41,7 @@ namespace XCharts.Runtime
             {
                 radar.UpdateRadarCenter(chart);
                 var radarObject = ChartHelper.AddObject("Radar" + radar.index, chart.transform, chart.chartMinAnchor,
-                    chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
+                    chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta, -1, chart.childrenNodeNames);
                 radar.gameObject = radarObject;
                 radar.gameObject.hideFlags = chart.chartHideFlags;
                 ChartHelper.HideAllObject(radarObject.transform, INDICATOR_TEXT);

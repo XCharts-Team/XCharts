@@ -75,7 +75,7 @@ namespace XCharts.Runtime
         public void Init(BaseChart chart)
         {
             m_Chart = chart;
-            m_Label = AddDebugInfoObject("debug", chart.transform, m_LabelStyle, chart.theme);
+            m_Label = AddDebugInfoObject("debug", chart.transform, m_LabelStyle, chart.theme, chart.childrenNodeNames);
         }
 
         public void Update()
@@ -155,14 +155,14 @@ namespace XCharts.Runtime
         }
 
         private ChartLabel AddDebugInfoObject(string name, Transform parent, LabelStyle labelStyle,
-            ThemeStyle theme)
+            ThemeStyle theme, List<string> childrenNodeNames)
         {
             var anchorMax = new Vector2(0, 1);
             var anchorMin = new Vector2(0, 1);
             var pivot = new Vector2(0, 1);
             var sizeDelta = new Vector2(100, 100);
 
-            var labelGameObject = ChartHelper.AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
+            var labelGameObject = ChartHelper.AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta, -1, childrenNodeNames);
             labelGameObject.transform.SetAsLastSibling();
             labelGameObject.hideFlags = m_Chart.chartHideFlags;
             ChartHelper.SetActive(labelGameObject, m_ShowDebugInfo);

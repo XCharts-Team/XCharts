@@ -14,7 +14,7 @@ namespace XCharts.Runtime
         public override void InitComponent()
         {
             m_MarkLineLabelRoot = ChartHelper.AddObject("markarea" + component.index, chart.transform, chart.chartMinAnchor,
-                chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
+                chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta, -1, chart.childrenNodeNames);
             m_MarkLineLabelRoot.hideFlags = chart.chartHideFlags;
             ChartHelper.HideAllObject(m_MarkLineLabelRoot);
             InitMarkArea(component);

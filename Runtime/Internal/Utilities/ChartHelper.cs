@@ -156,6 +156,21 @@ namespace XCharts.Runtime
             }
         }
 
+        public static void DestoryGameObjectByMatch(Transform parent, List<string> children)
+        {
+            if (parent == null) return;
+            if (children == null || children.Count == 0) return;
+            var childCount = parent.childCount;
+            for (int i = childCount - 1; i >= 0; i--)
+            {
+                var go = parent.GetChild(i);
+                if (go != null && children.Contains(go.name))
+                {
+                    GameObject.DestroyImmediate(go.gameObject, true);
+                }
+            }
+        }
+
         public static void DestoryGameObject(GameObject go)
         {
             if (go != null) GameObject.DestroyImmediate(go, true);
@@ -233,7 +248,7 @@ namespace XCharts.Runtime
         }
 
         public static GameObject AddObject(string name, Transform parent, Vector2 anchorMin,
-            Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta, int replaceIndex = -1)
+            Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta, int replaceIndex = -1, List<string> cacheNames = null)
         {
             GameObject obj;
             if (parent.Find(name))
@@ -267,6 +282,8 @@ namespace XCharts.Runtime
             rect.anchorMax = anchorMax;
             rect.pivot = pivot;
             rect.anchoredPosition3D = Vector3.zero;
+
+            if (cacheNames != null && !cacheNames.Contains(name)) cacheNames.Add(name);
             return obj;
         }
 
@@ -332,9 +349,9 @@ namespace XCharts.Runtime
         }
 
         public static Painter AddPainterObject(string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax,
-            Vector2 pivot, Vector2 sizeDelta, HideFlags hideFlags, int siblingIndex)
+            Vector2 pivot, Vector2 sizeDelta, HideFlags hideFlags, int siblingIndex, List<string> childNodeNames)
         {
-            var painterObj = ChartHelper.AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
+            var painterObj = ChartHelper.AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta, -1, childNodeNames);
             painterObj.hideFlags = hideFlags;
             painterObj.transform.SetSiblingIndex(siblingIndex);
             return ChartHelper.EnsureComponent<Painter>(painterObj);

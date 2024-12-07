@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ namespace XCharts.Runtime
         IDragHandler, IEndDragHandler, IScrollHandler
     {
         [SerializeField] protected bool m_EnableTextMeshPro = false;
+        [SerializeField] protected List<string> m_ChildNodeNames = new List<string>();
 
         protected Painter m_Painter;
         protected int m_SiblingIndex;
@@ -54,6 +56,7 @@ namespace XCharts.Runtime
         private ScrollRect m_ScrollRect;
 
         public Painter painter { get { return m_Painter; } }
+        public List<string> childrenNodeNames { get { return m_ChildNodeNames; } }
 
         protected virtual void InitComponent()
         {
@@ -158,7 +161,7 @@ namespace XCharts.Runtime
         protected virtual void InitPainter()
         {
             m_Painter = ChartHelper.AddPainterObject("painter_b", transform, m_GraphMinAnchor,
-                m_GraphMaxAnchor, m_GraphPivot, new Vector2(m_GraphWidth, m_GraphHeight), chartHideFlags, 1);
+                m_GraphMaxAnchor, m_GraphPivot, new Vector2(m_GraphWidth, m_GraphHeight), chartHideFlags, 1, m_ChildNodeNames);
             m_Painter.type = Painter.Type.Base;
             m_Painter.onPopulateMesh = OnDrawPainterBase;
             m_Painter.transform.SetSiblingIndex(0);

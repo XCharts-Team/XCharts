@@ -82,5 +82,11 @@ namespace XCharts.Runtime
         {
             return m_Show && roundedCorner ? m_CornerRadius : null;
         }
+
+        public bool IsCricle()
+        {
+            return roundedCorner && m_CornerRadius[0] == 1 && m_CornerRadius[1] == 1 &&
+                m_CornerRadius[2] == 1 && m_CornerRadius[3] == 1;
+        }
     }
 }

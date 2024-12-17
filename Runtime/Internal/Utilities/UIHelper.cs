@@ -14,16 +14,30 @@ namespace XCharts.Runtime
         internal static void DrawBackground(VertexHelper vh, UIComponent component)
         {
             var background = component.background;
+            var rect = component.graphRect;
+            if (background.imageWidth > 0 || background.imageHeight > 0)
+            {
+                if (background.imageWidth > 0)
+                {
+                    rect.width = background.imageWidth;
+                    rect.x = component.graphX + (component.graphWidth - background.imageWidth) / 2;
+                }
+                if (background.imageHeight > 0)
+                {
+                    rect.height = background.imageHeight;
+                    rect.y = component.graphY + (component.graphHeight - background.imageHeight) / 2;
+                }
+            }
+            background.rect = rect;
             if (!background.show)
                 return;
             if (background.image != null)
                 return;
-
             var backgroundColor = component.theme.GetBackgroundColor(background);
             var borderWidth = background.borderStyle.GetRuntimeBorderWidth();
             var borderColor = background.borderStyle.GetRuntimeBorderColor();
             var cornerRadius = background.borderStyle.GetRuntimeCornerRadius();
-            UGL.DrawRoundRectangleWithBorder(vh, component.graphRect, backgroundColor, backgroundColor, cornerRadius,
+            UGL.DrawRoundRectangleWithBorder(vh, background.rect, backgroundColor, backgroundColor, cornerRadius,
                 borderWidth, borderColor);
         }
 

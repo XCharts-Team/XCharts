@@ -78,6 +78,7 @@ slug: /changelog
 
 ## master
 
+* (2024.12.17) 增加`UISlider`扩展组件
 * (2024.12.10) 增加`UIToggle`扩展组件
 * (2024.12.09) 修复`UITable`的`scrollbar`无法拖动的问题
 * (2024.12.07) 修复`Chart`节点下不能放自定义节点的问题

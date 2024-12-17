@@ -100,6 +100,12 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetClass(ref m_BorderStyle, value)) SetComponentDirty(); }
         }
 
+        /// <summary>
+        /// the rect of background.
+        /// ||背景的矩形区域。
+        /// </summary>
+        public Rect rect { get; set; }
+
         public override void SetDefaultValue()
         {
             m_Show = true;

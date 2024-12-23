@@ -54,8 +54,8 @@ namespace XCharts.Runtime
                 p4 = ClampInGrid(grid, p4);
             }
             if (!clip ||
-                (clip && (grid.Contains(p1) && grid.Contains(p2) && grid.Contains(p3) &&
-                    grid.Contains(p4))))
+                (clip && grid.Contains(p1) && grid.Contains(p2) && grid.Contains(p3) &&
+                    grid.Contains(p4)))
                 UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, startColor, toColor);
         }
 

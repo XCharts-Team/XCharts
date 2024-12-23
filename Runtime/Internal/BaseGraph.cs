@@ -54,9 +54,11 @@ namespace XCharts.Runtime
         public virtual HideFlags chartHideFlags { get { return HideFlags.None; } }
 
         private ScrollRect m_ScrollRect;
+        private Vector2 m_PointerDownPos;
 
         public Painter painter { get { return m_Painter; } }
         public List<string> childrenNodeNames { get { return m_ChildNodeNames; } }
+        public bool isDragingClick { get; set; }
 
         protected virtual void InitComponent()
         {
@@ -287,11 +289,13 @@ namespace XCharts.Runtime
 
         public virtual void OnPointerDown(PointerEventData eventData)
         {
+            m_PointerDownPos = eventData.position;
             if (m_OnPointerDown != null) m_OnPointerDown(eventData, this);
         }
 
         public virtual void OnPointerUp(PointerEventData eventData)
         {
+            isDragingClick = Vector2.Distance(eventData.position, m_PointerDownPos) > 6;
             if (m_OnPointerUp != null) m_OnPointerUp(eventData, this);
         }
 

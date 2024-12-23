@@ -84,6 +84,8 @@ namespace XCharts.Runtime
         [SerializeField] protected Sprite m_Image;
         [SerializeField] protected Image.Type m_ImageType;
         [SerializeField] protected Color32 m_Color;
+        [SerializeField][Since("v3.13.0")] protected float m_BorderWidth = 0f;
+        [SerializeField][Since("v3.13.0")] protected Color32 m_EmptyColor;
 
         public virtual void Reset()
         {
@@ -183,6 +185,24 @@ namespace XCharts.Runtime
             get { return m_Color; }
             set { if (PropertyUtil.SetStruct(ref m_Color, value)) SetAllDirty(); }
         }
+        /// <summary>
+        /// the border width of symbol.
+        /// ||图形的边框宽度。
+        /// </summary>
+        public float borderWidth
+        {
+            get { return m_BorderWidth; }
+            set { if (PropertyUtil.SetStruct(ref m_BorderWidth, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// the color of empty symbol.
+        /// ||空心图形的颜色。
+        /// </summary>
+        public Color32 emptyColor
+        {
+            get { return m_EmptyColor; }
+            set { if (PropertyUtil.SetStruct(ref m_EmptyColor, value)) SetAllDirty(); }
+        } 
         public Vector3 offset3 { get { return new Vector3(m_Offset.x, m_Offset.y, 0); } }
         private List<float> m_AnimationSize = new List<float>() { 0, 5, 10 };
         /// <summary>

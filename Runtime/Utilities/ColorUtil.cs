@@ -7,6 +7,7 @@ namespace XCharts.Runtime
     {
         private static Dictionary<string, Color32> s_ColorCached = new Dictionary<string, Color32>();
         public static readonly Color32 clearColor32 = new Color32(0, 0, 0, 0);
+        public static readonly Color32 white = new Color32(255, 255, 255, 255);
         public static readonly Vector2 zeroVector2 = Vector2.zero;
 
         /// <summary>

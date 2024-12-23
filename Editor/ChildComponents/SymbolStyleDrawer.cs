@@ -28,6 +28,8 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_Color");
                 PropertyField(prop, "m_Size");
                 PropertyField(prop, "m_Gap");
+                PropertyField(prop, "m_BorderWidth");
+                PropertyField(prop, "m_EmptyColor");
                 PropertyField(prop, "m_Offset");
                 --EditorGUI.indentLevel;
             }

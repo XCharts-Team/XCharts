@@ -78,6 +78,7 @@ slug: /changelog
 
 ## master
 
+* (2024.12.23) 增加`SymbolStyle`的`borderWidth`和`emptyColor`配置
 * (2024.12.17) 增加`UISlider`扩展组件
 * (2024.12.10) 增加`UIToggle`扩展组件
 * (2024.12.09) 修复`UITable`的`scrollbar`无法拖动的问题

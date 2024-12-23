@@ -22,13 +22,14 @@ namespace XCharts.Runtime
                     }
                     else
                     {
-                        if (tickness > 0)
+                        if (tickness > 0 && !ChartHelper.IsClearColor(borderColor))
                             UGL.DrawDoughnut(vh, pos, symbolSize, symbolSize + tickness, borderColor, borderColor, color, smoothness);
                         else
                             UGL.DrawCricle(vh, pos, symbolSize, color, toColor, smoothness);
                     }
                     break;
                 case SymbolType.EmptyCircle:
+                    if (tickness == 0) tickness = 4f;
                     if (gap > 0)
                     {
                         UGL.DrawCricle(vh, pos, symbolSize + gap, backgroundColor, smoothness);
@@ -57,6 +58,7 @@ namespace XCharts.Runtime
                     }
                     break;
                 case SymbolType.EmptyRect:
+                if (tickness == 0) tickness = 4f;
                     if (gap > 0)
                     {
                         UGL.DrawSquare(vh, pos, symbolSize + gap, backgroundColor);
@@ -75,6 +77,7 @@ namespace XCharts.Runtime
                     }
                     if (type == SymbolType.EmptyTriangle)
                     {
+                        if (tickness == 0) tickness = 4f;
                         UGL.DrawEmptyTriangle(vh, pos, symbolSize * 1.4f, tickness * 2f, color, emptyColor);
                     }
                     else
@@ -92,6 +95,7 @@ namespace XCharts.Runtime
                     }
                     if (type == SymbolType.EmptyDiamond)
                     {
+                        if (tickness == 0) tickness = 4f;
                         UGL.DrawEmptyDiamond(vh, pos, xRadius, yRadius, tickness, color, emptyColor);
                     }
                     else
@@ -124,6 +128,7 @@ namespace XCharts.Runtime
                         arrowOffset, arrowDent, color);
                     if (type == SymbolType.EmptyArrow)
                     {
+                        if (tickness == 0) tickness = 4f;
                         arrowWidth = (symbolSize - tickness) * 2;
                         arrowHeight = arrowWidth * 1.5f;
                         arrowOffset = 0;

@@ -78,6 +78,7 @@ slug: /changelog
 
 ## master
 
+* (2024.12.25) 修复`YAxis`在范围变更刷新时部分label可能不显示的问题
 * (2024.12.23) 增加`SymbolStyle`的`borderWidth`和`emptyColor`配置
 * (2024.12.17) 增加`UISlider`扩展组件
 * (2024.12.10) 增加`UIToggle`扩展组件

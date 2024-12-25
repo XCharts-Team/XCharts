@@ -791,7 +791,23 @@ namespace XCharts.Runtime
             return mod == 0 ? value : (value < 0 ? rate : rate + 1) * ceilRate;
         }
 
+        public static float GetMaxCeilRate(float value, float ceilRate)
+        {
+            if (ceilRate == 0) return value;
+            var mod = value % ceilRate;
+            int rate = (int)(value / ceilRate);
+            return mod == 0 ? value : (value < 0 ? rate : rate + 1) * ceilRate;
+        }
+
         public static double GetMinCeilRate(double value, double ceilRate)
+        {
+            if (ceilRate == 0) return value;
+            var mod = value % ceilRate;
+            int rate = (int)(value / ceilRate);
+            return mod == 0 ? value : (value < 0 ? rate - 1 : rate) * ceilRate;
+        }
+
+        public static float GetMinCeilRate(float value, float ceilRate)
         {
             if (ceilRate == 0) return value;
             var mod = value % ceilRate;

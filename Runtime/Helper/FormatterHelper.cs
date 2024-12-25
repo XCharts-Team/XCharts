@@ -149,7 +149,7 @@ namespace XCharts.Runtime
                 else if (p == 'c' || p == 'C' || p == 'd' || p == 'D' || p == 'f' || p == 'f')
                 {
                     var isPercent = p == 'd' || p == 'D';
-                    var isTotal = p == 'f' || p == 'f';
+                    var isTotal = p == 'f' || p == 'F';
                     var bIndex = dataIndex;
                     var dimensionIndex = -1;
                     if (argsCount >= 2)
@@ -211,7 +211,7 @@ namespace XCharts.Runtime
         }
 
         public static void ReplaceSerieLabelContent(ref string content, string numericFormatter, int dataCount, double value, double total,
-            string serieName, string category, string dataName, Color color, SerieData serieData, BaseChart chart = null)
+            string serieName, string category, string dataName, Color color, SerieData serieData, BaseChart chart = null, int serieIndex = 0)
         {
             var mc = s_RegexForSerieLabel.Matches(content);
             foreach (var m in mc)
@@ -270,6 +270,14 @@ namespace XCharts.Runtime
                 }
                 else if (p == 'f' || p == 'f')
                 {
+                    if (pIndex != 1 && chart != null)
+                    {
+                        var serie = chart.GetSerie(serieIndex);
+                        if (serie != null)
+                        {
+                            total = serie.GetDataTotal(pIndex, serieData);
+                        }
+                    }
                     content = content.Replace(old, ChartCached.NumberToStr(total, numericFormatter));
                 }
                 else if (p == 'g' || p == 'G')

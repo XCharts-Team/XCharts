@@ -44,7 +44,8 @@ namespace XCharts.Runtime
                         param.serieData.name,
                         param.color,
                         param.serieData,
-                        chart);
+                        chart,
+                        param.serieIndex);
                     foreach (var item in content.Split('|'))
                     {
                         param.columns.Add(item);

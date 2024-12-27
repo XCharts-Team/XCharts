@@ -37,7 +37,7 @@ namespace XCharts.Runtime
             DrawBackground(vh, background, backgroundColor);
         }
 
-        public static void DrawBackground(VertexHelper vh, Background background, Color32 color)
+        public static void DrawBackground(VertexHelper vh, Background background, Color32 color, float smoothness = 2)
         {
             if (!background.show)
                 return;
@@ -47,7 +47,7 @@ namespace XCharts.Runtime
             var borderColor = background.borderStyle.GetRuntimeBorderColor();
             var cornerRadius = background.borderStyle.GetRuntimeCornerRadius();
             UGL.DrawRoundRectangleWithBorder(vh, background.rect, color, color, cornerRadius,
-                borderWidth, borderColor);
+                borderWidth, borderColor, 0, smoothness);
         }
 
         internal static void InitBackground(UIComponent component)

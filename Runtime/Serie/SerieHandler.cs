@@ -762,7 +762,7 @@ namespace XCharts.Runtime
         {
             var color = symbol.GetColor(defaultColor);
             chart.DrawSymbol(vh, symbol.type, symbol.size, 1, pos,
-                color, color, ColorUtil.clearColor32, color, symbol.gap, null);
+                color, color, ColorUtil.clearColor32, color, symbol.gap, null, symbol.size2);
         }
 
         public override void OnPointerDown(PointerEventData eventData)

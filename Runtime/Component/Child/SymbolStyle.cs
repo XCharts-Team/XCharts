@@ -86,12 +86,14 @@ namespace XCharts.Runtime
         [SerializeField] protected Color32 m_Color;
         [SerializeField][Since("v3.13.0")] protected float m_BorderWidth = 0f;
         [SerializeField][Since("v3.13.0")] protected Color32 m_EmptyColor;
+        [SerializeField][Since("v3.13.0")] protected float m_Size2 = 0f;
 
         public virtual void Reset()
         {
             m_Show = false;
             m_Type = SymbolType.EmptyCircle;
             m_Size = 0f;
+            m_Size2 = 0f;
             m_Gap = 0;
             m_Width = 0f;
             m_Height = 0f;
@@ -126,6 +128,15 @@ namespace XCharts.Runtime
         {
             get { return m_Size; }
             set { if (PropertyUtil.SetStruct(ref m_Size, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// the size of symbol.
+        /// ||标记的大小。当为Rect时，size2表示高度。
+        /// </summary>
+        public float size2
+        {
+            get { return m_Size2; }
+            set { if (PropertyUtil.SetStruct(ref m_Size2, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the gap of symbol and line segment.

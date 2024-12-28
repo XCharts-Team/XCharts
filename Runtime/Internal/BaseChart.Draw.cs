@@ -83,12 +83,12 @@ namespace XCharts.Runtime
 
         public void DrawClipSymbol(VertexHelper vh, SymbolType type, float symbolSize, float tickness,
             Vector3 pos, Color32 color, Color32 toColor, Color32 emptyColor, Color32 borderColor, float gap,
-            bool clip, float[] cornerRadius, GridCoord grid, Vector3 startPos)
+            bool clip, float[] cornerRadius, GridCoord grid, Vector3 startPos, float symbolSize2 = 0)
         {
             if (!IsInChart(pos)) return;
             if (!clip || (clip && (grid.Contains(pos))))
                 DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, emptyColor, borderColor,
-                    gap, cornerRadius, startPos);
+                    gap, cornerRadius, startPos, symbolSize2);
         }
 
         public void DrawClipZebraLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, float zebraWidth,
@@ -101,22 +101,22 @@ namespace XCharts.Runtime
 
         public void DrawSymbol(VertexHelper vh, SymbolType type, float symbolSize, float tickness,
             Vector3 pos, Color32 color, Color32 toColor, Color32 emptyColor, Color32 borderColor,
-            float gap, float[] cornerRadius)
+            float gap, float[] cornerRadius, float symbolSize2 = 0)
         {
             DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, emptyColor, borderColor,
-                gap, cornerRadius, Vector3.zero);
+                gap, cornerRadius, Vector3.zero, symbolSize2);
         }
 
         public void DrawSymbol(VertexHelper vh, SymbolType type, float symbolSize, float tickness,
             Vector3 pos, Color32 color, Color32 toColor, Color32 emptyColor, Color32 borderColor,
-            float gap, float[] cornerRadius, Vector3 startPos)
+            float gap, float[] cornerRadius, Vector3 startPos, float symbolSize2 = 0)
         {
             var backgroundColor = GetChartBackgroundColor();
             if (ChartHelper.IsClearColor(emptyColor))
                 emptyColor = backgroundColor;
             var smoothness = settings.cicleSmoothness;
             ChartDrawer.DrawSymbol(vh, type, symbolSize, tickness, pos, color, toColor, gap,
-                cornerRadius, emptyColor, backgroundColor, borderColor, smoothness, startPos);
+                cornerRadius, emptyColor, backgroundColor, borderColor, smoothness, startPos, symbolSize2);
         }
 
         public Color32 GetXLerpColor(Color32 areaColor, Color32 areaToColor, Vector3 pos, GridCoord grid)

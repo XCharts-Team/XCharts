@@ -78,6 +78,7 @@ slug: /changelog
 
 ## master
 
+* (2024.12.27) 增加`SymbolStyle`的`size2`参数支持长方形标记
 * (2024.12.26) 优化`Text`在`TextMeshPro`下的居中对齐方式
 * (2024.12.25) 增加`Tooltip`的`itemFormatter`设置`{f0}`支持
 * (2024.12.25) 修复`YAxis`在范围变更刷新时部分label可能不显示的问题

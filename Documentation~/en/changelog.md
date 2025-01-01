@@ -6,6 +6,7 @@ slug: /changelog
 # Changelog
 
 [master](#master)  
+[v3.13.0](#v3130)  
 [v3.12.1](#v3121)  
 [v3.12.0](#v3120)  
 [v3.11.2](#v3112)  
@@ -76,6 +77,8 @@ slug: /changelog
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.13.0
 
 Key Features:
 

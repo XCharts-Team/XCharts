@@ -1362,6 +1362,11 @@ class in XCharts.Runtime / Inherits from: [MainComponent](#maincomponent)
 
 Background component.
 
+### Background.rect
+
+public Rect rect  
+the rect of background.
+
 ### Background.SetDefaultValue
 
 public override void SetDefaultValue()  
@@ -2353,6 +2358,10 @@ class in XCharts.Runtime / Inherits from: [MaskableGraphic](https://docs.unity3d
 
 public virtual HideFlags chartHideFlags  
 
+### BaseGraph.childrenNodeNames
+
+public List&lt;string&gt; childrenNodeNames  
+
 ### BaseGraph.clickPos
 
 public Vector2 clickPos  
@@ -2410,6 +2419,10 @@ The x of graph.
 
 public float graphY  
 The y of graph.
+
+### BaseGraph.isDragingClick
+
+public bool isDragingClick  
 
 ### BaseGraph.isPointerClick
 
@@ -2759,6 +2772,10 @@ public float GetRuntimeBorderWidth()
 
 public float[] GetRuntimeCornerRadius()  
 
+### BorderStyle.IsCricle
+
+public bool IsCricle()  
+
 ## CalendarCoord
 
 class in XCharts.Runtime / Inherits from: [CoordSystem](#coordsystem),[IUpdateRuntimeData](#iupdateruntimedata),[ISerieContainer](#iseriecontainer)
@@ -2893,7 +2910,8 @@ public static void DestoryGameObject(GameObject go)
 
 ### ChartHelper.DestoryGameObjectByMatch
 
-public static void DestoryGameObjectByMatch(Transform parent, string containString)  
+public static void DestoryGameObjectByMatch(Transform parent, List&lt;string&gt; children)  
+
 
 ### ChartHelper.DestroyAllChildren
 
@@ -2940,7 +2958,8 @@ public static Vector3 GetLastValue(List&lt;Vector3&gt; list)
 
 ### ChartHelper.GetMaxCeilRate
 
-public static double GetMaxCeilRate(double value, double ceilRate)  
+public static float GetMaxCeilRate(float value, float ceilRate)  
+
 
 ### ChartHelper.GetMaxDivisibleValue
 
@@ -2952,7 +2971,8 @@ public static double GetMaxLogValue(double value, float logBase, bool isLogBaseE
 
 ### ChartHelper.GetMinCeilRate
 
-public static double GetMinCeilRate(double value, double ceilRate)  
+public static float GetMinCeilRate(float value, float ceilRate)  
+
 
 ### ChartHelper.GetMinDivisibleValue
 
@@ -5316,6 +5336,10 @@ public float runtimeTop
 
 public Vector3 GetPosition(float chartWidth, float chartHeight)  
 返回在坐标系中的具体位置
+
+### Location.GetRect
+
+public Rect GetRect(float graphX, float graphY, float graphWidth, float graphHeight, float rectWidth, float rectHeight)  
 
 ### Location.IsBottom
 
@@ -9086,6 +9110,11 @@ public Color32 GetBackgroundColor(Background background)
 class in XCharts.Runtime
 
 UI帮助类。
+
+### UIHelper.DrawBackground
+
+public static void DrawBackground(VertexHelper vh, Background background, Color32 color, float smoothness = 2)  
+
 
 ## ViewControl
 

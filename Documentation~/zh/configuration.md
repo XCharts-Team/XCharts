@@ -4366,11 +4366,23 @@ class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent) / 子类
 
 系列数据项的标记的图形
 
+### SymbolStyle.borderWidth
+
+`float` `0f` `v3.13.0`
+
+图形的边框宽度。
+
 ### SymbolStyle.color
 
 `Color32`
 
 图形的颜色。
+
+### SymbolStyle.emptyColor
+
+`Color32` `v3.13.0`
+
+空心图形的颜色。
 
 ### SymbolStyle.gap
 
@@ -4413,6 +4425,12 @@ class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent) / 子类
 `float` `0f`
 
 标记的大小。
+
+### SymbolStyle.size2
+
+`float` `0f` `v3.13.0`
+
+标记的大小。当为Rect时，size2表示高度。
 
 ### SymbolStyle.type
 
@@ -4550,10 +4568,6 @@ class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 `bool` `true`
 
 文本的相关设置。
-
-### TextStyle.tMPAlignment
-
-`TextAlignmentOptions`
 
 ### TextStyle.tMPFont
 

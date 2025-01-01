@@ -6,6 +6,7 @@ slug: /changelog
 # 更新日志
 
 [master](#master)  
+[v3.13.0](#v3130)  
 [v3.12.1](#v3121)  
 [v3.12.0](#v3120)  
 [v3.11.2](#v3112)  
@@ -78,6 +79,21 @@ slug: /changelog
 
 ## master
 
+## v3.13.0
+
+版本要点：
+
+* 新增`UIText`扩展组件
+* 新增`UIToggle`扩展组件
+* 新增`UISlider`扩展组件
+* 重构`UIProgress`扩展组件
+* 增加`SymbolStyle`的`borderWidth`和`emptyColor`配置
+* 增加`SymbolStyle`的`size2`参数支持长方形标记
+* 其他优化和问题修复
+
+日志详情：
+
+* (2025.01.01) 发布`v3.13.0`版本
 * (2024.12.27) 增加`SymbolStyle`的`size2`参数支持长方形标记
 * (2024.12.26) 优化`Text`在`TextMeshPro`下的居中对齐方式
 * (2024.12.25) 增加`Tooltip`的`itemFormatter`设置`{f0}`支持

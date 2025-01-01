@@ -275,7 +275,7 @@ namespace XCharts.Runtime
 
                     symbolSize = serie.animation.GetSysmbolSize(symbolSize);
                     chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, serieData.context.position,
-                        symbolColor, symbolToColor, symbolEmptyColor, borderColor, symbol.gap, cornerRadius);
+                        symbolColor, symbolToColor, symbolEmptyColor, borderColor, symbol.gap, cornerRadius, symbol.size2);
                 }
             }
         }

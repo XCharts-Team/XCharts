@@ -15,7 +15,7 @@ namespace XCharts.Runtime
             component.refreshComponent = delegate ()
             {
                 var backgroundObj = ChartHelper.AddObject(s_BackgroundObjectName, chart.transform, chart.chartMinAnchor,
-                    chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
+                    chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta, -1, chart.childrenNodeNames);
                 component.gameObject = backgroundObj;
                 backgroundObj.hideFlags = chart.chartHideFlags;
 

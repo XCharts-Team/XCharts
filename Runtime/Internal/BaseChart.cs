@@ -394,7 +394,7 @@ namespace XCharts.Runtime
             {
                 var index = settings.reversePainter ? settings.maxPainter - 1 - i : i;
                 var painter = ChartHelper.AddPainterObject("painter_" + index, transform, m_GraphMinAnchor,
-                    m_GraphMaxAnchor, m_GraphPivot, sizeDelta, chartHideFlags, 2 + index);
+                    m_GraphMaxAnchor, m_GraphPivot, sizeDelta, chartHideFlags, 2 + index, m_ChildNodeNames);
                 painter.index = m_PainterList.Count;
                 painter.type = Painter.Type.Serie;
                 painter.onPopulateMesh = OnDrawPainterSerie;
@@ -404,7 +404,7 @@ namespace XCharts.Runtime
                 m_PainterList.Add(painter);
             }
             m_PainterUpper = ChartHelper.AddPainterObject("painter_u", transform, m_GraphMinAnchor,
-                m_GraphMaxAnchor, m_GraphPivot, sizeDelta, chartHideFlags, 2 + settings.maxPainter);
+                m_GraphMaxAnchor, m_GraphPivot, sizeDelta, chartHideFlags, 2 + settings.maxPainter, m_ChildNodeNames);
             m_PainterUpper.type = Painter.Type.Top;
             m_PainterUpper.onPopulateMesh = OnDrawPainterUpper;
             m_PainterUpper.SetActive(true, m_DebugInfo.showAllChartObject);
@@ -412,7 +412,7 @@ namespace XCharts.Runtime
             m_PainterUpper.transform.SetSiblingIndex(settings.maxPainter + 1);
 
             m_PainterTop = ChartHelper.AddPainterObject("painter_t", transform, m_GraphMinAnchor,
-                m_GraphMaxAnchor, m_GraphPivot, sizeDelta, chartHideFlags, 2 + settings.maxPainter);
+                m_GraphMaxAnchor, m_GraphPivot, sizeDelta, chartHideFlags, 2 + settings.maxPainter, m_ChildNodeNames);
             m_PainterTop.type = Painter.Type.Top;
             m_PainterTop.onPopulateMesh = OnDrawPainterTop;
             m_PainterTop.SetActive(true, m_DebugInfo.showAllChartObject);

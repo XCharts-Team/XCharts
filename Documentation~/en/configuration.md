@@ -4366,11 +4366,23 @@ class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent) / Su
 
 系列数据项的标记的图形
 
+### SymbolStyle.borderWidth
+
+`float` `0f` `v3.13.0`
+
+the border width of symbol.
+
 ### SymbolStyle.color
 
 `Color32`
 
 图形的颜色。
+
+### SymbolStyle.emptyColor
+
+`Color32` `v3.13.0`
+
+the color of empty symbol.
 
 ### SymbolStyle.gap
 
@@ -4411,6 +4423,12 @@ Whether the symbol is showed.
 ### SymbolStyle.size
 
 `float` `0f`
+
+the size of symbol.
+
+### SymbolStyle.size2
+
+`float` `0f` `v3.13.0`
 
 the size of symbol.
 
@@ -4550,10 +4568,6 @@ Rotation of text.
 `bool` `true`
 
 Settings related to text.
-
-### TextStyle.tMPAlignment
-
-`TextAlignmentOptions`
 
 ### TextStyle.tMPFont
 

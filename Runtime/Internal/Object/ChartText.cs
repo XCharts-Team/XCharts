@@ -187,13 +187,13 @@ namespace XCharts.Runtime
                     m_TMPText.alignment = TextAlignmentOptions.BottomRight;
                     break;
                 case TextAnchor.MiddleCenter:
-                    m_TMPText.alignment = TextAlignmentOptions.Center;
+                    m_TMPText.alignment = TextAlignmentOptions.Midline;
                     break;
                 case TextAnchor.MiddleLeft:
-                    m_TMPText.alignment = TextAlignmentOptions.Left;
+                    m_TMPText.alignment = TextAlignmentOptions.MidlineLeft;
                     break;
                 case TextAnchor.MiddleRight:
-                    m_TMPText.alignment = TextAlignmentOptions.Right;
+                    m_TMPText.alignment = TextAlignmentOptions.MidlineRight;
                     break;
                 case TextAnchor.UpperCenter:
                     m_TMPText.alignment = TextAlignmentOptions.Top;
@@ -205,8 +205,7 @@ namespace XCharts.Runtime
                     m_TMPText.alignment = TextAlignmentOptions.TopRight;
                     break;
                 default:
-                    m_TMPText.alignment = TextAlignmentOptions.Center;
-                    m_TextAlignment = TextAnchor.MiddleCenter;
+                    m_TMPText.alignment = TextAlignmentOptions.Midline;
                     break;
             }
 #else

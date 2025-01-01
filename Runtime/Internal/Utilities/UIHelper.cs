@@ -11,43 +11,66 @@ namespace XCharts.Runtime
     /// </summary>
     public static class UIHelper
     {
-        internal static void DrawBackground(VertexHelper vh, UIComponent component)
+        public static void DrawBackground(VertexHelper vh, UIComponent component)
         {
             var background = component.background;
+            var rect = component.graphRect;
+            if (background.imageWidth > 0 || background.imageHeight > 0)
+            {
+                if (background.imageWidth > 0)
+                {
+                    rect.width = background.imageWidth;
+                    rect.x = component.graphX + (component.graphWidth - background.imageWidth) / 2;
+                }
+                if (background.imageHeight > 0)
+                {
+                    rect.height = background.imageHeight;
+                    rect.y = component.graphY + (component.graphHeight - background.imageHeight) / 2;
+                }
+            }
+            background.rect = rect;
             if (!background.show)
                 return;
             if (background.image != null)
                 return;
-
             var backgroundColor = component.theme.GetBackgroundColor(background);
+            DrawBackground(vh, background, backgroundColor);
+        }
+
+        public static void DrawBackground(VertexHelper vh, Background background, Color32 color, float smoothness = 2)
+        {
+            if (!background.show)
+                return;
+            if (background.image != null)
+                return;
             var borderWidth = background.borderStyle.GetRuntimeBorderWidth();
             var borderColor = background.borderStyle.GetRuntimeBorderColor();
             var cornerRadius = background.borderStyle.GetRuntimeCornerRadius();
-            UGL.DrawRoundRectangleWithBorder(vh, component.graphRect, backgroundColor, backgroundColor, cornerRadius,
-                borderWidth, borderColor);
+            UGL.DrawRoundRectangleWithBorder(vh, background.rect, color, color, cornerRadius,
+                borderWidth, borderColor, 0, smoothness);
         }
 
-        internal static void InitBackground(UIComponent table)
+        internal static void InitBackground(UIComponent component)
         {
-            if (table.background.show == false ||
-                (table.background.image == null && ChartHelper.IsClearColor(table.background.imageColor)))
+            if (component.background.show == false ||
+                (component.background.image == null && ChartHelper.IsClearColor(component.background.imageColor)))
             {
-                ChartHelper.DestoryGameObject(table.transform, "Background");
+                ChartHelper.DestoryGameObject(component.transform, "Background");
                 return;
             }
-            var sizeDelta = table.background.imageWidth > 0 && table.background.imageHeight > 0 ?
-                new Vector2(table.background.imageWidth, table.background.imageHeight) :
-                table.graphSizeDelta;
-            var backgroundObj = ChartHelper.AddObject("Background", table.transform, table.graphMinAnchor,
-                table.graphMaxAnchor, table.graphPivot, sizeDelta);
-            backgroundObj.hideFlags = table.chartHideFlags;
+            var sizeDelta = component.background.imageWidth > 0 && component.background.imageHeight > 0 ?
+                new Vector2(component.background.imageWidth, component.background.imageHeight) :
+                component.graphSizeDelta;
+            var backgroundObj = ChartHelper.AddObject("Background", component.transform, component.graphMinAnchor,
+                component.graphMaxAnchor, component.graphPivot, sizeDelta);
+            backgroundObj.hideFlags = component.chartHideFlags;
 
             var backgroundImage = ChartHelper.EnsureComponent<Image>(backgroundObj);
-            ChartHelper.UpdateRectTransform(backgroundObj, table.graphMinAnchor,
-                table.graphMaxAnchor, table.graphPivot, sizeDelta);
-            ChartHelper.SetBackground(backgroundImage, table.background);
+            ChartHelper.UpdateRectTransform(backgroundObj, component.graphMinAnchor,
+                component.graphMaxAnchor, component.graphPivot, sizeDelta);
+            ChartHelper.SetBackground(backgroundImage, component.background);
             backgroundObj.transform.SetSiblingIndex(0);
-            backgroundObj.SetActive(table.background.show && table.background.image != null);
+            backgroundObj.SetActive(component.background.show && component.background.image != null);
         }
     }
 }

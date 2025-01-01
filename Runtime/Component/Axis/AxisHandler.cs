@@ -372,6 +372,7 @@ namespace XCharts
             var axisLength = (axis.context.end - axis.context.start).magnitude;
             if (axisLength == 0) return;
             chart.InitAxisRuntimeData(axis);
+            UpdateAxisMinMaxValue(axis.index, axis, true);
 
             var objName = ChartCached.GetComponentObjectName(axis);
             var axisObj = ChartHelper.AddObject(objName,
@@ -379,7 +380,7 @@ namespace XCharts
                 chart.chartMinAnchor,
                 chart.chartMaxAnchor,
                 chart.chartPivot,
-                chart.chartSizeDelta);
+                chart.chartSizeDelta, -1, chart.childrenNodeNames);
 
             axisObj.SetActive(axis.show);
             axisObj.hideFlags = chart.chartHideFlags;
@@ -473,7 +474,6 @@ namespace XCharts
                         break;
                 }
             }
-            UpdateAxisMinMaxValue(axis.index, axis, true);
         }
 
         protected void InitAxis(Axis relativedAxis, Orient orient,
@@ -481,6 +481,7 @@ namespace XCharts
         {
             Axis axis = component;
             chart.InitAxisRuntimeData(axis);
+            UpdateAxisMinMaxValue(axis.index, axis, true);
 
             var objName = ChartCached.GetComponentObjectName(axis);
             var axisObj = ChartHelper.AddObject(objName,
@@ -488,7 +489,7 @@ namespace XCharts
                 chart.chartMinAnchor,
                 chart.chartMaxAnchor,
                 chart.chartPivot,
-                chart.chartSizeDelta);
+                chart.chartSizeDelta, -1, chart.childrenNodeNames);
 
             axisObj.SetActive(axis.show);
             axisObj.hideFlags = chart.chartHideFlags;
@@ -637,7 +638,6 @@ namespace XCharts
                     }
                 }
             }
-            UpdateAxisMinMaxValue(axis.index, axis, true);
         }
 
         internal static Vector3 GetLabelPosition(int i, Orient orient, Axis axis, Axis relativedAxis, AxisTheme theme,

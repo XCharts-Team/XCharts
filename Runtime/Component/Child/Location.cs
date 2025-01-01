@@ -349,6 +349,69 @@ namespace XCharts.Runtime
             }
         }
 
+        public Rect GetRect(float graphX, float graphY, float graphWidth, float graphHeight, float rectWidth, float rectHeight)
+        {
+            UpdateRuntimeData(graphWidth, graphWidth);
+
+            float x, y, width, height;
+
+            width = rectWidth == 0 ? graphWidth - runtimeLeft - runtimeRight : rectWidth;
+            height = rectHeight == 0 ? graphHeight - runtimeBottom - runtimeTop : rectHeight;
+
+            switch (align)
+            {
+                case Align.BottomCenter:
+                    x = graphX + runtimeLeft + (graphWidth - runtimeLeft - runtimeRight - width) / 2;
+                    y = graphY + runtimeBottom;
+                    break;
+
+                case Align.BottomLeft:
+                    x = graphX + runtimeLeft;
+                    y = graphY + runtimeBottom;
+                    break;
+
+                case Align.BottomRight:
+                    x = graphX + graphWidth - runtimeRight - width;
+                    y = graphY + runtimeBottom;
+                    break;
+
+                case Align.Center:
+                    x = graphX + runtimeLeft + (graphWidth - runtimeLeft - runtimeRight - width) / 2;
+                    y = graphY + runtimeBottom + (graphHeight - runtimeBottom - runtimeTop - height) / 2;
+                    break;
+
+                case Align.CenterLeft:
+                    x = graphX + runtimeLeft;
+                    y = graphY + runtimeBottom + (graphHeight - runtimeBottom - runtimeTop - height) / 2;
+                    break;
+
+                case Align.CenterRight:
+                    x = graphX + graphWidth - runtimeRight - width;
+                    y = graphY + runtimeBottom + (graphHeight - runtimeBottom - runtimeTop - height) / 2;
+                    break;
+
+                case Align.TopCenter:
+                    x = graphX + runtimeLeft + (graphWidth - runtimeLeft - runtimeRight - width) / 2;
+                    y = graphY + graphHeight - runtimeTop - height;
+                    break;
+
+                case Align.TopLeft:
+                    x = graphX + runtimeLeft;
+                    y = graphY + graphHeight - runtimeTop - height;
+                    break;
+
+                case Align.TopRight:
+                    x = graphX + graphWidth - runtimeRight - width;
+                    y = graphY + graphHeight - runtimeTop - height;
+                    break;
+
+                default:
+                    return new Rect(0, 0, 0, 0);
+            }
+            return new Rect(x, y, width, height);
+        }
+
+
         /// <summary>
         /// 属性变更时更新textAnchor,minAnchor,maxAnchor,pivot
         /// </summary>

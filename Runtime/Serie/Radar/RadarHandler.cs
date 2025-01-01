@@ -345,7 +345,7 @@ namespace XCharts.Runtime
                         SerieHelper.GetItemColor(out symbolColor, out symbolToColor, out symbolEmptyColor, serie, serieData, chart.theme, colorIndex, serieState);
                         SerieHelper.GetSymbolInfo(out borderColor, out symbolBorder, out cornerRadius, serie, serieData, chart.theme, serieState);
                         chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, point, symbolColor,
-                            symbolToColor, symbolEmptyColor, borderColor, symbol.gap, cornerRadius);
+                            symbolToColor, symbolEmptyColor, borderColor, symbol.gap, cornerRadius, symbol.size2);
                     }
                 }
             }
@@ -495,7 +495,7 @@ namespace XCharts.Runtime
                         symbolToColor = m_RadarCoord.outRangeColor;
                     }
                     chart.DrawSymbol(vh, serie.symbol.type, symbolSize, symbolBorder, serieData.context.labelPosition, symbolColor,
-                        symbolToColor, symbolEmptyColor, borderColor, serie.symbol.gap, cornerRadius);
+                        symbolToColor, symbolEmptyColor, borderColor, serie.symbol.gap, cornerRadius, serie.symbol.size2);
                 }
             }
             if (!serie.animation.IsFinish())

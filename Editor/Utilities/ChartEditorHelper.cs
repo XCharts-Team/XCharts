@@ -108,11 +108,11 @@ namespace XCharts.Editor
         {
             EditorGUI.LabelField(drawRect, name);
             var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH + GAP_WIDTH;
-            var diff = 13 + EditorGUI.indentLevel * 14;
+            var diff = 12 + EditorGUI.indentLevel * 14;
             var offset = diff - INDENT_WIDTH;
             var tempWidth = (rectWidth - startX + diff) / 2;
             var centerXRect = new Rect(startX, drawRect.y, tempWidth, drawRect.height - 1);
-            var centerYRect = new Rect(centerXRect.x + tempWidth - offset, drawRect.y, tempWidth - 1, drawRect.height - 1);
+            var centerYRect = new Rect(centerXRect.x + tempWidth - offset + 3.4f, drawRect.y, tempWidth - 1, drawRect.height - 1);
             EditorGUI.PropertyField(centerXRect, prop1, GUIContent.none);
             EditorGUI.PropertyField(centerYRect, prop2, GUIContent.none);
             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -326,7 +326,13 @@ namespace XCharts.Editor
             var foldoutRect = drawRect;
             foldoutRect.xMax -= 10;
             bool flag = EditorGUI.Foldout(foldoutRect, foldout, listProp.displayName, true);
-            ChartEditorHelper.DrawMenu(drawRect, menus);
+            if (!flag)
+            {
+                var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * INDENT_WIDTH + GAP_WIDTH;
+                var sizeRect = new Rect(startX, drawRect.y + 1f, (EditorGUI.indentLevel + 1) * 15, drawRect.height - 1);
+                EditorGUI.IntField(sizeRect, GUIContent.none, listProp.arraySize);
+                DrawMenu(drawRect, menus);
+            }
             height += headerHeight;
             drawRect.y += headerHeight;
             drawRect.width = rawWidth;

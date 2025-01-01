@@ -303,7 +303,7 @@ namespace XCharts.Runtime
                     var emptyColor = SerieHelper.GetItemBackgroundColor(serie, serieData, chart.theme, serie.context.colorIndex, state);
                     serieData.context.rect = new Rect(pos.x - symbolSize / 2, pos.y - symbolSize / 2, symbolSize, symbolSize);
                     chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, pos,
-                        color, color, emptyColor, borderColor, symbol.gap, cornerRadius);
+                        color, color, emptyColor, borderColor, symbol.gap, cornerRadius, symbol.size2);
                 }
 
                 if (visualMap.hoverLink && highlight && emphasisStyle != null &&
@@ -461,7 +461,7 @@ namespace XCharts.Runtime
                 else
                 {
                     chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, pos,
-                        color, color, emptyColor, borderColor, symbol.gap, cornerRadius);
+                        color, color, emptyColor, borderColor, symbol.gap, cornerRadius, symbol.size2);
                 }
 
                 if (visualMap.hoverLink && highlight && emphasisStyle != null &&

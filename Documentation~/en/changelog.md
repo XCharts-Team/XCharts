@@ -6,6 +6,7 @@ slug: /changelog
 # Changelog
 
 [master](#master)  
+[v3.13.0](#v3130)  
 [v3.12.1](#v3121)  
 [v3.12.0](#v3120)  
 [v3.11.2](#v3112)  
@@ -76,6 +77,33 @@ slug: /changelog
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.13.0
+
+Key Features:
+
+* Added the `UIText` extension component  
+* Added the `UIToggle` extension component  
+* Added the `UISlider` extension component  
+* Refactored the `UIProgress` extension component  
+* Added `borderWidth` and `emptyColor` configurations to `SymbolStyle`  
+* Added the `size2` parameter to `SymbolStyle` to support rectangular markers  
+* Other optimizations and bug fixes  
+
+Detailed Changelog:
+
+* (2025.01.01) Released `v3.13.0`  
+* (2024.12.27) Added the `size2` parameter to `SymbolStyle` to support rectangular markers  
+* (2024.12.26) Optimized `Text` alignment in `TextMeshPro` for proper centering  
+* (2024.12.25) Added support for `{f0}` in the `Tooltip`'s `itemFormatter` setting  
+* (2024.12.25) Fixed an issue where some labels on the `YAxis` might not display during range refresh  
+* (2024.12.23) Added `borderWidth` and `emptyColor` configurations to `SymbolStyle`  
+* (2024.12.17) Added the `UISlider` extension component  
+* (2024.12.10) Added the `UIToggle` extension component  
+* (2024.12.09) Fixed an issue where the `UITable`'s `scrollbar` could not be dragged  
+* (2024.12.07) Fixed an issue where custom nodes could not be placed under the `Chart` node  
+* (2024.12.05) Added the `UIText` extension component  
+* (2024.12.04) Removed the unused `tmpAlignment` option from `TextStyle`  
 
 ## v3.12.1
 

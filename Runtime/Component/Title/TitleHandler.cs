@@ -22,7 +22,7 @@ namespace XCharts.Runtime
                 var pivot = title.location.runtimePivot;
                 var objName = ChartCached.GetComponentObjectName(title);
                 var titleObject = ChartHelper.AddObject(objName, chart.transform, anchorMin, anchorMax,
-                    pivot, chart.chartSizeDelta);
+                    pivot, chart.chartSizeDelta, -1, chart.childrenNodeNames);
                 title.gameObject = titleObject;
                 title.gameObject.transform.SetSiblingIndex(chart.m_PainterUpper.transform.GetSiblingIndex() + 1);
                 anchorMin = title.location.runtimeAnchorMin;

@@ -14,7 +14,7 @@ namespace XCharts.Runtime
     {
         [SerializeField] private bool m_DebugModel = false;
         [SerializeField] protected UIComponentTheme m_Theme = new UIComponentTheme();
-        [SerializeField] private Background m_Background = new Background() { show = true };
+        [SerializeField] protected Background m_Background = new Background() { show = true };
 
         protected bool m_DataDirty;
         private ThemeType m_CheckTheme = 0;

@@ -67,7 +67,7 @@ namespace XCharts.Runtime
 
             string objName = component.GetType().Name + axis.index;
             var axisObj = ChartHelper.AddObject(objName, chart.transform, chart.chartMinAnchor,
-                chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
+                chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta, -1, chart.childrenNodeNames);
             axisObj.transform.localPosition = Vector3.zero;
             axisObj.SetActive(axis.show);
             axisObj.hideFlags = chart.chartHideFlags;

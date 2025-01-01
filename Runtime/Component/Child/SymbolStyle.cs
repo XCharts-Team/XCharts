@@ -84,12 +84,16 @@ namespace XCharts.Runtime
         [SerializeField] protected Sprite m_Image;
         [SerializeField] protected Image.Type m_ImageType;
         [SerializeField] protected Color32 m_Color;
+        [SerializeField][Since("v3.13.0")] protected float m_BorderWidth = 0f;
+        [SerializeField][Since("v3.13.0")] protected Color32 m_EmptyColor;
+        [SerializeField][Since("v3.13.0")] protected float m_Size2 = 0f;
 
         public virtual void Reset()
         {
             m_Show = false;
             m_Type = SymbolType.EmptyCircle;
             m_Size = 0f;
+            m_Size2 = 0f;
             m_Gap = 0;
             m_Width = 0f;
             m_Height = 0f;
@@ -124,6 +128,15 @@ namespace XCharts.Runtime
         {
             get { return m_Size; }
             set { if (PropertyUtil.SetStruct(ref m_Size, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// the size of symbol.
+        /// ||标记的大小。当为Rect时，size2表示高度。
+        /// </summary>
+        public float size2
+        {
+            get { return m_Size2; }
+            set { if (PropertyUtil.SetStruct(ref m_Size2, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// the gap of symbol and line segment.
@@ -183,6 +196,24 @@ namespace XCharts.Runtime
             get { return m_Color; }
             set { if (PropertyUtil.SetStruct(ref m_Color, value)) SetAllDirty(); }
         }
+        /// <summary>
+        /// the border width of symbol.
+        /// ||图形的边框宽度。
+        /// </summary>
+        public float borderWidth
+        {
+            get { return m_BorderWidth; }
+            set { if (PropertyUtil.SetStruct(ref m_BorderWidth, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// the color of empty symbol.
+        /// ||空心图形的颜色。
+        /// </summary>
+        public Color32 emptyColor
+        {
+            get { return m_EmptyColor; }
+            set { if (PropertyUtil.SetStruct(ref m_EmptyColor, value)) SetAllDirty(); }
+        } 
         public Vector3 offset3 { get { return new Vector3(m_Offset.x, m_Offset.y, 0); } }
         private List<float> m_AnimationSize = new List<float>() { 0, 5, 10 };
         /// <summary>

@@ -27,7 +27,6 @@ namespace XCharts.Runtime
 #if dUI_TextMeshPro
         [SerializeField] private TMP_FontAsset m_TMPFont;
         [SerializeField] private FontStyles m_TMPFontStyle = FontStyles.Normal;
-        [SerializeField] private TextAlignmentOptions m_TMPAlignment = TextAlignmentOptions.Left;
         [SerializeField][Since("v3.1.0")] private TMP_SpriteAsset m_TMPSpriteAsset;
 #endif
         public bool show
@@ -147,15 +146,6 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_TMPFontStyle, value)) SetComponentDirty(); }
         }
         /// <summary>
-        /// the text alignment of TextMeshPro.
-        /// ||TextMeshPro字体对齐方式。
-        /// </summary>
-        public TextAlignmentOptions tmpAlignment
-        {
-            get { return m_TMPAlignment; }
-            set { if (PropertyUtil.SetStruct(ref m_TMPAlignment, value)) SetComponentDirty(); }
-        }
-        /// <summary>
         /// the sprite asset of TextMeshPro.
         /// ||TextMeshPro的Sprite Asset。
         /// </summary>
@@ -214,11 +204,7 @@ namespace XCharts.Runtime
 
         public void UpdateAlignmentByLocation(Location location)
         {
-#if dUI_TextMeshPro
-            m_TMPAlignment = location.runtimeTMPTextAlignment;
-#else
             m_Alignment = location.runtimeTextAlignment;
-#endif
         }
 
         public Color GetColor(Color defaultColor)

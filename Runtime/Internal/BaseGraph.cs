@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ namespace XCharts.Runtime
         IDragHandler, IEndDragHandler, IScrollHandler
     {
         [SerializeField] protected bool m_EnableTextMeshPro = false;
+        [SerializeField] protected List<string> m_ChildNodeNames = new List<string>();
 
         protected Painter m_Painter;
         protected int m_SiblingIndex;
@@ -52,8 +54,11 @@ namespace XCharts.Runtime
         public virtual HideFlags chartHideFlags { get { return HideFlags.None; } }
 
         private ScrollRect m_ScrollRect;
+        private Vector2 m_PointerDownPos;
 
         public Painter painter { get { return m_Painter; } }
+        public List<string> childrenNodeNames { get { return m_ChildNodeNames; } }
+        public bool isDragingClick { get; set; }
 
         protected virtual void InitComponent()
         {
@@ -158,7 +163,7 @@ namespace XCharts.Runtime
         protected virtual void InitPainter()
         {
             m_Painter = ChartHelper.AddPainterObject("painter_b", transform, m_GraphMinAnchor,
-                m_GraphMaxAnchor, m_GraphPivot, new Vector2(m_GraphWidth, m_GraphHeight), chartHideFlags, 1);
+                m_GraphMaxAnchor, m_GraphPivot, new Vector2(m_GraphWidth, m_GraphHeight), chartHideFlags, 1, m_ChildNodeNames);
             m_Painter.type = Painter.Type.Base;
             m_Painter.onPopulateMesh = OnDrawPainterBase;
             m_Painter.transform.SetSiblingIndex(0);
@@ -284,11 +289,13 @@ namespace XCharts.Runtime
 
         public virtual void OnPointerDown(PointerEventData eventData)
         {
+            m_PointerDownPos = eventData.position;
             if (m_OnPointerDown != null) m_OnPointerDown(eventData, this);
         }
 
         public virtual void OnPointerUp(PointerEventData eventData)
         {
+            isDragingClick = Vector2.Distance(eventData.position, m_PointerDownPos) > 6;
             if (m_OnPointerUp != null) m_OnPointerUp(eventData, this);
         }
 

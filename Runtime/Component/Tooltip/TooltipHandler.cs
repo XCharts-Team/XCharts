@@ -53,7 +53,7 @@ namespace XCharts.Runtime
             {
                 var objName = ChartCached.GetComponentObjectName(tooltip);
                 tooltip.gameObject = ChartHelper.AddObject(objName, chart.transform, chart.chartMinAnchor,
-                    chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
+                    chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta, -1, chart.childrenNodeNames);
                 var tooltipObject = tooltip.gameObject;
                 tooltipObject.transform.localPosition = Vector3.zero;
                 tooltipObject.hideFlags = chart.chartHideFlags;

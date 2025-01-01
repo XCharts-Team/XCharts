@@ -27,7 +27,7 @@ namespace XCharts.Runtime
             dataZoom.refreshComponent = delegate ()
             {
                 var dataZoomObject = ChartHelper.AddObject(s_DefaultDataZoom + dataZoom.index, chart.transform,
-                    chart.chartMinAnchor, chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
+                    chart.chartMinAnchor, chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta, -1, chart.childrenNodeNames);
                 dataZoom.gameObject = dataZoomObject;
                 dataZoomObject.hideFlags = chart.chartHideFlags;
                 ChartHelper.HideAllObject(dataZoomObject);

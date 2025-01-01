@@ -45,7 +45,7 @@ namespace XCharts.Runtime
             {
                 var content = serieLabel.formatter;
                 FormatterHelper.ReplaceSerieLabelContent(ref content, numericFormatter, serie.dataCount, dataValue,
-                    dataTotal, serieName, dataName, dataName, color, serieData, chart);
+                    dataTotal, serieName, dataName, dataName, color, serieData, chart, serie.index);
                 if (serieLabel.formatterFunction == null)
                     return content;
                 else

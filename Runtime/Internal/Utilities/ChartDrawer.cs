@@ -9,7 +9,8 @@ namespace XCharts.Runtime
     {
         public static void DrawSymbol(VertexHelper vh, SymbolType type, float symbolSize, float tickness,
             Vector3 pos, Color32 color, Color32 toColor, float gap, float[] cornerRadius,
-            Color32 emptyColor, Color32 backgroundColor, Color32 borderColor, float smoothness, Vector3 startPos)
+            Color32 emptyColor, Color32 backgroundColor, Color32 borderColor, float smoothness,
+            Vector3 startPos, float symbolSize2 = 0f)
         {
             switch (type)
             {
@@ -22,13 +23,14 @@ namespace XCharts.Runtime
                     }
                     else
                     {
-                        if (tickness > 0)
+                        if (tickness > 0 && !ChartHelper.IsClearColor(borderColor))
                             UGL.DrawDoughnut(vh, pos, symbolSize, symbolSize + tickness, borderColor, borderColor, color, smoothness);
                         else
                             UGL.DrawCricle(vh, pos, symbolSize, color, toColor, smoothness);
                     }
                     break;
                 case SymbolType.EmptyCircle:
+                    if (tickness == 0) tickness = 4f;
                     if (gap > 0)
                     {
                         UGL.DrawCricle(vh, pos, symbolSize + gap, backgroundColor, smoothness);
@@ -40,23 +42,31 @@ namespace XCharts.Runtime
                     }
                     break;
                 case SymbolType.Rect:
-                    if (gap > 0)
+                    if (symbolSize2 > 0 && symbolSize2 != symbolSize)
                     {
-                        UGL.DrawSquare(vh, pos, symbolSize + gap, backgroundColor);
-                        UGL.DrawSquare(vh, pos, symbolSize, color, toColor);
+                        UGL.DrawRectangle(vh, pos, symbolSize, symbolSize2, color, toColor);
                     }
                     else
                     {
-                        if (tickness > 0)
+                        if (gap > 0)
                         {
-                            UGL.DrawRoundRectangle(vh, pos, symbolSize * 2, symbolSize * 2, color, color, 0, cornerRadius, true);
-                            UGL.DrawBorder(vh, pos, symbolSize, symbolSize, tickness, borderColor, 0, cornerRadius);
+                            UGL.DrawSquare(vh, pos, symbolSize + gap, backgroundColor);
+                            UGL.DrawSquare(vh, pos, symbolSize, color, toColor);
                         }
                         else
-                            UGL.DrawRoundRectangle(vh, pos, symbolSize * 2, symbolSize * 2, color, color, 0, cornerRadius, true);
+                        {
+                            if (tickness > 0)
+                            {
+                                UGL.DrawRoundRectangle(vh, pos, symbolSize * 2, symbolSize * 2, color, color, 0, cornerRadius, true);
+                                UGL.DrawBorder(vh, pos, symbolSize, symbolSize, tickness, borderColor, 0, cornerRadius);
+                            }
+                            else
+                                UGL.DrawRoundRectangle(vh, pos, symbolSize * 2, symbolSize * 2, color, color, 0, cornerRadius, true);
+                        }
                     }
                     break;
                 case SymbolType.EmptyRect:
+                    if (tickness == 0) tickness = 4f;
                     if (gap > 0)
                     {
                         UGL.DrawSquare(vh, pos, symbolSize + gap, backgroundColor);
@@ -75,6 +85,7 @@ namespace XCharts.Runtime
                     }
                     if (type == SymbolType.EmptyTriangle)
                     {
+                        if (tickness == 0) tickness = 4f;
                         UGL.DrawEmptyTriangle(vh, pos, symbolSize * 1.4f, tickness * 2f, color, emptyColor);
                     }
                     else
@@ -92,6 +103,7 @@ namespace XCharts.Runtime
                     }
                     if (type == SymbolType.EmptyDiamond)
                     {
+                        if (tickness == 0) tickness = 4f;
                         UGL.DrawEmptyDiamond(vh, pos, xRadius, yRadius, tickness, color, emptyColor);
                     }
                     else
@@ -124,6 +136,7 @@ namespace XCharts.Runtime
                         arrowOffset, arrowDent, color);
                     if (type == SymbolType.EmptyArrow)
                     {
+                        if (tickness == 0) tickness = 4f;
                         arrowWidth = (symbolSize - tickness) * 2;
                         arrowHeight = arrowWidth * 1.5f;
                         arrowOffset = 0;

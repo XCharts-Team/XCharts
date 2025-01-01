@@ -48,7 +48,7 @@ namespace XCharts.Runtime
             var objAnchorMin = new Vector2(0, 1);
             var objAnchorMax = new Vector2(0, 1);
             var objPivot = new Vector2(0, 1);
-            var btnObj = ChartHelper.AddObject(objName, parent, objAnchorMin, objAnchorMax, objPivot, sizeDelta);
+            var btnObj = ChartHelper.AddObject(objName, parent, objAnchorMin, objAnchorMax, objPivot, sizeDelta, -1, chart.childrenNodeNames);
             var iconObj = ChartHelper.AddObject("icon", btnObj.transform, anchorMin, anchorMax, pivot, iconSizeDelta);
             var img = ChartHelper.EnsureComponent<Image>(btnObj);
             img.color = Color.clear;

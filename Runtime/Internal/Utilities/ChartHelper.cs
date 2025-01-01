@@ -156,6 +156,21 @@ namespace XCharts.Runtime
             }
         }
 
+        public static void DestoryGameObjectByMatch(Transform parent, List<string> children)
+        {
+            if (parent == null) return;
+            if (children == null || children.Count == 0) return;
+            var childCount = parent.childCount;
+            for (int i = childCount - 1; i >= 0; i--)
+            {
+                var go = parent.GetChild(i);
+                if (go != null && children.Contains(go.name))
+                {
+                    GameObject.DestroyImmediate(go.gameObject, true);
+                }
+            }
+        }
+
         public static void DestoryGameObject(GameObject go)
         {
             if (go != null) GameObject.DestroyImmediate(go, true);
@@ -233,7 +248,7 @@ namespace XCharts.Runtime
         }
 
         public static GameObject AddObject(string name, Transform parent, Vector2 anchorMin,
-            Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta, int replaceIndex = -1)
+            Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta, int replaceIndex = -1, List<string> cacheNames = null)
         {
             GameObject obj;
             if (parent.Find(name))
@@ -267,6 +282,8 @@ namespace XCharts.Runtime
             rect.anchorMax = anchorMax;
             rect.pivot = pivot;
             rect.anchoredPosition3D = Vector3.zero;
+
+            if (cacheNames != null && !cacheNames.Contains(name)) cacheNames.Add(name);
             return obj;
         }
 
@@ -297,7 +314,11 @@ namespace XCharts.Runtime
             chartText.tmpText.fontStyle = textStyle.tmpFontStyle;
             chartText.tmpText.richText = true;
             chartText.tmpText.raycastTarget = false;
+#if UNITY_2023_2_OR_NEWER
+            chartText.tmpText.textWrappingMode = textStyle.autoWrap ? TextWrappingModes.Normal : TextWrappingModes.NoWrap;
+#else
             chartText.tmpText.enableWordWrapping = textStyle.autoWrap;
+#endif
 #else
             chartText.text = EnsureComponent<Text>(txtObj);
             chartText.text.font = textStyle.font == null ? theme.font : textStyle.font;
@@ -319,7 +340,7 @@ namespace XCharts.Runtime
             chartText.SetActive(textStyle.show);
 
             RectTransform rect = EnsureComponent<RectTransform>(txtObj);
-            rect.localPosition = Vector3.zero;
+            rect.anchoredPosition3D = Vector3.zero;
             rect.sizeDelta = sizeDelta;
             rect.anchorMin = anchorMin;
             rect.anchorMax = anchorMax;
@@ -328,9 +349,9 @@ namespace XCharts.Runtime
         }
 
         public static Painter AddPainterObject(string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax,
-            Vector2 pivot, Vector2 sizeDelta, HideFlags hideFlags, int siblingIndex)
+            Vector2 pivot, Vector2 sizeDelta, HideFlags hideFlags, int siblingIndex, List<string> childNodeNames)
         {
-            var painterObj = ChartHelper.AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
+            var painterObj = ChartHelper.AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta, -1, childNodeNames);
             painterObj.hideFlags = hideFlags;
             painterObj.transform.SetSiblingIndex(siblingIndex);
             return ChartHelper.EnsureComponent<Painter>(painterObj);
@@ -492,7 +513,7 @@ namespace XCharts.Runtime
             return label;
         }
 
-        private static void UpdateAnchorAndPivotByTextAlignment(TextAnchor alignment, out Vector2 anchorMin, out Vector2 anchorMax,
+        public static void UpdateAnchorAndPivotByTextAlignment(TextAnchor alignment, out Vector2 anchorMin, out Vector2 anchorMax,
             out Vector2 pivot)
         {
             switch (alignment)
@@ -770,7 +791,23 @@ namespace XCharts.Runtime
             return mod == 0 ? value : (value < 0 ? rate : rate + 1) * ceilRate;
         }
 
+        public static float GetMaxCeilRate(float value, float ceilRate)
+        {
+            if (ceilRate == 0) return value;
+            var mod = value % ceilRate;
+            int rate = (int)(value / ceilRate);
+            return mod == 0 ? value : (value < 0 ? rate : rate + 1) * ceilRate;
+        }
+
         public static double GetMinCeilRate(double value, double ceilRate)
+        {
+            if (ceilRate == 0) return value;
+            var mod = value % ceilRate;
+            int rate = (int)(value / ceilRate);
+            return mod == 0 ? value : (value < 0 ? rate - 1 : rate) * ceilRate;
+        }
+
+        public static float GetMinCeilRate(float value, float ceilRate)
         {
             if (ceilRate == 0) return value;
             var mod = value % ceilRate;

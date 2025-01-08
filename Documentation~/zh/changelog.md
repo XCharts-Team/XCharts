@@ -79,6 +79,8 @@ slug: /changelog
 
 ## master
 
+* (2025.01.08) 修复`TextMeshPro`关闭时残留组件影响`Text`初始化的问题
+
 ## v3.13.0
 
 版本要点：

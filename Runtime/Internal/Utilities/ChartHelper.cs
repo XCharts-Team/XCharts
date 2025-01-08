@@ -204,6 +204,25 @@ namespace XCharts.Runtime
             }
         }
 
+        public static void RemoveTMPComponents(GameObject gameObject)
+        {
+            var coms = gameObject.GetComponents<Component>();
+            foreach (var com in coms)
+            {
+                if (com.GetType().FullName.Contains("TMPro"))
+                {
+#if UNITY_EDITOR
+                    if (!Application.isPlaying)
+                        GameObject.DestroyImmediate(com as UnityEngine.Object);
+                    else
+                        GameObject.Destroy(com as UnityEngine.Object);
+#else
+                    GameObject.Destroy(com as UnityEngine.Object);
+#endif
+                }
+            }
+        }
+
         [System.Obsolete("Use EnsureComponent instead")]
         public static T GetOrAddComponent<T>(Transform transform) where T : Component
         {
@@ -239,7 +258,13 @@ namespace XCharts.Runtime
         {
             if (gameObject.GetComponent<T>() == null)
             {
-                return gameObject.AddComponent<T>();
+                var com = gameObject.AddComponent<T>();
+                if (com == null)
+                {
+                    RemoveTMPComponents(gameObject);
+                    return gameObject.AddComponent<T>();
+                }
+                return com;
             }
             else
             {

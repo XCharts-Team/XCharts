@@ -79,6 +79,7 @@ slug: /changelog
 
 ## master
 
+* (2025.01.15) 修复`Chart`在运行时动态添加`Component`异常的问题 (#339)
 * (2025.01.08) 修复`TextMeshPro`关闭时残留组件影响`Text`初始化的问题
 
 ## v3.13.0

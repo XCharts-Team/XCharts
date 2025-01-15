@@ -52,6 +52,7 @@ namespace XCharts.Runtime
 
         public MainComponent AddChartComponent(Type type)
         {
+            InitListForFieldInfos();
             if (!CanAddChartComponent(type))
             {
                 Debug.LogError("XCharts ERROR: CanAddChartComponent:" + type.Name);

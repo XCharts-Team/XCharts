@@ -724,7 +724,7 @@ namespace XCharts.Runtime
 
         private void InitListForFieldInfos()
         {
-            if (m_TypeListForSerie.Count != 0) return;
+            if (m_TypeListForSerie.Count != 0 || m_TypeListForComponent.Count != 0) return;
             m_TypeListForComponent.Clear();
             m_TypeListForSerie.Clear();
             var fileds1 = GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance);

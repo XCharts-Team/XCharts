@@ -18,9 +18,7 @@ namespace XCharts.Runtime
     /// <summary>
     /// 获取标记大小的回调。
     /// </summary>
-    /// <param name="data"></param>
-    /// <returns></returns>
-    public delegate float SymbolSizeFunction(List<double> data);
+    public delegate float SymbolSizeFunction(float defaultSize, SerieData serieData);
     public delegate void CustomDrawGaugePointerFunction(VertexHelper vh, int serieIndex, int dataIndex, float currentAngle);
     /// <summary>
     /// DataZoom的start和end变更时的委托方法。

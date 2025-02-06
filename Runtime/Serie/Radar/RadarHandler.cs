@@ -123,7 +123,7 @@ namespace XCharts.Runtime
                     {
                         var serieData = serie.data[i];
                         var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
-                        var symbolSize = symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
+                        var symbolSize = symbol.GetSize(serieData, chart.theme.serie.lineSymbolSize);
                         if (m_LegendEnter)
                         {
                             serieData.context.highlight = true;

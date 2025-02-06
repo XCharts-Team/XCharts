@@ -152,18 +152,16 @@ namespace XCharts.Runtime
         /// <summary>
         /// 根据指定的sizeType获得标记的大小
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public float GetSize(List<double> data, float themeSize)
+        public float GetSize(SerieData serieData, float themeSize)
         {
             switch (m_SizeType)
             {
                 case SymbolSizeType.Custom:
                     return size == 0 ? themeSize : size;
                 case SymbolSizeType.FromData:
-                    if (data != null && dataIndex >= 0 && dataIndex < data.Count)
+                    if (serieData != null && dataIndex >= 0 && dataIndex < serieData.data.Count)
                     {
-                        var value = (float) data[dataIndex] * m_DataScale;
+                        var value = (float) serieData.data[dataIndex] * m_DataScale;
                         if (m_MinSize != 0 && value < m_MinSize) value = m_MinSize;
                         if (m_MaxSize != 0 && value > m_MaxSize) value = m_MaxSize;
                         return value;
@@ -173,7 +171,7 @@ namespace XCharts.Runtime
                         return size == 0 ? themeSize : size;
                     }
                 case SymbolSizeType.Function:
-                    if (data != null && sizeFunction != null) return sizeFunction(data);
+                    if (sizeFunction != null) return sizeFunction(themeSize, serieData);
                     else return size == 0 ? themeSize : size;
                 default:
                     return size == 0 ? themeSize : size;

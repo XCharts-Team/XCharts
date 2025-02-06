@@ -50,7 +50,7 @@ namespace XCharts.Runtime
                     foreach (var serieData in serie.data)
                     {
                         var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
-                        var symbolSize = symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
+                        var symbolSize = symbol.GetSize(serieData, chart.theme.serie.lineSymbolSize);
                         serieData.context.highlight = false;
                         serieData.interact.SetValue(ref needAnimation1, symbolSize);
                     }

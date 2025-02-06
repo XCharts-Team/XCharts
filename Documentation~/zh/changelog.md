@@ -79,6 +79,7 @@ slug: /changelog
 
 ## master
 
+* (2025.02.05) 增加`GraphChart`可单独设置`data`样式的支持
 * (2025.02.05) 重构`SerieSymbol`的`sizeFunction`参数
 * (2025.01.23) 修复`Treemap`的`Label`不显示的问题
 * (2025.01.15) 修复`Chart`在运行时动态添加`Component`异常的问题 (#339)

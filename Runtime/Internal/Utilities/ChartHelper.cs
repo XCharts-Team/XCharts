@@ -1059,12 +1059,12 @@ namespace XCharts.Runtime
         {
             var cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
             var pos = RectTransformUtility.WorldToScreenPoint(cam, rectTransform.position);
-            var width = rectTransform.rect.width * canvas.scaleFactor;
-            var height = rectTransform.rect.height * canvas.scaleFactor;
+            var width = (int)(rectTransform.rect.width * canvas.scaleFactor);
+            var height = (int)(rectTransform.rect.height * canvas.scaleFactor);
             var posX = pos.x + rectTransform.rect.xMin * canvas.scaleFactor;
             var posY = pos.y + rectTransform.rect.yMin * canvas.scaleFactor;
             var rect = new Rect(posX, posY, width, height);
-            var tex = new Texture2D((int)width, (int)height, TextureFormat.RGBA32, false);
+            var tex = new Texture2D(width, height, TextureFormat.ARGB32, false);
             tex.ReadPixels(rect, 0, 0);
             tex.Apply();
             byte[] bytes;

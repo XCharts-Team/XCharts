@@ -21,9 +21,9 @@ namespace XCharts.Example
             }
         }
 
-        float SymbolSize(List<double> data)
+        float SymbolSize(float defaultSize, SerieData serieData)
         {
-            return (float) (Math.Sqrt(data[2]) / 6e2);
+            return defaultSize;
         }
     }
 }

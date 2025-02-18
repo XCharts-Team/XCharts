@@ -33,37 +33,19 @@ namespace XCharts.Runtime
             var newMarker = SerieHelper.GetItemMarker(serie, serieData, marker);
             var newItemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
             var newNumericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
+            var isEmptyItemFormatter = string.IsNullOrEmpty(newItemFormatter);
 
-            var param = serie.context.param;
-            param.serieName = serie.serieName;
-            param.serieIndex = serie.index;
-            param.category = category;
-            param.dimension = 1;
-            param.serieData = serieData;
-            param.dataCount = serie.dataCount;
-            param.value = 0;
-            param.total = 0;
-            param.color = color;
-            param.marker = newMarker;
-            param.itemFormatter = newItemFormatter;
-            param.numericFormatter = newNumericFormatter;
-            param.columns.Clear();
-
-            param.columns.Add(param.marker);
-            param.columns.Add(serie.serieName);
-            param.columns.Add(string.Empty);
-
-            paramList.Add(param);
-            for (int i = 1; i < 5; i++)
+            if (isEmptyItemFormatter)
             {
-                param = new SerieParams();
+                var param = serie.context.param;
                 param.serieName = serie.serieName;
                 param.serieIndex = serie.index;
-                param.dimension = i;
+                param.category = category;
+                param.dimension = 1;
                 param.serieData = serieData;
                 param.dataCount = serie.dataCount;
-                param.value = serieData.GetData(i);
-                param.total = SerieHelper.GetMaxData(serie, i);
+                param.value = 0;
+                param.total = 0;
                 param.color = color;
                 param.marker = newMarker;
                 param.itemFormatter = newItemFormatter;
@@ -71,10 +53,56 @@ namespace XCharts.Runtime
                 param.columns.Clear();
 
                 param.columns.Add(param.marker);
-                param.columns.Add(XCSettings.lang.GetCandlestickDimensionName(i - 1));
-                param.columns.Add(ChartCached.NumberToStr(param.value, param.numericFormatter));
+                param.columns.Add(serie.serieName);
+                param.columns.Add(string.Empty);
 
                 paramList.Add(param);
+                for (int i = 1; i < 5; i++)
+                {
+                    param = new SerieParams();
+                    param.serieName = serie.serieName;
+                    param.serieIndex = serie.index;
+                    param.dimension = i;
+                    param.serieData = serieData;
+                    param.dataCount = serie.dataCount;
+                    param.value = serieData.GetData(i);
+                    param.total = SerieHelper.GetMaxData(serie, i);
+                    param.color = color;
+                    param.marker = newMarker;
+                    param.itemFormatter = newItemFormatter;
+                    param.numericFormatter = newNumericFormatter;
+                    param.isSecondaryMark = true;
+                    param.columns.Clear();
+
+                    param.columns.Add(param.marker);
+                    param.columns.Add(XCSettings.lang.GetCandlestickDimensionName(i - 1));
+                    param.columns.Add(ChartCached.NumberToStr(param.value, param.numericFormatter));
+
+                    paramList.Add(param);
+                }
+            }
+            else
+            {
+                newItemFormatter = newItemFormatter.Replace("\\n", "\n");
+                var temp = newItemFormatter.Split('\n');
+                foreach (var str in temp)
+                {
+                    var param = new SerieParams();
+                    param.serieName = serie.serieName;
+                    param.serieIndex = serie.index;
+                    param.category = category;
+                    param.serieData = serieData;
+                    param.dataCount = serie.dataCount;
+                    param.value = 0;
+                    param.total = 0;
+                    param.color = color;
+                    param.marker = newMarker;
+                    param.itemFormatter = str;
+                    param.numericFormatter = newNumericFormatter;
+                    param.isSecondaryMark = false;
+                    param.columns.Clear();
+                    paramList.Add(param);
+                }
             }
         }
 

@@ -468,16 +468,21 @@ namespace XCharts.Runtime
         }
 
         public static ChartLabel AddChartLabel(string name, Transform parent, LabelStyle labelStyle,
-            ComponentTheme theme, string content, Color autoColor, TextAnchor autoAlignment = TextAnchor.MiddleCenter)
+            ComponentTheme theme, string content, Color autoColor, TextAnchor autoAlignment = TextAnchor.MiddleCenter,
+            bool isObjectAnchor = false)
         {
             Vector2 anchorMin, anchorMax, pivot;
             var sizeDelta = new Vector2(labelStyle.width, labelStyle.height);
             var textStyle = labelStyle.textStyle;
-            var alignment = textStyle.GetAlignment(autoAlignment);
+            var alignment = isObjectAnchor ? autoAlignment : textStyle.GetAlignment(autoAlignment);
             UpdateAnchorAndPivotByTextAlignment(alignment, out anchorMin, out anchorMax, out pivot);
             var labelObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             //ChartHelper.RemoveComponent<Text>(labelObj);
             var label = EnsureComponent<ChartLabel>(labelObj);
+            if(isObjectAnchor)
+            {
+                UpdateAnchorAndPivotByTextAlignment(textStyle.GetAlignment(autoAlignment), out anchorMin, out anchorMax, out pivot);
+            }
             label.text = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot,
                 sizeDelta, textStyle, theme, autoColor, autoAlignment, label.text);
             label.icon = ChartHelper.AddIcon("Icon", label.gameObject.transform, labelStyle.icon);

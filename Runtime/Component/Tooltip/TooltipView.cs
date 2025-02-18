@@ -89,7 +89,7 @@ namespace XCharts.Runtime
                 item.gameObject.SetActive(true);
                 for (int j = 0; j < param.columns.Count; j++)
                 {
-                    var column = GetItemColumn(item, j);
+                    var column = GetItemColumn(item, j, j == 0 && IsSecondaryMark(param, param.columns[j]));
                     column.SetActive(true);
                     column.SetText(param.columns[j]);
 
@@ -115,6 +115,11 @@ namespace XCharts.Runtime
             ResetSize();
             UpdatePosition(tooltip.context.pointer + tooltip.offset);
             tooltip.gameObject.transform.SetAsLastSibling();
+        }
+
+        private static bool IsSecondaryMark(SerieParams sp, string mark)
+        {
+            return sp.isSecondaryMark && mark == sp.marker;
         }
 
         private void ResetSize()
@@ -158,8 +163,10 @@ namespace XCharts.Runtime
                 var xPos = 0f;
                 for (int j = 0; j < m_ColumnMaxWidth.Count; j++)
                 {
+                    if(j >= item.columns.Count) break;
                     var deltaX = j == m_ColumnMaxWidth.Count - 1 ? maxWid - xPos : m_ColumnMaxWidth[j];
                     item.columns[j].text.SetSizeDelta(new Vector2(deltaX, tooltip.itemHeight));
+                    item.columns[j].SetSize(deltaX, tooltip.itemHeight);
                     item.columns[j].SetRectPosition(new Vector3(xPos, 0));
                     xPos += m_ColumnMaxWidth[j];
                 }
@@ -192,19 +199,24 @@ namespace XCharts.Runtime
             }
         }
 
-        private ChartLabel GetItemColumn(TooltipViewItem item, int i)
+        private ChartLabel GetItemColumn(TooltipViewItem item, int i, bool isSecondaryMark = false)
         {
             if (i < 0) i = 0;
+            ChartLabel column;
             if (i < item.columns.Count)
             {
-                return item.columns[i];
+                column = item.columns[i];
             }
             else
             {
-                var column = CreateViewItemColumn(i, item.gameObject.transform, tooltip, theme);
+                column = CreateViewItemColumn(i, item.gameObject.transform, tooltip, theme);
                 item.columns.Add(column);
-                return column;
             }
+            if (isSecondaryMark)
+            {
+                column.text.text.fontSize = (int)(tooltip.GetContentLabelStyle(i).textStyle.fontSize * 0.6f);
+            }
+            return column;
         }
 
         public static TooltipView CreateView(Tooltip tooltip, ThemeStyle theme, Transform parent)
@@ -266,8 +278,9 @@ namespace XCharts.Runtime
         private static ChartLabel CreateViewItemColumn(int i, Transform parent, Tooltip tooltip, ComponentTheme theme)
         {
             var labelStyle = tooltip.GetContentLabelStyle(i);
+            labelStyle.textStyle.autoAlign = false;
             var label = ChartHelper.AddChartLabel("column" + i, parent, labelStyle, theme,
-                "", Color.clear, TextAnchor.MiddleLeft);
+                "", Color.clear, TextAnchor.MiddleLeft, true);
             return label;
         }
     }

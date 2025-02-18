@@ -167,7 +167,7 @@ namespace XCharts.Runtime
         {
             if (!s_ColorDotStr.ContainsKey(color))
             {
-                s_ColorDotStr[color] = "<color=#" + ColorToStr(color) + ">● </color>";
+                s_ColorDotStr[color] = "<color=#" + ColorToStr(color) + ">●</color>";
             }
             return s_ColorDotStr[color];
         }

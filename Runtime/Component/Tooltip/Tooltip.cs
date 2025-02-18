@@ -154,7 +154,7 @@ namespace XCharts.Runtime
         [SerializeField]
         private List<LabelStyle> m_ContentLabelStyles = new List<LabelStyle>()
         {
-            new LabelStyle() { textPadding = new TextPadding(0, 5, 0, 0), textStyle = new TextStyle() { alignment = TextAnchor.MiddleLeft } },
+            new LabelStyle() { textPadding = new TextPadding(0, 5, 0, 0), textStyle = new TextStyle() { alignment = TextAnchor.MiddleCenter } },
             new LabelStyle() { textPadding = new TextPadding(0, 20, 0, 0), textStyle = new TextStyle() { alignment = TextAnchor.MiddleLeft } },
             new LabelStyle() { textPadding = new TextPadding(0, 0, 0, 0), textStyle = new TextStyle() { alignment = TextAnchor.MiddleRight } }
         };

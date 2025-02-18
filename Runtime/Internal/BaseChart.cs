@@ -377,7 +377,7 @@ namespace XCharts.Runtime
                 serie.index = i;
                 SetPainterActive(i, true);
             }
-            if (transform.childCount - 3 != m_PainterTop.transform.GetSiblingIndex())
+            if (m_PainterTop != null && transform.childCount - 3 != m_PainterTop.transform.GetSiblingIndex())
             {
                 m_PainterTop.transform.SetSiblingIndex(transform.childCount - 3);
             }

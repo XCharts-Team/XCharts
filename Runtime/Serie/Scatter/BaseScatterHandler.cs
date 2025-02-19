@@ -29,25 +29,38 @@ namespace XCharts.Runtime
 
             title = serie.serieName;
 
-            var param = serie.context.param;
-            param.serieName = serie.serieName;
-            param.serieIndex = serie.index;
-            param.category = category;
-            param.dimension = 1;
-            param.dataCount = serie.dataCount;
-            param.serieData = serieData;
-            param.color = chart.GetMarkColor(serie, serieData);
-            param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
-            param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
-            param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
-            param.columns.Clear();
+            itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
+            numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
+            marker = SerieHelper.GetItemMarker(serie, serieData, marker);
+            var color = chart.GetMarkColor(serie, serieData);
 
-            param.columns.Add(param.marker);
-            if (!string.IsNullOrEmpty(serieData.name))
-                param.columns.Add(serieData.name);
-            param.columns.Add(ChartCached.NumberToStr(serieData.GetData(1), param.numericFormatter));
+            if (itemFormatter == null) itemFormatter = "";
+            itemFormatter = itemFormatter.Replace("\\n", "\n");
+            var temp = itemFormatter.Split('\n');
+            for (int i = 0; i < temp.Length; i++)
+            {
+                var formatter = temp[i];
+                var param = i == 0 ? serie.context.param : new SerieParams();
 
-            paramList.Add(param);
+                param.serieName = serie.serieName;
+                param.serieIndex = serie.index;
+                param.category = category;
+                param.dimension = 1;
+                param.dataCount = serie.dataCount;
+                param.serieData = serieData;
+                param.color = color;
+                param.marker = marker;
+                param.itemFormatter = formatter;
+                param.numericFormatter = numericFormatter;
+                param.columns.Clear();
+
+                param.columns.Add(param.marker);
+                if (!string.IsNullOrEmpty(serieData.name))
+                    param.columns.Add(serieData.name);
+                param.columns.Add(ChartCached.NumberToStr(serieData.GetData(1), param.numericFormatter));
+
+                paramList.Add(param);
+            }
         }
 
         public override void DrawSerie(VertexHelper vh)

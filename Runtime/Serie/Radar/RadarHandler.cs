@@ -59,31 +59,63 @@ namespace XCharts.Runtime
             var colorIndex = serie.colorByData ? chart.GetLegendRealShowNameIndex(serieData.legendName) : serie.context.colorIndex;
             SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, colorIndex, SerieState.Normal);
             title = serieData.name;
-            for (int i = 0; i < serieData.data.Count; i++)
+
+            itemFormatter = SerieHelper.GetItemFormatter(serie, null, itemFormatter);
+            numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
+            marker = SerieHelper.GetItemMarker(serie, serieData, marker);
+            if (string.IsNullOrEmpty(itemFormatter))
             {
-                var indicator = radar.GetIndicator(i);
-                if (indicator == null) continue;
+                for (int i = 0; i < serieData.data.Count; i++)
+                {
+                    var indicator = radar.GetIndicator(i);
+                    if (indicator == null) continue;
 
-                var param = new SerieParams();
-                param.serieName = serie.serieName;
-                param.serieIndex = serie.index;
-                param.dimension = i;
-                param.serieData = serieData;
-                param.dataCount = serie.dataCount;
-                param.value = serieData.GetData(i);
-                param.total = indicator.max;
-                param.color = color;
-                param.category = radar.GetIndicatorName(i);
-                param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
-                param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
-                param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
-                param.columns.Clear();
+                    var param = new SerieParams();
+                    param.serieName = serie.serieName;
+                    param.serieIndex = serie.index;
+                    param.dimension = i;
+                    param.serieData = serieData;
+                    param.dataCount = serie.dataCount;
+                    param.value = serieData.GetData(i);
+                    param.total = indicator.max;
+                    param.color = color;
+                    param.category = radar.GetIndicatorName(i);
+                    param.marker = marker;
+                    param.itemFormatter = itemFormatter;
+                    param.numericFormatter = numericFormatter;
+                    param.columns.Clear();
 
-                param.columns.Add(param.marker);
-                param.columns.Add(indicator.name);
-                param.columns.Add(ChartCached.NumberToStr(serieData.GetData(i), param.numericFormatter));
+                    param.columns.Add(param.marker);
+                    param.columns.Add(indicator.name);
+                    param.columns.Add(ChartCached.NumberToStr(serieData.GetData(i), param.numericFormatter));
 
-                paramList.Add(param);
+                    paramList.Add(param);
+                }
+            }
+            else
+            {
+                itemFormatter = itemFormatter.Replace("\\n", "\n");
+                var temp = itemFormatter.Split('\n');
+                for (int i = 0; i < temp.Length; i++)
+                {
+                    var formatter = temp[i];
+                    var param = i == 0 ? serie.context.param : new SerieParams();
+                    param.serieName = serie.serieName;
+                    param.serieIndex = serie.index;
+                    param.dimension = i;
+                    param.serieData = serieData;
+                    param.dataCount = serie.dataCount;
+                    param.value = serieData.GetData(i);
+                    param.total = serie.yTotal;
+                    param.color = color;
+                    param.category = radar.GetIndicatorName(i);
+                    param.marker = marker;
+                    param.itemFormatter = formatter;
+                    param.numericFormatter = numericFormatter;
+                    param.columns.Clear();
+
+                    paramList.Add(param);
+                }
             }
         }
 
@@ -284,7 +316,7 @@ namespace XCharts.Runtime
                         }
                     }
                     if (max - min == 0) continue;
-                    var radius = (float) (m_RadarCoord.context.dataRadius * (value - min) / (max - min));
+                    var radius = (float)(m_RadarCoord.context.dataRadius * (value - min) / (max - min));
                     var currAngle = startAngle + (n + (m_RadarCoord.positionType == RadarCoord.PositionType.Between ? 0.5f : 0)) * angle;
                     radius *= rate;
                     if (n == 0)
@@ -415,7 +447,7 @@ namespace XCharts.Runtime
                 {
                     lineColor = m_RadarCoord.outRangeColor;
                 }
-                var radius = (float) (max < 0 ? m_RadarCoord.context.dataRadius - m_RadarCoord.context.dataRadius * value / max :
+                var radius = (float)(max < 0 ? m_RadarCoord.context.dataRadius - m_RadarCoord.context.dataRadius * value / max :
                     m_RadarCoord.context.dataRadius * value / max);
                 var currAngle = startAngle + (index + (m_RadarCoord.positionType == RadarCoord.PositionType.Between ? 0.5f : 0)) * angle;
                 radius *= rate;

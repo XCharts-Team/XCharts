@@ -79,6 +79,7 @@ slug: /changelog
 
 ## master
 
+* (2025.02.19) 增加`Tooltip`的`itemFormatter`对`\n`换行的支持
 * (2025.02.18) 优化`Tooltip`的对齐方式
 * (2025.02.09) 修复`SaveAsImage`保存图片时不支持透明度的问题 (#337)
 * (2025.02.05) 增加`GraphChart`可单独设置`data`样式的支持

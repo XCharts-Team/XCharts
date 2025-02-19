@@ -86,27 +86,37 @@ namespace XCharts.Runtime
                 return;
             Color32 color, toColor;
             SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, dataIndex);
+            itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
+            numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
+            marker = SerieHelper.GetItemMarker(serie, serieData, marker);
 
-            var param = serie.context.param;
-            param.serieName = serie.serieName;
-            param.serieIndex = serie.index;
-            param.category = category;
-            param.dimension = defaultDimension;
-            param.serieData = serieData;
-            param.dataCount = serie.dataCount;
-            param.value = serieData.GetData(0);
-            param.total = serieData.GetData(1);
-            param.color = color;
-            param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
-            param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
-            param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
-            param.columns.Clear();
+            if (itemFormatter == null) itemFormatter = "";
+            itemFormatter = itemFormatter.Replace("\\n", "\n");
+            var temp = itemFormatter.Split('\n');
+            for (int i = 0; i < temp.Length; i++)
+            {
+                var formatter = temp[i];
+                var param = i == 0 ? serie.context.param : new SerieParams();
+                param.serieName = serie.serieName;
+                param.serieIndex = serie.index;
+                param.category = category;
+                param.dimension = defaultDimension;
+                param.serieData = serieData;
+                param.dataCount = serie.dataCount;
+                param.value = serieData.GetData(0);
+                param.total = serieData.GetData(1);
+                param.color = color;
+                param.marker = marker;
+                param.itemFormatter = formatter;
+                param.numericFormatter = numericFormatter;
+                param.columns.Clear();
 
-            param.columns.Add(param.marker);
-            param.columns.Add(serieData.name);
-            param.columns.Add(ChartCached.NumberToStr(param.value, param.numericFormatter));
+                param.columns.Add(param.marker);
+                param.columns.Add(serieData.name);
+                param.columns.Add(ChartCached.NumberToStr(param.value, param.numericFormatter));
 
-            paramList.Add(param);
+                paramList.Add(param);
+            }
         }
 
         private Vector3 GetLabelLineEndPosition(Serie serie, SerieData serieData, LabelLine labelLine)

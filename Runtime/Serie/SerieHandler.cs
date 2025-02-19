@@ -497,7 +497,7 @@ namespace XCharts.Runtime
                 {
                     serieData.SetLabelActive(false);
                     continue;
-                };
+                }
                 var currLabel = SerieHelper.GetSerieLabel(serie, serieData);
                 var isIgnore = serie.IsIgnoreIndex(serieData.index, defaultDimension);
                 if (serie.show &&
@@ -669,28 +669,35 @@ namespace XCharts.Runtime
             itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
             if (serie.placeHolder || TooltipHelper.IsIgnoreFormatter(itemFormatter))
                 return;
+            if (itemFormatter == null) itemFormatter = "";
+            var newItemFormatter = itemFormatter.Replace("\\n", "\n");
+            var newNumericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
+            var temp = newItemFormatter.Split('\n');
+            for (int i = 0; i < temp.Length; i++)
+            {
+                var formatter = temp[i];
+                var param = i == 0 ? serie.context.param : new SerieParams();
+                param.serieName = serie.serieName;
+                param.serieIndex = serie.index;
+                param.category = category;
+                param.dimension = dimension;
+                param.serieData = serieData;
+                param.dataCount = serie.dataCount;
+                param.value = serieData.GetData(dimension);
+                param.ignore = ignore;
+                param.total = serie.yTotal;
+                param.color = chart.GetMarkColor(serie, serieData);
+                param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
+                param.itemFormatter = formatter;
+                param.numericFormatter = newNumericFormatter;
+                param.columns.Clear();
 
-            var param = serie.context.param;
-            param.serieName = serie.serieName;
-            param.serieIndex = serie.index;
-            param.category = category;
-            param.dimension = dimension;
-            param.serieData = serieData;
-            param.dataCount = serie.dataCount;
-            param.value = serieData.GetData(dimension);
-            param.ignore = ignore;
-            param.total = serie.yTotal;
-            param.color = chart.GetMarkColor(serie, serieData);
-            param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
-            param.itemFormatter = itemFormatter;
-            param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
-            param.columns.Clear();
+                param.columns.Add(param.marker);
+                param.columns.Add(showCategory ? category : serie.serieName);
+                param.columns.Add(ignore ? ignoreDataDefaultContent : ChartCached.NumberToStr(param.value, param.numericFormatter));
 
-            param.columns.Add(param.marker);
-            param.columns.Add(showCategory ? category : serie.serieName);
-            param.columns.Add(ignore ? ignoreDataDefaultContent : ChartCached.NumberToStr(param.value, param.numericFormatter));
-
-            paramList.Add(param);
+                paramList.Add(param);
+            }
         }
 
         protected void UpdateItemSerieParams(ref List<SerieParams> paramList, ref string title,
@@ -721,29 +728,40 @@ namespace XCharts.Runtime
 
             Color32 color, toColor;
             SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, colorIndex, SerieState.Normal);
-            var param = serie.context.param;
-            param.serieName = serie.serieName;
-            param.serieIndex = serie.index;
 
-            param.category = category;
-            param.dimension = dimension;
-            param.serieData = serieData;
-            param.dataCount = serie.dataCount;
-            param.value = serieData.GetData(param.dimension);
-            param.ignore = ignore;
-            param.total = serie.multiDimensionLabel ? serieData.GetTotalData() : serie.GetDataTotal(defaultDimension);
-            param.color = color;
-            param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
-            param.itemFormatter = itemFormatter;
-            param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
-            param.columns.Clear();
+            if (itemFormatter == null) itemFormatter = "";
+            var newItemFormatter = itemFormatter.Replace("\\n", "\n");
+            var newNumericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
+            var temp = newItemFormatter.Split('\n');
+            var mark = SerieHelper.GetItemMarker(serie, serieData, marker);
+            var total = serie.multiDimensionLabel ? serieData.GetTotalData() : serie.GetDataTotal(defaultDimension);
+            for (int i = 0; i < temp.Length; i++)
+            {
+                var formatter = temp[i];
+                var param = i == 0 ? serie.context.param : new SerieParams();
+                param.serieName = serie.serieName;
+                param.serieIndex = serie.index;
 
-            param.columns.Add(param.marker);
-            param.columns.Add(serieData.name);
+                param.category = category;
+                param.dimension = dimension;
+                param.serieData = serieData;
+                param.dataCount = serie.dataCount;
+                param.value = serieData.GetData(param.dimension);
+                param.ignore = ignore;
+                param.total = total;
+                param.color = color;
+                param.marker = mark;
+                param.itemFormatter = formatter;
+                param.numericFormatter = newNumericFormatter;
+                param.columns.Clear();
 
-            param.columns.Add(ignore ? ignoreDataDefaultContent : ChartCached.NumberToStr(param.value, param.numericFormatter));
+                param.columns.Add(param.marker);
+                param.columns.Add(serieData.name);
 
-            paramList.Add(param);
+                param.columns.Add(ignore ? ignoreDataDefaultContent : ChartCached.NumberToStr(param.value, param.numericFormatter));
+
+                paramList.Add(param);
+            }
         }
 
         public void DrawLabelLineSymbol(VertexHelper vh, LabelLine labelLine, Vector3 startPos, Vector3 endPos, Color32 defaultColor)

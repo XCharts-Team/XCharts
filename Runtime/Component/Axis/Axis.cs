@@ -836,22 +836,6 @@ namespace XCharts.Runtime
             return IsCategory() ? GetDataList(dataZoom).Count : 0;
         }
 
-        /// <summary>
-        /// 更新刻度标签文字
-        /// </summary>
-        /// <param name="dataZoom"></param>
-        internal void UpdateLabelText(float coordinateWidth, DataZoom dataZoom, bool forcePercent)
-        {
-            for (int i = 0; i < context.labelObjectList.Count; i++)
-            {
-                if (context.labelObjectList[i] != null)
-                {
-                    var text = AxisHelper.GetLabelName(this, coordinateWidth, i, context.destMinValue, context.destMaxValue, dataZoom, forcePercent);
-                    context.labelObjectList[i].SetText(text);
-                }
-            }
-        }
-
         internal Vector3 GetLabelObjectPosition(int index)
         {
             if (context.labelObjectList != null && index < context.labelObjectList.Count)

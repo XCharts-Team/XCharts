@@ -161,6 +161,10 @@ namespace XCharts.Runtime
             m_SerieGrid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
             if (m_SerieGrid == null)
                 return;
+            if(serie.useSortData)
+            {
+                SerieHelper.UpdateSerieRuntimeFilterData(serie);
+            }
 
             var dataZoom = chart.GetDataZoomOfAxis(axis);
             var showData = serie.GetDataList(dataZoom);

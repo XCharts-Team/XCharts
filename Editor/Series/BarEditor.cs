@@ -22,6 +22,11 @@ namespace XCharts.Editor
             PropertyField("m_BarWidth");
             PropertyField("m_BarGap");
             PropertyField("m_BarMaxWidth");
+            PropertyField("m_RealtimeSort");
+            if(serie.useSortData)
+            {
+                PropertyField("m_DataSortType");
+            }
             if (serie.IsUseCoord<PolarCoord>())
             {
                 PropertyField("m_RoundCap");

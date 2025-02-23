@@ -641,6 +641,7 @@ namespace XCharts.Runtime
 
         private bool GetAxisCategory(int gridIndex, ref int dataIndex, ref string category, ref int timestamp, ref double axisRange)
         {
+            var needSort = chart.HasRealtimeSortSerie();
             foreach (var component in chart.components)
             {
                 if (component is Axis)
@@ -653,7 +654,12 @@ namespace XCharts.Runtime
                             dataIndex = double.IsNaN(axis.context.pointerValue)
                                 ? axis.context.dataZoomStartIndex
                                 : (int)axis.context.axisTooltipValue;
-                            category = axis.GetData(dataIndex);
+                            int axisIndex = dataIndex;
+                            if (needSort && axisIndex < axis.context.sortedDataIndices.Count)
+                            {
+                                axisIndex = axis.context.sortedDataIndices[axisIndex];
+                            }
+                            category = axis.GetData(axisIndex);
                             return true;
                         }
                         else if (axis.IsTime())

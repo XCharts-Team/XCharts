@@ -305,6 +305,7 @@ namespace XCharts.Runtime
         [SerializeField] private float m_Top;
         [SerializeField] private float m_Bottom;
         [SerializeField] private bool m_InsertDataToHead;
+        [SerializeField][Since("v3.14.0")] private bool m_RealtimeSort = false;
 
         [SerializeField] private LineStyle m_LineStyle = new LineStyle();
         [SerializeField] private SerieSymbol m_Symbol = new SerieSymbol();
@@ -981,6 +982,15 @@ namespace XCharts.Runtime
         {
             get { return m_MinShowLabelValue; }
             set { if (PropertyUtil.SetStruct(ref m_MinShowLabelValue, value)) { SetVerticesDirty(); } }
+        }
+        /// <summary>
+        /// Whether to enable realtime sorting, which is used for bar-racing effect. Currently only available in Bar.
+        /// ||是否开启实时排序，用来实现动态排序图效果。目前仅在Bar中生效。
+        /// </summary>
+        public bool realtimeSort
+        {
+            get { return m_RealtimeSort; }
+            set { if (PropertyUtil.SetStruct(ref m_RealtimeSort, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。

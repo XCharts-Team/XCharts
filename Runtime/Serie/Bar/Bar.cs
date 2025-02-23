@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace XCharts.Runtime
 {
     [System.Serializable]
@@ -11,6 +13,8 @@ namespace XCharts.Runtime
     [SerieDataExtraField("m_Ignore")]
     public class Bar : Serie, INeedSerieContainer
     {
+        public override bool useSortData { get { return realtimeSort; } }
+        
         public int containerIndex { get; internal set; }
         public int containterInstanceId { get; internal set; }
 

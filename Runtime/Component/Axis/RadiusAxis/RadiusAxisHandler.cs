@@ -80,7 +80,7 @@ namespace XCharts.Runtime
                 InitRadiusAxis(axis);
             else
             {
-                axis.UpdateLabelText(polar.context.radius, null, false);
+                UpdateLabelText(axis, polar.context.radius, null, false);
             }
         }
 

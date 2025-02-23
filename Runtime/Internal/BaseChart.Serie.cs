@@ -101,6 +101,16 @@ namespace XCharts.Runtime
             return false;
         }
 
+        public bool HasRealtimeSortSerie()
+        {
+            foreach (var serie in m_Series)
+            {
+                if (serie.useSortData)
+                    return true;
+            }
+            return false;
+        }
+
         public T GetSerie<T>() where T : Serie
         {
             foreach (var serie in m_Series)

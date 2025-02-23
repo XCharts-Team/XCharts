@@ -69,6 +69,7 @@ namespace XCharts.Runtime
         public List<string> runtimeData { get { return m_RuntimeData; } }
         public List<double> labelValueList { get { return m_LabelValueList; } }
         public List<ChartLabel> labelObjectList { get { return m_AxisLabelList; } }
+        public List<int> sortedDataIndices { get { return m_SortedDataIndices; } }
         public int dataZoomStartIndex;
         /// <summary>
         /// 添加过的历史数据总数
@@ -86,6 +87,7 @@ namespace XCharts.Runtime
         private List<ChartLabel> m_AxisLabelList = new List<ChartLabel>();
         private List<double> m_LabelValueList = new List<double>();
         private List<string> m_RuntimeData = new List<string>();
+        private List<int> m_SortedDataIndices = new List<int>();
 
         internal void Clear()
         {

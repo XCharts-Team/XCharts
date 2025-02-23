@@ -53,7 +53,7 @@ namespace XCharts.Runtime
             if (axis.context.labelObjectList.Count <= 0)
                 InitAngleAxis(axis);
             else
-                axis.UpdateLabelText(runtimeWidth, null, false);
+                UpdateLabelText(axis, runtimeWidth, null, false);
         }
 
         private void InitAngleAxis(AngleAxis axis)

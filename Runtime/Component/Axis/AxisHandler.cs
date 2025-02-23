@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using XCharts.Runtime;
@@ -149,6 +150,10 @@ namespace XCharts
                 axis.context.minValue = 0;
                 axis.context.maxValue = axis.data.Count > 0 ? axis.data.Count - 1 : SeriesHelper.GetMaxSerieDataCount(chart.series) - 1;
                 axis.context.minMaxRange = axis.context.maxValue;
+                if (chart.HasRealtimeSortSerie())
+                {
+                    UpdateAxisLabelText(axis);
+                }
                 return;
             }
 
@@ -236,7 +241,59 @@ namespace XCharts
             var isPercentStack = SeriesHelper.IsPercentStack<Bar>(chart.series);
             var dataZoom = chart.GetDataZoomOfAxis(axis);
 
-            axis.UpdateLabelText(runtimeWidth, dataZoom, isPercentStack);
+            UpdateLabelText(axis, runtimeWidth, dataZoom, isPercentStack);
+        }
+
+        internal void UpdateLabelText(Axis axis, float coordinateWidth, DataZoom dataZoom, bool forcePercent)
+        {
+            var context = axis.context;
+            var destMaxValue = context.destMaxValue;
+            var destMinValue = context.destMinValue;
+            var isCategory = axis.IsCategory();
+            var serie = chart.GetSerie(0);
+            if (isCategory && serie != null && serie.useSortData)
+            {
+                var showData = serie.GetDataList(dataZoom);
+                var isChanged = CheckSortedDataChanged(axis, showData);
+                if (isChanged)
+                {
+                    for (int i = 0; i < context.labelObjectList.Count; i++)
+                    {
+                        if (context.labelObjectList[i] != null)
+                        {
+                            var index = i < showData.Count ? showData[i].index : i;
+                            var text = AxisHelper.GetLabelName(axis, coordinateWidth, index, destMinValue, destMaxValue, dataZoom, forcePercent);
+                            context.labelObjectList[i].SetText(text);
+                        }
+                    }
+                    axis.context.sortedDataIndices.Clear();
+                    for (int i = 0; i < showData.Count; i++)
+                    {
+                        axis.context.sortedDataIndices.Add(showData[i].index);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < context.labelObjectList.Count; i++)
+                {
+                    if (context.labelObjectList[i] != null)
+                    {
+                        var text = AxisHelper.GetLabelName(axis, coordinateWidth, i, destMinValue, destMaxValue, dataZoom, forcePercent);
+                        context.labelObjectList[i].SetText(text);
+                    }
+                }
+            }
+        }
+
+        private bool CheckSortedDataChanged(Axis axis, List<SerieData> dataList)
+        {
+            if (dataList.Count != axis.context.sortedDataIndices.Count) return true;
+            for (int i = 0; i < dataList.Count; i++)
+            {
+                if (dataList[i].index != axis.context.sortedDataIndices[i]) return true;
+            }
+            return false;
         }
 
         internal void UpdateAxisTickValueList(Axis axis)
@@ -558,8 +615,8 @@ namespace XCharts
             }
             if (axis.axisName.show)
             {
-                ChartLabel label = null;
-                var relativedDist = (relativedAxis == null ? 0 : relativedAxis.context.offset);
+                ChartLabel label;
+                var relativedDist = relativedAxis == null ? 0 : relativedAxis.context.offset;
                 var zeroPos = new Vector3(axisStartX, axisStartY + relativedDist);
                 var offset = axis.axisName.labelStyle.offset;
                 var autoColor = axis.axisLine.GetColor(chart.theme.axis.lineColor);

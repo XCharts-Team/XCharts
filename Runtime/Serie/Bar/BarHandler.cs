@@ -167,7 +167,7 @@ namespace XCharts.Runtime
             }
 
             var dataZoom = chart.GetDataZoomOfAxis(axis);
-            var showData = serie.GetDataList(dataZoom);
+            var showData = serie.GetDataList(dataZoom, true);
 
             if (showData.Count <= 0)
                 return;

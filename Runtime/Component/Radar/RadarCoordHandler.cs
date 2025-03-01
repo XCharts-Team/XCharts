@@ -50,9 +50,9 @@ namespace XCharts.Runtime
                     var indicator = radar.indicatorList[i];
                     var pos = radar.GetIndicatorPosition(i);
                     var objName = INDICATOR_TEXT + "_" + i;
-
+                    var content = radar.GetFormatterIndicatorContent(i, radar.indicatorList.Count);
                     var label = ChartHelper.AddChartLabel(objName, radarObject.transform, radar.axisName.labelStyle,
-                        chart.theme.common, radar.GetFormatterIndicatorContent(i), Color.clear, TextAnchor.MiddleCenter);
+                        chart.theme.common, content, Color.clear, TextAnchor.MiddleCenter);
                     label.SetActive(radar.axisName.show && radar.indicator && radar.axisName.labelStyle.show, true);
                     AxisHelper.AdjustCircleLabelPos(label, pos, radar.context.center, txtHig, radar.axisName.labelStyle.offset);
                 }

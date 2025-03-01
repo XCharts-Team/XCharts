@@ -955,6 +955,10 @@ namespace XCharts.Runtime
 
         public static void UpdateSerieRuntimeFilterData(Serie serie, bool filterInvisible = true)
         {
+            var realtimeData = true;
+            var dataChangeDuration = serie.animation.GetChangeDuration();
+            var dataAddDuration = serie.animation.GetAdditionDuration();
+            var unscaledTime = serie.animation.unscaledTime;
             serie.context.sortedData.Clear();
             foreach (var serieData in serie.data)
             {
@@ -966,8 +970,12 @@ namespace XCharts.Runtime
                 case SerieDataSortType.Ascending:
                     serie.context.sortedData.Sort(delegate (SerieData data1, SerieData data2)
                     {
-                        var value1 = data1.GetData(1);
-                        var value2 = data2.GetData(1);
+                        var value1 = realtimeData ?
+                            data1.GetCurrData(1, dataAddDuration, dataChangeDuration, false, 0, 0, unscaledTime) :
+                            data1.GetData(1);
+                        var value2 = realtimeData ?
+                            data2.GetCurrData(1, dataAddDuration, dataChangeDuration, false, 0, 0, unscaledTime) :
+                            data2.GetData(1);
                         if (value1 == value2) return 0;
                         else if (value1 > value2) return 1;
                         else return -1;
@@ -976,8 +984,12 @@ namespace XCharts.Runtime
                 case SerieDataSortType.Descending:
                     serie.context.sortedData.Sort(delegate (SerieData data1, SerieData data2)
                     {
-                        var value1 = data1.GetData(1);
-                        var value2 = data2.GetData(1);
+                        var value1 = realtimeData ?
+                            data1.GetCurrData(1, dataAddDuration, dataChangeDuration, false, 0, 0, unscaledTime) :
+                            data1.GetData(1);
+                        var value2 = realtimeData ?
+                            data2.GetCurrData(1, dataAddDuration, dataChangeDuration, false, 0, 0, unscaledTime) :
+                            data2.GetData(1);
                         if (value1 == value2) return 0;
                         else if (value1 > value2) return -1;
                         else return 1;
@@ -985,6 +997,10 @@ namespace XCharts.Runtime
                     break;
                 case SerieDataSortType.None:
                     break;
+            }
+            for (int i = 0; i < serie.context.sortedData.Count; i++)
+            {
+                serie.context.sortedData[i].sortIndex = i;
             }
         }
 

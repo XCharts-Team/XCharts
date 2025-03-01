@@ -37,6 +37,7 @@ namespace XCharts.Runtime
                     label.SetActive(comment.show && item.show, true);
                     label.SetPosition(labelPos);
                     label.text.SetLocalPosition(labelStyle.offset);
+                    item.labelObject = label;
                 }
             };
             comment.refreshComponent();

@@ -59,6 +59,7 @@ namespace XCharts.Runtime
 
         public ChartLabel labelObject { get; set; }
         public ChartLabel titleObject { get; set; }
+        public int sortIndex { get; set; }
 
         private bool m_Show = true;
         /// <summary>

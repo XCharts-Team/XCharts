@@ -131,7 +131,8 @@ namespace XCharts.Runtime
         /// `{g}` : indicates the total number of data. <br />
         /// `{h}` : hexadecimal color value. <br />
         /// `{y}` : category value of y axis. <br />
-        /// `{value}` : The value of the axis or legend. <br />
+        /// `{value}` : the value of the axis or legend. <br />
+        /// `{index}` : the index of the axis. <br />
         /// The following placeholder apply to `UITable` components: <br />
         /// `{name}` : indicates the row name of the table. <br />
         /// `{index}` : indicates the row number of the table. <br />
@@ -161,6 +162,7 @@ namespace XCharts.Runtime
         /// `{h}`：十六进制颜色值。<br/> 
         /// `{y}`：Y轴的类目名。<br/> 
         /// `{value}`：坐标轴或图例的值。<br/>
+        /// `{index}`：坐标轴编号。<br/>
         /// 以下通配符适用UITable组件：<br/>
         /// `{name}`： 表格的行名。<br/>
         /// `{index}`：表格的行号。<br/>
@@ -398,7 +400,7 @@ namespace XCharts.Runtime
             m_TextStyle.Copy(label.m_TextStyle);
         }
 
-        public virtual string GetFormatterContent(int labelIndex, string category)
+        public virtual string GetFormatterContent(int labelIndex, int totalIndex, string category)
         {
             if (string.IsNullOrEmpty(category))
                 return GetFormatterFunctionContent(labelIndex, category, category);
@@ -410,12 +412,12 @@ namespace XCharts.Runtime
             else
             {
                 var content = m_Formatter;
-                FormatterHelper.ReplaceAxisLabelContent(ref content, category);
+                FormatterHelper.ReplaceAxisLabelContent(ref content, category, labelIndex, totalIndex);
                 return GetFormatterFunctionContent(labelIndex, category, category);
             }
         }
 
-        public virtual string GetFormatterContent(int labelIndex, double value, double minValue, double maxValue, bool isLog = false)
+        public virtual string GetFormatterContent(int labelIndex, int totalIndex, double value, double minValue, double maxValue, bool isLog = false)
         {
             var newNumericFormatter = numericFormatter;
             if (value == 0 && !DateTimeUtil.IsDateOrTimeRegex(newNumericFormatter))
@@ -452,14 +454,14 @@ namespace XCharts.Runtime
             else
             {
                 var content = m_Formatter;
-                FormatterHelper.ReplaceAxisLabelContent(ref content, newNumericFormatter, value);
+                FormatterHelper.ReplaceAxisLabelContent(ref content, newNumericFormatter, value, labelIndex, totalIndex);
                 return GetFormatterFunctionContent(labelIndex, value, content);
             }
         }
 
         private static bool isDateFormatter = false;
         private static string newFormatter = null;
-        public string GetFormatterDateTime(int labelIndex, double value, double minValue, double maxValue)
+        public string GetFormatterDateTime(int labelIndex, int totalIndex, double value, double minValue, double maxValue)
         {
             var timestamp = (int)value;
             var dateTime = DateTimeUtil.GetDateTime(timestamp);
@@ -472,9 +474,9 @@ namespace XCharts.Runtime
             {
                 try
                 {
-                    if(DateTimeUtil.IsDateOrTimeRegex(numericFormatter, ref isDateFormatter, ref newFormatter))
+                    if (DateTimeUtil.IsDateOrTimeRegex(numericFormatter, ref isDateFormatter, ref newFormatter))
                     {
-                        if(isDateFormatter)
+                        if (isDateFormatter)
                             dateString = ChartCached.NumberToDateStr(timestamp, newFormatter);
                         else
                             dateString = ChartCached.NumberToTimeStr(timestamp, newFormatter);
@@ -492,7 +494,7 @@ namespace XCharts.Runtime
             if (!string.IsNullOrEmpty(m_Formatter))
             {
                 var content = m_Formatter;
-                FormatterHelper.ReplaceAxisLabelContent(ref content, dateString);
+                FormatterHelper.ReplaceAxisLabelContent(ref content, dateString, labelIndex, totalIndex);
                 return GetFormatterFunctionContent(labelIndex, value, content);
             }
             else

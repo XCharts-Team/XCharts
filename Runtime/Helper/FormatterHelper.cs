@@ -18,6 +18,7 @@ namespace XCharts.Runtime
         private static Regex s_RegexSubForAxisLabel = new Regex(@"(value)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
         private static Regex s_RegexForSerieLabel = new Regex(@"{[a-h|\.|y]\d*(:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
         private static Regex s_RegexSubForSerieLabel = new Regex(@"(\.)|([a-h|y]\d*)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
+        private static Regex s_RegexForAxisIndex = new Regex(@"\{(-?)index([+-]\d+)?\}", RegexOptions.IgnoreCase);
 
         public static bool NeedFormat(string content)
         {
@@ -334,7 +335,7 @@ namespace XCharts.Runtime
             return s_RegexNewLine.Replace(content.Trim(), PH_NN);
         }
 
-        public static void ReplaceAxisLabelContent(ref string content, string numericFormatter, double value)
+        public static void ReplaceAxisLabelContent(ref string content, string numericFormatter, double value, int index, int totalIndex)
         {
             var mc = s_RegexForAxisLabel.Matches(content);
             foreach (var m in mc)
@@ -349,10 +350,11 @@ namespace XCharts.Runtime
                 }
                 content = content.Replace(old, ChartCached.FloatToStr(value, numericFormatter));
             }
+            ReplaceIndexContent(ref content, index, totalIndex);
             content = TrimAndReplaceLine(content);
         }
 
-        public static void ReplaceAxisLabelContent(ref string content, string value)
+        public static void ReplaceAxisLabelContent(ref string content, string value, int index, int totalIndex)
         {
             var mc = s_RegexForAxisLabel.Matches(content);
             foreach (var m in mc)
@@ -363,8 +365,26 @@ namespace XCharts.Runtime
                 if (argsCount <= 0) continue;
                 content = content.Replace(old, value);
             }
+            ReplaceIndexContent(ref content, index, totalIndex);
             content = TrimAndReplaceLine(content);
         }
 
+        public static void ReplaceIndexContent(ref string content, int currIndex, int totalIndex)
+        {
+            if (totalIndex <= 0) return;
+            content = s_RegexForAxisIndex.Replace(content, (match) =>
+            {
+                bool isNegative = match.Groups[1].Value == "-";
+                int offset = 0;
+                int parsedOffset = 0;
+                if (match.Groups[2].Success &&
+                    int.TryParse(match.Groups[2].Value, out parsedOffset))
+                {
+                    offset = parsedOffset;
+                }
+                int baseValue = isNegative ? totalIndex - currIndex : currIndex + 1;
+                return (baseValue + offset).ToString();
+            });
+        }
     }
 }

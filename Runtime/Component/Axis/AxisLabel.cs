@@ -145,7 +145,7 @@ namespace XCharts.Runtime
             m_TextLimit.SetRelatedText(txt, labelWidth);
         }
 
-        public override string GetFormatterContent(int labelIndex, string category)
+        public override string GetFormatterContent(int labelIndex, int totalIndex, string category)
         {
             if (string.IsNullOrEmpty(category))
                 return GetFormatterFunctionContent(labelIndex, category, category);
@@ -157,18 +157,18 @@ namespace XCharts.Runtime
             else
             {
                 var content = m_Formatter;
-                FormatterHelper.ReplaceAxisLabelContent(ref content, category);
+                FormatterHelper.ReplaceAxisLabelContent(ref content, category, labelIndex, totalIndex);
                 return GetFormatterFunctionContent(labelIndex, category, m_TextLimit.GetLimitContent(content));
             }
         }
 
-        public override string GetFormatterContent(int labelIndex, double value, double minValue, double maxValue, bool isLog = false)
+        public override string GetFormatterContent(int labelIndex, int totalIndex, double value, double minValue, double maxValue, bool isLog = false)
         {
             if (showAsPositiveNumber && value < 0)
             {
                 value = Math.Abs(value);
             }
-            return base.GetFormatterContent(labelIndex, value, minValue, maxValue, isLog);
+            return base.GetFormatterContent(labelIndex, totalIndex, value, minValue, maxValue, isLog);
         }
 
         public bool IsNeedShowLabel(int index, int total)

@@ -1750,7 +1750,7 @@ namespace XCharts.Runtime
         /// </summary>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public List<SerieData> GetDataList(DataZoom dataZoom = null)
+        public List<SerieData> GetDataList(DataZoom dataZoom = null, bool sorted = false)
         {
             if (dataZoom != null && dataZoom.enable &&
                 (dataZoom.IsContainsXAxis(xAxisIndex) || dataZoom.IsContainsYAxis(yAxisIndex)))
@@ -1760,7 +1760,7 @@ namespace XCharts.Runtime
             }
             else
             {
-                return useSortData && context.sortedData.Count > 0 ? context.sortedData : m_Data;
+                return useSortData && sorted && context.sortedData.Count > 0 ? context.sortedData : m_Data;
             }
         }
 

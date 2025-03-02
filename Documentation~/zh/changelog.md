@@ -79,6 +79,7 @@ slug: /changelog
 
 ## master
 
+* (2025.03.02) 增加`Tooltip`的`columnGapWidths`参数设置列文本间隙距离
 * (2025.03.01) 优化`Comment`的组件刷新
 * (2025.02.23) 增加`Axis`的`Label`的`formatter`支持`{index}``{index-1}``{-index}``{-index-1}`通配符
 * (2025.02.23) 增加`Bar`的`realtimeSort`支持实时排序

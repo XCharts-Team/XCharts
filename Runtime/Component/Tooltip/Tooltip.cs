@@ -145,6 +145,7 @@ namespace XCharts.Runtime
         [SerializeField] private float m_TitleHeight = 25f;
         [SerializeField] private float m_ItemHeight = 25f;
         [SerializeField] private Color32 m_BorderColor = new Color32(230, 230, 230, 255);
+        [SerializeField][Since("v3.14.0")] private List<float> m_ColumnGapWidths = new List<float>{15};
         [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.None);
         [SerializeField]
         private LabelStyle m_TitleLabelStyle = new LabelStyle()
@@ -453,6 +454,15 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_ItemHeight, value)) SetComponentDirty(); }
         }
         /// <summary>
+        /// the column gap width of content. When there is only one column, it only represents the gap width of the second column.
+        /// ||内容部分的列间距。当只有一列时，只表示第二列的间距。
+        /// </summary>
+        public List<float> columnGapWidths
+        {
+            get { return m_ColumnGapWidths; }
+            set { if (value != null) { m_ColumnGapWidths = value; SetComponentDirty(); } }
+        }
+        /// <summary>
         /// the textstyle of title.
         /// ||标题的文本样式。
         /// </summary>
@@ -462,8 +472,8 @@ namespace XCharts.Runtime
             set { if (value != null) { m_TitleLabelStyle = value; SetComponentDirty(); } }
         }
         /// <summary>
-        /// the textstyle list of content.
-        /// ||内容部分的文本样式列表。和列一一对应。
+        /// the column text style list of content. The first represents the text style of the first column, and so on.
+        /// ||内容部分的列文本样式列表。第一个表示第一列的文本样式，以此类推。
         /// </summary>
         public List<LabelStyle> contentLabelStyles
         {

@@ -17,6 +17,7 @@ namespace XCharts.Runtime
         public float sizeProgress;
         public int currPointIndex;
         public int destPointIndex;
+        public float currDuration;
         public Vector3 currPoint;
         public Vector3 destPoint;
         public Dictionary<int, float> dataCurrProgress = new Dictionary<int, float>();

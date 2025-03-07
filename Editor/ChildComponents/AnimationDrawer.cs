@@ -15,6 +15,7 @@ namespace XCharts.Editor
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Delay");
                 PropertyField(prop, "m_Duration");
+                PropertyField(prop, "m_Speed");
                 --EditorGUI.indentLevel;
             }
         }
@@ -30,6 +31,7 @@ namespace XCharts.Editor
             {
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Duration");
+                PropertyField(prop, "m_Speed");
                 --EditorGUI.indentLevel;
             }
         }
@@ -45,6 +47,7 @@ namespace XCharts.Editor
             {
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Duration");
+                PropertyField(prop, "m_Speed");
                 --EditorGUI.indentLevel;
             }
         }

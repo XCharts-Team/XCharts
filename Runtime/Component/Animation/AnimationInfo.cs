@@ -16,6 +16,7 @@ namespace XCharts.Runtime
         [SerializeField][Since("v3.8.0")] private bool m_Reverse = false;
         [SerializeField][Since("v3.8.0")] private float m_Delay = 0;
         [SerializeField][Since("v3.8.0")] private float m_Duration = 1000;
+        [SerializeField][Since("v3.14.0")] private float m_Speed = 0;
         public AnimationInfoContext context = new AnimationInfoContext();
 
         /// <summary>
@@ -34,11 +35,15 @@ namespace XCharts.Runtime
         /// </summary>
         public float delay { get { return m_Delay; } set { m_Delay = value; } }
         /// <summary>
-        /// the duration of animation.
-        /// ||动画的时长。
+        /// the duration of animation. Default is used to calculate the speed of animation. It can also be specified by speed.
+        /// ||动画的时长。默认用于计算动画的速度。也可以通过speed指定速度。
         /// </summary>
         public float duration { get { return m_Duration; } set { m_Duration = value; } }
-
+        /// <summary>
+        /// the speed of animation. When speed is specified, duration will be invalid. Default is 0, which means no speed specified.
+        /// ||动画的速度。当指定speed时，duration将失效。默认为0，表示不指定速度。
+        /// </summary>
+        public float speed { get { return m_Speed; } set { m_Speed = value; } }
         /// <summary>
         /// the callback function of animation start.
         /// ||动画开始的回调。
@@ -208,7 +213,7 @@ namespace XCharts.Runtime
             if (!context.start)
                 return false;
             else
-                return (m_Delay > 0 && Time.time - context.startTime < m_Delay / 1000);
+                return m_Delay > 0 && Time.time - context.startTime < m_Delay / 1000;
         }
 
         /// <summary>
@@ -285,8 +290,7 @@ namespace XCharts.Runtime
         {
             if (!context.start || !context.init || context.pause) return;
             if (IsInDelay()) return;
-            var duration = GetCurrAnimationDuration();
-            var delta = (float)(total / duration * (m_UnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime));
+            var delta = GetDelta(total, m_UnscaledTime);
             if (reverse)
             {
                 context.currProgress -= delta;
@@ -330,8 +334,7 @@ namespace XCharts.Runtime
             }
             else
             {
-                var duration = GetCurrAnimationDuration(dataIndex);
-                var delta = (destProgress - startProgress) / duration * (m_UnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime);
+                var delta = GetDelta(destProgress - startProgress, m_UnscaledTime);
                 currHig += delta;
                 if (reverse)
                 {
@@ -362,8 +365,7 @@ namespace XCharts.Runtime
             if (IsInDelay())
                 return;
 
-            var duration = GetCurrAnimationDuration();
-            var delta = dest / duration * (m_UnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime);
+            var delta = GetDelta(dest, m_UnscaledTime);
             if (reverse)
             {
                 context.sizeProgress -= delta;
@@ -375,6 +377,20 @@ namespace XCharts.Runtime
                 context.sizeProgress += delta;
                 if (context.sizeProgress > dest)
                     context.sizeProgress = dest;
+            }
+        }
+
+        private float GetDelta(double total, bool unscaledTime)
+        {
+            if (m_Speed > 0)
+            {
+                context.currDuration = (float)total / m_Speed;
+                return (float)(m_Speed * (unscaledTime ? Time.unscaledDeltaTime : Time.deltaTime));
+            }
+            else
+            {
+                context.currDuration = 0;
+                return (float)(total / GetCurrAnimationDuration() * (unscaledTime ? Time.unscaledDeltaTime : Time.deltaTime));
             }
         }
     }

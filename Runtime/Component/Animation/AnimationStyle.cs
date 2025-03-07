@@ -560,7 +560,7 @@ namespace XCharts.Runtime
         public float GetChangeDuration()
         {
             if (m_Enable && m_Change.enable)
-                return m_Change.duration;
+                return m_Change.context.currDuration > 0 ? m_Change.context.currDuration : m_Change.duration;
             else
                 return 0;
         }
@@ -568,7 +568,7 @@ namespace XCharts.Runtime
         public float GetAdditionDuration()
         {
             if (m_Enable && m_Addition.enable)
-                return m_Addition.duration;
+                return m_Addition.context.currDuration > 0 ? m_Addition.context.currDuration : m_Addition.duration;
             else
                 return 0;
         }
@@ -576,7 +576,7 @@ namespace XCharts.Runtime
         public float GetInteractionDuration()
         {
             if (m_Enable && m_Interaction.enable)
-                return m_Interaction.duration;
+                return m_Interaction.context.currDuration > 0 ? m_Interaction.context.currDuration : m_Interaction.duration;
             else
                 return 0;
         }

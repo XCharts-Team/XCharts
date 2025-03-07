@@ -79,6 +79,7 @@ slug: /changelog
 
 ## master
 
+* (2025.03.06) 优化`Animation`的新增动画表现
 * (2025.03.04) 修复`Treemap`的`label`显示异常的问题
 * (2025.03.02) 增加`Tooltip`的`columnGapWidths`参数设置列文本间隙距离
 * (2025.03.01) 优化`Comment`的组件刷新

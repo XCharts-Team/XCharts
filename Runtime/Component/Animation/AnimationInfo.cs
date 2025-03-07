@@ -147,6 +147,7 @@ namespace XCharts.Runtime
         {
             if (!enable) return;
             if (!context.start || context.end) return;
+            context.init = false;
             context.start = false;
             context.end = true;
             context.currPointIndex = context.destPointIndex;
@@ -168,20 +169,19 @@ namespace XCharts.Runtime
         public bool Init(float curr, float dest, int totalPointIndex)
         {
             if (!enable || !context.start) return false;
-            if (context.init || context.end) return false;
-            context.init = true;
             context.totalProgress = dest - curr;
             context.destPointIndex = totalPointIndex;
             if (reverse)
             {
-                context.currProgress = dest;
+                if (!context.init) context.currProgress = dest;
                 context.destProgress = curr;
             }
             else
             {
-                context.currProgress = curr;
+                if (!context.init) context.currProgress = curr;
                 context.destProgress = dest;
             }
+            context.init = true;
             return true;
         }
 

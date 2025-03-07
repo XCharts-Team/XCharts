@@ -2029,6 +2029,7 @@ namespace XCharts.Runtime
         /// </summary>
         public void AnimationFadeIn()
         {
+            if (dataCount <= 0) return;
             ResetInteract();
             if (animation.enable) animation.FadeIn();
             SetVerticesDirty();
@@ -2039,6 +2040,7 @@ namespace XCharts.Runtime
         /// </summary>
         public void AnimationFadeOut()
         {
+            if (dataCount <= 0) return;
             ResetInteract();
             if (animation.enable) animation.FadeOut();
             SetVerticesDirty();
@@ -2049,6 +2051,7 @@ namespace XCharts.Runtime
         /// </summary>
         public void AnimationPause()
         {
+            if (dataCount <= 0) return;
             if (animation.enable) animation.Pause();
             SetVerticesDirty();
         }
@@ -2058,6 +2061,7 @@ namespace XCharts.Runtime
         /// </summary>
         public void AnimationResume()
         {
+            if (dataCount <= 0) return;
             if (animation.enable) animation.Resume();
             SetVerticesDirty();
         }
@@ -2067,6 +2071,7 @@ namespace XCharts.Runtime
         /// </summary>
         public void AnimationReset()
         {
+            if (dataCount <= 0) return;
             if (animation.enable) animation.Reset();
             SetVerticesDirty();
         }
@@ -2076,6 +2081,7 @@ namespace XCharts.Runtime
         /// </summary>
         public void AnimationRestart()
         {
+            if (dataCount <= 0) return;
             if (animation.enable) animation.Restart();
             SetVerticesDirty();
         }

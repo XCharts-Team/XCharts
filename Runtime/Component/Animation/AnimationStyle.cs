@@ -306,7 +306,7 @@ namespace XCharts.Runtime
                 startIndex = anim.context.currPointIndex == paths.Count - 1 ?
                     paths.Count - 2 :
                     anim.context.currPointIndex;
-                if (startIndex < 0 || startIndex > paths.Count - 2) startIndex = 0;
+                if (startIndex < 0 || startIndex >= paths.Count - 1) return;
             }
             else
             {
@@ -336,9 +336,12 @@ namespace XCharts.Runtime
             {
                 return;
             }
-            anim.context.currPoint = sp;
-            anim.context.destPoint = ep;
-            anim.Init(currDetailProgress, totalDetailProgress, paths.Count - 1);
+
+            if (anim.Init(currDetailProgress, totalDetailProgress, paths.Count - 1))
+            {
+                anim.context.currPoint = sp;
+                anim.context.destPoint = ep;
+            }
         }
 
         public bool IsEnd()
@@ -362,12 +365,23 @@ namespace XCharts.Runtime
                 return true;
             var animation = activedAnimation;
             if (animation != null && animation.context.end)
+            {
                 return true;
+            }
             if (IsSerieAnimation())
             {
-                if (m_FadeOut.context.start) return m_FadeOut.context.currProgress <= m_FadeOut.context.destProgress;
-                else if (m_Addition.context.start) return m_Addition.context.currProgress >= m_Addition.context.destProgress;
-                else return m_FadeIn.context.currProgress >= m_FadeIn.context.destProgress;
+                if (m_FadeOut.context.start)
+                {
+                    return m_FadeOut.context.currProgress <= m_FadeOut.context.destProgress;
+                }
+                else if (m_Addition.context.start)
+                {
+                    return m_Addition.context.currProgress >= m_Addition.context.destProgress;
+                }
+                else
+                {
+                    return m_FadeIn.context.currProgress >= m_FadeIn.context.destProgress;
+                }
             }
             else if (IsDataAnimation())
             {

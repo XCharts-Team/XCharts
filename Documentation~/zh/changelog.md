@@ -79,6 +79,7 @@ slug: /changelog
 
 ## master
 
+* (2025.03.09) 修复`Bar`在同一个`Chart`不同`Grid`里时绘制有些异常的问题
 * (2025.03.07) 增加`Animation`的`speed`可指定动画速度
 * (2025.03.06) 优化`Animation`的新增动画表现
 * (2025.03.04) 修复`Treemap`的`label`显示异常的问题

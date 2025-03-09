@@ -161,7 +161,7 @@ namespace XCharts.Runtime
             m_SerieGrid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
             if (m_SerieGrid == null)
                 return;
-            if(serie.useSortData)
+            if (serie.useSortData)
             {
                 SerieHelper.UpdateSerieRuntimeFilterData(serie);
             }
@@ -180,15 +180,16 @@ namespace XCharts.Runtime
             if (isStack)
                 SeriesHelper.UpdateStackDataList(chart.series, serie, dataZoom, m_StackSerieData);
 
-            var barCount = chart.GetSerieBarRealCount<Bar>();
+            var barCount = chart.GetSerieBarRealCount<Bar>(m_SerieGrid.index);
             float categoryWidth = AxisHelper.GetDataWidth(axis, axisLength, showData.Count, dataZoom);
             float relativedCategoryWidth = AxisHelper.GetDataWidth(relativedAxis, relativedAxisLength, showData.Count, dataZoom);
-            float barGap = chart.GetSerieBarGap<Bar>();
-            float totalBarWidth = chart.GetSerieTotalWidth<Bar>(categoryWidth, barGap, barCount);
+            float barGap = chart.GetSerieBarGap<Bar>(m_SerieGrid.index);
+            float totalBarWidth = chart.GetSerieTotalWidth<Bar>(categoryWidth, barGap, barCount, m_SerieGrid.index);
             float barWidth = serie.GetBarWidth(categoryWidth, barCount);
             float offset = (categoryWidth - totalBarWidth) * 0.5f;
-            var serieReadIndex = chart.GetSerieIndexIfStack<Bar>(serie);
-            float gap = serie.barGap == -1 ? offset : offset + chart.GetSerieTotalGap<Bar>(categoryWidth, barGap, serieReadIndex);
+            var serieReadIndex = chart.GetSerieIndexIfStack<Bar>(serie, m_SerieGrid.index);
+            float gap = serie.barGap == -1 ? offset :
+                offset + chart.GetSerieTotalGap<Bar>(categoryWidth, barGap, serieReadIndex, m_SerieGrid.index);
             int maxCount = serie.maxShow > 0 ?
                 (serie.maxShow > showData.Count ? showData.Count : serie.maxShow) :
                 showData.Count;
@@ -240,7 +241,7 @@ namespace XCharts.Runtime
                 var barHig = 0f;
                 if (isPercentStack)
                 {
-                    var valueTotal = chart.GetSerieSameStackTotalValue<Bar>(serie.stack, i);
+                    var valueTotal = chart.GetSerieSameStackTotalValue<Bar>(serie.stack, i, m_SerieGrid.index);
                     barHig = valueTotal != 0 ? (float)(relativedValue / valueTotal * relativedAxisLength) : 0;
                 }
                 else

@@ -125,16 +125,17 @@ namespace XCharts.Runtime
             if (isStack)
                 SeriesHelper.UpdateStackDataList(chart.series, serie, null, m_StackSerieData);
 
-            var barCount = chart.GetSerieBarRealCount<Bar>();
+            var barCount = chart.GetSerieBarRealCount<Bar>(-1);
             var categoryWidth = m_AngleAxis.IsCategory() ?
                 AxisHelper.GetDataWidth(m_AngleAxis, 360, datas.Count, null) :
                 AxisHelper.GetDataWidth(m_RadiusAxis, m_SeriePolar.context.radius, datas.Count, null);
-            var barGap = chart.GetSerieBarGap<Bar>();
-            var totalBarWidth = chart.GetSerieTotalWidth<Bar>(categoryWidth, barGap, barCount);
+            var barGap = chart.GetSerieBarGap<Bar>(-1);
+            var totalBarWidth = chart.GetSerieTotalWidth<Bar>(categoryWidth, barGap, barCount, -1);
             var barWidth = serie.GetBarWidth(categoryWidth, barCount);
             var offset = (categoryWidth - totalBarWidth) * 0.5f;
-            var serieReadIndex = chart.GetSerieIndexIfStack<Bar>(serie);
-            float gap = serie.barGap == -1 ? offset : offset + chart.GetSerieTotalGap<Bar>(categoryWidth, barGap, serieReadIndex);
+            var serieReadIndex = chart.GetSerieIndexIfStack<Bar>(serie, -1);
+            float gap = serie.barGap == -1 ? offset :
+                offset + chart.GetSerieTotalGap<Bar>(categoryWidth, barGap, serieReadIndex, -1);
 
             var areaColor = ColorUtil.clearColor32;
             var areaToColor = ColorUtil.clearColor32;
@@ -157,7 +158,7 @@ namespace XCharts.Runtime
                 angleValue = serieData.GetData(1);
                 if (m_AngleAxis.IsCategory())
                 {
-                    start = (float) (startAngle + categoryWidth * angleValue + gap);
+                    start = (float)(startAngle + categoryWidth * angleValue + gap);
                     end = start + barWidth;
                     inside = m_SeriePolar.context.insideRadius;
                     if (isStack)
@@ -178,7 +179,7 @@ namespace XCharts.Runtime
                     }
                     end = start + m_AngleAxis.GetValueLength(angleValue, 360);
                     serieData.context.stackHeight = end - start;
-                    inside = m_SeriePolar.context.insideRadius + categoryWidth * (float) radiusValue + gap;
+                    inside = m_SeriePolar.context.insideRadius + categoryWidth * (float)radiusValue + gap;
                     outside = inside + barWidth;
                 }
                 serieData.context.startAngle = start;

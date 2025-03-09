@@ -122,11 +122,11 @@ namespace XCharts.Runtime
             var relativedAxisLength = isY ? m_SerieGrid.context.width : m_SerieGrid.context.height;
             var axisXY = isY ? m_SerieGrid.context.y : m_SerieGrid.context.x;
 
-            var barCount = chart.GetSerieBarRealCount<SimplifiedBar>();
+            var barCount = chart.GetSerieBarRealCount<SimplifiedBar>(m_SerieGrid.index);
             float categoryWidth = AxisHelper.GetDataWidth(axis, axisLength, showData.Count, dataZoom);
             float relativedCategoryWidth = AxisHelper.GetDataWidth(relativedAxis, relativedAxisLength, showData.Count, dataZoom);
-            float barGap = chart.GetSerieBarGap<SimplifiedBar>();
-            float totalBarWidth = chart.GetSerieTotalWidth<SimplifiedBar>(categoryWidth, barGap, barCount);
+            float barGap = chart.GetSerieBarGap<SimplifiedBar>(m_SerieGrid.index);
+            float totalBarWidth = chart.GetSerieTotalWidth<SimplifiedBar>(categoryWidth, barGap, barCount,m_SerieGrid.index);
             float barWidth = serie.GetBarWidth(categoryWidth, barCount);
             float offset = (categoryWidth - totalBarWidth) * 0.5f;
             float barGapWidth = barWidth + barWidth * barGap;

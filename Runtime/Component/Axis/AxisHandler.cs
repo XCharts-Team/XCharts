@@ -150,7 +150,7 @@ namespace XCharts
                 axis.context.minValue = 0;
                 axis.context.maxValue = axis.data.Count > 0 ? axis.data.Count - 1 : SeriesHelper.GetMaxSerieDataCount(chart.series) - 1;
                 axis.context.minMaxRange = axis.context.maxValue;
-                if (chart.HasRealtimeSortSerie())
+                if (chart.HasRealtimeSortSerie(axis.gridIndex))
                 {
                     UpdateAxisLabelText(axis);
                 }
@@ -478,7 +478,7 @@ namespace XCharts
             if (axis.IsCategory() && axis.boundaryGap)
                 splitNumber -= 1;
             axis.context.aligment = defaultAlignment;
-            var sortSerie = chart.GetRealtimeSortSerie();
+            var sortSerie = chart.GetRealtimeSortSerie(axis.gridIndex);
             if (sortSerie != null)
             {
                 SerieHelper.UpdateSerieRuntimeFilterData(sortSerie);
@@ -598,7 +598,7 @@ namespace XCharts
             if (axis.IsCategory() && axis.boundaryGap)
                 splitNumber -= 1;
             axis.context.aligment = defaultAlignment;
-            var sortSerie = chart.GetRealtimeSortSerie();
+            var sortSerie = chart.GetRealtimeSortSerie(axis.gridIndex);
             if (sortSerie != null)
             {
                 SerieHelper.UpdateSerieRuntimeFilterData(sortSerie);

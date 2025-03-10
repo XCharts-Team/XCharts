@@ -101,20 +101,22 @@ namespace XCharts.Runtime
             return false;
         }
 
-        public bool HasRealtimeSortSerie()
+        public bool HasRealtimeSortSerie(int gridIndex)
         {
             foreach (var serie in m_Series)
             {
+                if (!CheckSerieGridIndex(serie, gridIndex)) continue;
                 if (serie.useSortData)
                     return true;
             }
             return false;
         }
 
-        public Serie GetRealtimeSortSerie()
+        public Serie GetRealtimeSortSerie(int gridIndex)
         {
             foreach (var serie in m_Series)
             {
+                if (!CheckSerieGridIndex(serie, gridIndex)) continue;
                 if (serie.useSortData)
                     return serie;
             }

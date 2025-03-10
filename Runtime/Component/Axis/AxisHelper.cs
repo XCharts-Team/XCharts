@@ -119,7 +119,7 @@ namespace XCharts.Runtime
             DataZoom dataZoom, bool forcePercent, int sortIndex = -1)
         {
             int split = GetSplitNumber(axis, coordinateWidth, dataZoom);
-            if(sortIndex == -1) sortIndex = index;
+            if (sortIndex == -1) sortIndex = index;
             if (axis.type == Axis.AxisType.Value)
             {
                 if (minValue == 0 && maxValue == 0)

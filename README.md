@@ -55,9 +55,9 @@ A powerful, easy-to-use, configurable charting and data visualization library fo
 - __纯代码绘制__：图表纯代码绘制，无需额外的贴图和Shader资源。
 - __可视化配置__：参数可视化配置，效果实时预览，支持运行时代码动态修改配置和数据。
 - __高自由定制__：支持从主题和配置参数上任意调整；支持代码自定义绘制，自定义回调以及自定义实现图表。
-- __多内置图表__：支持线图、柱图、饼图、雷达图、散点图、热力图、环形图、K线图、极坐标、平行坐标等多种内置图表。
-- __多扩展图表__：支持3D柱图、3D饼图、漏斗图、金字塔、仪表盘、水位图、象形柱图、甘特图、矩形树图、桑基图、3D折线图、关系图等多种扩展图表。
-- __多扩展组件__：支持表格、统计数值等多种扩展UI组件。
+- __多内置图表__：支持线图、柱状图、饼图、雷达图、散点图、热力图、环形图、K线图、极坐标、平行坐标等多种内置图表。
+- __多扩展图表__：支持3D柱图、3D饼图、漏斗图、金字塔、仪表盘、水位图、象形柱图、甘特图、矩形树图、桑基图、3D折线图、关系图等多种高级扩展图表。
+- __多扩展组件__：支持表格、统计数值、滑动条、进度条等多种扩展UI组件。
 - __多图表组合__：支持内置图表的任意组合，同一图中可同时显示多个相同或不同类型的图表。
 - __多种坐标系__：支持直角坐标系、极坐标系、单轴等多种坐标系。
 - __丰富的组件__：支持标题、图例、提示框、标线、标域、数据区域缩放、视觉映射等常用组件。
@@ -104,7 +104,7 @@ XCharts理论上支持Unity 5.6及以上版本。 但由于版本测试有限难
 `XCharts`是基于`UGUI`实现的，所以`UGUI`中碰到的问题，在`XCharts`中也会存在。比如锯齿问题，比如`Mesh`顶点数超`65535`的问题。这两个问题的解决可参考[问答16](Documentation~/zh/faq.md)和[问答27](Documentation~/zh/faq.md)。  
 由于`Mesh`的`65535`顶点数的限制，目前`XCharts`的单条`Line`支持约`2万`的数据量，当然开启采样可以支持更多数据的绘制，但同时也会更消耗CPU。
 
-- __哪里可以查看Demo？__
+- __哪里可以查看Demo？__  
 本仓库只包含XCharts源码，不包含Demo示例部分。 需要查看`Demo`示例源码请到[XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)仓库。也可以在浏览器查看运行效果 [在线Demo](https://xcharts-team.github.io/examples/) 。
 
 ## 日志
@@ -115,10 +115,10 @@ XCharts理论上支持Unity 5.6及以上版本。 但由于版本测试有限难
 
 - __[XCharts](https://github.com/XCharts-Team/XCharts)__ XCharts核心功能，完全开源免费。
 - __[XCharts-Daemon](https://github.com/XCharts-Team/XCharts-Daemon)__ XCharts守护程序，用于确保XCharts更新时的编译正常。非必须，但建议使用。
-- __[XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)__ XCharts官方示例，不包含扩展图表部分。[订阅购买](Documentation~/zh/support.md)扩展图表后可导入示例。
+- __[XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)__ XCharts官方示例，不包含扩展图表部分。订阅购买扩展图表后可单独导入扩展图表的Demo示例。
 - __[XCharts-Pro](https://github.com/XCharts-Team/XCharts-Pro)__ XCharts专业版，包含所有扩展图表和扩展组件。[订阅SVIP](Documentation~/zh/support.md)后可访问和使用。
 - __[XCharts-Pro-Demo](https://github.com/XCharts-Team/XCharts-Pro-Demo)__ XCharts专业版官方示例，包含所有扩展图表和扩展组件的示例。[订阅SVIP](Documentation~/zh/support.md)后可访问和使用。
-- __[XCharts-UI](https://github.com/XCharts-Team/XCharts-UI)__ XCharts的扩展UI组件。订阅VIP后可访问和使用。
+- __[XCharts-UI](https://github.com/XCharts-Team/XCharts-UI)__ XCharts的扩展UI组件。[订阅VIP](Documentation~/zh/support.md)后可访问和使用。
 - __[XCharts-Bar3DChart](https://github.com/XCharts-Team/XCharts-Bar3DChart)__ XCharts扩展图表：3D柱图。[订阅购买](Documentation~/zh/support.md)后可访问和使用。
 - __[XCharts-FunnelChart](https://github.com/XCharts-Team/XCharts-FunnelChart)__ XCharts扩展图表：漏斗图。[订阅购买](Documentation~/zh/support.md)后可访问和使用。
 - __[XCharts-GanttChart](https://github.com/XCharts-Team/XCharts-GanttChart)__ XCharts扩展图表：甘特图。[订阅购买](Documentation~/zh/support.md)后可访问和使用。

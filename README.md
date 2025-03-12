@@ -113,24 +113,24 @@ XCharts理论上支持Unity 5.6及以上版本。 但由于版本测试有限难
 
 ## 扩展
 
-- __[XCharts](https://github.com/XCharts-Team/XCharts)__ XCharts核心功能，完全开源免费。
-- __[XCharts-Daemon](https://github.com/XCharts-Team/XCharts-Daemon)__ XCharts守护程序，用于确保XCharts更新时的编译正常。非必须，但建议使用。
-- __[XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)__ XCharts官方示例，不包含扩展图表部分。订阅购买扩展图表后可单独导入扩展图表的Demo示例。
-- __[XCharts-Pro](https://github.com/XCharts-Team/XCharts-Pro)__ XCharts专业版，包含所有扩展图表和扩展组件。[订阅SVIP](Documentation~/zh/support.md)后可访问和使用。
-- __[XCharts-Pro-Demo](https://github.com/XCharts-Team/XCharts-Pro-Demo)__ XCharts专业版官方示例，包含所有扩展图表和扩展组件的示例。[订阅SVIP](Documentation~/zh/support.md)后可访问和使用。
-- __[XCharts-UI](https://github.com/XCharts-Team/XCharts-UI)__ XCharts的扩展UI组件。[订阅VIP](Documentation~/zh/support.md)后可访问和使用。
-- __[XCharts-Bar3DChart](https://github.com/XCharts-Team/XCharts-Bar3DChart)__ XCharts扩展图表：3D柱图。[订阅购买](Documentation~/zh/support.md)后可访问和使用。
-- __[XCharts-FunnelChart](https://github.com/XCharts-Team/XCharts-FunnelChart)__ XCharts扩展图表：漏斗图。[订阅购买](Documentation~/zh/support.md)后可访问和使用。
-- __[XCharts-GanttChart](https://github.com/XCharts-Team/XCharts-GanttChart)__ XCharts扩展图表：甘特图。[订阅购买](Documentation~/zh/support.md)后可访问和使用。
-- __[XCharts-GaugeChart](https://github.com/XCharts-Team/XCharts-GaugeChart)__ XCharts扩展图表：仪表盘。[订阅购买](Documentation~/zh/support.md)后可访问和使用。
-- __[XCharts-LiquidChart](https://github.com/XCharts-Team/XCharts-LiquidChart)__ XCharts扩展图表：水位图。[订阅购买](Documentation~/zh/support.md)后可访问和使用。
-- __[XCharts-PictorialBarChart](https://github.com/XCharts-Team/XCharts-PictorialBarChart)__ XCharts扩展图表：象形住图。[订阅购买](Documentation~/zh/support.md)后可访问和使用。
-- __[XCharts-Pie3DChart](https://github.com/XCharts-Team/XCharts-Pie3DChart)__ XCharts扩展图表：3D饼图。[订阅购买](Documentation~/zh/support.md)后可访问和使用。
-- __[XCharts-PyramidChart](https://github.com/XCharts-Team/XCharts-PyramidChart)__ XCharts扩展图表：3D金字塔。[订阅购买](Documentation~/zh/support.md)后可访问和使用。
-- __[XCharts-TreemapChart](https://github.com/XCharts-Team/XCharts-TreemapChart)__ XCharts扩展图表：矩形树图。[订阅购买](Documentation~/zh/support.md)后可访问和使用。
-- __[XCharts-SankeyChart](https://github.com/XCharts-Team/XCharts-SankeyChart)__ XCharts扩展图表：桑基图。[订阅购买](Documentation~/zh/support.md)后可访问和使用。
-- __[XCharts-Line3DChart](https://github.com/XCharts-Team/XCharts-Line3DChart)__ XCharts扩展图表：3D折线图。[订阅购买](Documentation~/zh/support.md)后可访问和使用。
-- __[XCharts-GraphChart](https://github.com/XCharts-Team/XCharts-GraphChart)__ XCharts扩展图表：关系图。[订阅购买](Documentation~/zh/support.md)后可访问和使用。
+- __[XCharts](https://github.com/XCharts-Team/XCharts)__ 核心功能，完全开源免费。
+- __[XCharts-Daemon](https://github.com/XCharts-Team/XCharts-Daemon)__ 守护程序，确保XCharts更新时的编译正常。
+- __[XCharts-Demo](https://github.com/XCharts-Team/XCharts-Demo)__ 官方示例（不包含扩展图表）。
+- __[XCharts-Pro](https://github.com/XCharts-Team/XCharts-Pro)__ 专业版，包含所有扩展图表和扩展组件（需订阅 SVIP）。
+- __[XCharts-Pro-Demo](https://github.com/XCharts-Team/XCharts-Pro-Demo)__ 专业版官方示例（需订阅 SVIP）。
+- __[XCharts-UI](https://github.com/XCharts-Team/XCharts-UI)__ 扩展UI组件（需订阅 VIP）。
+- __[XCharts-Bar3DChart](https://github.com/XCharts-Team/XCharts-Bar3DChart)__ 扩展图表：3D柱图（需订阅 VIP）。
+- __[XCharts-FunnelChart](https://github.com/XCharts-Team/XCharts-FunnelChart)__ 扩展图表：漏斗图（需订阅 VIP）。
+- __[XCharts-GanttChart](https://github.com/XCharts-Team/XCharts-GanttChart)__ 扩展图表：甘特图（需订阅 VIP）。
+- __[XCharts-GaugeChart](https://github.com/XCharts-Team/XCharts-GaugeChart)__ 扩展图表：仪表盘（需订阅 VIP）。
+- __[XCharts-LiquidChart](https://github.com/XCharts-Team/XCharts-LiquidChart)__ 扩展图表：水位图（需订阅 VIP）。
+- __[XCharts-PictorialBarChart](https://github.com/XCharts-Team/XCharts-PictorialBarChart)__ 扩展图表：象形住图（需订阅 VIP）。
+- __[XCharts-Pie3DChart](https://github.com/XCharts-Team/XCharts-Pie3DChart)__ 扩展图表：3D饼图（需订阅 VIP）。
+- __[XCharts-PyramidChart](https://github.com/XCharts-Team/XCharts-PyramidChart)__ 扩展图表：3D金字塔（需订阅 VIP）。
+- __[XCharts-TreemapChart](https://github.com/XCharts-Team/XCharts-TreemapChart)__ 扩展图表：矩形树图（需订阅 VIP）。
+- __[XCharts-SankeyChart](https://github.com/XCharts-Team/XCharts-SankeyChart)__ 扩展图表：桑基图（需订阅 VIP）。
+- __[XCharts-Line3DChart](https://github.com/XCharts-Team/XCharts-Line3DChart)__ 扩展图表：3D折线图（需订阅 VIP）。
+- __[XCharts-GraphChart](https://github.com/XCharts-Team/XCharts-GraphChart)__ 扩展图表：关系图（需订阅 VIP）。
 
 ## Licenses
 
@@ -149,4 +149,4 @@ XCharts理论上支持Unity 5.6及以上版本。 但由于版本测试有限难
 - 邮箱：`monitor1394@gmail.com`  
 - QQ群：XCharts交流群（`202030963`）  
 - VIP群：XCharts VIP群（`867291970`）  
-- 捐助、合作、订阅和技术支持：[☞ 请看这里](Documentation~/zh/support.md)
+- 支持与合作：[☞ 请看这里](Documentation~/zh/support.md)

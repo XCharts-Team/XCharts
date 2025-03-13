@@ -8,8 +8,6 @@ slug: /support
 
 如需技术支持和扩展图表购买，可通过订阅 VIP 服务获取专属权益。企业商务合作请联系 QQ `3525422251` 或邮件至 `monitor1394@gmail.com`。
 
----
-
 ## 订阅计划
 
 ### 订阅类型
@@ -27,8 +25,6 @@ slug: /support
 - **扩展功能**：解锁高级图表和 UI 组件，持续获得更新支持。
 - **社区共建**：加入 GitHub 组织，访问私有仓库，参与项目生态建设。
 - **专属标识**：在交流群中享有 VIP 身份标识，优先响应需求。
-
----
 
 ## 服务详情
 
@@ -63,8 +59,6 @@ slug: /support
 | - 1 年更新支持    | —        | ✔️       | ✔️              | ✔️              | ✔️             |
 | **GitHub 仓库权限**| 公开仓库 | +UI 扩展组件 | +Pro 扩展图表    | +Pro 扩展图表    | +Pro 扩展图表   |
 
----
-
 ## 扩展图表
 
 以下扩展图表需订阅 VIP 后购买（个人SVIP 及企业 VIP 用户可免费使用全量图表）：
@@ -84,24 +78,15 @@ slug: /support
 | 206 | [3D折线图](https://xcharts-team.github.io/docs/line3d)      |Line3DChart        | 198¥  |
 | 207 | [关系图](https://xcharts-team.github.io/docs/graph)      |GraphChart        | 198¥  |
 
----
-
-## 支持我们
-
-- **社区支持**：欢迎在 GitHub 为 XCharts 点 ⭐️ [Star 支持](https://github.com/XCharts-Team/XCharts)  
-- **扫码捐助**：  
-  ![支付宝](img/support_alipay.png)  
-  ![微信支付](img/support_wechat.png)  
-
----
-
 ## 附注说明
 
 1. **扩展图表更新**：购买后享 1 年免费更新，续订 VIP 可延长服务周期。
 2. **企业订阅**：支持公对公转账与专用发票，席位可灵活调整。
 3. **定制服务**：VIP 用户可额外付费定制功能或加急需求开发。
 
----
+## 支持我们
 
-**让数据绽放价值，让图表驱动决策**  
-—— XCharts 团队
+- **社区支持**：欢迎在 GitHub 为 XCharts 点 ⭐️ [Star 支持](https://github.com/XCharts-Team/XCharts)  
+- **扫码捐助**：  
+  ![微信支付](img/support_wechat.png)  
+  ![支付宝](img/support_alipay.png)  

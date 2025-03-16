@@ -276,7 +276,7 @@ class in XCharts.Runtime / 子类: [AnimationFadeIn](#animationfadein), [Animati
 
 `float` `1000` `v3.8.0`
 
-动画的时长。
+动画的时长。默认用于计算动画的速度。也可以通过speed指定速度。
 
 ### AnimationInfo.enable
 
@@ -289,6 +289,12 @@ class in XCharts.Runtime / 子类: [AnimationFadeIn](#animationfadein), [Animati
 `bool` `false` `v3.8.0`
 
 是否开启反向动画效果。
+
+### AnimationInfo.speed
+
+`float` `0` `v3.14.0`
+
+动画的速度。当指定speed时，duration将失效。默认为0，表示不指定速度。
 
 ## AnimationInteraction
 
@@ -2462,7 +2468,7 @@ class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent), [ISerie
 
 `string`
 
-标签内容字符串模版格式器。支持用 \n 换行。部分组件的格式器会不生效。<br/> 模板通配符有以下这些，部分只适用于固定的组件：<br/> `\{.\}`：圆点标记。<br/> `\{a\}`：系列名。<br/> `\{b\}`：X轴类目名或数据名。<br/> `\{c\}`：数据值。<br/> `\{d\}`：百分比。<br/> `\{e\}`：数据名。<br/> `\{f\}`：数据和。<br/> `\{g\}`：数据总个数。<br/> `\{h\}`：十六进制颜色值。<br/> `\{y\}`：Y轴的类目名。<br/> `\{value\}`：坐标轴或图例的值。<br/> 以下通配符适用UITable组件：<br/> `\{name\}`： 表格的行名。<br/> `\{index\}`：表格的行号。<br/> 以下通配符适用UIStatistc组件：<br/> `\{title\}`：标题文本。<br/> `\{dd\}`：天。<br/> `\{hh\}`：小时。<br/> `\{mm\}`：分钟。<br/> `\{ss\}`：秒。<br/> `\{fff\}`：毫秒。<br/> `\{d\}`：天。<br/> `\{h\}`：小时。<br/> `\{m\}`：分钟。<br/> `\{s\}`：秒。<br/> `\{f\}`：毫秒。<br/> 示例：“\{b\}:\{c\}”
+标签内容字符串模版格式器。支持用 \n 换行。部分组件的格式器会不生效。<br/> 模板通配符有以下这些，部分只适用于固定的组件：<br/> `\{.\}`：圆点标记。<br/> `\{a\}`：系列名。<br/> `\{b\}`：X轴类目名或数据名。<br/> `\{c\}`：数据值。<br/> `\{d\}`：百分比。<br/> `\{e\}`：数据名。<br/> `\{f\}`：数据和。<br/> `\{g\}`：数据总个数。<br/> `\{h\}`：十六进制颜色值。<br/> `\{y\}`：Y轴的类目名。<br/> `\{value\}`：坐标轴或图例的值。<br/> `\{index\}`：坐标轴编号。<br/> 以下通配符适用UITable组件：<br/> `\{name\}`： 表格的行名。<br/> `\{index\}`：表格的行号。<br/> 以下通配符适用UIStatistc组件：<br/> `\{title\}`：标题文本。<br/> `\{dd\}`：天。<br/> `\{hh\}`：小时。<br/> `\{mm\}`：分钟。<br/> `\{ss\}`：秒。<br/> `\{fff\}`：毫秒。<br/> `\{d\}`：天。<br/> `\{h\}`：小时。<br/> `\{m\}`：分钟。<br/> `\{s\}`：秒。<br/> `\{f\}`：毫秒。<br/> 示例：“\{b\}:\{c\}”
 
 ### LabelStyle.height
 
@@ -3755,6 +3761,12 @@ class in XCharts.Runtime / 继承自: [BaseSerie](#baseserie), [IComparable](htt
 
 半径。radius[0]表示内径，radius[1]表示外径。
 
+### Serie.realtimeSort
+
+`bool` `false` `v3.14.0`
+
+是否开启实时排序，用来实现动态排序图效果。目前仅在Bar中生效。
+
 ### Serie.right
 
 `float`
@@ -4816,11 +4828,17 @@ class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent)
 
 边框线宽。
 
+### Tooltip.columnGapWidths
+
+`List<float>` `v3.14.0`
+
+内容部分的列间距。当只有一列时，只表示第二列的间距。
+
 ### Tooltip.contentLabelStyles
 
 `List<LabelStyle>`
 
-内容部分的文本样式列表。和列一一对应。
+内容部分的列文本样式列表。第一个表示第一列的文本样式，以此类推。
 
 ### Tooltip.fixedHeight
 

@@ -405,7 +405,7 @@ public AnimationDelayFunction delayFunction
 ### AnimationInfo.duration
 
 public float duration  
-动画的时长。
+动画的时长。默认用于计算动画的速度。也可以通过speed指定速度。
 
 ### AnimationInfo.durationFunction
 
@@ -431,6 +431,11 @@ public Action OnAnimationStart
 
 public bool reverse  
 是否开启反向动画效果。
+
+### AnimationInfo.speed
+
+public float speed  
+动画的速度。当指定speed时，duration将失效。默认为0，表示不指定速度。
 
 ### AnimationInfo.End
 
@@ -1042,6 +1047,10 @@ public bool needAnimation
 public List&lt;string&gt; runtimeData  
 数值轴时每个tick的数值。
 
+### AxisContext.sortedDataIndices
+
+public List&lt;int&gt; sortedDataIndices  
+
 ## AxisHandler&lt;T&gt;
 
 class in XCharts / 继承自: [MainComponentHandler](#maincomponenthandler)
@@ -1170,7 +1179,7 @@ public void Copy(AxisLabel axisLabel)
 
 ### AxisLabel.GetFormatterContent
 
-public override string GetFormatterContent(int labelIndex, double value, double minValue, double maxValue, bool isLog = false)  
+public override string GetFormatterContent(int labelIndex, int totalIndex, double value, double minValue, double maxValue, bool isLog = false)  
 
 
 ### AxisLabel.IsNeedShowLabel
@@ -1382,6 +1391,10 @@ public int containerIndex
 ### Bar.containterInstanceId
 
 public int containterInstanceId  
+
+### Bar.useSortData
+
+public override bool useSortData  
 
 ### Bar.AddDefaultSerie
 
@@ -1941,6 +1954,10 @@ public T GetOrAddChartComponent&lt;T&gt;() where T : MainComponent
 
 public Painter GetPainter(int index)  
 
+### BaseChart.GetRealtimeSortSerie
+
+public Serie GetRealtimeSortSerie(int gridIndex)  
+
 ### BaseChart.GetSerie
 
 public Serie GetSerie(int serieIndex)  
@@ -1953,19 +1970,19 @@ public T GetSerie&lt;T&gt;(int serieIndex) where T : Serie
 
 ### BaseChart.GetSerieBarGap&lt;T&gt;
 
-public float GetSerieBarGap&lt;T&gt;() where T : Serie  
+public float GetSerieBarGap&lt;T&gt;(int gridIndex) where T : Serie  
 
 ### BaseChart.GetSerieBarRealCount&lt;T&gt;
 
-public int GetSerieBarRealCount&lt;T&gt;() where T : Serie  
+public int GetSerieBarRealCount&lt;T&gt;(int gridIndex) where T : Serie  
 
 ### BaseChart.GetSerieIndexIfStack&lt;T&gt;
 
-public int GetSerieIndexIfStack&lt;T&gt;(Serie currSerie) where T : Serie  
+public int GetSerieIndexIfStack&lt;T&gt;(Serie currSerie, int gridIndex) where T : Serie  
 
 ### BaseChart.GetSerieSameStackTotalValue&lt;T&gt;
 
-public double GetSerieSameStackTotalValue&lt;T&gt;(string stack, int dataIndex) where T : Serie  
+public double GetSerieSameStackTotalValue&lt;T&gt;(string stack, int dataIndex, int gridIndex) where T : Serie  
 
 ### BaseChart.GetSeriesMinMaxValue
 
@@ -1973,11 +1990,11 @@ public virtual void GetSeriesMinMaxValue(Axis axis, int axisIndex, out double te
 
 ### BaseChart.GetSerieTotalGap&lt;T&gt;
 
-public float GetSerieTotalGap&lt;T&gt;(float categoryWidth, float gap, int index) where T : Serie  
+public float GetSerieTotalGap&lt;T&gt;(float categoryWidth, float gap, int index, int gridIndex) where T : Serie  
 
 ### BaseChart.GetSerieTotalWidth&lt;T&gt;
 
-public float GetSerieTotalWidth&lt;T&gt;(float categoryWidth, float gap, int realBarCount) where T : Serie  
+public float GetSerieTotalWidth&lt;T&gt;(float categoryWidth, float gap, int realBarCount, int gridIndex) where T : Serie  
 
 ### BaseChart.GetTitlePosition
 
@@ -2006,6 +2023,10 @@ public bool HasChartComponent(Type type)
 ### BaseChart.HasChartComponent&lt;T&gt;
 
 public bool HasChartComponent&lt;T&gt;()  
+
+### BaseChart.HasRealtimeSortSerie
+
+public bool HasRealtimeSortSerie(int gridIndex)  
 
 ### BaseChart.HasSerie
 
@@ -3082,6 +3103,10 @@ public static List&lt;string&gt; ParseStringFromString(string jsonData)
 
 public static void RemoveComponent&lt;T&gt;(GameObject gameObject)  
 
+### ChartHelper.RemoveTMPComponents
+
+public static void RemoveTMPComponents(GameObject gameObject)  
+
 ### ChartHelper.RotateRound
 
 public static Vector3 RotateRound(Vector3 position, Vector3 center, Vector3 axis, float angle)  
@@ -3434,10 +3459,9 @@ class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 
 注解项。
 
-### CommentItem.content
+### CommentItem.labelObject
 
-public string content  
-注解的文本内容。支持模板参数，可以参考Tooltip的itemFormatter。
+public ChartLabel labelObject  
 
 ### CommentItem.markRect
 
@@ -3886,8 +3910,12 @@ public static bool NeedFormat(string content)
 
 ### FormatterHelper.ReplaceAxisLabelContent
 
-public static void ReplaceAxisLabelContent(ref string content, string value)  
+public static void ReplaceAxisLabelContent(ref string content, string value, int index, int totalIndex)  
 
+
+### FormatterHelper.ReplaceIndexContent
+
+public static void ReplaceIndexContent(ref string content, int currIndex, int totalIndex)  
 
 ### FormatterHelper.TrimAndReplaceLine
 
@@ -4399,7 +4427,7 @@ public override void ClearData()
 
 ### Indicator.GetFormatterIndicatorContent
 
-public string GetFormatterIndicatorContent(string indicatorName)  
+public string GetFormatterIndicatorContent(string indicatorName, int index, int totalIndex)  
 
 
 ### Indicator.GetIndicator
@@ -4650,12 +4678,12 @@ public Color GetColor(Color defaultColor)
 
 ### LabelStyle.GetFormatterContent
 
-public virtual string GetFormatterContent(int labelIndex, double value, double minValue, double maxValue, bool isLog = false)  
+public virtual string GetFormatterContent(int labelIndex, int totalIndex, double value, double minValue, double maxValue, bool isLog = false)  
 
 
 ### LabelStyle.GetFormatterDateTime
 
-public string GetFormatterDateTime(int labelIndex, double value, double minValue, double maxValue)  
+public string GetFormatterDateTime(int labelIndex, int totalIndex, double value, double minValue, double maxValue)  
 
 ### LabelStyle.GetOffset
 
@@ -6719,7 +6747,7 @@ public double GetData(int index, int dimension, DataZoom dataZoom = null)
 
 ### Serie.GetDataList
 
-public List&lt;SerieData&gt; GetDataList(DataZoom dataZoom = null)  
+public List&lt;SerieData&gt; GetDataList(DataZoom dataZoom = null, bool sorted = false)  
 获得系列的数据列表
 
 ### Serie.GetDataTotal
@@ -7026,6 +7054,10 @@ public SelectStyle selectStyle
 public bool show  
 该数据项是否要显示。
 
+### SerieData.sortIndex
+
+public int sortIndex  
+
 ### SerieData.state
 
 public SerieState state  
@@ -7172,7 +7204,7 @@ public void SetIconActive(bool flag)
 
 ### SerieData.SetLabelActive
 
-public void SetLabelActive(bool flag)  
+public void SetLabelActive(bool flag, bool force = false)  
 
 ### SerieData.SetPolygon
 
@@ -7949,7 +7981,7 @@ class in XCharts.Runtime / 继承自: [SymbolStyle](#symbolstyle),[ISerieDataCom
 
 ### SerieSymbol.GetSize
 
-public float GetSize(List&lt;double&gt; data, float themeSize)  
+public float GetSize(SerieData serieData, float themeSize)  
 根据指定的sizeType获得标记的大小
 
 ### SerieSymbol.Reset

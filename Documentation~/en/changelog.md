@@ -6,6 +6,7 @@ slug: /changelog
 # Changelog
 
 [master](#master)  
+[v3.14.0](#v3140)  
 [v3.13.0](#v3130)  
 [v3.12.1](#v3121)  
 [v3.12.0](#v3120)  
@@ -78,6 +79,36 @@ slug: /changelog
 
 ## master
 
+## v3.14.0
+
+**Key Highlights:**
+
+* Added real-time sorting functionality for `Bar`
+* Added support for `\n` line breaks in `itemFormatter` for `Tooltip`
+* Added support for `{index}` formatting in `AxisLabel`
+* Added `speed` to `Animation` to specify animation speed
+* Optimized column alignment in `Tooltip`
+
+**Detailed Changelog:**
+
+* (2025.03.15) Released version `v3.14.0`
+* (2025.03.09) Fixed an issue where `Bar` displayed abnormally when placed in different `Grids` within the same `Chart`
+* (2025.03.07) Added `speed` to `Animation` to specify animation speed
+* (2025.03.06) Optimized the performance of newly added animations in `Animation`
+* (2025.03.04) Fixed an issue where `label` in `Treemap` displayed abnormally
+* (2025.03.02) Added `columnGapWidths` parameter to `Tooltip` to set the gap distance between column texts
+* (2025.03.01) Optimized the refresh of `Comment` component
+* (2025.02.23) Added support for `{index}`, `{index-1}`, `{-index}`, and `{-index-1}` wildcards in `formatter` for `Label` in `Axis`
+* (2025.02.23) Added `realtimeSort` to `Bar` to support real-time sorting
+* (2025.02.19) Added support for `\n` line breaks in `itemFormatter` for `Tooltip`
+* (2025.02.18) Optimized the alignment of `Tooltip`
+* (2025.02.09) Fixed an issue where `SaveAsImage` did not support transparency when saving images (#337)
+* (2025.02.05) Added support for setting `data` styles separately in `GraphChart`
+* (2025.02.05) Refactored the `sizeFunction` parameter in `SerieSymbol`
+* (2025.01.23) Fixed an issue where `Label` in `Treemap` was not displayed
+* (2025.01.15) Fixed an issue where dynamically adding `Component` to `Chart` at runtime caused exceptions (#339)
+* (2025.01.08) Fixed an issue where residual components affected `Text` initialization when `TextMeshPro` was turned off
+
 ## v3.13.0
 
 Key Features:
@@ -147,7 +178,6 @@ Log Details:
 * (2024.09.03) Improved the setting of the `origin` parameter for `AreaStyle` to define the starting position of area filling
 * (2024.09.01) Added `radiusGradient` parameter for `Ring` to set the gradient direction
 * (2024.09.01) Optimized the position of the first Label when `Axis` is used as a time axis
-
 
 ## v3.11.2
 

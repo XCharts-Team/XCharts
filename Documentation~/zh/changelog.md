@@ -6,6 +6,7 @@ slug: /changelog
 # 更新日志
 
 [master](#master)  
+[v3.14.0](#v3140)  
 [v3.13.0](#v3130)  
 [v3.12.1](#v3121)  
 [v3.12.0](#v3120)  
@@ -79,6 +80,19 @@ slug: /changelog
 
 ## master
 
+## v3.14.0
+
+版本要点：
+
+* 新增`Bar`的实时排序功能
+* 新增`Tooltip`的`itemFormatter`支持`\n`换行
+* 新增`AxisLabel`的格式化支持`{index}`
+* 新增`Animation`的`speed`可指定动画速度
+* 优化`Tooltip`的列对齐方式
+
+日志详情：
+
+* (2025.03.15) 发布`v3.14.0`版本
 * (2025.03.09) 修复`Bar`在同一个`Chart`不同`Grid`里时绘制有些异常的问题
 * (2025.03.07) 增加`Animation`的`speed`可指定动画速度
 * (2025.03.06) 优化`Animation`的新增动画表现

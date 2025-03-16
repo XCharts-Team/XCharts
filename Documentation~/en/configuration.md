@@ -276,7 +276,7 @@ the delay time before animation start.
 
 `float` `1000` `v3.8.0`
 
-the duration of animation.
+the duration of animation. Default is used to calculate the speed of animation. It can also be specified by speed.
 
 ### AnimationInfo.enable
 
@@ -289,6 +289,12 @@ whether enable animation.
 `bool` `false` `v3.8.0`
 
 whether enable reverse animation.
+
+### AnimationInfo.speed
+
+`float` `0` `v3.14.0`
+
+the speed of animation. When speed is specified, duration will be invalid. Default is 0, which means no speed specified.
 
 ## AnimationInteraction
 
@@ -2462,7 +2468,7 @@ the distance of label to axis line.
 
 `string`
 
-label content string template formatter. \n line wrapping is supported. Formatters for some components will not take effect. <br /> Template placeholder have the following, some of which apply only to fixed components: <br /> `\{.\}` : indicates the dot mark. <br /> `\{a\}` : indicates the series name. <br /> `\{b\}` : category value of x axis or data name. <br /> `\{c\}` : data value. <br /> `\{d\}` : percentage. <br /> `\{e\}` : indicates the data name. <br /> `\{f\}` : data sum. <br /> `\{g\}` : indicates the total number of data. <br /> `\{h\}` : hexadecimal color value. <br /> `\{y\}` : category value of y axis. <br /> `\{value\}` : The value of the axis or legend. <br /> The following placeholder apply to `UITable` components: <br /> `\{name\}` : indicates the row name of the table. <br /> `\{index\}` : indicates the row number of the table. <br /> The following placeholder apply to `UIStatistc` components: <br /> `\{title\}` : title text. <br /> `\{dd\}` : day. <br /> `\{hh\}` : hours. <br /> `\{mm\}` : minutes. <br /> `\{ss\}` : second. <br /> `\{fff\}` : milliseconds. <br /> `\{d\}` : day. <br /> `\{h\}` : hours. <br /> `\{m\}` : minutes. <br /> `\{s\}` : second. <br /> `\{f\}` : milliseconds. <br /> Example :\{b\}:\{c\}<br />
+label content string template formatter. \n line wrapping is supported. Formatters for some components will not take effect. <br /> Template placeholder have the following, some of which apply only to fixed components: <br /> `\{.\}` : indicates the dot mark. <br /> `\{a\}` : indicates the series name. <br /> `\{b\}` : category value of x axis or data name. <br /> `\{c\}` : data value. <br /> `\{d\}` : percentage. <br /> `\{e\}` : indicates the data name. <br /> `\{f\}` : data sum. <br /> `\{g\}` : indicates the total number of data. <br /> `\{h\}` : hexadecimal color value. <br /> `\{y\}` : category value of y axis. <br /> `\{value\}` : the value of the axis or legend. <br /> `\{index\}` : the index of the axis. <br /> The following placeholder apply to `UITable` components: <br /> `\{name\}` : indicates the row name of the table. <br /> `\{index\}` : indicates the row number of the table. <br /> The following placeholder apply to `UIStatistc` components: <br /> `\{title\}` : title text. <br /> `\{dd\}` : day. <br /> `\{hh\}` : hours. <br /> `\{mm\}` : minutes. <br /> `\{ss\}` : second. <br /> `\{fff\}` : milliseconds. <br /> `\{d\}` : day. <br /> `\{h\}` : hours. <br /> `\{m\}` : minutes. <br /> `\{s\}` : second. <br /> `\{f\}` : milliseconds. <br /> Example :\{b\}:\{c\}<br />
 
 ### LabelStyle.height
 
@@ -3755,6 +3761,12 @@ Options:
 
 the radius of chart.
 
+### Serie.realtimeSort
+
+`bool` `false` `v3.14.0`
+
+Whether to enable realtime sorting, which is used for bar-racing effect. Currently only available in Bar.
+
 ### Serie.right
 
 `float`
@@ -4816,11 +4828,17 @@ the color of tooltip border.
 
 the width of tooltip border.
 
+### Tooltip.columnGapWidths
+
+`List<float>` `v3.14.0`
+
+the column gap width of content. When there is only one column, it only represents the gap width of the second column.
+
 ### Tooltip.contentLabelStyles
 
 `List<LabelStyle>`
 
-the textstyle list of content.
+the column text style list of content. The first represents the text style of the first column, and so on.
 
 ### Tooltip.fixedHeight
 

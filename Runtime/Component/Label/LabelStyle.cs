@@ -80,6 +80,8 @@ namespace XCharts.Runtime
         [SerializeField] protected string m_NumericFormatter = "";
         [SerializeField] protected float m_Width = 0;
         [SerializeField] protected float m_Height = 0;
+        [SerializeField][Since("v3.15.0")] protected float m_FixedX = 0;
+        [SerializeField][Since("v3.15.0")] protected float m_FixedY = 0;
 
         [SerializeField] protected IconStyle m_Icon = new IconStyle();
         [SerializeField] protected ImageStyle m_Background = new ImageStyle();
@@ -288,6 +290,24 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_AutoOffset, value)) SetAllDirty(); }
         }
         /// <summary>
+        /// the fixed x of label. When not 0, it will be fixed on the specified x value.
+        /// ||固定的X值。不为0时，会固定在指定的X值上。
+        /// </summary> 
+        public float fixedX
+        {
+            get { return m_FixedX; }
+            set { if (PropertyUtil.SetStruct(ref m_FixedX, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// the fixed y of label. When not 0, it will be fixed on the specified y value.
+        /// ||固定的Y值。不为0时，会固定在指定的Y值上。
+        /// </summary>
+        public float fixedY
+        {
+            get { return m_FixedY; }
+            set { if (PropertyUtil.SetStruct(ref m_FixedY, value)) SetComponentDirty(); }
+        }
+        /// <summary>
         /// the sytle of background.
         /// ||背景图样式。
         /// </summary>
@@ -375,6 +395,8 @@ namespace XCharts.Runtime
             label.m_Height = m_Height;
             label.m_NumericFormatter = m_NumericFormatter;
             label.m_AutoOffset = m_AutoOffset;
+            label.m_FixedX = m_FixedX;
+            label.m_FixedY = m_FixedY;
             label.m_Icon.Copy(m_Icon);
             label.m_Background.Copy(m_Background);
             label.m_TextPadding = m_TextPadding;
@@ -394,6 +416,8 @@ namespace XCharts.Runtime
             m_Height = label.m_Height;
             m_NumericFormatter = label.m_NumericFormatter;
             m_AutoOffset = label.m_AutoOffset;
+            m_FixedX = label.m_FixedX;
+            m_FixedY = label.m_FixedY;
             m_Icon.Copy(label.m_Icon);
             m_Background.Copy(label.m_Background);
             m_TextPadding = label.m_TextPadding;

@@ -24,6 +24,8 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_Rotate");
                 PropertyField(prop, "m_Width");
                 PropertyField(prop, "m_Height");
+                PropertyField(prop, "m_FixedX");
+                PropertyField(prop, "m_FixedY");
                 PropertyField(prop, "m_Icon");
                 PropertyField(prop, "m_Background");
                 PropertyField(prop, "m_TextStyle");

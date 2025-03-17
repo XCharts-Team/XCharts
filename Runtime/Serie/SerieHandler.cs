@@ -610,6 +610,8 @@ namespace XCharts.Runtime
         protected Vector3 UpdateLabelPosition(SerieData serieData, LabelStyle currLabel)
         {
             var labelPosition = GetSerieDataLabelPosition(serieData, currLabel);
+            if(currLabel.fixedX != 0) labelPosition.x = currLabel.fixedX;
+            if(currLabel.fixedY != 0) labelPosition.y = currLabel.fixedY;
             var offset = GetSerieDataLabelOffset(serieData, currLabel);
             serieData.labelObject.SetPosition(labelPosition + offset);
             if (currLabel.autoRotate && serieData.context.angle != 0)

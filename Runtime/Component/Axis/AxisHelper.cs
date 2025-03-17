@@ -536,9 +536,9 @@ namespace XCharts.Runtime
         /// <param name="scaleWidth"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static float GetAxisValueLength(GridCoord grid, Axis axis, float scaleWidth, double value)
+        public static float GetAxisValueLength(GridCoord grid, Axis axis, float scaleWidth, double value, float gap = 0)
         {
-            return GetAxisPositionInternal(grid, axis, scaleWidth, value, false, true);
+            return GetAxisPositionInternal(grid, axis, scaleWidth, value, false, true, gap);
         }
 
         /// <summary>
@@ -572,10 +572,11 @@ namespace XCharts.Runtime
             }
         }
 
-        private static float GetAxisPositionInternal(GridCoord grid, Axis axis, float scaleWidth, double value, bool includeGridXY, bool realLength)
+        private static float GetAxisPositionInternal(GridCoord grid, Axis axis, float scaleWidth, double value, bool includeGridXY, bool realLength, float gap = 0)
         {
             var isY = axis is YAxis;
             var gridHeight = isY ? grid.context.height : grid.context.width;
+            gridHeight -= gap;
             var gridXY = isY ? grid.context.y : grid.context.x;
 
             if (axis.IsLog())

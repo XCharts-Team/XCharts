@@ -16,6 +16,7 @@ namespace XCharts.Runtime
         [SerializeField][Since("v3.6.0")] private Color32 m_MarkColor;
         [SerializeField] private Color32 m_BackgroundColor;
         [SerializeField] private float m_BackgroundWidth;
+        [SerializeField][Since("v3.15.0")] private float m_BackgroundGap;
         [SerializeField] private Color32 m_CenterColor;
         [SerializeField] private float m_CenterGap;
         [SerializeField] private float m_BorderWidth = 0;
@@ -127,6 +128,15 @@ namespace XCharts.Runtime
         {
             get { return m_BackgroundWidth; }
             set { if (PropertyUtil.SetStruct(ref m_BackgroundWidth, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// the gap between background and data item.
+        /// ||数据项背景间隙。
+        /// </summary>
+        public float backgroundGap
+        {
+            get { return m_BackgroundGap; }
+            set { if (PropertyUtil.SetStruct(ref m_BackgroundGap, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 中心区域颜色。

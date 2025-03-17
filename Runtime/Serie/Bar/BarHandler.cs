@@ -228,6 +228,7 @@ namespace XCharts.Runtime
                 var borderGap = relativedValue == 0 ? 0 : itemStyle.borderGap;
                 var borderGapAndWidth = borderWidth + borderGap;
                 var backgroundColor = itemStyle.backgroundColor;
+                var backgroundGap = itemStyle.backgroundGap;
 
                 if (!serieData.interact.TryGetColor(ref areaColor, ref areaToColor, ref interacting, interactDuration))
                 {
@@ -237,16 +238,17 @@ namespace XCharts.Runtime
 
                 var pX = 0f;
                 var pY = 0f;
-                UpdateXYPosition(m_SerieGrid, isY, axis, relativedAxis, i, categoryWidth, relativedCategoryWidth, barWidth, isStack, value, ref pX, ref pY);
+                UpdateXYPosition(m_SerieGrid, isY, axis, relativedAxis, i, categoryWidth, relativedCategoryWidth,
+                    barWidth, isStack, value, backgroundGap, ref pX, ref pY);
                 var barHig = 0f;
                 if (isPercentStack)
                 {
                     var valueTotal = chart.GetSerieSameStackTotalValue<Bar>(serie.stack, i, m_SerieGrid.index);
-                    barHig = valueTotal != 0 ? (float)(relativedValue / valueTotal * relativedAxisLength) : 0;
+                    barHig = valueTotal != 0 ? (float)(relativedValue / valueTotal * (relativedAxisLength - 2 * backgroundGap)) : 0;
                 }
                 else
                 {
-                    barHig = AxisHelper.GetAxisValueLength(m_SerieGrid, relativedAxis, relativedCategoryWidth, relativedValue);
+                    barHig = AxisHelper.GetAxisValueLength(m_SerieGrid, relativedAxis, relativedCategoryWidth, relativedValue, 2 * backgroundGap);
                 }
                 float currHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, barHig);
                 Vector3 plb, plt, prt, prb, top;
@@ -257,8 +259,8 @@ namespace XCharts.Runtime
                 serieData.context.rect = Rect.MinMaxRect(plb.x + borderGapAndWidth, plb.y + borderGapAndWidth,
                     prt.x - borderGapAndWidth, prt.y - borderGapAndWidth);
                 serieData.context.backgroundRect = isY ?
-                    Rect.MinMaxRect(m_SerieGrid.context.x, plb.y, m_SerieGrid.context.x + relativedAxisLength, prt.y) :
-                    Rect.MinMaxRect(plb.x, m_SerieGrid.context.y, prb.x, m_SerieGrid.context.y + relativedAxisLength);
+                    Rect.MinMaxRect(m_SerieGrid.context.x, plb.y - backgroundGap, m_SerieGrid.context.x + relativedAxisLength, prt.y + backgroundGap) :
+                    Rect.MinMaxRect(plb.x - backgroundGap, m_SerieGrid.context.y, prb.x + backgroundGap, m_SerieGrid.context.y + relativedAxisLength);
 
                 if (!serie.clip || (serie.clip && m_SerieGrid.Contains(top)))
                 {
@@ -303,7 +305,7 @@ namespace XCharts.Runtime
 
         private void UpdateXYPosition(GridCoord grid, bool isY, Axis axis, Axis relativedAxis, int i,
             float categoryWidth, float relativedCategoryWidth, float barWidth, bool isStack,
-            double value, ref float pX, ref float pY)
+            double value, float backgroundGap, ref float pX, ref float pY)
         {
             if (isY)
             {
@@ -320,7 +322,7 @@ namespace XCharts.Runtime
                         pY = grid.context.y + valueLen - categoryWidth * 0.5f;
                     }
                 }
-                pX = AxisHelper.GetAxisValuePosition(grid, relativedAxis, relativedCategoryWidth, 0);
+                pX = AxisHelper.GetAxisValuePosition(grid, relativedAxis, relativedCategoryWidth, 0) + backgroundGap;
                 if (isStack)
                 {
                     for (int n = 0; n < m_StackSerieData.Count - 1; n++)
@@ -342,7 +344,7 @@ namespace XCharts.Runtime
                         pX = grid.context.x + valueLen - categoryWidth * 0.5f;
                     }
                 }
-                pY = AxisHelper.GetAxisValuePosition(grid, relativedAxis, relativedCategoryWidth, 0);
+                pY = AxisHelper.GetAxisValuePosition(grid, relativedAxis, relativedCategoryWidth, 0) + backgroundGap;
                 if (isStack)
                 {
                     for (int n = 0; n < m_StackSerieData.Count - 1; n++)

@@ -80,6 +80,7 @@ slug: /changelog
 
 ## master
 
+* (2025.03.18) 增加`Bar`可添加`TitleStyle`组件支持
 * (2025.03.18) 增加`LabelStyle`的`fixedX`和`fixedY`可固定label的坐标
 * (2025.03.17) 增加`ItemStyle`的`backgroundGap`可设置数据项背景间隙
 

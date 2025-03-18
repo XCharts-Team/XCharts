@@ -47,12 +47,14 @@ namespace XCharts.Runtime
             {
                 switch (label.position)
                 {
+                    case LabelStyle.Position.Start:
                     case LabelStyle.Position.Bottom:
                         var center = serieData.context.areaCenter;
                         var angle = serieData.context.halfAngle;
                         var radius = serieData.context.insideRadius;
                         return ChartHelper.GetPosition(center, angle, radius);
                     case LabelStyle.Position.Top:
+                    case LabelStyle.Position.End:
                         center = serieData.context.areaCenter;
                         angle = serieData.context.halfAngle;
                         radius = serieData.context.outsideRadius;
@@ -65,6 +67,7 @@ namespace XCharts.Runtime
             {
                 switch (label.position)
                 {
+                    case LabelStyle.Position.Start:
                     case LabelStyle.Position.Bottom:
                         var center = serieData.context.rect.center;
                         if (serie.context.isHorizontal)
@@ -73,11 +76,17 @@ namespace XCharts.Runtime
                             return new Vector3(center.x, center.y - serieData.context.rect.height / 2);
                     case LabelStyle.Position.Center:
                     case LabelStyle.Position.Inside:
+                    case LabelStyle.Position.Middle:
                         return serieData.context.rect.center;
                     default:
                         return serieData.context.position;
                 }
             }
+        }
+
+        public override Vector3 GetSerieDataTitlePosition(SerieData serieData, TitleStyle titleStyle)
+        {
+            return GetSerieDataLabelPosition(serieData, titleStyle);
         }
 
         private void UpdateSerieGridContext()

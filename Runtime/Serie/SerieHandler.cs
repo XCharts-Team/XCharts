@@ -59,6 +59,7 @@ namespace XCharts.Runtime
         protected GameObject m_SerieRoot;
         protected GameObject m_SerieLabelRoot;
         protected bool m_InitedLabel;
+        protected bool m_InitTitleLabel;
         protected bool m_NeedInitComponent;
         protected bool m_RefreshLabel;
         protected bool m_LastCheckContextFlag = false;
@@ -107,6 +108,7 @@ namespace XCharts.Runtime
                 m_RefreshLabel = false;
                 RefreshLabelInternal();
                 RefreshEndLabelInternal();
+                RefreshTitleLabelInternal();
             }
             if (serie.dataDirty)
             {
@@ -241,6 +243,8 @@ namespace XCharts.Runtime
         public override void InitComponent()
         {
             m_InitedLabel = false;
+            m_InitTitleLabel = false;
+
             serie.context.totalDataIndex = serie.dataCount - 1;
             InitRoot();
             InitSerieLabel();
@@ -445,6 +449,7 @@ namespace XCharts.Runtime
                     var labelPosition = GetSerieDataTitlePosition(null, titleStyle);
                     var offset = titleStyle.GetOffset(serie.context.insideRadius);
                     label.SetPosition(labelPosition + offset);
+                    m_InitTitleLabel = true;
                 }
             }
             else
@@ -454,6 +459,7 @@ namespace XCharts.Runtime
                     var serieData = serie.data[i];
                     var titleStyle = SerieHelper.GetTitleStyle(serie, serieData);
                     if (titleStyle == null) continue;
+                    m_InitTitleLabel = true;
                     var color = chart.GetItemColor(serie, serieData);
                     var content = string.Empty;
                     if (string.IsNullOrEmpty(titleStyle.formatter))
@@ -472,6 +478,34 @@ namespace XCharts.Runtime
                     var labelPosition = GetSerieDataTitlePosition(serieData, titleStyle);
                     var offset = titleStyle.GetOffset(serie.context.insideRadius);
                     label.SetPosition(labelPosition + offset);
+                }
+            }
+        }
+
+        public void RefreshTitleLabelInternal()
+        {
+            if (!m_InitTitleLabel) return;
+            if (serie.titleJustForSerie)
+            {
+                if (serie.context.titleObject != null)
+                {
+                    var titleStyle = SerieHelper.GetTitleStyle(serie, null);
+                    var labelPosition = GetSerieDataTitlePosition(null, titleStyle);
+                    var offset = titleStyle.GetOffset(serie.context.insideRadius);
+                    serie.context.titleObject.SetPosition(labelPosition + offset);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < serie.dataCount; i++)
+                {
+                    var serieData = serie.data[i];
+                    if (serieData.titleObject == null) continue;
+                    var titleStyle = SerieHelper.GetTitleStyle(serie, serieData);
+                    if (titleStyle == null) continue;
+                    var labelPosition = GetSerieDataTitlePosition(serieData, titleStyle);
+                    var offset = titleStyle.GetOffset(serie.context.insideRadius);
+                    serieData.titleObject.SetPosition(labelPosition + offset);
                 }
             }
         }
@@ -610,8 +644,8 @@ namespace XCharts.Runtime
         protected Vector3 UpdateLabelPosition(SerieData serieData, LabelStyle currLabel)
         {
             var labelPosition = GetSerieDataLabelPosition(serieData, currLabel);
-            if(currLabel.fixedX != 0) labelPosition.x = currLabel.fixedX;
-            if(currLabel.fixedY != 0) labelPosition.y = currLabel.fixedY;
+            if (currLabel.fixedX != 0) labelPosition.x = currLabel.fixedX;
+            if (currLabel.fixedY != 0) labelPosition.y = currLabel.fixedY;
             var offset = GetSerieDataLabelOffset(serieData, currLabel);
             serieData.labelObject.SetPosition(labelPosition + offset);
             if (currLabel.autoRotate && serieData.context.angle != 0)

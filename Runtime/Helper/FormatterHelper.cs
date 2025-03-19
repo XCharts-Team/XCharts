@@ -212,7 +212,8 @@ namespace XCharts.Runtime
         }
 
         public static void ReplaceSerieLabelContent(ref string content, string numericFormatter, int dataCount, double value, double total,
-            string serieName, string category, string dataName, Color color, SerieData serieData, BaseChart chart = null, int serieIndex = 0)
+            string serieName, string category, string dataName, Color color, SerieData serieData, BaseChart chart = null, int serieIndex = 0,
+            bool sortData = false)
         {
             var mc = s_RegexForSerieLabel.Matches(content);
             foreach (var m in mc)
@@ -309,6 +310,7 @@ namespace XCharts.Runtime
                     }
                 }
             }
+            ReplaceIndexContent(ref content, sortData ? serieData.sortIndex : serieData.index, dataCount);
             content = TrimAndReplaceLine(content);
         }
 

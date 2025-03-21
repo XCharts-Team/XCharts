@@ -37,7 +37,7 @@ namespace XCharts.Runtime
         /// <param name="category">选中的类目，一般用在折线图和柱状图</param>
         /// <returns></returns>
         public static bool ReplaceContent(ref string content, int dataIndex, string numericFormatter, Serie serie,
-            BaseChart chart, string colorName = null)
+            BaseChart chart, string colorName = null, SerieData serieData = null)
         {
             var foundDot = false;
             var mc = s_Regex.Matches(content);
@@ -112,7 +112,7 @@ namespace XCharts.Runtime
                     }
                     else
                     {
-                        var serieData = serie.GetSerieData(bIndex);
+                        serieData = serie.GetSerieData(bIndex);
                         content = content.Replace(old, serieData.name);
                     }
                 }
@@ -206,6 +206,10 @@ namespace XCharts.Runtime
                             content = content.Replace(old, ChartCached.FloatToStr(value, numericFormatter));
                     }
                 }
+            }
+            if (serieData != null)
+            {
+                ReplaceIndexContent(ref content, serie.useSortData ? serieData.sortIndex : serieData.index, serie.dataCount);
             }
             content = s_RegexNewLine.Replace(content, PH_NN);
             return foundDot;
@@ -310,7 +314,10 @@ namespace XCharts.Runtime
                     }
                 }
             }
-            ReplaceIndexContent(ref content, sortData ? serieData.sortIndex : serieData.index, dataCount);
+            if (serieData != null)
+            {
+                ReplaceIndexContent(ref content, sortData ? serieData.sortIndex : serieData.index, dataCount);
+            }
             content = TrimAndReplaceLine(content);
         }
 

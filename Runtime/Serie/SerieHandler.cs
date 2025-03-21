@@ -432,17 +432,8 @@ namespace XCharts.Runtime
                 if (titleStyle != null)
                 {
                     var color = chart.GetItemColor(serie, null);
-                    var content = string.Empty;
-                    if (string.IsNullOrEmpty(titleStyle.formatter))
-                    {
-                        content = serie.serieName;
-                    }
-                    else
-                    {
-                        content = titleStyle.formatter;
-                        FormatterHelper.ReplaceContent(ref content, -1, titleStyle.numericFormatter, serie, chart);
-                    }
-                    var label = ChartHelper.AddChartLabel("title_" + 0, serieTitleRoot.transform, titleStyle, chart.theme.common,
+                    var content = SerieLabelHelper.GetTitleFormatterContent(serie, null, -1, titleStyle, chart);
+                    var label = ChartHelper.AddChartLabel("title_0", serieTitleRoot.transform, titleStyle, chart.theme.common,
                         content, color, TextAnchor.MiddleCenter);
                     serie.context.titleObject = label;
                     label.SetActive(titleStyle.show, true);
@@ -461,16 +452,7 @@ namespace XCharts.Runtime
                     if (titleStyle == null) continue;
                     m_InitTitleLabel = true;
                     var color = chart.GetItemColor(serie, serieData);
-                    var content = string.Empty;
-                    if (string.IsNullOrEmpty(titleStyle.formatter))
-                    {
-                        content = serieData.name;
-                    }
-                    else
-                    {
-                        content = titleStyle.formatter;
-                        FormatterHelper.ReplaceContent(ref content, i, titleStyle.numericFormatter, serie, chart);
-                    }
+                    var content = SerieLabelHelper.GetTitleFormatterContent(serie, serieData, i, titleStyle, chart);
                     var label = ChartHelper.AddChartLabel("title_" + i, serieTitleRoot.transform, titleStyle, chart.theme.common,
                         content, color, TextAnchor.MiddleCenter);
                     serieData.titleObject = label;
@@ -493,6 +475,8 @@ namespace XCharts.Runtime
                     var labelPosition = GetSerieDataTitlePosition(null, titleStyle);
                     var offset = titleStyle.GetOffset(serie.context.insideRadius);
                     serie.context.titleObject.SetPosition(labelPosition + offset);
+                    var content = SerieLabelHelper.GetTitleFormatterContent(serie, null, -1, titleStyle, chart);
+                    serie.context.titleObject.SetText(content);
                 }
             }
             else
@@ -506,6 +490,8 @@ namespace XCharts.Runtime
                     var labelPosition = GetSerieDataTitlePosition(serieData, titleStyle);
                     var offset = titleStyle.GetOffset(serie.context.insideRadius);
                     serieData.titleObject.SetPosition(labelPosition + offset);
+                    var content = SerieLabelHelper.GetTitleFormatterContent(serie, serieData, i, titleStyle, chart);
+                    serieData.titleObject.SetText(content);
                 }
             }
         }

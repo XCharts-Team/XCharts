@@ -53,6 +53,22 @@ namespace XCharts.Runtime
             }
         }
 
+        public static string GetTitleFormatterContent(Serie serie, SerieData serieData,
+            int dataIndex, LabelStyle titleStyle, BaseChart chart)
+        {
+            string content;
+            if (string.IsNullOrEmpty(titleStyle.formatter))
+            {
+                content = serieData.name;
+            }
+            else
+            {
+                content = titleStyle.formatter;
+                FormatterHelper.ReplaceContent(ref content, dataIndex, titleStyle.numericFormatter, serie, chart, null, serieData);
+            }
+            return content;
+        }
+
         public static void SetGaugeLabelText(Serie serie)
         {
             var serieData = serie.GetSerieData(0);

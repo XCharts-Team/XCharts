@@ -9,6 +9,7 @@ namespace XCharts.Editor
         public override void OnInspectorGUI()
         {
             ++EditorGUI.indentLevel;
+            PropertyField("m_Layer");
             PropertyField("m_LabelStyle");
             //PropertyField("m_MarkStyle");
             PropertyListField("m_Items", true);

@@ -23,8 +23,12 @@ namespace XCharts.Runtime
                     chart.chartMaxAnchor,
                     chart.chartPivot,
                     chart.chartSizeDelta, -1, chart.childrenNodeNames);
+                var siblingIndex = comment.layer == CommentLayer.Upper
+                    ? chart.topPainter.transform.GetSiblingIndex() - 1
+                    : chart.painter.transform.GetSiblingIndex() + 1;
 
                 commentObj.SetActive(comment.show);
+                commentObj.transform.SetSiblingIndex(siblingIndex);
                 commentObj.hideFlags = chart.chartHideFlags;
                 ChartHelper.HideAllObject(commentObj);
                 for (int i = 0; i < comment.items.Count; i++)

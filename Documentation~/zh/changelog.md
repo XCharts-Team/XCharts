@@ -80,6 +80,8 @@ slug: /changelog
 
 ## master
 
+* (2025.03.22) 增加`Comment`的`layer`设置层级
+* (2025.03.21) 优化`Comment`的坐标刷新
 * (2025.03.19) 增加`Serie`的`Label`的`formatter`支持`{index}`通配符
 * (2025.03.18) 增加`Bar`可添加`TitleStyle`组件支持
 * (2025.03.18) 增加`LabelStyle`的`fixedX`和`fixedY`可固定label的坐标

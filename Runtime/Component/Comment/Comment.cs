@@ -5,14 +5,33 @@ using UnityEngine;
 namespace XCharts.Runtime
 {
     /// <summary>
-    /// comment of chart.
-    /// ||图表注解组件。
+    /// The layer of comment.
+    /// ||注解的显示层级。
+    /// </summary>
+    [Since("v3.15.0")]
+    public enum CommentLayer
+    {
+        /// <summary>
+        /// The comment is display under the serie.
+        /// ||注解在系列下方。
+        /// </summary>
+        Lower,
+        /// <summary>
+        /// The comment is display above the serie.
+        /// ||注解在系列上方。
+        /// </summary>
+        Upper
+    }
+    /// <summary>
+    /// comment of chart. Used to annotate special information in the chart.
+    /// ||图表注解组件。用于标注图表中的特殊信息。
     /// </summary>
     [Serializable]
     [ComponentHandler(typeof(CommentHander), true)]
     public class Comment : MainComponent, IPropertyChanged
     {
         [SerializeField] private bool m_Show = true;
+        [SerializeField][Since("v3.15.0")] private CommentLayer m_Layer = CommentLayer.Lower;
         [SerializeField] private LabelStyle m_LabelStyle = new LabelStyle();
         [SerializeField] private CommentMarkStyle m_MarkStyle;
         [SerializeField] private List<CommentItem> m_Items = new List<CommentItem>() { new CommentItem() };
@@ -22,6 +41,11 @@ namespace XCharts.Runtime
         /// ||是否显示注解组件。
         /// </summary>
         public bool show { get { return m_Show; } set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetComponentDirty(); } }
+        /// <summary>
+        /// The layer of comment.
+        /// ||注解的显示层级。
+        /// </summary>
+        public CommentLayer layer { get { return m_Layer; } set { if (PropertyUtil.SetStruct(ref m_Layer, value)) SetComponentDirty(); } }
         /// <summary>
         /// The items of comment.
         /// ||注解项。每个注解组件可以设置多个注解项。
@@ -45,7 +69,12 @@ namespace XCharts.Runtime
             get { return m_MarkStyle; }
             set { if (PropertyUtil.SetClass(ref m_MarkStyle, value)) SetVerticesDirty(); }
         }
-
+        /// <summary>
+        /// Get the label style of comment item.
+        /// ||获取注解项的文本样式。
+        /// </summary>
+        /// <param name="index">the index of item</param>
+        /// <returns></returns> 
         public LabelStyle GetLabelStyle(int index)
         {
             if (index >= 0 && index < items.Count)
@@ -55,7 +84,12 @@ namespace XCharts.Runtime
             }
             return m_LabelStyle;
         }
-
+        /// <summary>
+        /// Get the mark style of comment item.
+        /// ||获取注解项的标记样式。
+        /// </summary>
+        /// <param name="index">the index of item</param>
+        /// <returns></returns>
         public CommentMarkStyle GetMarkStyle(int index)
         {
             if (index >= 0 && index < items.Count)

@@ -11,11 +11,11 @@ namespace XCharts.Runtime
     public class CommentItem : ChildComponent
     {
         [SerializeField] private bool m_Show = true;
-        [SerializeField] private string m_Content = "comment";
+        [SerializeField] private string m_Content = "xcharts";
         [SerializeField] private Rect m_MarkRect;
         [SerializeField] private CommentMarkStyle m_MarkStyle = new CommentMarkStyle() { show = false };
         [SerializeField] private LabelStyle m_LabelStyle = new LabelStyle() { show = false };
-        [SerializeField][Since("v3.5.0")] private Location m_Location = new Location() { align = Location.Align.TopLeft, top = 0.125f };
+        [SerializeField][Since("v3.5.0")] private Location m_Location = new Location() { align = Location.Align.BottomRight, right = 0.1f, bottom = 0.05f };
 
         public ChartLabel labelObject { get; set; }
 

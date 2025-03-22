@@ -69,6 +69,7 @@ namespace XCharts.Runtime
         /// </summary>
         public Vector3 chartPosition { get { return m_ChartPosition; } }
         public Rect chartRect { get { return m_ChartRect; } }
+        public Painter topPainter { get { return m_PainterTop; } }
         /// <summary>
         /// The callback function of chart init.
         /// ||图表的初始化完成回调。

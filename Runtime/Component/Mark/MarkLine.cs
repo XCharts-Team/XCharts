@@ -4,25 +4,34 @@ using UnityEngine;
 namespace XCharts.Runtime
 {
     /// <summary>
-    /// 标线类型
+    /// Mark line type.
+    /// ||标线类型
     /// </summary>
     public enum MarkLineType
     {
-        None,
         /// <summary>
-        /// 最小值。
+        /// Custom. You can customize the xy coordinates or values. 
+        /// ||自定义。可自定义xy坐标或数值。
+        /// </summary>
+        Custom,
+        /// <summary>
+        /// Minimum value.
+        /// ||最小值。
         /// </summary>
         Min,
         /// <summary>
-        /// 最大值。
+        /// Maximum value.
+        /// ||最大值。
         /// </summary>
         Max,
         /// <summary>
-        /// 平均值。
+        /// Average value.
+        /// ||平均值。
         /// </summary>
         Average,
         /// <summary>
-        /// 中位数。
+        /// Median.
+        /// ||中位数。
         /// </summary>
         Median
     }
@@ -118,7 +127,7 @@ namespace XCharts.Runtime
     [System.Serializable]
     public class MarkLineData : ChildComponent
     {
-        [SerializeField] private MarkLineType m_Type = MarkLineType.None;
+        [SerializeField] private MarkLineType m_Type = MarkLineType.Custom;
         [SerializeField] private string m_Name;
         [SerializeField] private int m_Dimension = 1;
         [SerializeField] private float m_XPosition;
@@ -170,7 +179,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The x coordinate relative to the origin, in pixels.
-        /// ||相对原点的 x 坐标，单位像素。当type为None时有效。
+        /// ||相对原点的 x 坐标，单位像素。当type为Custom时有效。
         /// </summary>
         public float xPosition
         {
@@ -179,7 +188,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The y coordinate relative to the origin, in pixels.
-        /// ||相对原点的 y 坐标，单位像素。当type为None时有效。
+        /// ||相对原点的 y 坐标，单位像素。当type为Custom时有效。
         /// </summary>
         public float yPosition
         {
@@ -188,7 +197,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// The value specified on the X-axis. A value specified when the X-axis is the category axis represents the index of the category axis data, otherwise a specific value.
-        /// ||X轴上的指定值。当X轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为None时有效。
+        /// ||X轴上的指定值。当X轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为Custom时有效。
         /// </summary>
         public double xValue
         {
@@ -197,7 +206,7 @@ namespace XCharts.Runtime
         }
         /// <summary>
         /// That's the value on the Y-axis. The value specified when the Y axis is the category axis represents the index of the category axis data, otherwise the specific value.
-        /// ||Y轴上的指定值。当Y轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为None时有效。
+        /// ||Y轴上的指定值。当Y轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为Custom时有效。
         /// </summary>
         public double yValue
         {

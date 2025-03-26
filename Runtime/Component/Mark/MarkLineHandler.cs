@@ -146,7 +146,7 @@ namespace XCharts.Runtime
                         data.runtimeValue = SerieHelper.GetMedianData(serie, data.dimension, dataZoom);
                         GetStartEndPos(yAxis, grid, data.runtimeValue, ref sp, ref ep);
                         break;
-                    case MarkLineType.None:
+                    case MarkLineType.Custom:
                         if (data.xPosition != 0)
                         {
                             data.runtimeValue = data.xPosition;
@@ -303,7 +303,7 @@ namespace XCharts.Runtime
                     pX = GetAxisPosition(grid, xAxis, dataZoom, serieDataCount, serieData.index);
                     pY = GetAxisPosition(grid, yAxis, dataZoom, serieDataCount, data.runtimeValue);
                     return new Vector3(pX, pY);
-                case MarkLineType.None:
+                case MarkLineType.Custom:
                     if (data.zeroPosition)
                     {
                         data.runtimeValue = 0;

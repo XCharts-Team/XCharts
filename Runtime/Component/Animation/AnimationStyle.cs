@@ -44,8 +44,8 @@ namespace XCharts.Runtime
     }
 
     /// <summary>
-    /// the animation of serie. support animation type: fadeIn, fadeOut, change, addition.
-    /// ||动画组件，用于控制图表的动画播放。支持配置五种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画），Interaction（交互动画）。
+    /// the animation of serie. support animation type: fadeIn, fadeOut, change, addition, exchange.
+    /// ||动画组件，用于控制图表的动画播放。支持配置五种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画），Interaction（交互动画），Exchange（交换动画）。
     /// 按作用的对象可以分为两类：SerieAnimation（系列动画）和DataAnimation（数据动画）。
     /// </summary>
     [System.Serializable]
@@ -62,6 +62,7 @@ namespace XCharts.Runtime
         [SerializeField][Since("v3.8.0")] private AnimationAddition m_Addition = new AnimationAddition() { duration = 500 };
         [SerializeField][Since("v3.8.0")] private AnimationHiding m_Hiding = new AnimationHiding() { duration = 500 };
         [SerializeField][Since("v3.8.0")] private AnimationInteraction m_Interaction = new AnimationInteraction() { duration = 250 };
+        [SerializeField][Since("v3.15.0")] private AnimationExchange m_Exchange = new AnimationExchange() { duration = 250 };
 
         [Obsolete("Use animation.fadeIn.delayFunction instead.", true)]
         public AnimationDelayFunction fadeInDelayFunction;
@@ -138,6 +139,11 @@ namespace XCharts.Runtime
         /// ||交互动画配置。
         /// </summary>
         public AnimationInteraction interaction { get { return m_Interaction; } }
+        /// <summary>
+        /// Exchange animation configuration. Valid in sort bar chart.
+        /// ||交换动画配置。如在排序柱图中有效。
+        /// </summary>
+        public AnimationExchange exchange { get { return m_Exchange; } }
 
         private Vector3 m_LinePathLastPos;
         private List<AnimationInfo> m_Animations;
@@ -147,12 +153,15 @@ namespace XCharts.Runtime
             {
                 if (m_Animations == null)
                 {
-                    m_Animations = new List<AnimationInfo>();
-                    m_Animations.Add(m_FadeIn);
-                    m_Animations.Add(m_FadeOut);
-                    m_Animations.Add(m_Change);
-                    m_Animations.Add(m_Addition);
-                    m_Animations.Add(m_Hiding);
+                    m_Animations = new List<AnimationInfo>
+                    {
+                        m_FadeIn,
+                        m_FadeOut,
+                        m_Change,
+                        m_Addition,
+                        m_Hiding,
+                        m_Exchange
+                    };
                 }
                 return m_Animations;
             }
@@ -561,6 +570,14 @@ namespace XCharts.Runtime
         {
             if (m_Enable && m_Change.enable)
                 return m_Change.context.currDuration > 0 ? m_Change.context.currDuration : m_Change.duration;
+            else
+                return 0;
+        }
+
+        public float GetExchangeDuration()
+        {
+            if (m_Enable && m_Exchange.enable)
+                return m_Exchange.context.currDuration > 0 ? m_Exchange.context.currDuration : m_Exchange.duration;
             else
                 return 0;
         }

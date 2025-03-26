@@ -35,6 +35,19 @@ namespace XCharts.Runtime
         public float offsetRadius;
         public float outsideRadius;
         public Vector3 position;
+        /// <summary>
+        /// is the exchange animation end.
+        /// ||交换动画是否结束。
+        /// </summary> 
+        public bool exchangeEnd;
+        /// <summary>
+        /// the current position of the exchange animation.
+        /// ||交换动画的当前位置。
+        /// </summary>
+        public Vector3 exchangePosition;
+        private float exchangeStartTime;
+        private Vector3 exchangeStartPosition;
+        private Vector3 exchangeEndPosition;
         public List<Vector3> dataPoints = new List<Vector3>();
         public List<ChartLabel> dataLabels = new List<ChartLabel>();
         public List<SerieData> children = new List<SerieData>();
@@ -77,9 +90,61 @@ namespace XCharts.Runtime
             symbol = null;
             rect = Rect.zero;
             subRect = Rect.zero;
+            exchangeEnd = true;
+            exchangeStartPosition = Vector3.zero;
+            exchangePosition = Vector3.zero;
+            exchangeEndPosition = Vector3.zero;
             children.Clear();
             dataPoints.Clear();
             dataLabels.Clear();
+        }
+
+        public void UpdateExchangePosition(ref float x, ref float y, float totalTime)
+        {
+            if (exchangeEndPosition.x != x || exchangeEndPosition.y != y)
+            {
+                if (exchangeStartPosition == Vector3.zero || Time.time - exchangeStartTime < 0.1f)
+                {
+                    exchangeEnd = true;
+                    exchangeStartTime = Time.time;
+                    exchangeEndPosition.x = x;
+                    exchangeEndPosition.y = y;
+                    exchangeStartPosition = exchangeEndPosition;
+                    exchangePosition = exchangeEndPosition;
+                    return;
+                }
+                else
+                {
+                    exchangeEnd = false;
+                    exchangeStartTime = Time.time;
+                    exchangeStartPosition = exchangePosition;
+                    exchangeEndPosition.x = x;
+                    exchangeEndPosition.y = y;
+                }
+            }
+            if (exchangeStartPosition == exchangeEndPosition)
+            {
+                exchangeEnd = true;
+                exchangePosition = exchangeEndPosition;
+                x = exchangePosition.x;
+                y = exchangePosition.y;
+                return;
+            }
+            var spendTime = Time.time - exchangeStartTime;
+            totalTime /= 1000;
+            if (spendTime >= totalTime)
+            {
+                exchangeEnd = true;
+                exchangeStartPosition = exchangeEndPosition;
+                exchangePosition = exchangeEndPosition;
+                x = exchangePosition.x;
+                y = exchangePosition.y;
+                return;
+            }
+            exchangePosition = Vector3.Lerp(exchangeStartPosition, exchangeEndPosition, spendTime / totalTime);
+            x = exchangePosition.x;
+            y = exchangePosition.y;
+            return;
         }
     }
 }

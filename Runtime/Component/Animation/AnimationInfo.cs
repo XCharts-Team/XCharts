@@ -493,4 +493,14 @@ namespace XCharts.Runtime
             return m_Offset.value;
         }
     }
+
+    /// <summary>
+    /// Data exchange animation. Generally used for animation of data sorting.
+    /// ||数据交换动画。一般用于图表数据排序时顺序变化的动画。
+    /// </summary>
+    [Since("v3.15.0")]
+    [System.Serializable]
+    public class AnimationExchange : AnimationInfo
+    {
+    }
 }

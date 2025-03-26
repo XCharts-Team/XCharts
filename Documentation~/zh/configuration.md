@@ -176,6 +176,7 @@ slug: /configuration
 
 - [AnimationAddition](#animationaddition)
 - [AnimationChange](#animationchange)
+- [AnimationExchange](#animationexchange)
 - [AnimationFadeIn](#animationfadein)
 - [AnimationFadeOut](#animationfadeout)
 - [AnimationHiding](#animationhiding)
@@ -234,6 +235,14 @@ class in XCharts.Runtime / 继承自: [AnimationInfo](#animationinfo)
 
 数据变更动画。
 
+## AnimationExchange
+
+class in XCharts.Runtime / 继承自: [AnimationInfo](#animationinfo)
+
+> 从 `v3.15.0` 开始支持
+
+数据交换动画。一般用于图表数据排序时顺序变化的动画。
+
 ## AnimationFadeIn
 
 class in XCharts.Runtime / 继承自: [AnimationInfo](#animationinfo)
@@ -260,7 +269,7 @@ class in XCharts.Runtime / 继承自: [AnimationInfo](#animationinfo)
 
 ## AnimationInfo
 
-class in XCharts.Runtime / 子类: [AnimationFadeIn](#animationfadein), [AnimationFadeOut](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition), [AnimationHiding](#animationhiding), [AnimationInteraction](#animationinteraction)
+class in XCharts.Runtime / 子类: [AnimationFadeIn](#animationfadein), [AnimationFadeOut](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition), [AnimationHiding](#animationhiding), [AnimationInteraction](#animationinteraction), [AnimationExchange](#animationexchange)
 
 > 从 `v3.8.0` 开始支持
 
@@ -326,7 +335,7 @@ class in XCharts.Runtime / 继承自: [AnimationInfo](#animationinfo)
 
 class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 
-动画组件，用于控制图表的动画播放。支持配置五种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画），Interaction（交互动画）。 按作用的对象可以分为两类：SerieAnimation（系列动画）和DataAnimation（数据动画）。
+动画组件，用于控制图表的动画播放。支持配置五种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画），Interaction（交互动画），Exchange（交换动画）。 按作用的对象可以分为两类：SerieAnimation（系列动画）和DataAnimation（数据动画）。
 
 ### AnimationStyle.addition
 
@@ -355,6 +364,12 @@ class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 `bool` `true`
 
 是否开启动画效果。
+
+### AnimationStyle.exchange
+
+[AnimationExchange](#animationexchange) `v3.15.0`
+
+交换动画配置。如在排序柱图中有效。
 
 ### AnimationStyle.fadeIn
 
@@ -1247,7 +1262,9 @@ class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle), [AxisAnima
 
 class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent), [IPropertyChanged](#ipropertychanged)
 
-图表注解组件。
+> 从 `v3.15.0` 开始支持
+
+图表注解组件。用于标注图表中的特殊信息。
 
 ### Comment.items
 
@@ -1260,6 +1277,17 @@ class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent), [IPropert
 [LabelStyle](#labelstyle)
 
 所有组件的文本样式。
+
+### Comment.layer
+
+[CommentLayer](#commentlayer) `v3.15.0`
+
+注解的显示层级。
+
+可选：
+
+- `Lower`: 注解在系列下方。
+- `Upper`: 注解在系列上方。
 
 ### Comment.markStyle
 
@@ -2238,6 +2266,12 @@ class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent), [ISerie
 
 数据项背景颜色。
 
+### ItemStyle.backgroundGap
+
+`float` `v3.15.0`
+
+数据项背景间隙。
+
 ### ItemStyle.backgroundWidth
 
 `float`
@@ -2463,6 +2497,18 @@ class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent), [ISerie
 `float`
 
 距离轴线的距离。
+
+### LabelStyle.fixedX
+
+`float` `0` `v3.15.0`
+
+固定的X值。不为0时，会固定在指定的X值上。
+
+### LabelStyle.fixedY
+
+`float` `0` `v3.15.0`
+
+固定的Y值。不为0时，会固定在指定的Y值上。
 
 ### LabelStyle.formatter
 

@@ -13,6 +13,7 @@ slug: /api
 - [AnimationAddition](#animationaddition)
 - [AnimationChange](#animationchange)
 - [AnimationEasing](#animationeasing)
+- [AnimationExchange](#animationexchange)
 - [AnimationFadeIn](#animationfadein)
 - [AnimationFadeOut](#animationfadeout)
 - [AnimationHiding](#animationhiding)
@@ -70,6 +71,7 @@ slug: /api
 - [ColorUtil](#colorutil)
 - [Comment](#comment)
 - [CommentItem](#commentitem)
+- [CommentLayer](#commentlayer)
 - [CommentMarkStyle](#commentmarkstyle)
 - [ComponentHandlerAttribute](#componenthandlerattribute)
 - [ComponentHelper](#componenthelper)
@@ -360,6 +362,14 @@ Options:
 
 - `Linear`: 
 
+## AnimationExchange
+
+class in XCharts.Runtime / Inherits from: [AnimationInfo](#animationinfo)
+
+> Since `v3.15.0`
+
+Data exchange animation. Generally used for animation of data sorting.
+
 ## AnimationFadeIn
 
 class in XCharts.Runtime / Inherits from: [AnimationInfo](#animationinfo)
@@ -386,7 +396,7 @@ Data hiding animation.
 
 ## AnimationInfo
 
-class in XCharts.Runtime / Subclasses: [AnimationFadeIn](#animationfadein),[AnimationFadeOut](#animationfadeout),[AnimationChange](#animationchange),[AnimationAddition](#animationaddition),[AnimationHiding](#animationhiding),[AnimationInteraction](#animationinteraction) 
+class in XCharts.Runtime / Subclasses: [AnimationFadeIn](#animationfadein),[AnimationFadeOut](#animationfadeout),[AnimationChange](#animationchange),[AnimationAddition](#animationaddition),[AnimationHiding](#animationhiding),[AnimationInteraction](#animationinteraction),[AnimationExchange](#animationexchange) 
 
 > Since `v3.8.0`
 
@@ -531,7 +541,7 @@ public float GetWidth(float width)
 
 class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
 
-the animation of serie. support animation type: fadeIn, fadeOut, change, addition.
+the animation of serie. support animation type: fadeIn, fadeOut, change, addition, exchange.
 
 ### AnimationStyle.addition
 
@@ -547,6 +557,11 @@ Update data animation configuration.
 
 public bool enable  
 Whether to enable animation.
+
+### AnimationStyle.exchange
+
+public AnimationExchange exchange  
+Exchange animation configuration. Valid in sort bar chart.
 
 ### AnimationStyle.fadeIn
 
@@ -638,6 +653,10 @@ public int GetCurrIndex()
 ### AnimationStyle.GetCurrRate
 
 public float GetCurrRate()  
+
+### AnimationStyle.GetExchangeDuration
+
+public float GetExchangeDuration()  
 
 ### AnimationStyle.GetInteractionDuration
 
@@ -1097,7 +1116,7 @@ public static float GetAxisValueDistance(GridCoord grid, Axis axis, float scaleW
 
 ### AxisHelper.GetAxisValueLength
 
-public static float GetAxisValueLength(GridCoord grid, Axis axis, float scaleWidth, double value)  
+public static float GetAxisValueLength(GridCoord grid, Axis axis, float scaleWidth, double value, float gap = 0)  
 获得数值value在坐标轴上对应的长度
 
 ### AxisHelper.GetAxisValuePosition
@@ -1673,6 +1692,10 @@ Global parameter setting component.
 ### BaseChart.theme
 
 public ThemeStyle theme  
+
+### BaseChart.topPainter
+
+public Painter topPainter  
 
 ### BaseChart.typeListForComponent
 
@@ -3428,12 +3451,19 @@ Convert the html string to color.
 
 class in XCharts.Runtime / Inherits from: [MainComponent](#maincomponent),[IPropertyChanged](#ipropertychanged)
 
-comment of chart.
+> Since `v3.15.0`
+
+comment of chart. Used to annotate special information in the chart.
 
 ### Comment.items
 
 public List&lt;CommentItem&gt; items  
 The items of comment.
+
+### Comment.layer
+
+public CommentLayer layer  
+The layer of comment.
 
 ### Comment.show
 
@@ -3443,10 +3473,12 @@ Set this to false to prevent the comment from showing.
 ### Comment.GetLabelStyle
 
 public LabelStyle GetLabelStyle(int index)  
+Get the label style of comment item.
 
 ### Comment.GetMarkStyle
 
 public CommentMarkStyle GetMarkStyle(int index)  
+Get the mark style of comment item.
 
 ### Comment.OnChanged
 
@@ -3477,6 +3509,17 @@ the mark rect style.
 
 public bool show  
 Set this to false to prevent this comment item from showing.
+
+## CommentLayer
+
+class in XCharts.Runtime
+
+The layer of comment.
+
+Options:
+
+- `Lower`: The comment is display under the serie.
+- `Upper`: The comment is display above the serie.
 
 ## CommentMarkStyle
 
@@ -7257,6 +7300,10 @@ class in XCharts.Runtime
 
 public void Reset()  
 
+### SerieDataContext.UpdateExchangePosition
+
+public void UpdateExchangePosition(ref float x, ref float y, float totalTime)  
+
 ## SerieDataExtraFieldAttribute
 
 class in XCharts.Runtime / Inherits from: [Attribute](https://docs.unity3d.com/ScriptReference/30_search.html?q=attribute)
@@ -7684,6 +7731,10 @@ public override void RefreshLabelInternal()
 ### SerieHandler&lt;T&gt;.RefreshLabelNextFrame
 
 public override void RefreshLabelNextFrame()  
+
+### SerieHandler&lt;T&gt;.RefreshTitleLabelInternal
+
+public void RefreshTitleLabelInternal()  
 
 ### SerieHandler&lt;T&gt;.RemoveComponent
 

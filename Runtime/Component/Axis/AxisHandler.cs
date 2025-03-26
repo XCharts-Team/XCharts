@@ -253,9 +253,9 @@ namespace XCharts
             var serie = chart.GetSerie(0);
             if (isCategory && serie != null && serie.useSortData)
             {
+                var isY = axis is YAxis;
                 var showData = serie.GetDataList(dataZoom, true);
-                var isChanged = CheckSortedDataChanged(axis, showData);
-                if (isChanged)
+                if (CheckSortedDataChanged(axis, showData))
                 {
                     for (int i = 0; i < context.labelObjectList.Count; i++)
                     {
@@ -267,6 +267,25 @@ namespace XCharts
                         }
                     }
                     SaveSortedDataIndex(axis, showData);
+                }
+                if (CheckSortedDataAnimation(axis, showData))
+                {
+                    float diff = axis.context.scaleWidth / 2;
+                    for (int i = 0; i < context.labelObjectList.Count; i++)
+                    {
+                        var labelObject = context.labelObjectList[i];
+                        if (labelObject != null)
+                        {
+                            if (i < showData.Count)
+                            {
+                                var serieData = showData[i];
+                                var pos = serieData.context.exchangePosition;
+                                if (ChartHelper.IsZeroVector(pos)) continue;
+                                var sourPos = labelObject.GetPosition();
+                                labelObject.SetPosition(isY ? new Vector3(sourPos.x, pos.y + diff) : new Vector3(pos.x + diff, sourPos.y));
+                            }
+                        }
+                    }
                 }
             }
             else
@@ -282,7 +301,7 @@ namespace XCharts
             }
         }
 
-        private bool CheckSortedDataChanged(Axis axis, List<SerieData> dataList)
+        private static bool CheckSortedDataChanged(Axis axis, List<SerieData> dataList)
         {
             if (dataList.Count != axis.context.sortedDataIndices.Count) return true;
             for (int i = 0; i < dataList.Count; i++)
@@ -292,7 +311,17 @@ namespace XCharts
             return false;
         }
 
-        private void SaveSortedDataIndex(Axis axis, List<SerieData> dataList)
+        private static bool CheckSortedDataAnimation(Axis axis, List<SerieData> dataList)
+        {
+            if (!axis.IsCategory()) return false;
+            foreach (var data in dataList)
+            {
+                if (!data.context.exchangeEnd) return true;
+            }
+            return false;
+        }
+
+        private static void SaveSortedDataIndex(Axis axis, List<SerieData> dataList)
         {
             axis.context.sortedDataIndices.Clear();
             for (int i = 0; i < dataList.Count; i++)
@@ -484,7 +513,6 @@ namespace XCharts
                 SerieHelper.UpdateSerieRuntimeFilterData(sortSerie);
             }
             var showData = sortSerie != null ? sortSerie.GetDataList(dataZoom, true) : null;
-            
             for (int i = 0; i < splitNumber; i++)
             {
                 var labelWidth = AxisHelper.GetScaleWidth(axis, axisLength, i + 1, dataZoom);

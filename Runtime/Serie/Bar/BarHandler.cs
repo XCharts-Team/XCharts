@@ -207,11 +207,13 @@ namespace XCharts.Runtime
             var dataChangeDuration = serie.animation.GetChangeDuration();
             var dataAddDuration = serie.animation.GetAdditionDuration();
             var interactDuration = serie.animation.GetInteractionDuration();
+            var exchangeDuration = serie.animation.GetExchangeDuration();
 
             var areaColor = ColorUtil.clearColor32;
             var areaToColor = ColorUtil.clearColor32;
             var interacting = false;
 
+            axis.context.scaleWidth = categoryWidth;
             serie.context.isHorizontal = isY;
             serie.containerIndex = m_SerieGrid.index;
             serie.containterInstanceId = m_SerieGrid.instanceId;
@@ -249,7 +251,11 @@ namespace XCharts.Runtime
                 var pY = 0f;
                 UpdateXYPosition(m_SerieGrid, isY, axis, relativedAxis, i, categoryWidth, relativedCategoryWidth,
                     barWidth, isStack, value, backgroundGap, ref pX, ref pY);
-                var barHig = 0f;
+                if (serie.useSortData)
+                {
+                    serieData.context.UpdateExchangePosition(ref pX, ref pY, exchangeDuration);
+                }
+                float barHig;
                 if (isPercentStack)
                 {
                     var valueTotal = chart.GetSerieSameStackTotalValue<Bar>(serie.stack, i, m_SerieGrid.index);

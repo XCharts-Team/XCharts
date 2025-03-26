@@ -80,6 +80,7 @@ slug: /changelog
 
 ## master
 
+* (2025.03.26) 增加`Animation`的`Exchange`排序交换动画
 * (2025.03.22) 增加`Comment`的`layer`设置层级
 * (2025.03.21) 优化`Comment`的坐标刷新
 * (2025.03.19) 增加`Serie`的`Label`的`formatter`支持`{index}`通配符

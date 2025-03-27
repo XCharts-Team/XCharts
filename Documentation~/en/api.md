@@ -808,6 +808,14 @@ class in XCharts.Runtime / Inherits from: [MainComponent](#maincomponent) / Subc
 
 The axis in rectangular coordinate.
 
+### Axis.onLabelClick
+
+public Action&lt;int, string&gt; onLabelClick  
+
+> Since `v3.15.0`
+
+Callback function when click on the label. Parameters: labelIndex, labelName.
+
 ### Axis.AddData
 
 public void AddData(string category)  
@@ -1077,6 +1085,14 @@ class in XCharts / Inherits from: [MainComponentHandler](#maincomponenthandler)
 ### AxisHandler&lt;T&gt;.component
 
 public T component  
+
+### AxisHandler&lt;T&gt;.DrawTop
+
+// public override void DrawTop(VertexHelper vh)  
+
+### AxisHandler&lt;T&gt;.OnPointerClick
+
+public override void OnPointerClick(PointerEventData eventData)  
 
 ## AxisHelper
 
@@ -3196,6 +3212,10 @@ public float GetTextWidth()
 ### ChartLabel.GetWidth
 
 public float GetWidth()  
+
+### ChartLabel.InRect
+
+public bool InRect(Vector2 local)  
 
 ### ChartLabel.IsActiveByScale
 
@@ -5824,15 +5844,15 @@ public double runtimeValue
 
 class in XCharts.Runtime
 
-标线类型
+Mark line type.
 
 Options:
 
-- `None`: 标线类型
-- `Min`: 最小值。
-- `Max`: 最大值。
-- `Average`: 平均值。
-- `Median`: 中位数。
+- `Custom`: Custom. You can customize the xy coordinates or values.
+- `Min`: Minimum value.
+- `Max`: Maximum value.
+- `Average`: Average value.
+- `Median`: Median.
 
 ## MarqueeStyle
 

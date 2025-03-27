@@ -358,7 +358,7 @@ namespace XCharts.Runtime
             {
                 var itemStyle = SerieHelper.GetItemStyle(serie, null);
                 var fillColor = ChartHelper.IsClearColor(itemStyle.backgroundColor) ?
-                    (Color32)chart.theme.legend.unableColor : itemStyle.backgroundColor;
+                    (Color32)chart.theme.legend.inactiveColor : itemStyle.backgroundColor;
                 UGL.DrawDoughnut(vh, serie.context.center, serie.context.insideRadius,
                     serie.context.outsideRadius, fillColor, fillColor, Color.clear, 0,
                     360, itemStyle.borderWidth, itemStyle.borderColor, serie.gap / 2, chart.settings.cicleSmoothness,

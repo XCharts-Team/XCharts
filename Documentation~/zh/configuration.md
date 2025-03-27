@@ -2661,6 +2661,12 @@ class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent), [IPropert
 
 图例标记的图形高度。
 
+### Legend.itemInactiveOpacity
+
+`float` `1` `v3.15.0`
+
+图例标记的图形在非激活状态下的颜色透明度。
+
 ### Legend.itemOpacity
 
 `float` `1`
@@ -2736,11 +2742,11 @@ class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent), [IPropert
 
 class in XCharts.Runtime / 继承自: [ComponentTheme](#componenttheme)
 
-### LegendTheme.unableColor
+### LegendTheme.inactiveColor
 
 `Color`
 
-文本颜色。
+非激活状态时的颜色。
 
 ## Level
 
@@ -3156,7 +3162,7 @@ class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 
 可选：
 
-- `None`: 标线类型
+- `Custom`: 自定义。可自定义xy坐标或数值。
 - `Min`: 最小值。
 - `Max`: 最大值。
 - `Average`: 平均值。
@@ -3166,25 +3172,25 @@ class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 
 `float`
 
-相对原点的 x 坐标，单位像素。当type为None时有效。
+相对原点的 x 坐标，单位像素。当type为Custom时有效。
 
 ### MarkLineData.xValue
 
 `double`
 
-X轴上的指定值。当X轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为None时有效。
+X轴上的指定值。当X轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为Custom时有效。
 
 ### MarkLineData.yPosition
 
 `float`
 
-相对原点的 y 坐标，单位像素。当type为None时有效。
+相对原点的 y 坐标，单位像素。当type为Custom时有效。
 
 ### MarkLineData.yValue
 
 `double`
 
-Y轴上的指定值。当Y轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为None时有效。
+Y轴上的指定值。当Y轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为Custom时有效。
 
 ### MarkLineData.zeroPosition
 

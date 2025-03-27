@@ -80,6 +80,7 @@ slug: /changelog
 
 ## master
 
+* (2025.03.27) 增加`Legend`的`itemInactiveOpacity`可设置非激活状态时的颜色透明度 (#343)
 * (2025.03.27) 增加`Axis`的`onLabelClick`回调事件
 * (2025.03.26) 增加`Animation`的`Exchange`排序交换动画
 * (2025.03.22) 增加`Comment`的`layer`设置层级

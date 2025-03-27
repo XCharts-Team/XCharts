@@ -16,7 +16,7 @@ namespace XCharts.Runtime
                 else
                     return !ChartHelper.IsClearColor(textStyle.color) ? textStyle.color : theme.legend.textColor;
             }
-            else return theme.legend.unableColor;
+            else return theme.legend.inactiveColor;
         }
 
         public static Color GetIconColor(BaseChart chart, Legend legend, int readIndex, string legendName, bool active)
@@ -30,7 +30,7 @@ namespace XCharts.Runtime
                 else
                     return legend.GetColor(readIndex);
             }
-            else return chart.theme.legend.unableColor;
+            else return chart.theme.legend.inactiveColor;
         }
 
         public static LegendItem AddLegendItem(BaseChart chart, Legend legend, int i, string legendName, Transform parent,

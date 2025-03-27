@@ -2661,6 +2661,12 @@ The distance between each legend, horizontal distance in horizontal layout, and 
 
 Image height of legend symbol.
 
+### Legend.itemInactiveOpacity
+
+`float` `1` `v3.15.0`
+
+the opacity of item color when item is inactive.
+
 ### Legend.itemOpacity
 
 `float` `1`
@@ -2736,11 +2742,11 @@ the limit of text.
 
 class in XCharts.Runtime / Inherits from: [ComponentTheme](#componenttheme)
 
-### LegendTheme.unableColor
+### LegendTheme.inactiveColor
 
 `Color`
 
-the color of text.
+the color when the component is inactive.
 
 ## Level
 
@@ -3156,11 +3162,11 @@ Special label types, are used to label maximum value, minimum value and so on.
 
 Options:
 
-- `None`: 标线类型
-- `Min`: 最小值。
-- `Max`: 最大值。
-- `Average`: 平均值。
-- `Median`: 中位数。
+- `Custom`: Custom. You can customize the xy coordinates or values.
+- `Min`: Minimum value.
+- `Max`: Maximum value.
+- `Average`: Average value.
+- `Median`: Median.
 
 ### MarkLineData.xPosition
 

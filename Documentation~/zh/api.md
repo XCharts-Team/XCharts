@@ -808,6 +808,14 @@ class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent) / 子类: 
 
 直角坐标系的坐标轴组件。
 
+### Axis.onLabelClick
+
+public Action&lt;int, string&gt; onLabelClick  
+
+> 从 `v3.15.0` 开始支持
+
+点击文本标签回调函数。参数：labelIndex, labelName。
+
 ### Axis.AddData
 
 public void AddData(string category)  
@@ -1077,6 +1085,14 @@ class in XCharts / 继承自: [MainComponentHandler](#maincomponenthandler)
 ### AxisHandler&lt;T&gt;.component
 
 public T component  
+
+### AxisHandler&lt;T&gt;.DrawTop
+
+// public override void DrawTop(VertexHelper vh)  
+
+### AxisHandler&lt;T&gt;.OnPointerClick
+
+public override void OnPointerClick(PointerEventData eventData)  
 
 ## AxisHelper
 
@@ -3196,6 +3212,10 @@ public float GetTextWidth()
 ### ChartLabel.GetWidth
 
 public float GetWidth()  
+
+### ChartLabel.InRect
+
+public bool InRect(Vector2 local)  
 
 ### ChartLabel.IsActiveByScale
 
@@ -5828,7 +5848,7 @@ class in XCharts.Runtime
 
 可选：
 
-- `None`: 标线类型
+- `Custom`: 自定义。可自定义xy坐标或数值。
 - `Min`: 最小值。
 - `Max`: 最大值。
 - `Average`: 平均值。

@@ -80,6 +80,7 @@ slug: /changelog
 
 ## master
 
+* (2025.03.27) 增加`Axis`的`onLabelClick`回调事件
 * (2025.03.26) 增加`Animation`的`Exchange`排序交换动画
 * (2025.03.22) 增加`Comment`的`layer`设置层级
 * (2025.03.21) 优化`Comment`的坐标刷新

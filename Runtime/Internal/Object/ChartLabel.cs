@@ -53,6 +53,11 @@ namespace XCharts.Runtime
             }
         }
 
+        public bool InRect(Vector2 local)
+        {
+            return rect.Contains(local);
+        }
+
         protected override void Awake()
         {
             raycastTarget = false;
@@ -183,6 +188,7 @@ namespace XCharts.Runtime
         public void SetPosition(Vector3 position)
         {
             transform.localPosition = position;
+            UpdateRect();
         }
 
         public void SetRectPosition(Vector3 position)
@@ -264,6 +270,45 @@ namespace XCharts.Runtime
                 m_Width = sizeDelta.x + m_PaddingLeft + m_PaddingRight;
                 m_Height = sizeDelta.y + m_PaddingTop + m_PaddingBottom;
                 objectRect.sizeDelta = new Vector2(m_Width, m_Height);
+                UpdateRect();
+            }
+        }
+
+        private void UpdateRect()
+        {
+            if (m_TextRect == null) return;
+            switch (text.alignment)
+            {
+                case TextAnchor.LowerLeft:
+                    rect = new Rect(transform.localPosition.x, transform.localPosition.y, m_Width, m_Height);
+                    break;
+                case TextAnchor.UpperLeft:
+                    rect = new Rect(transform.localPosition.x, transform.localPosition.y - m_Height, m_Width, m_Height);
+                    break;
+                case TextAnchor.MiddleLeft:
+                    rect = new Rect(transform.localPosition.x, transform.localPosition.y - m_Height / 2, m_Width, m_Height);
+                    break;
+                case TextAnchor.LowerRight:
+                    rect = new Rect(transform.localPosition.x - m_Width, transform.localPosition.y, m_Width, m_Height);
+                    break;
+                case TextAnchor.UpperRight:
+                    rect = new Rect(transform.localPosition.x - m_Width, transform.localPosition.y - m_Height, m_Width, m_Height);
+                    break;
+                case TextAnchor.MiddleRight:
+                    rect = new Rect(transform.localPosition.x - m_Width, transform.localPosition.y - m_Height / 2, m_Width, m_Height);
+                    break;
+                case TextAnchor.LowerCenter:
+                    rect = new Rect(transform.localPosition.x - m_Width / 2, transform.localPosition.y, m_Width, m_Height);
+                    break;
+                case TextAnchor.UpperCenter:
+                    rect = new Rect(transform.localPosition.x - m_Width / 2, transform.localPosition.y - m_Height, m_Width, m_Height);
+                    break;
+                case TextAnchor.MiddleCenter:
+                    rect = new Rect(transform.localPosition.x - m_Width / 2, transform.localPosition.y - m_Height / 2, m_Width, m_Height);
+                    break;
+                default:
+                    rect = new Rect(transform.localPosition.x - m_Width / 2, transform.localPosition.y - m_Height / 2, m_Width, m_Height);
+                    break;
             }
         }
 

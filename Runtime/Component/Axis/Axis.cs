@@ -115,6 +115,13 @@ namespace XCharts.Runtime
 
         public AxisContext context = new AxisContext();
 
+        private Action<Vector3, int, string> m_OnLabelClick;
+        /// <summary>
+        /// Callback function when click on the label. Parameters: clickPos, labelIndex, labelName.
+        /// ||点击文本标签回调函数。参数：clickPos, labelIndex, labelName。
+        /// </summary>
+        [Since("v3.15.0")]
+        public Action<Vector3, int, string> onLabelClick { internal get { return m_OnLabelClick; } set { m_OnLabelClick = value; } }
         /// <summary>
         /// Whether to show axis.
         /// ||是否显示坐标轴。

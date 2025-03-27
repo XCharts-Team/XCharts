@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using XCharts.Runtime;
 using XUGL;
@@ -31,6 +32,33 @@ namespace XCharts
         }
 
         protected virtual Orient orient { get; set; }
+
+        public override void OnPointerClick(PointerEventData eventData)
+        {
+            if (component.onLabelClick == null) return;
+            var labelObjects = component.context.labelObjectList;
+            for (int i = 0; i < labelObjects.Count; i++)
+            {
+                var label = labelObjects[i];
+                if (label == null) continue;
+                if (label.InRect(chart.pointerPos))
+                {
+                    component.onLabelClick.Invoke(chart.pointerPos, i, label.text.text.text);
+                    break;
+                }
+            }
+        }
+
+        // public override void DrawTop(VertexHelper vh)
+        // {
+        //     var color = Color.red;
+        //     color.a = 0.5f;
+        //     foreach (var label in component.context.labelObjectList)
+        //     {
+        //         if (label == null) continue;
+        //         UGL.DrawRectangle(vh, label.rect, color);
+        //     }
+        // }
 
         protected virtual void UpdatePointerValue(Axis axis)
         {

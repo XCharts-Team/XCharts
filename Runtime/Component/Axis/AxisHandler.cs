@@ -43,7 +43,7 @@ namespace XCharts
                 if (label == null) continue;
                 if (label.InRect(chart.pointerPos))
                 {
-                    component.onLabelClick.Invoke(chart.pointerPos, i, label.text.text.text);
+                    component.onLabelClick.Invoke(i, label.text.text.text);
                     break;
                 }
             }

@@ -80,6 +80,8 @@ slug: /changelog
 
 ## master
 
+* (2025.04.06) 修复`Axis`的`Time`时间轴在有`DataZoom`缩放时文本显示异常的问题
+* (2025.03.28) 修复`Pie3D`的`avoidLabelOverlap`不生效的问题
 * (2025.03.27) 增加`Legend`的`itemInactiveOpacity`可设置非激活状态时的颜色透明度 (#343)
 * (2025.03.27) 增加`Axis`的`onLabelClick`回调事件
 * (2025.03.26) 增加`Animation`的`Exchange`排序交换动画

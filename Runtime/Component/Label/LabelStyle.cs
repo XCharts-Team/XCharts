@@ -487,7 +487,7 @@ namespace XCharts.Runtime
         private static string newFormatter = null;
         public string GetFormatterDateTime(int labelIndex, int totalIndex, double value, double minValue, double maxValue)
         {
-            var timestamp = (int)value;
+            var timestamp = value;
             var dateTime = DateTimeUtil.GetDateTime(timestamp);
             var dateString = string.Empty;
             if (string.IsNullOrEmpty(numericFormatter) || numericFormatter.Equals("f2"))

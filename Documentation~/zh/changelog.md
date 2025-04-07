@@ -80,6 +80,8 @@ slug: /changelog
 
 ## master
 
+* (2025.04.07) 修复`Gantt`甘特图年份大于2038时显示异常的问题
+* (2025.04.07) 修复`Axis`的`Time`时间轴无法显示大于2038的年份的问题
 * (2025.04.06) 修复`Axis`的`Time`时间轴在有`DataZoom`缩放时文本显示异常的问题
 * (2025.03.28) 修复`Pie3D`的`avoidLabelOverlap`不生效的问题
 * (2025.03.27) 增加`Legend`的`itemInactiveOpacity`可设置非激活状态时的颜色透明度 (#343)

@@ -3830,13 +3830,13 @@ public static DateTime GetDateTime(double timestamp, bool local = true)
 
 ### DateTimeUtil.GetDefaultDateTimeString
 
-public static string GetDefaultDateTimeString(int timestamp, double range = 0)  
+public static string GetDefaultDateTimeString(double timestamp, double range = 0)  
 
 ### DateTimeUtil.GetTimestamp
 
-public static int GetTimestamp(DateTime time, bool local = false)  
+public static double GetTimestamp(DateTime time, bool local = false)  
 
-public static int GetTimestamp(string dateTime, bool local = false)  
+public static double GetTimestamp(string dateTime, bool local = false)  
 
 
 ### DateTimeUtil.IsDateOrTimeRegex

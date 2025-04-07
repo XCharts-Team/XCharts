@@ -12,7 +12,7 @@ namespace XCharts.Runtime
         {
             var grid = component;
             grid.painter = chart.painter;
-            grid.refreshComponent = delegate()
+            grid.refreshComponent = delegate ()
             {
                 grid.UpdateRuntimeData(chart);
                 chart.OnCoordinateChanged();
@@ -51,6 +51,7 @@ namespace XCharts.Runtime
 
         public override void DrawBase(VertexHelper vh)
         {
+            DrawBackground(vh, component);
             if (!SeriesHelper.IsAnyClipSerie(chart.series))
             {
                 DrawCoord(vh, component);
@@ -64,7 +65,7 @@ namespace XCharts.Runtime
             }
         }
 
-        private void DrawCoord(VertexHelper vh, GridCoord grid)
+        private void DrawBackground(VertexHelper vh, GridCoord grid)
         {
             if (!grid.show) return;
             if (!ChartHelper.IsClearColor(grid.backgroundColor))
@@ -75,6 +76,11 @@ namespace XCharts.Runtime
                 var p4 = new Vector2(grid.context.x + grid.context.width, grid.context.y);
                 UGL.DrawQuadrilateral(vh, p1, p2, p3, p4, grid.backgroundColor);
             }
+        }
+
+        private void DrawCoord(VertexHelper vh, GridCoord grid)
+        {
+            if (!grid.show) return;
             if (grid.showBorder)
             {
                 var borderWidth = grid.borderWidth == 0 ? chart.theme.axis.lineWidth * 2 : grid.borderWidth;

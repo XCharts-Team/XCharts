@@ -354,8 +354,8 @@ namespace XCharts.Runtime
                 axis.splitNumber = splitNumber;
                 return;
             }
-            if (axis.type == Axis.AxisType.Time) { }
-            else if (axis.minMaxType == Axis.AxisMinMaxType.Custom)
+            if (ceilRate == 0) ceilRate = axis.ceilRate;
+            if (axis.minMaxType == Axis.AxisMinMaxType.Custom)
             {
                 if (axis.min != 0 || axis.max != 0)
                 {
@@ -371,13 +371,19 @@ namespace XCharts.Runtime
                     }
                 }
             }
+            else if (axis.type == Axis.AxisType.Time)
+            {
+                if (ceilRate != 0)
+                {
+                    minValue = ChartHelper.GetMinCeilRate(minValue, ceilRate);
+                    maxValue = ChartHelper.GetMaxCeilRate(maxValue, ceilRate);
+                }
+            }
             else
             {
-                if (ceilRate == 0) ceilRate = axis.ceilRate;
                 switch (axis.minMaxType)
                 {
                     case Axis.AxisMinMaxType.Default:
-
                         if (minValue == 0 && maxValue == 0) { }
                         else if (minValue > 0 && maxValue > 0)
                         {

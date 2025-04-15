@@ -80,7 +80,8 @@ slug: /changelog
 
 ## master
 
-* (2025.04.15) 增加`AxisLabel`的`showZeroLabel`设置是否显示0刻度
+* (2025.04.15) 增加`Bar`支持通过`VisualMap`设置颜色
+* (2025.04.14) 增加`AxisLabel`的`showZeroLabel`设置是否显示0刻度
 * (2025.04.08) 增加`UIStatistic`的`desc`描述文本设置支持
 * (2025.04.07) 修复`Gantt`甘特图在有多维数据时计算的时间区间不准确的问题
 * (2025.04.07) 优化`Axis`的`Time`时间轴支持设置Custom和ceilRate

@@ -180,7 +180,7 @@ namespace XCharts.Runtime
 
             if (showData.Count <= 0)
                 return;
-
+            var visualMap = chart.GetVisualMapOfSerie(serie);
             var axisLength = isY ? m_SerieGrid.context.height : m_SerieGrid.context.width;
             var relativedAxisLength = isY ? m_SerieGrid.context.width : m_SerieGrid.context.height;
             var axisXY = isY ? m_SerieGrid.context.y : m_SerieGrid.context.x;
@@ -218,6 +218,13 @@ namespace XCharts.Runtime
             serie.containerIndex = m_SerieGrid.index;
             serie.containterInstanceId = m_SerieGrid.instanceId;
             serie.animation.InitProgress(axisXY, axisXY + axisLength);
+            var visualMapDimension = VisualMapHelper.GetDimension(visualMap, defaultDimension);
+            if (visualMap != null && visualMap.show && visualMap.autoMinMax)
+            {
+                double maxValue, minValue;
+                SerieHelper.GetMinMaxData(serie, visualMapDimension, out minValue, out maxValue);
+                VisualMapHelper.SetMinMax(visualMap, minValue, maxValue);
+            }
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 var serieData = showData[i];
@@ -244,6 +251,12 @@ namespace XCharts.Runtime
                 if (!serieData.interact.TryGetColor(ref areaColor, ref areaToColor, ref interacting, interactDuration))
                 {
                     SerieHelper.GetItemColor(out areaColor, out areaToColor, serie, serieData, chart.theme);
+                    if (visualMap != null && visualMap.show)
+                    {
+                        var visualValue = serieData.GetData(visualMapDimension, relativedAxis.inverse);
+                        areaColor = visualMap.GetColor(visualValue);
+                        areaToColor = areaColor;
+                    }
                     serieData.interact.SetColor(ref interacting, areaColor, areaToColor);
                 }
 

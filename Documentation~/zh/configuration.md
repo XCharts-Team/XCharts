@@ -804,6 +804,12 @@ class in XCharts.Runtime / 继承自: [LabelStyle](#labelstyle)
 
 是否显示第一个文本。
 
+### AxisLabel.showZeroLabel
+
+`bool` `true` `v3.15.0`
+
+是否显示0刻度文本。
+
 ### AxisLabel.textLimit
 
 [TextLimit](#textlimit)

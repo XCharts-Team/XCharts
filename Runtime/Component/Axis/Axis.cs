@@ -616,13 +616,13 @@ namespace XCharts.Runtime
             return m_Position == AxisPosition.Bottom;
         }
 
-        public bool IsNeedShowLabel(int index, int total = 0)
+        public bool IsNeedShowLabel(int index, int total = 0, string content = null)
         {
             if (total == 0)
             {
                 total = context.labelValueList.Count;
             }
-            return axisLabel.IsNeedShowLabel(index, total);
+            return axisLabel.IsNeedShowLabel(index, total, content);
         }
 
         public void SetNeedUpdateFilterData()

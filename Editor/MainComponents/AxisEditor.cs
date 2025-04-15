@@ -164,6 +164,7 @@ namespace XCharts.Editor
 
                 PropertyField(prop, "m_ShowAsPositiveNumber");
                 PropertyField(prop, "m_OnZero");
+                PropertyField(prop, "m_ShowZeroLabel");
                 PropertyField(prop, "m_ShowStartLabel");
                 PropertyField(prop, "m_ShowEndLabel");
 

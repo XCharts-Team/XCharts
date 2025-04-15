@@ -804,6 +804,12 @@ Whether to display the last label.
 
 Whether to display the first label.
 
+### AxisLabel.showZeroLabel
+
+`bool` `true` `v3.15.0`
+
+Whether to display the zero label.
+
 ### AxisLabel.textLimit
 
 [TextLimit](#textlimit)

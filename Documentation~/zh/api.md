@@ -915,7 +915,7 @@ public bool IsLog()
 
 ### Axis.IsNeedShowLabel
 
-public bool IsNeedShowLabel(int index, int total = 0)  
+public bool IsNeedShowLabel(int index, int total = 0, string content = null)  
 
 ### Axis.IsRight
 
@@ -1219,7 +1219,7 @@ public override string GetFormatterContent(int labelIndex, int totalIndex, doubl
 
 ### AxisLabel.IsNeedShowLabel
 
-public bool IsNeedShowLabel(int index, int total)  
+public bool IsNeedShowLabel(int index, int total, string content = null)  
 
 ### AxisLabel.SetRelatedText
 

@@ -461,7 +461,7 @@ namespace XCharts.Runtime
         {
             var textStyle = axis.axisLabel.textStyle;
             var label = AddChartLabel(name, parent, axis.axisLabel, theme, content, autoColor, autoAlignment);
-            var labelShow = axis.IsNeedShowLabel(index, total);
+            var labelShow = axis.IsNeedShowLabel(index, total, content);
             label.UpdateIcon(axis.axisLabel.icon, axis.GetIcon(index), iconDefaultColor);
             label.text.SetActive(labelShow);
             return label;

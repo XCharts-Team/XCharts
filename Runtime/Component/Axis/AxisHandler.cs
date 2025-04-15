@@ -447,12 +447,16 @@ namespace XCharts
             return Math.Pow(10, n);
         }
 
-        internal void CheckValueLabelActive(Axis axis, int i, ChartLabel label, Vector3 pos)
+        internal void CheckValueLabelActive(Axis axis, int i, ChartLabel label, Vector3 pos, string content = null)
         {
             if (!axis.show || !axis.axisLabel.show)
             {
                 label.SetTextActive(false);
                 return;
+            }
+            if(content == null)
+            {
+                content = label.text.text.text;
             }
             if (axis.IsValue())
             {
@@ -461,12 +465,12 @@ namespace XCharts
                     if (i == 0)
                     {
                         var dist = GetLabelPosition(0, 1).x - pos.x;
-                        label.SetTextActive(axis.IsNeedShowLabel(i) && dist > label.text.GetPreferredWidth());
+                        label.SetTextActive(axis.IsNeedShowLabel(i,0,content) && dist > label.text.GetPreferredWidth());
                     }
                     else if (i == axis.context.labelValueList.Count - 1)
                     {
                         var dist = pos.x - GetLabelPosition(0, i - 1).x;
-                        label.SetTextActive(axis.IsNeedShowLabel(i) && dist > label.text.GetPreferredWidth());
+                        label.SetTextActive(axis.IsNeedShowLabel(i,0,content) && dist > label.text.GetPreferredWidth());
                     }
                 }
                 else
@@ -474,12 +478,12 @@ namespace XCharts
                     if (i == 0)
                     {
                         var dist = GetLabelPosition(0, 1).y - pos.y;
-                        label.SetTextActive(axis.IsNeedShowLabel(i) && dist > label.text.GetPreferredHeight());
+                        label.SetTextActive(axis.IsNeedShowLabel(i,0,content) && dist > label.text.GetPreferredHeight());
                     }
                     else if (i == axis.context.labelValueList.Count - 1)
                     {
                         var dist = pos.y - GetLabelPosition(0, i - 1).y;
-                        label.SetTextActive(axis.IsNeedShowLabel(i) && dist > label.text.GetPreferredHeight());
+                        label.SetTextActive(axis.IsNeedShowLabel(i,0,content) && dist > label.text.GetPreferredHeight());
                     }
                 }
             }
@@ -683,7 +687,7 @@ namespace XCharts
 
                 var pos = GetLabelPosition(totalWidth + gapWidth, i);
                 label.SetPosition(pos);
-                CheckValueLabelActive(axis, i, label, pos);
+                CheckValueLabelActive(axis, i, label, pos, labelName);
 
                 axis.context.labelObjectList.Add(label);
 

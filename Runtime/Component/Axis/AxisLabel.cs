@@ -17,6 +17,7 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_OnZero = false;
         [SerializeField] private bool m_ShowStartLabel = true;
         [SerializeField] private bool m_ShowEndLabel = true;
+        [SerializeField][Since("v3.15.0")] private bool m_ShowZeroLabel = true;
         [SerializeField] private TextLimit m_TextLimit = new TextLimit();
 
         /// <summary>
@@ -74,6 +75,15 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_ShowEndLabel, value)) SetComponentDirty(); }
         }
         /// <summary>
+        /// Whether to display the zero label.
+        /// ||是否显示0刻度文本。
+        /// </summary>
+        public bool showZeroLabel
+        {
+            get { return m_ShowZeroLabel; }
+            set { if (PropertyUtil.SetStruct(ref m_ShowZeroLabel, value)) SetComponentDirty(); }
+        }
+        /// <summary>
         /// 文本限制。
         /// </summary>
         public TextLimit textLimit
@@ -118,6 +128,7 @@ namespace XCharts.Runtime
                 height = height,
                 showStartLabel = showStartLabel,
                 showEndLabel = showEndLabel,
+                showZeroLabel = showZeroLabel,
                 textLimit = textLimit.Clone()
             };
             axisLabel.textStyle.Copy(textStyle);
@@ -136,6 +147,7 @@ namespace XCharts.Runtime
             height = axisLabel.height;
             showStartLabel = axisLabel.showStartLabel;
             showEndLabel = axisLabel.showEndLabel;
+            showZeroLabel = axisLabel.showZeroLabel;
             textLimit.Copy(axisLabel.textLimit);
             textStyle.Copy(axisLabel.textStyle);
         }
@@ -171,13 +183,14 @@ namespace XCharts.Runtime
             return base.GetFormatterContent(labelIndex, totalIndex, value, minValue, maxValue, isLog);
         }
 
-        public bool IsNeedShowLabel(int index, int total)
+        public bool IsNeedShowLabel(int index, int total, string content = null)
         {
             var labelShow = show && (interval == 0 || index % (interval + 1) == 0);
             if (labelShow)
             {
                 if (!showStartLabel && index == 0) labelShow = false;
                 else if (!showEndLabel && index == total - 1) labelShow = false;
+                if (labelShow && content == "0") labelShow = showZeroLabel;
             }
             return labelShow;
         }

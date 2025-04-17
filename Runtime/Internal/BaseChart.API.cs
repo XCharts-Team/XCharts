@@ -588,11 +588,6 @@ namespace XCharts.Runtime
             }
         }
 
-        public Vector3 GetTitlePosition(Title title)
-        {
-            return chartPosition + title.location.GetPosition(chartWidth, chartHeight);
-        }
-
         public int GetLegendRealShowNameIndex(string name)
         {
             return m_LegendRealShowName.IndexOf(name);

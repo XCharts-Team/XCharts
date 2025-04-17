@@ -219,5 +219,10 @@ namespace XCharts.Runtime
             yield return new WaitForEndOfFrame();
             ChartHelper.SaveAsImage(rectTransform, canvas, imageType, path);
         }
+
+        public Vector3 GetTitlePosition(Title title)
+        {
+            return graphPosition + title.location.GetPosition(graphWidth, graphHeight);
+        }
     }
 }

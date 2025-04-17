@@ -3,7 +3,7 @@ using UnityEngine;
 namespace XCharts.Runtime
 {
     [UnityEngine.Scripting.Preserve]
-    internal sealed class TitleHander : MainComponentHandler<Title>
+    public sealed class TitleHandler : MainComponentHandler<Title>
     {
         private static readonly string s_TitleObjectName = "title";
         private static readonly string s_SubTitleObjectName = "title_sub";
@@ -14,50 +14,68 @@ namespace XCharts.Runtime
         {
             var title = component;
             title.painter = null;
-            title.refreshComponent = delegate()
+            title.refreshComponent = delegate ()
             {
                 title.OnChanged();
-                var anchorMin = title.location.runtimeAnchorMin;
-                var anchorMax = title.location.runtimeAnchorMax;
-                var pivot = title.location.runtimePivot;
-                var objName = ChartCached.GetComponentObjectName(title);
-                var titleObject = ChartHelper.AddObject(objName, chart.transform, anchorMin, anchorMax,
-                    pivot, chart.chartSizeDelta, -1, chart.childrenNodeNames);
-                title.gameObject = titleObject;
-                title.gameObject.transform.SetSiblingIndex(chart.m_PainterUpper.transform.GetSiblingIndex() + 1);
-                anchorMin = title.location.runtimeAnchorMin;
-                anchorMax = title.location.runtimeAnchorMax;
-                pivot = title.location.runtimePivot;
-                var fontSize = title.labelStyle.textStyle.GetFontSize(chart.theme.title);
-                ChartHelper.UpdateRectTransform(titleObject, anchorMin, anchorMax, pivot, new Vector2(chart.chartWidth, chart.chartHeight));
-                var titlePosition = chart.GetTitlePosition(title);
-                var subTitlePosition = -new Vector3(0, fontSize + title.itemGap, 0);
+                var titleObject = AddTitleObject(chart, title, chart.theme.title, chart.m_PainterUpper.transform.GetSiblingIndex() + 1);
 
-                titleObject.transform.localPosition = titlePosition;
-                titleObject.hideFlags = chart.chartHideFlags;
-                ChartHelper.HideAllObject(titleObject);
+                m_LabelObject = AddTitleLabel(titleObject.transform, title, chart.theme.title, chart);
+                m_SubLabelObject = AddSubTitleLabel(titleObject.transform, title, chart.theme.subTitle, chart);
 
-                m_LabelObject = ChartHelper.AddChartLabel(s_TitleObjectName, titleObject.transform, title.labelStyle, chart.theme.title,
-                    GetTitleText(title), Color.clear, title.location.runtimeTextAlignment);
-                m_LabelObject.SetActive(title.show && title.labelStyle.show, true);
-
-                m_SubLabelObject = ChartHelper.AddChartLabel(s_SubTitleObjectName, titleObject.transform, title.subLabelStyle, chart.theme.subTitle,
-                    GetSubTitleText(title), Color.clear, title.location.runtimeTextAlignment);
-                m_SubLabelObject.SetActive(title.show && title.subLabelStyle.show, true);
-                m_SubLabelObject.transform.localPosition = subTitlePosition + title.subLabelStyle.offset;
             };
             title.refreshComponent();
+        }
+
+        public static GameObject AddTitleObject(BaseGraph graph, Title title, ComponentTheme componentTheme, int titleSiblingIndex, string objectName = null)
+        {
+            var anchorMin = title.location.runtimeAnchorMin;
+            var anchorMax = title.location.runtimeAnchorMax;
+            var pivot = title.location.runtimePivot;
+            var objName = objectName == null ? ChartCached.GetComponentObjectName(title) : objectName;
+            var titleObject = ChartHelper.AddObject(objName, graph.transform, anchorMin, anchorMax,
+                pivot, graph.graphSizeDelta, -1, graph.childrenNodeNames);
+            title.gameObject = titleObject;
+            title.gameObject.transform.SetSiblingIndex(titleSiblingIndex);
+            anchorMin = title.location.runtimeAnchorMin;
+            anchorMax = title.location.runtimeAnchorMax;
+            pivot = title.location.runtimePivot;
+
+            ChartHelper.UpdateRectTransform(titleObject, anchorMin, anchorMax, pivot, new Vector2(graph.graphWidth, graph.graphHeight));
+            var titlePosition = graph.GetTitlePosition(title);
+            titleObject.transform.localPosition = titlePosition;
+            titleObject.hideFlags = graph.chartHideFlags;
+            ChartHelper.HideAllObject(titleObject);
+            return titleObject;
+        }
+
+        public static ChartLabel AddTitleLabel(Transform parent, Title title, ComponentTheme componentTheme, BaseChart chart = null)
+        {
+            var m_LabelObject = ChartHelper.AddChartLabel(s_TitleObjectName, parent, title.labelStyle, componentTheme,
+                    GetTitleText(title, chart), Color.clear, title.location.runtimeTextAlignment);
+            m_LabelObject.SetActive(title.show && title.labelStyle.show, true);
+            return m_LabelObject;
+        }
+
+        public static ChartLabel AddSubTitleLabel(Transform parent, Title title, ComponentTheme componentTheme, BaseChart chart = null)
+        {
+            var fontSize = title.labelStyle.textStyle.GetFontSize(componentTheme);
+            var subTitlePosition = -new Vector3(0, fontSize + title.itemGap, 0);
+            var m_SubLabelObject = ChartHelper.AddChartLabel(s_SubTitleObjectName, parent, title.subLabelStyle, componentTheme,
+                    GetSubTitleText(title, chart), Color.clear, title.location.runtimeTextAlignment);
+            m_SubLabelObject.SetActive(title.show && title.subLabelStyle.show, true);
+            m_SubLabelObject.transform.localPosition = subTitlePosition + title.subLabelStyle.offset;
+            return m_SubLabelObject;
         }
 
         public override void OnSerieDataUpdate(int serieIndex)
         {
             if (m_LabelObject != null && FormatterHelper.NeedFormat(component.text))
-                m_LabelObject.SetText(GetTitleText(component));
+                m_LabelObject.SetText(GetTitleText(component, chart));
             if (m_SubLabelObject != null && FormatterHelper.NeedFormat(component.subText))
-                m_SubLabelObject.SetText(GetSubTitleText(component));
+                m_SubLabelObject.SetText(GetSubTitleText(component, chart));
         }
 
-        private string GetTitleText(Title title)
+        private static string GetTitleText(Title title, BaseChart chart)
         {
             if (FormatterHelper.NeedFormat(title.text))
             {
@@ -71,7 +89,7 @@ namespace XCharts.Runtime
             }
         }
 
-        private string GetSubTitleText(Title title)
+        private static string GetSubTitleText(Title title, BaseChart chart)
         {
             if (FormatterHelper.NeedFormat(title.subText))
             {

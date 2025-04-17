@@ -159,6 +159,7 @@ slug: /api
 - [MainComponentContext](#maincomponentcontext)
 - [MainComponentHandler](#maincomponenthandler)
 - [MainComponentHandler&lt;T&gt;](#maincomponenthandlert)
+- [MainComponentHandler&lt;Title&gt;](#maincomponenthandlertitle)
 - [MarkArea](#markarea)
 - [MarkAreaData](#markareadata)
 - [MarkAreaType](#markareatype)
@@ -257,6 +258,7 @@ slug: /api
 - [ThemeStyle](#themestyle)
 - [ThemeType](#themetype)
 - [Title](#title)
+- [TitleHandler](#titlehandler)
 - [TitleStyle](#titlestyle)
 - [TitleTheme](#titletheme)
 - [Tooltip](#tooltip)
@@ -2035,10 +2037,6 @@ public float GetSerieTotalGap&lt;T&gt;(float categoryWidth, float gap, int index
 
 public float GetSerieTotalWidth&lt;T&gt;(float categoryWidth, float gap, int realBarCount, int gridIndex) where T : Serie  
 
-### BaseChart.GetTitlePosition
-
-public Vector3 GetTitlePosition(Title title)  
-
 ### BaseChart.GetVisualMapOfSerie
 
 public VisualMap GetVisualMapOfSerie(Serie serie)  
@@ -2558,6 +2556,10 @@ public string warningInfo
 public string CheckWarning()  
 检测警告信息。
 
+### BaseGraph.GetTitlePosition
+
+public Vector3 GetTitlePosition(Title title)  
+
 ### BaseGraph.LocalPointToScreenPoint
 
 public Vector2 LocalPointToScreenPoint(Vector2 localPoint)  
@@ -2886,6 +2888,14 @@ public static string ColorToStr(Color color)
 
 public static string FloatToStr(double value, string numericFormatter = "F", int precision = 0)  
 
+### ChartCached.GetAxisLabelName
+
+public static string GetAxisLabelName(int index)  
+
+### ChartCached.GetComponentObjectName
+
+public static string GetComponentObjectName(MainComponent component)  
+
 ### ChartCached.GetSerieLabelName
 
 public static string GetSerieLabelName(string prefix, int i, int j)  
@@ -2893,6 +2903,14 @@ public static string GetSerieLabelName(string prefix, int i, int j)
 ### ChartCached.GetString
 
 public static string GetString(string prefix, int suffix)  
+
+### ChartCached.GetTypeName
+
+public static string GetTypeName(Type type)  
+
+### ChartCached.GetTypeName&lt;T&gt;
+
+public static string GetTypeName&lt;T&gt;()  
 
 ### ChartCached.IntToStr
 
@@ -5749,6 +5767,10 @@ class in XCharts.Runtime / 继承自: [MainComponentHandler](#maincomponenthandl
 ### MainComponentHandler&lt;T&gt;.component
 
 public T component  
+
+## MainComponentHandler&lt;Title&gt;
+
+class in  / 子类: [TitleHandler](#titlehandler) 
 
 ## MarkArea
 
@@ -8675,6 +8697,30 @@ public override void ClearComponentDirty()
 ### Title.OnChanged
 
 public void OnChanged()  
+
+## TitleHandler
+
+class in XCharts.Runtime / 继承自: [MainComponentHandler&lt;Title&gt;](#maincomponenthandlertitle)
+
+### TitleHandler.AddSubTitleLabel
+
+public static ChartLabel AddSubTitleLabel(Transform parent, Title title, ComponentTheme componentTheme, BaseChart chart = null)  
+
+### TitleHandler.AddTitleLabel
+
+public static ChartLabel AddTitleLabel(Transform parent, Title title, ComponentTheme componentTheme, BaseChart chart = null)  
+
+### TitleHandler.AddTitleObject
+
+public static GameObject AddTitleObject(BaseGraph graph, Title title, ComponentTheme componentTheme, int titleSiblingIndex, string objectName = null)  
+
+### TitleHandler.InitComponent
+
+public override void InitComponent()  
+
+### TitleHandler.OnSerieDataUpdate
+
+public override void OnSerieDataUpdate(int serieIndex)  
 
 ## TitleStyle
 

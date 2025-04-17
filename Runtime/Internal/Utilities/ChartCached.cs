@@ -200,7 +200,7 @@ namespace XCharts.Runtime
             return s_StringIntDict[prefix][suffix];
         }
 
-        internal static string GetComponentObjectName(MainComponent component)
+        public static string GetComponentObjectName(MainComponent component)
         {
             Dictionary<int, string> dict;
             var type = component.GetType();
@@ -224,7 +224,7 @@ namespace XCharts.Runtime
             }
         }
 
-        internal static string GetAxisLabelName(int index)
+        public static string GetAxisLabelName(int index)
         {
             string name;
             if (!s_AxisLabelName.TryGetValue(index, out name))
@@ -239,12 +239,12 @@ namespace XCharts.Runtime
             }
         }
 
-        internal static string GetTypeName<T>()
+        public static string GetTypeName<T>()
         {
             return GetTypeName(typeof(T));
         }
 
-        internal static string GetTypeName(Type type)
+        public static string GetTypeName(Type type)
         {
             if (s_TypeName.ContainsKey(type)) return s_TypeName[type];
             else

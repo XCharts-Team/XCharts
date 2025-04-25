@@ -80,6 +80,9 @@ slug: /changelog
 
 ## master
 
+* (2025.04.25) 修复`MarkArea`指定`yValue`或`xValue`时绘制区域不准确的问题
+* (2025.04.17) 增加`UITable`的`Title`支持设置标题
+* (2025.04.17) 增加`UITable`的`Viewport`支持设置表格视口边距边框
 * (2025.04.15) 增加`Bar`支持通过`VisualMap`设置颜色
 * (2025.04.14) 增加`AxisLabel`的`showZeroLabel`设置是否显示0刻度
 * (2025.04.08) 增加`UIStatistic`的`desc`描述文本设置支持

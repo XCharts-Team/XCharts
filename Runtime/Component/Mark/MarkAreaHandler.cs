@@ -40,7 +40,7 @@ namespace XCharts.Runtime
         private void InitMarkArea(MarkArea markArea)
         {
             markArea.painter = chart.m_PainterUpper;
-            markArea.refreshComponent = delegate()
+            markArea.refreshComponent = delegate ()
             {
                 var label = ChartHelper.AddChartLabel("label", m_MarkLineLabelRoot.transform, markArea.label, chart.theme.axis,
                     component.text, Color.clear, TextAnchor.MiddleCenter);
@@ -142,31 +142,12 @@ namespace XCharts.Runtime
                     else if (data.yValue != 0)
                     {
                         data.runtimeValue = data.yValue;
-                        if (yAxis.IsCategory())
-                        {
-                            var pY = AxisHelper.GetAxisPosition(grid, yAxis, data.yValue, showData.Count, dataZoom);
-                            return start ?
-                                new Vector3(grid.context.x, pY) :
-                                new Vector3(grid.context.x + grid.context.width, pY);
-                        }
-                        else
-                        {
-                            return GetPosition(xAxis, yAxis, grid, data.runtimeValue, start);
-                        }
+                        return GetPosition(yAxis, grid, data.runtimeValue, start);
                     }
                     else
                     {
                         data.runtimeValue = data.xValue;
-                        if (xAxis.IsCategory())
-                        {
-                            var pX = AxisHelper.GetAxisPosition(grid, xAxis, data.xValue, showData.Count, dataZoom);
-                            return start ? new Vector3(pX, grid.context.y + grid.context.height) :
-                                new Vector3(pX, grid.context.y);
-                        }
-                        else
-                        {
-                            return GetPosition(xAxis, yAxis, grid, data.xValue, start);
-                        }
+                        return GetPosition(xAxis, grid, data.xValue, start);
                     }
                 default:
                     break;
@@ -178,16 +159,28 @@ namespace XCharts.Runtime
         {
             if (yAxis.IsCategory())
             {
-                var pX = AxisHelper.GetAxisPosition(grid, xAxis, value);
+                return GetPosition(xAxis, grid, value, start);
+            }
+            else
+            {
+                return GetPosition(yAxis, grid, value, start);
+            }
+        }
+
+        private Vector3 GetPosition(Axis axis, GridCoord grid, double value, bool start)
+        {
+            if (axis is XAxis)
+            {
+                var pX = AxisHelper.GetAxisPosition(grid, axis, value);
                 return start ?
                     new Vector3(pX, grid.context.y + grid.context.height) :
                     new Vector3(pX, grid.context.y);
             }
             else
             {
-                var pY = AxisHelper.GetAxisPosition(grid, yAxis, value);
+                var pY = AxisHelper.GetAxisPosition(grid, axis, value);
                 return start ?
-                    new Vector3(grid.context.x, pY + grid.context.height) :
+                    new Vector3(grid.context.x, pY) :
                     new Vector3(grid.context.x + grid.context.width, pY);
             }
         }

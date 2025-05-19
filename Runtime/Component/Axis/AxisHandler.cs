@@ -43,7 +43,7 @@ namespace XCharts
                 if (label == null) continue;
                 if (label.InRect(chart.pointerPos))
                 {
-                    component.onLabelClick.Invoke(i, label.GetText());
+                    component.onLabelClick.Invoke(i, label.text.GetText());
                     break;
                 }
             }
@@ -456,7 +456,7 @@ namespace XCharts
             }
             if(content == null)
             {
-                content = label.GetText();
+                content = label.text.GetText();
             }
             if (axis.IsValue())
             {

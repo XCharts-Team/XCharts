@@ -80,6 +80,7 @@ slug: /changelog
 
 ## master
 
+* (2025.08.27) 修复`Serie`的`TitleStyle`在数据变更时不及时刷新的问题
 * (2025.05.19) 修复`TMP`开启时`Axis`运行报错
 * (2025.04.25) 修复`MarkArea`指定`yValue`或`xValue`时绘制区域不准确的问题
 * (2025.04.17) 增加`UITable`的`Title`支持设置标题

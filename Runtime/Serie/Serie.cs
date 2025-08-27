@@ -1337,6 +1337,7 @@ namespace XCharts.Runtime
                 m_Data.RemoveAt(index);
                 m_NeedUpdateFilterData = true;
                 labelDirty = true;
+                titleDirty = true;
                 dataDirty = true;
             }
         }
@@ -1363,6 +1364,7 @@ namespace XCharts.Runtime
             SetVerticesDirty();
             CheckDataName(dataName);
             labelDirty = true;
+            titleDirty = true;
             dataDirty = true;
             return serieData;
         }
@@ -1377,6 +1379,8 @@ namespace XCharts.Runtime
             context.totalDataIndex++;
             SetVerticesDirty();
             dataDirty = true;
+            labelDirty = true;
+            titleDirty = true;
             m_NeedUpdateFilterData = true;
         }
 
@@ -1411,6 +1415,7 @@ namespace XCharts.Runtime
             SetVerticesDirty();
             CheckDataName(dataName);
             labelDirty = true;
+            titleDirty = true;
             return serieData;
         }
 
@@ -1443,6 +1448,7 @@ namespace XCharts.Runtime
             SetVerticesDirty();
             CheckDataName(dataName);
             labelDirty = true;
+            titleDirty = true;
             return serieData;
         }
 
@@ -1477,6 +1483,7 @@ namespace XCharts.Runtime
                 SetVerticesDirty();
                 CheckDataName(dataName);
                 labelDirty = true;
+                titleDirty = true;
                 return serieData;
             }
         }
@@ -1512,6 +1519,7 @@ namespace XCharts.Runtime
                 SetVerticesDirty();
                 CheckDataName(dataName);
                 labelDirty = true;
+                titleDirty = true;
                 return serieData;
             }
         }
@@ -1805,6 +1813,7 @@ namespace XCharts.Runtime
                 {
                     SetVerticesDirty();
                     dataDirty = true;
+                    titleDirty = true;
                 }
                 return flag;
             }

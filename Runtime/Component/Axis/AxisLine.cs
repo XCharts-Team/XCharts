@@ -10,6 +10,8 @@ namespace XCharts.Runtime
     public class AxisLine : BaseLine
     {
         [SerializeField] private bool m_OnZero;
+        [SerializeField] private float m_StartExtendLength;
+        [SerializeField] private float m_EndExtendLength;
         [SerializeField] private bool m_ShowArrow;
         [SerializeField] private ArrowStyle m_Arrow = new ArrowStyle();
 
@@ -21,6 +23,24 @@ namespace XCharts.Runtime
         {
             get { return m_OnZero; }
             set { if (PropertyUtil.SetStruct(ref m_OnZero, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Extend length of the axis line at the start.
+        /// ||轴线起点延长线长度。
+        /// </summary>
+        public float startExtendLength
+        {
+            get { return m_StartExtendLength; }
+            set { if (PropertyUtil.SetStruct(ref m_StartExtendLength, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Extend length of the axis line at the end.
+        /// ||轴线终点延长线长度。
+        /// </summary>
+        public float endExtendLength
+        {
+            get { return m_EndExtendLength; }
+            set { if (PropertyUtil.SetStruct(ref m_EndExtendLength, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// Whether to show the arrow symbol of axis.

@@ -832,17 +832,19 @@ namespace XCharts
             var lineWidth = axis.axisLine.GetWidth(theme.lineWidth);
             var lineType = axis.axisLine.GetType(theme.lineType);
             var lineColor = axis.axisLine.GetColor(theme.lineColor);
+            var sExtendLength = axis.axisLine.startExtendLength;
+            var eExtendLength = axis.axisLine.endExtendLength;
 
             if (orient == Orient.Horizonal)
             {
-                var left = new Vector3(startX - lineWidth - (inverse ? offset : 0), startY);
-                var right = new Vector3(startX + axisLength + lineWidth + (!inverse ? offset : 0), startY);
+                var left = new Vector3(startX - lineWidth - (inverse ? offset : 0) - sExtendLength, startY);
+                var right = new Vector3(startX + axisLength + lineWidth + (!inverse ? offset : 0) + eExtendLength, startY);
                 ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, left, right, lineColor);
             }
             else
             {
-                var bottom = new Vector3(startX, startY - lineWidth - (inverse ? offset : 0));
-                var top = new Vector3(startX, startY + axisLength + lineWidth + (!inverse ? offset : 0));
+                var bottom = new Vector3(startX, startY - lineWidth - (inverse ? offset : 0) - sExtendLength);
+                var top = new Vector3(startX, startY + axisLength + lineWidth + (!inverse ? offset : 0) + eExtendLength);
                 ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, bottom, top, lineColor);
             }
         }

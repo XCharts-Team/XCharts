@@ -29,6 +29,8 @@ namespace XCharts.Editor
         {
             base.DrawExtendeds(prop);
             PropertyField(prop, "m_OnZero");
+            PropertyField(prop, "m_StartExtendLength");
+            PropertyField(prop, "m_EndExtendLength");
             PropertyField(prop, "m_ShowArrow");
             PropertyField(prop, "m_Arrow");
         }

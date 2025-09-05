@@ -292,17 +292,19 @@ namespace XCharts.Runtime
             switch (data.type)
             {
                 case MarkLineType.Min:
-                    var serieData = SerieHelper.GetMinSerieData(serie, data.dimension, dataZoom);
+                    var serieData = SerieHelper.GetMinSerieData(serie, data.dimension, null);
                     data.runtimeValue = serieData.GetData(data.dimension);
                     var pX = GetAxisPosition(grid, xAxis, dataZoom, serieDataCount, serieData.index);
                     var pY = GetAxisPosition(grid, yAxis, dataZoom, serieDataCount, data.runtimeValue);
-                    return new Vector3(pX, pY);
+                    //return new Vector3(pX, pY);
+                    return serieData.context.position;
                 case MarkLineType.Max:
-                    serieData = SerieHelper.GetMaxSerieData(serie, data.dimension, dataZoom);
+                    serieData = SerieHelper.GetMaxSerieData(serie, data.dimension, null);
                     data.runtimeValue = serieData.GetData(data.dimension);
                     pX = GetAxisPosition(grid, xAxis, dataZoom, serieDataCount, serieData.index);
                     pY = GetAxisPosition(grid, yAxis, dataZoom, serieDataCount, data.runtimeValue);
-                    return new Vector3(pX, pY);
+                    //return new Vector3(pX, pY);
+                    return serieData.context.position;
                 case MarkLineType.Custom:
                     if (data.zeroPosition)
                     {

@@ -80,6 +80,7 @@ slug: /changelog
 
 ## master
 
+* (2025.10.22) 增加`Pie`的`pieType`支持实心饼图和线框柄图 (#349)
 * (2025.09.05) 优化`MarkLine`的表现
 * (2025.09.01) 增加`AxisLine`的`startExtendLength`和`endExtendLength`设置轴线的延长线
 * (2025.08.27) 修复`Serie`的`TitleStyle`在数据变更时不及时刷新的问题

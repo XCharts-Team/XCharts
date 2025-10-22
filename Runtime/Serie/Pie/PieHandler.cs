@@ -381,8 +381,6 @@ namespace XCharts.Runtime
                 var needOffset = (serie.pieClickOffset && (serieData.selected || serieData.context.selected));
                 var offsetCenter = needOffset ? serieData.context.offsetCenter : serie.context.center;
 
-                var borderWidth = itemStyle.borderWidth;
-                var borderColor = itemStyle.borderColor;
 
                 var progress = AnimationStyleHelper.CheckDataAnimation(chart, serie, n, 1);
                 var insideRadius = serieData.context.insideRadius * progress;
@@ -396,6 +394,17 @@ namespace XCharts.Runtime
                     {
                         serieData.interact.SetValueAndColor(ref interacting, outsideRadius, color, toColor);
                         serieData.interact.SetPosition(ref interacting, offsetCenter);
+                    }
+                }
+                var borderWidth = itemStyle.borderWidth;
+                var borderColor = itemStyle.GetBorderColor(color);
+                if (serie.pieType == PieType.Wireframe)
+                {
+                    color = ColorUtil.clearColor32;
+                    toColor = ColorUtil.clearColor32;
+                    if (borderWidth <= 0)
+                    {
+                        borderWidth = 4;
                     }
                 }
                 var drawEndDegree = serieData.context.currentAngle;

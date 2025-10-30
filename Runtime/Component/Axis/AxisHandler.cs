@@ -364,7 +364,7 @@ namespace XCharts
             {
                 var lastCount = axis.context.labelValueList.Count;
                 axis.context.tickValue = DateTimeUtil.UpdateTimeAxisDateTimeList(axis.context.labelValueList,
-                    axis.context.minValue, axis.context.maxValue, axis.splitNumber);
+                    axis.context.minValue, axis.context.maxValue, axis.splitNumber, axis.ceilRate);
 
                 if (axis.context.labelValueList.Count != lastCount)
                     axis.SetAllDirty();

@@ -204,7 +204,7 @@ namespace XCharts.Runtime
         protected override void OnValidate()
         {
             base.OnValidate();
-            foreach (var handler in m_SerieHandlers) handler.ForceUpdateSerieContext();
+            ResetChartStatus();
         }
 #endif
 

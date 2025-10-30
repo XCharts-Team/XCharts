@@ -157,13 +157,13 @@ namespace XCharts.Runtime
                     (itemStyle.borderWidth == 0 ? theme.serie.candlestickBorderWidth :
                         itemStyle.borderWidth);
                 if (serieData.IsDataChanged()) dataChanging = true;
-                float pX = grid.context.x + i * categoryWidth;
+                float pX = xAxis.IsCategory() ? grid.context.x + i * categoryWidth : AxisHelper.GetAxisValuePosition(grid, xAxis, categoryWidth, serieData.GetData(0));
                 float zeroY = grid.context.y + yAxis.context.offset;
                 if (!xAxis.boundaryGap) pX -= categoryWidth / 2;
                 float pY = zeroY;
                 var barHig = 0f;
                 double valueTotal = yMaxValue - yMinValue;
-                var minCut = (yMinValue > 0 ? yMinValue : 0);
+                var minCut = yMinValue > 0 ? yMinValue : 0;
                 if (valueTotal != 0)
                 {
                     barHig = (float)((close - open) / valueTotal * grid.context.height);

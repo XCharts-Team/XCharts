@@ -485,6 +485,7 @@ namespace XCharts.Runtime
             context.maxValue = 0;
             context.destMinValue = 0;
             context.destMaxValue = 0;
+            context.labelValueList.Clear();
         }
 
         public Axis Clone()

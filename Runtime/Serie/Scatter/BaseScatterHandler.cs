@@ -166,6 +166,8 @@ namespace XCharts.Runtime
                 var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
                 if (!symbol.ShowSymbol(serieData.index, maxCount))
                     continue;
+                if (serie.IsIgnoreValue(serieData))
+                    continue;
 
                 var state = SerieHelper.GetSerieState(serie, serieData, true);
 

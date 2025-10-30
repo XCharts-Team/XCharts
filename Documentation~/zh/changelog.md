@@ -80,6 +80,8 @@ slug: /changelog
 
 ## master
 
+* (2025.10.30) 增加`Scatter`的`ignore`支持设置忽略数据
+* (2025.10.24) 优化`Sankey`的线条绘制排序
 * (2025.10.22) 增加`Pie`的`pieType`支持实心饼图和线框柄图 (#349)
 * (2025.09.05) 优化`MarkLine`的表现
 * (2025.09.01) 增加`AxisLine`的`startExtendLength`和`endExtendLength`设置轴线的延长线

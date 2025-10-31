@@ -116,7 +116,7 @@ namespace XCharts.Runtime
         /// <param name="dataZoom"></param>
         /// <returns></returns>
         public static string GetLabelName(Axis axis, float coordinateWidth, int index, double minValue, double maxValue,
-            DataZoom dataZoom, bool forcePercent, int sortIndex = -1)
+            DataZoom dataZoom, bool forcePercent, bool useUtc, int sortIndex = -1)
         {
             int split = GetSplitNumber(axis, coordinateWidth, dataZoom);
             if (sortIndex == -1) sortIndex = index;
@@ -161,7 +161,7 @@ namespace XCharts.Runtime
                     return string.Empty;
 
                 var value = axis.GetLabelValue(index);
-                return axis.axisLabel.GetFormatterDateTime(sortIndex, axis.context.labelValueList.Count, value, minValue, maxValue);
+                return axis.axisLabel.GetFormatterDateTime(sortIndex, axis.context.labelValueList.Count, value, minValue, maxValue, !useUtc);
             }
             var showData = axis.GetDataList(dataZoom);
             int dataCount = showData.Count;

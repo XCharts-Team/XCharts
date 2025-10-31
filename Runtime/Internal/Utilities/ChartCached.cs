@@ -100,9 +100,9 @@ namespace XCharts.Runtime
             return NumberToStr(value, numericFormatter);
         }
 
-        public static string NumberToDateStr(double timestamp, string formatter)
+        public static string NumberToDateStr(double timestamp, string formatter, bool local = false)
         {
-            var dt = NumberToDateTime(timestamp);
+            var dt = NumberToDateTime(timestamp, local);
             try
             {
                 return dt.ToString(formatter, ci);
@@ -132,11 +132,11 @@ namespace XCharts.Runtime
             }                    
         }
 
-        public static DateTime NumberToDateTime(double timestamp)
+        public static DateTime NumberToDateTime(double timestamp, bool local = false)
         {
             if (!s_TimestampToDateTimeDict.ContainsKey(timestamp))
             {
-                s_TimestampToDateTimeDict[timestamp] = DateTimeUtil.GetDateTime(timestamp);
+                s_TimestampToDateTimeDict[timestamp] = DateTimeUtil.GetDateTime(timestamp, local);
             }
             return s_TimestampToDateTimeDict[timestamp];
         }

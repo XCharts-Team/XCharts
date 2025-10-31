@@ -16,6 +16,7 @@ namespace XCharts.Runtime
     public partial class BaseChart : BaseGraph, ISerializationCallbackReceiver
     {
         [SerializeField] protected string m_ChartName;
+        [SerializeField] protected bool m_UseUtc = true;
         [SerializeField] protected ThemeStyle m_Theme = new ThemeStyle();
         [SerializeField] protected Settings m_Settings;
         [SerializeField] protected DebugInfo m_DebugInfo = new DebugInfo();

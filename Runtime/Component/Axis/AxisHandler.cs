@@ -290,7 +290,7 @@ namespace XCharts
                         if (context.labelObjectList[i] != null)
                         {
                             var index = i < showData.Count ? showData[i].index : i;
-                            var text = AxisHelper.GetLabelName(axis, coordinateWidth, index, destMinValue, destMaxValue, dataZoom, forcePercent, i);
+                            var text = AxisHelper.GetLabelName(axis, coordinateWidth, index, destMinValue, destMaxValue, dataZoom, forcePercent, chart.useUtc, i);
                             context.labelObjectList[i].SetText(text);
                         }
                     }
@@ -322,7 +322,7 @@ namespace XCharts
                 {
                     if (context.labelObjectList[i] != null)
                     {
-                        var text = AxisHelper.GetLabelName(axis, coordinateWidth, i, destMinValue, destMaxValue, dataZoom, forcePercent);
+                        var text = AxisHelper.GetLabelName(axis, coordinateWidth, i, destMinValue, destMaxValue, dataZoom, forcePercent, chart.useUtc);
                         context.labelObjectList[i].SetText(text);
                     }
                 }
@@ -364,7 +364,7 @@ namespace XCharts
             {
                 var lastCount = axis.context.labelValueList.Count;
                 axis.context.tickValue = DateTimeUtil.UpdateTimeAxisDateTimeList(axis.context.labelValueList,
-                    axis.context.minValue, axis.context.maxValue, axis.splitNumber, axis.ceilRate);
+                    axis.context.minValue, axis.context.maxValue, axis.splitNumber, axis.ceilRate, !chart.useUtc);
 
                 if (axis.context.labelValueList.Count != lastCount)
                     axis.SetAllDirty();
@@ -454,7 +454,7 @@ namespace XCharts
                 label.SetTextActive(false);
                 return;
             }
-            if(content == null)
+            if (content == null)
             {
                 content = label.text.GetText();
             }
@@ -465,12 +465,12 @@ namespace XCharts
                     if (i == 0)
                     {
                         var dist = GetLabelPosition(0, 1).x - pos.x;
-                        label.SetTextActive(axis.IsNeedShowLabel(i,0,content) && dist > label.text.GetPreferredWidth());
+                        label.SetTextActive(axis.IsNeedShowLabel(i, 0, content) && dist > label.text.GetPreferredWidth());
                     }
                     else if (i == axis.context.labelValueList.Count - 1)
                     {
                         var dist = pos.x - GetLabelPosition(0, i - 1).x;
-                        label.SetTextActive(axis.IsNeedShowLabel(i,0,content) && dist > label.text.GetPreferredWidth());
+                        label.SetTextActive(axis.IsNeedShowLabel(i, 0, content) && dist > label.text.GetPreferredWidth());
                     }
                 }
                 else
@@ -478,12 +478,12 @@ namespace XCharts
                     if (i == 0)
                     {
                         var dist = GetLabelPosition(0, 1).y - pos.y;
-                        label.SetTextActive(axis.IsNeedShowLabel(i,0,content) && dist > label.text.GetPreferredHeight());
+                        label.SetTextActive(axis.IsNeedShowLabel(i, 0, content) && dist > label.text.GetPreferredHeight());
                     }
                     else if (i == axis.context.labelValueList.Count - 1)
                     {
                         var dist = pos.y - GetLabelPosition(0, i - 1).y;
-                        label.SetTextActive(axis.IsNeedShowLabel(i,0,content) && dist > label.text.GetPreferredHeight());
+                        label.SetTextActive(axis.IsNeedShowLabel(i, 0, content) && dist > label.text.GetPreferredHeight());
                     }
                 }
             }
@@ -552,7 +552,7 @@ namespace XCharts
                 var labelName = AxisHelper.GetLabelName(axis, axisLength, sortIndex,
                     axis.context.destMinValue,
                     axis.context.destMaxValue,
-                    dataZoom, isPercentStack, i);
+                    dataZoom, isPercentStack, chart.useUtc, i);
 
                 var label = ChartHelper.AddAxisLabelObject(splitNumber, i,
                     ChartCached.GetAxisLabelName(i),
@@ -671,7 +671,7 @@ namespace XCharts
                 var labelName = AxisHelper.GetLabelName(axis, axisLength, sortIndex,
                     axis.context.destMinValue,
                     axis.context.destMaxValue,
-                    dataZoom, isPercentStack, i);
+                    dataZoom, isPercentStack, chart.useUtc, i);
 
                 var label = ChartHelper.AddAxisLabelObject(splitNumber, i,
                     ChartCached.GetAxisLabelName(i),

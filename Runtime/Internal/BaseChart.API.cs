@@ -31,6 +31,11 @@ namespace XCharts.Runtime
             }
         }
         /// <summary>
+        /// Whether to use UTC time for the chart.
+        /// ||图表的时间是否都显示为UTC时间。
+        /// </summary>
+        public bool useUtc { get { return m_UseUtc; } set { m_UseUtc = value; } }
+        /// <summary>
         /// The theme.
         /// ||</summary>
         public ThemeStyle theme { get { return m_Theme; } set { m_Theme = value; } }

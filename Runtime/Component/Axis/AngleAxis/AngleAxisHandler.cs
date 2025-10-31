@@ -85,7 +85,7 @@ namespace XCharts.Runtime
                 float scaleAngle = AxisHelper.GetScaleWidth(axis, total, i + 1, null);
                 bool inside = axis.axisLabel.inside;
                 var labelName = AxisHelper.GetLabelName(axis, total, i, axis.context.minValue, axis.context.maxValue,
-                    null, isPercentStack);
+                    null, isPercentStack, chart.useUtc);
                 var label = ChartHelper.AddAxisLabelObject(splitNumber, i, objName + i, axisObj.transform,
                     new Vector2(scaleAngle, txtHig), axis,
                     chart.theme.axis, labelName, Color.clear);

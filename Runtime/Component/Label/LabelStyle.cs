@@ -485,10 +485,10 @@ namespace XCharts.Runtime
 
         private static bool isDateFormatter = false;
         private static string newFormatter = null;
-        public string GetFormatterDateTime(int labelIndex, int totalIndex, double value, double minValue, double maxValue)
+        public string GetFormatterDateTime(int labelIndex, int totalIndex, double value, double minValue, double maxValue, bool local)
         {
             var timestamp = value;
-            var dateTime = DateTimeUtil.GetDateTime(timestamp);
+            var dateTime = DateTimeUtil.GetDateTime(timestamp, local);
             var dateString = string.Empty;
             if (string.IsNullOrEmpty(numericFormatter) || numericFormatter.Equals("f2"))
             {
@@ -501,7 +501,7 @@ namespace XCharts.Runtime
                     if (DateTimeUtil.IsDateOrTimeRegex(numericFormatter, ref isDateFormatter, ref newFormatter))
                     {
                         if (isDateFormatter)
-                            dateString = ChartCached.NumberToDateStr(timestamp, newFormatter);
+                            dateString = ChartCached.NumberToDateStr(timestamp, newFormatter, local);
                         else
                             dateString = ChartCached.NumberToTimeStr(timestamp, newFormatter);
                     }

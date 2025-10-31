@@ -80,6 +80,7 @@ slug: /changelog
 
 ## master
 
+* (2025.10.30) 增加`Chart`的`useUtc`参数设置显示时间是否用UTC时间
 * (2025.10.30) 优化`Candlestick`对时间轴的支持
 * (2025.10.30) 增加`Scatter`的`ignore`支持设置忽略数据
 * (2025.10.24) 优化`Sankey`的线条绘制排序

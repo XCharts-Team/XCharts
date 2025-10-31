@@ -268,7 +268,7 @@ namespace XCharts.Runtime
             }
             else if (axis.IsTime())
             {
-                label.SetText(axis.indicatorLabel.GetFormatterDateTime(0, 0, axis.context.pointerValue, axis.context.minValue, axis.context.maxValue));
+                label.SetText(axis.indicatorLabel.GetFormatterDateTime(0, 0, axis.context.pointerValue, axis.context.minValue, axis.context.maxValue, !chart.useUtc));
             }
             else
             {
@@ -356,7 +356,7 @@ namespace XCharts.Runtime
                 if (isTriggerAxis)
                 {
                     var index = serie.context.dataZoomStartIndex + (int)yAxis.context.pointerValue;
-                    if(serie.useSortData) index = yAxis.context.sortedDataIndices[index];
+                    if (serie.useSortData) index = yAxis.context.sortedDataIndices[index];
                     serie.context.pointerEnter = true;
                     serie.context.pointerAxisDataIndexs.Add(index);
                     serie.context.pointerItemDataIndex = index;
@@ -376,7 +376,7 @@ namespace XCharts.Runtime
                 if (isTriggerAxis)
                 {
                     var index = serie.context.dataZoomStartIndex + (int)xAxis.context.pointerValue;
-                    if(serie.useSortData) index = xAxis.context.sortedDataIndices[index];
+                    if (serie.useSortData) index = xAxis.context.sortedDataIndices[index];
                     if (chart.isTriggerOnClick)
                     {
                         if (serie.insertDataToHead)
@@ -616,7 +616,7 @@ namespace XCharts.Runtime
                     var serieData = serie.GetSerieData(serie.context.pointerItemDataIndex);
                     if (serieData != null)
                     {
-                        tooltip.context.data.title = DateTimeUtil.GetDefaultDateTimeString((int)serieData.GetData(0), axisRange);
+                        tooltip.context.data.title = DateTimeUtil.GetDefaultDateTimeString((int)serieData.GetData(0), axisRange, !chart.useUtc);
                     }
                 }
                 serie.handler.UpdateTooltipSerieParams(dataIndex, showCategory, category,

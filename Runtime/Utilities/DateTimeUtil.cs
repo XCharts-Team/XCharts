@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using UnityEngine;
 
 namespace XCharts.Runtime
 {
@@ -145,7 +144,7 @@ namespace XCharts.Runtime
         /// <param name="minTimestamp"></param>
         /// <param name="maxTimestamp"></param>
         /// <param name="splitNumber"></param>
-        internal static float UpdateTimeAxisDateTimeList(List<double> list, double minTimestamp, double maxTimestamp, int splitNumber, double ceilRate)
+        internal static float UpdateTimeAxisDateTimeList(List<double> list, double minTimestamp, double maxTimestamp, int splitNumber, double ceilRate, bool local)
         {
             var range = maxTimestamp - minTimestamp;
             if (range <= 0)
@@ -153,8 +152,8 @@ namespace XCharts.Runtime
                 list.Clear();
                 return 0;
             }
-            var dtMin = GetDateTime(minTimestamp);
-            var dtMax = GetDateTime(maxTimestamp);
+            var dtMin = GetDateTime(minTimestamp, local);
+            var dtMax = GetDateTime(maxTimestamp, local);
             int tick;
             if (ceilRate != 0)
             {
@@ -179,7 +178,7 @@ namespace XCharts.Runtime
                 if (range >= ONE_YEAR * MIN_TIME_SPLIT_NUMBER)
                 {
                     var num = splitNumber <= 0 ? GetSplitNumber(range, ONE_YEAR) : (int)Math.Max(range / (splitNumber * ONE_YEAR), 1);
-                    var dtStart = GetDateTime(GetFirstMaxValue(list, minTimestamp));
+                    var dtStart = GetDateTime(GetFirstMaxValue(list, minTimestamp), local);
                     dtStart = new DateTime(dtStart.Year, dtStart.Month, 1);
                     while (dtStart > dtMin)
                     {
@@ -193,14 +192,14 @@ namespace XCharts.Runtime
                     list.Clear();
                     while (dtStart.Ticks < dtMax.Ticks)
                     {
-                        list.Add(DateTimeUtil.GetTimestamp(dtStart));
+                        list.Add(DateTimeUtil.GetTimestamp(dtStart, local));
                         dtStart = dtStart.AddYears(num);
                     }
                 }
                 else if (range >= ONE_MONTH * MIN_TIME_SPLIT_NUMBER)
                 {
                     var num = splitNumber <= 0 ? GetSplitNumber(range, ONE_MONTH) : (int)Math.Max(range / (splitNumber * ONE_MONTH), 1);
-                    var dtStart = GetDateTime(GetFirstMaxValue(list, minTimestamp));
+                    var dtStart = GetDateTime(GetFirstMaxValue(list, minTimestamp), local);
                     dtStart = new DateTime(dtStart.Year, dtStart.Month, 1);
                     while (dtStart > dtMin)
                     {
@@ -214,7 +213,7 @@ namespace XCharts.Runtime
                     list.Clear();
                     while (dtStart.Ticks < dtMax.Ticks)
                     {
-                        list.Add(DateTimeUtil.GetTimestamp(dtStart));
+                        list.Add(DateTimeUtil.GetTimestamp(dtStart, local));
                         dtStart = dtStart.AddMonths(num);
                     }
                 }

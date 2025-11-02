@@ -616,7 +616,21 @@ namespace XCharts.Runtime
                     var serieData = serie.GetSerieData(serie.context.pointerItemDataIndex);
                     if (serieData != null)
                     {
-                        tooltip.context.data.title = DateTimeUtil.GetDefaultDateTimeString((int)serieData.GetData(0), axisRange, !chart.useUtc);
+                        var value = (int)serieData.GetData(0);
+                        if (string.IsNullOrEmpty(tooltip.titleLabelStyle.numericFormatter))
+                            tooltip.context.data.title = DateTimeUtil.GetDefaultDateTimeString(value, axisRange, !chart.useUtc);
+                        else
+                        {
+                            var dateTime = DateTimeUtil.GetDateTime(value, !chart.useUtc);
+                            try
+                            {
+                                tooltip.context.data.title = dateTime.ToString(tooltip.titleLabelStyle.numericFormatter);
+                            }
+                            catch
+                            {
+                                tooltip.context.data.title = DateTimeUtil.GetDefaultDateTimeString(value, axisRange, !chart.useUtc);
+                            }
+                        }
                     }
                 }
                 serie.handler.UpdateTooltipSerieParams(dataIndex, showCategory, category,

@@ -16,8 +16,9 @@ namespace XCharts.Runtime
                 else
                 {
                     tooltip.context.data.title = tooltip.titleFormatter;
-                    FormatterHelper.ReplaceContent(ref tooltip.context.data.title, -1,
-                        tooltip.numericFormatter, null, chart);
+                    var numericFormatter = string.IsNullOrEmpty(tooltip.titleLabelStyle.numericFormatter)
+                        ? tooltip.numericFormatter : tooltip.titleLabelStyle.numericFormatter;
+                    FormatterHelper.ReplaceContent(ref tooltip.context.data.title, -1, numericFormatter, null, chart);
                 }
             }
             for (int i = tooltip.context.data.param.Count - 1; i >= 0; i--)
@@ -56,7 +57,7 @@ namespace XCharts.Runtime
 
         public static bool IsIgnoreFormatter(string itemFormatter)
         {
-            return "-".Equals(itemFormatter) ||"{i}".Equals(itemFormatter, StringComparison.CurrentCultureIgnoreCase);
+            return "-".Equals(itemFormatter) || "{i}".Equals(itemFormatter, StringComparison.CurrentCultureIgnoreCase);
         }
 
         public static void LimitInRect(BaseChart chart, Tooltip tooltip, Rect chartRect)

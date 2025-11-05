@@ -473,13 +473,25 @@ namespace XCharts.Runtime
             {
                 var serieData = data[i];
                 currValue = serieData.GetData(dimension);
-                if (i == 0 && i + 1 < dataCount)
+                if (i == 0)
                 {
-                    nextValue = data[i + 1].GetData(dimension);
-                    if (axisValue <= currValue + (nextValue - currValue) / 2)
+                    if (i + 1 < dataCount)
                     {
-                        serie.context.pointerAxisDataIndexs.Add(serieData.index);
-                        break;
+                        nextValue = data[i + 1].GetData(dimension);
+                        if (axisValue <= currValue + (nextValue - currValue) / 2)
+                        {
+                            serie.context.pointerAxisDataIndexs.Add(serieData.index);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        var diff = axis.context.tickValue * 0.5f;
+                        if (axisValue >= currValue - diff && axisValue <= currValue + diff)
+                        {
+                            serie.context.pointerAxisDataIndexs.Add(serieData.index);
+                            break;
+                        }
                     }
                 }
                 else if (i == dataCount - 1)

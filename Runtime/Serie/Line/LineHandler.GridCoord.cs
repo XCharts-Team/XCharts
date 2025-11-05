@@ -100,7 +100,7 @@ namespace XCharts.Runtime
                     var serieData = serie.data[i];
                     var dist = Vector3.Distance(chart.pointerPos, serieData.context.position);
                     var size = SerieHelper.GetSysmbolSize(serie, serieData, themeSymbolSize);
-                    var highlight = dist <= size;
+                    var highlight = dist <= size * 2.5f;
                     serieData.context.highlight = highlight;
                     var state = SerieHelper.GetSerieState(serie, serieData, true);
                     size = SerieHelper.GetSysmbolSize(serie, serieData, themeSymbolSize, state);

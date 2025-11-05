@@ -284,7 +284,6 @@ namespace XCharts.Runtime
                 var rectMinY = Mathf.Min(plb.y, prb.y, plt.y, prt.y, lowPos.y, heighPos.y);
                 var rectMaxY = Mathf.Max(plb.y, prb.y, plt.y, prt.y, lowPos.y, heighPos.y);
                 serieData.context.rect = new Rect(rectMinX, rectMinY, rectMaxX - rectMinX, rectMaxY - rectMinY);
-                UGL.DrawRectangle(vh, serieData.context.rect, Color.yellow);
                 if (intensive)
                 {
                     UGL.DrawLine(vh, lowPos, heighPos, borderWidth, borderColor);

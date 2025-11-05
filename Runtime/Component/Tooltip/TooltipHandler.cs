@@ -255,6 +255,11 @@ namespace XCharts.Runtime
         {
             if (label == null) return;
             if (double.IsNaN(axis.context.pointerValue)) return;
+            if (!axis.show || !axis.indicatorLabel.show)
+            {
+                label.SetActive(false, false);
+                return;
+            }
             label.SetActive(true, true);
             label.SetTextActive(true);
             label.SetPosition(axis.context.pointerLabelPosition + axis.indicatorLabel.offset);
@@ -732,6 +737,7 @@ namespace XCharts.Runtime
 
         private void DrawXAxisIndicator(VertexHelper vh, Tooltip tooltip, GridCoord grid)
         {
+            if (!tooltip.lineStyle.show) return;
             var xAxes = chart.GetChartComponents<XAxis>();
             var lineType = tooltip.lineStyle.GetType(chart.theme.tooltip.lineType);
             var lineWidth = tooltip.lineStyle.GetWidth(chart.theme.tooltip.lineWidth);

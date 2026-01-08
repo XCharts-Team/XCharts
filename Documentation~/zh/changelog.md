@@ -80,6 +80,7 @@ slug: /changelog
 
 ## master
 
+* (2026.01.08) 增加`DataZoom`的`minZoomRatio`替换旧的`minShowNum` (#350)
 * (2025.11.05) 修复`Axis`的`indicatorLabel`无法隐藏的问题
 * (2025.11.03) 增加`Tooltip`的`Title`可通过`TitleLabelStyle`的`numericFormatter`格式化时间显示 (#353)
 * (2025.10.30) 增加`Chart`的`useUtc`参数设置显示时间是否用UTC时间

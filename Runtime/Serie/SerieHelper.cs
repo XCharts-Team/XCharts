@@ -833,13 +833,14 @@ namespace XCharts.Runtime
             var data = serie.data;
             var startValue = min;
             var endValue = max;
+            var minZoomRatio = (int)((max-min) * dataZoom.minZoomRatio);
             if (endValue < startValue) endValue = startValue;
             if (startValue != serie.m_FilterStartValue || endValue != serie.m_FilterEndValue ||
-                dataZoom.minShowNum != serie.m_FilterMinShow || serie.m_NeedUpdateFilterData)
+                dataZoom.minZoomRatio != serie.m_FilterMinShow || serie.m_NeedUpdateFilterData)
             {
                 serie.m_FilterStartValue = startValue;
                 serie.m_FilterEndValue = endValue;
-                serie.m_FilterMinShow = dataZoom.minShowNum;
+                serie.m_FilterMinShow = minZoomRatio;
                 serie.m_NeedUpdateFilterData = false;
 
                 if (ReferenceEquals(serie.m_FilterData, data))
@@ -883,19 +884,20 @@ namespace XCharts.Runtime
                 end = start + range;
                 if (end > data.Count) end = data.Count;
             }
+            var minZoomRatio = (int)(data.Count * dataZoom.minZoomRatio);
             if (start != serie.m_FilterStart || end != serie.m_FilterEnd ||
-                dataZoom.minShowNum != serie.m_FilterMinShow || serie.m_NeedUpdateFilterData)
+                minZoomRatio != serie.m_FilterMinShow || serie.m_NeedUpdateFilterData)
             {
                 serie.m_FilterStart = start;
                 serie.m_FilterEnd = end;
-                serie.m_FilterMinShow = dataZoom.minShowNum;
+                serie.m_FilterMinShow = minZoomRatio;
                 serie.m_NeedUpdateFilterData = false;
                 if (data.Count > 0)
                 {
-                    if (range < dataZoom.minShowNum)
+                    if (range < minZoomRatio)
                     {
-                        if (dataZoom.minShowNum > data.Count) range = data.Count;
-                        else range = dataZoom.minShowNum;
+                        if (minZoomRatio > data.Count) range = data.Count;
+                        else range = minZoomRatio;
                     }
                     if (range > data.Count - start)
                         start = data.Count - range;

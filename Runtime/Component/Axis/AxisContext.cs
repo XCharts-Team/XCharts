@@ -120,24 +120,25 @@ namespace XCharts.Runtime
                 if (end > data.Count) end = data.Count;
             }
 
+            var minZoomRatio = (int)(data.Count * dataZoom.minZoomRatio);
             if (start != filterStart ||
                 end != filterEnd ||
-                dataZoom.minShowNum != filterMinShow ||
+                minZoomRatio != filterMinShow ||
                 isNeedUpdateFilterData)
             {
                 filterStart = start;
                 filterEnd = end;
-                filterMinShow = dataZoom.minShowNum;
+                filterMinShow = minZoomRatio;
                 isNeedUpdateFilterData = false;
 
                 if (data.Count > 0)
                 {
-                    if (range < dataZoom.minShowNum)
+                    if (range < minZoomRatio)
                     {
-                        if (dataZoom.minShowNum > data.Count)
+                        if (dataZoom.minZoomRatio > data.Count)
                             range = data.Count;
                         else
-                            range = dataZoom.minShowNum;
+                            range = minZoomRatio;
                     }
                     if (range > data.Count - start)
                         start = data.Count - range;

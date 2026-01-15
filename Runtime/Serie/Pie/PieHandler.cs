@@ -271,6 +271,7 @@ namespace XCharts.Runtime
             }
             var offset = 0f;
             var interactOffset = serie.animation.interaction.GetOffset(serie.context.outsideRadius);
+            serieData.context.insideRadius = serie.context.insideRadius;
             if (serie.pieClickOffset && (serieData.selected || serieData.context.selected))
             {
                 offset += interactOffset;
@@ -554,10 +555,11 @@ namespace XCharts.Runtime
 
             var dist = Vector2.Distance(local, serie.context.center);
             var interactOffset = serie.animation.interaction.GetOffset(serie.context.outsideRadius);
-            var maxRadius = serie.context.outsideRadius + 2 * interactOffset;
-            if (dist < serie.context.insideRadius || dist > maxRadius)
+            var maxRadius = serie.context.outsideRadius + interactOffset;
+            if (dist < serie.context.insideRadius - interactOffset || dist > maxRadius)
+            {
                 return -1;
-
+            }
             var dir = local - new Vector2(serie.context.center.x, serie.context.center.y);
             var angle = ChartHelper.GetAngle360(Vector2.up, dir);
             for (int i = 0; i < serie.data.Count; i++)
@@ -568,7 +570,8 @@ namespace XCharts.Runtime
                     var ndist = (serieData.selected || serieData.context.selected) ?
                         Vector2.Distance(local, serieData.context.offsetCenter) :
                         dist;
-                    if (ndist >= serieData.context.insideRadius && ndist <= serieData.context.outsideRadius)
+                    ndist = dist;
+                    if (ndist >= serieData.context.insideRadius - interactOffset && ndist <= serieData.context.outsideRadius)
                     {
                         return i;
                     }

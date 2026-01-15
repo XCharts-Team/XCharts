@@ -80,6 +80,7 @@ slug: /changelog
 
 ## master
 
+* (2026.01.15) 修复`Pie`的点击有时候不响应的问题 (#357)
 * (2026.01.08) 增加`DataZoom`的`minZoomRatio`替换旧的`minShowNum` (#350)
 * (2025.11.05) 修复`Axis`的`indicatorLabel`无法隐藏的问题
 * (2025.11.03) 增加`Tooltip`的`Title`可通过`TitleLabelStyle`的`numericFormatter`格式化时间显示 (#353)

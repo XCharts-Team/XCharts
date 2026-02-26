@@ -429,6 +429,19 @@ namespace XCharts.Runtime
             return true;
         }
 
+        public Axis GetMainAxis()
+        {
+            foreach (var component in m_Components)
+            {
+                if (component is Axis)
+                {
+                    var axis = component as Axis;
+                    if (axis.show && axis.mainAxis) return axis;
+                }
+            }
+            return null;
+        }
+
         /// <summary>
         /// 纯类目轴。
         /// </summary>
@@ -483,7 +496,15 @@ namespace XCharts.Runtime
                 relativedAxis = null;
                 return false;
             }
-            var isY = yAxis.IsCategory() && !xAxis.IsCategory();
+            bool isY;
+            if (xAxis.type == yAxis.type)
+            {
+                isY = yAxis.mainAxis;
+            }
+            else
+            {
+                isY = yAxis.IsCategory() && !xAxis.IsCategory();
+            }
             if (isY)
             {
                 axis = yAxis;

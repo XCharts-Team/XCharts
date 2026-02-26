@@ -80,6 +80,8 @@ slug: /changelog
 
 ## master
 
+* (2026.02.26) 增加`Axis`的`mainAxis`参数设置主轴可控制柱图的朝向 (#331)
+* (2026.02.03) 修复`UITable`的`viewport`在不同的锚点下可能会绘制异常的问题
 * (2026.01.15) 修复`Pie`的点击有时候不响应的问题 (#357)
 * (2026.01.08) 增加`DataZoom`的`minZoomRatio`替换旧的`minShowNum` (#350)
 * (2025.11.05) 修复`Axis`的`indicatorLabel`无法隐藏的问题

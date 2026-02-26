@@ -102,10 +102,24 @@ namespace XCharts.Editor
     }
 
     [ComponentEditor(typeof(XAxis))]
-    public class XAxisEditor : AxisEditor { }
+    public class XAxisEditor : AxisEditor
+    {
+        protected override void DrawExtendeds()
+        {
+            base.DrawExtendeds();
+            PropertyField("m_MainAxis");
+        }
+    }
 
     [ComponentEditor(typeof(YAxis))]
-    public class YAxisEditor : AxisEditor { }
+    public class YAxisEditor : AxisEditor
+    {
+        protected override void DrawExtendeds()
+        {
+            base.DrawExtendeds();
+            PropertyField("m_MainAxis");
+        }
+    }
 
     [ComponentEditor(typeof(XAxis3D))]
     public class XAxis3DEditor : AxisEditor { }

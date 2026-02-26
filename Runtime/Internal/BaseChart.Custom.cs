@@ -11,32 +11,60 @@ namespace XCharts.Runtime
         public virtual void GetSeriesMinMaxValue(Axis axis, int axisIndex, out double tempMinValue, out double tempMaxValue)
         {
             var needAnimationData = !axis.context.needAnimation;
+            bool isX = false, isY = false, isZ = false;
+            tempMinValue = 0;
+            tempMaxValue = 0;
             if (axis is XAxis3D)
-            {
-                SeriesHelper.GetXMinMaxValue(this, axisIndex, axis.inverse, out tempMinValue, out tempMaxValue, false, false, needAnimationData);
-            }
+                isX = true;
             else if (axis is ZAxis3D)
             {
-                SeriesHelper.GetZMinMaxValue(this, axisIndex, axis.inverse, out tempMinValue, out tempMaxValue, false, false, needAnimationData);
+                isZ = true;
             }
             else if (axis is YAxis3D)
             {
-                SeriesHelper.GetYMinMaxValue(this, axisIndex, axis.inverse, out tempMinValue, out tempMaxValue, false, false, needAnimationData);
+                isY = true;
             }
             else if (IsAllAxisValue())
             {
-                if (axis is XAxis)
+                var mainAxis = GetMainAxis();
+                if (mainAxis == null)
                 {
-                    SeriesHelper.GetXMinMaxValue(this, axisIndex, axis.inverse, out tempMinValue, out tempMaxValue, false, false, needAnimationData);
+                    if (axis is XAxis)
+                    {
+                        isX = true;
+                    }
+                    else
+                    {
+                        isY = true;
+                    }
                 }
                 else
                 {
-                    SeriesHelper.GetYMinMaxValue(this, axisIndex, axis.inverse, out tempMinValue, out tempMaxValue, false, false, needAnimationData);
+                    if (axis == mainAxis)
+                    {
+                        isX = true;
+                    }
+                    else
+                    {
+                        isY = true;
+                    }
                 }
             }
             else
             {
+                isY = true;
+            }
+            if (isX)
+            {
+                SeriesHelper.GetXMinMaxValue(this, axisIndex, axis.inverse, out tempMinValue, out tempMaxValue, false, false, needAnimationData);
+            }
+            else if (isY)
+            {
                 SeriesHelper.GetYMinMaxValue(this, axisIndex, axis.inverse, out tempMinValue, out tempMaxValue, false, false, needAnimationData);
+            }
+            else if(isZ)
+            {
+                SeriesHelper.GetZMinMaxValue(this, axisIndex, axis.inverse, out tempMinValue, out tempMaxValue, false, false, needAnimationData);
             }
             AxisHelper.AdjustMinMaxValue(axis, ref tempMinValue, ref tempMaxValue, true);
         }

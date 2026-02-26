@@ -80,6 +80,7 @@ slug: /changelog
 
 ## master
 
+* (2026.02.26) 增加`Serie`的`ignoreZeroOccupy`可设置0数据的Bar是否占位 (#286)
 * (2026.02.26) 修复`SaveAsImage`被其他组件遮挡时无法正常保存的问题 (#337)
 * (2026.02.26) 增加`Axis`的`mainAxis`参数设置主轴可控制柱图的朝向 (#331)
 * (2026.02.03) 修复`UITable`的`viewport`在不同的锚点下可能会绘制异常的问题

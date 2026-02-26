@@ -22,6 +22,7 @@ namespace XCharts.Editor
             PropertyField("m_BarWidth");
             PropertyField("m_BarGap");
             PropertyField("m_BarMaxWidth");
+            PropertyField("m_IgnoreZeroOccupy");
             PropertyField("m_RealtimeSort");
             if(serie.useSortData)
             {

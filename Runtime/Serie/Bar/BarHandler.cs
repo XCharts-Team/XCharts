@@ -262,8 +262,14 @@ namespace XCharts.Runtime
 
                 var pX = 0f;
                 var pY = 0f;
+                var runtimeBarWidth = barWidth;
+                var runtimeGap = gap;
+                if (serie.ignoreZeroOccupy)
+                {
+                    UpdateActiveBarLayout(serie, dataZoom, i, categoryWidth, barGap, runtimeBarWidth, ref runtimeGap);
+                }
                 UpdateXYPosition(m_SerieGrid, isY, axis, relativedAxis, i, categoryWidth, relativedCategoryWidth,
-                    barWidth, isStack, value, backgroundGap, ref pX, ref pY);
+                    runtimeBarWidth, isStack, value, backgroundGap, ref pX, ref pY);
                 if (serie.useSortData)
                 {
                     serieData.context.UpdateExchangePosition(ref pX, ref pY, exchangeDuration);
@@ -280,7 +286,7 @@ namespace XCharts.Runtime
                 }
                 float currHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, barHig);
                 Vector3 plb, plt, prt, prb, top;
-                UpdateRectPosition(m_SerieGrid, isY, relativedValue, pX, pY, gap, borderWidth, barWidth, currHig,
+                UpdateRectPosition(m_SerieGrid, isY, relativedValue, pX, pY, runtimeGap, borderWidth, runtimeBarWidth, currHig,
                     out plb, out plt, out prt, out prb, out top);
                 serieData.context.stackHeight = barHig;
                 serieData.context.position = top;
@@ -306,11 +312,11 @@ namespace XCharts.Runtime
                     {
                         case BarType.Normal:
                         case BarType.Capsule:
-                            DrawNormalBar(vh, serie, serieData, itemStyle, backgroundColor, gap, barWidth,
+                            DrawNormalBar(vh, serie, serieData, itemStyle, backgroundColor, runtimeGap, runtimeBarWidth,
                                 pX, pY, plb, plt, prt, prb, isY, m_SerieGrid, axis, areaColor, areaToColor, relativedValue);
                             break;
                         case BarType.Zebra:
-                            DrawZebraBar(vh, serie, serieData, itemStyle, backgroundColor, gap, barWidth,
+                            DrawZebraBar(vh, serie, serieData, itemStyle, backgroundColor, runtimeGap, runtimeBarWidth,
                                 pX, pY, plb, plt, prt, prb, isY, m_SerieGrid, axis, areaColor, areaToColor);
                             break;
                     }
@@ -329,6 +335,103 @@ namespace XCharts.Runtime
             {
                 chart.RefreshPainter(serie);
             }
+        }
+
+        List<string> m_SlotOrder = new List<string>();
+        Dictionary<string, bool> m_ActiveSlot = new Dictionary<string, bool>();
+        private void UpdateActiveBarLayout(Bar currentSerie, DataZoom dataZoom, int dataIndex,
+            float categoryWidth, float barGap, float barWidth, ref float gap)
+        {
+            m_SlotOrder.Clear();
+            m_ActiveSlot.Clear();
+            for (int n = 0; n < chart.series.Count; n++)
+            {
+                var serie = chart.series[n] as Bar;
+                if (serie == null || !serie.show || serie.placeHolder)
+                    continue;
+                if (!IsSerieInGrid(serie, m_SerieGrid.index))
+                    continue;
+
+                var slotKey = GetBarSlotKey(serie);
+                if (!m_ActiveSlot.ContainsKey(slotKey))
+                {
+                    m_ActiveSlot[slotKey] = false;
+                    m_SlotOrder.Add(slotKey);
+                }
+
+                if (IsSerieDataActiveForLayout(serie, dataZoom, dataIndex))
+                {
+                    m_ActiveSlot[slotKey] = true;
+                }
+            }
+
+            var currentSlotKey = GetBarSlotKey(currentSerie);
+            if (!m_ActiveSlot.ContainsKey(currentSlotKey) || !m_ActiveSlot[currentSlotKey])
+                return;
+
+            var activeCount = 0;
+            var activeSlotIndex = -1;
+            for (int n = 0; n < m_SlotOrder.Count; n++)
+            {
+                var slotKey = m_SlotOrder[n];
+                if (!m_ActiveSlot[slotKey])
+                    continue;
+
+                if (slotKey == currentSlotKey)
+                    activeSlotIndex = activeCount;
+
+                activeCount++;
+            }
+
+            if (activeCount <= 0 || activeSlotIndex < 0)
+                return;
+
+            var actualGap = ChartHelper.GetActualValue(barGap, barWidth);
+            var totalBarWidth = barGap == -1
+                ? barWidth
+                : activeCount * barWidth + (activeCount - 1) * actualGap;
+            var offset = (categoryWidth - totalBarWidth) * 0.5f;
+            gap = barGap == -1
+                ? offset
+                : offset + activeSlotIndex * (barWidth + actualGap);
+        }
+
+        private string GetBarSlotKey(Bar serie)
+        {
+            return string.IsNullOrEmpty(serie.stack) ? "s_" + serie.index : "k_" + serie.stack;
+        }
+
+        private bool IsSerieDataActiveForLayout(Bar serie, DataZoom dataZoom, int dataIndex)
+        {
+            var dataList = serie.GetDataList(dataZoom, true);
+            if (dataList == null || dataIndex < 0 || dataIndex >= dataList.Count)
+                return false;
+
+            var serieData = dataList[dataIndex];
+            if (serieData == null || !serieData.show || serie.IsIgnoreValue(serieData))
+                return false;
+
+            if (!serie.ignoreZeroOccupy)
+                return true;
+
+            return !MathUtil.Approximately(serieData.GetData(1), 0);
+        }
+
+        private bool IsSerieInGrid(Bar serie, int gridIndex)
+        {
+            XAxis xAxis;
+            if (chart.TryGetChartComponent<XAxis>(out xAxis, serie.xAxisIndex))
+            {
+                if (xAxis.gridIndex != gridIndex)
+                    return false;
+            }
+            YAxis yAxis;
+            if (chart.TryGetChartComponent<YAxis>(out yAxis, serie.yAxisIndex))
+            {
+                if (yAxis.gridIndex != gridIndex)
+                    return false;
+            }
+            return true;
         }
 
         private void UpdateXYPosition(GridCoord grid, bool isY, Axis axis, Axis relativedAxis, int i,

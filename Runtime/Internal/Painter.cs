@@ -18,7 +18,11 @@ namespace XCharts.Runtime
         protected bool m_Refresh;
         protected Action<VertexHelper, Painter> m_OnPopulateMesh;
 
-        public Action<VertexHelper, Painter> onPopulateMesh { set { m_OnPopulateMesh = value; } }
+        public Action<VertexHelper, Painter> onPopulateMesh
+        {
+            get { return m_OnPopulateMesh; }
+            set { m_OnPopulateMesh = value; }
+        }
         public int index { get { return m_Index; } set { m_Index = value; } }
         public Type type { get { return m_Type; } set { m_Type = value; } }
         public void Refresh()

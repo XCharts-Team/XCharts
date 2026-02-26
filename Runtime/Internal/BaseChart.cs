@@ -627,6 +627,8 @@ namespace XCharts.Runtime
             vh.Clear();
             var maxPainter = settings.maxPainter;
             var maxSeries = m_Series.Count;
+            if (painter == null || painter.index < 0 || painter.index >= maxPainter)
+                return;
             var rate = Mathf.CeilToInt(maxSeries * 1.0f / maxPainter);
             m_PainterUpper.Refresh();
             m_PainterTop.Refresh();

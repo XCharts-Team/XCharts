@@ -285,7 +285,7 @@ namespace XCharts.Editor
             }
             if (GUILayout.Button(Styles.btnSaveAsImage))
             {
-                m_Chart.SaveAsImage();
+                m_Chart.SaveAsImage("png", "", 4f);
             }
             if (m_CheckWarning)
             {

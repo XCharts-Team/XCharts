@@ -618,6 +618,12 @@ Base of logarithm, which is valid only for numeric axes with type: 'Log'.
 
 On the log axis, if base e is the natural number, and is true, logBase fails.
 
+### Axis.mainAxis
+
+`bool` `false` `v3.15.0`
+
+Whether it is the main axis. When both X and Y axes are of the same type, the axis set to main axis will determine the orientation, such as horizontal bar chart and vertical bar chart.
+
 ### Axis.max
 
 `double`
@@ -828,6 +834,12 @@ Settings related to axis line.
 
 the arrow of line.
 
+### AxisLine.endExtendLength
+
+`float`
+
+Extend length of the axis line at the end.
+
 ### AxisLine.onZero
 
 `bool`
@@ -839,6 +851,12 @@ When mutiple axes exists, this option can be used to specify which axis can be "
 `bool`
 
 Whether to show the arrow symbol of axis.
+
+### AxisLine.startExtendLength
+
+`float`
+
+Extend length of the axis line at the start.
 
 ## AxisMinorSplitLine
 
@@ -1504,11 +1522,11 @@ Distance between dataZoom component and the left side of the container. left val
 
 选取框样式。
 
-### DataZoom.minShowNum
+### DataZoom.minZoomRatio
 
-`int` `2`
+`float` `0.2f`
 
-Minimum number of display data. Minimum number of data displayed when DataZoom is enlarged to maximum.
+The minimum zoom ratio of dataZoom. Range 0f-1f.
 
 ### DataZoom.orient
 
@@ -3361,6 +3379,17 @@ Distance between grid component and the top side of the container.
 
 class in XCharts.Runtime / Inherits from: [Serie](#serie)
 
+### Pie.pieType
+
+[PieType](#pietype) `v3.15.0`
+
+Pie chart type.
+
+Options:
+
+- `Solid`: solid pie chart - default fill style.
+- `Wireframe`: wireframe pie chart - only show the outline wireframe.
+
 ### Pie.radiusGradient
 
 `bool` `false` `v3.8.1`
@@ -3529,13 +3558,13 @@ The width of the bar. Adaptive when default 0.
 
 `float` `2f`
 
-斑马线的间距。
+The gap of zebra bar. It is the distance between two zebra stripes. When the value is 0, there is no gap between stripes.
 
 ### Serie.barZebraWidth
 
 `float` `4f`
 
-斑马线的粗细。
+The width of zebra bar. It is the width of each zebra stripe. When the value is 0, there is no zebra stripe.
 
 ### Serie.bottom
 
@@ -3638,6 +3667,12 @@ Index of layout component that serie uses. Default is -1 means not use layout, o
 `double` `0`
 
 忽略数据的默认值。当ignore为true才有效。
+
+### Serie.ignoreZeroOccupy
+
+`bool` `false` `v3.15.0`
+
+Whether to ignore the zero value bar occupy. When enabled, the bar with zero value will not occupy space, and the gap between bars will be automatically adjusted according to the actual displayed bars. Generally used in bar chart.
 
 ### Serie.index
 

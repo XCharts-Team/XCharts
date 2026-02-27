@@ -3,9 +3,9 @@
   "displayName": "XCharts",
   "author": "monitor1394",
   "license": "MIT",
-  "version": "3.14.0",
-  "date": "20250315",
-  "checkdate": "20250315",
+  "version": "3.15.0",
+  "date": "20260301",
+  "checkdate": "20260301",
   "unity": "2018.3",
   "description": "A charting and data visualization library for Unity. Support line chart, bar chart, pie chart, radar chart, scatter chart, heatmap chart, ring chart, candlestick chart, polar chart and parallel coordinates.",
   "keywords": [

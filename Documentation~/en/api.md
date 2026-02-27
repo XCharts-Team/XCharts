@@ -182,6 +182,7 @@ slug: /api
 - [ParallelCoordContext](#parallelcoordcontext)
 - [Pie](#pie)
 - [PieChart](#piechart)
+- [PieType](#pietype)
 - [PolarAxisTheme](#polaraxistheme)
 - [PolarChart](#polarchart)
 - [PolarCoord](#polarcoord)
@@ -1723,6 +1724,11 @@ public Dictionary&lt;Type, FieldInfo&gt; typeListForComponent
 
 public Dictionary&lt;Type, FieldInfo&gt; typeListForSerie  
 
+### BaseChart.useUtc
+
+public bool useUtc  
+Whether to use UTC time for the chart.
+
 ### BaseChart.AddChartComponent
 
 public MainComponent AddChartComponent(Type type)  
@@ -1978,6 +1984,10 @@ public Color32 GetLegendRealShowNameColor(string name)
 ### BaseChart.GetLegendRealShowNameIndex
 
 public int GetLegendRealShowNameIndex(string name)  
+
+### BaseChart.GetMainAxis
+
+public Axis GetMainAxis()  
 
 ### BaseChart.GetMarkColor
 
@@ -2626,11 +2636,6 @@ public void RefreshAllComponent()
 public virtual void RefreshGraph()  
 Redraw graph in next frame.
 
-### BaseGraph.SaveAsImage
-
-public void SaveAsImage(string imageType = "png", string savePath = "")  
-保存图表为图片。
-
 ### BaseGraph.ScreenPointToChartPoint
 
 public bool ScreenPointToChartPoint(Vector2 screenPoint, out Vector2 chartPoint)  
@@ -2918,11 +2923,11 @@ public static string IntToStr(int value, string numericFormatter = "")
 
 ### ChartCached.NumberToDateStr
 
-public static string NumberToDateStr(double timestamp, string formatter)  
+public static string NumberToDateStr(double timestamp, string formatter, bool local = false)  
 
 ### ChartCached.NumberToDateTime
 
-public static DateTime NumberToDateTime(double timestamp)  
+public static DateTime NumberToDateTime(double timestamp, bool local = false)  
 
 ### ChartCached.NumberToStr
 
@@ -3167,10 +3172,6 @@ public static void RemoveTMPComponents(GameObject gameObject)
 ### ChartHelper.RotateRound
 
 public static Vector3 RotateRound(Vector3 position, Vector3 center, Vector3 axis, float angle)  
-
-### ChartHelper.SaveAsImage
-
-public static Texture2D SaveAsImage(RectTransform rectTransform, Canvas canvas, string imageType = "png", string path = "")  
 
 ### ChartHelper.SetActive
 
@@ -3844,11 +3845,11 @@ class in XCharts.Runtime
 
 ### DateTimeUtil.GetDateTime
 
-public static DateTime GetDateTime(double timestamp, bool local = true)  
+public static DateTime GetDateTime(double timestamp, bool local = false)  
 
 ### DateTimeUtil.GetDefaultDateTimeString
 
-public static string GetDefaultDateTimeString(double timestamp, double range = 0)  
+public static string GetDefaultDateTimeString(double timestamp, double range = 0, bool local = false)  
 
 ### DateTimeUtil.GetTimestamp
 
@@ -4764,7 +4765,7 @@ public virtual string GetFormatterContent(int labelIndex, int totalIndex, double
 
 ### LabelStyle.GetFormatterDateTime
 
-public string GetFormatterDateTime(int labelIndex, int totalIndex, double value, double minValue, double maxValue)  
+public string GetFormatterDateTime(int labelIndex, int totalIndex, double value, double minValue, double maxValue, bool local)  
 
 ### LabelStyle.GetOffset
 
@@ -6067,10 +6068,6 @@ class in XCharts.Runtime / Inherits from: [MaskableGraphic](https://docs.unity3d
 
 public int index  
 
-### Painter.onPopulateMesh
-
-public Action&lt;VertexHelper, Painter&gt; onPopulateMesh  
-
 ### Painter.type
 
 public Type type  
@@ -6204,6 +6201,15 @@ default label pie chart.
 
 public void DefaultRadiusRosePieChart()  
 default rose pie chart.
+
+## PieType
+
+class in XCharts.Runtime
+
+Options:
+
+- `Solid`: solid pie chart - default fill style.
+- `Wireframe`: wireframe pie chart - only show the outline wireframe.
 
 ## PolarAxisTheme
 
@@ -7226,12 +7232,12 @@ public double GetLastData()
 
 ### SerieData.GetMaxData
 
-public double GetMaxData(bool inverse = false)  
+public double GetMaxData(bool inverse = false, int startDimensionIndex = 0)  
 the maxinum value.
 
 ### SerieData.GetMinData
 
-public double GetMinData(bool inverse = false)  
+public double GetMinData(bool inverse = false, int startDimensionIndex = 0)  
 the mininum value.
 
 ### SerieData.GetMinMaxData

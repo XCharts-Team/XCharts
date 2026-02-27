@@ -6,6 +6,7 @@ slug: /changelog
 # Changelog
 
 [master](#master)  
+[v3.15.0](#v3150)  
 [v3.14.0](#v3140)  
 [v3.13.0](#v3130)  
 [v3.12.1](#v3121)  
@@ -79,9 +80,62 @@ slug: /changelog
 
 ## master
 
+## v3.15.0
+
+Version Highlights:
+
+* __Enhanced Timeline & Zoom Capabilities__: Added `DataZoom.minZoomRatio` (replacing `minShowNum`), `Chart.useUtc`, and continuous optimization of `Axis Time` performance during zooming and handling of large year ranges.
+* __More Flexible Bar Charts & Axis Configuration__: Added `Axis.mainAxis` to control bar chart orientation, `Serie.ignoreZeroOccupy` to control whether zero-value bars occupy space, and `AxisLine` extension line configurations.
+* __Improved Chart Styling & Interactivity__: Added `Pie.pieType`, `Legend.itemInactiveOpacity`, `Axis.onLabelClick`, `Animation.Exchange`, `LabelStyle.fixedX/fixedY`, and more.
+* __Ongoing Enhancement of Extended UI Components__: Added `Title` and `Viewport` configurations for `UITable`, enhanced `UIStatistic.desc`, and optimized `Comment.layer` and coordinate refresh experience.
+* __Focused Stability & Compatibility Fixes__: Resolved critical issues including `SaveAsImage` being blocked by other components, `Pie` click failures, `TMP` compatibility, `Gantt` time range and year 2038 problem, `MarkArea/GridCoord/Axis` and more.
+
+Changelog Details:
+
+* (2026.03.01) Released version `v3.15.0`
+* (2026.02.26) Added `ignoreZeroOccupy` to `Serie` to set whether zero-value Bars occupy space (#286)
+* (2026.02.26) Fixed `SaveAsImage` not saving correctly when blocked by other components (#337)
+* (2026.02.26) Added `mainAxis` parameter to `Axis` to set the main axis for controlling bar chart orientation (#331)
+* (2026.02.03) Fixed `UITable` `viewport` potentially drawing incorrectly under different anchor points
+* (2026.01.15) Fixed `Pie` click sometimes not responding (#357)
+* (2026.01.08) Added `minZoomRatio` to `DataZoom` to replace the old `minShowNum` (#350)
+* (2025.11.05) Fixed `Axis` `indicatorLabel` not being hideable
+* (2025.11.03) Added `Tooltip` `Title` time formatting via `TitleLabelStyle` `numericFormatter` (#353)
+* (2025.10.30) Added `useUtc` parameter to `Chart` to set whether displayed time uses UTC
+* (2025.10.30) Optimized `Candlestick` support for time axis
+* (2025.10.30) Added support for `ignore` in `Scatter` to skip data points
+* (2025.10.24) Optimized line drawing order for `Sankey`
+* (2025.10.22) Added `pieType` to `Pie` supporting solid pie charts and wireframe handle charts (#349)
+* (2025.09.05) Optimized `MarkLine` performance
+* (2025.09.01) Added `startExtendLength` and `endExtendLength` to `AxisLine` for setting axis line extensions
+* (2025.08.27) Fixed `Serie` `TitleStyle` not refreshing promptly when data changed
+* (2025.05.19) Fixed `Axis` runtime error when `TMP` is enabled
+* (2025.04.25) Fixed `MarkArea` drawing inaccurately when specifying `yValue` or `xValue`
+* (2025.04.17) Added `Title` support for `UITable` to set headers
+* (2025.04.17) Added `Viewport` support for `UITable` to set table viewport margins and borders
+* (2025.04.15) Added `Bar` support for color settings via `VisualMap`
+* (2025.04.14) Added `showZeroLabel` to `AxisLabel` to set whether to display zero tick
+* (2025.04.08) Added `desc` description text setting support for `UIStatistic`
+* (2025.04.07) Fixed `Gantt` chart calculating inaccurate time ranges with multi-dimensional data
+* (2025.04.07) Optimized `Axis` `Time` axis support for Custom and ceilRate settings
+* (2025.04.07) Fixed `GridCoord` covering charts when background color set and Serie Clip enabled
+* (2025.04.07) Fixed `Gantt` chart display errors when year exceeds 2038
+* (2025.04.07) Fixed `Axis` `Time` axis not displaying years beyond 2038
+* (2025.04.06) Fixed `Axis` `Time` axis text display errors when zoomed with `DataZoom`
+* (2025.03.28) Fixed `Pie3D` `avoidLabelOverlap` not working
+* (2025.03.27) Added `itemInactiveOpacity` to `Legend` to set color transparency for inactive states (#343)
+* (2025.03.27) Added `onLabelClick` callback event to `Axis`
+* (2025.03.26) Added `Exchange` sort swap animation to `Animation`
+* (2025.03.22) Added `layer` setting to `Comment`
+* (2025.03.21) Optimized coordinate refresh for `Comment`
+* (2025.03.19) Added `{index}` wildcard support for `Serie` `Label` `formatter`
+* (2025.03.18) Added `TitleStyle` component support for `Bar`
+* (2025.03.18) Added `fixedX` and `fixedY` to `LabelStyle` to fix label coordinates
+* (2025.03.17) Added `backgroundGap` to `ItemStyle` to set data item background gap
+
 ## v3.14.0
 
-**Key Highlights:**
+Version Highlights:
 
 * Added real-time sorting functionality for `Bar`
 * Added support for `\n` line breaks in `itemFormatter` for `Tooltip`
@@ -89,7 +143,7 @@ slug: /changelog
 * Added `speed` to `Animation` to specify animation speed
 * Optimized column alignment in `Tooltip`
 
-**Detailed Changelog:**
+Changelog Details:
 
 * (2025.03.15) Released version `v3.14.0`
 * (2025.03.09) Fixed an issue where `Bar` displayed abnormally when placed in different `Grids` within the same `Chart`
@@ -111,7 +165,7 @@ slug: /changelog
 
 ## v3.13.0
 
-Key Features:
+Version Highlights:
 
 * Added the `UIText` extension component  
 * Added the `UIToggle` extension component  
@@ -121,7 +175,7 @@ Key Features:
 * Added the `size2` parameter to `SymbolStyle` to support rectangular markers  
 * Other optimizations and bug fixes  
 
-Detailed Changelog:
+Changelog Details:
 
 * (2025.01.01) Released `v3.13.0`  
 * (2024.12.27) Added the `size2` parameter to `SymbolStyle` to support rectangular markers  
@@ -168,7 +222,7 @@ Version Highlights:
 * Adjusted and perfected the documentation
 * Other optimizations and fixes
 
-Log Details:
+Changelog Details:
 
 * (2024.09.30) Released version `v3.12.0`
 * (2024.09.27) Improved the `5-minute tutorial`
@@ -201,7 +255,7 @@ Log Details:
 
 ## v3.11.0
 
-Release Highlights:
+Version Highlights:
 
 * Added `Line3DChart` for 3D line charts
 * Added `GraphChart` for relationship graphs

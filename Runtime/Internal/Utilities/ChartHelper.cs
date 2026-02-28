@@ -1398,10 +1398,34 @@ namespace XCharts.Runtime
                 camera.Render();
 
                 RenderTexture.active = rt;
-                tex = new Texture2D(width, height, TextureFormat.ARGB32, false);
-                tex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-                tex.Apply();
-                ApplyRoundedCornerClip(tex, cornerRadii);
+
+                // If exportScale > 1 we want to save the image back to the original logical
+                // size (option B): render at higher density, then downscale to target pixels
+                // so the saved image has original width/height but higher quality.
+                if (clampedExportScale > 1f)
+                {
+                    var targetWidth = Mathf.Max(1, Mathf.CeilToInt(rectTransform.rect.width * scaleFactor));
+                    var targetHeight = Mathf.Max(1, Mathf.CeilToInt(rectTransform.rect.height * scaleFactor));
+
+                    var smallRT = RenderTexture.GetTemporary(targetWidth, targetHeight, 0, rt.format);
+                    Graphics.Blit(rt, smallRT);
+
+                    RenderTexture.active = smallRT;
+                    tex = new Texture2D(targetWidth, targetHeight, TextureFormat.ARGB32, false);
+                    tex.ReadPixels(new Rect(0, 0, targetWidth, targetHeight), 0, 0);
+                    tex.Apply();
+                    RenderTexture.ReleaseTemporary(smallRT);
+
+                    var cornerRadiiFinal = GetChartCornerRadius(chart, rectTransform.rect.width, rectTransform.rect.height, scaleFactor);
+                    ApplyRoundedCornerClip(tex, cornerRadiiFinal);
+                }
+                else
+                {
+                    tex = new Texture2D(width, height, TextureFormat.ARGB32, false);
+                    tex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+                    tex.Apply();
+                    ApplyRoundedCornerClip(tex, cornerRadii);
+                }
             }
             finally
             {

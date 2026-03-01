@@ -1446,7 +1446,7 @@ namespace XUGL
             var lastP4 = center;
             var lastColor = color;
             var needBorder = borderWidth != 0;
-            var needSpace = gap != 0;
+            var needSpace = gap != 0 || borderWidth != 0;
             var borderLineWidth = needSpace ? borderWidth : borderWidth / 2;
             var lastPos = Vector3.zero;
             var middleDire = UGLHelper.GetDire(startAngle + halfAngle);

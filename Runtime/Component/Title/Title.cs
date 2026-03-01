@@ -8,7 +8,7 @@ namespace XCharts.Runtime
     /// ||标题组件，包含主标题和副标题。
     /// </summary>
     [Serializable]
-    [ComponentHandler(typeof(TitleHander), true)]
+    [ComponentHandler(typeof(TitleHandler), true)]
     public class Title : MainComponent, IPropertyChanged
     {
         [SerializeField] private bool m_Show = true;

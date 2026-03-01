@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using UnityEngine;
 
 namespace XCharts.Runtime
 {
@@ -37,9 +36,9 @@ namespace XCharts.Runtime
 
         public static bool IsDateOrTimeRegex(string regex, ref bool date, ref string formatter)
         {
-            if(IsDateOrTimeRegex(regex))
+            if (IsDateOrTimeRegex(regex))
             {
-                if(regex == "date" || regex == "time")
+                if (regex == "date" || regex == "time")
                 {
                     date = regex == "date";
                     formatter = "";
@@ -53,24 +52,24 @@ namespace XCharts.Runtime
             return false;
         }
 
-        public static int GetTimestamp()
+        public static double GetTimestamp()
         {
-            return (int)(DateTime.Now - k_LocalDateTime1970).TotalSeconds;
+            return (DateTime.Now - k_LocalDateTime1970).TotalSeconds;
         }
 
-        public static int GetTimestamp(DateTime time, bool local = false)
+        public static double GetTimestamp(DateTime time, bool local = false)
         {
             if (local)
             {
-                return (int)(time - k_LocalDateTime1970).TotalSeconds;
+                return (time - k_LocalDateTime1970).TotalSeconds;
             }
             else
             {
-                return (int)(time - k_DateTime1970).TotalSeconds;
+                return (time - k_DateTime1970).TotalSeconds;
             }
         }
 
-        public static int GetTimestamp(string dateTime, bool local = false)
+        public static double GetTimestamp(string dateTime, bool local = false)
         {
             try
             {
@@ -83,15 +82,16 @@ namespace XCharts.Runtime
             }
         }
 
-        public static DateTime GetDateTime(double timestamp, bool local = true)
+        public static DateTime GetDateTime(double timestamp, bool local = false)
         {
-            return local ? k_LocalDateTime1970.AddSeconds(timestamp) : k_DateTime1970.AddSeconds(timestamp);
+            var dateTime = local ? k_LocalDateTime1970.AddSeconds(timestamp) : k_DateTime1970.AddSeconds(timestamp);
+            return dateTime;
         }
 
-        public static string GetDefaultDateTimeString(int timestamp, double range = 0)
+        public static string GetDefaultDateTimeString(double timestamp, double range = 0, bool local = false)
         {
             var dateString = String.Empty;
-            var dateTime = GetDateTime(timestamp);
+            var dateTime = GetDateTime(timestamp, local);
             if (range <= 0 || range >= DateTimeUtil.ONE_DAY)
             {
                 dateString = dateTime.ToString("yyyy-MM-dd");
@@ -144,76 +144,130 @@ namespace XCharts.Runtime
         /// <param name="minTimestamp"></param>
         /// <param name="maxTimestamp"></param>
         /// <param name="splitNumber"></param>
-        internal static float UpdateTimeAxisDateTimeList(List<double> list, int minTimestamp, int maxTimestamp, int splitNumber)
+        internal static float UpdateTimeAxisDateTimeList(List<double> list, double minTimestamp, double maxTimestamp, int splitNumber, double ceilRate, bool local)
         {
-            var firstValue = list.Count > 0 ? list[0] : 0;
-            var secondValue = list.Count > 1 ? list[1] : 0;
-            list.Clear();
             var range = maxTimestamp - minTimestamp;
-            if (range <= 0) return 0;
-            var dtMin = DateTimeUtil.GetDateTime(minTimestamp);
-            var dtMax = DateTimeUtil.GetDateTime(maxTimestamp);
-            int tick = 0;
-            if (range >= ONE_YEAR * MIN_TIME_SPLIT_NUMBER)
+            if (range <= 0)
             {
-                var num = splitNumber <= 0 ? GetSplitNumber(range, ONE_YEAR) : Math.Max(range / (splitNumber * ONE_YEAR), 1);
-                var dtStart = (firstValue == 0 || secondValue == 0 || (minTimestamp > firstValue && minTimestamp > secondValue))
-                    ? (new DateTime(dtMin.Year, dtMin.Month, 1).AddMonths(1))
-                    : (minTimestamp > firstValue ? DateTimeUtil.GetDateTime(secondValue) : DateTimeUtil.GetDateTime(firstValue));
-                tick = num * 365 * 24 * 3600;
-                dtStart = new DateTime(dtStart.Year, dtStart.Month, 1);
-                while (dtStart.Ticks < dtMax.Ticks)
+                list.Clear();
+                return 0;
+            }
+            var dtMin = GetDateTime(minTimestamp, local);
+            var dtMax = GetDateTime(maxTimestamp, local);
+            int tick;
+            if (ceilRate != 0)
+            {
+                var tickSecond = (int)ceilRate;
+                tick = GetTickSecond(range, 0, tickSecond);
+                var let = minTimestamp % tickSecond;
+                var defaultTimestamp = let == 0 ? minTimestamp : minTimestamp - let + tickSecond;
+                var startTimestamp = (int)GetFirstMaxValue(list, minTimestamp, defaultTimestamp);
+                while (startTimestamp > minTimestamp)
                 {
-                    list.Add(DateTimeUtil.GetTimestamp(dtStart));
-                    dtStart = dtStart.AddYears(num);
+                    startTimestamp -= tick;
                 }
-            }
-            else if (range >= ONE_MONTH * MIN_TIME_SPLIT_NUMBER)
-            {
-                var num = splitNumber <= 0 ? GetSplitNumber(range, ONE_MONTH) : Math.Max(range / (splitNumber * ONE_MONTH), 1);
-                var dtStart = (firstValue == 0 || secondValue == 0 || (minTimestamp > firstValue && minTimestamp > secondValue))
-                    ? (new DateTime(dtMin.Year, dtMin.Month, 1).AddMonths(1))
-                    : (minTimestamp > firstValue ? DateTimeUtil.GetDateTime(secondValue) : DateTimeUtil.GetDateTime(firstValue));
-                dtStart = new DateTime(dtStart.Year, dtStart.Month, 1);
-                tick = num * 30 * 24 * 3600;
-                while (dtStart.Ticks < dtMax.Ticks)
+                if (startTimestamp < minTimestamp)
                 {
-                    list.Add(DateTimeUtil.GetTimestamp(dtStart));
-                    dtStart = dtStart.AddMonths(num);
+                    startTimestamp += tick;
                 }
-            }
-            else if (range >= ONE_DAY * MIN_TIME_SPLIT_NUMBER)
-            {
-                tick = GetTickSecond(range, splitNumber, ONE_DAY);
-                var let = minTimestamp % tick;
-                var startTimestamp = let == 0 ? minTimestamp : (minTimestamp - let) + tick;
-                AddTickTimestamp(list, startTimestamp, maxTimestamp, tick);
-            }
-            else if (range >= ONE_HOUR * MIN_TIME_SPLIT_NUMBER)
-            {
-                tick = GetTickSecond(range, splitNumber, ONE_HOUR);
-                var let = minTimestamp % tick;
-                var startTimestamp = let == 0 ? minTimestamp : (minTimestamp - let) + tick;
-                AddTickTimestamp(list, startTimestamp, maxTimestamp, tick);
-            }
-            else if (range >= ONE_MINUTE * MIN_TIME_SPLIT_NUMBER)
-            {
-                tick = GetTickSecond(range, splitNumber, ONE_MINUTE);
-                var let = minTimestamp % tick;
-                var startTimestamp = let == 0 ? minTimestamp : (minTimestamp - let) + tick;
+                list.Clear();
                 AddTickTimestamp(list, startTimestamp, maxTimestamp, tick);
             }
             else
             {
-                tick = GetTickSecond(range, splitNumber, ONE_SECOND);
-                var let = minTimestamp % tick;
-                var startTimestamp = let == 0 ? minTimestamp : (minTimestamp - let) + tick;
-                AddTickTimestamp(list, startTimestamp, maxTimestamp, tick);
+                if (range >= ONE_YEAR * MIN_TIME_SPLIT_NUMBER)
+                {
+                    var num = splitNumber <= 0 ? GetSplitNumber(range, ONE_YEAR) : (int)Math.Max(range / (splitNumber * ONE_YEAR), 1);
+                    var dtStart = GetDateTime(GetFirstMaxValue(list, minTimestamp), local);
+                    dtStart = new DateTime(dtStart.Year, dtStart.Month, 1);
+                    while (dtStart > dtMin)
+                    {
+                        dtStart = dtStart.AddYears(-num);
+                    }
+                    if (dtStart < dtMin)
+                    {
+                        dtStart = dtStart.AddYears(num);
+                    }
+                    tick = num * 365 * 24 * 3600;
+                    list.Clear();
+                    while (dtStart.Ticks < dtMax.Ticks)
+                    {
+                        list.Add(DateTimeUtil.GetTimestamp(dtStart, local));
+                        dtStart = dtStart.AddYears(num);
+                    }
+                }
+                else if (range >= ONE_MONTH * MIN_TIME_SPLIT_NUMBER)
+                {
+                    var num = splitNumber <= 0 ? GetSplitNumber(range, ONE_MONTH) : (int)Math.Max(range / (splitNumber * ONE_MONTH), 1);
+                    var dtStart = GetDateTime(GetFirstMaxValue(list, minTimestamp), local);
+                    dtStart = new DateTime(dtStart.Year, dtStart.Month, 1);
+                    while (dtStart > dtMin)
+                    {
+                        dtStart = dtStart.AddMonths(-num);
+                    }
+                    if (dtStart < dtMin)
+                    {
+                        dtStart = dtStart.AddMonths(num);
+                    }
+                    tick = num * 30 * 24 * 3600;
+                    list.Clear();
+                    while (dtStart.Ticks < dtMax.Ticks)
+                    {
+                        list.Add(DateTimeUtil.GetTimestamp(dtStart, local));
+                        dtStart = dtStart.AddMonths(num);
+                    }
+                }
+                else
+                {
+                    int tickSecond;
+                    if (range >= ONE_DAY * MIN_TIME_SPLIT_NUMBER)
+                    {
+                        tickSecond = ONE_DAY;
+                    }
+                    else if (range >= ONE_HOUR * MIN_TIME_SPLIT_NUMBER)
+                    {
+                        tickSecond = ONE_HOUR;
+                    }
+                    else if (range >= ONE_MINUTE * MIN_TIME_SPLIT_NUMBER)
+                    {
+                        tickSecond = ONE_MINUTE;
+                    }
+                    else
+                    {
+                        tickSecond = ONE_SECOND;
+                    }
+                    tick = GetTickSecond(range, splitNumber, tickSecond);
+                    var let = minTimestamp % tickSecond;
+                    var defaultTimestamp = let == 0 ? minTimestamp : minTimestamp - let + tickSecond;
+                    var startTimestamp = (int)GetFirstMaxValue(list, minTimestamp, defaultTimestamp);
+                    while (startTimestamp > minTimestamp)
+                    {
+                        startTimestamp -= tick;
+                    }
+                    if (startTimestamp < minTimestamp)
+                    {
+                        startTimestamp += tick;
+                    }
+                    list.Clear();
+                    AddTickTimestamp(list, startTimestamp, maxTimestamp, tick);
+                }
             }
             return tick;
         }
 
-        private static int GetSplitNumber(int range, int tickSecond)
+        private static double GetFirstMaxValue(List<double> list, double minTimestamp, double defaultTimestamp = 0)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i] >= minTimestamp)
+                {
+                    return list[i];
+                }
+            }
+            return defaultTimestamp == 0 ? minTimestamp : defaultTimestamp;
+        }
+
+        private static int GetSplitNumber(double range, int tickSecond)
         {
             var num = 1;
             while (range / (num * tickSecond) > 8)
@@ -223,12 +277,12 @@ namespace XCharts.Runtime
             return num;
         }
 
-        private static int GetTickSecond(int range, int splitNumber, int tickSecond)
+        private static int GetTickSecond(double range, int splitNumber, int tickSecond)
         {
             var num = 0;
             if (splitNumber > 0)
             {
-                num = Math.Max(range / (splitNumber * tickSecond), 1);
+                num = (int)Math.Max(range / (splitNumber * tickSecond), 1);
             }
             else
             {
@@ -243,7 +297,7 @@ namespace XCharts.Runtime
             return num * tickSecond;
         }
 
-        private static void AddTickTimestamp(List<double> list, int startTimestamp, int maxTimestamp, int tickSecond)
+        private static void AddTickTimestamp(List<double> list, double startTimestamp, double maxTimestamp, int tickSecond)
         {
             while (startTimestamp <= maxTimestamp)
             {

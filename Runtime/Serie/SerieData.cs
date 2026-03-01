@@ -59,6 +59,7 @@ namespace XCharts.Runtime
 
         public ChartLabel labelObject { get; set; }
         public ChartLabel titleObject { get; set; }
+        public int sortIndex { get; set; }
 
         private bool m_Show = true;
         /// <summary>
@@ -644,11 +645,12 @@ namespace XCharts.Runtime
         /// the maxinum value.
         /// ||最大值。
         /// </summary>
-        public double GetMaxData(bool inverse = false)
+        public double GetMaxData(bool inverse = false, int startDimensionIndex = 0)
         {
             if (m_Data.Count == 0) return 0;
             var temp = double.MinValue;
-            for (int i = 0; i < m_Data.Count; i++)
+            if (startDimensionIndex < 0) startDimensionIndex = 0;
+            for (int i = startDimensionIndex; i < m_Data.Count; i++)
             {
                 var value = GetData(i, inverse);
                 if (value > temp) temp = value;
@@ -660,11 +662,12 @@ namespace XCharts.Runtime
         /// the mininum value.
         /// ||最小值。
         /// </summary>
-        public double GetMinData(bool inverse = false)
+        public double GetMinData(bool inverse = false, int startDimensionIndex = 0)
         {
             if (m_Data.Count == 0) return 0;
             var temp = double.MaxValue;
-            for (int i = 0; i < m_Data.Count; i++)
+            if (startDimensionIndex < 0) startDimensionIndex = 0;
+            for (int i = startDimensionIndex; i < m_Data.Count; i++)
             {
                 var value = GetData(i, inverse);
                 if (value < temp) temp = value;
@@ -758,17 +761,18 @@ namespace XCharts.Runtime
             return 0;
         }
 
-        public void SetLabelActive(bool flag)
+        public void SetLabelActive(bool flag, bool force = false)
         {
-            if (labelObject != null) labelObject.SetActive(flag);
+            if (labelObject != null) labelObject.SetActive(flag, force);
             foreach (var labelObject in context.dataLabels)
             {
-                labelObject.SetActive(false);
+                labelObject.SetActive(flag, force);
             }
         }
+
         public void SetIconActive(bool flag)
         {
-            if (labelObject != null) labelObject.SetActive(flag);
+            if (labelObject != null) labelObject.SetIconActive(flag);
         }
 
         public void SetPolygon(params Vector2[] points)

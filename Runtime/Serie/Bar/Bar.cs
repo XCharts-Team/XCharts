@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace XCharts.Runtime
 {
     [System.Serializable]
@@ -6,11 +8,13 @@ namespace XCharts.Runtime
     [CoordOptions(typeof(GridCoord), typeof(PolarCoord))]
     [DefaultAnimation(AnimationType.BottomToTop)]
     [DefaultTooltip(Tooltip.Type.Shadow, Tooltip.Trigger.Axis)]
-    [SerieComponent(typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
-    [SerieDataComponent(typeof(ItemStyle), typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieComponent(typeof(TitleStyle), typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
+    [SerieDataComponent(typeof(ItemStyle), typeof(TitleStyle), typeof(LabelStyle), typeof(EmphasisStyle), typeof(BlurStyle), typeof(SelectStyle))]
     [SerieDataExtraField("m_Ignore")]
     public class Bar : Serie, INeedSerieContainer
     {
+        public override bool useSortData { get { return realtimeSort; } }
+
         public int containerIndex { get; internal set; }
         public int containterInstanceId { get; internal set; }
 

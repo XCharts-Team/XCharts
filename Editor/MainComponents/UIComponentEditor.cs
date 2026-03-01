@@ -54,7 +54,7 @@ namespace XCharts.Editor
             }
             if (GUILayout.Button(Styles.btnSaveAsImage))
             {
-                m_UIComponent.SaveAsImage();
+                m_UIComponent.SaveAsImage("png", "", 4f);
             }
             OnDebugEndInspectorGUI();
         }

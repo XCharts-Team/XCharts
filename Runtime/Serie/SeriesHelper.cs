@@ -384,7 +384,7 @@ namespace XCharts.Runtime
                     else
                     {
                         var showData = serie.GetDataList(filterByDataZoom ? chart.GetXDataZoomOfSerie(serie) : null);
-                        if (serie is Candlestick || serie is SimplifiedCandlestick)
+                        if (dimension > 0 && (serie is Candlestick || serie is SimplifiedCandlestick))
                         {
                             foreach (var data in showData)
                             {
@@ -441,9 +441,9 @@ namespace XCharts.Runtime
                                 if (!_serieTotalValueForMinMax.ContainsKey(j))
                                     _serieTotalValueForMinMax[j] = 0;
                                 double currData = 0;
-                                if (serie is Candlestick)
+                                if (serie is Candlestick || serie is SimplifiedCandlestick)
                                 {
-                                    currData = showData[j].GetMaxData(false);
+                                    currData = showData[j].GetMaxData(false, dimension);
                                 }
                                 else
                                 {

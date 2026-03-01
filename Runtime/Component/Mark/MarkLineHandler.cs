@@ -146,7 +146,7 @@ namespace XCharts.Runtime
                         data.runtimeValue = SerieHelper.GetMedianData(serie, data.dimension, dataZoom);
                         GetStartEndPos(yAxis, grid, data.runtimeValue, ref sp, ref ep);
                         break;
-                    case MarkLineType.None:
+                    case MarkLineType.Custom:
                         if (data.xPosition != 0)
                         {
                             data.runtimeValue = data.xPosition;
@@ -292,18 +292,20 @@ namespace XCharts.Runtime
             switch (data.type)
             {
                 case MarkLineType.Min:
-                    var serieData = SerieHelper.GetMinSerieData(serie, data.dimension, dataZoom);
+                    var serieData = SerieHelper.GetMinSerieData(serie, data.dimension, null);
                     data.runtimeValue = serieData.GetData(data.dimension);
                     var pX = GetAxisPosition(grid, xAxis, dataZoom, serieDataCount, serieData.index);
                     var pY = GetAxisPosition(grid, yAxis, dataZoom, serieDataCount, data.runtimeValue);
-                    return new Vector3(pX, pY);
+                    //return new Vector3(pX, pY);
+                    return serieData.context.position;
                 case MarkLineType.Max:
-                    serieData = SerieHelper.GetMaxSerieData(serie, data.dimension, dataZoom);
+                    serieData = SerieHelper.GetMaxSerieData(serie, data.dimension, null);
                     data.runtimeValue = serieData.GetData(data.dimension);
                     pX = GetAxisPosition(grid, xAxis, dataZoom, serieDataCount, serieData.index);
                     pY = GetAxisPosition(grid, yAxis, dataZoom, serieDataCount, data.runtimeValue);
-                    return new Vector3(pX, pY);
-                case MarkLineType.None:
+                    //return new Vector3(pX, pY);
+                    return serieData.context.position;
+                case MarkLineType.Custom:
                     if (data.zeroPosition)
                     {
                         data.runtimeValue = 0;

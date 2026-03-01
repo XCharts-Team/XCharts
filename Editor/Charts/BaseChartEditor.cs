@@ -26,6 +26,7 @@ namespace XCharts.Editor
         protected SerializedProperty m_Settings;
         protected SerializedProperty m_Theme;
         protected SerializedProperty m_ChartName;
+        protected SerializedProperty m_UseUtc;
         protected SerializedProperty m_DebugInfo;
         protected SerializedProperty m_RaycastTarget;
 
@@ -49,6 +50,7 @@ namespace XCharts.Editor
             m_Script = serializedObject.FindProperty("m_Script");
             m_EnableTextMeshPro = serializedObject.FindProperty("m_EnableTextMeshPro");
             m_ChartName = serializedObject.FindProperty("m_ChartName");
+            m_UseUtc = serializedObject.FindProperty("m_UseUtc");
             m_Theme = serializedObject.FindProperty("m_Theme");
             m_Settings = serializedObject.FindProperty("m_Settings");
             m_DebugInfo = serializedObject.FindProperty("m_DebugInfo");
@@ -124,6 +126,7 @@ namespace XCharts.Editor
             {
                 EditorGUILayout.PropertyField(m_Script);
                 EditorGUILayout.PropertyField(m_ChartName);
+                EditorGUILayout.PropertyField(m_UseUtc);
                 EditorGUILayout.PropertyField(m_RaycastTarget);
                 if (XChartsMgr.IsRepeatChartName(m_Chart, m_ChartName.stringValue))
                 {
@@ -282,7 +285,7 @@ namespace XCharts.Editor
             }
             if (GUILayout.Button(Styles.btnSaveAsImage))
             {
-                m_Chart.SaveAsImage();
+                m_Chart.SaveAsImage("png", "", 4f);
             }
             if (m_CheckWarning)
             {

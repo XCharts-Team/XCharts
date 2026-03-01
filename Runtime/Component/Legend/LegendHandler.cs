@@ -92,15 +92,15 @@ namespace XCharts.Runtime
                 {
                     if (!SeriesHelper.IsLegalLegendName(datas[i])) continue;
                     string legendName = datas[i];
-                    var serieIndex =  isAnySerieColorByData ? 0 : i;
-                    var dataIndex =  isAnySerieColorByData ? i : 0;
+                    var serieIndex = isAnySerieColorByData ? 0 : i;
+                    var dataIndex = isAnySerieColorByData ? i : 0;
                     var legendContent = GetFormatterContent(legend, dataIndex, datas[i], serieIndex);
                     if (legend.textLimit.enable)
                         legendContent = legend.textLimit.GetLimitContent(legendContent);
                     var readIndex = chart.m_LegendRealShowName.IndexOf(datas[i]);
                     var active = chart.IsActiveByLegend(datas[i]);
                     var bgColor = LegendHelper.GetIconColor(chart, legend, readIndex, datas[i], active);
-                    bgColor.a = legend.itemOpacity;
+                    bgColor.a = active ? legend.itemOpacity : legend.itemInactiveOpacity;
                     var item = LegendHelper.AddLegendItem(chart, legend, i, legendName, legendObject.transform, chart.theme,
                         legendContent, bgColor, active, readIndex);
                     legend.SetButton(legendName, item, totalLegend);

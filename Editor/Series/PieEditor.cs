@@ -8,6 +8,7 @@ namespace XCharts.Editor
         public override void OnCustomInspectorGUI()
         {
             PropertyField("m_GridIndex");
+            PropertyField("m_PieType");
             PropertyField("m_RoseType");
             PropertyField("m_Gap");
             PropertyTwoFiled("m_Center");

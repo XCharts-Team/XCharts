@@ -100,9 +100,9 @@ namespace XCharts.Runtime
             return NumberToStr(value, numericFormatter);
         }
 
-        public static string NumberToDateStr(double timestamp, string formatter)
+        public static string NumberToDateStr(double timestamp, string formatter, bool local = false)
         {
-            var dt = NumberToDateTime(timestamp);
+            var dt = NumberToDateTime(timestamp, local);
             try
             {
                 return dt.ToString(formatter, ci);
@@ -132,11 +132,11 @@ namespace XCharts.Runtime
             }                    
         }
 
-        public static DateTime NumberToDateTime(double timestamp)
+        public static DateTime NumberToDateTime(double timestamp, bool local = false)
         {
             if (!s_TimestampToDateTimeDict.ContainsKey(timestamp))
             {
-                s_TimestampToDateTimeDict[timestamp] = DateTimeUtil.GetDateTime(timestamp);
+                s_TimestampToDateTimeDict[timestamp] = DateTimeUtil.GetDateTime(timestamp, local);
             }
             return s_TimestampToDateTimeDict[timestamp];
         }
@@ -167,7 +167,7 @@ namespace XCharts.Runtime
         {
             if (!s_ColorDotStr.ContainsKey(color))
             {
-                s_ColorDotStr[color] = "<color=#" + ColorToStr(color) + ">● </color>";
+                s_ColorDotStr[color] = "<color=#" + ColorToStr(color) + ">●</color>";
             }
             return s_ColorDotStr[color];
         }
@@ -200,7 +200,7 @@ namespace XCharts.Runtime
             return s_StringIntDict[prefix][suffix];
         }
 
-        internal static string GetComponentObjectName(MainComponent component)
+        public static string GetComponentObjectName(MainComponent component)
         {
             Dictionary<int, string> dict;
             var type = component.GetType();
@@ -224,7 +224,7 @@ namespace XCharts.Runtime
             }
         }
 
-        internal static string GetAxisLabelName(int index)
+        public static string GetAxisLabelName(int index)
         {
             string name;
             if (!s_AxisLabelName.TryGetValue(index, out name))
@@ -239,12 +239,12 @@ namespace XCharts.Runtime
             }
         }
 
-        internal static string GetTypeName<T>()
+        public static string GetTypeName<T>()
         {
             return GetTypeName(typeof(T));
         }
 
-        internal static string GetTypeName(Type type)
+        public static string GetTypeName(Type type)
         {
             if (s_TypeName.ContainsKey(type)) return s_TypeName[type];
             else

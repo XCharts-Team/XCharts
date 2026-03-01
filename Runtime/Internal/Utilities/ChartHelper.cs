@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using XUGL;
 #if dUI_TextMeshPro
 using TMPro;
 #endif
@@ -204,6 +205,25 @@ namespace XCharts.Runtime
             }
         }
 
+        public static void RemoveTMPComponents(GameObject gameObject)
+        {
+            var coms = gameObject.GetComponents<Component>();
+            foreach (var com in coms)
+            {
+                if (com.GetType().FullName.Contains("TMPro"))
+                {
+#if UNITY_EDITOR
+                    if (!Application.isPlaying)
+                        GameObject.DestroyImmediate(com as UnityEngine.Object);
+                    else
+                        GameObject.Destroy(com as UnityEngine.Object);
+#else
+                    GameObject.Destroy(com as UnityEngine.Object);
+#endif
+                }
+            }
+        }
+
         [System.Obsolete("Use EnsureComponent instead")]
         public static T GetOrAddComponent<T>(Transform transform) where T : Component
         {
@@ -239,7 +259,13 @@ namespace XCharts.Runtime
         {
             if (gameObject.GetComponent<T>() == null)
             {
-                return gameObject.AddComponent<T>();
+                var com = gameObject.AddComponent<T>();
+                if (com == null)
+                {
+                    RemoveTMPComponents(gameObject);
+                    return gameObject.AddComponent<T>();
+                }
+                return com;
             }
             else
             {
@@ -436,23 +462,28 @@ namespace XCharts.Runtime
         {
             var textStyle = axis.axisLabel.textStyle;
             var label = AddChartLabel(name, parent, axis.axisLabel, theme, content, autoColor, autoAlignment);
-            var labelShow = axis.IsNeedShowLabel(index, total);
+            var labelShow = axis.IsNeedShowLabel(index, total, content);
             label.UpdateIcon(axis.axisLabel.icon, axis.GetIcon(index), iconDefaultColor);
             label.text.SetActive(labelShow);
             return label;
         }
 
         public static ChartLabel AddChartLabel(string name, Transform parent, LabelStyle labelStyle,
-            ComponentTheme theme, string content, Color autoColor, TextAnchor autoAlignment = TextAnchor.MiddleCenter)
+            ComponentTheme theme, string content, Color autoColor, TextAnchor autoAlignment = TextAnchor.MiddleCenter,
+            bool isObjectAnchor = false)
         {
             Vector2 anchorMin, anchorMax, pivot;
             var sizeDelta = new Vector2(labelStyle.width, labelStyle.height);
             var textStyle = labelStyle.textStyle;
-            var alignment = textStyle.GetAlignment(autoAlignment);
+            var alignment = isObjectAnchor ? autoAlignment : textStyle.GetAlignment(autoAlignment);
             UpdateAnchorAndPivotByTextAlignment(alignment, out anchorMin, out anchorMax, out pivot);
             var labelObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             //ChartHelper.RemoveComponent<Text>(labelObj);
             var label = EnsureComponent<ChartLabel>(labelObj);
+            if(isObjectAnchor)
+            {
+                UpdateAnchorAndPivotByTextAlignment(textStyle.GetAlignment(autoAlignment), out anchorMin, out anchorMax, out pivot);
+            }
             label.text = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot,
                 sizeDelta, textStyle, theme, autoColor, autoAlignment, label.text);
             label.icon = ChartHelper.AddIcon("Icon", label.gameObject.transform, labelStyle.icon);
@@ -1030,34 +1061,383 @@ namespace XCharts.Runtime
         private static extern void Download(string base64str, string fileName);
 #endif
 
-        public static Texture2D SaveAsImage(RectTransform rectTransform, Canvas canvas, string imageType = "png", string path = "")
+        private static void SetLayerRecursively(GameObject obj, int layer)
         {
-            var cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
-            var pos = RectTransformUtility.WorldToScreenPoint(cam, rectTransform.position);
-            var width = rectTransform.rect.width * canvas.scaleFactor;
-            var height = rectTransform.rect.height * canvas.scaleFactor;
-            var posX = pos.x + rectTransform.rect.xMin * canvas.scaleFactor;
-            var posY = pos.y + rectTransform.rect.yMin * canvas.scaleFactor;
-            var rect = new Rect(posX, posY, width, height);
-            var tex = new Texture2D((int)width, (int)height, TextureFormat.RGBA32, false);
-            tex.ReadPixels(rect, 0, 0);
-            tex.Apply();
-            byte[] bytes;
+            if (obj == null) return;
+            obj.layer = layer;
+            var trans = obj.transform;
+            for (int i = 0; i < trans.childCount; i++)
+            {
+                SetLayerRecursively(trans.GetChild(i).gameObject, layer);
+            }
+        }
+
+        private static void CloneChildrenRecursively(Transform source, Transform targetParent, int layer)
+        {
+            if (source == null || targetParent == null) return;
+            for (int i = 0; i < source.childCount; i++)
+            {
+                var child = source.GetChild(i);
+                var childClone = GameObject.Instantiate(child.gameObject, targetParent, false);
+                SetLayerRecursively(childClone, layer);
+                SyncPainterCallbacks(child, childClone.transform);
+            }
+        }
+
+        private static void SyncPainterCallbacks(Transform source, Transform clone)
+        {
+            if (source == null || clone == null) return;
+            var sourcePainter = source.GetComponent<Painter>();
+            var clonePainter = clone.GetComponent<Painter>();
+            if (sourcePainter != null && clonePainter != null)
+            {
+                clonePainter.onPopulateMesh = sourcePainter.onPopulateMesh;
+                clonePainter.index = sourcePainter.index;
+                clonePainter.type = sourcePainter.type;
+                clonePainter.material = sourcePainter.material;
+                clonePainter.Refresh();
+            }
+            var count = Mathf.Min(source.childCount, clone.childCount);
+            for (int i = 0; i < count; i++)
+            {
+                SyncPainterCallbacks(source.GetChild(i), clone.GetChild(i));
+            }
+        }
+
+        private static void DestroyObject(GameObject obj)
+        {
+            if (obj == null) return;
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+                GameObject.DestroyImmediate(obj, true);
+            else
+                GameObject.Destroy(obj);
+#else
+            GameObject.Destroy(obj);
+#endif
+        }
+
+        private static byte[] EncodeImage(Texture2D tex, string imageType)
+        {
             switch (imageType)
             {
                 case "png":
-                    bytes = tex.EncodeToPNG();
-                    break;
+                    return tex.EncodeToPNG();
                 case "jpg":
-                    bytes = tex.EncodeToJPG();
-                    break;
+                    return tex.EncodeToJPG();
                 case "exr":
-                    bytes = tex.EncodeToEXR();
-                    break;
+                    return tex.EncodeToEXR();
                 default:
                     Debug.LogError("SaveAsImage ERROR: not support image type:" + imageType);
                     return null;
             }
+        }
+
+        private static float[] GetChartCornerRadius(BaseChart chart, float chartWidth, float chartHeight, float scaleFactor)
+        {
+            if (chart == null || chartWidth <= 0 || chartHeight <= 0)
+                return null;
+
+            var background = chart.GetChartComponent<Background>();
+            if (background == null || background.borderStyle == null || !background.borderStyle.roundedCorner)
+                return null;
+
+            var cornerRadius = background.borderStyle.cornerRadius;
+            if (cornerRadius == null || cornerRadius.Length == 0)
+                return null;
+
+            float brLt = 0, brRt = 0, brRb = 0, brLb = 0;
+            bool needRound = false;
+            UGL.InitCornerRadius(cornerRadius, chartWidth, chartHeight, false, false,
+                ref brLt, ref brRt, ref brRb, ref brLb, ref needRound);
+
+            if (!needRound)
+                return null;
+
+            return new float[]
+            {
+                brLt * scaleFactor,
+                brRt * scaleFactor,
+                brRb * scaleFactor,
+                brLb * scaleFactor
+            };
+        }
+
+        private static float GetRoundedRectCoverage(float x, float y, float width, float height,
+            float radiusLt, float radiusRt, float radiusRb, float radiusLb, float aaWidth = 1f)
+        {
+            if (radiusLb > 0 && x < radiusLb && y < radiusLb)
+            {
+                var dx = x - radiusLb;
+                var dy = y - radiusLb;
+                var dist = Mathf.Sqrt(dx * dx + dy * dy);
+                var delta = radiusLb - dist;
+                if (delta >= aaWidth) return 1f;
+                if (delta <= -aaWidth) return 0f;
+                return Mathf.Clamp01((delta + aaWidth) / (2f * aaWidth));
+            }
+            if (radiusLt > 0 && x < radiusLt && y > height - radiusLt)
+            {
+                var dx = x - radiusLt;
+                var dy = y - (height - radiusLt);
+                var dist = Mathf.Sqrt(dx * dx + dy * dy);
+                var delta = radiusLt - dist;
+                if (delta >= aaWidth) return 1f;
+                if (delta <= -aaWidth) return 0f;
+                return Mathf.Clamp01((delta + aaWidth) / (2f * aaWidth));
+            }
+            if (radiusRt > 0 && x > width - radiusRt && y > height - radiusRt)
+            {
+                var dx = x - (width - radiusRt);
+                var dy = y - (height - radiusRt);
+                var dist = Mathf.Sqrt(dx * dx + dy * dy);
+                var delta = radiusRt - dist;
+                if (delta >= aaWidth) return 1f;
+                if (delta <= -aaWidth) return 0f;
+                return Mathf.Clamp01((delta + aaWidth) / (2f * aaWidth));
+            }
+            if (radiusRb > 0 && x > width - radiusRb && y < radiusRb)
+            {
+                var dx = x - (width - radiusRb);
+                var dy = y - radiusRb;
+                var dist = Mathf.Sqrt(dx * dx + dy * dy);
+                var delta = radiusRb - dist;
+                if (delta >= aaWidth) return 1f;
+                if (delta <= -aaWidth) return 0f;
+                return Mathf.Clamp01((delta + aaWidth) / (2f * aaWidth));
+            }
+            return 1f;
+        }
+
+        private static void ApplyRoundedCornerClip(Texture2D tex, float[] cornerRadii)
+        {
+            if (tex == null || cornerRadii == null || cornerRadii.Length < 4)
+                return;
+
+            var width = tex.width;
+            var height = tex.height;
+            if (width <= 0 || height <= 0)
+                return;
+
+            var radiusLt = Mathf.Max(0, cornerRadii[0]);
+            var radiusRt = Mathf.Max(0, cornerRadii[1]);
+            var radiusRb = Mathf.Max(0, cornerRadii[2]);
+            var radiusLb = Mathf.Max(0, cornerRadii[3]);
+            if (radiusLt <= 0 && radiusRt <= 0 && radiusRb <= 0 && radiusLb <= 0)
+                return;
+
+            var colors = tex.GetPixels32();
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    var px = x + 0.5f;
+                    var py = y + 0.5f;
+                    var coverage = GetRoundedRectCoverage(px, py, width, height,
+                        radiusLt, radiusRt, radiusRb, radiusLb, 1f);
+                    if (coverage <= 0f)
+                    {
+                        var index = y * width + x;
+                        var color = colors[index];
+                        color.a = 0;
+                        colors[index] = color;
+                    }
+                    else if (coverage < 1f)
+                    {
+                        var index = y * width + x;
+                        var color = colors[index];
+                        color.a = (byte)Mathf.Clamp(Mathf.RoundToInt(color.a * coverage), 0, 255);
+                        colors[index] = color;
+                    }
+                }
+            }
+            tex.SetPixels32(colors);
+            tex.Apply();
+        }
+
+        private static Color32 GetBackgroundColorRecursive(Transform parent)
+        {
+            if (parent == null) return new Color32(255, 255, 255, 255);
+
+            // Try to find Image components with colors in child nodes
+            for (int i = 0; i < parent.childCount; i++)
+            {
+                var child = parent.GetChild(i);
+                var image = child.GetComponent<Image>();
+                if (image != null && image.enabled && child.gameObject.activeInHierarchy)
+                {
+                    var color = image.color;
+                    if (color.a > 0)
+                    {
+                        // Found a visible background image
+                        color.a = 1f; // Make it fully opaque for proper blending
+                        return color;
+                    }
+                }
+                // Recursively search child nodes
+                var foundColor = GetBackgroundColorRecursive(child);
+                if (foundColor.a > 0)
+                    return foundColor;
+            }
+
+            return Color.white;
+        }
+
+        public static Texture2D SaveAsImage(RectTransform rectTransform, Canvas canvas, string imageType = "png",
+            string path = "", float exportScale = 1f, bool useRecursiveBackgroundColor = false)
+        {
+            if (rectTransform == null || canvas == null)
+                return null;
+
+            var clampedExportScale = Mathf.Max(1f, exportScale);
+            var scaleFactor = canvas.scaleFactor <= 0 ? 1f : canvas.scaleFactor;
+            var outputScaleFactor = scaleFactor * clampedExportScale;
+            var width = Mathf.Max(1, Mathf.CeilToInt(rectTransform.rect.width * outputScaleFactor));
+            var height = Mathf.Max(1, Mathf.CeilToInt(rectTransform.rect.height * outputScaleFactor));
+            var chart = rectTransform.GetComponent<BaseChart>();
+            var cornerRadii = GetChartCornerRadius(chart, rectTransform.rect.width, rectTransform.rect.height, outputScaleFactor);
+
+            Texture2D tex = null;
+            var rt = RenderTexture.GetTemporary(width, height, 24, RenderTextureFormat.ARGB32);
+            var antiAliasing = QualitySettings.antiAliasing > 0 ? QualitySettings.antiAliasing : 4;
+            rt.antiAliasing = Mathf.Clamp(antiAliasing, 1, 8);
+
+            var oldActive = RenderTexture.active;
+            var captureLayer = 31;
+            var rootObj = new GameObject("xcharts_save_image_root");
+            var camObj = new GameObject("xcharts_save_image_camera");
+            var canvasObj = new GameObject("xcharts_save_image_canvas");
+            var contentObj = new GameObject("xcharts_save_image_content", typeof(RectTransform));
+
+            try
+            {
+                SetLayerRecursively(rootObj, captureLayer);
+                SetLayerRecursively(camObj, captureLayer);
+                SetLayerRecursively(canvasObj, captureLayer);
+                SetLayerRecursively(contentObj, captureLayer);
+
+                camObj.transform.SetParent(rootObj.transform, false);
+                var camera = camObj.AddComponent<Camera>();
+                camera.clearFlags = CameraClearFlags.SolidColor;
+                
+                // Get background color - try multiple sources for better results
+                Color32 bgColor = new Color32(255, 255, 255, 255);
+                var chartParent = rectTransform.parent;
+                
+                // First, try to get from chart's Background component
+                if (chart != null)
+                {
+                    bgColor = chart.GetChartBackgroundColor();
+                    //bgColor.a = 255;
+                }
+                
+                // If enabled, find background color recursively from sibling nodes
+                if (useRecursiveBackgroundColor && (bgColor.a < 255 ||
+                    (bgColor.r == 255 && bgColor.g == 255 && bgColor.b == 255)))
+                {
+                    var siblingBgColor = GetBackgroundColorRecursive(chartParent);
+                    if (siblingBgColor.a > 0)
+                        bgColor = siblingBgColor;
+                }
+                
+                camera.backgroundColor = bgColor;
+                
+                camera.cullingMask = 1 << captureLayer;
+                camera.orthographic = true;
+                camera.orthographicSize = height / 2f;
+                camera.nearClipPlane = -100;
+                camera.farClipPlane = 100;
+                camera.allowHDR = false;
+                camera.allowMSAA = rt.antiAliasing > 1;
+                camera.targetTexture = rt;
+
+                canvasObj.transform.SetParent(rootObj.transform, false);
+                var captureCanvas = canvasObj.AddComponent<Canvas>();
+                captureCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+                captureCanvas.worldCamera = camera;
+                captureCanvas.planeDistance = 1;
+                captureCanvas.pixelPerfect = canvas.pixelPerfect;
+                captureCanvas.sortingOrder = 0;
+                canvasObj.AddComponent<GraphicRaycaster>();
+
+                var canvasRect = canvasObj.GetComponent<RectTransform>();
+                canvasRect.anchorMin = Vector2.zero;
+                canvasRect.anchorMax = Vector2.one;
+                canvasRect.pivot = new Vector2(0.5f, 0.5f);
+                canvasRect.anchoredPosition = Vector2.zero;
+                canvasRect.sizeDelta = new Vector2(width, height);
+
+                contentObj.transform.SetParent(canvasObj.transform, false);
+                var contentRect = contentObj.GetComponent<RectTransform>();
+                contentRect.anchorMin = new Vector2(0.5f, 0.5f);
+                contentRect.anchorMax = new Vector2(0.5f, 0.5f);
+                contentRect.pivot = rectTransform.pivot;
+                contentRect.anchoredPosition = Vector2.zero;
+                contentRect.sizeDelta = rectTransform.rect.size;
+                contentRect.localScale = new Vector3(clampedExportScale, clampedExportScale, 1f);
+
+                // Clone sibling nodes (including background layers below chart)
+                var chartSiblingIndex = rectTransform.GetSiblingIndex();
+                if (chartParent != null)
+                {
+                    for (int i = 0; i < chartParent.childCount; i++)
+                    {
+                        var sibling = chartParent.GetChild(i);
+                        // Only clone siblings below the chart (smaller sibling index)
+                        if (i < chartSiblingIndex)
+                        {
+                            var siblingClone = GameObject.Instantiate(sibling.gameObject, contentObj.transform, false);
+                            SetLayerRecursively(siblingClone, captureLayer);
+                        }
+                    }
+                }
+
+                CloneChildrenRecursively(rectTransform, contentObj.transform, captureLayer);
+
+                Canvas.ForceUpdateCanvases();
+                camera.Render();
+
+                RenderTexture.active = rt;
+
+                // If exportScale > 1 we want to save the image back to the original logical
+                // size (option B): render at higher density, then downscale to target pixels
+                // so the saved image has original width/height but higher quality.
+                if (clampedExportScale > 1f)
+                {
+                    var targetWidth = Mathf.Max(1, Mathf.CeilToInt(rectTransform.rect.width * scaleFactor));
+                    var targetHeight = Mathf.Max(1, Mathf.CeilToInt(rectTransform.rect.height * scaleFactor));
+
+                    var smallRT = RenderTexture.GetTemporary(targetWidth, targetHeight, 0, rt.format);
+                    Graphics.Blit(rt, smallRT);
+
+                    RenderTexture.active = smallRT;
+                    tex = new Texture2D(targetWidth, targetHeight, TextureFormat.ARGB32, false);
+                    tex.ReadPixels(new Rect(0, 0, targetWidth, targetHeight), 0, 0);
+                    tex.Apply();
+                    RenderTexture.ReleaseTemporary(smallRT);
+
+                    var cornerRadiiFinal = GetChartCornerRadius(chart, rectTransform.rect.width, rectTransform.rect.height, scaleFactor);
+                    ApplyRoundedCornerClip(tex, cornerRadiiFinal);
+                }
+                else
+                {
+                    tex = new Texture2D(width, height, TextureFormat.ARGB32, false);
+                    tex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+                    tex.Apply();
+                    ApplyRoundedCornerClip(tex, cornerRadii);
+                }
+            }
+            finally
+            {
+                RenderTexture.active = oldActive;
+                RenderTexture.ReleaseTemporary(rt);
+                DestroyObject(rootObj);
+            }
+
+            var bytes = EncodeImage(tex, imageType);
+            if (bytes == null)
+                return null;
+
             var fileName = rectTransform.name + "." + imageType;
 #if UNITY_WEBGL
             string base64str = Convert.ToBase64String(bytes);

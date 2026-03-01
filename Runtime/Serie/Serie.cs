@@ -264,6 +264,7 @@ namespace XCharts.Runtime
         [SerializeField] private float m_BarGap = 0.1f;
         [SerializeField] private float m_BarZebraWidth = 4f;
         [SerializeField] private float m_BarZebraGap = 2f;
+        [SerializeField] [Since("v3.15.0")]private bool m_IgnoreZeroOccupy = false;
 
         [SerializeField] private float m_Min;
         [SerializeField] private float m_Max;
@@ -305,6 +306,7 @@ namespace XCharts.Runtime
         [SerializeField] private float m_Top;
         [SerializeField] private float m_Bottom;
         [SerializeField] private bool m_InsertDataToHead;
+        [SerializeField][Since("v3.14.0")] private bool m_RealtimeSort = false;
 
         [SerializeField] private LineStyle m_LineStyle = new LineStyle();
         [SerializeField] private SerieSymbol m_Symbol = new SerieSymbol();
@@ -631,7 +633,8 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_BarGap, value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 斑马线的粗细。
+        /// The width of zebra bar. It is the width of each zebra stripe. When the value is 0, there is no zebra stripe.
+        /// ||斑马线的粗细。
         /// </summary>
         public float barZebraWidth
         {
@@ -639,12 +642,23 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_BarZebraWidth, value < 0 ? 0 : value)) SetVerticesDirty(); }
         }
         /// <summary>
-        /// 斑马线的间距。
+        /// The gap of zebra bar. It is the distance between two zebra stripes. When the value is 0, there is no gap between stripes.
+        /// ||斑马线的间距。
         /// </summary>
         public float barZebraGap
         {
             get { return m_BarZebraGap; }
             set { if (PropertyUtil.SetStruct(ref m_BarZebraGap, value < 0 ? 0 : value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Whether to ignore the zero value bar occupy. When enabled, the bar with zero value will not occupy space, 
+        /// and the gap between bars will be automatically adjusted according to the actual displayed bars. Generally used in bar chart.
+        /// ||柱图是否忽略值为0的柱子占位。开启后，值为0的柱子将不会占用空间，柱子之间的间距会根据实际显示的柱子自动调整。一般用在柱状图中。
+        /// </summary>
+        public bool ignoreZeroOccupy
+        {
+            get { return m_IgnoreZeroOccupy; }
+            set { if (PropertyUtil.SetStruct(ref m_IgnoreZeroOccupy, value)) SetVerticesDirty(); }
         }
 
         /// <summary>
@@ -981,6 +995,15 @@ namespace XCharts.Runtime
         {
             get { return m_MinShowLabelValue; }
             set { if (PropertyUtil.SetStruct(ref m_MinShowLabelValue, value)) { SetVerticesDirty(); } }
+        }
+        /// <summary>
+        /// Whether to enable realtime sorting, which is used for bar-racing effect. Currently only available in Bar.
+        /// ||是否开启实时排序，用来实现动态排序图效果。目前仅在Bar中生效。
+        /// </summary>
+        public bool realtimeSort
+        {
+            get { return m_RealtimeSort; }
+            set { if (PropertyUtil.SetStruct(ref m_RealtimeSort, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。
@@ -1327,6 +1350,7 @@ namespace XCharts.Runtime
                 m_Data.RemoveAt(index);
                 m_NeedUpdateFilterData = true;
                 labelDirty = true;
+                titleDirty = true;
                 dataDirty = true;
             }
         }
@@ -1353,6 +1377,7 @@ namespace XCharts.Runtime
             SetVerticesDirty();
             CheckDataName(dataName);
             labelDirty = true;
+            titleDirty = true;
             dataDirty = true;
             return serieData;
         }
@@ -1367,6 +1392,8 @@ namespace XCharts.Runtime
             context.totalDataIndex++;
             SetVerticesDirty();
             dataDirty = true;
+            labelDirty = true;
+            titleDirty = true;
             m_NeedUpdateFilterData = true;
         }
 
@@ -1401,6 +1428,7 @@ namespace XCharts.Runtime
             SetVerticesDirty();
             CheckDataName(dataName);
             labelDirty = true;
+            titleDirty = true;
             return serieData;
         }
 
@@ -1433,6 +1461,7 @@ namespace XCharts.Runtime
             SetVerticesDirty();
             CheckDataName(dataName);
             labelDirty = true;
+            titleDirty = true;
             return serieData;
         }
 
@@ -1467,6 +1496,7 @@ namespace XCharts.Runtime
                 SetVerticesDirty();
                 CheckDataName(dataName);
                 labelDirty = true;
+                titleDirty = true;
                 return serieData;
             }
         }
@@ -1502,6 +1532,7 @@ namespace XCharts.Runtime
                 SetVerticesDirty();
                 CheckDataName(dataName);
                 labelDirty = true;
+                titleDirty = true;
                 return serieData;
             }
         }
@@ -1740,7 +1771,7 @@ namespace XCharts.Runtime
         /// </summary>
         /// <param name="dataZoom"></param>
         /// <returns></returns>
-        public List<SerieData> GetDataList(DataZoom dataZoom = null)
+        public List<SerieData> GetDataList(DataZoom dataZoom = null, bool sorted = false)
         {
             if (dataZoom != null && dataZoom.enable &&
                 (dataZoom.IsContainsXAxis(xAxisIndex) || dataZoom.IsContainsYAxis(yAxisIndex)))
@@ -1750,7 +1781,7 @@ namespace XCharts.Runtime
             }
             else
             {
-                return useSortData && context.sortedData.Count > 0 ? context.sortedData : m_Data;
+                return useSortData && sorted && context.sortedData.Count > 0 ? context.sortedData : m_Data;
             }
         }
 
@@ -1795,6 +1826,7 @@ namespace XCharts.Runtime
                 {
                     SetVerticesDirty();
                     dataDirty = true;
+                    titleDirty = true;
                 }
                 return flag;
             }
@@ -2019,6 +2051,7 @@ namespace XCharts.Runtime
         /// </summary>
         public void AnimationFadeIn()
         {
+            if (dataCount <= 0) return;
             ResetInteract();
             if (animation.enable) animation.FadeIn();
             SetVerticesDirty();
@@ -2029,6 +2062,7 @@ namespace XCharts.Runtime
         /// </summary>
         public void AnimationFadeOut()
         {
+            if (dataCount <= 0) return;
             ResetInteract();
             if (animation.enable) animation.FadeOut();
             SetVerticesDirty();
@@ -2039,6 +2073,7 @@ namespace XCharts.Runtime
         /// </summary>
         public void AnimationPause()
         {
+            if (dataCount <= 0) return;
             if (animation.enable) animation.Pause();
             SetVerticesDirty();
         }
@@ -2048,6 +2083,7 @@ namespace XCharts.Runtime
         /// </summary>
         public void AnimationResume()
         {
+            if (dataCount <= 0) return;
             if (animation.enable) animation.Resume();
             SetVerticesDirty();
         }
@@ -2057,6 +2093,7 @@ namespace XCharts.Runtime
         /// </summary>
         public void AnimationReset()
         {
+            if (dataCount <= 0) return;
             if (animation.enable) animation.Reset();
             SetVerticesDirty();
         }
@@ -2066,6 +2103,7 @@ namespace XCharts.Runtime
         /// </summary>
         public void AnimationRestart()
         {
+            if (dataCount <= 0) return;
             if (animation.enable) animation.Restart();
             SetVerticesDirty();
         }

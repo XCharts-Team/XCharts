@@ -69,6 +69,7 @@ namespace XCharts.Runtime
         public List<string> runtimeData { get { return m_RuntimeData; } }
         public List<double> labelValueList { get { return m_LabelValueList; } }
         public List<ChartLabel> labelObjectList { get { return m_AxisLabelList; } }
+        public List<int> sortedDataIndices { get { return m_SortedDataIndices; } }
         public int dataZoomStartIndex;
         /// <summary>
         /// 添加过的历史数据总数
@@ -86,6 +87,7 @@ namespace XCharts.Runtime
         private List<ChartLabel> m_AxisLabelList = new List<ChartLabel>();
         private List<double> m_LabelValueList = new List<double>();
         private List<string> m_RuntimeData = new List<string>();
+        private List<int> m_SortedDataIndices = new List<int>();
 
         internal void Clear()
         {
@@ -118,24 +120,25 @@ namespace XCharts.Runtime
                 if (end > data.Count) end = data.Count;
             }
 
+            var minZoomRatio = (int)(data.Count * dataZoom.minZoomRatio);
             if (start != filterStart ||
                 end != filterEnd ||
-                dataZoom.minShowNum != filterMinShow ||
+                minZoomRatio != filterMinShow ||
                 isNeedUpdateFilterData)
             {
                 filterStart = start;
                 filterEnd = end;
-                filterMinShow = dataZoom.minShowNum;
+                filterMinShow = minZoomRatio;
                 isNeedUpdateFilterData = false;
 
                 if (data.Count > 0)
                 {
-                    if (range < dataZoom.minShowNum)
+                    if (range < minZoomRatio)
                     {
-                        if (dataZoom.minShowNum > data.Count)
+                        if (dataZoom.minZoomRatio > data.Count)
                             range = data.Count;
                         else
-                            range = dataZoom.minShowNum;
+                            range = minZoomRatio;
                     }
                     if (range > data.Count - start)
                         start = data.Count - range;

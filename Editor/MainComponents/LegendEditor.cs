@@ -15,6 +15,7 @@ namespace XCharts.Editor
             PropertyField("m_ItemGap");
             PropertyField("m_ItemAutoColor");
             PropertyField("m_ItemOpacity");
+            PropertyField("m_ItemInactiveOpacity");
             PropertyField("m_SelectedMode");
             PropertyField("m_Orient");
             PropertyField("m_Location");

@@ -80,6 +80,8 @@ namespace XCharts.Runtime
         [SerializeField] protected string m_NumericFormatter = "";
         [SerializeField] protected float m_Width = 0;
         [SerializeField] protected float m_Height = 0;
+        [SerializeField][Since("v3.15.0")] protected float m_FixedX = 0;
+        [SerializeField][Since("v3.15.0")] protected float m_FixedY = 0;
 
         [SerializeField] protected IconStyle m_Icon = new IconStyle();
         [SerializeField] protected ImageStyle m_Background = new ImageStyle();
@@ -131,7 +133,8 @@ namespace XCharts.Runtime
         /// `{g}` : indicates the total number of data. <br />
         /// `{h}` : hexadecimal color value. <br />
         /// `{y}` : category value of y axis. <br />
-        /// `{value}` : The value of the axis or legend. <br />
+        /// `{value}` : the value of the axis or legend. <br />
+        /// `{index}` : the index of the axis. <br />
         /// The following placeholder apply to `UITable` components: <br />
         /// `{name}` : indicates the row name of the table. <br />
         /// `{index}` : indicates the row number of the table. <br />
@@ -161,6 +164,7 @@ namespace XCharts.Runtime
         /// `{h}`：十六进制颜色值。<br/> 
         /// `{y}`：Y轴的类目名。<br/> 
         /// `{value}`：坐标轴或图例的值。<br/>
+        /// `{index}`：坐标轴编号。<br/>
         /// 以下通配符适用UITable组件：<br/>
         /// `{name}`： 表格的行名。<br/>
         /// `{index}`：表格的行号。<br/>
@@ -286,6 +290,24 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_AutoOffset, value)) SetAllDirty(); }
         }
         /// <summary>
+        /// the fixed x of label. When not 0, it will be fixed on the specified x value.
+        /// ||固定的X值。不为0时，会固定在指定的X值上。
+        /// </summary> 
+        public float fixedX
+        {
+            get { return m_FixedX; }
+            set { if (PropertyUtil.SetStruct(ref m_FixedX, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// the fixed y of label. When not 0, it will be fixed on the specified y value.
+        /// ||固定的Y值。不为0时，会固定在指定的Y值上。
+        /// </summary>
+        public float fixedY
+        {
+            get { return m_FixedY; }
+            set { if (PropertyUtil.SetStruct(ref m_FixedY, value)) SetComponentDirty(); }
+        }
+        /// <summary>
         /// the sytle of background.
         /// ||背景图样式。
         /// </summary>
@@ -373,6 +395,8 @@ namespace XCharts.Runtime
             label.m_Height = m_Height;
             label.m_NumericFormatter = m_NumericFormatter;
             label.m_AutoOffset = m_AutoOffset;
+            label.m_FixedX = m_FixedX;
+            label.m_FixedY = m_FixedY;
             label.m_Icon.Copy(m_Icon);
             label.m_Background.Copy(m_Background);
             label.m_TextPadding = m_TextPadding;
@@ -392,13 +416,15 @@ namespace XCharts.Runtime
             m_Height = label.m_Height;
             m_NumericFormatter = label.m_NumericFormatter;
             m_AutoOffset = label.m_AutoOffset;
+            m_FixedX = label.m_FixedX;
+            m_FixedY = label.m_FixedY;
             m_Icon.Copy(label.m_Icon);
             m_Background.Copy(label.m_Background);
             m_TextPadding = label.m_TextPadding;
             m_TextStyle.Copy(label.m_TextStyle);
         }
 
-        public virtual string GetFormatterContent(int labelIndex, string category)
+        public virtual string GetFormatterContent(int labelIndex, int totalIndex, string category)
         {
             if (string.IsNullOrEmpty(category))
                 return GetFormatterFunctionContent(labelIndex, category, category);
@@ -410,12 +436,12 @@ namespace XCharts.Runtime
             else
             {
                 var content = m_Formatter;
-                FormatterHelper.ReplaceAxisLabelContent(ref content, category);
+                FormatterHelper.ReplaceAxisLabelContent(ref content, category, labelIndex, totalIndex);
                 return GetFormatterFunctionContent(labelIndex, category, category);
             }
         }
 
-        public virtual string GetFormatterContent(int labelIndex, double value, double minValue, double maxValue, bool isLog = false)
+        public virtual string GetFormatterContent(int labelIndex, int totalIndex, double value, double minValue, double maxValue, bool isLog = false)
         {
             var newNumericFormatter = numericFormatter;
             if (value == 0 && !DateTimeUtil.IsDateOrTimeRegex(newNumericFormatter))
@@ -452,17 +478,17 @@ namespace XCharts.Runtime
             else
             {
                 var content = m_Formatter;
-                FormatterHelper.ReplaceAxisLabelContent(ref content, newNumericFormatter, value);
+                FormatterHelper.ReplaceAxisLabelContent(ref content, newNumericFormatter, value, labelIndex, totalIndex);
                 return GetFormatterFunctionContent(labelIndex, value, content);
             }
         }
 
         private static bool isDateFormatter = false;
         private static string newFormatter = null;
-        public string GetFormatterDateTime(int labelIndex, double value, double minValue, double maxValue)
+        public string GetFormatterDateTime(int labelIndex, int totalIndex, double value, double minValue, double maxValue, bool local)
         {
-            var timestamp = (int)value;
-            var dateTime = DateTimeUtil.GetDateTime(timestamp);
+            var timestamp = value;
+            var dateTime = DateTimeUtil.GetDateTime(timestamp, local);
             var dateString = string.Empty;
             if (string.IsNullOrEmpty(numericFormatter) || numericFormatter.Equals("f2"))
             {
@@ -472,10 +498,10 @@ namespace XCharts.Runtime
             {
                 try
                 {
-                    if(DateTimeUtil.IsDateOrTimeRegex(numericFormatter, ref isDateFormatter, ref newFormatter))
+                    if (DateTimeUtil.IsDateOrTimeRegex(numericFormatter, ref isDateFormatter, ref newFormatter))
                     {
-                        if(isDateFormatter)
-                            dateString = ChartCached.NumberToDateStr(timestamp, newFormatter);
+                        if (isDateFormatter)
+                            dateString = ChartCached.NumberToDateStr(timestamp, newFormatter, local);
                         else
                             dateString = ChartCached.NumberToTimeStr(timestamp, newFormatter);
                     }
@@ -492,7 +518,7 @@ namespace XCharts.Runtime
             if (!string.IsNullOrEmpty(m_Formatter))
             {
                 var content = m_Formatter;
-                FormatterHelper.ReplaceAxisLabelContent(ref content, dateString);
+                FormatterHelper.ReplaceAxisLabelContent(ref content, dateString, labelIndex, totalIndex);
                 return GetFormatterFunctionContent(labelIndex, value, content);
             }
             else

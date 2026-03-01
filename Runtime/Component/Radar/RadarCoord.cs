@@ -464,16 +464,16 @@ namespace XCharts.Runtime
             indicatorList.Clear();
         }
 
-        public string GetFormatterIndicatorContent(int indicatorIndex)
+        public string GetFormatterIndicatorContent(int indicatorIndex, int totalIndex)
         {
             var indicator = GetIndicator(indicatorIndex);
             if (indicator == null)
                 return string.Empty;
             else
-                return GetFormatterIndicatorContent(indicator.name);
+                return GetFormatterIndicatorContent(indicator.name, indicatorIndex, totalIndex);
         }
 
-        public string GetFormatterIndicatorContent(string indicatorName)
+        public string GetFormatterIndicatorContent(string indicatorName, int index, int totalIndex)
         {
             if (string.IsNullOrEmpty(indicatorName))
                 return indicatorName;
@@ -485,7 +485,7 @@ namespace XCharts.Runtime
             else
             {
                 var content = m_AxisName.labelStyle.formatter;
-                FormatterHelper.ReplaceAxisLabelContent(ref content, indicatorName);
+                FormatterHelper.ReplaceAxisLabelContent(ref content, indicatorName, index, totalIndex);
                 return content;
             }
         }

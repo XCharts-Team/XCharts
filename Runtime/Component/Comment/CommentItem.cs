@@ -11,11 +11,13 @@ namespace XCharts.Runtime
     public class CommentItem : ChildComponent
     {
         [SerializeField] private bool m_Show = true;
-        [SerializeField] private string m_Content = "comment";
+        [SerializeField] private string m_Content = "xcharts";
         [SerializeField] private Rect m_MarkRect;
         [SerializeField] private CommentMarkStyle m_MarkStyle = new CommentMarkStyle() { show = false };
         [SerializeField] private LabelStyle m_LabelStyle = new LabelStyle() { show = false };
-        [SerializeField] [Since("v3.5.0")]private Location m_Location = new Location() { align = Location.Align.TopLeft, top = 0.125f };
+        [SerializeField][Since("v3.5.0")] private Location m_Location = new Location() { align = Location.Align.BottomRight, right = 0.1f, bottom = 0.05f };
+
+        public ChartLabel labelObject { get; set; }
 
 
         /// <summary>
@@ -27,7 +29,18 @@ namespace XCharts.Runtime
         /// content of comment.
         /// ||注解的文本内容。支持模板参数，可以参考Tooltip的itemFormatter。
         /// </summary>
-        public string content { get { return m_Content; } set { if (PropertyUtil.SetClass(ref m_Content, value)) SetComponentDirty(); } }
+        public string content
+        {
+            get { return m_Content; }
+            set
+            {
+                if (PropertyUtil.SetClass(ref m_Content, value))
+                {
+                    if (labelObject != null) labelObject.SetText(value);
+                    else SetComponentDirty();
+                }
+            }
+        }
         /// <summary>
         /// the mark rect of comment.
         /// ||注解区域。

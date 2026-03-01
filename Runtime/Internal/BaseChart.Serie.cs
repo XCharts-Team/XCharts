@@ -101,6 +101,28 @@ namespace XCharts.Runtime
             return false;
         }
 
+        public bool HasRealtimeSortSerie(int gridIndex)
+        {
+            foreach (var serie in m_Series)
+            {
+                if (!CheckSerieGridIndex(serie, gridIndex)) continue;
+                if (serie.useSortData)
+                    return true;
+            }
+            return false;
+        }
+
+        public Serie GetRealtimeSortSerie(int gridIndex)
+        {
+            foreach (var serie in m_Series)
+            {
+                if (!CheckSerieGridIndex(serie, gridIndex)) continue;
+                if (serie.useSortData)
+                    return serie;
+            }
+            return null;
+        }
+
         public T GetSerie<T>() where T : Serie
         {
             foreach (var serie in m_Series)
@@ -831,7 +853,7 @@ namespace XCharts.Runtime
             }
         }
 
-        public float GetSerieBarGap<T>() where T : Serie
+        public float GetSerieBarGap<T>(int gridIndex) where T : Serie
         {
             float gap = 0f;
             for (int i = 0; i < m_Series.Count; i++)
@@ -839,6 +861,7 @@ namespace XCharts.Runtime
                 var serie = m_Series[i];
                 if (serie.show && serie is T)
                 {
+                    if (!CheckSerieGridIndex(serie, gridIndex)) continue;
                     if (serie.barGap != 0)
                     {
                         gap = serie.barGap;
@@ -848,7 +871,7 @@ namespace XCharts.Runtime
             return gap;
         }
 
-        public double GetSerieSameStackTotalValue<T>(string stack, int dataIndex) where T : Serie
+        public double GetSerieSameStackTotalValue<T>(string stack, int dataIndex, int gridIndex) where T : Serie
         {
             if (string.IsNullOrEmpty(stack)) return 0;
             double total = 0;
@@ -856,6 +879,7 @@ namespace XCharts.Runtime
             {
                 if (serie is T)
                 {
+                    if (!CheckSerieGridIndex(serie, gridIndex)) continue;
                     if (stack.Equals(serie.stack))
                     {
                         total += serie.data[dataIndex].data[1];
@@ -865,7 +889,7 @@ namespace XCharts.Runtime
             return total;
         }
 
-        public int GetSerieBarRealCount<T>() where T : Serie
+        public int GetSerieBarRealCount<T>(int gridIndex) where T : Serie
         {
             var count = 0;
             barStackSet.Clear();
@@ -875,6 +899,7 @@ namespace XCharts.Runtime
                 if (!serie.show) continue;
                 if (serie is T)
                 {
+                    if (!CheckSerieGridIndex(serie, gridIndex)) continue;
                     if (!string.IsNullOrEmpty(serie.stack))
                     {
                         if (barStackSet.Contains(serie.stack)) continue;
@@ -887,8 +912,26 @@ namespace XCharts.Runtime
             return count;
         }
 
+        private bool CheckSerieGridIndex(Serie serie, int gridIndex)
+        {
+            if (gridIndex >= 0)
+            {
+                if (serie.xAxisIndex >= 0 && serie.xAxisIndex < m_XAxes.Count)
+                {
+                    var xAxis = m_XAxes[serie.xAxisIndex];
+                    if (xAxis.gridIndex != gridIndex) return false;
+                }
+                if (serie.yAxisIndex >= 0 && serie.yAxisIndex < m_YAxes.Count)
+                {
+                    var yAxis = m_YAxes[serie.yAxisIndex];
+                    if (yAxis.gridIndex != gridIndex) return false;
+                }
+            }
+            return true;
+        }
+
         private HashSet<string> barStackSet = new HashSet<string>();
-        public float GetSerieTotalWidth<T>(float categoryWidth, float gap, int realBarCount) where T : Serie
+        public float GetSerieTotalWidth<T>(float categoryWidth, float gap, int realBarCount, int gridIndex) where T : Serie
         {
             float total = 0;
             float lastGap = 0;
@@ -899,6 +942,7 @@ namespace XCharts.Runtime
                 if (!serie.show) continue;
                 if (serie is T)
                 {
+                    if (!CheckSerieGridIndex(serie, gridIndex)) continue;
                     if (!string.IsNullOrEmpty(serie.stack))
                     {
                         if (barStackSet.Contains(serie.stack)) continue;
@@ -921,12 +965,12 @@ namespace XCharts.Runtime
             return total;
         }
 
-        public float GetSerieTotalGap<T>(float categoryWidth, float gap, int index) where T : Serie
+        public float GetSerieTotalGap<T>(float categoryWidth, float gap, int index, int gridIndex) where T : Serie
         {
             if (index <= 0) return 0;
             var total = 0f;
             var count = 0;
-            var totalRealBarCount = GetSerieBarRealCount<T>();
+            var totalRealBarCount = GetSerieBarRealCount<T>(gridIndex);
             barStackSet.Clear();
             for (int i = 0; i < m_Series.Count; i++)
             {
@@ -934,6 +978,7 @@ namespace XCharts.Runtime
                 if (!serie.show) continue;
                 if (serie is T)
                 {
+                    if (!CheckSerieGridIndex(serie, gridIndex)) continue;
                     if (!string.IsNullOrEmpty(serie.stack))
                     {
                         if (barStackSet.Contains(serie.stack)) continue;
@@ -983,7 +1028,7 @@ namespace XCharts.Runtime
         }
 
         private List<string> tempList = new List<string>();
-        public int GetSerieIndexIfStack<T>(Serie currSerie) where T : Serie
+        public int GetSerieIndexIfStack<T>(Serie currSerie, int gridIndex) where T : Serie
         {
             tempList.Clear();
             int index = 0;
@@ -992,6 +1037,7 @@ namespace XCharts.Runtime
                 var serie = m_Series[i];
                 if (!serie.show) continue;
                 if (!(serie is T)) continue;
+                if (!CheckSerieGridIndex(serie, gridIndex)) continue;
                 if (string.IsNullOrEmpty(serie.stack))
                 {
                     if (serie.index == currSerie.index) return index;

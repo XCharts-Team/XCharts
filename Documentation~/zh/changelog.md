@@ -6,6 +6,8 @@ slug: /changelog
 # 更新日志
 
 [master](#master)  
+[v3.15.0](#v3150)  
+[v3.14.0](#v3140)  
 [v3.13.0](#v3130)  
 [v3.12.1](#v3121)  
 [v3.12.0](#v3120)  
@@ -78,6 +80,89 @@ slug: /changelog
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.15.0
+
+版本要点：
+
+* __时间轴与缩放能力增强__：新增 `DataZoom.minZoomRatio`（替代 `minShowNum`）、`Chart.useUtc`，并持续优化 `Axis Time` 在缩放与大年份场景下的表现。
+* __柱图与坐标轴配置更灵活__：新增 `Axis.mainAxis` 控制柱图朝向、`Serie.ignoreZeroOccupy` 控制 0 值柱是否占位、`AxisLine` 延长线配置等。
+* __图表样式与交互能力提升__：新增 `Pie.pieType`、`Legend.itemInactiveOpacity`、`Axis.onLabelClick`、`Animation.Exchange`、`LabelStyle.fixedX/fixedY` 等。
+* __扩展 UI 组件持续完善__：`UITable` 新增 `Title` 与 `Viewport` 配置，`UIStatistic.desc` 增强，`Comment.layer` 与坐标刷新体验优化。
+* __稳定性与兼容性修复集中推进__：修复 `SaveAsImage` 遮挡保存、`Pie` 点击失效、`TMP` 兼容、`Gantt` 时间区间与 2038 年问题、`MarkArea/GridCoord/Axis` 等多项关键问题。
+
+日志详情：
+
+* (2026.03.01) 发布`v3.15.0`版本
+* (2026.02.26) 增加`Serie`的`ignoreZeroOccupy`可设置0数据的Bar是否占位 (#286)
+* (2026.02.26) 修复`SaveAsImage`被其他组件遮挡时无法正常保存的问题 (#337)
+* (2026.02.26) 增加`Axis`的`mainAxis`参数设置主轴可控制柱图的朝向 (#331)
+* (2026.02.03) 修复`UITable`的`viewport`在不同的锚点下可能会绘制异常的问题
+* (2026.01.15) 修复`Pie`的点击有时候不响应的问题 (#357)
+* (2026.01.08) 增加`DataZoom`的`minZoomRatio`替换旧的`minShowNum` (#350)
+* (2025.11.05) 修复`Axis`的`indicatorLabel`无法隐藏的问题
+* (2025.11.03) 增加`Tooltip`的`Title`可通过`TitleLabelStyle`的`numericFormatter`格式化时间显示 (#353)
+* (2025.10.30) 增加`Chart`的`useUtc`参数设置显示时间是否用UTC时间
+* (2025.10.30) 优化`Candlestick`对时间轴的支持
+* (2025.10.30) 增加`Scatter`的`ignore`支持设置忽略数据
+* (2025.10.24) 优化`Sankey`的线条绘制排序
+* (2025.10.22) 增加`Pie`的`pieType`支持实心饼图和线框柄图 (#349)
+* (2025.09.05) 优化`MarkLine`的表现
+* (2025.09.01) 增加`AxisLine`的`startExtendLength`和`endExtendLength`设置轴线的延长线
+* (2025.08.27) 修复`Serie`的`TitleStyle`在数据变更时不及时刷新的问题
+* (2025.05.19) 修复`TMP`开启时`Axis`运行报错
+* (2025.04.25) 修复`MarkArea`指定`yValue`或`xValue`时绘制区域不准确的问题
+* (2025.04.17) 增加`UITable`的`Title`支持设置标题
+* (2025.04.17) 增加`UITable`的`Viewport`支持设置表格视口边距边框
+* (2025.04.15) 增加`Bar`支持通过`VisualMap`设置颜色
+* (2025.04.14) 增加`AxisLabel`的`showZeroLabel`设置是否显示0刻度
+* (2025.04.08) 增加`UIStatistic`的`desc`描述文本设置支持
+* (2025.04.07) 修复`Gantt`甘特图在有多维数据时计算的时间区间不准确的问题
+* (2025.04.07) 优化`Axis`的`Time`时间轴支持设置Custom和ceilRate
+* (2025.04.07) 修复`GridCoord`在设置背景色且Serie开启Clip时会覆盖图表的问题
+* (2025.04.07) 修复`Gantt`甘特图年份大于2038时显示异常的问题
+* (2025.04.07) 修复`Axis`的`Time`时间轴无法显示大于2038的年份的问题
+* (2025.04.06) 修复`Axis`的`Time`时间轴在有`DataZoom`缩放时文本显示异常的问题
+* (2025.03.28) 修复`Pie3D`的`avoidLabelOverlap`不生效的问题
+* (2025.03.27) 增加`Legend`的`itemInactiveOpacity`可设置非激活状态时的颜色透明度 (#343)
+* (2025.03.27) 增加`Axis`的`onLabelClick`回调事件
+* (2025.03.26) 增加`Animation`的`Exchange`排序交换动画
+* (2025.03.22) 增加`Comment`的`layer`设置层级
+* (2025.03.21) 优化`Comment`的坐标刷新
+* (2025.03.19) 增加`Serie`的`Label`的`formatter`支持`{index}`通配符
+* (2025.03.18) 增加`Bar`可添加`TitleStyle`组件支持
+* (2025.03.18) 增加`LabelStyle`的`fixedX`和`fixedY`可固定label的坐标
+* (2025.03.17) 增加`ItemStyle`的`backgroundGap`可设置数据项背景间隙
+
+## v3.14.0
+
+版本要点：
+
+* 新增`Bar`的实时排序功能
+* 新增`Tooltip`的`itemFormatter`支持`\n`换行
+* 新增`AxisLabel`的格式化支持`{index}`
+* 新增`Animation`的`speed`可指定动画速度
+* 优化`Tooltip`的列对齐方式
+
+日志详情：
+
+* (2025.03.15) 发布`v3.14.0`版本
+* (2025.03.09) 修复`Bar`在同一个`Chart`不同`Grid`里时绘制有些异常的问题
+* (2025.03.07) 增加`Animation`的`speed`可指定动画速度
+* (2025.03.06) 优化`Animation`的新增动画表现
+* (2025.03.04) 修复`Treemap`的`label`显示异常的问题
+* (2025.03.02) 增加`Tooltip`的`columnGapWidths`参数设置列文本间隙距离
+* (2025.03.01) 优化`Comment`的组件刷新
+* (2025.02.23) 增加`Axis`的`Label`的`formatter`支持`{index}``{index-1}``{-index}``{-index-1}`通配符
+* (2025.02.23) 增加`Bar`的`realtimeSort`支持实时排序
+* (2025.02.19) 增加`Tooltip`的`itemFormatter`对`\n`换行的支持
+* (2025.02.18) 优化`Tooltip`的对齐方式
+* (2025.02.09) 修复`SaveAsImage`保存图片时不支持透明度的问题 (#337)
+* (2025.02.05) 增加`GraphChart`可单独设置`data`样式的支持
+* (2025.02.05) 重构`SerieSymbol`的`sizeFunction`参数
+* (2025.01.23) 修复`Treemap`的`Label`不显示的问题
+* (2025.01.15) 修复`Chart`在运行时动态添加`Component`异常的问题 (#339)
+* (2025.01.08) 修复`TextMeshPro`关闭时残留组件影响`Text`初始化的问题
 
 ## v3.13.0
 

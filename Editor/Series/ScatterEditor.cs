@@ -18,6 +18,8 @@ namespace XCharts.Editor
             }
             PropertyField("m_MaxCache");
             PropertyField("m_Clip");
+            PropertyField("m_Ignore");
+            PropertyField("m_IgnoreValue");
 
             PropertyField("m_Symbol");
             PropertyField("m_ItemStyle");

@@ -102,7 +102,7 @@ namespace XCharts.Editor
         protected override void DrawExtendeds(SerializedProperty prop)
         {
             base.DrawExtendeds(prop);
-            PropertyField(prop, "m_UnableColor");
+            PropertyField(prop, "m_InactiveColor");
         }
     }
 

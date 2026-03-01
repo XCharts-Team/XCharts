@@ -100,6 +100,7 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_Clockwise = true;
         [SerializeField] private bool m_InsertDataToHead;
         [SerializeField][Since("v3.11.0")] private float m_MinCategorySpacing = 0;
+        [SerializeField][Since("v3.15.0")] private bool m_MainAxis = false;
         [SerializeField] protected List<Sprite> m_Icons = new List<Sprite>();
         [SerializeField] protected List<string> m_Data = new List<string>();
         [SerializeField] protected AxisLine m_AxisLine = AxisLine.defaultAxisLine;
@@ -115,6 +116,13 @@ namespace XCharts.Runtime
 
         public AxisContext context = new AxisContext();
 
+        private Action<int, string> m_OnLabelClick;
+        /// <summary>
+        /// Callback function when click on the label. Parameters: labelIndex, labelName.
+        /// ||点击文本标签回调函数。参数：labelIndex, labelName。
+        /// </summary>
+        [Since("v3.15.0")]
+        public Action<int, string> onLabelClick { internal get { return m_OnLabelClick; } set { m_OnLabelClick = value; } }
         /// <summary>
         /// Whether to show axis.
         /// ||是否显示坐标轴。
@@ -290,6 +298,17 @@ namespace XCharts.Runtime
         {
             get { return m_Clockwise; }
             set { if (PropertyUtil.SetStruct(ref m_Clockwise, value)) SetAllDirty(); }
+        }
+        /// <summary>
+        /// Whether it is the main axis. When both X and Y axes are of the same type, the axis set to main axis will determine the orientation, 
+        /// such as horizontal bar chart and vertical bar chart.
+        /// ||是否为主轴。当XY轴类型都相同时，设置为主轴的轴会决定朝向，如横向柱图和纵向柱图。
+        /// </summary>
+        [Since("v3.15.0")]
+        public bool mainAxis
+        {
+            get { return m_MainAxis; }
+            set { if (PropertyUtil.SetStruct(ref m_MainAxis, value)) SetAllDirty(); }
         }
         /// <summary>
         /// Category data, available in type: 'Category' axis.
@@ -478,6 +497,7 @@ namespace XCharts.Runtime
             context.maxValue = 0;
             context.destMinValue = 0;
             context.destMaxValue = 0;
+            context.labelValueList.Clear();
         }
 
         public Axis Clone()
@@ -609,13 +629,13 @@ namespace XCharts.Runtime
             return m_Position == AxisPosition.Bottom;
         }
 
-        public bool IsNeedShowLabel(int index, int total = 0)
+        public bool IsNeedShowLabel(int index, int total = 0, string content = null)
         {
             if (total == 0)
             {
                 total = context.labelValueList.Count;
             }
-            return axisLabel.IsNeedShowLabel(index, total);
+            return axisLabel.IsNeedShowLabel(index, total, content);
         }
 
         public void SetNeedUpdateFilterData()
@@ -834,22 +854,6 @@ namespace XCharts.Runtime
         internal int GetDataCount(DataZoom dataZoom)
         {
             return IsCategory() ? GetDataList(dataZoom).Count : 0;
-        }
-
-        /// <summary>
-        /// 更新刻度标签文字
-        /// </summary>
-        /// <param name="dataZoom"></param>
-        internal void UpdateLabelText(float coordinateWidth, DataZoom dataZoom, bool forcePercent)
-        {
-            for (int i = 0; i < context.labelObjectList.Count; i++)
-            {
-                if (context.labelObjectList[i] != null)
-                {
-                    var text = AxisHelper.GetLabelName(this, coordinateWidth, i, context.destMinValue, context.destMaxValue, dataZoom, forcePercent);
-                    context.labelObjectList[i].SetText(text);
-                }
-            }
         }
 
         internal Vector3 GetLabelObjectPosition(int index)

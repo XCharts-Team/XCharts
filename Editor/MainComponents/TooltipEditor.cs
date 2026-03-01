@@ -41,6 +41,7 @@ namespace XCharts.Editor
             });
             PropertyField("m_LineStyle");
             PropertyField("m_TitleLabelStyle");
+            PropertyListField("m_ColumnGapWidths");
             PropertyListField("m_ContentLabelStyles");
             --EditorGUI.indentLevel;
         }

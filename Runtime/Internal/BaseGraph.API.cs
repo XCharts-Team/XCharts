@@ -209,15 +209,25 @@ namespace XCharts.Runtime
         /// </summary>
         /// <param name="imageType">type of image: png, jpg, exr</param>
         /// <param name="savePath">save path</param>
-        public void SaveAsImage(string imageType = "png", string savePath = "")
+        /// <param name="exportScale">export resolution scale. 1 means original size</param>
+        /// <param name="useRecursiveBackgroundColor">whether to recursively use lower-level UI background color</param>
+        public void SaveAsImage(string imageType = "png", string savePath = "", float exportScale = 1f,
+            bool useRecursiveBackgroundColor = false)
         {
-            StartCoroutine(SaveAsImageSync(imageType, savePath));
+            StartCoroutine(SaveAsImageSync(imageType, savePath, exportScale, useRecursiveBackgroundColor));
         }
 
-        private IEnumerator SaveAsImageSync(string imageType, string path)
+        private IEnumerator SaveAsImageSync(string imageType, string path, float exportScale,
+            bool useRecursiveBackgroundColor)
         {
             yield return new WaitForEndOfFrame();
-            ChartHelper.SaveAsImage(rectTransform, canvas, imageType, path);
+            ChartHelper.SaveAsImage(rectTransform, canvas, imageType, path, exportScale,
+                useRecursiveBackgroundColor);
+        }
+
+        public Vector3 GetTitlePosition(Title title)
+        {
+            return graphPosition + title.location.GetPosition(graphWidth, graphHeight);
         }
     }
 }

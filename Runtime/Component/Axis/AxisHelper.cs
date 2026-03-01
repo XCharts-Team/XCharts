@@ -116,9 +116,10 @@ namespace XCharts.Runtime
         /// <param name="dataZoom"></param>
         /// <returns></returns>
         public static string GetLabelName(Axis axis, float coordinateWidth, int index, double minValue, double maxValue,
-            DataZoom dataZoom, bool forcePercent)
+            DataZoom dataZoom, bool forcePercent, bool useUtc, int sortIndex = -1)
         {
             int split = GetSplitNumber(axis, coordinateWidth, dataZoom);
+            if (sortIndex == -1) sortIndex = index;
             if (axis.type == Axis.AxisType.Value)
             {
                 if (minValue == 0 && maxValue == 0)
@@ -137,7 +138,7 @@ namespace XCharts.Runtime
                 if (forcePercent)
                     return string.Format("{0}%", (int)value);
                 else
-                    return axis.axisLabel.GetFormatterContent(index, value, minValue, maxValue);
+                    return axis.axisLabel.GetFormatterContent(sortIndex, axis.context.labelValueList.Count, value, minValue, maxValue);
             }
             else if (axis.type == Axis.AxisType.Log)
             {
@@ -150,7 +151,7 @@ namespace XCharts.Runtime
                     minValue = -minValue;
                     maxValue = -maxValue;
                 }
-                return axis.axisLabel.GetFormatterContent(index, value, minValue, maxValue, true);
+                return axis.axisLabel.GetFormatterContent(sortIndex, 0, value, minValue, maxValue, true);
             }
             else if (axis.type == Axis.AxisType.Time)
             {
@@ -160,7 +161,7 @@ namespace XCharts.Runtime
                     return string.Empty;
 
                 var value = axis.GetLabelValue(index);
-                return axis.axisLabel.GetFormatterDateTime(index, value, minValue, maxValue);
+                return axis.axisLabel.GetFormatterDateTime(sortIndex, axis.context.labelValueList.Count, value, minValue, maxValue, !useUtc);
             }
             var showData = axis.GetDataList(dataZoom);
             int dataCount = showData.Count;
@@ -172,18 +173,18 @@ namespace XCharts.Runtime
             {
                 if (index > 0)
                 {
-                    var residue = (dataCount - 1) - split * rate;
+                    var residue = dataCount - 1 - split * rate;
                     var newIndex = residue + (index - 1) * rate;
                     if (newIndex < 0)
                         newIndex = 0;
-                    return axis.axisLabel.GetFormatterContent(newIndex, showData[newIndex]);
+                    return axis.axisLabel.GetFormatterContent(sortIndex, dataCount, showData[newIndex]);
                 }
                 else
                 {
                     if (axis.boundaryGap && coordinateWidth / dataCount > 5)
                         return string.Empty;
                     else
-                        return axis.axisLabel.GetFormatterContent(0, showData[0]);
+                        return axis.axisLabel.GetFormatterContent(sortIndex, dataCount, showData[0]);
                 }
             }
             else
@@ -191,7 +192,7 @@ namespace XCharts.Runtime
                 int newIndex = index * rate;
                 if (newIndex < dataCount)
                 {
-                    return axis.axisLabel.GetFormatterContent(newIndex, showData[newIndex]);
+                    return axis.axisLabel.GetFormatterContent(sortIndex, dataCount, showData[newIndex]);
                 }
                 else
                 {
@@ -199,7 +200,7 @@ namespace XCharts.Runtime
                     if (axis.boundaryGap && ((diff > 0 && diff / rate < 0.4f) || dataCount >= axis.data.Count))
                         return string.Empty;
                     else
-                        return axis.axisLabel.GetFormatterContent(dataCount - 1, showData[dataCount - 1]);
+                        return axis.axisLabel.GetFormatterContent(sortIndex, dataCount, showData[dataCount - 1]);
                 }
             }
         }
@@ -353,8 +354,8 @@ namespace XCharts.Runtime
                 axis.splitNumber = splitNumber;
                 return;
             }
-            if (axis.type == Axis.AxisType.Time) { }
-            else if (axis.minMaxType == Axis.AxisMinMaxType.Custom)
+            if (ceilRate == 0) ceilRate = axis.ceilRate;
+            if (axis.minMaxType == Axis.AxisMinMaxType.Custom)
             {
                 if (axis.min != 0 || axis.max != 0)
                 {
@@ -370,13 +371,19 @@ namespace XCharts.Runtime
                     }
                 }
             }
+            else if (axis.type == Axis.AxisType.Time)
+            {
+                if (ceilRate != 0)
+                {
+                    minValue = ChartHelper.GetMinCeilRate(minValue, ceilRate);
+                    maxValue = ChartHelper.GetMaxCeilRate(maxValue, ceilRate);
+                }
+            }
             else
             {
-                if (ceilRate == 0) ceilRate = axis.ceilRate;
                 switch (axis.minMaxType)
                 {
                     case Axis.AxisMinMaxType.Default:
-
                         if (minValue == 0 && maxValue == 0) { }
                         else if (minValue > 0 && maxValue > 0)
                         {
@@ -535,9 +542,9 @@ namespace XCharts.Runtime
         /// <param name="scaleWidth"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static float GetAxisValueLength(GridCoord grid, Axis axis, float scaleWidth, double value)
+        public static float GetAxisValueLength(GridCoord grid, Axis axis, float scaleWidth, double value, float gap = 0)
         {
-            return GetAxisPositionInternal(grid, axis, scaleWidth, value, false, true);
+            return GetAxisPositionInternal(grid, axis, scaleWidth, value, false, true, gap);
         }
 
         /// <summary>
@@ -571,10 +578,11 @@ namespace XCharts.Runtime
             }
         }
 
-        private static float GetAxisPositionInternal(GridCoord grid, Axis axis, float scaleWidth, double value, bool includeGridXY, bool realLength)
+        private static float GetAxisPositionInternal(GridCoord grid, Axis axis, float scaleWidth, double value, bool includeGridXY, bool realLength, float gap = 0)
         {
             var isY = axis is YAxis;
             var gridHeight = isY ? grid.context.height : grid.context.width;
+            gridHeight -= gap;
             var gridXY = isY ? grid.context.y : grid.context.x;
 
             if (axis.IsLog())

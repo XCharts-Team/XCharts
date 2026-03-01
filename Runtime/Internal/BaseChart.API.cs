@@ -31,6 +31,11 @@ namespace XCharts.Runtime
             }
         }
         /// <summary>
+        /// Whether to use UTC time for the chart.
+        /// ||图表的时间是否都显示为UTC时间。
+        /// </summary>
+        public bool useUtc { get { return m_UseUtc; } set { m_UseUtc = value; } }
+        /// <summary>
         /// The theme.
         /// ||</summary>
         public ThemeStyle theme { get { return m_Theme; } set { m_Theme = value; } }
@@ -69,6 +74,7 @@ namespace XCharts.Runtime
         /// </summary>
         public Vector3 chartPosition { get { return m_ChartPosition; } }
         public Rect chartRect { get { return m_ChartRect; } }
+        public Painter topPainter { get { return m_PainterTop; } }
         /// <summary>
         /// The callback function of chart init.
         /// ||图表的初始化完成回调。
@@ -585,11 +591,6 @@ namespace XCharts.Runtime
                 if (axis.type == Axis.AxisType.Category)
                     axis.insertDataToHead = insertDataToHead;
             }
-        }
-
-        public Vector3 GetTitlePosition(Title title)
-        {
-            return chartPosition + title.location.GetPosition(chartWidth, chartHeight);
         }
 
         public int GetLegendRealShowNameIndex(string name)

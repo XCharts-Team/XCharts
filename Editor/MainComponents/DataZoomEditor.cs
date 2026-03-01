@@ -13,7 +13,7 @@ namespace XCharts.Editor
             var m_SupportMarquee = baseProperty.FindPropertyRelative("m_SupportMarquee");
             var m_Start = baseProperty.FindPropertyRelative("m_Start");
             var m_End = baseProperty.FindPropertyRelative("m_End");
-            var m_MinShowNum = baseProperty.FindPropertyRelative("m_MinShowNum");
+            var m_MinZoomRatio = baseProperty.FindPropertyRelative("m_MinZoomRatio");
             ++EditorGUI.indentLevel;
             PropertyField("m_Orient");
             PropertyField("m_SupportInside");
@@ -31,10 +31,11 @@ namespace XCharts.Editor
             PropertyField(m_End);
             PropertyField("m_StartLock");
             PropertyField("m_EndLock");
-            PropertyField(m_MinShowNum);
+            PropertyField(m_MinZoomRatio);
             if (m_Start.floatValue < 0) m_Start.floatValue = 0;
             if (m_End.floatValue > 100) m_End.floatValue = 100;
-            if (m_MinShowNum.intValue < 0) m_MinShowNum.intValue = 0;
+            if (m_MinZoomRatio.floatValue < 0) m_MinZoomRatio.floatValue = 0;
+            if (m_MinZoomRatio.floatValue > 1) m_MinZoomRatio.floatValue = 1;
             if (m_SupportSlider.boolValue)
             {
                 PropertyField("m_ShowDataShadow");

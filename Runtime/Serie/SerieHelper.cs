@@ -705,7 +705,7 @@ namespace XCharts.Runtime
             if (stateStyle == null)
             {
                 var symbol = GetSerieSymbol(serie, serieData, SerieState.Normal);
-                size = symbol.GetSize(serieData == null ? null : serieData.data, defaultSize);
+                size = symbol.GetSize(serieData, defaultSize);
                 switch (state)
                 {
                     case SerieState.Emphasis:
@@ -719,7 +719,7 @@ namespace XCharts.Runtime
             else
             {
                 var symbol = stateStyle.symbol;
-                size = symbol.GetSize(serieData == null ? null : serieData.data, defaultSize);
+                size = symbol.GetSize(serieData, defaultSize);
             }
             if (serieData != null && checkAnimation)
             {
@@ -833,13 +833,14 @@ namespace XCharts.Runtime
             var data = serie.data;
             var startValue = min;
             var endValue = max;
+            var minZoomRatio = (int)((max-min) * dataZoom.minZoomRatio);
             if (endValue < startValue) endValue = startValue;
             if (startValue != serie.m_FilterStartValue || endValue != serie.m_FilterEndValue ||
-                dataZoom.minShowNum != serie.m_FilterMinShow || serie.m_NeedUpdateFilterData)
+                dataZoom.minZoomRatio != serie.m_FilterMinShow || serie.m_NeedUpdateFilterData)
             {
                 serie.m_FilterStartValue = startValue;
                 serie.m_FilterEndValue = endValue;
-                serie.m_FilterMinShow = dataZoom.minShowNum;
+                serie.m_FilterMinShow = minZoomRatio;
                 serie.m_NeedUpdateFilterData = false;
 
                 if (ReferenceEquals(serie.m_FilterData, data))
@@ -883,19 +884,20 @@ namespace XCharts.Runtime
                 end = start + range;
                 if (end > data.Count) end = data.Count;
             }
+            var minZoomRatio = (int)(data.Count * dataZoom.minZoomRatio);
             if (start != serie.m_FilterStart || end != serie.m_FilterEnd ||
-                dataZoom.minShowNum != serie.m_FilterMinShow || serie.m_NeedUpdateFilterData)
+                minZoomRatio != serie.m_FilterMinShow || serie.m_NeedUpdateFilterData)
             {
                 serie.m_FilterStart = start;
                 serie.m_FilterEnd = end;
-                serie.m_FilterMinShow = dataZoom.minShowNum;
+                serie.m_FilterMinShow = minZoomRatio;
                 serie.m_NeedUpdateFilterData = false;
                 if (data.Count > 0)
                 {
-                    if (range < dataZoom.minShowNum)
+                    if (range < minZoomRatio)
                     {
-                        if (dataZoom.minShowNum > data.Count) range = data.Count;
-                        else range = dataZoom.minShowNum;
+                        if (minZoomRatio > data.Count) range = data.Count;
+                        else range = minZoomRatio;
                     }
                     if (range > data.Count - start)
                         start = data.Count - range;
@@ -955,6 +957,10 @@ namespace XCharts.Runtime
 
         public static void UpdateSerieRuntimeFilterData(Serie serie, bool filterInvisible = true)
         {
+            var realtimeData = true;
+            var dataChangeDuration = serie.animation.GetChangeDuration();
+            var dataAddDuration = serie.animation.GetAdditionDuration();
+            var unscaledTime = serie.animation.unscaledTime;
             serie.context.sortedData.Clear();
             foreach (var serieData in serie.data)
             {
@@ -966,8 +972,12 @@ namespace XCharts.Runtime
                 case SerieDataSortType.Ascending:
                     serie.context.sortedData.Sort(delegate (SerieData data1, SerieData data2)
                     {
-                        var value1 = data1.GetData(1);
-                        var value2 = data2.GetData(1);
+                        var value1 = realtimeData ?
+                            data1.GetCurrData(1, dataAddDuration, dataChangeDuration, false, 0, 0, unscaledTime) :
+                            data1.GetData(1);
+                        var value2 = realtimeData ?
+                            data2.GetCurrData(1, dataAddDuration, dataChangeDuration, false, 0, 0, unscaledTime) :
+                            data2.GetData(1);
                         if (value1 == value2) return 0;
                         else if (value1 > value2) return 1;
                         else return -1;
@@ -976,8 +986,12 @@ namespace XCharts.Runtime
                 case SerieDataSortType.Descending:
                     serie.context.sortedData.Sort(delegate (SerieData data1, SerieData data2)
                     {
-                        var value1 = data1.GetData(1);
-                        var value2 = data2.GetData(1);
+                        var value1 = realtimeData ?
+                            data1.GetCurrData(1, dataAddDuration, dataChangeDuration, false, 0, 0, unscaledTime) :
+                            data1.GetData(1);
+                        var value2 = realtimeData ?
+                            data2.GetCurrData(1, dataAddDuration, dataChangeDuration, false, 0, 0, unscaledTime) :
+                            data2.GetData(1);
                         if (value1 == value2) return 0;
                         else if (value1 > value2) return -1;
                         else return 1;
@@ -985,6 +999,10 @@ namespace XCharts.Runtime
                     break;
                 case SerieDataSortType.None:
                     break;
+            }
+            for (int i = 0; i < serie.context.sortedData.Count; i++)
+            {
+                serie.context.sortedData[i].sortIndex = i;
             }
         }
 

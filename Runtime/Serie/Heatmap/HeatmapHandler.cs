@@ -59,24 +59,36 @@ namespace XCharts.Runtime
                 var dimension = VisualMapHelper.GetDimension(visualMap, defaultDimension);
 
                 title = serie.serieName;
+                itemFormatter = SerieHelper.GetItemFormatter(serie, null, itemFormatter);
+                numericFormatter = SerieHelper.GetNumericFormatter(serie, null, numericFormatter);
+                marker = SerieHelper.GetItemMarker(serie, null, marker);
+                var color = visualMap.GetColor(value);
 
-                var param = serie.context.param;
-                param.serieName = serie.serieName;
-                param.serieIndex = serie.index;
-                param.dimension = dimension;
-                param.dataCount = serie.dataCount;
-                param.serieData = null;
-                param.color = visualMap.GetColor(value);
-                param.marker = SerieHelper.GetItemMarker(serie, null, marker);
-                param.itemFormatter = SerieHelper.GetItemFormatter(serie, null, itemFormatter);
-                param.numericFormatter = SerieHelper.GetNumericFormatter(serie, null, numericFormatter);
-                param.columns.Clear();
+                if (itemFormatter == null) itemFormatter = "";
+                itemFormatter = itemFormatter.Replace("\\n", "\n");
+                var temp = itemFormatter.Split('\n');
+                for (int i = 0; i < temp.Length; i++)
+                {
+                    var formatter = temp[i];
+                    var param = i == 0 ? serie.context.param : new SerieParams();
 
-                param.columns.Add(param.marker);
-                param.columns.Add("count");
-                param.columns.Add(ChartCached.NumberToStr(value, param.numericFormatter));
+                    param.serieName = serie.serieName;
+                    param.serieIndex = serie.index;
+                    param.dimension = dimension;
+                    param.dataCount = serie.dataCount;
+                    param.serieData = null;
+                    param.color = color;
+                    param.marker = marker;
+                    param.itemFormatter = formatter;
+                    param.numericFormatter = numericFormatter;
+                    param.columns.Clear();
 
-                paramList.Add(param);
+                    param.columns.Add(param.marker);
+                    param.columns.Add("count");
+                    param.columns.Add(ChartCached.NumberToStr(value, param.numericFormatter));
+
+                    paramList.Add(param);
+                }
             }
             else
             {
@@ -96,24 +108,35 @@ namespace XCharts.Runtime
                         category = xAxis.GetData((int)serieData.GetData(0));
                 }
                 title = serie.serieName;
+                itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
+                numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
+                marker = SerieHelper.GetItemMarker(serie, serieData, marker);
 
-                var param = serie.context.param;
-                param.serieName = serie.serieName;
-                param.serieIndex = serie.index;
-                param.dimension = dimension;
-                param.dataCount = serie.dataCount;
-                param.serieData = serieData;
-                param.color = serieData.context.color;
-                param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
-                param.itemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
-                param.numericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
-                param.columns.Clear();
+                if (itemFormatter == null) itemFormatter = "";
+                itemFormatter = itemFormatter.Replace("\\n", "\n");
+                var temp = itemFormatter.Split('\n');
+                for (int i = 0; i < temp.Length; i++)
+                {
+                    var formatter = temp[i];
+                    var param = i == 0 ? serie.context.param : new SerieParams();
 
-                param.columns.Add(param.marker);
-                param.columns.Add(category);
-                param.columns.Add(ChartCached.NumberToStr(serieData.GetData(dimension), param.numericFormatter));
+                    param.serieName = serie.serieName;
+                    param.serieIndex = serie.index;
+                    param.dimension = dimension;
+                    param.dataCount = serie.dataCount;
+                    param.serieData = serieData;
+                    param.color = serieData.context.color;
+                    param.marker = marker;
+                    param.itemFormatter = formatter;
+                    param.numericFormatter = numericFormatter;
+                    param.columns.Clear();
 
-                paramList.Add(param);
+                    param.columns.Add(param.marker);
+                    param.columns.Add(category);
+                    param.columns.Add(ChartCached.NumberToStr(serieData.GetData(dimension), param.numericFormatter));
+
+                    paramList.Add(param);
+                }
             }
         }
 
@@ -236,7 +259,7 @@ namespace XCharts.Runtime
                 var xValue = serieData.GetData(0);
                 var yValue = serieData.GetData(1);
                 var i = AxisHelper.GetAxisValueSplitIndex(xAxis, xValue, true, xCount);
-                var j = AxisHelper.GetAxisValueSplitIndex(yAxis, yValue,true, yCount);
+                var j = AxisHelper.GetAxisValueSplitIndex(yAxis, yValue, true, yCount);
 
                 if (serie.IsIgnoreValue(serieData, dimension))
                 {
@@ -368,7 +391,7 @@ namespace XCharts.Runtime
                 var xValue = serieData.GetData(0);
                 var yValue = serieData.GetData(1);
                 var i = AxisHelper.GetAxisValueSplitIndex(xAxis, xValue, true, xCount);
-                var j = AxisHelper.GetAxisValueSplitIndex(yAxis, yValue,true, yCount);
+                var j = AxisHelper.GetAxisValueSplitIndex(yAxis, yValue, true, yCount);
                 var key = GetGridKey(i, j);
                 var count = 0;
 

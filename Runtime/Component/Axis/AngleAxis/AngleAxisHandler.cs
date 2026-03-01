@@ -53,7 +53,7 @@ namespace XCharts.Runtime
             if (axis.context.labelObjectList.Count <= 0)
                 InitAngleAxis(axis);
             else
-                axis.UpdateLabelText(runtimeWidth, null, false);
+                UpdateLabelText(axis, runtimeWidth, null, false);
         }
 
         private void InitAngleAxis(AngleAxis axis)
@@ -85,7 +85,7 @@ namespace XCharts.Runtime
                 float scaleAngle = AxisHelper.GetScaleWidth(axis, total, i + 1, null);
                 bool inside = axis.axisLabel.inside;
                 var labelName = AxisHelper.GetLabelName(axis, total, i, axis.context.minValue, axis.context.maxValue,
-                    null, isPercentStack);
+                    null, isPercentStack, chart.useUtc);
                 var label = ChartHelper.AddAxisLabelObject(splitNumber, i, objName + i, axisObj.transform,
                     new Vector2(scaleAngle, txtHig), axis,
                     chart.theme.axis, labelName, Color.clear);

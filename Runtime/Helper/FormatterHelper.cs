@@ -18,6 +18,7 @@ namespace XCharts.Runtime
         private static Regex s_RegexSubForAxisLabel = new Regex(@"(value)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
         private static Regex s_RegexForSerieLabel = new Regex(@"{[a-h|\.|y]\d*(:[c-g|x|p|r]\d*)?}", RegexOptions.IgnoreCase);
         private static Regex s_RegexSubForSerieLabel = new Regex(@"(\.)|([a-h|y]\d*)|([c-g|x|p|r]\d*)", RegexOptions.IgnoreCase);
+        private static Regex s_RegexForAxisIndex = new Regex(@"\{(-?)index([+-]\d+)?\}", RegexOptions.IgnoreCase);
 
         public static bool NeedFormat(string content)
         {
@@ -36,7 +37,7 @@ namespace XCharts.Runtime
         /// <param name="category">选中的类目，一般用在折线图和柱状图</param>
         /// <returns></returns>
         public static bool ReplaceContent(ref string content, int dataIndex, string numericFormatter, Serie serie,
-            BaseChart chart, string colorName = null)
+            BaseChart chart, string colorName = null, SerieData serieData = null)
         {
             var foundDot = false;
             var mc = s_Regex.Matches(content);
@@ -111,7 +112,7 @@ namespace XCharts.Runtime
                     }
                     else
                     {
-                        var serieData = serie.GetSerieData(bIndex);
+                        serieData = serie.GetSerieData(bIndex);
                         content = content.Replace(old, serieData.name);
                     }
                 }
@@ -206,12 +207,17 @@ namespace XCharts.Runtime
                     }
                 }
             }
+            if (serieData != null)
+            {
+                ReplaceIndexContent(ref content, serie.useSortData ? serieData.sortIndex : serieData.index, serie.dataCount);
+            }
             content = s_RegexNewLine.Replace(content, PH_NN);
             return foundDot;
         }
 
         public static void ReplaceSerieLabelContent(ref string content, string numericFormatter, int dataCount, double value, double total,
-            string serieName, string category, string dataName, Color color, SerieData serieData, BaseChart chart = null, int serieIndex = 0)
+            string serieName, string category, string dataName, Color color, SerieData serieData, BaseChart chart = null, int serieIndex = 0,
+            bool sortData = false)
         {
             var mc = s_RegexForSerieLabel.Matches(content);
             foreach (var m in mc)
@@ -308,6 +314,10 @@ namespace XCharts.Runtime
                     }
                 }
             }
+            if (serieData != null)
+            {
+                ReplaceIndexContent(ref content, sortData ? serieData.sortIndex : serieData.index, dataCount);
+            }
             content = TrimAndReplaceLine(content);
         }
 
@@ -334,7 +344,7 @@ namespace XCharts.Runtime
             return s_RegexNewLine.Replace(content.Trim(), PH_NN);
         }
 
-        public static void ReplaceAxisLabelContent(ref string content, string numericFormatter, double value)
+        public static void ReplaceAxisLabelContent(ref string content, string numericFormatter, double value, int index, int totalIndex)
         {
             var mc = s_RegexForAxisLabel.Matches(content);
             foreach (var m in mc)
@@ -349,10 +359,11 @@ namespace XCharts.Runtime
                 }
                 content = content.Replace(old, ChartCached.FloatToStr(value, numericFormatter));
             }
+            ReplaceIndexContent(ref content, index, totalIndex);
             content = TrimAndReplaceLine(content);
         }
 
-        public static void ReplaceAxisLabelContent(ref string content, string value)
+        public static void ReplaceAxisLabelContent(ref string content, string value, int index, int totalIndex)
         {
             var mc = s_RegexForAxisLabel.Matches(content);
             foreach (var m in mc)
@@ -363,8 +374,26 @@ namespace XCharts.Runtime
                 if (argsCount <= 0) continue;
                 content = content.Replace(old, value);
             }
+            ReplaceIndexContent(ref content, index, totalIndex);
             content = TrimAndReplaceLine(content);
         }
 
+        public static void ReplaceIndexContent(ref string content, int currIndex, int totalIndex)
+        {
+            if (totalIndex <= 0) return;
+            content = s_RegexForAxisIndex.Replace(content, (match) =>
+            {
+                bool isNegative = match.Groups[1].Value == "-";
+                int offset = 0;
+                int parsedOffset = 0;
+                if (match.Groups[2].Success &&
+                    int.TryParse(match.Groups[2].Value, out parsedOffset))
+                {
+                    offset = parsedOffset;
+                }
+                int baseValue = isNegative ? totalIndex - currIndex : currIndex + 1;
+                return (baseValue + offset).ToString();
+            });
+        }
     }
 }

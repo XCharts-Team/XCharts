@@ -14,7 +14,7 @@ namespace XCharts.Runtime
             var comment = component;
             comment.OnChanged();
             comment.painter = null;
-            comment.refreshComponent = delegate()
+            comment.refreshComponent = delegate ()
             {
                 var objName = ChartCached.GetComponentObjectName(comment);
                 var commentObj = ChartHelper.AddObject(objName,
@@ -23,20 +23,25 @@ namespace XCharts.Runtime
                     chart.chartMaxAnchor,
                     chart.chartPivot,
                     chart.chartSizeDelta, -1, chart.childrenNodeNames);
+                var siblingIndex = comment.layer == CommentLayer.Upper
+                    ? chart.topPainter.transform.GetSiblingIndex() - 1
+                    : chart.painter.transform.GetSiblingIndex() + 1;
 
                 commentObj.SetActive(comment.show);
+                commentObj.transform.SetSiblingIndex(siblingIndex);
                 commentObj.hideFlags = chart.chartHideFlags;
                 ChartHelper.HideAllObject(commentObj);
                 for (int i = 0; i < comment.items.Count; i++)
                 {
                     var item = comment.items[i];
                     var labelStyle = comment.GetLabelStyle(i);
+                    item.location.OnChanged();
                     var labelPos = chart.chartPosition + item.location.GetPosition(chart.chartWidth, chart.chartHeight);
                     var label = ChartHelper.AddChartLabel(s_CommentObjectName + i, commentObj.transform, labelStyle, chart.theme.common,
                         GetContent(item), Color.clear, TextAnchor.MiddleCenter);
                     label.SetActive(comment.show && item.show, true);
-                    label.SetPosition(labelPos);
-                    label.text.SetLocalPosition(labelStyle.offset);
+                    label.SetPosition(labelPos + labelStyle.offset);
+                    item.labelObject = label;
                 }
             };
             comment.refreshComponent();

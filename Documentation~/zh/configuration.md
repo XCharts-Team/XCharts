@@ -176,6 +176,7 @@ slug: /configuration
 
 - [AnimationAddition](#animationaddition)
 - [AnimationChange](#animationchange)
+- [AnimationExchange](#animationexchange)
 - [AnimationFadeIn](#animationfadein)
 - [AnimationFadeOut](#animationfadeout)
 - [AnimationHiding](#animationhiding)
@@ -234,6 +235,14 @@ class in XCharts.Runtime / 继承自: [AnimationInfo](#animationinfo)
 
 数据变更动画。
 
+## AnimationExchange
+
+class in XCharts.Runtime / 继承自: [AnimationInfo](#animationinfo)
+
+> 从 `v3.15.0` 开始支持
+
+数据交换动画。一般用于图表数据排序时顺序变化的动画。
+
 ## AnimationFadeIn
 
 class in XCharts.Runtime / 继承自: [AnimationInfo](#animationinfo)
@@ -260,7 +269,7 @@ class in XCharts.Runtime / 继承自: [AnimationInfo](#animationinfo)
 
 ## AnimationInfo
 
-class in XCharts.Runtime / 子类: [AnimationFadeIn](#animationfadein), [AnimationFadeOut](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition), [AnimationHiding](#animationhiding), [AnimationInteraction](#animationinteraction)
+class in XCharts.Runtime / 子类: [AnimationFadeIn](#animationfadein), [AnimationFadeOut](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition), [AnimationHiding](#animationhiding), [AnimationInteraction](#animationinteraction), [AnimationExchange](#animationexchange)
 
 > 从 `v3.8.0` 开始支持
 
@@ -276,7 +285,7 @@ class in XCharts.Runtime / 子类: [AnimationFadeIn](#animationfadein), [Animati
 
 `float` `1000` `v3.8.0`
 
-动画的时长。
+动画的时长。默认用于计算动画的速度。也可以通过speed指定速度。
 
 ### AnimationInfo.enable
 
@@ -289,6 +298,12 @@ class in XCharts.Runtime / 子类: [AnimationFadeIn](#animationfadein), [Animati
 `bool` `false` `v3.8.0`
 
 是否开启反向动画效果。
+
+### AnimationInfo.speed
+
+`float` `0` `v3.14.0`
+
+动画的速度。当指定speed时，duration将失效。默认为0，表示不指定速度。
 
 ## AnimationInteraction
 
@@ -320,7 +335,7 @@ class in XCharts.Runtime / 继承自: [AnimationInfo](#animationinfo)
 
 class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 
-动画组件，用于控制图表的动画播放。支持配置五种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画），Interaction（交互动画）。 按作用的对象可以分为两类：SerieAnimation（系列动画）和DataAnimation（数据动画）。
+动画组件，用于控制图表的动画播放。支持配置五种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画），Interaction（交互动画），Exchange（交换动画）。 按作用的对象可以分为两类：SerieAnimation（系列动画）和DataAnimation（数据动画）。
 
 ### AnimationStyle.addition
 
@@ -349,6 +364,12 @@ class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 `bool` `true`
 
 是否开启动画效果。
+
+### AnimationStyle.exchange
+
+[AnimationExchange](#animationexchange) `v3.15.0`
+
+交换动画配置。如在排序柱图中有效。
 
 ### AnimationStyle.fadeIn
 
@@ -597,6 +618,12 @@ class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent) / 子类: 
 
 对数轴是否以自然数 e 为底数，为 true 时 logBase 失效。
 
+### Axis.mainAxis
+
+`bool` `false` `v3.15.0`
+
+是否为主轴。当XY轴类型都相同时，设置为主轴的轴会决定朝向，如横向柱图和纵向柱图。
+
 ### Axis.max
 
 `double`
@@ -783,6 +810,12 @@ class in XCharts.Runtime / 继承自: [LabelStyle](#labelstyle)
 
 是否显示第一个文本。
 
+### AxisLabel.showZeroLabel
+
+`bool` `true` `v3.15.0`
+
+是否显示0刻度文本。
+
 ### AxisLabel.textLimit
 
 [TextLimit](#textlimit)
@@ -801,6 +834,12 @@ class in XCharts.Runtime / 继承自: [BaseLine](#baseline)
 
 轴线箭头。
 
+### AxisLine.endExtendLength
+
+`float`
+
+轴线终点延长线长度。
+
 ### AxisLine.onZero
 
 `bool`
@@ -812,6 +851,12 @@ X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度上，只有在另一
 `bool`
 
 是否显示箭头。
+
+### AxisLine.startExtendLength
+
+`float`
+
+轴线起点延长线长度。
 
 ## AxisMinorSplitLine
 
@@ -1241,7 +1286,9 @@ class in XCharts.Runtime / 子类: [AnimationStyle](#animationstyle), [AxisAnima
 
 class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent), [IPropertyChanged](#ipropertychanged)
 
-图表注解组件。
+> 从 `v3.15.0` 开始支持
+
+图表注解组件。用于标注图表中的特殊信息。
 
 ### Comment.items
 
@@ -1254,6 +1301,17 @@ class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent), [IPropert
 [LabelStyle](#labelstyle)
 
 所有组件的文本样式。
+
+### Comment.layer
+
+[CommentLayer](#commentlayer) `v3.15.0`
+
+注解的显示层级。
+
+可选：
+
+- `Lower`: 注解在系列下方。
+- `Upper`: 注解在系列上方。
 
 ### Comment.markStyle
 
@@ -1464,11 +1522,11 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 
 选取框样式。
 
-### DataZoom.minShowNum
+### DataZoom.minZoomRatio
 
-`int` `2`
+`float` `0.2f`
 
-最小显示数据个数。当DataZoom放大到最大时，最小显示的数据个数。
+缩放区域组件的最小缩放比例，范围0f-1f。
 
 ### DataZoom.orient
 
@@ -2232,6 +2290,12 @@ class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent), [ISerie
 
 数据项背景颜色。
 
+### ItemStyle.backgroundGap
+
+`float` `v3.15.0`
+
+数据项背景间隙。
+
 ### ItemStyle.backgroundWidth
 
 `float`
@@ -2458,11 +2522,23 @@ class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent), [ISerie
 
 距离轴线的距离。
 
+### LabelStyle.fixedX
+
+`float` `0` `v3.15.0`
+
+固定的X值。不为0时，会固定在指定的X值上。
+
+### LabelStyle.fixedY
+
+`float` `0` `v3.15.0`
+
+固定的Y值。不为0时，会固定在指定的Y值上。
+
 ### LabelStyle.formatter
 
 `string`
 
-标签内容字符串模版格式器。支持用 \n 换行。部分组件的格式器会不生效。<br/> 模板通配符有以下这些，部分只适用于固定的组件：<br/> `\{.\}`：圆点标记。<br/> `\{a\}`：系列名。<br/> `\{b\}`：X轴类目名或数据名。<br/> `\{c\}`：数据值。<br/> `\{d\}`：百分比。<br/> `\{e\}`：数据名。<br/> `\{f\}`：数据和。<br/> `\{g\}`：数据总个数。<br/> `\{h\}`：十六进制颜色值。<br/> `\{y\}`：Y轴的类目名。<br/> `\{value\}`：坐标轴或图例的值。<br/> 以下通配符适用UITable组件：<br/> `\{name\}`： 表格的行名。<br/> `\{index\}`：表格的行号。<br/> 以下通配符适用UIStatistc组件：<br/> `\{title\}`：标题文本。<br/> `\{dd\}`：天。<br/> `\{hh\}`：小时。<br/> `\{mm\}`：分钟。<br/> `\{ss\}`：秒。<br/> `\{fff\}`：毫秒。<br/> `\{d\}`：天。<br/> `\{h\}`：小时。<br/> `\{m\}`：分钟。<br/> `\{s\}`：秒。<br/> `\{f\}`：毫秒。<br/> 示例：“\{b\}:\{c\}”
+标签内容字符串模版格式器。支持用 \n 换行。部分组件的格式器会不生效。<br/> 模板通配符有以下这些，部分只适用于固定的组件：<br/> `\{.\}`：圆点标记。<br/> `\{a\}`：系列名。<br/> `\{b\}`：X轴类目名或数据名。<br/> `\{c\}`：数据值。<br/> `\{d\}`：百分比。<br/> `\{e\}`：数据名。<br/> `\{f\}`：数据和。<br/> `\{g\}`：数据总个数。<br/> `\{h\}`：十六进制颜色值。<br/> `\{y\}`：Y轴的类目名。<br/> `\{value\}`：坐标轴或图例的值。<br/> `\{index\}`：坐标轴编号。<br/> 以下通配符适用UITable组件：<br/> `\{name\}`： 表格的行名。<br/> `\{index\}`：表格的行号。<br/> 以下通配符适用UIStatistc组件：<br/> `\{title\}`：标题文本。<br/> `\{dd\}`：天。<br/> `\{hh\}`：小时。<br/> `\{mm\}`：分钟。<br/> `\{ss\}`：秒。<br/> `\{fff\}`：毫秒。<br/> `\{d\}`：天。<br/> `\{h\}`：小时。<br/> `\{m\}`：分钟。<br/> `\{s\}`：秒。<br/> `\{f\}`：毫秒。<br/> 示例：“\{b\}:\{c\}”
 
 ### LabelStyle.height
 
@@ -2609,6 +2685,12 @@ class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent), [IPropert
 
 图例标记的图形高度。
 
+### Legend.itemInactiveOpacity
+
+`float` `1` `v3.15.0`
+
+图例标记的图形在非激活状态下的颜色透明度。
+
 ### Legend.itemOpacity
 
 `float` `1`
@@ -2684,11 +2766,11 @@ class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent), [IPropert
 
 class in XCharts.Runtime / 继承自: [ComponentTheme](#componenttheme)
 
-### LegendTheme.unableColor
+### LegendTheme.inactiveColor
 
 `Color`
 
-文本颜色。
+非激活状态时的颜色。
 
 ## Level
 
@@ -3104,7 +3186,7 @@ class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 
 可选：
 
-- `None`: 标线类型
+- `Custom`: 自定义。可自定义xy坐标或数值。
 - `Min`: 最小值。
 - `Max`: 最大值。
 - `Average`: 平均值。
@@ -3114,25 +3196,25 @@ class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 
 `float`
 
-相对原点的 x 坐标，单位像素。当type为None时有效。
+相对原点的 x 坐标，单位像素。当type为Custom时有效。
 
 ### MarkLineData.xValue
 
 `double`
 
-X轴上的指定值。当X轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为None时有效。
+X轴上的指定值。当X轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为Custom时有效。
 
 ### MarkLineData.yPosition
 
 `float`
 
-相对原点的 y 坐标，单位像素。当type为None时有效。
+相对原点的 y 坐标，单位像素。当type为Custom时有效。
 
 ### MarkLineData.yValue
 
 `double`
 
-Y轴上的指定值。当Y轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为None时有效。
+Y轴上的指定值。当Y轴为类目轴时指定值表示类目轴数据的索引，否则为具体的值。当type为Custom时有效。
 
 ### MarkLineData.zeroPosition
 
@@ -3296,6 +3378,17 @@ grid 组件离容器上侧的距离。
 ## Pie
 
 class in XCharts.Runtime / 继承自: [Serie](#serie)
+
+### Pie.pieType
+
+[PieType](#pietype) `v3.15.0`
+
+饼图类型。
+
+可选：
+
+- `Solid`: 实心饼图 - 默认填充样式
+- `Wireframe`: 线框饼图 - 仅显示轮廓线框
 
 ### Pie.radiusGradient
 
@@ -3575,6 +3668,12 @@ class in XCharts.Runtime / 继承自: [BaseSerie](#baseserie), [IComparable](htt
 
 忽略数据的默认值。当ignore为true才有效。
 
+### Serie.ignoreZeroOccupy
+
+`bool` `false` `v3.15.0`
+
+柱图是否忽略值为0的柱子占位。开启后，值为0的柱子将不会占用空间，柱子之间的间距会根据实际显示的柱子自动调整。一般用在柱状图中。
+
 ### Serie.index
 
 `int`
@@ -3754,6 +3853,12 @@ class in XCharts.Runtime / 继承自: [BaseSerie](#baseserie), [IComparable](htt
 `float[]`
 
 半径。radius[0]表示内径，radius[1]表示外径。
+
+### Serie.realtimeSort
+
+`bool` `false` `v3.14.0`
+
+是否开启实时排序，用来实现动态排序图效果。目前仅在Bar中生效。
 
 ### Serie.right
 
@@ -4816,11 +4921,17 @@ class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent)
 
 边框线宽。
 
+### Tooltip.columnGapWidths
+
+`List<float>` `v3.14.0`
+
+内容部分的列间距。当只有一列时，只表示第二列的间距。
+
 ### Tooltip.contentLabelStyles
 
 `List<LabelStyle>`
 
-内容部分的文本样式列表。和列一一对应。
+内容部分的列文本样式列表。第一个表示第一列的文本样式，以此类推。
 
 ### Tooltip.fixedHeight
 

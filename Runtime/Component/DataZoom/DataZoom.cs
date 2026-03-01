@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -81,7 +82,7 @@ namespace XCharts.Runtime
         [SerializeField] private RangeMode m_RangeMode;
         [SerializeField] private float m_Start;
         [SerializeField] private float m_End;
-        [SerializeField] private int m_MinShowNum = 2;
+        [SerializeField] private float m_MinZoomRatio = 0.2f;
         [Range(1f, 20f)]
         [SerializeField] private float m_ScrollSensitivity = 1.1f;
         [SerializeField] private Orient m_Orient = Orient.Horizonal;
@@ -336,10 +337,19 @@ namespace XCharts.Runtime
         /// Minimum number of display data. Minimum number of data displayed when DataZoom is enlarged to maximum.
         /// ||最小显示数据个数。当DataZoom放大到最大时，最小显示的数据个数。
         /// </summary>
-        public int minShowNum
+        [Obsolete("Use \"minZoomRatio\" instead", true)]
+        public float minShowNum
         {
-            get { return m_MinShowNum; }
-            set { if (PropertyUtil.SetStruct(ref m_MinShowNum, value)) SetVerticesDirty(); }
+            set;get;
+        }
+        /// <summary>
+        /// The minimum zoom ratio of dataZoom. Range 0f-1f.
+        /// ||缩放区域组件的最小缩放比例，范围0f-1f。
+        /// </summary>
+        public float minZoomRatio
+        {
+            get { return m_MinZoomRatio; }
+            set { if (PropertyUtil.SetStruct(ref m_MinZoomRatio, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The sensitivity of dataZoom scroll.

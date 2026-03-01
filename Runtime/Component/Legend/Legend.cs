@@ -79,6 +79,7 @@ namespace XCharts.Runtime
         [SerializeField] private float m_ItemGap = 10f;
         [SerializeField] private bool m_ItemAutoColor = true;
         [SerializeField] private float m_ItemOpacity = 1;
+        [SerializeField][Since("v3.15.0")] private float m_ItemInactiveOpacity = 1;
         [SerializeField] private string m_Formatter;
         [SerializeField] private LabelStyle m_LabelStyle = new LabelStyle();
         [SerializeField][Since("v3.10.0")] private TextLimit m_TextLimit = new TextLimit();
@@ -180,6 +181,15 @@ namespace XCharts.Runtime
         {
             get { return m_ItemOpacity; }
             set { if (PropertyUtil.SetStruct(ref m_ItemOpacity, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// the opacity of item color when item is inactive.
+        /// ||图例标记的图形在非激活状态下的颜色透明度。
+        /// </summary>
+        public float itemInactiveOpacity
+        {
+            get { return m_ItemInactiveOpacity; }
+            set { if (PropertyUtil.SetStruct(ref m_ItemInactiveOpacity, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// No longer used, the use of LabelStyle.formatter instead.

@@ -215,7 +215,7 @@ namespace XCharts.Runtime
                     var grid = chart.GetGridOfDataZoom(dataZoom);
                     var start = (dataZoom.context.marqueeRect.x - grid.context.x) / grid.context.width * 100;
                     var end = (dataZoom.context.marqueeRect.x - grid.context.x + dataZoom.context.marqueeRect.width) / grid.context.width * 100;
-                    UpdateDataZoomRange(dataZoom, start, end);
+                    UpdateDataZoomRange(dataZoom, start, end, grid);
                 }
                 if (dataZoom.marqueeStyle.onEnd != null)
                 {
@@ -271,7 +271,7 @@ namespace XCharts.Runtime
                 }
                 var start = (startX - grid.context.x) / grid.context.width * 100;
                 var end = (endX - grid.context.x) / grid.context.width * 100;
-                UpdateDataZoomRange(dataZoom, start, end);
+                UpdateDataZoomRange(dataZoom, start, end, grid);
             }
         }
 
@@ -294,7 +294,7 @@ namespace XCharts.Runtime
             if ((dataZoom.supportInside && dataZoom.supportInsideScroll && grid.Contains(pos)) ||
                 dataZoom.IsInZoom(pos))
             {
-                ScaleDataZoom(dataZoom, eventData.scrollDelta.y * dataZoom.scrollSensitivity);
+                ScaleDataZoom(dataZoom, eventData.scrollDelta.y * dataZoom.scrollSensitivity, grid);
             }
         }
 
@@ -375,25 +375,27 @@ namespace XCharts.Runtime
             }
         }
 
-        private void ScaleDataZoom(DataZoom dataZoom, float delta)
+        private void ScaleDataZoom(DataZoom dataZoom, float delta, GridCoord grid = null)
         {
-            var grid = chart.GetGridOfDataZoom(dataZoom);
-            var deltaPercent = dataZoom.orient == Orient.Horizonal ?
-                Mathf.Abs(delta / grid.context.width * 100) :
-                Mathf.Abs(delta / grid.context.height * 100);
+            if (grid == null) grid = chart.GetGridOfDataZoom(dataZoom);
+            var range = dataZoom.orient == Orient.Horizonal ? grid.context.width : grid.context.height;
+            var deltaPercent = Mathf.Abs(delta / range * 100);
+            float start, end;
             if (delta > 0)
             {
-                if (dataZoom.end <= dataZoom.start)
-                    return;
-                UpdateDataZoomRange(dataZoom, dataZoom.start + deltaPercent, dataZoom.end - deltaPercent);
+                if (dataZoom.end <= dataZoom.start) return;
+                start = dataZoom.start + deltaPercent;
+                end = dataZoom.end - deltaPercent;
             }
             else
             {
-                UpdateDataZoomRange(dataZoom, dataZoom.start - deltaPercent, dataZoom.end + deltaPercent);
+                start = dataZoom.start - deltaPercent;
+                end = dataZoom.end + deltaPercent;
             }
+            UpdateDataZoomRange(dataZoom, start, end, grid);
         }
 
-        public void UpdateDataZoomRange(DataZoom dataZoom, float start, float end)
+        public void UpdateDataZoomRange(DataZoom dataZoom, float start, float end, GridCoord grid = null)
         {
             if (end > 100)
                 end = 100;
@@ -403,13 +405,26 @@ namespace XCharts.Runtime
 
             if (end < start)
                 end = start;
-            if (dataZoom.startEndFunction != null)
-                dataZoom.startEndFunction(ref start, ref end);
+
+            if(dataZoom.minZoomRatio > 0)
+            {
+                if(grid == null) grid = chart.GetGridOfDataZoom(dataZoom);
+                var range = dataZoom.orient == Orient.Horizonal ? grid.context.width : grid.context.height;
+                var minRange = dataZoom.minZoomRatio * range;
+                if (end - start < minRange / range * 100)
+                {
+                    return;
+                }
+            }
 
             if (!dataZoom.startLock)
                 dataZoom.start = start;
             if (!dataZoom.endLock)
                 dataZoom.end = end;
+
+            if (dataZoom.startEndFunction != null)
+                dataZoom.startEndFunction(ref start, ref end);
+
             m_LastStart = dataZoom.start;
             m_LastEnd = dataZoom.end;
             if (dataZoom.realtime)
@@ -444,7 +459,7 @@ namespace XCharts.Runtime
                     var tempPos1 = touch1.position;
                     var currDist = Vector2.Distance(tempPos0, tempPos1);
                     var lastDist = Vector2.Distance(m_LastTouchPos0, m_LastTouchPos1);
-                    var delta = (currDist - lastDist);
+                    var delta = currDist - lastDist;
                     ScaleDataZoom(dataZoom, delta / dataZoom.scrollSensitivity);
                     m_LastTouchPos0 = tempPos0;
                     m_LastTouchPos1 = tempPos1;
@@ -492,7 +507,6 @@ namespace XCharts.Runtime
                     }
                     else if (xAxis.IsTime())
                     {
-                        //TODO:
                         dataZoom.SetStartLabelText("");
                         dataZoom.SetEndLabelText("");
                     }

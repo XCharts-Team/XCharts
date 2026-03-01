@@ -34,7 +34,7 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_Name");
                 switch (type)
                 {
-                    case MarkLineType.None:
+                    case MarkLineType.Custom:
                         PropertyField(prop, "m_XPosition");
                         PropertyField(prop, "m_YPosition");
                         PropertyField(prop, "m_XValue");
@@ -48,7 +48,7 @@ namespace XCharts.Editor
                         break;
                 }
                 PropertyField(prop, "m_Group");
-                if (group > 0 && type == MarkLineType.None) PropertyField(prop, "m_ZeroPosition");
+                if (group > 0 && type == MarkLineType.Custom) PropertyField(prop, "m_ZeroPosition");
                 PropertyField(prop, "m_LineStyle");
                 PropertyField(prop, "m_StartSymbol");
                 PropertyField(prop, "m_EndSymbol");

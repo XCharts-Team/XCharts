@@ -13,6 +13,7 @@ slug: /api
 - [AnimationAddition](#animationaddition)
 - [AnimationChange](#animationchange)
 - [AnimationEasing](#animationeasing)
+- [AnimationExchange](#animationexchange)
 - [AnimationFadeIn](#animationfadein)
 - [AnimationFadeOut](#animationfadeout)
 - [AnimationHiding](#animationhiding)
@@ -70,6 +71,7 @@ slug: /api
 - [ColorUtil](#colorutil)
 - [Comment](#comment)
 - [CommentItem](#commentitem)
+- [CommentLayer](#commentlayer)
 - [CommentMarkStyle](#commentmarkstyle)
 - [ComponentHandlerAttribute](#componenthandlerattribute)
 - [ComponentHelper](#componenthelper)
@@ -157,6 +159,7 @@ slug: /api
 - [MainComponentContext](#maincomponentcontext)
 - [MainComponentHandler](#maincomponenthandler)
 - [MainComponentHandler&lt;T&gt;](#maincomponenthandlert)
+- [MainComponentHandler&lt;Title&gt;](#maincomponenthandlertitle)
 - [MarkArea](#markarea)
 - [MarkAreaData](#markareadata)
 - [MarkAreaType](#markareatype)
@@ -179,6 +182,7 @@ slug: /api
 - [ParallelCoordContext](#parallelcoordcontext)
 - [Pie](#pie)
 - [PieChart](#piechart)
+- [PieType](#pietype)
 - [PolarAxisTheme](#polaraxistheme)
 - [PolarChart](#polarchart)
 - [PolarCoord](#polarcoord)
@@ -255,6 +259,7 @@ slug: /api
 - [ThemeStyle](#themestyle)
 - [ThemeType](#themetype)
 - [Title](#title)
+- [TitleHandler](#titlehandler)
 - [TitleStyle](#titlestyle)
 - [TitleTheme](#titletheme)
 - [Tooltip](#tooltip)
@@ -360,6 +365,14 @@ class in XCharts.Runtime
 
 - `Linear`: 
 
+## AnimationExchange
+
+class in XCharts.Runtime / 继承自: [AnimationInfo](#animationinfo)
+
+> 从 `v3.15.0` 开始支持
+
+数据交换动画。一般用于图表数据排序时顺序变化的动画。
+
 ## AnimationFadeIn
 
 class in XCharts.Runtime / 继承自: [AnimationInfo](#animationinfo)
@@ -386,7 +399,7 @@ class in XCharts.Runtime / 继承自: [AnimationInfo](#animationinfo)
 
 ## AnimationInfo
 
-class in XCharts.Runtime / 子类: [AnimationFadeIn](#animationfadein),[AnimationFadeOut](#animationfadeout),[AnimationChange](#animationchange),[AnimationAddition](#animationaddition),[AnimationHiding](#animationhiding),[AnimationInteraction](#animationinteraction) 
+class in XCharts.Runtime / 子类: [AnimationFadeIn](#animationfadein),[AnimationFadeOut](#animationfadeout),[AnimationChange](#animationchange),[AnimationAddition](#animationaddition),[AnimationHiding](#animationhiding),[AnimationInteraction](#animationinteraction),[AnimationExchange](#animationexchange) 
 
 > 从 `v3.8.0` 开始支持
 
@@ -405,7 +418,7 @@ public AnimationDelayFunction delayFunction
 ### AnimationInfo.duration
 
 public float duration  
-动画的时长。
+动画的时长。默认用于计算动画的速度。也可以通过speed指定速度。
 
 ### AnimationInfo.durationFunction
 
@@ -431,6 +444,11 @@ public Action OnAnimationStart
 
 public bool reverse  
 是否开启反向动画效果。
+
+### AnimationInfo.speed
+
+public float speed  
+动画的速度。当指定speed时，duration将失效。默认为0，表示不指定速度。
 
 ### AnimationInfo.End
 
@@ -526,7 +544,7 @@ public float GetWidth(float width)
 
 class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 
-动画组件，用于控制图表的动画播放。支持配置五种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画），Interaction（交互动画）。 按作用的对象可以分为两类：SerieAnimation（系列动画）和DataAnimation（数据动画）。
+动画组件，用于控制图表的动画播放。支持配置五种动画表现：FadeIn（渐入动画），FadeOut（渐出动画），Change（变更动画），Addition（新增动画），Interaction（交互动画），Exchange（交换动画）。 按作用的对象可以分为两类：SerieAnimation（系列动画）和DataAnimation（数据动画）。
 
 ### AnimationStyle.addition
 
@@ -542,6 +560,11 @@ public AnimationChange change
 
 public bool enable  
 是否开启动画效果。
+
+### AnimationStyle.exchange
+
+public AnimationExchange exchange  
+交换动画配置。如在排序柱图中有效。
 
 ### AnimationStyle.fadeIn
 
@@ -633,6 +656,10 @@ public int GetCurrIndex()
 ### AnimationStyle.GetCurrRate
 
 public float GetCurrRate()  
+
+### AnimationStyle.GetExchangeDuration
+
+public float GetExchangeDuration()  
 
 ### AnimationStyle.GetInteractionDuration
 
@@ -784,6 +811,14 @@ class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent) / 子类: 
 
 直角坐标系的坐标轴组件。
 
+### Axis.onLabelClick
+
+public Action&lt;int, string&gt; onLabelClick  
+
+> 从 `v3.15.0` 开始支持
+
+点击文本标签回调函数。参数：labelIndex, labelName。
+
 ### Axis.AddData
 
 public void AddData(string category)  
@@ -883,7 +918,7 @@ public bool IsLog()
 
 ### Axis.IsNeedShowLabel
 
-public bool IsNeedShowLabel(int index, int total = 0)  
+public bool IsNeedShowLabel(int index, int total = 0, string content = null)  
 
 ### Axis.IsRight
 
@@ -1042,6 +1077,10 @@ public bool needAnimation
 public List&lt;string&gt; runtimeData  
 数值轴时每个tick的数值。
 
+### AxisContext.sortedDataIndices
+
+public List&lt;int&gt; sortedDataIndices  
+
 ## AxisHandler&lt;T&gt;
 
 class in XCharts / 继承自: [MainComponentHandler](#maincomponenthandler)
@@ -1049,6 +1088,14 @@ class in XCharts / 继承自: [MainComponentHandler](#maincomponenthandler)
 ### AxisHandler&lt;T&gt;.component
 
 public T component  
+
+### AxisHandler&lt;T&gt;.DrawTop
+
+// public override void DrawTop(VertexHelper vh)  
+
+### AxisHandler&lt;T&gt;.OnPointerClick
+
+public override void OnPointerClick(PointerEventData eventData)  
 
 ## AxisHelper
 
@@ -1088,7 +1135,7 @@ public static float GetAxisValueDistance(GridCoord grid, Axis axis, float scaleW
 
 ### AxisHelper.GetAxisValueLength
 
-public static float GetAxisValueLength(GridCoord grid, Axis axis, float scaleWidth, double value)  
+public static float GetAxisValueLength(GridCoord grid, Axis axis, float scaleWidth, double value, float gap = 0)  
 获得数值value在坐标轴上对应的长度
 
 ### AxisHelper.GetAxisValuePosition
@@ -1170,12 +1217,12 @@ public void Copy(AxisLabel axisLabel)
 
 ### AxisLabel.GetFormatterContent
 
-public override string GetFormatterContent(int labelIndex, double value, double minValue, double maxValue, bool isLog = false)  
+public override string GetFormatterContent(int labelIndex, int totalIndex, double value, double minValue, double maxValue, bool isLog = false)  
 
 
 ### AxisLabel.IsNeedShowLabel
 
-public bool IsNeedShowLabel(int index, int total)  
+public bool IsNeedShowLabel(int index, int total, string content = null)  
 
 ### AxisLabel.SetRelatedText
 
@@ -1382,6 +1429,10 @@ public int containerIndex
 ### Bar.containterInstanceId
 
 public int containterInstanceId  
+
+### Bar.useSortData
+
+public override bool useSortData  
 
 ### Bar.AddDefaultSerie
 
@@ -1661,6 +1712,10 @@ public Settings settings
 
 public ThemeStyle theme  
 
+### BaseChart.topPainter
+
+public Painter topPainter  
+
 ### BaseChart.typeListForComponent
 
 public Dictionary&lt;Type, FieldInfo&gt; typeListForComponent  
@@ -1668,6 +1723,11 @@ public Dictionary&lt;Type, FieldInfo&gt; typeListForComponent
 ### BaseChart.typeListForSerie
 
 public Dictionary&lt;Type, FieldInfo&gt; typeListForSerie  
+
+### BaseChart.useUtc
+
+public bool useUtc  
+图表的时间是否都显示为UTC时间。
 
 ### BaseChart.AddChartComponent
 
@@ -1925,6 +1985,10 @@ public Color32 GetLegendRealShowNameColor(string name)
 
 public int GetLegendRealShowNameIndex(string name)  
 
+### BaseChart.GetMainAxis
+
+public Axis GetMainAxis()  
+
 ### BaseChart.GetMarkColor
 
 public Color32 GetMarkColor(Serie serie, SerieData serieData)  
@@ -1941,6 +2005,10 @@ public T GetOrAddChartComponent&lt;T&gt;() where T : MainComponent
 
 public Painter GetPainter(int index)  
 
+### BaseChart.GetRealtimeSortSerie
+
+public Serie GetRealtimeSortSerie(int gridIndex)  
+
 ### BaseChart.GetSerie
 
 public Serie GetSerie(int serieIndex)  
@@ -1953,19 +2021,19 @@ public T GetSerie&lt;T&gt;(int serieIndex) where T : Serie
 
 ### BaseChart.GetSerieBarGap&lt;T&gt;
 
-public float GetSerieBarGap&lt;T&gt;() where T : Serie  
+public float GetSerieBarGap&lt;T&gt;(int gridIndex) where T : Serie  
 
 ### BaseChart.GetSerieBarRealCount&lt;T&gt;
 
-public int GetSerieBarRealCount&lt;T&gt;() where T : Serie  
+public int GetSerieBarRealCount&lt;T&gt;(int gridIndex) where T : Serie  
 
 ### BaseChart.GetSerieIndexIfStack&lt;T&gt;
 
-public int GetSerieIndexIfStack&lt;T&gt;(Serie currSerie) where T : Serie  
+public int GetSerieIndexIfStack&lt;T&gt;(Serie currSerie, int gridIndex) where T : Serie  
 
 ### BaseChart.GetSerieSameStackTotalValue&lt;T&gt;
 
-public double GetSerieSameStackTotalValue&lt;T&gt;(string stack, int dataIndex) where T : Serie  
+public double GetSerieSameStackTotalValue&lt;T&gt;(string stack, int dataIndex, int gridIndex) where T : Serie  
 
 ### BaseChart.GetSeriesMinMaxValue
 
@@ -1973,15 +2041,11 @@ public virtual void GetSeriesMinMaxValue(Axis axis, int axisIndex, out double te
 
 ### BaseChart.GetSerieTotalGap&lt;T&gt;
 
-public float GetSerieTotalGap&lt;T&gt;(float categoryWidth, float gap, int index) where T : Serie  
+public float GetSerieTotalGap&lt;T&gt;(float categoryWidth, float gap, int index, int gridIndex) where T : Serie  
 
 ### BaseChart.GetSerieTotalWidth&lt;T&gt;
 
-public float GetSerieTotalWidth&lt;T&gt;(float categoryWidth, float gap, int realBarCount) where T : Serie  
-
-### BaseChart.GetTitlePosition
-
-public Vector3 GetTitlePosition(Title title)  
+public float GetSerieTotalWidth&lt;T&gt;(float categoryWidth, float gap, int realBarCount, int gridIndex) where T : Serie  
 
 ### BaseChart.GetVisualMapOfSerie
 
@@ -2006,6 +2070,10 @@ public bool HasChartComponent(Type type)
 ### BaseChart.HasChartComponent&lt;T&gt;
 
 public bool HasChartComponent&lt;T&gt;()  
+
+### BaseChart.HasRealtimeSortSerie
+
+public bool HasRealtimeSortSerie(int gridIndex)  
 
 ### BaseChart.HasSerie
 
@@ -2498,6 +2566,10 @@ public string warningInfo
 public string CheckWarning()  
 检测警告信息。
 
+### BaseGraph.GetTitlePosition
+
+public Vector3 GetTitlePosition(Title title)  
+
 ### BaseGraph.LocalPointToScreenPoint
 
 public Vector2 LocalPointToScreenPoint(Vector2 localPoint)  
@@ -2563,11 +2635,6 @@ public void RefreshAllComponent()
 
 public virtual void RefreshGraph()  
 在下一帧刷新图形。
-
-### BaseGraph.SaveAsImage
-
-public void SaveAsImage(string imageType = "png", string savePath = "")  
-保存图表为图片。
 
 ### BaseGraph.ScreenPointToChartPoint
 
@@ -2826,6 +2893,14 @@ public static string ColorToStr(Color color)
 
 public static string FloatToStr(double value, string numericFormatter = "F", int precision = 0)  
 
+### ChartCached.GetAxisLabelName
+
+public static string GetAxisLabelName(int index)  
+
+### ChartCached.GetComponentObjectName
+
+public static string GetComponentObjectName(MainComponent component)  
+
 ### ChartCached.GetSerieLabelName
 
 public static string GetSerieLabelName(string prefix, int i, int j)  
@@ -2834,17 +2909,25 @@ public static string GetSerieLabelName(string prefix, int i, int j)
 
 public static string GetString(string prefix, int suffix)  
 
+### ChartCached.GetTypeName
+
+public static string GetTypeName(Type type)  
+
+### ChartCached.GetTypeName&lt;T&gt;
+
+public static string GetTypeName&lt;T&gt;()  
+
 ### ChartCached.IntToStr
 
 public static string IntToStr(int value, string numericFormatter = "")  
 
 ### ChartCached.NumberToDateStr
 
-public static string NumberToDateStr(double timestamp, string formatter)  
+public static string NumberToDateStr(double timestamp, string formatter, bool local = false)  
 
 ### ChartCached.NumberToDateTime
 
-public static DateTime NumberToDateTime(double timestamp)  
+public static DateTime NumberToDateTime(double timestamp, bool local = false)  
 
 ### ChartCached.NumberToStr
 
@@ -3082,13 +3165,13 @@ public static List&lt;string&gt; ParseStringFromString(string jsonData)
 
 public static void RemoveComponent&lt;T&gt;(GameObject gameObject)  
 
+### ChartHelper.RemoveTMPComponents
+
+public static void RemoveTMPComponents(GameObject gameObject)  
+
 ### ChartHelper.RotateRound
 
 public static Vector3 RotateRound(Vector3 position, Vector3 center, Vector3 axis, float angle)  
-
-### ChartHelper.SaveAsImage
-
-public static Texture2D SaveAsImage(RectTransform rectTransform, Canvas canvas, string imageType = "png", string path = "")  
 
 ### ChartHelper.SetActive
 
@@ -3148,6 +3231,10 @@ public float GetTextWidth()
 ### ChartLabel.GetWidth
 
 public float GetWidth()  
+
+### ChartLabel.InRect
+
+public bool InRect(Vector2 local)  
 
 ### ChartLabel.IsActiveByScale
 
@@ -3403,12 +3490,19 @@ public static Color32 GetColor(string hexColorStr)
 
 class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent),[IPropertyChanged](#ipropertychanged)
 
-图表注解组件。
+> 从 `v3.15.0` 开始支持
+
+图表注解组件。用于标注图表中的特殊信息。
 
 ### Comment.items
 
 public List&lt;CommentItem&gt; items  
 注解项。每个注解组件可以设置多个注解项。
+
+### Comment.layer
+
+public CommentLayer layer  
+注解的显示层级。
 
 ### Comment.show
 
@@ -3418,10 +3512,12 @@ public bool show
 ### Comment.GetLabelStyle
 
 public LabelStyle GetLabelStyle(int index)  
+获取注解项的文本样式。
 
 ### Comment.GetMarkStyle
 
 public CommentMarkStyle GetMarkStyle(int index)  
+获取注解项的标记样式。
 
 ### Comment.OnChanged
 
@@ -3434,10 +3530,9 @@ class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 
 注解项。
 
-### CommentItem.content
+### CommentItem.labelObject
 
-public string content  
-注解的文本内容。支持模板参数，可以参考Tooltip的itemFormatter。
+public ChartLabel labelObject  
 
 ### CommentItem.markRect
 
@@ -3453,6 +3548,17 @@ public CommentMarkStyle markStyle
 
 public bool show  
 是否显示当前注解项。
+
+## CommentLayer
+
+class in XCharts.Runtime
+
+注解的显示层级。
+
+可选：
+
+- `Lower`: 注解在系列下方。
+- `Upper`: 注解在系列上方。
 
 ## CommentMarkStyle
 
@@ -3739,17 +3845,17 @@ class in XCharts.Runtime
 
 ### DateTimeUtil.GetDateTime
 
-public static DateTime GetDateTime(double timestamp, bool local = true)  
+public static DateTime GetDateTime(double timestamp, bool local = false)  
 
 ### DateTimeUtil.GetDefaultDateTimeString
 
-public static string GetDefaultDateTimeString(int timestamp, double range = 0)  
+public static string GetDefaultDateTimeString(double timestamp, double range = 0, bool local = false)  
 
 ### DateTimeUtil.GetTimestamp
 
-public static int GetTimestamp(DateTime time, bool local = false)  
+public static double GetTimestamp(DateTime time, bool local = false)  
 
-public static int GetTimestamp(string dateTime, bool local = false)  
+public static double GetTimestamp(string dateTime, bool local = false)  
 
 
 ### DateTimeUtil.IsDateOrTimeRegex
@@ -3886,8 +3992,12 @@ public static bool NeedFormat(string content)
 
 ### FormatterHelper.ReplaceAxisLabelContent
 
-public static void ReplaceAxisLabelContent(ref string content, string value)  
+public static void ReplaceAxisLabelContent(ref string content, string value, int index, int totalIndex)  
 
+
+### FormatterHelper.ReplaceIndexContent
+
+public static void ReplaceIndexContent(ref string content, int currIndex, int totalIndex)  
 
 ### FormatterHelper.TrimAndReplaceLine
 
@@ -4399,7 +4509,7 @@ public override void ClearData()
 
 ### Indicator.GetFormatterIndicatorContent
 
-public string GetFormatterIndicatorContent(string indicatorName)  
+public string GetFormatterIndicatorContent(string indicatorName, int index, int totalIndex)  
 
 
 ### Indicator.GetIndicator
@@ -4650,12 +4760,12 @@ public Color GetColor(Color defaultColor)
 
 ### LabelStyle.GetFormatterContent
 
-public virtual string GetFormatterContent(int labelIndex, double value, double minValue, double maxValue, bool isLog = false)  
+public virtual string GetFormatterContent(int labelIndex, int totalIndex, double value, double minValue, double maxValue, bool isLog = false)  
 
 
 ### LabelStyle.GetFormatterDateTime
 
-public string GetFormatterDateTime(int labelIndex, double value, double minValue, double maxValue)  
+public string GetFormatterDateTime(int labelIndex, int totalIndex, double value, double minValue, double maxValue, bool local)  
 
 ### LabelStyle.GetOffset
 
@@ -5659,6 +5769,10 @@ class in XCharts.Runtime / 继承自: [MainComponentHandler](#maincomponenthandl
 
 public T component  
 
+## MainComponentHandler&lt;Title&gt;
+
+class in  / 子类: [TitleHandler](#titlehandler) 
+
 ## MarkArea
 
 class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent)
@@ -5757,7 +5871,7 @@ class in XCharts.Runtime
 
 可选：
 
-- `None`: 标线类型
+- `Custom`: 自定义。可自定义xy坐标或数值。
 - `Min`: 最小值。
 - `Max`: 最大值。
 - `Average`: 平均值。
@@ -5954,10 +6068,6 @@ class in XCharts.Runtime / 继承自: [MaskableGraphic](https://docs.unity3d.com
 
 public int index  
 
-### Painter.onPopulateMesh
-
-public Action&lt;VertexHelper, Painter&gt; onPopulateMesh  
-
 ### Painter.type
 
 public Type type  
@@ -6091,6 +6201,15 @@ public void DefaultLabelPieChart()
 
 public void DefaultRadiusRosePieChart()  
 默认玫瑰饼图。
+
+## PieType
+
+class in XCharts.Runtime
+
+可选：
+
+- `Solid`: 实心饼图 - 默认填充样式
+- `Wireframe`: 线框饼图 - 仅显示轮廓线框
 
 ## PolarAxisTheme
 
@@ -6719,7 +6838,7 @@ public double GetData(int index, int dimension, DataZoom dataZoom = null)
 
 ### Serie.GetDataList
 
-public List&lt;SerieData&gt; GetDataList(DataZoom dataZoom = null)  
+public List&lt;SerieData&gt; GetDataList(DataZoom dataZoom = null, bool sorted = false)  
 获得系列的数据列表
 
 ### Serie.GetDataTotal
@@ -7026,6 +7145,10 @@ public SelectStyle selectStyle
 public bool show  
 该数据项是否要显示。
 
+### SerieData.sortIndex
+
+public int sortIndex  
+
 ### SerieData.state
 
 public SerieState state  
@@ -7109,12 +7232,12 @@ public double GetLastData()
 
 ### SerieData.GetMaxData
 
-public double GetMaxData(bool inverse = false)  
+public double GetMaxData(bool inverse = false, int startDimensionIndex = 0)  
 最大值。
 
 ### SerieData.GetMinData
 
-public double GetMinData(bool inverse = false)  
+public double GetMinData(bool inverse = false, int startDimensionIndex = 0)  
 最小值。
 
 ### SerieData.GetMinMaxData
@@ -7172,7 +7295,7 @@ public void SetIconActive(bool flag)
 
 ### SerieData.SetLabelActive
 
-public void SetLabelActive(bool flag)  
+public void SetLabelActive(bool flag, bool force = false)  
 
 ### SerieData.SetPolygon
 
@@ -7224,6 +7347,10 @@ class in XCharts.Runtime
 ### SerieDataContext.Reset
 
 public void Reset()  
+
+### SerieDataContext.UpdateExchangePosition
+
+public void UpdateExchangePosition(ref float x, ref float y, float totalTime)  
 
 ## SerieDataExtraFieldAttribute
 
@@ -7653,6 +7780,10 @@ public override void RefreshLabelInternal()
 
 public override void RefreshLabelNextFrame()  
 
+### SerieHandler&lt;T&gt;.RefreshTitleLabelInternal
+
+public void RefreshTitleLabelInternal()  
+
 ### SerieHandler&lt;T&gt;.RemoveComponent
 
 public override void RemoveComponent()  
@@ -7949,7 +8080,7 @@ class in XCharts.Runtime / 继承自: [SymbolStyle](#symbolstyle),[ISerieDataCom
 
 ### SerieSymbol.GetSize
 
-public float GetSize(List&lt;double&gt; data, float themeSize)  
+public float GetSize(SerieData serieData, float themeSize)  
 根据指定的sizeType获得标记的大小
 
 ### SerieSymbol.Reset
@@ -8572,6 +8703,30 @@ public override void ClearComponentDirty()
 ### Title.OnChanged
 
 public void OnChanged()  
+
+## TitleHandler
+
+class in XCharts.Runtime / 继承自: [MainComponentHandler&lt;Title&gt;](#maincomponenthandlertitle)
+
+### TitleHandler.AddSubTitleLabel
+
+public static ChartLabel AddSubTitleLabel(Transform parent, Title title, ComponentTheme componentTheme, BaseChart chart = null)  
+
+### TitleHandler.AddTitleLabel
+
+public static ChartLabel AddTitleLabel(Transform parent, Title title, ComponentTheme componentTheme, BaseChart chart = null)  
+
+### TitleHandler.AddTitleObject
+
+public static GameObject AddTitleObject(BaseGraph graph, Title title, ComponentTheme componentTheme, int titleSiblingIndex, string objectName = null)  
+
+### TitleHandler.InitComponent
+
+public override void InitComponent()  
+
+### TitleHandler.OnSerieDataUpdate
+
+public override void OnSerieDataUpdate(int serieIndex)  
 
 ## TitleStyle
 

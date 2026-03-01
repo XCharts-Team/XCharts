@@ -8,6 +8,7 @@ namespace XCharts.Runtime
     [UnityEngine.Scripting.Preserve]
     internal sealed class CandlestickHandler : SerieHandler<Candlestick>
     {
+        private GridCoord m_SerieGrid;
         public override void DrawSerie(VertexHelper vh)
         {
             DrawCandlestickSerie(vh, serie);
@@ -33,37 +34,19 @@ namespace XCharts.Runtime
             var newMarker = SerieHelper.GetItemMarker(serie, serieData, marker);
             var newItemFormatter = SerieHelper.GetItemFormatter(serie, serieData, itemFormatter);
             var newNumericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
+            var isEmptyItemFormatter = string.IsNullOrEmpty(newItemFormatter);
 
-            var param = serie.context.param;
-            param.serieName = serie.serieName;
-            param.serieIndex = serie.index;
-            param.category = category;
-            param.dimension = 1;
-            param.serieData = serieData;
-            param.dataCount = serie.dataCount;
-            param.value = 0;
-            param.total = 0;
-            param.color = color;
-            param.marker = newMarker;
-            param.itemFormatter = newItemFormatter;
-            param.numericFormatter = newNumericFormatter;
-            param.columns.Clear();
-
-            param.columns.Add(param.marker);
-            param.columns.Add(serie.serieName);
-            param.columns.Add(string.Empty);
-
-            paramList.Add(param);
-            for (int i = 1; i < 5; i++)
+            if (isEmptyItemFormatter)
             {
-                param = new SerieParams();
+                var param = serie.context.param;
                 param.serieName = serie.serieName;
                 param.serieIndex = serie.index;
-                param.dimension = i;
+                param.category = category;
+                param.dimension = 1;
                 param.serieData = serieData;
                 param.dataCount = serie.dataCount;
-                param.value = serieData.GetData(i);
-                param.total = SerieHelper.GetMaxData(serie, i);
+                param.value = 0;
+                param.total = 0;
                 param.color = color;
                 param.marker = newMarker;
                 param.itemFormatter = newItemFormatter;
@@ -71,10 +54,121 @@ namespace XCharts.Runtime
                 param.columns.Clear();
 
                 param.columns.Add(param.marker);
-                param.columns.Add(XCSettings.lang.GetCandlestickDimensionName(i - 1));
-                param.columns.Add(ChartCached.NumberToStr(param.value, param.numericFormatter));
+                param.columns.Add(serie.serieName);
+                param.columns.Add(string.Empty);
 
                 paramList.Add(param);
+                for (int i = 1; i < 5; i++)
+                {
+                    param = new SerieParams();
+                    param.serieName = serie.serieName;
+                    param.serieIndex = serie.index;
+                    param.dimension = i;
+                    param.serieData = serieData;
+                    param.dataCount = serie.dataCount;
+                    param.value = serieData.GetData(i);
+                    param.total = SerieHelper.GetMaxData(serie, i);
+                    param.color = color;
+                    param.marker = newMarker;
+                    param.itemFormatter = newItemFormatter;
+                    param.numericFormatter = newNumericFormatter;
+                    param.isSecondaryMark = true;
+                    param.columns.Clear();
+
+                    param.columns.Add(param.marker);
+                    param.columns.Add(XCSettings.lang.GetCandlestickDimensionName(i - 1));
+                    param.columns.Add(ChartCached.NumberToStr(param.value, param.numericFormatter));
+
+                    paramList.Add(param);
+                }
+            }
+            else
+            {
+                newItemFormatter = newItemFormatter.Replace("\\n", "\n");
+                var temp = newItemFormatter.Split('\n');
+                foreach (var str in temp)
+                {
+                    var param = new SerieParams();
+                    param.serieName = serie.serieName;
+                    param.serieIndex = serie.index;
+                    param.category = category;
+                    param.serieData = serieData;
+                    param.dataCount = serie.dataCount;
+                    param.value = 0;
+                    param.total = 0;
+                    param.color = color;
+                    param.marker = newMarker;
+                    param.itemFormatter = str;
+                    param.numericFormatter = newNumericFormatter;
+                    param.isSecondaryMark = false;
+                    param.columns.Clear();
+                    paramList.Add(param);
+                }
+            }
+        }
+
+        public override void UpdateSerieContext()
+        {
+            if (m_SerieGrid == null)
+                return;
+
+            var needCheck = (chart.isPointerInChart && m_SerieGrid.IsPointerEnter() && !serie.placeHolder) || m_LegendEnter;
+            var needInteract = false;
+            if (!needCheck)
+            {
+                if (m_LastCheckContextFlag != needCheck)
+                {
+                    m_LastCheckContextFlag = needCheck;
+                    serie.context.pointerItemDataIndex = -1;
+                    serie.context.pointerEnter = false;
+                    Color32 color1, toColor1;
+                    foreach (var serieData in serie.data)
+                    {
+                        serieData.context.highlight = false;
+                        var state = SerieHelper.GetSerieState(serie, serieData, true);
+                        SerieHelper.GetItemColor(out color1, out toColor1, serie, serieData, chart.theme, state);
+                        serieData.interact.SetColor(ref needInteract, color1, toColor1);
+                    }
+                    chart.RefreshPainter(serie);
+                }
+                return;
+            }
+            m_LastCheckContextFlag = needCheck;
+            Color32 color, toColor;
+            if (m_LegendEnter)
+            {
+                serie.context.pointerEnter = true;
+                foreach (var serieData in serie.data)
+                {
+                    SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme);
+                    serieData.interact.SetColor(ref needInteract, color, toColor);
+                }
+            }
+            else
+            {
+                serie.context.pointerItemDataIndex = -1;
+                serie.context.pointerEnter = false;
+                foreach (var serieData in serie.data)
+                {
+                    if (serie.context.pointerAxisDataIndexs.Contains(serieData.index) ||
+                        serieData.context.rect.Contains(chart.pointerPos))
+                    {
+                        serie.context.pointerItemDataIndex = serieData.index;
+                        serie.context.pointerEnter = true;
+                        serieData.context.highlight = true;
+                    }
+                    else
+                    {
+                        serieData.context.highlight = false;
+                    }
+                    var state = SerieHelper.GetSerieState(serie, serieData, true);
+                    SerieHelper.GetItemColor(out color, out toColor, serie, serieData, chart.theme, state);
+                    serieData.interact.SetColor(ref needInteract, color, toColor);
+                }
+            }
+            if (needInteract)
+            {
+                chart.RefreshPainter(serie);
             }
         }
 
@@ -84,14 +178,13 @@ namespace XCharts.Runtime
             if (serie.animation.HasFadeOut()) return;
             XAxis xAxis;
             YAxis yAxis;
-            GridCoord grid;
             if (!chart.TryGetChartComponent<XAxis>(out xAxis, serie.xAxisIndex)) return;
             if (!chart.TryGetChartComponent<YAxis>(out yAxis, serie.yAxisIndex)) return;
-            if (!chart.TryGetChartComponent<GridCoord>(out grid, xAxis.gridIndex)) return;
+            if (!chart.TryGetChartComponent<GridCoord>(out m_SerieGrid, xAxis.gridIndex)) return;
             var theme = chart.theme;
             var dataZoom = chart.GetDataZoomOfAxis(xAxis);
             var showData = serie.GetDataList(dataZoom);
-            float categoryWidth = AxisHelper.GetDataWidth(xAxis, grid.context.width, showData.Count, dataZoom);
+            float categoryWidth = AxisHelper.GetDataWidth(xAxis, m_SerieGrid.context.width, showData.Count, dataZoom);
             float barWidth = serie.GetBarWidth(categoryWidth);
             float gap = (categoryWidth - barWidth) / 2;
             int maxCount = serie.maxShow > 0 ?
@@ -105,9 +198,9 @@ namespace XCharts.Runtime
             double yMinValue = yAxis.context.minValue;
             double yMaxValue = yAxis.context.maxValue;
             var isYAxis = false;
-            serie.containerIndex = grid.index;
-            serie.containterInstanceId = grid.instanceId;
-            var intensive = grid.context.width / (maxCount - serie.minShow) < 0.6f;
+            serie.containerIndex = m_SerieGrid.index;
+            serie.containterInstanceId = m_SerieGrid.instanceId;
+            var intensive = m_SerieGrid.context.width / (maxCount - serie.minShow) < 0.6f;
             for (int i = serie.minShow; i < maxCount; i++)
             {
                 var serieData = showData[i];
@@ -129,17 +222,17 @@ namespace XCharts.Runtime
                     (itemStyle.borderWidth == 0 ? theme.serie.candlestickBorderWidth :
                         itemStyle.borderWidth);
                 if (serieData.IsDataChanged()) dataChanging = true;
-                float pX = grid.context.x + i * categoryWidth;
-                float zeroY = grid.context.y + yAxis.context.offset;
+                float pX = xAxis.IsCategory() ? m_SerieGrid.context.x + i * categoryWidth : AxisHelper.GetAxisValuePosition(m_SerieGrid, xAxis, categoryWidth, serieData.GetData(0));
+                float zeroY = m_SerieGrid.context.y + yAxis.context.offset;
                 if (!xAxis.boundaryGap) pX -= categoryWidth / 2;
                 float pY = zeroY;
                 var barHig = 0f;
                 double valueTotal = yMaxValue - yMinValue;
-                var minCut = (yMinValue > 0 ? yMinValue : 0);
+                var minCut = yMinValue > 0 ? yMinValue : 0;
                 if (valueTotal != 0)
                 {
-                    barHig = (float)((close - open) / valueTotal * grid.context.height);
-                    pY += (float)((open - minCut) / valueTotal * grid.context.height);
+                    barHig = (float)((close - open) / valueTotal * m_SerieGrid.context.height);
+                    pY += (float)((open - minCut) / valueTotal * m_SerieGrid.context.height);
                 }
                 serieData.context.stackHeight = barHig;
                 float currHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, barHig);
@@ -164,11 +257,11 @@ namespace XCharts.Runtime
                 }
                 if (serie.clip)
                 {
-                    plb = chart.ClampInGrid(grid, plb);
-                    plt = chart.ClampInGrid(grid, plt);
-                    prt = chart.ClampInGrid(grid, prt);
-                    prb = chart.ClampInGrid(grid, prb);
-                    top = chart.ClampInGrid(grid, top);
+                    plb = chart.ClampInGrid(m_SerieGrid, plb);
+                    plt = chart.ClampInGrid(m_SerieGrid, plt);
+                    prt = chart.ClampInGrid(m_SerieGrid, prt);
+                    prb = chart.ClampInGrid(m_SerieGrid, prb);
+                    top = chart.ClampInGrid(m_SerieGrid, top);
                 }
                 serie.context.dataPoints.Add(top);
                 serie.context.dataIndexs.Add(serieData.index);
@@ -181,10 +274,16 @@ namespace XCharts.Runtime
                 var itemWidth = Mathf.Abs(prt.x - plb.x);
                 var itemHeight = Mathf.Abs(plt.y - prb.y);
                 var center = new Vector3((plb.x + prt.x) / 2, (plt.y + prb.y) / 2);
-                var lowPos = new Vector3(center.x, zeroY + (float)((lowest - minCut) / valueTotal * grid.context.height));
-                var heighPos = new Vector3(center.x, zeroY + (float)((heighest - minCut) / valueTotal * grid.context.height));
+                var lowPos = new Vector3(center.x, zeroY + (float)((lowest - minCut) / valueTotal * m_SerieGrid.context.height));
+                var heighPos = new Vector3(center.x, zeroY + (float)((heighest - minCut) / valueTotal * m_SerieGrid.context.height));
                 var openCenterPos = new Vector3(center.x, prb.y);
                 var closeCenterPos = new Vector3(center.x, prt.y);
+
+                var rectMinX = Mathf.Min(plb.x, prb.x, plt.x, prt.x);
+                var rectMaxX = Mathf.Max(plb.x, prb.x, plt.x, prt.x);
+                var rectMinY = Mathf.Min(plb.y, prb.y, plt.y, prt.y, lowPos.y, heighPos.y);
+                var rectMaxY = Mathf.Max(plb.y, prb.y, plt.y, prt.y, lowPos.y, heighPos.y);
+                serieData.context.rect = new Rect(rectMinX, rectMinY, rectMaxX - rectMinX, rectMaxY - rectMinY);
                 if (intensive)
                 {
                     UGL.DrawLine(vh, lowPos, heighPos, borderWidth, borderColor);
@@ -203,7 +302,7 @@ namespace XCharts.Runtime
                             else
                             {
                                 chart.DrawClipPolygon(vh, ref prb, ref plb, ref plt, ref prt, areaColor, areaColor,
-                                    serie.clip, grid);
+                                    serie.clip, m_SerieGrid);
                             }
                             UGL.DrawBorder(vh, center, itemWidth, itemHeight, 2 * borderWidth, borderColor, 0,
                                 itemStyle.cornerRadius, isYAxis, 0.5f);

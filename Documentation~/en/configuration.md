@@ -176,6 +176,7 @@ slug: /configuration
 
 - [AnimationAddition](#animationaddition)
 - [AnimationChange](#animationchange)
+- [AnimationExchange](#animationexchange)
 - [AnimationFadeIn](#animationfadein)
 - [AnimationFadeOut](#animationfadeout)
 - [AnimationHiding](#animationhiding)
@@ -234,6 +235,14 @@ class in XCharts.Runtime / Inherits from: [AnimationInfo](#animationinfo)
 
 Data change animation.
 
+## AnimationExchange
+
+class in XCharts.Runtime / Inherits from: [AnimationInfo](#animationinfo)
+
+> Since `v3.15.0`
+
+Data exchange animation. Generally used for animation of data sorting.
+
 ## AnimationFadeIn
 
 class in XCharts.Runtime / Inherits from: [AnimationInfo](#animationinfo)
@@ -260,7 +269,7 @@ Data hiding animation.
 
 ## AnimationInfo
 
-class in XCharts.Runtime / Subclasses: [AnimationFadeIn](#animationfadein), [AnimationFadeOut](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition), [AnimationHiding](#animationhiding), [AnimationInteraction](#animationinteraction)
+class in XCharts.Runtime / Subclasses: [AnimationFadeIn](#animationfadein), [AnimationFadeOut](#animationfadeout), [AnimationChange](#animationchange), [AnimationAddition](#animationaddition), [AnimationHiding](#animationhiding), [AnimationInteraction](#animationinteraction), [AnimationExchange](#animationexchange)
 
 > Since `v3.8.0`
 
@@ -276,7 +285,7 @@ the delay time before animation start.
 
 `float` `1000` `v3.8.0`
 
-the duration of animation.
+the duration of animation. Default is used to calculate the speed of animation. It can also be specified by speed.
 
 ### AnimationInfo.enable
 
@@ -289,6 +298,12 @@ whether enable animation.
 `bool` `false` `v3.8.0`
 
 whether enable reverse animation.
+
+### AnimationInfo.speed
+
+`float` `0` `v3.14.0`
+
+the speed of animation. When speed is specified, duration will be invalid. Default is 0, which means no speed specified.
 
 ## AnimationInteraction
 
@@ -320,7 +335,7 @@ the mlvalue of width.
 
 class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
 
-the animation of serie. support animation type: fadeIn, fadeOut, change, addition.
+the animation of serie. support animation type: fadeIn, fadeOut, change, addition, exchange.
 
 ### AnimationStyle.addition
 
@@ -349,6 +364,12 @@ Options:
 `bool` `true`
 
 Whether to enable animation.
+
+### AnimationStyle.exchange
+
+[AnimationExchange](#animationexchange) `v3.15.0`
+
+Exchange animation configuration. Valid in sort bar chart.
 
 ### AnimationStyle.fadeIn
 
@@ -597,6 +618,12 @@ Base of logarithm, which is valid only for numeric axes with type: 'Log'.
 
 On the log axis, if base e is the natural number, and is true, logBase fails.
 
+### Axis.mainAxis
+
+`bool` `false` `v3.15.0`
+
+Whether it is the main axis. When both X and Y axes are of the same type, the axis set to main axis will determine the orientation, such as horizontal bar chart and vertical bar chart.
+
 ### Axis.max
 
 `double`
@@ -783,6 +810,12 @@ Whether to display the last label.
 
 Whether to display the first label.
 
+### AxisLabel.showZeroLabel
+
+`bool` `true` `v3.15.0`
+
+Whether to display the zero label.
+
 ### AxisLabel.textLimit
 
 [TextLimit](#textlimit)
@@ -801,6 +834,12 @@ Settings related to axis line.
 
 the arrow of line.
 
+### AxisLine.endExtendLength
+
+`float`
+
+Extend length of the axis line at the end.
+
 ### AxisLine.onZero
 
 `bool`
@@ -812,6 +851,12 @@ When mutiple axes exists, this option can be used to specify which axis can be "
 `bool`
 
 Whether to show the arrow symbol of axis.
+
+### AxisLine.startExtendLength
+
+`float`
+
+Extend length of the axis line at the start.
 
 ## AxisMinorSplitLine
 
@@ -1241,7 +1286,9 @@ class in XCharts.Runtime / Subclasses: [AnimationStyle](#animationstyle), [AxisA
 
 class in XCharts.Runtime / Inherits from: [MainComponent](#maincomponent), [IPropertyChanged](#ipropertychanged)
 
-comment of chart.
+> Since `v3.15.0`
+
+comment of chart. Used to annotate special information in the chart.
 
 ### Comment.items
 
@@ -1254,6 +1301,17 @@ The items of comment.
 [LabelStyle](#labelstyle)
 
 The text style of all comments.
+
+### Comment.layer
+
+[CommentLayer](#commentlayer) `v3.15.0`
+
+The layer of comment.
+
+Options:
+
+- `Lower`: The comment is display under the serie.
+- `Upper`: The comment is display above the serie.
 
 ### Comment.markStyle
 
@@ -1464,11 +1522,11 @@ Distance between dataZoom component and the left side of the container. left val
 
 选取框样式。
 
-### DataZoom.minShowNum
+### DataZoom.minZoomRatio
 
-`int` `2`
+`float` `0.2f`
 
-Minimum number of display data. Minimum number of data displayed when DataZoom is enlarged to maximum.
+The minimum zoom ratio of dataZoom. Range 0f-1f.
 
 ### DataZoom.orient
 
@@ -2232,6 +2290,12 @@ class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent), [IS
 
 数据项背景颜色。
 
+### ItemStyle.backgroundGap
+
+`float` `v3.15.0`
+
+the gap between background and data item.
+
 ### ItemStyle.backgroundWidth
 
 `float`
@@ -2458,11 +2522,23 @@ the sytle of background.
 
 the distance of label to axis line.
 
+### LabelStyle.fixedX
+
+`float` `0` `v3.15.0`
+
+the fixed x of label. When not 0, it will be fixed on the specified x value.
+
+### LabelStyle.fixedY
+
+`float` `0` `v3.15.0`
+
+the fixed y of label. When not 0, it will be fixed on the specified y value.
+
 ### LabelStyle.formatter
 
 `string`
 
-label content string template formatter. \n line wrapping is supported. Formatters for some components will not take effect. <br /> Template placeholder have the following, some of which apply only to fixed components: <br /> `\{.\}` : indicates the dot mark. <br /> `\{a\}` : indicates the series name. <br /> `\{b\}` : category value of x axis or data name. <br /> `\{c\}` : data value. <br /> `\{d\}` : percentage. <br /> `\{e\}` : indicates the data name. <br /> `\{f\}` : data sum. <br /> `\{g\}` : indicates the total number of data. <br /> `\{h\}` : hexadecimal color value. <br /> `\{y\}` : category value of y axis. <br /> `\{value\}` : The value of the axis or legend. <br /> The following placeholder apply to `UITable` components: <br /> `\{name\}` : indicates the row name of the table. <br /> `\{index\}` : indicates the row number of the table. <br /> The following placeholder apply to `UIStatistc` components: <br /> `\{title\}` : title text. <br /> `\{dd\}` : day. <br /> `\{hh\}` : hours. <br /> `\{mm\}` : minutes. <br /> `\{ss\}` : second. <br /> `\{fff\}` : milliseconds. <br /> `\{d\}` : day. <br /> `\{h\}` : hours. <br /> `\{m\}` : minutes. <br /> `\{s\}` : second. <br /> `\{f\}` : milliseconds. <br /> Example :\{b\}:\{c\}<br />
+label content string template formatter. \n line wrapping is supported. Formatters for some components will not take effect. <br /> Template placeholder have the following, some of which apply only to fixed components: <br /> `\{.\}` : indicates the dot mark. <br /> `\{a\}` : indicates the series name. <br /> `\{b\}` : category value of x axis or data name. <br /> `\{c\}` : data value. <br /> `\{d\}` : percentage. <br /> `\{e\}` : indicates the data name. <br /> `\{f\}` : data sum. <br /> `\{g\}` : indicates the total number of data. <br /> `\{h\}` : hexadecimal color value. <br /> `\{y\}` : category value of y axis. <br /> `\{value\}` : the value of the axis or legend. <br /> `\{index\}` : the index of the axis. <br /> The following placeholder apply to `UITable` components: <br /> `\{name\}` : indicates the row name of the table. <br /> `\{index\}` : indicates the row number of the table. <br /> The following placeholder apply to `UIStatistc` components: <br /> `\{title\}` : title text. <br /> `\{dd\}` : day. <br /> `\{hh\}` : hours. <br /> `\{mm\}` : minutes. <br /> `\{ss\}` : second. <br /> `\{fff\}` : milliseconds. <br /> `\{d\}` : day. <br /> `\{h\}` : hours. <br /> `\{m\}` : minutes. <br /> `\{s\}` : second. <br /> `\{f\}` : milliseconds. <br /> Example :\{b\}:\{c\}<br />
 
 ### LabelStyle.height
 
@@ -2609,6 +2685,12 @@ The distance between each legend, horizontal distance in horizontal layout, and 
 
 Image height of legend symbol.
 
+### Legend.itemInactiveOpacity
+
+`float` `1` `v3.15.0`
+
+the opacity of item color when item is inactive.
+
 ### Legend.itemOpacity
 
 `float` `1`
@@ -2684,11 +2766,11 @@ the limit of text.
 
 class in XCharts.Runtime / Inherits from: [ComponentTheme](#componenttheme)
 
-### LegendTheme.unableColor
+### LegendTheme.inactiveColor
 
 `Color`
 
-the color of text.
+the color when the component is inactive.
 
 ## Level
 
@@ -3104,11 +3186,11 @@ Special label types, are used to label maximum value, minimum value and so on.
 
 Options:
 
-- `None`: 标线类型
-- `Min`: 最小值。
-- `Max`: 最大值。
-- `Average`: 平均值。
-- `Median`: 中位数。
+- `Custom`: Custom. You can customize the xy coordinates or values.
+- `Min`: Minimum value.
+- `Max`: Maximum value.
+- `Average`: Average value.
+- `Median`: Median.
 
 ### MarkLineData.xPosition
 
@@ -3297,6 +3379,17 @@ Distance between grid component and the top side of the container.
 
 class in XCharts.Runtime / Inherits from: [Serie](#serie)
 
+### Pie.pieType
+
+[PieType](#pietype) `v3.15.0`
+
+Pie chart type.
+
+Options:
+
+- `Solid`: solid pie chart - default fill style.
+- `Wireframe`: wireframe pie chart - only show the outline wireframe.
+
 ### Pie.radiusGradient
 
 `bool` `false` `v3.8.1`
@@ -3465,13 +3558,13 @@ The width of the bar. Adaptive when default 0.
 
 `float` `2f`
 
-斑马线的间距。
+The gap of zebra bar. It is the distance between two zebra stripes. When the value is 0, there is no gap between stripes.
 
 ### Serie.barZebraWidth
 
 `float` `4f`
 
-斑马线的粗细。
+The width of zebra bar. It is the width of each zebra stripe. When the value is 0, there is no zebra stripe.
 
 ### Serie.bottom
 
@@ -3574,6 +3667,12 @@ Index of layout component that serie uses. Default is -1 means not use layout, o
 `double` `0`
 
 忽略数据的默认值。当ignore为true才有效。
+
+### Serie.ignoreZeroOccupy
+
+`bool` `false` `v3.15.0`
+
+Whether to ignore the zero value bar occupy. When enabled, the bar with zero value will not occupy space, and the gap between bars will be automatically adjusted according to the actual displayed bars. Generally used in bar chart.
 
 ### Serie.index
 
@@ -3754,6 +3853,12 @@ Options:
 `float[]`
 
 the radius of chart.
+
+### Serie.realtimeSort
+
+`bool` `false` `v3.14.0`
+
+Whether to enable realtime sorting, which is used for bar-racing effect. Currently only available in Bar.
 
 ### Serie.right
 
@@ -4816,11 +4921,17 @@ the color of tooltip border.
 
 the width of tooltip border.
 
+### Tooltip.columnGapWidths
+
+`List<float>` `v3.14.0`
+
+the column gap width of content. When there is only one column, it only represents the gap width of the second column.
+
 ### Tooltip.contentLabelStyles
 
 `List<LabelStyle>`
 
-the textstyle list of content.
+the column text style list of content. The first represents the text style of the first column, and so on.
 
 ### Tooltip.fixedHeight
 

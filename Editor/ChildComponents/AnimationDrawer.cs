@@ -15,6 +15,7 @@ namespace XCharts.Editor
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Delay");
                 PropertyField(prop, "m_Duration");
+                PropertyField(prop, "m_Speed");
                 --EditorGUI.indentLevel;
             }
         }
@@ -30,6 +31,7 @@ namespace XCharts.Editor
             {
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Duration");
+                PropertyField(prop, "m_Speed");
                 --EditorGUI.indentLevel;
             }
         }
@@ -45,6 +47,7 @@ namespace XCharts.Editor
             {
                 ++EditorGUI.indentLevel;
                 PropertyField(prop, "m_Duration");
+                PropertyField(prop, "m_Speed");
                 --EditorGUI.indentLevel;
             }
         }
@@ -68,6 +71,21 @@ namespace XCharts.Editor
         }
     }
 
+    [CustomPropertyDrawer(typeof(XCharts.Runtime.AnimationExchange), true)]
+    public class AnimationExchangeDrawer : BasePropertyDrawer
+    {
+        public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
+        {
+            base.OnGUI(pos, prop, label);
+            if (MakeComponentFoldout(prop, "m_Enable", true))
+            {
+                ++EditorGUI.indentLevel;
+                PropertyField(prop, "m_Duration");
+                --EditorGUI.indentLevel;
+            }
+        }
+    }
+
     [CustomPropertyDrawer(typeof(AnimationStyle), true)]
     public class AnimationDrawer : BasePropertyDrawer
     {
@@ -85,6 +103,7 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_Change");
                 PropertyField(prop, "m_Addition");
                 PropertyField(prop, "m_Interaction");
+                PropertyField(prop, "m_Exchange");
                 --EditorGUI.indentLevel;
             }
         }

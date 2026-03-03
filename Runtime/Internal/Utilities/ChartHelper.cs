@@ -1290,8 +1290,7 @@ namespace XCharts.Runtime
                 return null;
 
             var clampedExportScale = Mathf.Max(1f, exportScale);
-            var scaleFactor = canvas.scaleFactor <= 0 ? 1f : canvas.scaleFactor;
-            var outputScaleFactor = scaleFactor * clampedExportScale;
+            var outputScaleFactor = clampedExportScale;
             var width = Mathf.Max(1, Mathf.CeilToInt(rectTransform.rect.width * outputScaleFactor));
             var height = Mathf.Max(1, Mathf.CeilToInt(rectTransform.rect.height * outputScaleFactor));
             var chart = rectTransform.GetComponent<BaseChart>();
@@ -1404,8 +1403,8 @@ namespace XCharts.Runtime
                 // so the saved image has original width/height but higher quality.
                 if (clampedExportScale > 1f)
                 {
-                    var targetWidth = Mathf.Max(1, Mathf.CeilToInt(rectTransform.rect.width * scaleFactor));
-                    var targetHeight = Mathf.Max(1, Mathf.CeilToInt(rectTransform.rect.height * scaleFactor));
+                    var targetWidth = Mathf.Max(1, Mathf.CeilToInt(rectTransform.rect.width));
+                    var targetHeight = Mathf.Max(1, Mathf.CeilToInt(rectTransform.rect.height));
 
                     var smallRT = RenderTexture.GetTemporary(targetWidth, targetHeight, 0, rt.format);
                     Graphics.Blit(rt, smallRT);
@@ -1416,7 +1415,7 @@ namespace XCharts.Runtime
                     tex.Apply();
                     RenderTexture.ReleaseTemporary(smallRT);
 
-                    var cornerRadiiFinal = GetChartCornerRadius(chart, rectTransform.rect.width, rectTransform.rect.height, scaleFactor);
+                    var cornerRadiiFinal = GetChartCornerRadius(chart, rectTransform.rect.width, rectTransform.rect.height, 1f);
                     ApplyRoundedCornerClip(tex, cornerRadiiFinal);
                 }
                 else

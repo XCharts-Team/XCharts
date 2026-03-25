@@ -778,5 +778,27 @@ namespace XCharts.Runtime
             foreach (var component in m_Components) component.ResetStatus();
             foreach (var handler in m_SerieHandlers) handler.ForceUpdateSerieContext();
         }
+
+        /// <summary>
+        /// Export chart configuration and data to JSON string.
+        /// ||导出图表配置和数据为JSON字符串。
+        /// </summary>
+        [Since("v3.16.0")]
+        public string ExportToJson(bool prettyPrint = true)
+        {
+            return XCharts.Runtime.ChartJsonSerializer.Serialize(this, prettyPrint);
+        }
+
+        /// <summary>
+        /// Import JSON and update current chart configuration.
+        /// ||导入JSON并更新当前图表配置。
+        /// </summary>
+        [Since("v3.16.0")]
+        public void ImportFromJson(string json)
+        {
+            XCharts.Runtime.ChartJsonDeserializer.Deserialize(json, this);
+            RefreshAllComponent();
+            RefreshChart();
+        }
     }
 }

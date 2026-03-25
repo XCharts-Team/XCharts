@@ -13,10 +13,13 @@ namespace XCharts.Editor
             public static readonly GUIContent btnAddComponent = new GUIContent("Add Main Component", "");
             public static readonly GUIContent btnRebuildChartObject = new GUIContent("Rebuild Object", "");
             public static readonly GUIContent btnSaveAsImage = new GUIContent("Save As Image", "");
+            public static readonly GUIContent btnImportJsonData = new GUIContent("Import Json", "");
+            public static readonly GUIContent btnExportJsonData = new GUIContent("Export Json", "");
             public static readonly GUIContent btnCheckWarning = new GUIContent("Check Warning", "");
             public static readonly GUIContent btnHideWarning = new GUIContent("Hide Warning", "");
         }
         public UIComponent m_UIComponent;
+        private bool m_ExportPending;
 
         public static T AddUIComponent<T>(string chartName) where T : UIComponent
         {
@@ -56,6 +59,14 @@ namespace XCharts.Editor
             {
                 m_UIComponent.SaveAsImage("png", "", 4f);
             }
+            if (GUILayout.Button(Styles.btnImportJsonData))
+            {
+                UIComponentJsonImportWindow.ShowWindow(m_UIComponent);
+            }
+            if (GUILayout.Button(Styles.btnExportJsonData))
+            {
+                RequestExportJsonData();
+            }
             OnDebugEndInspectorGUI();
         }
 
@@ -87,6 +98,37 @@ namespace XCharts.Editor
         protected void PropertyField(SerializedProperty property, GUIContent title)
         {
             EditorGUILayout.PropertyField(property, title);
+        }
+
+        private void RequestExportJsonData()
+        {
+            if (m_ExportPending) return;
+            m_ExportPending = true;
+            var target = m_UIComponent;
+            EditorApplication.delayCall += delegate ()
+            {
+                m_ExportPending = false;
+                ExportJsonData(target);
+            };
+            GUIUtility.ExitGUI();
+        }
+
+        private static void ExportJsonData(UIComponent target)
+        {
+            if (target == null) return;
+            var json = target.ExportToJson(true);
+            var defaultName = target.gameObject.name + ".json";
+            var path = EditorUtility.SaveFilePanel("Save UI Component JSON", "", defaultName, "json");
+            if (string.IsNullOrEmpty(path)) return;
+            try
+            {
+                System.IO.File.WriteAllText(path, json);
+                Debug.Log("[XCharts] UI JSON exported to: " + path);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError("[XCharts] Failed to save UI JSON: " + ex.Message);
+            }
         }
 
         protected void PropertyListField(string relativePropName, bool showOrder = true, params HeaderMenuInfo[] menus)

@@ -19,6 +19,8 @@ namespace XCharts.Editor
             public static readonly GUIContent btnSaveAsImage = new GUIContent("Save As Image", "");
             public static readonly GUIContent btnCheckWarning = new GUIContent("Check Warning", "");
             public static readonly GUIContent btnHideWarning = new GUIContent("Hide Warning", "");
+            public static readonly GUIContent btnImportJsonData = new GUIContent("Import Json", "");
+            public static readonly GUIContent btnExportJsonData = new GUIContent("Export Json", "");
         }
         protected BaseChart m_Chart;
         protected SerializedProperty m_Script;
@@ -36,6 +38,7 @@ namespace XCharts.Editor
         private bool m_BaseFoldout;
 
         private bool m_CheckWarning = false;
+        private bool m_ExportPending = false;
         private int m_LastComponentCount = 0;
         private int m_LastSerieCount = 0;
         private string m_VersionString = "";
@@ -300,6 +303,14 @@ namespace XCharts.Editor
                     m_CheckWarning = false;
                 }
                 EditorGUILayout.EndHorizontal();
+                if (GUILayout.Button(Styles.btnImportJsonData))
+                {
+                    ChartJsonImportWindow.ShowWindow(m_Chart);
+                }
+                if (GUILayout.Button(Styles.btnExportJsonData))
+                {
+                    RequestExportJsonData();
+                }
                 sb.Length = 0;
                 sb.AppendFormat("v{0}", XChartsMgr.fullVersion);
                 if (!string.IsNullOrEmpty(m_Chart.warningInfo))
@@ -321,7 +332,46 @@ namespace XCharts.Editor
                     m_CheckWarning = true;
                     m_Chart.CheckWarning();
                 }
+                if (GUILayout.Button(Styles.btnImportJsonData))
+                {
+                    ChartJsonImportWindow.ShowWindow(m_Chart);
+                }
+                if (GUILayout.Button(Styles.btnExportJsonData))
+                {
+                    RequestExportJsonData();
+                }
 
+            }
+        }
+
+        private void RequestExportJsonData()
+        {
+            if (m_ExportPending) return;
+            m_ExportPending = true;
+            var chart = m_Chart;
+            EditorApplication.delayCall += delegate()
+            {
+                m_ExportPending = false;
+                ExportJsonData(chart);
+            };
+            GUIUtility.ExitGUI();
+        }
+
+        private static void ExportJsonData(BaseChart chart)
+        {
+            if (chart == null) return;
+            var json = chart.ExportToJson(true);
+            var defaultName = chart.gameObject.name + ".json";
+            var path = EditorUtility.SaveFilePanel("Save Chart JSON", "", defaultName, "json");
+            if (string.IsNullOrEmpty(path)) return;
+            try
+            {
+                System.IO.File.WriteAllText(path, json);
+                Debug.Log("[XCharts] JSON exported to: " + path);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("[XCharts] Failed to save JSON: " + ex.Message);
             }
         }
     }

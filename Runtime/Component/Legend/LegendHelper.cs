@@ -198,11 +198,14 @@ namespace XCharts.Runtime
             legend.context.eachHeight = 0;
             if (legend.orient == Orient.Horizonal)
             {
+                var maxRowWidth = 0f;
                 foreach (var kv in legend.context.buttonList)
                 {
                     if (width + kv.Value.width > maxWidth)
                     {
                         realWidth = width - legend.itemGap;
+                        if (realWidth > maxRowWidth)
+                            maxRowWidth = realWidth;
                         realHeight += height + legend.itemGap;
                         if (legend.context.eachHeight < height + legend.itemGap)
                         {
@@ -216,8 +219,10 @@ namespace XCharts.Runtime
                         height = kv.Value.height;
                 }
                 width -= legend.itemGap;
+                if (width > maxRowWidth)
+                    maxRowWidth = width;
                 legend.context.height = realHeight + height;
-                legend.context.width = realWidth > 0 ? realWidth : width;
+                legend.context.width = maxRowWidth;
             }
             else
             {

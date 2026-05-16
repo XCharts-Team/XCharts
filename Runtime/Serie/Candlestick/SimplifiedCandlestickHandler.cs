@@ -151,7 +151,7 @@ namespace XCharts.Runtime
                 var close = serieData.GetCurrData(startDataIndex + 1, dataAddDuration, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
                 var lowest = serieData.GetCurrData(startDataIndex + 2, dataAddDuration, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
                 var heighest = serieData.GetCurrData(startDataIndex + 3, dataAddDuration, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
-                var isRise = yAxis.inverse ? close<open : close> open;
+                var isRise = yAxis.inverse ? close <= open : close >= open;
                 var borderWidth = open == 0 ? 0f :
                     (itemStyle.borderWidth == 0 ? theme.serie.candlestickBorderWidth :
                         itemStyle.borderWidth);

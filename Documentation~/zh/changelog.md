@@ -81,6 +81,8 @@ slug: /changelog
 
 ## master
 
+* (2026.05.17) 增加`Legend`的`Width`和`Height`可设置固定宽高
+* (2026.05.17) 修复`Serie`的`EndLabel`在`Y`轴是`MinMax`类型时显示的数值不对的问题
 * (2026.05.16) 修复`Candlestick`按昨收判断涨跌颜色，一字涨停/跌停显示不对的问题 (#362)
 * (2026.03.29) 修复`Legend`的`Background`区域在`Horizonal`模式下不对的问题
 * (2026.03.25) 增加`Chart`的`Json`导出导入

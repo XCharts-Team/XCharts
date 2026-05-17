@@ -81,7 +81,7 @@ slug: /changelog
 
 ## master
 
-* (2026.05.16) 修复`Candlestick`的涨停颜色不对的问题 (#362)
+* (2026.05.16) 修复`Candlestick`按昨收判断涨跌颜色，一字涨停/跌停显示不对的问题 (#362)
 * (2026.03.29) 修复`Legend`的`Background`区域在`Horizonal`模式下不对的问题
 * (2026.03.25) 增加`Chart`的`Json`导出导入
 * (2026.03.10) 增加`Sankey`的线条tooltip触发显示

@@ -217,7 +217,8 @@ namespace XCharts.Runtime
                 var close = serieData.GetCurrData(startDataIndex + 1, dataAddDuration, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
                 var lowest = serieData.GetCurrData(startDataIndex + 2, dataAddDuration, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
                 var heighest = serieData.GetCurrData(startDataIndex + 3, dataAddDuration, dataChangeDuration, yAxis.inverse, yMinValue, yMaxValue, unscaledTime);
-                var isRise = yAxis.inverse ? close <= open : close >= open;
+                var isBodyRise = yAxis.inverse ? close <= open : close >= open;
+                var isColorRise = IsColorRise(showData, i, startDataIndex, open, close);
                 var borderWidth = open == 0 ? 0f :
                     (itemStyle.borderWidth == 0 ? theme.serie.candlestickBorderWidth :
                         itemStyle.borderWidth);
@@ -239,7 +240,7 @@ namespace XCharts.Runtime
                 Vector3 plb, plt, prt, prb, top;
 
                 var offset = 2 * borderWidth;
-                if (isRise)
+                if (isBodyRise)
                 {
                     plb = new Vector3(pX + gap + offset, pY + offset);
                     plt = new Vector3(pX + gap + offset, pY + currHig - offset);
@@ -265,10 +266,10 @@ namespace XCharts.Runtime
                 }
                 serie.context.dataPoints.Add(top);
                 serie.context.dataIndexs.Add(serieData.index);
-                var areaColor = isRise ?
+                var areaColor = isColorRise ?
                     itemStyle.GetColor(theme.serie.candlestickColor) :
                     itemStyle.GetColor0(theme.serie.candlestickColor0);
-                var borderColor = isRise ?
+                var borderColor = isColorRise ?
                     itemStyle.GetBorderColor(theme.serie.candlestickBorderColor) :
                     itemStyle.GetBorderColor0(theme.serie.candlestickBorderColor0);
                 var itemWidth = Mathf.Abs(prt.x - plb.x);
@@ -312,7 +313,7 @@ namespace XCharts.Runtime
                     {
                         UGL.DrawLine(vh, openCenterPos, closeCenterPos, Mathf.Max(borderWidth, barWidth / 2), borderColor);
                     }
-                    if (isRise)
+                    if (isBodyRise)
                     {
                         UGL.DrawLine(vh, openCenterPos, lowPos, borderWidth, borderColor);
                         UGL.DrawLine(vh, closeCenterPos, heighPos, borderWidth, borderColor);
@@ -332,6 +333,18 @@ namespace XCharts.Runtime
             {
                 chart.RefreshPainter(serie);
             }
+        }
+
+        private static bool IsColorRise(List<SerieData> showData, int dataIndex, int startDataIndex, double open, double close)
+        {
+            if (dataIndex > 0)
+            {
+                var prevSerieData = showData[dataIndex - 1];
+                var prevStartDataIndex = prevSerieData.data.Count > 4 ? 1 : 0;
+                var prevClose = prevSerieData.GetData(prevStartDataIndex + 1);
+                return close >= prevClose;
+            }
+            return close >= open;
         }
     }
 }

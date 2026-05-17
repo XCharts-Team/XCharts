@@ -255,22 +255,47 @@ namespace XCharts.Runtime
             if (dataZoom.IsInZoom(localPos) &&
                 !dataZoom.IsInSelectedZoom(localPos))
             {
-                var pointerX = localPos.x;
-                var selectWidth = grid.context.width * (dataZoom.end - dataZoom.start) / 100;
-                var startX = pointerX - selectWidth / 2;
-                var endX = pointerX + selectWidth / 2;
-                if (startX < grid.context.x)
+                var start = dataZoom.start;
+                var end = dataZoom.end;
+                switch (dataZoom.orient)
                 {
-                    startX = grid.context.x;
-                    endX = grid.context.x + selectWidth;
+                    case Orient.Horizonal:
+                        var pointerX = localPos.x;
+                        var selectWidth = dataZoom.context.width * (dataZoom.end - dataZoom.start) / 100;
+                        var startX = pointerX - selectWidth / 2;
+                        var endX = pointerX + selectWidth / 2;
+                        if (startX < dataZoom.context.x)
+                        {
+                            startX = dataZoom.context.x;
+                            endX = dataZoom.context.x + selectWidth;
+                        }
+                        else if (endX > dataZoom.context.x + dataZoom.context.width)
+                        {
+                            endX = dataZoom.context.x + dataZoom.context.width;
+                            startX = dataZoom.context.x + dataZoom.context.width - selectWidth;
+                        }
+                        start = (startX - dataZoom.context.x) / dataZoom.context.width * 100;
+                        end = (endX - dataZoom.context.x) / dataZoom.context.width * 100;
+                        break;
+                    case Orient.Vertical:
+                        var pointerY = localPos.y;
+                        var selectHeight = dataZoom.context.height * (dataZoom.end - dataZoom.start) / 100;
+                        var startY = pointerY - selectHeight / 2;
+                        var endY = pointerY + selectHeight / 2;
+                        if (startY < dataZoom.context.y)
+                        {
+                            startY = dataZoom.context.y;
+                            endY = dataZoom.context.y + selectHeight;
+                        }
+                        else if (endY > dataZoom.context.y + dataZoom.context.height)
+                        {
+                            endY = dataZoom.context.y + dataZoom.context.height;
+                            startY = dataZoom.context.y + dataZoom.context.height - selectHeight;
+                        }
+                        start = (startY - dataZoom.context.y) / dataZoom.context.height * 100;
+                        end = (endY - dataZoom.context.y) / dataZoom.context.height * 100;
+                        break;
                 }
-                else if (endX > grid.context.x + grid.context.width)
-                {
-                    endX = grid.context.x + grid.context.width;
-                    startX = grid.context.x + grid.context.width - selectWidth;
-                }
-                var start = (startX - grid.context.x) / grid.context.width * 100;
-                var end = (endX - grid.context.x) / grid.context.width * 100;
                 UpdateDataZoomRange(dataZoom, start, end, grid);
             }
         }

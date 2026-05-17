@@ -495,17 +495,17 @@ namespace XCharts.Runtime
         public static double GetAxisPositionValue(GridCoord grid, Axis axis, Vector3 pos)
         {
             if (axis is YAxis)
-                return GetAxisPositionValue(pos.y, grid.context.height, axis.context.minMaxRange, grid.context.y, axis.context.offset);
+                return GetAxisPositionValue(pos.y, grid.context.height, axis.context.minMaxRange, grid.context.y, axis.context.offset, axis.context.minValue);
             else if (axis is XAxis)
-                return GetAxisPositionValue(pos.x, grid.context.width, axis.context.minMaxRange, grid.context.x, axis.context.offset);
+                return GetAxisPositionValue(pos.x, grid.context.width, axis.context.minMaxRange, grid.context.x, axis.context.offset, axis.context.minValue);
             else
                 return 0;
         }
 
-        public static double GetAxisPositionValue(float xy, float axisLength, double axisRange, float axisStart, float axisOffset)
+        public static double GetAxisPositionValue(float xy, float axisLength, double axisRange, float axisStart, float axisOffset, double minValue = 0)
         {
             var yRate = axisRange / axisLength;
-            return yRate * (xy - axisStart - axisOffset);
+            return minValue + yRate * (xy - axisStart - axisOffset);
         }
 
         /// <summary>

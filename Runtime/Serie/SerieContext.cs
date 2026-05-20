@@ -29,6 +29,67 @@ namespace XCharts.Runtime
 
     public class SerieContext
     {
+        [System.NonSerialized] internal double[] cachedMin = new double[3] { double.MaxValue, double.MaxValue, double.MaxValue };
+        [System.NonSerialized] internal double[] cachedMax = new double[3] { double.MinValue, double.MinValue, double.MinValue };
+        [System.NonSerialized] internal bool[] cacheValid = new bool[3] { false, false, false };
+        [System.NonSerialized] internal Dictionary<string, double[]> dataZoomMinMaxCache = new Dictionary<string, double[]>();
+
+        internal void InvalidateMinMaxCache()
+        {
+            for (int i = 0; i < cacheValid.Length; i++)
+                cacheValid[i] = false;
+            cachedMin[0] = cachedMin[1] = cachedMin[2] = double.MaxValue;
+            cachedMax[0] = cachedMax[1] = cachedMax[2] = double.MinValue;
+            dataZoomMinMaxCache.Clear();
+        }
+
+        internal bool TryGetCachedMinMax(int dimension, out double minValue, out double maxValue)
+        {
+            minValue = 0; maxValue = 0;
+            if (dimension < 0 || dimension > 2) return false;
+            if (cacheValid[dimension])
+            {
+                minValue = cachedMin[dimension];
+                maxValue = cachedMax[dimension];
+                return true;
+            }
+            return false;
+        }
+
+        internal void SetCachedMinMax(int dimension, double minValue, double maxValue)
+        {
+            if (dimension < 0 || dimension > 2) return;
+            cachedMin[dimension] = minValue;
+            cachedMax[dimension] = maxValue;
+            cacheValid[dimension] = true;
+        }
+
+        internal bool TryGetDataZoomCachedMinMax(string key, int dimension, out double minValue, out double maxValue)
+        {
+            minValue = 0; maxValue = 0;
+            if (string.IsNullOrEmpty(key)) return false;
+            double[] arr;
+            if (!dataZoomMinMaxCache.TryGetValue(key, out arr) || arr == null || arr.Length < 6) return false;
+            int mi = dimension * 2;
+            minValue = arr[mi];
+            maxValue = arr[mi + 1];
+            return true;
+        }
+
+        internal void SetDataZoomCachedMinMax(string key, int dimension, double minValue, double maxValue)
+        {
+            if (string.IsNullOrEmpty(key)) return;
+            double[] arr;
+            if (!dataZoomMinMaxCache.TryGetValue(key, out arr) || arr == null || arr.Length < 6)
+            {
+                arr = new double[6];
+                for (int i = 0; i < 6; i++) arr[i] = 0;
+                dataZoomMinMaxCache[key] = arr;
+            }
+            int mi = dimension * 2;
+            arr[mi] = minValue;
+            arr[mi + 1] = maxValue;
+        }
         /// <summary>
         /// 鼠标是否进入serie
         /// </summary>

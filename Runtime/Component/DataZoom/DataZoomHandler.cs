@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -19,6 +20,9 @@ namespace XCharts.Runtime
         private float m_DataZoomLastEndIndex;
         private float m_LastStart;
         private float m_LastEnd;
+        private List<double> _sampleSumPrefixCache;
+        private int _sampleSumPrefixMaxCount = 0;
+        private bool _sampleSumPrefixInverse = false;
 
         public override void InitComponent()
         {
@@ -593,11 +597,30 @@ namespace XCharts.Runtime
                 var animationDuration = serie.animation.GetChangeDuration();
                 var dataAddDuration = serie.animation.GetAdditionDuration();
                 var unscaledTime = serie.animation.unscaledTime;
+                var useCurrentData = false;
+                List<double> sampleSumPrefix = null;
+                if (serie.animation.enable)
+                {
+                    useCurrentData = DataHelper.IsAnyDataChanged(ref showData, serie.minShow, maxCount);
+                    dataChanging = useCurrentData;
+                }
+                if (!useCurrentData && rate > 1 &&
+                    (serie.sampleType == SampleType.Sum || serie.sampleType == SampleType.Average))
+                {
+                    if (_sampleSumPrefixCache == null || _sampleSumPrefixMaxCount != maxCount || _sampleSumPrefixInverse != axis.inverse)
+                    {
+                        _sampleSumPrefixCache = DataHelper.BuildSampleSumPrefix(ref showData, maxCount, axis.inverse);
+                        _sampleSumPrefixMaxCount = maxCount;
+                        _sampleSumPrefixInverse = axis.inverse;
+                    }
+                    sampleSumPrefix = _sampleSumPrefixCache;
+                }
 
-                for (int i = 0; i < maxCount; i += rate)
+                for (int i = serie.minShow; i < maxCount; i += rate)
                 {
                     double value = DataHelper.SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
-                        dataAddDuration, animationDuration, ref dataChanging, axis, unscaledTime);
+                        dataAddDuration, animationDuration, ref dataChanging, axis, unscaledTime,
+                        useCurrentData, false, sampleSumPrefix);
                     float pX = dataZoom.context.x + i * scaleWid;
                     float dataHig = (float)((maxValue - minValue) == 0 ? 0 :
                         (value - minValue) / (maxValue - minValue) * dataZoom.context.height);
@@ -685,11 +708,30 @@ namespace XCharts.Runtime
                 var animationDuration = serie.animation.GetChangeDuration();
                 var dataAddDuration = serie.animation.GetAdditionDuration();
                 var unscaledTime = serie.animation.unscaledTime;
+                var useCurrentData = false;
+                List<double> sampleSumPrefix = null;
+                if (serie.animation.enable)
+                {
+                    useCurrentData = DataHelper.IsAnyDataChanged(ref showData, serie.minShow, maxCount);
+                    dataChanging = useCurrentData;
+                }
+                if (!useCurrentData && rate > 1 &&
+                    (serie.sampleType == SampleType.Sum || serie.sampleType == SampleType.Average))
+                {
+                    if (_sampleSumPrefixCache == null || _sampleSumPrefixMaxCount != maxCount || _sampleSumPrefixInverse != axis.inverse)
+                    {
+                        _sampleSumPrefixCache = DataHelper.BuildSampleSumPrefix(ref showData, maxCount, axis.inverse);
+                        _sampleSumPrefixMaxCount = maxCount;
+                        _sampleSumPrefixInverse = axis.inverse;
+                    }
+                    sampleSumPrefix = _sampleSumPrefixCache;
+                }
 
-                for (int i = 0; i < maxCount; i += rate)
+                for (int i = serie.minShow; i < maxCount; i += rate)
                 {
                     double value = DataHelper.SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
-                        dataAddDuration, animationDuration, ref dataChanging, axis, unscaledTime);
+                        dataAddDuration, animationDuration, ref dataChanging, axis, unscaledTime,
+                        useCurrentData, false, sampleSumPrefix);
                     float pY = dataZoom.context.y + i * scaleWid;
                     float dataHig = (maxValue - minValue) == 0 ? 0 :
                         (float)((value - minValue) / (maxValue - minValue) * dataZoom.context.width);

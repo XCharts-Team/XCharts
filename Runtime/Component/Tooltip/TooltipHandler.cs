@@ -11,6 +11,8 @@ namespace XCharts.Runtime
     internal sealed class TooltipHandler : MainComponentHandler<Tooltip>
     {
         private Dictionary<string, ChartLabel> m_IndicatorLabels = new Dictionary<string, ChartLabel>();
+        private Dictionary<Serie, Dictionary<int, List<SerieData>>> m_SortedAxisDataCache =
+            new Dictionary<Serie, Dictionary<int, List<SerieData>>>();
         private GameObject m_LabelRoot;
         private ISerieContainer m_PointerContainer;
 
@@ -451,29 +453,116 @@ namespace XCharts.Runtime
 
         private void GetSerieDataIndexByAxis(Serie serie, Axis axis, GridCoord grid, int dimension = 0)
         {
-            var currValue = 0d;
-            var lastValue = 0d;
-            var nextValue = 0d;
             var axisValue = axis.context.pointerValue;
-            var isTimeAxis = axis.IsTime();
-            var dataCount = serie.dataCount;
-            var themeSymbolSize = chart.theme.serie.scatterSymbolSize;
-            var data = serie.data;
-            if (!isTimeAxis)// || serie.useSortData)
+            serie.context.pointerAxisDataIndexs.Clear();
+
+            if (axis.IsTime())
             {
-                serie.context.sortedData.Clear();
-                for (int i = 0; i < dataCount; i++)
+                FindSerieDataIndexByAxisLinear(serie, axis, axisValue, dimension);
+            }
+            else
+            {
+                var sortedData = GetSortedAxisData(serie, dimension);
+                var nearestIndex = GetNearestSerieDataIndex(sortedData, axisValue, dimension, axis.context.tickValue);
+                if (nearestIndex >= 0)
+                    serie.context.pointerAxisDataIndexs.Add(nearestIndex);
+            }
+
+            if (serie.context.pointerAxisDataIndexs.Count > 0)
+            {
+                var index = serie.context.pointerAxisDataIndexs[0];
+                serie.context.pointerItemDataIndex = index;
+                axis.context.axisTooltipValue = serie.GetSerieData(index).GetData(dimension);
+            }
+            else
+            {
+                serie.context.pointerItemDataIndex = -1;
+                axis.context.axisTooltipValue = 0;
+            }
+        }
+
+        private List<SerieData> GetSortedAxisData(Serie serie, int dimension)
+        {
+            Dictionary<int, List<SerieData>> dimensionCache;
+            if (!m_SortedAxisDataCache.TryGetValue(serie, out dimensionCache))
+            {
+                dimensionCache = new Dictionary<int, List<SerieData>>();
+                m_SortedAxisDataCache[serie] = dimensionCache;
+            }
+
+            List<SerieData> sortedData;
+            if (!dimensionCache.TryGetValue(dimension, out sortedData))
+            {
+                sortedData = new List<SerieData>();
+                dimensionCache[dimension] = sortedData;
+            }
+
+            if (serie.dataDirty || sortedData.Count != serie.dataCount)
+            {
+                sortedData.Clear();
+                for (int i = 0; i < serie.dataCount; i++)
                 {
-                    var serieData = serie.data[i];
-                    serie.context.sortedData.Add(serieData);
+                    sortedData.Add(serie.data[i]);
                 }
-                serie.context.sortedData.Sort(delegate (SerieData a, SerieData b)
+                sortedData.Sort(delegate (SerieData a, SerieData b)
                 {
                     return a.GetData(dimension).CompareTo(b.GetData(dimension));
                 });
-                data = serie.context.sortedData;
             }
-            serie.context.pointerAxisDataIndexs.Clear();
+            return sortedData;
+        }
+
+        private int GetNearestSerieDataIndex(List<SerieData> sortedData, double axisValue, int dimension, double tickValue)
+        {
+            var dataCount = sortedData.Count;
+            if (dataCount <= 0) return -1;
+
+            if (dataCount == 1)
+            {
+                var currValue = sortedData[0].GetData(dimension);
+                var diff = tickValue * 0.5f;
+                return axisValue >= currValue - diff && axisValue <= currValue + diff
+                    ? sortedData[0].index
+                    : -1;
+            }
+
+            var firstValue = sortedData[0].GetData(dimension);
+            var secondValue = sortedData[1].GetData(dimension);
+            if (axisValue <= firstValue + (secondValue - firstValue) / 2)
+                return sortedData[0].index;
+
+            var lastValue = sortedData[dataCount - 1].GetData(dimension);
+            var beforeLastValue = sortedData[dataCount - 2].GetData(dimension);
+            if (axisValue > beforeLastValue + (lastValue - beforeLastValue) / 2)
+                return sortedData[dataCount - 1].index;
+
+            var low = 1;
+            var high = dataCount - 2;
+            while (low <= high)
+            {
+                var mid = (low + high) / 2;
+                var prevValue = sortedData[mid - 1].GetData(dimension);
+                var currValue = sortedData[mid].GetData(dimension);
+                var nextValue = sortedData[mid + 1].GetData(dimension);
+                var leftBound = currValue - (currValue - prevValue) / 2;
+                var rightBound = currValue + (nextValue - currValue) / 2;
+                if (axisValue > leftBound && axisValue <= rightBound)
+                    return sortedData[mid].index;
+                if (axisValue <= leftBound)
+                    high = mid - 1;
+                else
+                    low = mid + 1;
+            }
+            return -1;
+        }
+
+        private void FindSerieDataIndexByAxisLinear(Serie serie, Axis axis, double axisValue, int dimension)
+        {
+            var currValue = 0d;
+            var lastValue = 0d;
+            var nextValue = 0d;
+            var dataCount = serie.dataCount;
+            var data = serie.data;
             for (int i = 0; i < dataCount; i++)
             {
                 var serieData = data[i];
@@ -517,17 +606,6 @@ namespace XCharts.Runtime
                     }
                 }
                 lastValue = currValue;
-            }
-            if (serie.context.pointerAxisDataIndexs.Count > 0)
-            {
-                var index = serie.context.pointerAxisDataIndexs[0];
-                serie.context.pointerItemDataIndex = index;
-                axis.context.axisTooltipValue = serie.GetSerieData(index).GetData(dimension);
-            }
-            else
-            {
-                serie.context.pointerItemDataIndex = -1;
-                axis.context.axisTooltipValue = 0;
             }
         }
 

@@ -323,6 +323,9 @@ namespace XCharts.Runtime
         [NonSerialized] internal bool m_NeedUpdateFilterData;
         [NonSerialized] public List<SerieData> m_FilterData = new List<SerieData>();
         [NonSerialized] private bool m_NameDirty;
+        [NonSerialized] private int m_YTotalCacheFrame = -1;
+        [NonSerialized] private double m_YTotalCacheValue = 0;
+        
 
         /// <summary>
         /// event callback when click serie.
@@ -1239,6 +1242,9 @@ namespace XCharts.Runtime
         {
             get
             {
+                if (m_YTotalCacheFrame == Time.frameCount)
+                    return m_YTotalCacheValue;
+
                 double total = 0;
                 if (IsPerformanceMode())
                 {
@@ -1259,6 +1265,8 @@ namespace XCharts.Runtime
                             total += sdata.GetCurrData(1, dataAddDuration, duration, unscaledTime);
                     }
                 }
+                m_YTotalCacheFrame = Time.frameCount;
+                m_YTotalCacheValue = total;
                 return total;
             }
         }
@@ -1309,6 +1317,7 @@ namespace XCharts.Runtime
         /// </summary>
         public override void ClearData()
         {
+            InvalidateTotalCache();
             while (m_Data.Count > 0)
             {
                 RemoveData(0);
@@ -1336,6 +1345,7 @@ namespace XCharts.Runtime
         {
             if (index >= 0 && index < m_Data.Count)
             {
+                InvalidateTotalCache();
                 if (!string.IsNullOrEmpty(m_Data[index].name))
                 {
                     SetSerieNameDirty();
@@ -1384,6 +1394,7 @@ namespace XCharts.Runtime
 
         public virtual void AddSerieData(SerieData serieData)
         {
+            InvalidateTotalCache();
             if (m_InsertDataToHead)
                 m_Data.Insert(0, serieData);
             else
@@ -1824,6 +1835,7 @@ namespace XCharts.Runtime
                 var flag = m_Data[index].UpdateData(dimension, value, animationOpen, unscaledTime, animationDuration);
                 if (flag)
                 {
+                    InvalidateTotalCache();
                     SetVerticesDirty();
                     dataDirty = true;
                     titleDirty = true;
@@ -1845,6 +1857,7 @@ namespace XCharts.Runtime
         {
             if (index >= 0 && index < m_Data.Count && values != null)
             {
+                InvalidateTotalCache();
                 var serieData = m_Data[index];
                 var animationOpen = animation.enable;
                 var animationDuration = animation.GetChangeDuration();
@@ -1856,6 +1869,18 @@ namespace XCharts.Runtime
                 return true;
             }
             return false;
+        }
+
+        private void InvalidateTotalCache()
+        {
+            m_YTotalCacheFrame = -1;
+            m_YTotalCacheValue = 0;
+            InvalidateMinMaxCache();
+        }
+
+        private void InvalidateMinMaxCache()
+        {
+            context.InvalidateMinMaxCache();
         }
 
         public bool UpdateDataName(int index, string name)

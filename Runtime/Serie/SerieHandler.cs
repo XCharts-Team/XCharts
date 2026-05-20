@@ -694,11 +694,14 @@ namespace XCharts.Runtime
             if (itemFormatter == null) itemFormatter = "";
             var newItemFormatter = itemFormatter.Replace("\\n", "\n");
             var newNumericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
-            var temp = newItemFormatter.Split('\n');
-            for (int i = 0; i < temp.Length; i++)
+            var needTotal = newItemFormatter.IndexOf("{d", System.StringComparison.OrdinalIgnoreCase) >= 0 ||
+                newItemFormatter.IndexOf("{f", System.StringComparison.OrdinalIgnoreCase) >= 0;
+            var total = needTotal ? serie.yTotal : 0;
+            int newLinePos = newItemFormatter.IndexOf('\n');
+            if (newLinePos < 0)
             {
-                var formatter = temp[i];
-                var param = i == 0 ? serie.context.param : new SerieParams();
+                var formatter = newItemFormatter;
+                var param = serie.context.param;
                 param.serieName = serie.serieName;
                 param.serieIndex = serie.index;
                 param.category = category;
@@ -707,7 +710,7 @@ namespace XCharts.Runtime
                 param.dataCount = serie.dataCount;
                 param.value = serieData.GetData(dimension);
                 param.ignore = ignore;
-                param.total = serie.yTotal;
+                param.total = total;
                 param.color = chart.GetMarkColor(serie, serieData);
                 param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
                 param.itemFormatter = formatter;
@@ -719,6 +722,35 @@ namespace XCharts.Runtime
                 param.columns.Add(ignore ? ignoreDataDefaultContent : ChartCached.NumberToStr(param.value, param.numericFormatter));
 
                 paramList.Add(param);
+            }
+            else
+            {
+                var temp = newItemFormatter.Split('\n');
+                for (int i = 0; i < temp.Length; i++)
+                {
+                    var formatter = temp[i];
+                    var param = i == 0 ? serie.context.param : new SerieParams();
+                    param.serieName = serie.serieName;
+                    param.serieIndex = serie.index;
+                    param.category = category;
+                    param.dimension = dimension;
+                    param.serieData = serieData;
+                    param.dataCount = serie.dataCount;
+                    param.value = serieData.GetData(dimension);
+                    param.ignore = ignore;
+                    param.total = total;
+                    param.color = chart.GetMarkColor(serie, serieData);
+                    param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
+                    param.itemFormatter = formatter;
+                    param.numericFormatter = newNumericFormatter;
+                    param.columns.Clear();
+
+                    param.columns.Add(param.marker);
+                    param.columns.Add(showCategory ? category : serie.serieName);
+                    param.columns.Add(ignore ? ignoreDataDefaultContent : ChartCached.NumberToStr(param.value, param.numericFormatter));
+
+                    paramList.Add(param);
+                }
             }
         }
 

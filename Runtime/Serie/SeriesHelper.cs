@@ -376,22 +376,54 @@ namespace XCharts.Runtime
                     var updateDuration = needAnimation ? serie.animation.GetChangeDuration() : 0;
                     var dataAddDuration = needAnimation ? serie.animation.GetAdditionDuration() : 0;
                     var unscaledTime = serie.animation.unscaledTime;
+
+                    // try per-serie cache when not filtering by dataZoom and not in animation mode
+                    if (!filterByDataZoom && !needAnimation)
+                    {
+                        double cmin, cmax;
+                        if (serie.context.TryGetCachedMinMax(dimension, out cmin, out cmax))
+                        {
+                            if (cmax > max) max = cmax;
+                            if (cmin < min) min = cmin;
+                            continue;
+                        }
+                    }
+
+                    double smin = double.MaxValue;
+                    double smax = double.MinValue;
+                    DataZoom dz = null;
+
                     if (isPercentStack && SeriesHelper.IsPercentStack<Bar>(series, serie.serieName))
                     {
-                        if (100 > max) max = 100;
-                        if (0 < min) min = 0;
+                        // percent stack per-serie considered as full range
+                        smin = 0;
+                        smax = 100;
                     }
                     else
                     {
-                        var showData = serie.GetDataList(filterByDataZoom ? chart.GetXDataZoomOfSerie(serie) : null);
+                        if (filterByDataZoom)
+                        {
+                            dz = chart.GetXDataZoomOfSerie(serie);
+                            if (dz != null && dz.enable)
+                            {
+                                var key = string.Format("dz:{0:F3}:{1:F3}:{2}", dz.start, dz.end, dz.filterMode);
+                                double cmin, cmax;
+                                if (serie.context.TryGetDataZoomCachedMinMax(key, dimension, out cmin, out cmax))
+                                {
+                                    smin = cmin;
+                                    smax = cmax;
+                                }
+                            }
+                        }
+                        var showData = serie.GetDataList(dz != null && dz.enable ? dz : (filterByDataZoom ? chart.GetXDataZoomOfSerie(serie) : null));
                         if (dimension > 0 && (serie is Candlestick || serie is SimplifiedCandlestick))
                         {
                             foreach (var data in showData)
                             {
                                 double dataMin, dataMax;
                                 data.GetMinMaxData(1, inverse, out dataMin, out dataMax);
-                                if (dataMax > max) max = dataMax;
-                                if (dataMin < min) min = dataMin;
+                                if (dataMax > smax) smax = dataMax;
+                                if (dataMin < smin) smin = dataMin;
                             }
                         }
                         else
@@ -403,12 +435,33 @@ namespace XCharts.Runtime
                                     data.GetCurrData(dimension, dataAddDuration, updateDuration, unscaledTime, inverse);
                                 if (!serie.IsIgnoreValue(data, currData))
                                 {
-                                    if (currData > max) max = currData;
-                                    if (currData < min) min = currData;
+                                    if (currData > smax) smax = currData;
+                                    if (currData < smin) smin = currData;
                                 }
                             }
                         }
                     }
+
+                    // if no data found for this serie, skip
+                    if (smax == double.MinValue && smin == double.MaxValue)
+                        continue;
+
+                    // cache per-serie result for future calls
+                    if (!needAnimation)
+                    {
+                        if (filterByDataZoom && dz != null && dz.enable)
+                        {
+                            var key = string.Format("dz:{0:F3}:{1:F3}:{2}", dz.start, dz.end, dz.filterMode);
+                            serie.context.SetDataZoomCachedMinMax(key, dimension, smin == double.MaxValue ? 0 : smin, smax == double.MinValue ? 0 : smax);
+                        }
+                        else if (!filterByDataZoom)
+                        {
+                            serie.context.SetCachedMinMax(dimension, smin == double.MaxValue ? 0 : smin, smax == double.MinValue ? 0 : smax);
+                        }
+                    }
+
+                    if (smax > max) max = smax;
+                    if (smin < min) min = smin;
                 }
             }
             else

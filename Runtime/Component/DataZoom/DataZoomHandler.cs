@@ -256,8 +256,7 @@ namespace XCharts.Runtime
                 return;
             }
 
-            if (dataZoom.IsInZoom(localPos) &&
-                !dataZoom.IsInSelectedZoom(localPos))
+            if (dataZoom.IsInZoom(localPos))
             {
                 var start = dataZoom.start;
                 var end = dataZoom.end;
@@ -575,13 +574,26 @@ namespace XCharts.Runtime
                 Serie serie = chart.series[0];
                 Axis axis = chart.GetChartComponent<YAxis>(0);
                 var showData = serie.GetDataList(null);
-                float scaleWid = dataZoom.context.width / (showData.Count - 1);
+                float scaleWid = showData.Count > 1 ? dataZoom.context.width / (showData.Count - 1) : dataZoom.context.width;
                 Vector3 lp = Vector3.zero;
                 Vector3 np = Vector3.zero;
                 double minValue = 0;
                 double maxValue = 0;
                 SeriesHelper.GetYMinMaxValue(chart, 0, axis.inverse, out minValue, out maxValue, false, false);
                 AxisHelper.AdjustMinMaxValue(axis, ref minValue, ref maxValue, true);
+
+                // Check if x-axis is value/time type for accurate shadow x-positioning
+                double xMinValue = 0;
+                double xMaxValue = 0;
+                bool useXValueForShadow = false;
+                var xAxisIndex = dataZoom.xAxisIndexs.Count > 0 ? dataZoom.xAxisIndexs[0] : 0;
+                var xAxis = chart.GetChartComponent<XAxis>(xAxisIndex);
+                if (xAxis != null && (xAxis.IsValue() || xAxis.IsTime()))
+                {
+                    SeriesHelper.GetXMinMaxValue(chart, xAxisIndex, xAxis.inverse, out xMinValue, out xMaxValue, false, false);
+                    AxisHelper.AdjustMinMaxValue(xAxis, ref xMinValue, ref xMaxValue, true);
+                    useXValueForShadow = (xMaxValue - xMinValue) > 0;
+                }
 
                 int rate = 1;
                 var sampleDist = serie.sampleDist < 2 ? 2 : serie.sampleDist;
@@ -621,7 +633,16 @@ namespace XCharts.Runtime
                     double value = DataHelper.SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
                         dataAddDuration, animationDuration, ref dataChanging, axis, unscaledTime,
                         useCurrentData, false, sampleSumPrefix);
-                    float pX = dataZoom.context.x + i * scaleWid;
+                    float pX;
+                    if (useXValueForShadow && i < showData.Count && showData[i].data.Count > 0)
+                    {
+                        var xVal = showData[i].data[0];
+                        pX = dataZoom.context.x + (float)((xVal - xMinValue) / (xMaxValue - xMinValue)) * dataZoom.context.width;
+                    }
+                    else
+                    {
+                        pX = dataZoom.context.x + i * scaleWid;
+                    }
                     float dataHig = (float)((maxValue - minValue) == 0 ? 0 :
                         (value - minValue) / (maxValue - minValue) * dataZoom.context.height);
                     np = new Vector3(pX, chart.chartY + dataZoom.bottom + dataHig);

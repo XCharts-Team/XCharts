@@ -82,6 +82,7 @@ namespace XCharts.Runtime
         [SerializeField] protected float m_Height = 0;
         [SerializeField][Since("v3.15.0")] protected float m_FixedX = 0;
         [SerializeField][Since("v3.15.0")] protected float m_FixedY = 0;
+        [SerializeField][Since("v3.16.0")] protected float m_MinGap = 0;
 
         [SerializeField] protected IconStyle m_Icon = new IconStyle();
         [SerializeField] protected ImageStyle m_Background = new ImageStyle();
@@ -306,6 +307,16 @@ namespace XCharts.Runtime
         {
             get { return m_FixedY; }
             set { if (PropertyUtil.SetStruct(ref m_FixedY, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// the gap between label and the previous label. When the distance to the previous label is less than this value, 
+        /// the label with smaller y value will be hidden. Default is 0, which means this function is turned off.
+        /// 和上一个标签的最小间距。当和上一个标签的距离小于该值时，隐藏对应y值较小的标签。默认为0不开启该功能。
+        /// </summary>
+        public float minGap
+        {
+            get { return m_MinGap; }
+            set { if (PropertyUtil.SetStruct(ref m_MinGap, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the sytle of background.

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -507,6 +508,9 @@ namespace XCharts.Runtime
             var needCheck = serie.context.dataIndexs.Count > 0;
             var allLabelZeroPosition = true;
             var anyLabelActive = false;
+            SerieData lastActiveLabelSerieData = null;
+            var lastActiveLabelPos = Vector3.zero;
+            double lastActiveLabelValue = 0;
             foreach (var serieData in serie.data)
             {
                 if (serieData.labelObject == null && serieData.context.dataLabels.Count <= 0)
@@ -573,6 +577,37 @@ namespace XCharts.Runtime
                                 currLabel, color, chart);
                         var labelPos = UpdateLabelPosition(serieData, currLabel);
                         var active = currLabel.show && !isIgnore && !serie.IsMinShowLabelValue(value);
+                        if (active && currLabel.minGap > 0 && lastActiveLabelSerieData != null)
+                        {
+                            var dist = Mathf.Abs(labelPos.x - lastActiveLabelPos.x);
+                            if (dist < currLabel.minGap)
+                            {
+                                var currValue = serieData.GetData(1);
+                                if (Math.Abs(currValue) >= Math.Abs(lastActiveLabelValue))
+                                {
+                                    lastActiveLabelSerieData.SetLabelActive(false);
+                                    lastActiveLabelSerieData = serieData;
+                                    lastActiveLabelPos = labelPos;
+                                    lastActiveLabelValue = currValue;
+                                }
+                                else
+                                {
+                                    active = false;
+                                }
+                            }
+                            else
+                            {
+                                lastActiveLabelSerieData = serieData;
+                                lastActiveLabelPos = labelPos;
+                                lastActiveLabelValue = serieData.GetData(1);
+                            }
+                        }
+                        else if (active)
+                        {
+                            lastActiveLabelSerieData = serieData;
+                            lastActiveLabelPos = labelPos;
+                            lastActiveLabelValue = serieData.GetData(1);
+                        }
                         if (active)
                         {
                             anyLabelActive = true;

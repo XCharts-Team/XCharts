@@ -81,6 +81,7 @@ slug: /changelog
 
 ## master
 
+* (2026.05.22) 增加`LabelStyle`的`minGap`可避免`label`过于密集
 * (2026.05.17) 修复`DataZoom`点击时指示区域不准的问题
 * (2026.05.17) 增加`Legend`的`Width`和`Height`可设置固定宽高
 * (2026.05.17) 修复`Serie`的`EndLabel`在`Y`轴是`MinMax`类型时显示的数值不对的问题

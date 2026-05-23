@@ -126,6 +126,8 @@ namespace XCharts
                         var yValue = yRate * (chart.pointerPos.y - grid.context.y - axis.context.offset);
                         if (axis.context.minValue > 0)
                             yValue += axis.context.minValue;
+                        if (axis.inverse)
+                            yValue = -yValue;
 
                         var labelX = axis.GetLabelObjectPosition(0).x;
                         axis.context.pointerValue = yValue;
@@ -154,6 +156,8 @@ namespace XCharts
                             xValue = xRate * (chart.pointerPos.x - grid.context.x - axis.context.offset);
                             if (axis.context.minValue > 0)
                                 xValue += axis.context.minValue;
+                            if (axis.inverse)
+                                xValue = -xValue;
                         }
                         var labelY = axis.GetLabelObjectPosition(0).y;
                         axis.context.pointerValue = xValue;
@@ -188,15 +192,20 @@ namespace XCharts
             double tempMinValue;
             double tempMaxValue;
             axis.context.needAnimation = Application.isPlaying && axis.animation.show;
+            if (axis.inverse != axis.context.lastCheckInverse)
+            {
+                foreach (var serie in chart.series)
+                    serie.context.InvalidateMinMaxCache();
+            }
             chart.GetSeriesMinMaxValue(axis, axisIndex, out tempMinValue, out tempMaxValue);
 
             var dataZoom = chart.GetDataZoomOfAxis(axis);
             if (dataZoom != null && dataZoom.enable)
             {
                 if (axis is XAxis)
-                    dataZoom.SetXAxisIndexValueInfo(axisIndex, ref tempMinValue, ref tempMaxValue);
+                    dataZoom.SetXAxisIndexValueInfo(axisIndex, ref tempMinValue, ref tempMaxValue, axis.inverse);
                 else
-                    dataZoom.SetYAxisIndexValueInfo(axisIndex, ref tempMinValue, ref tempMaxValue);
+                    dataZoom.SetYAxisIndexValueInfo(axisIndex, ref tempMinValue, ref tempMaxValue, axis.inverse);
             }
 
             if (tempMinValue != axis.context.destMinValue ||

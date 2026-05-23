@@ -427,8 +427,10 @@ namespace XCharts.Runtime
 
         private void GetSerieDataByXYAxis(Serie serie, Axis xAxis, Axis yAxis)
         {
-            var xAxisIndex = AxisHelper.GetAxisValueSplitIndex(xAxis, xAxis.context.pointerValue, false);
-            var yAxisIndex = AxisHelper.GetAxisValueSplitIndex(yAxis, yAxis.context.pointerValue, false);
+            var xPointerInternal = xAxis.inverse ? -xAxis.context.pointerValue : xAxis.context.pointerValue;
+            var yPointerInternal = yAxis.inverse ? -yAxis.context.pointerValue : yAxis.context.pointerValue;
+            var xAxisIndex = AxisHelper.GetAxisValueSplitIndex(xAxis, xPointerInternal, false);
+            var yAxisIndex = AxisHelper.GetAxisValueSplitIndex(yAxis, yPointerInternal, false);
             serie.context.pointerItemDataIndex = -1;
             if (serie is Heatmap)
             {
@@ -441,8 +443,10 @@ namespace XCharts.Runtime
             }
             foreach (var serieData in serie.data)
             {
-                var x = AxisHelper.GetAxisValueSplitIndex(xAxis, serieData.GetData(0), true);
-                var y = AxisHelper.GetAxisValueSplitIndex(yAxis, serieData.GetData(1), true);
+                var xData = xAxis.inverse ? -serieData.GetData(0) : serieData.GetData(0);
+                var yData = yAxis.inverse ? -serieData.GetData(1) : serieData.GetData(1);
+                var x = AxisHelper.GetAxisValueSplitIndex(xAxis, xData, true);
+                var y = AxisHelper.GetAxisValueSplitIndex(yAxis, yData, true);
                 if (xAxisIndex == x && y == yAxisIndex)
                 {
                     serie.context.pointerItemDataIndex = serieData.index;
@@ -472,7 +476,8 @@ namespace XCharts.Runtime
             {
                 var index = serie.context.pointerAxisDataIndexs[0];
                 serie.context.pointerItemDataIndex = index;
-                axis.context.axisTooltipValue = serie.GetSerieData(index).GetData(dimension);
+                var dataValue = serie.GetSerieData(index).GetData(dimension);
+                axis.context.axisTooltipValue = axis.inverse ? -dataValue : dataValue;
             }
             else
             {
@@ -613,11 +618,12 @@ namespace XCharts.Runtime
         {
             if (serie.context.pointerItemDataIndex >= 0)
             {
-                axis.context.axisTooltipValue = serie.GetSerieData(serie.context.pointerItemDataIndex).GetData(dimension);
+                var dataValue = serie.GetSerieData(serie.context.pointerItemDataIndex).GetData(dimension);
+                axis.context.axisTooltipValue = axis.inverse ? -dataValue : dataValue;
             }
             else if (component.type == Tooltip.Type.Cross)
             {
-                axis.context.axisTooltipValue = axis.context.pointerValue;
+                axis.context.axisTooltipValue = axis.inverse ? -axis.context.pointerValue : axis.context.pointerValue;
             }
             else
             {

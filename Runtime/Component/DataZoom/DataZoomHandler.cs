@@ -636,7 +636,7 @@ namespace XCharts.Runtime
                     float pX;
                     if (useXValueForShadow && i < showData.Count && showData[i].data.Count > 0)
                     {
-                        var xVal = showData[i].data[0];
+                        var xVal = (xAxis != null && xAxis.inverse) ? -showData[i].data[0] : showData[i].data[0];
                         pX = dataZoom.context.x + (float)((xVal - xMinValue) / (xMaxValue - xMinValue)) * dataZoom.context.width;
                     }
                     else

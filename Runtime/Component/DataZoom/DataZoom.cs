@@ -415,6 +415,7 @@ namespace XCharts.Runtime
             public double rawMax;
             public double min;
             public double max;
+            public bool isInverse;
         }
         private Dictionary<int, AxisIndexValueInfo> m_XAxisIndexInfos = new Dictionary<int, AxisIndexValueInfo>();
         private Dictionary<int, AxisIndexValueInfo> m_YAxisIndexInfos = new Dictionary<int, AxisIndexValueInfo>();
@@ -688,7 +689,7 @@ namespace XCharts.Runtime
             context.height = chartHeight - runtimeTop - runtimeBottom;
         }
 
-        internal void SetXAxisIndexValueInfo(int xAxisIndex, ref double min, ref double max)
+        internal void SetXAxisIndexValueInfo(int xAxisIndex, ref double min, ref double max, bool isInverse = false)
         {
             AxisIndexValueInfo info;
             if (!m_XAxisIndexInfos.TryGetValue(xAxisIndex, out info))
@@ -698,13 +699,14 @@ namespace XCharts.Runtime
             }
             info.rawMin = min;
             info.rawMax = max;
+            info.isInverse = isInverse;
             info.min = min + (max - min) * start / 100;
             info.max = min + (max - min) * end / 100;
             min = info.min;
             max = info.max;
         }
 
-        internal void SetYAxisIndexValueInfo(int yAxisIndex, ref double min, ref double max)
+        internal void SetYAxisIndexValueInfo(int yAxisIndex, ref double min, ref double max, bool isInverse = false)
         {
             AxisIndexValueInfo info;
             if (!m_YAxisIndexInfos.TryGetValue(yAxisIndex, out info))
@@ -714,6 +716,7 @@ namespace XCharts.Runtime
             }
             info.rawMin = min;
             info.rawMax = max;
+            info.isInverse = isInverse;
             info.min = min + (max - min) * start / 100;
             info.max = min + (max - min) * end / 100;
             min = info.min;
@@ -738,6 +741,14 @@ namespace XCharts.Runtime
                 var range = info.rawMax - info.rawMin;
                 min = info.rawMin + range * m_Start / 100;
                 max = info.rawMin + range * m_End / 100;
+                if (info.isInverse)
+                {
+                    // Internal values are negated; convert back to original for data comparison
+                    var originalMin = -max;
+                    var originalMax = -min;
+                    min = originalMin;
+                    max = originalMax;
+                }
             }
             else
             {
@@ -753,6 +764,14 @@ namespace XCharts.Runtime
                 var range = info.rawMax - info.rawMin;
                 min = info.rawMin + range * m_Start / 100;
                 max = info.rawMin + range * m_End / 100;
+                if (info.isInverse)
+                {
+                    // Internal values are negated; convert back to original for data comparison
+                    var originalMin = -max;
+                    var originalMax = -min;
+                    min = originalMin;
+                    max = originalMax;
+                }
             }
             else
             {

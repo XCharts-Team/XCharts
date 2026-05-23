@@ -81,6 +81,7 @@ slug: /changelog
 
 ## master
 
+* (2026.05.23) 修复`DataZoom`内绘制的折线图可能会超出范围的问题
 * (2026.05.23) 修复`Axis`的`inverse`没能正确反转的问题
 * (2026.05.23) 增加`LabelStyle`的`showCondition`,`showFilter`,`showThreshold`可控制`label`显示和隐藏
 * (2026.05.22) 增加`LabelStyle`的`minGap`可避免`label`过于密集

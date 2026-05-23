@@ -577,12 +577,11 @@ namespace XCharts.Runtime
                 float scaleWid = showData.Count > 1 ? dataZoom.context.width / (showData.Count - 1) : dataZoom.context.width;
                 Vector3 lp = Vector3.zero;
                 Vector3 np = Vector3.zero;
-                double minValue = 0;
-                double maxValue = 0;
+                double minValue;
+                double maxValue;
                 SeriesHelper.GetYMinMaxValue(chart, 0, axis.inverse, out minValue, out maxValue, false, false);
-                AxisHelper.AdjustMinMaxValue(axis, ref minValue, ref maxValue, true);
-
-                // Check if x-axis is value/time type for accurate shadow x-positioning
+                minValue = ChartHelper.GetMinDivisibleValue(minValue, 0);
+                maxValue = ChartHelper.GetMaxDivisibleValue(maxValue, 0);
                 double xMinValue = 0;
                 double xMaxValue = 0;
                 bool useXValueForShadow = false;
@@ -710,11 +709,11 @@ namespace XCharts.Runtime
                 float scaleWid = dataZoom.context.height / (showData.Count - 1);
                 Vector3 lp = Vector3.zero;
                 Vector3 np = Vector3.zero;
-                double minValue = 0;
-                double maxValue = 0;
+                double minValue;
+                double maxValue;
                 SeriesHelper.GetYMinMaxValue(chart, 0, axis.inverse, out minValue, out maxValue);
-                AxisHelper.AdjustMinMaxValue(axis, ref minValue, ref maxValue, true);
-
+                minValue = ChartHelper.GetMinDivisibleValue(minValue, 0);
+                maxValue = ChartHelper.GetMaxDivisibleValue(maxValue, 0);
                 int rate = 1;
                 var sampleDist = serie.sampleDist < 2 ? 2 : serie.sampleDist;
                 var maxCount = showData.Count;

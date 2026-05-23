@@ -26,7 +26,10 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_Height");
                 PropertyField(prop, "m_FixedX");
                 PropertyField(prop, "m_FixedY");
-                PropertyField(prop, "m_MinGap");
+                PropertyField(prop, "m_ShowCondition");
+                PropertyField(prop, "m_ShowFilter");
+                PropertyField(prop, "m_ShowThreshold");
+                PropertyField(prop, "m_ShowMinGap");
                 PropertyField(prop, "m_Icon");
                 PropertyField(prop, "m_Background");
                 PropertyField(prop, "m_TextStyle");

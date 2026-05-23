@@ -68,6 +68,50 @@ namespace XCharts.Runtime
             /// </summary>
             End
         }
+        /// <summary>
+        /// The value-based condition for showing label. Controls visibility based on threshold comparison.
+        /// ||标签基于值的显示条件，通过与阈值比较来控制标签的显示。
+        /// </summary>
+        public enum ShowCondition
+        {
+            /// <summary>
+            /// Always show label.
+            /// ||总是显示标签。
+            /// </summary>
+            Always,
+            /// <summary>
+            /// Show label when value is greater than showThreshold.
+            /// ||大于showThreshold才显示标签。
+            /// </summary>
+            GreaterThan,
+            /// <summary>
+            /// Show label when value is less than showThreshold.
+            /// ||小于showThreshold才显示标签。
+            /// </summary>
+            LessThan,
+        }
+        /// <summary>
+        /// The data-pattern-based filter for showing label. Controls visibility based on data topology.
+        /// ||标签基于数据形态的显示筛选，通过数据的拓扑特征（波峰/波谷）来控制标签的显示。
+        /// </summary>
+        public enum ShowFilter
+        {
+            /// <summary>
+            /// All data points show label.
+            /// ||所有数据点都显示标签。
+            /// </summary>
+            All,
+            /// <summary>
+            /// Show label when value is at a peak.
+            /// ||波峰才显示标签。
+            /// </summary>
+            Peak,
+            /// <summary>
+            /// Show label when value is at a valley.
+            /// ||波谷才显示标签。
+            /// </summary>
+            Valley
+        }
 
         [SerializeField] protected bool m_Show = true;
         [SerializeField] Position m_Position = Position.Default;
@@ -82,7 +126,10 @@ namespace XCharts.Runtime
         [SerializeField] protected float m_Height = 0;
         [SerializeField][Since("v3.15.0")] protected float m_FixedX = 0;
         [SerializeField][Since("v3.15.0")] protected float m_FixedY = 0;
-        [SerializeField][Since("v3.16.0")] protected float m_MinGap = 0;
+        [SerializeField][Since("v3.16.0")] protected ShowCondition m_ShowCondition = ShowCondition.Always;
+        [SerializeField][Since("v3.16.0")] protected ShowFilter m_ShowFilter = ShowFilter.All;
+        [SerializeField][Since("v3.16.0")] protected double m_ShowThreshold = 0;
+        [SerializeField][Since("v3.16.0")] protected float m_ShowMinGap = 0;
 
         [SerializeField] protected IconStyle m_Icon = new IconStyle();
         [SerializeField] protected ImageStyle m_Background = new ImageStyle();
@@ -101,6 +148,9 @@ namespace XCharts.Runtime
             m_Height = 0;
             m_NumericFormatter = "";
             m_AutoOffset = false;
+            m_ShowCondition = ShowCondition.Always;
+            m_ShowFilter = ShowFilter.All;
+            m_ShowThreshold = 0;
         }
 
         /// <summary>
@@ -309,14 +359,45 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_FixedY, value)) SetComponentDirty(); }
         }
         /// <summary>
+        /// The value-based show condition of label. Default is ShowCondition.Always.
+        /// When set to GreaterThan or LessThan, the label is shown only when the value satisfies the threshold.
+        /// ||标签基于值的显示条件。默认为ShowCondition.Always，总是显示。
+        /// 设为GreaterThan或LessThan时，只有满足showThreshold阈值条件的数据点才显示标签。
+        /// </summary>
+        public ShowCondition showCondition
+        {
+            get { return m_ShowCondition; }
+            set { if (PropertyUtil.SetStruct(ref m_ShowCondition, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// The data-pattern-based show filter of label. Default is ShowFilter.All.
+        /// When set to Peak or Valley, the label is shown only at local maximum or minimum data points.
+        /// ||标签基于数据形态的显示筛选。默认为ShowFilter.All，所有数据点都显示。
+        /// 设为Peak或Valley时，只在局部波峰或波谷的数据点显示标签。
+        /// </summary>
+        public ShowFilter showFilter
+        {
+            get { return m_ShowFilter; }
+            set { if (PropertyUtil.SetStruct(ref m_ShowFilter, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// The threshold for showCondition. When showCondition is GreaterThan or LessThan, only values that satisfy the comparison will show label. Default is 0.
+        /// ||showCondition的阈值。当showCondition为GreaterThan或LessThan时生效，只有满足比较条件的值才显示标签。默认值为0。
+        /// </summary>
+        public double showThreshold
+        {
+            get { return m_ShowThreshold; }
+            set { if (PropertyUtil.SetStruct(ref m_ShowThreshold, value)) SetComponentDirty(); }
+        }
+        /// <summary>
         /// the gap between label and the previous label. When the distance to the previous label is less than this value, 
         /// the label with smaller y value will be hidden. Default is 0, which means this function is turned off.
         /// 和上一个标签的最小间距。当和上一个标签的距离小于该值时，隐藏对应y值较小的标签。默认为0不开启该功能。
         /// </summary>
-        public float minGap
+        public float showMinGap
         {
-            get { return m_MinGap; }
-            set { if (PropertyUtil.SetStruct(ref m_MinGap, value)) SetComponentDirty(); }
+            get { return m_ShowMinGap; }
+            set { if (PropertyUtil.SetStruct(ref m_ShowMinGap, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the sytle of background.

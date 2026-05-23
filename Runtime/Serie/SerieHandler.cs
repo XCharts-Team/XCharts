@@ -546,6 +546,7 @@ namespace XCharts.Runtime
                                     currLabel, color, chart);
                             var offset = GetSerieDataLabelOffset(serieData, currLabel);
                             var active = currLabel.show && !isIgnore && !serie.IsMinShowLabelValue(value);
+                            if (active) active = CheckLabelVisible(currLabel, serieData.index, value, i);
                             if (active)
                             {
                                 anyLabelActive = true;
@@ -577,10 +578,11 @@ namespace XCharts.Runtime
                                 currLabel, color, chart);
                         var labelPos = UpdateLabelPosition(serieData, currLabel);
                         var active = currLabel.show && !isIgnore && !serie.IsMinShowLabelValue(value);
-                        if (active && currLabel.minGap > 0 && lastActiveLabelSerieData != null)
+                        if (active) active = CheckLabelVisible(currLabel, serieData.index, value, defaultDimension);
+                        if (active && currLabel.showMinGap > 0 && lastActiveLabelSerieData != null)
                         {
                             var dist = Mathf.Abs(labelPos.x - lastActiveLabelPos.x);
-                            if (dist < currLabel.minGap)
+                            if (dist < currLabel.showMinGap)
                             {
                                 var currValue = serieData.GetData(1);
                                 if (Math.Abs(currValue) >= Math.Abs(lastActiveLabelValue))
@@ -638,6 +640,66 @@ namespace XCharts.Runtime
                 {
                     serieData.SetLabelActive(false);
                 }
+            }
+        }
+
+        private bool CheckLabelVisible(LabelStyle label, int dataIndex, double value, int dimension)
+        {
+            // showCondition: 基于阈值的条件检查（AND showFilter）
+            bool conditionResult;
+            switch (label.showCondition)
+            {
+                case LabelStyle.ShowCondition.GreaterThan:
+                    conditionResult = value > label.showThreshold;
+                    break;
+                case LabelStyle.ShowCondition.LessThan:
+                    conditionResult = value < label.showThreshold;
+                    break;
+                default: // Always
+                    conditionResult = true;
+                    break;
+            }
+
+            if (!conditionResult)
+                return false;
+
+            // showFilter: 基于数据形态的过滤检查
+            switch (label.showFilter)
+            {
+                case LabelStyle.ShowFilter.Peak:
+                {
+                    bool isPeak = true;
+                    bool hasNeighbor = false;
+                    if (dataIndex > 0)
+                    {
+                        hasNeighbor = true;
+                        isPeak &= value > serie.data[dataIndex - 1].GetData(dimension);
+                    }
+                    if (dataIndex < serie.dataCount - 1)
+                    {
+                        hasNeighbor = true;
+                        isPeak &= value > serie.data[dataIndex + 1].GetData(dimension);
+                    }
+                    return isPeak && hasNeighbor;
+                }
+                case LabelStyle.ShowFilter.Valley:
+                {
+                    bool isValley = true;
+                    bool hasNeighbor = false;
+                    if (dataIndex > 0)
+                    {
+                        hasNeighbor = true;
+                        isValley &= value < serie.data[dataIndex - 1].GetData(dimension);
+                    }
+                    if (dataIndex < serie.dataCount - 1)
+                    {
+                        hasNeighbor = true;
+                        isValley &= value < serie.data[dataIndex + 1].GetData(dimension);
+                    }
+                    return isValley && hasNeighbor;
+                }
+                default: // All
+                    return true;
             }
         }
 

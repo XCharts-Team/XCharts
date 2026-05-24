@@ -217,10 +217,23 @@ namespace XCharts.Runtime
                 if (dataZoom.marqueeStyle.apply)
                 {
                     var grid = chart.GetGridOfDataZoom(dataZoom);
-                    var start = (dataZoom.context.marqueeRect.x - grid.context.x) / grid.context.width * 100;
-                    var end = (dataZoom.context.marqueeRect.x - grid.context.x + dataZoom.context.marqueeRect.width) / grid.context.width * 100;
+                    var currentRange = dataZoom.end - dataZoom.start;
+                    var startRatio = (dataZoom.context.marqueeRect.x - grid.context.x) / grid.context.width;
+                    var endRatio = (dataZoom.context.marqueeRect.x - grid.context.x + dataZoom.context.marqueeRect.width) / grid.context.width;
+                    var start = dataZoom.start + startRatio * currentRange;
+                    var end = dataZoom.start + endRatio * currentRange;
+                    if (start > end)
+                    {
+                        var temp = start;
+                        start = end;
+                        end = temp;
+                    }
                     UpdateDataZoomRange(dataZoom, start, end, grid);
+                    chart.OnDataZoomRangeChanged(dataZoom);
+                    chart.RefreshChart();
                 }
+                dataZoom.context.marqueeRect = Rect.zero;
+                dataZoom.SetVerticesDirty();
                 if (dataZoom.marqueeStyle.onEnd != null)
                 {
                     dataZoom.marqueeStyle.onEnd(dataZoom);
@@ -793,7 +806,7 @@ namespace XCharts.Runtime
 
         private void DrawMarquee(VertexHelper vh, DataZoom dataZoom)
         {
-            if (!dataZoom.enable || !dataZoom.supportMarquee)
+            if (!dataZoom.enable || !dataZoom.supportMarquee || !dataZoom.context.isMarqueeDrag)
                 return;
             var areaColor = dataZoom.marqueeStyle.areaStyle.GetColor(chart.theme.dataZoom.dataAreaColor);
             UGL.DrawRectangle(vh, dataZoom.context.marqueeRect, areaColor);

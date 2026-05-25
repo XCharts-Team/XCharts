@@ -122,10 +122,7 @@ namespace XCharts
                 {
                     if (axis is YAxis)
                     {
-                        var yRate = axis.context.minMaxRange / grid.context.height;
-                        var yValue = yRate * (chart.pointerPos.y - grid.context.y - axis.context.offset);
-                        if (axis.context.minValue > 0)
-                            yValue += axis.context.minValue;
+                        var yValue = axis.context.minValue + (chart.pointerPos.y - grid.context.y) / grid.context.height * axis.context.minMaxRange;
                         if (axis.inverse)
                             yValue = -yValue;
 
@@ -152,10 +149,7 @@ namespace XCharts
                         }
                         else
                         {
-                            var xRate = axis.context.minMaxRange / grid.context.width;
-                            xValue = xRate * (chart.pointerPos.x - grid.context.x - axis.context.offset);
-                            if (axis.context.minValue > 0)
-                                xValue += axis.context.minValue;
+                            xValue = axis.context.minValue + (chart.pointerPos.x - grid.context.x) / grid.context.width * axis.context.minMaxRange;
                             if (axis.inverse)
                                 xValue = -xValue;
                         }

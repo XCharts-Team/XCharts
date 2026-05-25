@@ -117,7 +117,7 @@ namespace XCharts.Runtime
                     dataZoom.context.isCoordinateDrag = true;
                 }
             }
-            if (dataZoom.supportMarquee)
+            if (dataZoom.supportMarquee && grid.Contains(pos))
             {
                 dataZoom.context.isMarqueeDrag = true;
                 dataZoom.context.marqueeStartPos = pos;
@@ -167,7 +167,7 @@ namespace XCharts.Runtime
 
             var dataZoom = component;
             var grid = chart.GetGridOfDataZoom(dataZoom);
-            if (dataZoom.supportMarquee)
+            if (dataZoom.supportMarquee && dataZoom.context.isMarqueeDrag)
             {
                 Vector2 pos;
                 if (!chart.ScreenPointToChartPoint(eventData.position, out pos))
@@ -211,7 +211,7 @@ namespace XCharts.Runtime
 
             var dataZoom = component;
 
-            if (dataZoom.supportMarquee)
+            if (dataZoom.supportMarquee && dataZoom.context.isMarqueeDrag)
             {
                 dataZoom.context.isMarqueeDrag = false;
                 if (dataZoom.marqueeStyle.apply)
@@ -264,7 +264,8 @@ namespace XCharts.Runtime
             var dataZoom = component;
             var grid = chart.GetGridOfDataZoom(dataZoom);
             if (dataZoom.IsInStartZoom(localPos) ||
-                dataZoom.IsInEndZoom(localPos))
+                dataZoom.IsInEndZoom(localPos) ||
+                dataZoom.IsInSelectedZoom(localPos))
             {
                 return;
             }

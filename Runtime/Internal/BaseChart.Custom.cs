@@ -56,15 +56,15 @@ namespace XCharts.Runtime
             }
             if (isX)
             {
-                SeriesHelper.GetXMinMaxValue(this, axisIndex, axis.inverse, out tempMinValue, out tempMaxValue, false, false, needAnimationData);
+                SeriesHelper.GetXMinMaxValue(this, axisIndex, axis.inverse, out tempMinValue, out tempMaxValue, false, needAnimationData);
             }
             else if (isY)
             {
-                SeriesHelper.GetYMinMaxValue(this, axisIndex, axis.inverse, out tempMinValue, out tempMaxValue, false, false, needAnimationData);
+                SeriesHelper.GetYMinMaxValue(this, axisIndex, axis.inverse, out tempMinValue, out tempMaxValue, false, needAnimationData);
             }
             else if(isZ)
             {
-                SeriesHelper.GetZMinMaxValue(this, axisIndex, axis.inverse, out tempMinValue, out tempMaxValue, false, false, needAnimationData);
+                SeriesHelper.GetZMinMaxValue(this, axisIndex, axis.inverse, out tempMinValue, out tempMaxValue, false, needAnimationData);
             }
             AxisHelper.AdjustMinMaxValue(axis, ref tempMinValue, ref tempMaxValue, true);
         }

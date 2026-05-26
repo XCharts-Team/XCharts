@@ -92,6 +92,7 @@ namespace XCharts.Runtime
         [SerializeField][Since("v3.5.0")] private MarqueeStyle m_MarqueeStyle = new MarqueeStyle();
         [SerializeField][Since("v3.6.0")] private bool m_StartLock;
         [SerializeField][Since("v3.6.0")] private bool m_EndLock;
+        [SerializeField][Since("v3.12.0")] private bool m_FilterAxisRange = true;
 
         public DataZoomContext context = new DataZoomContext();
         private CustomDataZoomStartEndFunction m_StartEndFunction;
@@ -323,6 +324,16 @@ namespace XCharts.Runtime
         {
             get { return m_EndLock; }
             set { if (PropertyUtil.SetStruct(ref m_EndLock, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
+        /// Whether dataZoom filters the axis min/max range. When true, the axis scale adapts to the current zoom window.
+        /// When false, the axis always shows the full data range regardless of the zoom position.
+        /// ||是否根据DataZoom的缩放窗口过滤坐标轴的最大最小值范围。为true时坐标轴范围随缩放窗口变化；为false时坐标轴始终显示全部数据范围。
+        /// </summary>
+        public bool filterAxisRange
+        {
+            get { return m_FilterAxisRange; }
+            set { if (PropertyUtil.SetStruct(ref m_FilterAxisRange, value)) SetVerticesDirty(); }
         }
         /// <summary>
         /// The end percentage of the window out of the data extent, in the range of 0 ~ 100.

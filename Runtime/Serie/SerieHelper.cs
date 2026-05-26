@@ -7,7 +7,7 @@ namespace XCharts.Runtime
 {
     public static partial class SerieHelper
     {
-        public static double GetMinData(Serie serie, int dimension = 1, DataZoom dataZoom = null)
+        public static double GetMinData(Serie serie, int dimension = 1, DataZoom dataZoom = null, bool inverse = false)
         {
             double min = double.MaxValue;
             var dataList = serie.GetDataList(dataZoom);
@@ -16,7 +16,7 @@ namespace XCharts.Runtime
                 var serieData = dataList[i];
                 if (serieData.show && serieData.data.Count > dimension)
                 {
-                    var value = serieData.data[dimension];
+                    var value = serieData.GetData(dimension, inverse);
                     if (value < min && !serie.IsIgnoreValue(serieData, value)) min = value;
                 }
             }
@@ -42,7 +42,7 @@ namespace XCharts.Runtime
             }
             return minData;
         }
-        public static double GetMaxData(Serie serie, int dimension = 1, DataZoom dataZoom = null)
+        public static double GetMaxData(Serie serie, int dimension = 1, DataZoom dataZoom = null, bool inverse = false)
         {
             double max = double.MinValue;
             var dataList = serie.GetDataList(dataZoom);
@@ -51,7 +51,7 @@ namespace XCharts.Runtime
                 var serieData = dataList[i];
                 if (serieData.show && serieData.data.Count > dimension)
                 {
-                    var value = serieData.data[dimension];
+                    var value = serieData.GetData(dimension, inverse);
                     if (value > max && !serie.IsIgnoreValue(serieData, value)) max = value;
                 }
             }

@@ -591,9 +591,9 @@ namespace XCharts.Runtime
                 float scaleWid = showData.Count > 1 ? dataZoom.context.width / (showData.Count - 1) : dataZoom.context.width;
                 Vector3 lp = Vector3.zero;
                 Vector3 np = Vector3.zero;
-                double minValue;
-                double maxValue;
-                SeriesHelper.GetYMinMaxValue(chart, 0, axis.inverse, out minValue, out maxValue, false, false);
+                // shadow always shows the full data range, independent of DataZoom window
+                double minValue = SerieHelper.GetMinData(serie, 1, null, axis.inverse);
+                double maxValue = SerieHelper.GetMaxData(serie, 1, null, axis.inverse);
                 minValue = ChartHelper.GetMinDivisibleValue(minValue, 0);
                 maxValue = ChartHelper.GetMaxDivisibleValue(maxValue, 0);
                 double xMinValue = 0;
@@ -603,7 +603,8 @@ namespace XCharts.Runtime
                 var xAxis = chart.GetChartComponent<XAxis>(xAxisIndex);
                 if (xAxis != null && (xAxis.IsValue() || xAxis.IsTime()))
                 {
-                    SeriesHelper.GetXMinMaxValue(chart, xAxisIndex, xAxis.inverse, out xMinValue, out xMaxValue, false, false);
+                    xMinValue = SerieHelper.GetMinData(serie, 0, null, xAxis.inverse);
+                    xMaxValue = SerieHelper.GetMaxData(serie, 0, null, xAxis.inverse);
                     AxisHelper.AdjustMinMaxValue(xAxis, ref xMinValue, ref xMaxValue, true);
                     useXValueForShadow = (xMaxValue - xMinValue) > 0;
                 }

@@ -69,6 +69,7 @@ namespace XCharts.Runtime
         protected bool m_ForceUpdateSerieContext = false;
         protected int m_LegendEnterIndex;
         protected ChartLabel m_EndLabel;
+        private HashSet<int> m_DataIndexsSet = new HashSet<int>();
 
         private float[] m_LastRadius = new float[2] { 0, 0 };
         private float[] m_LastCenter = new float[2] { 0, 0 };
@@ -506,6 +507,12 @@ namespace XCharts.Runtime
             var dataAddDuration = serie.animation.GetAdditionDuration();
             var unscaledTime = serie.animation.unscaledTime;
             var needCheck = serie.context.dataIndexs.Count > 0;
+            if (needCheck)
+            {
+                m_DataIndexsSet.Clear();
+                foreach (var idx in serie.context.dataIndexs)
+                    m_DataIndexsSet.Add(idx);
+            }
             var allLabelZeroPosition = true;
             var anyLabelActive = false;
             SerieData lastActiveLabelSerieData = null;
@@ -517,7 +524,7 @@ namespace XCharts.Runtime
                 {
                     continue;
                 }
-                if (needCheck && !serie.context.dataIndexs.Contains(serieData.index))
+                if (needCheck && !m_DataIndexsSet.Contains(serieData.index))
                 {
                     serieData.SetLabelActive(false);
                     continue;
@@ -533,7 +540,7 @@ namespace XCharts.Runtime
                 {
                     if (serie.multiDimensionLabel)
                     {
-                        var total = serieData.GetTotalData();
+                        var total = FormatterHelper.NeedTotalContent(currLabel.formatter) ? serieData.GetTotalData() : 0;
                         var color = chart.GetItemColor(serie, serieData);
                         for (int i = 0; i < serieData.context.dataLabels.Count; i++)
                         {
@@ -570,7 +577,7 @@ namespace XCharts.Runtime
                     else
                     {
                         var value = serieData.GetCurrData(defaultDimension, dataAddDuration, dataChangeDuration, unscaledTime);
-                        var total = serie.GetDataTotal(defaultDimension, serieData);
+                        var total = FormatterHelper.NeedTotalContent(currLabel.formatter) ? serie.GetDataTotal(defaultDimension, serieData) : 0;
                         var color = chart.GetItemColor(serie, serieData);
                         var content = string.IsNullOrEmpty(currLabel.formatter) ?
                             ChartCached.NumberToStr(value, currLabel.numericFormatter) :

@@ -409,16 +409,6 @@ namespace XCharts.Runtime
                     }
                     else
                     {
-                        if (useDataZoomFilter)
-                        {
-                            var key = string.Format("dz:{0:F3}:{1:F3}:{2}", dz.start, dz.end, dz.filterMode);
-                            double cmin, cmax;
-                            if (serie.context.TryGetDataZoomCachedMinMax(key, dimension, out cmin, out cmax))
-                            {
-                                smin = cmin;
-                                smax = cmax;
-                            }
-                        }
                         var showData = serie.GetDataList(useDataZoomFilter ? dz : null);
                         if (dimension > 0 && (serie is Candlestick || serie is SimplifiedCandlestick))
                         {
@@ -451,17 +441,9 @@ namespace XCharts.Runtime
                         continue;
 
                     // cache per-serie result for future calls
-                    if (!needAnimation)
+                    if (!needAnimation && !useDataZoomFilter)
                     {
-                        if (useDataZoomFilter)
-                        {
-                            var key = string.Format("dz:{0:F3}:{1:F3}:{2}", dz.start, dz.end, dz.filterMode);
-                            serie.context.SetDataZoomCachedMinMax(key, dimension, smin == double.MaxValue ? 0 : smin, smax == double.MinValue ? 0 : smax);
-                        }
-                        else
-                        {
-                            serie.context.SetCachedMinMax(dimension, smin == double.MaxValue ? 0 : smin, smax == double.MinValue ? 0 : smax);
-                        }
+                        serie.context.SetCachedMinMax(dimension, smin == double.MaxValue ? 0 : smin, smax == double.MinValue ? 0 : smax);
                     }
 
                     if (smax > max) max = smax;

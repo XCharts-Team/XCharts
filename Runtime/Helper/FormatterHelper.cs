@@ -25,6 +25,13 @@ namespace XCharts.Runtime
             return !string.IsNullOrEmpty(content) && content.IndexOf('{') >= 0;
         }
 
+        public static bool NeedTotalContent(string content)
+        {
+            if (string.IsNullOrEmpty(content)) return false;
+            return content.IndexOf("{d", System.StringComparison.OrdinalIgnoreCase) >= 0 ||
+                   content.IndexOf("{f", System.StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
         /// <summary>
         /// 替换字符串中的通配符，支持的通配符有{.}、{a}、{b}、{c}、{d}、{e}、{f}、{g}、{h}、{y}。
         /// </summary>

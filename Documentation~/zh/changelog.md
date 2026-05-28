@@ -81,7 +81,7 @@ slug: /changelog
 
 ## master
 
-* (2026.05.23) 增加`DataZoom`的`filterAxisRange`设置坐标轴的范围计算是否受`DataZoom`的影响
+* (2026.05.25) 增加`DataZoom`的`filterAxisRange`设置坐标轴的范围计算是否受`DataZoom`的影响
 * (2026.05.23) 优化`DataZoom`的`Marquee`框选功能
 * (2026.05.23) 修复`DataZoom`内绘制的折线图可能会超出范围的问题
 * (2026.05.23) 修复`Axis`的`inverse`没能正确反转的问题

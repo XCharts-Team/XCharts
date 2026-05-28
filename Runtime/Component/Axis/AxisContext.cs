@@ -103,22 +103,35 @@ namespace XCharts.Runtime
         internal void UpdateFilterData(List<string> data, DataZoom dataZoom)
         {
             int start = 0, end = 0;
-            var range = Mathf.RoundToInt(data.Count * (dataZoom.end - dataZoom.start) / 100);
-            if (range <= 0)
-                range = 1;
-
-            if (dataZoom.context.invert)
+            // Use (N-1) intervals to match shadow drawing (scaleWid = width/(N-1)).
+            // CeilToInt for start, FloorToInt for end, so filter aligns exactly with filler.
+            int n = data.Count - 1;
+            int startIndex, endIndex;
+            if (n > 0)
             {
-                end = Mathf.RoundToInt(data.Count * dataZoom.end / 100);
-                start = end - range;
-                if (start < 0) start = 0;
+                if (dataZoom.context.invert)
+                {
+                    startIndex = Mathf.CeilToInt((float)n * (100 - dataZoom.end) / 100);
+                    endIndex = Mathf.FloorToInt((float)n * (100 - dataZoom.start) / 100);
+                }
+                else
+                {
+                    startIndex = Mathf.CeilToInt((float)n * dataZoom.start / 100);
+                    endIndex = Mathf.FloorToInt((float)n * dataZoom.end / 100);
+                }
             }
             else
             {
-                start = Mathf.RoundToInt(data.Count * dataZoom.start / 100);
-                end = start + range;
-                if (end > data.Count) end = data.Count;
+                startIndex = 0;
+                endIndex = 0;
             }
+            var range = endIndex - startIndex + 1;
+            if (range <= 0)
+                range = 1;
+            start = startIndex;
+            if (start < 0) start = 0;
+            end = start + range;
+            if (end > data.Count) end = data.Count;
 
             var minZoomRatio = (int)(data.Count * dataZoom.minZoomRatio);
             if (start != filterStart ||

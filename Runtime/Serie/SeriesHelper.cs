@@ -379,7 +379,12 @@ namespace XCharts.Runtime
 
                     // determine whether DataZoom filtering applies for this serie
                     var dz = chart.GetXDataZoomOfSerie(serie);
-                    bool useDataZoomFilter = dz != null && dz.enable && dz.filterAxisRange;
+                    // Only apply DataZoom filter for non-X dimensions (dimension > 0, e.g. Y axis
+                    // scaling to visible data). For dimension=0 (X axis whose range is controlled
+                    // by DataZoom), using filtered X data would create a circular dependency:
+                    // rawMin/rawMax would be set from filtered data, making the filter boundary
+                    // relative to an already-filtered range instead of the full data range.
+                    bool useDataZoomFilter = dimension > 0 && dz != null && dz.enable && dz.filterAxisRange;
 
                     // try per-serie cache when not filtering by dataZoom and not in animation mode
                     if (!useDataZoomFilter && !needAnimation)
@@ -476,7 +481,8 @@ namespace XCharts.Runtime
                             (!isPolar && serie.yAxisIndex != axisIndex) ||
                             !serie.show) continue;
                         var stackDz = chart.GetXDataZoomOfSerie(serie);
-                        if (stackDz != null && (!stackDz.filterAxisRange || !stackDz.enable)) stackDz = null;
+                        // Same rule as non-stack: don't use filtered data for dimension=0 (X axis).
+                        if (stackDz != null && (dimension == 0 || !stackDz.filterAxisRange || !stackDz.enable)) stackDz = null;
                         var showData = serie.GetDataList(stackDz);
                         if (SeriesHelper.IsPercentStack<Bar>(series, serie.stack))
                         {

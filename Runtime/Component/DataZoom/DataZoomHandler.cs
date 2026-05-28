@@ -228,9 +228,18 @@ namespace XCharts.Runtime
                         start = end;
                         end = temp;
                     }
-                    UpdateDataZoomRange(dataZoom, start, end, grid);
-                    chart.OnDataZoomRangeChanged(dataZoom);
-                    chart.RefreshChart();
+                    if (start < 0) start = 0;
+                    if (end > 100) end = 100;
+                    if (end - start >= 1)
+                    {
+                        // Bypass minZoomRatio for marquee: the user explicitly selected this region.
+                        if (!dataZoom.startLock) dataZoom.start = start;
+                        if (!dataZoom.endLock) dataZoom.end = end;
+                        m_LastStart = dataZoom.start;
+                        m_LastEnd = dataZoom.end;
+                        chart.OnDataZoomRangeChanged(dataZoom);
+                        chart.RefreshChart();
+                    }
                 }
                 dataZoom.context.marqueeRect = Rect.zero;
                 dataZoom.SetVerticesDirty();
@@ -336,7 +345,7 @@ namespace XCharts.Runtime
             if ((dataZoom.supportInside && dataZoom.supportInsideScroll && grid.Contains(pos)) ||
                 dataZoom.IsInZoom(pos))
             {
-                ScaleDataZoom(dataZoom, eventData.scrollDelta.y * dataZoom.scrollSensitivity, grid);
+                ScaleDataZoom(dataZoom, eventData.scrollDelta.y * dataZoom.scrollSensitivity, grid, pos);
             }
         }
 
@@ -417,22 +426,62 @@ namespace XCharts.Runtime
             }
         }
 
-        private void ScaleDataZoom(DataZoom dataZoom, float delta, GridCoord grid = null)
+        private void ScaleDataZoom(DataZoom dataZoom, float delta, GridCoord grid = null, Vector2? mousePos = null)
         {
             if (grid == null) grid = chart.GetGridOfDataZoom(dataZoom);
             var range = dataZoom.orient == Orient.Horizonal ? grid.context.width : grid.context.height;
             var deltaPercent = Mathf.Abs(delta / range * 100);
             float start, end;
+
+            // Calculate the anchor ratio within the current [start, end] range based on mouse position.
+            // This ensures the data point under the cursor stays fixed while zooming.
+            float centerRatio = 0.5f;
+            if (mousePos.HasValue)
+            {
+                float mousePercent;
+                if (dataZoom.orient == Orient.Horizonal)
+                    mousePercent = grid.context.width > 0
+                        ? (mousePos.Value.x - grid.context.x) / grid.context.width * 100
+                        : 50f;
+                else
+                    mousePercent = grid.context.height > 0
+                        ? (mousePos.Value.y - grid.context.y) / grid.context.height * 100
+                        : 50f;
+
+                var currentRange = dataZoom.end - dataZoom.start;
+                if (currentRange > 0)
+                {
+                    // mousePercent is always grid-relative (0=left edge, 100=right edge).
+                    // When DataZoom shows [start, end], the grid spans exactly that window,
+                    // so the anchor fraction is simply mousePercent/100.
+                    // For inverse axes the data runs right→left, so flip the fraction.
+                    bool isInverse = false;
+                    if (dataZoom.orient == Orient.Horizonal && dataZoom.xAxisIndexs.Count > 0)
+                    {
+                        var xAxis = chart.GetChartComponent<XAxis>(dataZoom.xAxisIndexs[0]);
+                        isInverse = xAxis != null && xAxis.inverse;
+                    }
+                    else if (dataZoom.orient == Orient.Vertical && dataZoom.yAxisIndexs.Count > 0)
+                    {
+                        var yAxis = chart.GetChartComponent<YAxis>(dataZoom.yAxisIndexs[0]);
+                        isInverse = yAxis != null && yAxis.inverse;
+                    }
+                    centerRatio = isInverse
+                        ? 1f - mousePercent / 100f
+                        : mousePercent / 100f;
+                }
+            }
+
             if (delta > 0)
             {
                 if (dataZoom.end <= dataZoom.start) return;
-                start = dataZoom.start + deltaPercent;
-                end = dataZoom.end - deltaPercent;
+                start = dataZoom.start + deltaPercent * centerRatio;
+                end = dataZoom.end - deltaPercent * (1 - centerRatio);
             }
             else
             {
-                start = dataZoom.start - deltaPercent;
-                end = dataZoom.end + deltaPercent;
+                start = dataZoom.start - deltaPercent * centerRatio;
+                end = dataZoom.end + deltaPercent * (1 - centerRatio);
             }
             UpdateDataZoomRange(dataZoom, start, end, grid);
         }
@@ -453,7 +502,11 @@ namespace XCharts.Runtime
                 if(grid == null) grid = chart.GetGridOfDataZoom(dataZoom);
                 var range = dataZoom.orient == Orient.Horizonal ? grid.context.width : grid.context.height;
                 var minRange = dataZoom.minZoomRatio * range;
-                if (end - start < minRange / range * 100)
+                var newRange = end - start;
+                var currentRange = dataZoom.end - dataZoom.start;
+                // Only block when shrinking the range; always allow expansion so the chart
+                // cannot get permanently locked after a marquee selects a narrow region.
+                if (newRange < minRange / range * 100 && newRange <= currentRange)
                 {
                     return;
                 }

@@ -260,6 +260,7 @@ namespace XCharts.Runtime
             view.layout.childControlWidth = false;
             view.layout.childForceExpandHeight = false;
             view.layout.childForceExpandWidth = false;
+            view.layout.childAlignment = tooltip.titleLabelStyle.textStyle.alignment;
             view.layout.padding = new RectOffset(tooltip.paddingLeftRight,
                 tooltip.paddingLeftRight,
                 tooltip.paddingTopBottom,

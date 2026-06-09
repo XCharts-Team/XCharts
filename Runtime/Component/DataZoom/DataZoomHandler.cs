@@ -429,60 +429,58 @@ namespace XCharts.Runtime
         private void ScaleDataZoom(DataZoom dataZoom, float delta, GridCoord grid = null, Vector2? mousePos = null)
         {
             if (grid == null) grid = chart.GetGridOfDataZoom(dataZoom);
-            var range = dataZoom.orient == Orient.Horizonal ? grid.context.width : grid.context.height;
-            var deltaPercent = Mathf.Abs(delta / range * 100);
-            float start, end;
+            var gridRange = dataZoom.orient == Orient.Horizonal ? grid.context.width : grid.context.height;
+            var currentRange = dataZoom.end - dataZoom.start;
+            if (delta > 0 && currentRange <= 0) return;
 
-            // Calculate the anchor ratio within the current [start, end] range based on mouse position.
-            // This ensures the data point under the cursor stays fixed while zooming.
-            float centerRatio = 0.5f;
-            if (mousePos.HasValue)
+            // Mouse position as a fraction [0,1] within the grid.
+            // The grid always maps the current [start,end] window onto its full pixel width,
+            // so this fraction directly equals the mouse's relative position inside the data window.
+            float fraction = 0.5f;
+            if (mousePos.HasValue && gridRange > 0)
             {
-                float mousePercent;
-                if (dataZoom.orient == Orient.Horizonal)
-                    mousePercent = grid.context.width > 0
-                        ? (mousePos.Value.x - grid.context.x) / grid.context.width * 100
-                        : 50f;
-                else
-                    mousePercent = grid.context.height > 0
-                        ? (mousePos.Value.y - grid.context.y) / grid.context.height * 100
-                        : 50f;
+                float raw = dataZoom.orient == Orient.Horizonal
+                    ? (mousePos.Value.x - grid.context.x) / gridRange
+                    : (mousePos.Value.y - grid.context.y) / gridRange;
 
-                var currentRange = dataZoom.end - dataZoom.start;
-                if (currentRange > 0)
+                bool isInverse = false;
+                if (dataZoom.orient == Orient.Horizonal && dataZoom.xAxisIndexs.Count > 0)
                 {
-                    // mousePercent is always grid-relative (0=left edge, 100=right edge).
-                    // When DataZoom shows [start, end], the grid spans exactly that window,
-                    // so the anchor fraction is simply mousePercent/100.
-                    // For inverse axes the data runs right→left, so flip the fraction.
-                    bool isInverse = false;
-                    if (dataZoom.orient == Orient.Horizonal && dataZoom.xAxisIndexs.Count > 0)
-                    {
-                        var xAxis = chart.GetChartComponent<XAxis>(dataZoom.xAxisIndexs[0]);
-                        isInverse = xAxis != null && xAxis.inverse;
-                    }
-                    else if (dataZoom.orient == Orient.Vertical && dataZoom.yAxisIndexs.Count > 0)
-                    {
-                        var yAxis = chart.GetChartComponent<YAxis>(dataZoom.yAxisIndexs[0]);
-                        isInverse = yAxis != null && yAxis.inverse;
-                    }
-                    centerRatio = isInverse
-                        ? 1f - mousePercent / 100f
-                        : mousePercent / 100f;
+                    var xAxis = chart.GetChartComponent<XAxis>(dataZoom.xAxisIndexs[0]);
+                    isInverse = xAxis != null && xAxis.inverse;
                 }
+                else if (dataZoom.orient == Orient.Vertical && dataZoom.yAxisIndexs.Count > 0)
+                {
+                    var yAxis = chart.GetChartComponent<YAxis>(dataZoom.yAxisIndexs[0]);
+                    isInverse = yAxis != null && yAxis.inverse;
+                }
+                fraction = Mathf.Clamp01(isInverse ? 1f - raw : raw);
             }
 
-            if (delta > 0)
+            // The data-space anchor (0~100) under the mouse — must stay at the same fraction after zoom.
+            var anchorPercent = dataZoom.start + fraction * currentRange;
+
+            // New range: proportional to current range for consistent zoom feel at any zoom level.
+            var deltaPercent = Mathf.Abs(delta / gridRange * currentRange);
+            var newRange = delta > 0 ? currentRange - deltaPercent : currentRange + deltaPercent;
+
+            // Place the new window so that anchorPercent stays under the mouse.
+            var start = anchorPercent - fraction * newRange;
+            var end   = anchorPercent + (1f - fraction) * newRange;
+
+            // If the window goes out of [0,100], slide it to the boundary while keeping its size,
+            // so the zoom always feels consistent and the window never shrinks on one side only.
+            if (start < 0f)
             {
-                if (dataZoom.end <= dataZoom.start) return;
-                start = dataZoom.start + deltaPercent * centerRatio;
-                end = dataZoom.end - deltaPercent * (1 - centerRatio);
+                end = Mathf.Min(100f, newRange);
+                start = 0f;
             }
-            else
+            else if (end > 100f)
             {
-                start = dataZoom.start - deltaPercent * centerRatio;
-                end = dataZoom.end + deltaPercent * (1 - centerRatio);
+                start = Mathf.Max(0f, 100f - newRange);
+                end = 100f;
             }
+
             UpdateDataZoomRange(dataZoom, start, end, grid);
         }
 

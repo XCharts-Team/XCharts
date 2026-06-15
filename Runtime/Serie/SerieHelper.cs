@@ -159,7 +159,7 @@ namespace XCharts.Runtime
         /// <param name="min"></param>
         /// <param name="max"></param>
         /// <param name="dataZoom"></param>
-        public static void GetMinMaxData(Serie serie, out double min, out double max, DataZoom dataZoom = null, int dimension = 0)
+        public static void GetMinMaxData(Serie serie, out double min, out double max, DataZoom dataZoom = null)
         {
             max = double.MinValue;
             min = double.MaxValue;
@@ -169,9 +169,7 @@ namespace XCharts.Runtime
                 var serieData = dataList[i];
                 if (serieData.show)
                 {
-                    var count = 0;
-                    if (dimension > 0) count = dimension;
-                    else count = serie.showDataDimension > 0 && serie.showDataDimension < serieData.data.Count ?
+                    var count = serie.showDataDimension > 0 && serie.showDataDimension < serieData.data.Count ?
                         serie.showDataDimension :
                         serieData.data.Count;
                     for (int j = 0; j < count; j++)

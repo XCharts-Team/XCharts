@@ -46,7 +46,7 @@ namespace XCharts.Runtime
                         {
                             double serieMinValue = 0;
                             double serieMaxValue = 0;
-                            SerieHelper.GetMinMaxData(serie, out serieMinValue, out serieMaxValue, null, 2);
+                            SerieHelper.GetMinMaxData(serie, 0, out serieMinValue, out serieMaxValue);
                             if (serieMinValue < min)
                                 min = serieMinValue;
                             if (serieMaxValue > max)

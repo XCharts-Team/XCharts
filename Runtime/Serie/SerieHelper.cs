@@ -171,9 +171,9 @@ namespace XCharts.Runtime
                 {
                     var count = 0;
                     if (dimension > 0) count = dimension;
-                    else count = serie.showDataDimension > serieData.data.Count ?
-                        serieData.data.Count :
-                        serie.showDataDimension;
+                    else count = serie.showDataDimension > 0 && serie.showDataDimension < serieData.data.Count ?
+                        serie.showDataDimension :
+                        serieData.data.Count;
                     for (int j = 0; j < count; j++)
                     {
                         var value = serieData.data[j];

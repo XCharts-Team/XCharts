@@ -81,6 +81,7 @@ slug: /changelog
 
 ## master
 
+* (2026.06.03) 修复`GetMinMaxData`在`showDataDimension`未初始化时返回异常的问题 (#365)
 * (2026.06.03) 增加`Tooltip`通过`TitleLabelStyle`的`TextStyle`的`Alignment`设置标题的对齐方式 (#363)
 * (2026.05.25) 增加`DataZoom`的`filterAxisRange`设置坐标轴的范围计算是否受`DataZoom`的影响
 * (2026.05.23) 优化`DataZoom`的`Marquee`框选功能

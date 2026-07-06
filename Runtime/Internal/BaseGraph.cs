@@ -40,6 +40,7 @@ namespace XCharts.Runtime
         internal PointerEventData pointerMoveEventData;
         internal PointerEventData pointerClickEventData;
         internal bool isTriggerOnClick = false;
+        internal bool isTriggerByCode = false;
 
         protected Action<PointerEventData, BaseGraph> m_OnPointerClick;
         protected Action<PointerEventData, BaseGraph> m_OnPointerDown;
@@ -301,12 +302,14 @@ namespace XCharts.Runtime
 
         public virtual void OnPointerEnter(PointerEventData eventData)
         {
+            isTriggerByCode = false;
             pointerMoveEventData = eventData;
             if (m_OnPointerEnter != null) m_OnPointerEnter(eventData, this);
         }
 
         public virtual void OnPointerExit(PointerEventData eventData)
         {
+            isTriggerByCode = false;
             pointerMoveEventData = null;
             pointerClickEventData = null;
             if (m_OnPointerExit != null) m_OnPointerExit(eventData, this);

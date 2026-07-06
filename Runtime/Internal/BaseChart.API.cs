@@ -718,21 +718,11 @@ namespace XCharts.Runtime
         {
             var serie = GetSerie(serieIndex);
             if (serie == null) return false;
-            var dataPoints = serie.context.dataPoints;
-            var dataPoint = Vector3.zero;
-            if (dataPoints.Count == 0)
-            {
-                if (serie.dataCount == 0) return false;
-                dataIndex = dataIndex % serie.dataCount;
-                var serieData = serie.GetSerieData(dataIndex);
-                if (serieData == null) return false;
-                dataPoint = serie.GetSerieData(dataIndex).context.position;
-            }
-            else
-            {
-                dataIndex = dataIndex % dataPoints.Count;
-                dataPoint = dataPoints[dataIndex];
-            }
+            if (serie.dataCount == 0) return false;
+            dataIndex = dataIndex % serie.dataCount;
+            var serieData = serie.GetSerieData(dataIndex);
+            if (serieData == null) return false;
+            var dataPoint = serie.GetSerieData(dataIndex).context.position;
             return TriggerTooltip(dataPoint);
         }
 
@@ -749,6 +739,7 @@ namespace XCharts.Runtime
             var eventData = new PointerEventData(EventSystem.current);
             eventData.position = screenPoint;
             OnPointerEnter(eventData);
+            isTriggerByCode = true;
             return true;
         }
 
@@ -759,6 +750,7 @@ namespace XCharts.Runtime
         [Since("v3.7.0")]
         public void CancelTooltip()
         {
+            isTriggerByCode = false;
             pointerMoveEventData = null;
             pointerClickEventData = null;
             var tooltip = GetChartComponent<Tooltip>();

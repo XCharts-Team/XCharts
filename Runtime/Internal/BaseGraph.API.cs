@@ -54,6 +54,11 @@ namespace XCharts.Runtime
         /// </summary>
         public bool isPointerInChart { get { return pointerMoveEventData != null; } }
         /// <summary>
+        /// Whether the mouse pointer is really in the chart (not triggered by code).
+        /// ||鼠标是否真实在图表内（非代码触发）。
+        /// </summary>
+        public bool isRealPointerInChart { get { return isPointerInChart && !isTriggerByCode; } }
+        /// <summary>
         /// Whether the mouse click the chart.
         /// ||鼠标是否点击了图表。
         /// </summary>

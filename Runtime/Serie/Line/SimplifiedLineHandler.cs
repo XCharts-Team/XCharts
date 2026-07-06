@@ -47,12 +47,16 @@ namespace XCharts.Runtime
                     serie.context.pointerItemDataIndex = -1;
                     serie.context.pointerEnter = false;
                     serie.interact.SetValue(ref needAnimation1, lineWidth);
+                    var symbolVisible1 = serie.symbol != null && serie.symbol.show && serie.symbol.type != SymbolType.None;
                     foreach (var serieData in serie.data)
                     {
-                        var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
-                        var symbolSize = symbol.GetSize(serieData, chart.theme.serie.lineSymbolSize);
                         serieData.context.highlight = false;
-                        serieData.interact.SetValue(ref needAnimation1, symbolSize);
+                        if (symbolVisible1)
+                        {
+                            var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
+                            var symbolSize = symbol.GetSize(serieData, chart.theme.serie.lineSymbolSize);
+                            serieData.interact.SetValue(ref needAnimation1, symbolSize);
+                        }
                     }
                     if (needAnimation1)
                     {
@@ -161,12 +165,11 @@ namespace XCharts.Runtime
             Axis relativedAxis;
             var isY = chart.GetSerieGridCoordAxis(serie, out axis, out relativedAxis);
 
-            m_SerieGrid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
-
             if (axis == null)
                 return;
             if (relativedAxis == null)
                 return;
+            m_SerieGrid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
             if (m_SerieGrid == null)
                 return;
 
@@ -214,14 +217,20 @@ namespace XCharts.Runtime
             serie.containerIndex = m_SerieGrid.index;
             serie.containterInstanceId = m_SerieGrid.instanceId;
 
+            var needDataAnimation = serie.animation.IsDataAnimation() && !serie.animation.IsFinish();
             for (int i = serie.minShow; i < maxCount; i += rate)
             {
                 var serieData = showData[i];
                 var isIgnore = serie.IsIgnoreValue(serieData);
+                var np = Vector3.zero;
+                var xValue = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
                 if (isIgnore)
                 {
+                    var relativedValue = 1d;
+                    GetDataPoint(isY, axis, relativedAxis, m_SerieGrid, xValue, relativedValue,
+                        i, scaleWid, scaleRelativedWid, false, needDataAnimation, ref np);
                     serieData.context.stackHeight = 0;
-                    serieData.context.position = Vector3.zero;
+                    serieData.context.position = np;
                     if (serie.ignoreLineBreak && serie.context.dataIgnores.Count > 0)
                     {
                         serie.context.dataIgnores[serie.context.dataIgnores.Count - 1] = true;
@@ -229,17 +238,13 @@ namespace XCharts.Runtime
                 }
                 else
                 {
-                    var np = Vector3.zero;
-                    var xValue = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
                     var relativedValue = DataHelper.SampleValue(ref showData, serie.sampleType, rate, serie.minShow,
                         maxCount, totalAverage, i, dataAddDuration, dataChangeDuration, ref dataChanging, relativedAxis,
                         unscaledTime, useCurrentData, false, sampleSumPrefix);
 
                     serieData.context.stackHeight = GetDataPoint(isY, axis, relativedAxis, m_SerieGrid, xValue, relativedValue,
-                        i, scaleWid, scaleRelativedWid, false, ref np);
-
+                        i, scaleWid, scaleRelativedWid, false, needDataAnimation, ref np);
                     serieData.context.position = np;
-
                     serie.context.dataPoints.Add(np);
                     serie.context.dataIndexs.Add(serieData.index);
                     serie.context.dataIgnores.Add(false);
@@ -268,25 +273,20 @@ namespace XCharts.Runtime
         }
 
         private float GetDataPoint(bool isY, Axis axis, Axis relativedAxis, GridCoord grid, double xValue,
-            double yValue, int i, float scaleWid, float scaleRelativedWid, bool isStack, ref Vector3 np)
+            double yValue, int i, float scaleWid, float scaleRelativedWid, bool isStack, bool needDataAnimation, ref Vector3 np)
         {
             float xPos, yPos;
             var gridXY = isY ? grid.context.x : grid.context.y;
-
+            var valueHig = AxisHelper.GetAxisValueDistance(grid, relativedAxis, scaleRelativedWid, yValue);
+            if (needDataAnimation)
+                valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, valueHig);
             if (isY)
             {
-                var valueHig = AxisHelper.GetAxisValueDistance(grid, relativedAxis, scaleRelativedWid, yValue);
-                valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, valueHig);
-
                 xPos = gridXY + valueHig;
                 yPos = AxisHelper.GetAxisValuePosition(grid, axis, scaleWid, xValue);
             }
             else
             {
-
-                var valueHig = AxisHelper.GetAxisValueDistance(grid, relativedAxis, scaleRelativedWid, yValue);
-                valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, valueHig);
-
                 yPos = gridXY + valueHig;
                 xPos = AxisHelper.GetAxisValuePosition(grid, axis, scaleWid, xValue);
             }

@@ -145,7 +145,7 @@ namespace XCharts.Runtime
         [SerializeField] private float m_TitleHeight = 25f;
         [SerializeField] private float m_ItemHeight = 25f;
         [SerializeField] private Color32 m_BorderColor = new Color32(230, 230, 230, 255);
-        [SerializeField][Since("v3.14.0")] private List<float> m_ColumnGapWidths = new List<float>{15};
+        [SerializeField][Since("v3.14.0")] private List<float> m_ColumnGapWidths = new List<float> { 15 };
         [SerializeField] private LineStyle m_LineStyle = new LineStyle(LineStyle.Type.None);
         [SerializeField]
         private LabelStyle m_TitleLabelStyle = new LabelStyle()
@@ -167,7 +167,19 @@ namespace XCharts.Runtime
         /// the callback of tooltip click index.
         /// ||Tooltip为Click触发时，点击的X轴索引的回调。
         /// </summary>
-        public System.Action<int> onClickIndex { get; set; }
+        public System.Action<int> onClickIndex { internal get; set; }
+        /// <summary>
+        /// The callback when the tooltip becomes active.
+        /// ||当提示框激活时的回调。
+        /// </summary>
+        [Since("v3.16.0")]
+        public System.Action<bool> onActive { internal get; set; }
+        /// <summary>
+        /// The callback when the tooltip position changes. The callback parameters are <width, height, position>.
+        /// ||当提示框位置变化时的回调。回调参数为<宽度，高度，位置>。
+        /// </summary>
+        [Since("v3.16.0")]
+        public System.Action<float, float, Vector3> onPosition { internal get; set; }
 
         /// <summary>
         /// Whether to show the tooltip component.
@@ -557,6 +569,23 @@ namespace XCharts.Runtime
                 gameObject.SetActive(alwayShowContent ? true : flag);
             }
             SetContentActive(flag);
+            if (onActive != null)
+            {
+                onActive.Invoke(flag);
+            }
+        }
+
+        /// <summary>
+        /// Sets the target position of the tooltip. Does not trigger the onPosition callback.
+        /// ||设置目标位置。不会触发 onPosition 回调。
+        /// </summary>
+        /// <param name="pos">The target position.</param>
+        public void SetPosition(Vector3 pos)
+        {
+            if (view != null)
+            {
+                view.SetPosition(pos);
+            }
         }
 
         /// <summary>

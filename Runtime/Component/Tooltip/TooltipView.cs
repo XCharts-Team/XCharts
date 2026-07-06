@@ -32,11 +32,21 @@ namespace XCharts.Runtime
         private Vector3 m_TargetPos;
         private Vector3 m_CurrentVelocity;
 
+        /// <summary>
+        /// External Y offset applied on top of SmoothDamp position (e.g. for de-overlap).
+        /// SmoothDamp always operates in natural space; this offset is stacked on the result.
+        /// </summary>
+        public Vector3 positionOffset;
+
         public void Update()
         {
             if (!m_Active)
                 return;
-            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, m_TargetPos, ref m_CurrentVelocity, 0.08f);
+            // Remove offset before SmoothDamp so velocity tracks natural position correctly,
+            // then re-add offset after so the visual position includes the adjustment.
+            var naturalCurrent = transform.localPosition - positionOffset;
+            var naturalNext = Vector3.SmoothDamp(naturalCurrent, m_TargetPos, ref m_CurrentVelocity, 0.08f);
+            transform.localPosition = naturalNext + positionOffset;
         }
 
         public Vector3 GetCurrentPos()
@@ -49,7 +59,31 @@ namespace XCharts.Runtime
             return m_TargetPos;
         }
 
+        /// <summary>
+        /// Updates the target position of the tooltip and triggers the onPosition callback.
+        /// ||更新目标位置并触发 onPosition 回调。
+        /// </summary>
+        /// <param name="pos">The new target position.</param>
         public void UpdatePosition(Vector3 pos)
+        {
+            if (m_TargetPos != pos)
+            {
+                m_TargetPos = pos;
+                if (tooltip.onPosition != null)
+                {
+                    var width = tooltip.context.width;
+                    var height = tooltip.context.height;
+                    tooltip.onPosition.Invoke(width, height, pos);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the target position of the tooltip. Does not trigger the onPosition callback.
+        /// ||设置目标位置。不会触发 onPosition 回调。
+        /// </summary>
+        /// <param name="pos">The target position.</param>
+        public void SetPosition(Vector3 pos)
         {
             m_TargetPos = pos;
         }

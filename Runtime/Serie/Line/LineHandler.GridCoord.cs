@@ -345,10 +345,15 @@ namespace XCharts.Runtime
                 var serieData = showData[i];
                 var realIndex = i - serie.context.dataZoomStartIndexOffset;
                 var isIgnore = serie.IsIgnoreValue(serieData);
+                var xValue = axis.IsCategory() ? realIndex : serieData.GetData(0, axis.inverse);
+                var np = Vector3.zero;
                 if (isIgnore)
                 {
+                    var relativedValue = 1d;
+                    GetDataPoint(isY, axis, relativedAxis, m_SerieGrid, xValue, relativedValue,
+                        i, scaleWid, scaleRelativedWid, isStack, ref np);
                     serieData.context.stackHeight = 0;
-                    serieData.context.position = Vector3.zero;
+                    serieData.context.position = np;
                     if (serie.ignoreLineBreak && serie.context.dataIgnores.Count > 0)
                     {
                         serie.context.dataIgnores[serie.context.dataIgnores.Count - 1] = true;
@@ -356,12 +361,9 @@ namespace XCharts.Runtime
                 }
                 else
                 {
-                    var np = Vector3.zero;
-                    var xValue = axis.IsCategory() ? realIndex : serieData.GetData(0, axis.inverse);
                     var relativedValue = DataHelper.SampleValue(ref showData, serie.sampleType, rate, serie.minShow,
                         maxCount, totalAverage, i, dataAddDuration, dataChangeDuration, ref dataChanging, relativedAxis,
                         unscaledTime, useCurrentData, false, sampleSumPrefix);
-
                     serieData.context.stackHeight = GetDataPoint(isY, axis, relativedAxis, m_SerieGrid, xValue, relativedValue,
                         i, scaleWid, scaleRelativedWid, isStack, ref np);
                     serieData.context.isClip = false;

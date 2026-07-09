@@ -396,14 +396,16 @@ namespace XCharts
                     }
                     else
                     {
-                        var each = GetTick(range);
-                        tick = each;
-                        if (range / 4 % each == 0)
-                            tick = range / 4;
-                        else if (range / tick > 8)
-                            tick = 2 * each;
-                        else if (range / tick < 4)
-                            tick = each / 2;
+                        var axisLength = axis.context.length <= 0 ? 240f : axis.context.length;
+                        var maxAutoSplitNumber = chart.settings.axisMaxSplitNumber > 0 ?
+                            (int)chart.settings.axisMaxSplitNumber :
+                            50;
+                        var targetSplit = Mathf.Clamp(Mathf.RoundToInt(axisLength / 60f), 2, maxAutoSplitNumber);
+                        tick = GetNiceTick(range / targetSplit);
+                    }
+                    if (tick <= 0)
+                    {
+                        tick = range / 4;
                     }
                 }
                 var value = 0d;
@@ -437,17 +439,33 @@ namespace XCharts
             }
         }
 
-        private static double GetTick(double max)
+        private static double GetNiceTick(double rawStep)
         {
-            if (max <= 1) return max / 5;
-            if (max > 1 && max < 10) return 1;
-            var bigger = Math.Ceiling(Math.Abs(max));
-            int n = 1;
-            while (bigger / (Mathf.Pow(10, n)) > 10)
+            if (rawStep <= 0)
+                return 0;
+
+            var exponent = Math.Floor(Math.Log10(rawStep));
+            var magnitude = Math.Pow(10, exponent);
+            var fraction = rawStep / magnitude;
+            double niceFraction;
+
+            if (fraction <= 1)
+                niceFraction = 1;
+            else if (fraction <= 2)
+                niceFraction = 2;
+            else if (fraction <= 2.5)
+                niceFraction = 2.5;
+            else if (fraction <= 5)
+                niceFraction = 5;
+            else
+                niceFraction = 10;
+
+            var tick = niceFraction * magnitude;
+            if (tick <= 0 || double.IsNaN(tick) || double.IsInfinity(tick))
             {
-                n++;
+                return rawStep;
             }
-            return Math.Pow(10, n);
+            return tick;
         }
 
         internal void CheckValueLabelActive(Axis axis, int i, ChartLabel label, Vector3 pos, string content = null)
@@ -878,7 +896,8 @@ namespace XCharts
                 {
                     var scaleWidth = AxisHelper.GetScaleWidth(axis, axisLength, i + 1, dataZoom);
                     var hideTick = (i == 0 && (!axis.axisTick.showStartTick || axis.axisTick.alignWithLabel)) ||
-                        (i == size - 1 && !axis.axisTick.showEndTick);
+                        (i == size - 1 && !axis.axisTick.showEndTick) ||
+                        (i == size - 2 && NeedHidePenultimateTick(axis, size, scaleWidth, tickWidth));
                     if (axis.axisTick.show)
                     {
                         if (orient == Orient.Horizonal)
@@ -1078,6 +1097,15 @@ namespace XCharts
                     }
                 }
             }
+        }
+
+        private static bool NeedHidePenultimateTick(Axis axis, int size, float distanceToLastTick, float tickWidth)
+        {
+            if (size < 2 || !axis.IsCategory() || !axis.axisTick.showEndTick)
+                return false;
+
+            var minDistance = Mathf.Max(2f, tickWidth * 2f);
+            return distanceToLastTick <= minDistance;
         }
 
         protected void DrawAxisSplit(VertexHelper vh, AxisTheme theme, DataZoom dataZoom,

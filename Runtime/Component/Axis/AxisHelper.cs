@@ -64,21 +64,20 @@ namespace XCharts.Runtime
 
                 if (axis.splitNumber <= 0)
                 {
-                    var eachWid = coordinateWid / dataCount;
+                    if (coordinateWid <= 0)
+                        return dataCount;
 
-                    var min = axis.minCategorySpacing > 0
-                        ? axis.minCategorySpacing
-                        : (Mathf.Abs(axis.context.dire.y) < 0.01 ? 80 : 20);
-                    if (eachWid > min) return dataCount;
-                    var tick = Mathf.CeilToInt(min / eachWid);
-                    return tick <= 1 ? dataCount : (int)(dataCount / tick);
+                    var min = axis.GetMinTickWidth(dataZoom);
+                    var itemsPerTick = Mathf.Max(1, Mathf.CeilToInt(dataCount * min / coordinateWid));
+                    var targetSplit = dataCount / itemsPerTick;
+                    targetSplit = Mathf.Clamp(targetSplit, 1, dataCount);
+                    return targetSplit;
                 }
                 else
                 {
-                    if (axis.splitNumber <= 0 || axis.splitNumber > dataCount)
-                        return dataCount;
-                    if (dataCount >= axis.splitNumber * 2)
-                        return axis.splitNumber;
+                    var splitNumber = Mathf.Clamp(axis.splitNumber, 1, dataCount);
+                    if (dataCount >= splitNumber * 2)
+                        return splitNumber;
                     else
                         return dataCount;
                 }
@@ -167,42 +166,9 @@ namespace XCharts.Runtime
             int dataCount = showData.Count;
             if (dataCount <= 0)
                 return "";
-            int rate = axis.boundaryGap ? (dataCount / split) : (dataCount - 1) / split;
-            if (rate == 0) rate = 1;
-            if (axis.insertDataToHead)
-            {
-                if (index > 0)
-                {
-                    var residue = dataCount - 1 - split * rate;
-                    var newIndex = residue + (index - 1) * rate;
-                    if (newIndex < 0)
-                        newIndex = 0;
-                    return axis.axisLabel.GetFormatterContent(sortIndex, dataCount, showData[newIndex]);
-                }
-                else
-                {
-                    if (axis.boundaryGap && coordinateWidth / dataCount > 5)
-                        return string.Empty;
-                    else
-                        return axis.axisLabel.GetFormatterContent(sortIndex, dataCount, showData[0]);
-                }
-            }
-            else
-            {
-                int newIndex = index * rate;
-                if (newIndex < dataCount)
-                {
-                    return axis.axisLabel.GetFormatterContent(sortIndex, dataCount, showData[newIndex]);
-                }
-                else
-                {
-                    var diff = newIndex - dataCount;
-                    if (axis.boundaryGap && ((diff > 0 && diff / rate < 0.4f) || dataCount >= axis.data.Count))
-                        return string.Empty;
-                    else
-                        return axis.axisLabel.GetFormatterContent(sortIndex, dataCount, showData[dataCount - 1]);
-                }
-            }
+
+            var mappedIndex = GetCategoryLabelDataIndex(axis, coordinateWidth, dataZoom, index);
+            return axis.axisLabel.GetFormatterContent(sortIndex, dataCount, showData[mappedIndex]);
         }
 
         /// <summary>
@@ -237,6 +203,25 @@ namespace XCharts.Runtime
                 return splitNum;
             else
                 return splitNum + 1;
+        }
+
+        internal static int GetCategoryLabelDataIndex(Axis axis, float coordinateWidth, DataZoom dataZoom, int labelIndex)
+        {
+            var showData = axis.GetDataList(dataZoom);
+            int dataCount = showData.Count;
+            if (dataCount <= 0) return 0;
+
+            int split = GetSplitNumber(axis, coordinateWidth, dataZoom);
+            var labelCount = GetScaleNumber(axis, coordinateWidth, dataZoom);
+            if (axis.IsCategory() && axis.boundaryGap)
+                labelCount -= 1;
+            labelCount = Mathf.Max(1, labelCount);
+
+            if (labelCount == 1) return 0;
+            if (labelIndex >= labelCount - 1) return dataCount - 1;
+
+            int mappedIndex = Mathf.RoundToInt(labelIndex * (dataCount - 1f) / (labelCount - 1f));
+            return Mathf.Clamp(mappedIndex, 0, dataCount - 1);
         }
 
         /// <summary>
@@ -292,20 +277,36 @@ namespace XCharts.Runtime
                     }
                     else
                     {
-                        var max = axis.boundaryGap ? num - 1 : num;
-                        if (index >= max)
+                        if (!axis.insertDataToHead)
                         {
-                            if (axis.axisTick.alignWithLabel)
-                                return each * tick;
-                            else
-                                return coordinateWidth - each * tick * (index - 1);
+                            if (axis.boundaryGap && index >= num)
+                                return 0;
+                            if (axis.boundaryGap && index == num - 1)
+                            {
+                                var lastLabelIdx = GetCategoryLabelDataIndex(axis, coordinateWidth, dataZoom, num - 2);
+                                return (data.Count - lastLabelIdx) * each;
+                            }
+                            var prevIdx = GetCategoryLabelDataIndex(axis, coordinateWidth, dataZoom, index - 1);
+                            var currIdx = GetCategoryLabelDataIndex(axis, coordinateWidth, dataZoom, index);
+                            return Mathf.Abs(currIdx - prevIdx) * each;
                         }
                         else
                         {
-                            if (count < splitNum)
-                                return each;
+                            var max = axis.boundaryGap ? splitNum : splitNum - 1;
+                            if (index == 1)
+                            {
+                                if (axis.axisTick.alignWithLabel)
+                                    return each * tick;
+                                else
+                                    return coordinateWidth - each * tick * max;
+                            }
                             else
-                                return each * (count / splitNum);
+                            {
+                                if (count < splitNum)
+                                    return each;
+                                else
+                                    return each * (count / splitNum);
+                            }
                         }
                     }
                 }

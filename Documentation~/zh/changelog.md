@@ -81,6 +81,7 @@ slug: /changelog
 
 ## master
 
+* (2026.07.09) 优化`Axis`的自动`Tick`分割策略
 * (2026.07.06) 增加`Tooltip`的`onActive`和`onPosition`回调
 * (2026.07.06) 优化`TriggerTooltip`接口，防止在有忽略数据的图表上表现异常
 * (2026.06.15) 修复`GetMinMaxData`在`showDataDimension`未初始化时返回异常的问题 (#365)

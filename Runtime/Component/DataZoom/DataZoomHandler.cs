@@ -466,7 +466,7 @@ namespace XCharts.Runtime
 
             // Place the new window so that anchorPercent stays under the mouse.
             var start = anchorPercent - fraction * newRange;
-            var end   = anchorPercent + (1f - fraction) * newRange;
+            var end = anchorPercent + (1f - fraction) * newRange;
 
             // If the window goes out of [0,100], slide it to the boundary while keeping its size,
             // so the zoom always feels consistent and the window never shrinks on one side only.
@@ -484,7 +484,7 @@ namespace XCharts.Runtime
             UpdateDataZoomRange(dataZoom, start, end, grid);
         }
 
-        public void UpdateDataZoomRange(DataZoom dataZoom, float start, float end, GridCoord grid = null)
+        public void UpdateDataZoomRange(DataZoom dataZoom, float start, float end, GridCoord grid = null, bool noCallback = false)
         {
             if (end > 100)
                 end = 100;
@@ -495,9 +495,9 @@ namespace XCharts.Runtime
             if (end < start)
                 end = start;
 
-            if(dataZoom.minZoomRatio > 0)
+            if (dataZoom.minZoomRatio > 0)
             {
-                if(grid == null) grid = chart.GetGridOfDataZoom(dataZoom);
+                if (grid == null) grid = chart.GetGridOfDataZoom(dataZoom);
                 var range = dataZoom.orient == Orient.Horizonal ? grid.context.width : grid.context.height;
                 var minRange = dataZoom.minZoomRatio * range;
                 var newRange = end - start;
@@ -510,21 +510,27 @@ namespace XCharts.Runtime
                 }
             }
 
-            if (!dataZoom.startLock)
-                dataZoom.start = start;
-            if (!dataZoom.endLock)
-                dataZoom.end = end;
-
             if (dataZoom.startEndFunction != null)
                 dataZoom.startEndFunction(ref start, ref end);
 
+            if (m_LastStart != start || m_LastEnd != end)
+            {
+                if (!dataZoom.startLock)
+                    dataZoom.start = start;
+                if (!dataZoom.endLock)
+                    dataZoom.end = end;
+                if (!noCallback && dataZoom.onStartEndChanged != null)
+                {
+                    dataZoom.onStartEndChanged(dataZoom.start, dataZoom.end);
+                }
+                if (dataZoom.realtime)
+                {
+                    chart.OnDataZoomRangeChanged(dataZoom);
+                    chart.RefreshChart();
+                }
+            }
             m_LastStart = dataZoom.start;
             m_LastEnd = dataZoom.end;
-            if (dataZoom.realtime)
-            {
-                chart.OnDataZoomRangeChanged(dataZoom);
-                chart.RefreshChart();
-            }
         }
 
         public void RefreshDataZoomLabel()
@@ -686,7 +692,8 @@ namespace XCharts.Runtime
                 {
                     if (_sampleSumPrefixCache == null || _sampleSumPrefixMaxCount != maxCount || _sampleSumPrefixInverse != axis.inverse)
                     {
-                        _sampleSumPrefixCache = DataHelper.BuildSampleSumPrefix(ref showData, maxCount, axis.inverse);
+                        _sampleSumPrefixCache = DataHelper.BuildSampleSumPrefix(ref showData, maxCount,
+                            axis.inverse, _sampleSumPrefixCache);
                         _sampleSumPrefixMaxCount = maxCount;
                         _sampleSumPrefixInverse = axis.inverse;
                     }
@@ -806,7 +813,8 @@ namespace XCharts.Runtime
                 {
                     if (_sampleSumPrefixCache == null || _sampleSumPrefixMaxCount != maxCount || _sampleSumPrefixInverse != axis.inverse)
                     {
-                        _sampleSumPrefixCache = DataHelper.BuildSampleSumPrefix(ref showData, maxCount, axis.inverse);
+                        _sampleSumPrefixCache = DataHelper.BuildSampleSumPrefix(ref showData, maxCount,
+                            axis.inverse, _sampleSumPrefixCache);
                         _sampleSumPrefixMaxCount = maxCount;
                         _sampleSumPrefixInverse = axis.inverse;
                     }

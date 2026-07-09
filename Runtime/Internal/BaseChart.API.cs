@@ -720,10 +720,11 @@ namespace XCharts.Runtime
             if (serie == null) return false;
             if (serie.dataCount == 0) return false;
             dataIndex = dataIndex % serie.dataCount;
-            var serieData = serie.GetSerieData(dataIndex);
+            DataZoom xDataZoom, yDataZoom;
+            GetDataZoomOfSerie(serie, out xDataZoom, out yDataZoom);
+            var serieData = serie.GetSerieData(dataIndex, xDataZoom);
             if (serieData == null) return false;
-            var dataPoint = serie.GetSerieData(dataIndex).context.position;
-            return TriggerTooltip(dataPoint);
+            return TriggerTooltip(serieData.context.position);
         }
 
         /// <summary>

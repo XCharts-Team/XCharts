@@ -419,6 +419,11 @@ namespace XCharts.Runtime
         /// start和end变更委托。
         /// </summary>
         public CustomDataZoomStartEndFunction startEndFunction { get { return m_StartEndFunction; } set { m_StartEndFunction = value; } }
+        /// <summary>
+        /// start和end变更回调。
+        /// </summary>
+        [Since("v3.16.0")]
+        public Action<float, float> onStartEndChanged { get; set; }
 
         class AxisIndexValueInfo
         {
@@ -789,6 +794,11 @@ namespace XCharts.Runtime
                 min = 0;
                 max = 0;
             }
+        }
+
+        public void SetStartEndWithoutCallback(float start, float end)
+        {
+            (handler as DataZoomHandler).UpdateDataZoomRange(this, start, end, null, true);
         }
     }
 }

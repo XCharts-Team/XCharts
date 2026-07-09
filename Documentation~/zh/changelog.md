@@ -81,6 +81,7 @@ slug: /changelog
 
 ## master
 
+* (2026.07.09) 增加`DataZoom`的`onStartEndChanged`回调
 * (2026.07.09) 优化`Axis`的自动`Tick`分割策略
 * (2026.07.06) 增加`Tooltip`的`onActive`和`onPosition`回调
 * (2026.07.06) 优化`TriggerTooltip`接口，防止在有忽略数据的图表上表现异常

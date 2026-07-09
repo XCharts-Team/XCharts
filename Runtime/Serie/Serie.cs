@@ -1964,7 +1964,12 @@ namespace XCharts.Runtime
 
         public bool IsIgnoreValue(double value)
         {
-            return m_Ignore && MathUtil.Approximately(value, m_IgnoreValue);
+            if (!m_Ignore) return false;
+            // fast path: for the common default case ignoreValue == 0,
+            // Approximately(value, 0) is equivalent to a simple zero check
+            // but without the overhead of 3x Abs + 2x Max + multiply
+            if (m_IgnoreValue == 0) return value == 0;
+            return MathUtil.Approximately(value, m_IgnoreValue);
         }
 
         public bool IsIgnoreValue(SerieData serieData, double value)

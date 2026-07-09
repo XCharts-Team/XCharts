@@ -19,20 +19,33 @@ namespace XCharts.Runtime
 
         public static List<double> BuildSampleSumPrefix(ref List<SerieData> showData, int maxCount, bool inverse)
         {
+            return BuildSampleSumPrefix(ref showData, maxCount, inverse, s_SampleSumPrefix);
+        }
+
+        public static List<double> BuildSampleSumPrefix(ref List<SerieData> showData, int maxCount, bool inverse,
+            List<double> sampleSumPrefix)
+        {
+            if (sampleSumPrefix == null)
+                sampleSumPrefix = new List<double>();
             if (maxCount < 0) maxCount = 0;
             var targetCount = maxCount + 1;
-            if (s_SampleSumPrefix.Count != targetCount)
+            if (sampleSumPrefix.Count < targetCount)
             {
-                s_SampleSumPrefix.Clear();
-                for (int i = 0; i < targetCount; i++)
-                    s_SampleSumPrefix.Add(0);
+                var addCount = targetCount - sampleSumPrefix.Count;
+                for (int i = 0; i < addCount; i++)
+                    sampleSumPrefix.Add(0);
             }
-            s_SampleSumPrefix[0] = 0;
+            else if (sampleSumPrefix.Count > targetCount)
+            {
+                sampleSumPrefix.RemoveRange(targetCount, sampleSumPrefix.Count - targetCount);
+            }
+
+            sampleSumPrefix[0] = 0;
             for (int i = 0; i < maxCount; i++)
             {
-                s_SampleSumPrefix[i + 1] = s_SampleSumPrefix[i] + showData[i].GetData(1, inverse);
+                sampleSumPrefix[i + 1] = sampleSumPrefix[i] + showData[i].GetData(1, inverse);
             }
-            return s_SampleSumPrefix;
+            return sampleSumPrefix;
         }
 
         public static double DataAverage(ref List<SerieData> showData, SampleType sampleType,
@@ -70,11 +83,16 @@ namespace XCharts.Runtime
                     case SampleType.Average:
                         if (sampleSumPrefix != null)
                         {
-                            var totalByPrefix = sampleSumPrefix[index + 1] - sampleSumPrefix[index - rate + 1];
-                            if (sampleType == SampleType.Average)
-                                return totalByPrefix / rate;
-                            else
-                                return totalByPrefix;
+                            var right = index + 1;
+                            var left = index - rate + 1;
+                            if (left >= 0 && right >= 0 && right < sampleSumPrefix.Count)
+                            {
+                                var totalByPrefix = sampleSumPrefix[right] - sampleSumPrefix[left];
+                                if (sampleType == SampleType.Average)
+                                    return totalByPrefix / rate;
+                                else
+                                    return totalByPrefix;
+                            }
                         }
                         double total = 0;
                         for (int i = index; i > index - rate; i--)

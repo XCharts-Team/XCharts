@@ -11,6 +11,9 @@ namespace XCharts.Runtime
     internal sealed class SimplifiedLineHandler : SerieHandler<SimplifiedLine>
     {
         private GridCoord m_SerieGrid;
+        private List<double> m_SampleSumPrefixCache;
+        private int m_SampleSumPrefixMaxCount = -1;
+        private bool m_SampleSumPrefixInverse = false;
 
         public override void Update()
         {
@@ -206,7 +209,15 @@ namespace XCharts.Runtime
             if (!useCurrentData && rate > 1 &&
                 (serie.sampleType == SampleType.Sum || serie.sampleType == SampleType.Average))
             {
-                sampleSumPrefix = DataHelper.BuildSampleSumPrefix(ref showData, maxCount, relativedAxis.inverse);
+                if (m_SampleSumPrefixCache == null || m_SampleSumPrefixMaxCount != maxCount ||
+                    m_SampleSumPrefixInverse != relativedAxis.inverse)
+                {
+                    m_SampleSumPrefixCache = DataHelper.BuildSampleSumPrefix(ref showData, maxCount,
+                        relativedAxis.inverse, m_SampleSumPrefixCache);
+                    m_SampleSumPrefixMaxCount = maxCount;
+                    m_SampleSumPrefixInverse = relativedAxis.inverse;
+                }
+                sampleSumPrefix = m_SampleSumPrefixCache;
             }
 
             var interacting = false;
@@ -218,19 +229,67 @@ namespace XCharts.Runtime
             serie.containterInstanceId = m_SerieGrid.instanceId;
 
             var needDataAnimation = serie.animation.IsDataAnimation() && !serie.animation.IsFinish();
+
+            // Pre-compute all invariant axis/grid values for the hot loop.
+            // Each GetDataPoint call previously did 2x GetAxisPositionInternal which redundantly
+            // checked axis types and read grid.context fields (all invariant within the loop).
+            var gridX = m_SerieGrid.context.x;
+            var gridY = m_SerieGrid.context.y;
+            var gridWidth = m_SerieGrid.context.width;
+            var gridHeight = m_SerieGrid.context.height;
+
+            // relativedAxis: value axis for distance computation
+            var relIsYAxis = relativedAxis is YAxis;
+            var relGridLength = relIsYAxis ? gridHeight : gridWidth;
+            var relMinValue = (float)relativedAxis.context.minValue;
+            var relMinMaxRange = (float)relativedAxis.context.minMaxRange;
+            var relHasRange = relMinMaxRange != 0;
+
+            // axis: category or value axis for position computation
+            var axisIsYAxis = axis is YAxis;
+            var axisIsCategory = axis.IsCategory();
+            var axisGridXY = axisIsYAxis ? gridY : gridX;
+            var axisGridLength = axisIsYAxis ? gridHeight : gridWidth;
+            var axisMinValue = (float)axis.context.minValue;
+            var axisMinMaxRange = (float)axis.context.minMaxRange;
+            var axisHasRange = axisMinMaxRange != 0;
+            var boundaryOffset = axis.boundaryGap ? scaleWid * 0.5f : 0f;
+
+            // gridXY for the value-axis orientation in GetDataPoint
+            var dpGridXY = isY ? gridX : gridY;
+
             for (int i = serie.minShow; i < maxCount; i += rate)
             {
                 var serieData = showData[i];
                 var isIgnore = serie.IsIgnoreValue(serieData);
                 var np = Vector3.zero;
-                var xValue = axis.IsCategory() ? i : serieData.GetData(0, axis.inverse);
+                var xValue = axisIsCategory ? i : serieData.GetData(0, axis.inverse);
+                var nextIndex = Mathf.Min(i + rate, maxCount);
                 if (isIgnore)
                 {
                     var relativedValue = 1d;
-                    GetDataPoint(isY, axis, relativedAxis, m_SerieGrid, xValue, relativedValue,
-                        i, scaleWid, scaleRelativedWid, false, needDataAnimation, ref np);
+                    ComputeDataPointFast(isY, xValue, relativedValue, i,
+                        scaleWid, needDataAnimation, dpGridXY,
+                        relGridLength, relMinValue, relMinMaxRange, relHasRange,
+                        axisIsCategory, axisGridXY, axisGridLength,
+                        axisMinValue, axisMinMaxRange, axisHasRange, boundaryOffset,
+                        ref np);
                     serieData.context.stackHeight = 0;
                     serieData.context.position = np;
+                    for (int j = i + 1; j < nextIndex; j++)
+                    {
+                        var skipData = showData[j];
+                        var skipNp = Vector3.zero;
+                        var skipXValue = axisIsCategory ? j : skipData.GetData(0, axis.inverse);
+                        var skipStackHeight = ComputeDataPointFast(isY, skipXValue, relativedValue, j,
+                            scaleWid, needDataAnimation, dpGridXY,
+                            relGridLength, relMinValue, relMinMaxRange, relHasRange,
+                            axisIsCategory, axisGridXY, axisGridLength,
+                            axisMinValue, axisMinMaxRange, axisHasRange, boundaryOffset,
+                            ref skipNp);
+                        skipData.context.stackHeight = serie.IsIgnoreValue(skipData) ? 0 : skipStackHeight;
+                        skipData.context.position = skipNp;
+                    }
                     if (serie.ignoreLineBreak && serie.context.dataIgnores.Count > 0)
                     {
                         serie.context.dataIgnores[serie.context.dataIgnores.Count - 1] = true;
@@ -242,12 +301,30 @@ namespace XCharts.Runtime
                         maxCount, totalAverage, i, dataAddDuration, dataChangeDuration, ref dataChanging, relativedAxis,
                         unscaledTime, useCurrentData, false, sampleSumPrefix);
 
-                    serieData.context.stackHeight = GetDataPoint(isY, axis, relativedAxis, m_SerieGrid, xValue, relativedValue,
-                        i, scaleWid, scaleRelativedWid, false, needDataAnimation, ref np);
+                    serieData.context.stackHeight = ComputeDataPointFast(isY, xValue, relativedValue, i,
+                        scaleWid, needDataAnimation, dpGridXY,
+                        relGridLength, relMinValue, relMinMaxRange, relHasRange,
+                        axisIsCategory, axisGridXY, axisGridLength,
+                        axisMinValue, axisMinMaxRange, axisHasRange, boundaryOffset,
+                        ref np);
                     serieData.context.position = np;
                     serie.context.dataPoints.Add(np);
                     serie.context.dataIndexs.Add(serieData.index);
                     serie.context.dataIgnores.Add(false);
+                    for (int j = i + 1; j < nextIndex; j++)
+                    {
+                        var skipData = showData[j];
+                        var skipNp = Vector3.zero;
+                        var skipXValue = axisIsCategory ? j : skipData.GetData(0, axis.inverse);
+                        var skipStackHeight = ComputeDataPointFast(isY, skipXValue, relativedValue, j,
+                            scaleWid, needDataAnimation, dpGridXY,
+                            relGridLength, relMinValue, relMinMaxRange, relHasRange,
+                            axisIsCategory, axisGridXY, axisGridLength,
+                            axisMinValue, axisMinMaxRange, axisHasRange, boundaryOffset,
+                            ref skipNp);
+                        skipData.context.stackHeight = serie.IsIgnoreValue(skipData) ? 0 : skipStackHeight;
+                        skipData.context.position = skipNp;
+                    }
                 }
             }
 
@@ -272,23 +349,41 @@ namespace XCharts.Runtime
             }
         }
 
-        private float GetDataPoint(bool isY, Axis axis, Axis relativedAxis, GridCoord grid, double xValue,
-            double yValue, int i, float scaleWid, float scaleRelativedWid, bool isStack, bool needDataAnimation, ref Vector3 np)
+        private float ComputeDataPointFast(bool isY, double xValue, double yValue, int dataIndex,
+            float scaleWid, bool needDataAnimation, float dpGridXY,
+            float relGridLength, float relMinValue, float relMinMaxRange, bool relHasRange,
+            bool axisIsCategory, float axisGridXY, float axisGridLength,
+            float axisMinValue, float axisMinMaxRange, bool axisHasRange, float boundaryOffset,
+            ref Vector3 np)
         {
-            float xPos, yPos;
-            var gridXY = isY ? grid.context.x : grid.context.y;
-            var valueHig = AxisHelper.GetAxisValueDistance(grid, relativedAxis, scaleRelativedWid, yValue);
+            // distance along the value axis
+            float valueHig = 0f;
+            if (relHasRange)
+                valueHig = (float)((yValue - relMinValue) / relMinMaxRange * relGridLength);
+
             if (needDataAnimation)
-                valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, i, valueHig);
+                valueHig = AnimationStyleHelper.CheckDataAnimation(chart, serie, dataIndex, valueHig);
+
+            float xPos, yPos;
             if (isY)
             {
-                xPos = gridXY + valueHig;
-                yPos = AxisHelper.GetAxisValuePosition(grid, axis, scaleWid, xValue);
+                xPos = dpGridXY + valueHig;
+                if (axisIsCategory)
+                    yPos = axisGridXY + boundaryOffset + scaleWid * (float)xValue;
+                else if (axisHasRange)
+                    yPos = axisGridXY + (float)((xValue - axisMinValue) / axisMinMaxRange * axisGridLength);
+                else
+                    yPos = axisGridXY;
             }
             else
             {
-                yPos = gridXY + valueHig;
-                xPos = AxisHelper.GetAxisValuePosition(grid, axis, scaleWid, xValue);
+                yPos = dpGridXY + valueHig;
+                if (axisIsCategory)
+                    xPos = axisGridXY + boundaryOffset + scaleWid * (float)xValue;
+                else if (axisHasRange)
+                    xPos = axisGridXY + (float)((xValue - axisMinValue) / axisMinMaxRange * axisGridLength);
+                else
+                    xPos = axisGridXY;
             }
             np = new Vector3(xPos, yPos);
             return yPos;

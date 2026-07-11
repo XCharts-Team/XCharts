@@ -81,6 +81,8 @@ slug: /changelog
 
 ## master
 
+* (2026.07.17) 优化`Axis`的自动分割策略
+* (2026.07.17) 增加`Serie`的`LoadData`接口
 * (2026.07.09) 增加`DataZoom`的`onStartEndChanged`回调
 * (2026.07.09) 优化`Axis`的自动`Tick`分割策略
 * (2026.07.06) 增加`Tooltip`的`onActive`和`onPosition`回调

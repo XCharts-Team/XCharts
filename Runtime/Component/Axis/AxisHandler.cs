@@ -397,10 +397,8 @@ namespace XCharts
                     else
                     {
                         var axisLength = axis.context.length <= 0 ? 240f : axis.context.length;
-                        var maxAutoSplitNumber = chart.settings.axisMaxSplitNumber > 0 ?
-                            (int)chart.settings.axisMaxSplitNumber :
-                            50;
-                        var targetSplit = Mathf.Clamp(Mathf.RoundToInt(axisLength / 60f), 2, maxAutoSplitNumber);
+                        var spacing = axis is YAxis ? 40f : 60f;
+                        var targetSplit = Mathf.Clamp(Mathf.RoundToInt(axisLength / spacing), 4, 8);
                         tick = GetNiceTick(range / targetSplit);
                     }
                     if (tick <= 0)
@@ -439,6 +437,8 @@ namespace XCharts
             }
         }
 
+        private static readonly double[] s_NiceFractions = { 1, 1.5, 2, 2.5, 3, 4, 5, 10 };
+
         private static double GetNiceTick(double rawStep)
         {
             if (rawStep <= 0)
@@ -447,20 +447,16 @@ namespace XCharts
             var exponent = Math.Floor(Math.Log10(rawStep));
             var magnitude = Math.Pow(10, exponent);
             var fraction = rawStep / magnitude;
-            double niceFraction;
 
-            if (fraction <= 1)
-                niceFraction = 1;
-            else if (fraction <= 2)
-                niceFraction = 2;
-            else if (fraction <= 2.5)
-                niceFraction = 2.5;
-            else if (fraction <= 5)
-                niceFraction = 5;
-            else
-                niceFraction = 10;
+            double best = s_NiceFractions[0];
+            double bestDiff = Math.Abs(fraction - best);
+            for (int i = 1; i < s_NiceFractions.Length; i++)
+            {
+                var diff = Math.Abs(fraction - s_NiceFractions[i]);
+                if (diff <= bestDiff) { bestDiff = diff; best = s_NiceFractions[i]; }
+            }
 
-            var tick = niceFraction * magnitude;
+            var tick = best * magnitude;
             if (tick <= 0 || double.IsNaN(tick) || double.IsInfinity(tick))
             {
                 return rawStep;

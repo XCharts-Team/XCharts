@@ -325,6 +325,7 @@ namespace XCharts.Runtime
         [NonSerialized] private bool m_NameDirty;
         [NonSerialized] private int m_YTotalCacheFrame = -1;
         [NonSerialized] private double m_YTotalCacheValue = 0;
+        [NonSerialized] internal int m_DataVersion = 0;
         
 
         /// <summary>
@@ -1875,6 +1876,7 @@ namespace XCharts.Runtime
         {
             m_YTotalCacheFrame = -1;
             m_YTotalCacheValue = 0;
+            m_DataVersion++;
             InvalidateMinMaxCache();
         }
 

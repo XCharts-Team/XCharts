@@ -16,6 +16,9 @@ namespace XCharts.Runtime
         private List<double> m_SampleSumPrefixCache;
         private int m_SampleSumPrefixMaxCount = -1;
         private bool m_SampleSumPrefixInverse = false;
+        // cache for IsAnyDataChanged to avoid scanning all data every frame
+        private int m_LastDataVersion = -1;
+        private bool m_LastAnyDataChanged = false;
 
         public override Vector3 GetSerieDataLabelOffset(SerieData serieData, LabelStyle label)
         {
@@ -318,7 +321,14 @@ namespace XCharts.Runtime
             if (serie.animation.enable)
             {
                 dataAddDuration = serie.animation.GetAdditionDuration();
-                useCurrentData = DataHelper.IsAnyDataChanged(ref showData, serie.minShow, showData.Count);
+                // Only re-scan all data for changes when data version has changed
+                // or when previously animating (to detect animation completion).
+                if (serie.m_DataVersion != m_LastDataVersion || m_LastAnyDataChanged)
+                {
+                    m_LastDataVersion = serie.m_DataVersion;
+                    m_LastAnyDataChanged = DataHelper.IsAnyDataChanged(ref showData, serie.minShow, showData.Count);
+                }
+                useCurrentData = m_LastAnyDataChanged;
                 dataChanging = useCurrentData;
             }
             if (!useCurrentData && rate > 1 &&

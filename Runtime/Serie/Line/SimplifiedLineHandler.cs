@@ -14,6 +14,9 @@ namespace XCharts.Runtime
         private List<double> m_SampleSumPrefixCache;
         private int m_SampleSumPrefixMaxCount = -1;
         private bool m_SampleSumPrefixInverse = false;
+        // cache for IsAnyDataChanged to avoid scanning all data every frame
+        private int m_LastDataVersion = -1;
+        private bool m_LastAnyDataChanged = false;
 
         public override void Update()
         {
@@ -203,7 +206,14 @@ namespace XCharts.Runtime
             List<double> sampleSumPrefix = null;
             if (serie.animation.enable)
             {
-                useCurrentData = DataHelper.IsAnyDataChanged(ref showData, serie.minShow, maxCount);
+                // Only re-scan all data for changes when data version has changed
+                // or when previously animating (to detect animation completion).
+                if (serie.m_DataVersion != m_LastDataVersion || m_LastAnyDataChanged)
+                {
+                    m_LastDataVersion = serie.m_DataVersion;
+                    m_LastAnyDataChanged = DataHelper.IsAnyDataChanged(ref showData, serie.minShow, maxCount);
+                }
+                useCurrentData = m_LastAnyDataChanged;
                 dataChanging = useCurrentData;
             }
             if (!useCurrentData && rate > 1 &&
@@ -258,12 +268,36 @@ namespace XCharts.Runtime
             // gridXY for the value-axis orientation in GetDataPoint
             var dpGridXY = isY ? gridX : gridY;
 
+            // Cache ignore-related fields to avoid repeated Serie.IsIgnoreValue()
+            // method dispatch chain (3 dispatches per call) in the hot loop.
+            var serieIgnore = serie.ignore;
+            var serieIgnoreValue = serie.ignoreValue;
+
+            // Cache axis.inverse to avoid repeated method calls in GetData(0, inverse).
+            // Also allows direct data[index] access bypassing GetData() bounds checks.
+            var axisInverse = axis.inverse;
+
             for (int i = serie.minShow; i < maxCount; i += rate)
             {
                 var serieData = showData[i];
-                var isIgnore = serie.IsIgnoreValue(serieData);
+
+                // Inline ignore check: eliminates method dispatch + property getter overhead.
+                // When serieIgnore=false, the outer if is skipped entirely (zero cost).
+                bool isIgnore = false;
+                if (serieIgnore)
+                {
+                    if (serieData.ignore)
+                        isIgnore = true;
+                    else
+                    {
+                        var dv = serieData.data[1];
+                        isIgnore = serieIgnoreValue == 0 ? dv == 0 : MathUtil.Approximately(dv, serieIgnoreValue);
+                    }
+                }
+
                 var np = Vector3.zero;
-                var xValue = axisIsCategory ? i : serieData.GetData(0, axis.inverse);
+                var xValue = axisIsCategory ? i :
+                    (axisInverse ? -serieData.data[0] : serieData.data[0]);
                 var nextIndex = Mathf.Min(i + rate, maxCount);
                 if (isIgnore)
                 {
@@ -280,14 +314,27 @@ namespace XCharts.Runtime
                     {
                         var skipData = showData[j];
                         var skipNp = Vector3.zero;
-                        var skipXValue = axisIsCategory ? j : skipData.GetData(0, axis.inverse);
+                        var skipXValue = axisIsCategory ? j :
+                            (axisInverse ? -skipData.data[0] : skipData.data[0]);
                         var skipStackHeight = ComputeDataPointFast(isY, skipXValue, relativedValue, j,
                             scaleWid, needDataAnimation, dpGridXY,
                             relGridLength, relMinValue, relMinMaxRange, relHasRange,
                             axisIsCategory, axisGridXY, axisGridLength,
                             axisMinValue, axisMinMaxRange, axisHasRange, boundaryOffset,
                             ref skipNp);
-                        skipData.context.stackHeight = serie.IsIgnoreValue(skipData) ? 0 : skipStackHeight;
+
+                        bool skipIgnored = false;
+                        if (serieIgnore)
+                        {
+                            if (skipData.ignore)
+                                skipIgnored = true;
+                            else
+                            {
+                                var sv = skipData.data[1];
+                                skipIgnored = serieIgnoreValue == 0 ? sv == 0 : MathUtil.Approximately(sv, serieIgnoreValue);
+                            }
+                        }
+                        skipData.context.stackHeight = skipIgnored ? 0 : skipStackHeight;
                         skipData.context.position = skipNp;
                     }
                     if (serie.ignoreLineBreak && serie.context.dataIgnores.Count > 0)
@@ -315,14 +362,27 @@ namespace XCharts.Runtime
                     {
                         var skipData = showData[j];
                         var skipNp = Vector3.zero;
-                        var skipXValue = axisIsCategory ? j : skipData.GetData(0, axis.inverse);
+                        var skipXValue = axisIsCategory ? j :
+                            (axisInverse ? -skipData.data[0] : skipData.data[0]);
                         var skipStackHeight = ComputeDataPointFast(isY, skipXValue, relativedValue, j,
                             scaleWid, needDataAnimation, dpGridXY,
                             relGridLength, relMinValue, relMinMaxRange, relHasRange,
                             axisIsCategory, axisGridXY, axisGridLength,
                             axisMinValue, axisMinMaxRange, axisHasRange, boundaryOffset,
                             ref skipNp);
-                        skipData.context.stackHeight = serie.IsIgnoreValue(skipData) ? 0 : skipStackHeight;
+
+                        bool skipIgnored = false;
+                        if (serieIgnore)
+                        {
+                            if (skipData.ignore)
+                                skipIgnored = true;
+                            else
+                            {
+                                var sv = skipData.data[1];
+                                skipIgnored = serieIgnoreValue == 0 ? sv == 0 : MathUtil.Approximately(sv, serieIgnoreValue);
+                            }
+                        }
+                        skipData.context.stackHeight = skipIgnored ? 0 : skipStackHeight;
                         skipData.context.position = skipNp;
                     }
                 }

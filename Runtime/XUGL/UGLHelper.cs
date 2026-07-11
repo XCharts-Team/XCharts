@@ -328,7 +328,9 @@ namespace XUGL
             ref bool bitp, ref bool bibp, int debugIndex = 0)
         {
             var dir1 = (cp - lp).normalized;
-            var dir1v = Vector3.Cross(dir1, Vector3.forward).normalized * width;
+            // dir1 is unit length and lies in XY plane, so cross with forward/back
+            // already yields a unit vector — no need for extra .normalized
+            var dir1v = Vector3.Cross(dir1, Vector3.forward) * width;
             ltp = lp - dir1v;
             lbp = lp + dir1v;
             if (debugIndex == 1 && cp == np)
@@ -341,7 +343,7 @@ namespace XUGL
             }
 
             var dir2 = (cp - np).normalized;
-            var dir2v = Vector3.Cross(dir2, Vector3.back).normalized * width;
+            var dir2v = Vector3.Cross(dir2, Vector3.back) * width;
             ntp = np - dir2v;
             nbp = np + dir2v;
             clp = cp - dir2v;
@@ -355,8 +357,10 @@ namespace XUGL
                 return;
             }
 
-            var ldist = (Vector3.Distance(cp, lp) + width) * dir1;
-            var rdist = (Vector3.Distance(cp, np) + width) * dir2;
+            // Dir * distance == (end - start), so we can avoid Vector3.Distance (sqrt).
+            // (Distance(cp, lp) + width) * dir1 = (cp - lp) + dir1 * width
+            var ldist = (cp - lp) + dir1 * width;
+            var rdist = (cp - np) + dir2 * width;
 
             bitp = UGLHelper.GetIntersection(ltp, ltp + ldist, ntp, ntp + rdist, ref itp);
             bibp = UGLHelper.GetIntersection(lbp, lbp + ldist, nbp, nbp + rdist, ref ibp);

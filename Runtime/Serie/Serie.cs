@@ -1409,6 +1409,43 @@ namespace XCharts.Runtime
             m_NeedUpdateFilterData = true;
         }
 
+        /// <summary>
+        /// 批量加载 (x, y) 数据。
+        /// 与逐点 AddYData 不同，此方法在内部紧凑循环中创建 SerieData，
+        /// 跳过每点的 SetVerticesDirty、InvalidateTotalCache 等开销，
+        /// 仅在最后统一标记脏数据。适合大数据量初始化场景。
+        /// </summary>
+        /// <param name="xValues">X 轴值列表</param>
+        /// <param name="yValues">Y 轴值列表（需与 xValues 等长）</param>
+        [Since("3.16.0")]
+        public void LoadData(List<double> xValues, List<double> yValues)
+        {
+            if (xValues == null || yValues == null || xValues.Count != yValues.Count)
+                return;
+
+            int count = xValues.Count;
+            m_Data.Clear();
+            if (m_Data.Capacity < count)
+                m_Data.Capacity = count;
+
+            for (int i = 0; i < count; i++)
+            {
+                var sd = new SerieData();
+                sd.data.Add(xValues[i]);
+                sd.data.Add(yValues[i]);
+                sd.index = i;
+                m_Data.Add(sd);
+            }
+
+            m_ShowDataDimension = 2;
+            InvalidateTotalCache();
+            SetAllDirty();
+            labelDirty = true;
+            titleDirty = true;
+            dataDirty = true;
+            m_NeedUpdateFilterData = true;
+        }
+
         private void CheckDataName(string dataName)
         {
             if (string.IsNullOrEmpty(dataName))

@@ -81,10 +81,10 @@ slug: /changelog
 
 ## master
 
-* (2026.07.17) 优化`Axis`的自动分割策略
-* (2026.07.17) 增加`Serie`的`LoadData`接口
+* (2026.07.17) 修复`ClearData`清空数据后再添加`Legend`显示异常的问题 (#366)
+* (2026.07.12) 优化`Axis`的自动分割策略
+* (2026.07.12) 增加`Serie`的`LoadData`接口
 * (2026.07.09) 增加`DataZoom`的`onStartEndChanged`回调
-* (2026.07.09) 优化`Axis`的自动`Tick`分割策略
 * (2026.07.06) 增加`Tooltip`的`onActive`和`onPosition`回调
 * (2026.07.06) 优化`TriggerTooltip`接口，防止在有忽略数据的图表上表现异常
 * (2026.06.15) 修复`GetMinMaxData`在`showDataDimension`未初始化时返回异常的问题 (#365)

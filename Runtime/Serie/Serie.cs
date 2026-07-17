@@ -1448,10 +1448,11 @@ namespace XCharts.Runtime
 
         private void CheckDataName(string dataName)
         {
-            if (string.IsNullOrEmpty(dataName))
+            if (!string.IsNullOrEmpty(dataName))
+            {
                 SetSerieNameDirty();
-            else
                 m_ShowDataName = true;
+            }
         }
 
         /// <summary>

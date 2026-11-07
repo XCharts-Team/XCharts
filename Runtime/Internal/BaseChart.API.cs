@@ -719,12 +719,25 @@ namespace XCharts.Runtime
             var serie = GetSerie(serieIndex);
             if (serie == null) return false;
             if (serie.dataCount == 0) return false;
-            dataIndex = dataIndex % serie.dataCount;
+            if (dataIndex < 0 || dataIndex >= serie.dataCount) return false;
+
             DataZoom xDataZoom, yDataZoom;
             GetDataZoomOfSerie(serie, out xDataZoom, out yDataZoom);
             var serieData = serie.GetSerieData(dataIndex, xDataZoom);
             if (serieData == null) return false;
-            return TriggerTooltip(serieData.context.position);
+
+            var screenPoint = LocalPointToScreenPoint(serieData.context.position);
+            var eventData = new PointerEventData(EventSystem.current);
+            eventData.position = screenPoint;
+
+            isTriggerByCode = true;
+            serie.context.pointerEnter = true;
+            serie.context.pointerItemDataIndex = dataIndex;
+            pointerMoveEventData = eventData;
+            pointerPos = (Vector2)serieData.context.position;
+
+            OnPointerEnter(eventData);
+            return true;
         }
 
         /// <summary>

@@ -81,6 +81,7 @@ slug: /changelog
 
 ## master
 
+* (2026.11.07) 优化`TriggerTooltip`接口
 * (2026.07.17) 修复`GetInstanceID`在Unity 6.5编译报错的问题，迁移至`GetEntityId` (#367)
 * (2026.07.17) 修复`ClearData`清空数据后再添加`Legend`显示异常的问题 (#366)
 * (2026.07.12) 优化`Axis`的自动分割策略

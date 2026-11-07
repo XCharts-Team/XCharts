@@ -302,9 +302,17 @@ namespace XCharts.Runtime
 
         public virtual void OnPointerEnter(PointerEventData eventData)
         {
-            isTriggerByCode = false;
+            var codeTriggered = isTriggerByCode;
+            if (!codeTriggered)
+            {
+                isTriggerByCode = false;
+            }
             pointerMoveEventData = eventData;
             if (m_OnPointerEnter != null) m_OnPointerEnter(eventData, this);
+            if (codeTriggered)
+            {
+                isTriggerByCode = true;
+            }
         }
 
         public virtual void OnPointerExit(PointerEventData eventData)

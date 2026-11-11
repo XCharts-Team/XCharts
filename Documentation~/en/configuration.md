@@ -37,6 +37,7 @@ slug: /configuration
 - [SerieTheme](#serietheme)
 - [SubTitleTheme](#subtitletheme)
 - [Theme](#theme)
+- [ThemeSnapshotJson](#themesnapshotjson)
 - [ThemeStyle](#themestyle)
 - [TitleTheme](#titletheme)
 - [TooltipTheme](#tooltiptheme)
@@ -183,8 +184,11 @@ slug: /configuration
 - [AnimationInfo](#animationinfo)
 - [AnimationInteraction](#animationinteraction)
 - [BaseSerie](#baseserie)
+- [ChartJson](#chartjson)
+- [ChartSettingsJson](#chartsettingsjson)
 - [ChartText](#charttext)
 - [ChildComponent](#childcomponent)
+- [ComponentJson](#componentjson)
 - [DebugInfo](#debuginfo)
 - [Indicator](#indicator)
 - [INeedSerieContainer](#ineedseriecontainer)
@@ -198,6 +202,9 @@ slug: /configuration
 - [LangCandlestick](#langcandlestick)
 - [LangTime](#langtime)
 - [MainComponent](#maincomponent)
+- [ResourceRef](#resourceref)
+- [SerieJson](#seriejson)
+- [UIComponentJson](#uicomponentjson)
 - [Wrapper&lt;T&gt;](#wrappert)
 - [XCResourcesImporter](#xcresourcesimporter)
 - [XCSettings](#xcsettings)
@@ -1274,6 +1281,14 @@ class in XCharts.Runtime / Inherits from: [CoordSystem](#coordsystem), [IUpdateR
 
 class in XCharts.Runtime / Inherits from: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
 
+## ChartJson
+
+class in XCharts.Runtime
+
+## ChartSettingsJson
+
+class in XCharts.Runtime
+
 ## ChartText
 
 class in XCharts.Runtime
@@ -1385,6 +1400,10 @@ line style of comment mark area.
 
 Set this to false to prevent this comment item from showing.
 
+## ComponentJson
+
+class in XCharts.Runtime
+
 ## ComponentTheme
 
 class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent) / Subclasses: [BaseAxisTheme](#baseaxistheme), [DataZoomTheme](#datazoomtheme), [LegendTheme](#legendtheme), [SubTitleTheme](#subtitletheme), [TitleTheme](#titletheme), [TooltipTheme](#tooltiptheme), [VisualMapTheme](#visualmaptheme)
@@ -1484,6 +1503,12 @@ Lock end value.
 `Color32`
 
 the color of dataZoom data area.
+
+### DataZoom.filterAxisRange
+
+`bool` `true` `v3.12.0`
+
+Whether dataZoom filters the axis min/max range. When true, the axis scale adapts to the current zoom window. When false, the axis always shows the full data range regardless of the zoom position.
 
 ### DataZoom.filterMode
 
@@ -2582,6 +2607,42 @@ Rotation of label.
 
 Whether the label is showed.
 
+### LabelStyle.showCondition
+
+[LabelStyle.ShowCondition](#labelstyleshowcondition) `v3.16.0`
+
+The value-based show condition of label. Default is ShowCondition.Always. When set to GreaterThan or LessThan, the label is shown only when the value satisfies the threshold.
+
+Options:
+
+- `Always`: Always show label.
+- `GreaterThan`: Show label when value is greater than showThreshold.
+- `LessThan`: Show label when value is less than showThreshold.
+
+### LabelStyle.showFilter
+
+[LabelStyle.ShowFilter](#labelstyleshowfilter) `v3.16.0`
+
+The data-pattern-based show filter of label. Default is ShowFilter.All. When set to Peak or Valley, the label is shown only at local maximum or minimum data points.
+
+Options:
+
+- `All`: All data points show label.
+- `Peak`: Show label when value is at a peak.
+- `Valley`: Show label when value is at a valley.
+
+### LabelStyle.showMinGap
+
+`float` `0` `v3.16.0`
+
+the gap between label and the previous label. When the distance to the previous label is less than this value, the label with smaller y value will be hidden. Default is 0, which means this function is turned off. 和上一个标签的最小间距。当和上一个标签的距离小于该值时，隐藏对应y值较小的标签。默认为0不开启该功能。
+
+### LabelStyle.showThreshold
+
+`double` `0` `v3.16.0`
+
+The threshold for showCondition. When showCondition is GreaterThan or LessThan, only values that satisfy the comparison will show label. Default is 0.
+
 ### LabelStyle.textPadding
 
 [TextPadding](#textpadding)
@@ -2643,6 +2704,12 @@ Data array of legend. An array item is usually a name representing string. (If i
 `string`
 
 No longer used, the use of LabelStyle.formatter instead.
+
+### Legend.height
+
+`float` `0` `v3.16.0`
+
+the height of legend component. Default is 0 for auto adapt. When set a value between 0 and 1, it means the percentage relative to chart width and height.
 
 ### Legend.icons
 
@@ -2761,6 +2828,12 @@ Whether to show legend component.
 [TextLimit](#textlimit) `v3.10.0`
 
 the limit of text.
+
+### Legend.width
+
+`float` `0` `v3.16.0`
+
+the width of legend component. Default is 0 for auto adapt. When set a value between 0 and 1, it means the percentage relative to chart width and height.
 
 ## LegendTheme
 
@@ -3232,7 +3305,7 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 
 ### MarqueeStyle.apply
 
-`bool` `false` `v3.5.0`
+`bool` `true` `v3.5.0`
 
 Check whether the scope is applied to the DataZoom. If this parameter is set to true, the range after the selection is complete is the DataZoom selection range.
 
@@ -3465,6 +3538,12 @@ Radial axis of polar coordinate.
 ## RadiusAxisTheme
 
 class in XCharts.Runtime / Inherits from: [BaseAxisTheme](#baseaxistheme)
+
+## ResourceRef
+
+class in XCharts.Runtime
+
+Portable resource reference that supports a multi-level lookup strategy: GUID → path → name → fallbackName → null/default
 
 ## Ring
 
@@ -4113,6 +4192,10 @@ the target node name.
 `double`
 
 the value of link. decide the width of link.
+
+## SerieJson
+
+class in XCharts.Runtime
 
 ## SerieSymbol
 
@@ -4779,6 +4862,10 @@ the font of chart text。
 
 [VisualMapTheme](#visualmaptheme)
 
+## ThemeSnapshotJson
+
+class in XCharts.Runtime
+
 ## ThemeStyle
 
 class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
@@ -5158,6 +5245,10 @@ Options:
 `float` `1f`
 
 the width of line.
+
+## UIComponentJson
+
+class in XCharts.Runtime
 
 ## UIComponentTheme
 

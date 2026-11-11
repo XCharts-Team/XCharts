@@ -6,6 +6,7 @@ slug: /changelog
 # 更新日志
 
 [master](#master)  
+[v3.16.0](#v3160)  
 [v3.15.0](#v3150)  
 [v3.14.0](#v3140)  
 [v3.13.0](#v3130)  
@@ -81,6 +82,9 @@ slug: /changelog
 
 ## master
 
+## v3.16.0
+
+* (2026.11.11) 发布`v3.16.0`版本
 * (2026.11.07) 优化`TriggerTooltip`接口
 * (2026.07.17) 修复`GetInstanceID`在Unity 6.5编译报错的问题，迁移至`GetEntityId` (#367)
 * (2026.07.17) 修复`ClearData`清空数据后再添加`Legend`显示异常的问题 (#366)

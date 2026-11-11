@@ -63,8 +63,12 @@ slug: /api
 - [ChartConst](#chartconst)
 - [ChartDrawer](#chartdrawer)
 - [ChartHelper](#charthelper)
+- [ChartJson](#chartjson)
+- [ChartJsonDeserializer](#chartjsondeserializer)
+- [ChartJsonSerializer](#chartjsonserializer)
 - [ChartLabel](#chartlabel)
 - [ChartObject](#chartobject)
+- [ChartSettingsJson](#chartsettingsjson)
 - [ChartText](#charttext)
 - [CheckHelper](#checkhelper)
 - [ChildComponent](#childcomponent)
@@ -75,6 +79,7 @@ slug: /api
 - [CommentMarkStyle](#commentmarkstyle)
 - [ComponentHandlerAttribute](#componenthandlerattribute)
 - [ComponentHelper](#componenthelper)
+- [ComponentJson](#componentjson)
 - [ComponentTheme](#componenttheme)
 - [CoordOptionsAttribute](#coordoptionsattribute)
 - [CoordSystem](#coordsystem)
@@ -128,6 +133,8 @@ slug: /api
 - [LabelLine.LineType](#labellinelinetype)
 - [LabelStyle](#labelstyle)
 - [LabelStyle.Position](#labelstyleposition)
+- [LabelStyle.ShowCondition](#labelstyleshowcondition)
+- [LabelStyle.ShowFilter](#labelstyleshowfilter)
 - [Lang](#lang)
 - [LangCandlestick](#langcandlestick)
 - [LangTime](#langtime)
@@ -200,6 +207,8 @@ slug: /api
 - [RadiusAxisTheme](#radiusaxistheme)
 - [ReflectionUtil](#reflectionutil)
 - [RequireChartComponentAttribute](#requirechartcomponentattribute)
+- [ResourceRef](#resourceref)
+- [ResourceRefHandler](#resourcerefhandler)
 - [Ring](#ring)
 - [RingChart](#ringchart)
 - [RoseType](#rosetype)
@@ -225,6 +234,7 @@ slug: /api
 - [SerieHandler&lt;T&gt;](#seriehandlert)
 - [SerieHandlerAttribute](#seriehandlerattribute)
 - [SerieHelper](#seriehelper)
+- [SerieJson](#seriejson)
 - [SerieLabelHelper](#serielabelhelper)
 - [SerieLabelPool](#serielabelpool)
 - [SerieParams](#serieparams)
@@ -256,6 +266,7 @@ slug: /api
 - [TextPadding](#textpadding)
 - [TextStyle](#textstyle)
 - [Theme](#theme)
+- [ThemeSnapshotJson](#themesnapshotjson)
 - [ThemeStyle](#themestyle)
 - [ThemeType](#themetype)
 - [Title](#title)
@@ -278,6 +289,9 @@ slug: /api
 - [UGLExample](#uglexample)
 - [UGLHelper](#uglhelper)
 - [UIComponent](#uicomponent)
+- [UIComponentJson](#uicomponentjson)
+- [UIComponentJsonDeserializer](#uicomponentjsondeserializer)
+- [UIComponentJsonSerializer](#uicomponentjsonserializer)
 - [UIComponentTheme](#uicomponenttheme)
 - [UIHelper](#uihelper)
 - [ViewControl](#viewcontrol)
@@ -1125,7 +1139,7 @@ public static float GetAxisPosition(GridCoord grid, Axis axis, double value, int
 
 ### AxisHelper.GetAxisPositionValue
 
-public static double GetAxisPositionValue(float xy, float axisLength, double axisRange, float axisStart, float axisOffset)  
+public static double GetAxisPositionValue(float xy, float axisLength, double axisRange, float axisStart, float axisOffset, double minValue = 0)  
 
 
 ### AxisHelper.GetAxisValueDistance
@@ -1921,6 +1935,14 @@ public T EnsureChartComponent&lt;T&gt;() where T : MainComponent
 
 Ensure the chart has the component, if not, add it. Note: it may fail to add.
 
+### BaseChart.ExportToJson
+
+public string ExportToJson(bool prettyPrint = true)  
+
+> Since `v3.16.0`
+
+Export chart configuration and data to JSON string.
+
 ### BaseChart.GenerateDefaultSerieName
 
 public string GenerateDefaultSerieName()  
@@ -2082,6 +2104,14 @@ public bool HasSerie(Type type)
 ### BaseChart.HasSerie&lt;T&gt;
 
 public bool HasSerie&lt;T&gt;() where T : Serie  
+
+### BaseChart.ImportFromJson
+
+public void ImportFromJson(string json)  
+
+> Since `v3.16.0`
+
+Import JSON and update current chart configuration.
 
 ### BaseChart.Init
 
@@ -2501,6 +2531,11 @@ Whether the mouse click the chart.
 
 public bool isPointerInChart  
 Whether the mouse pointer is in the chart.
+
+### BaseGraph.isRealPointerInChart
+
+public bool isRealPointerInChart  
+Whether the mouse pointer is really in the chart (not triggered by code).
 
 ### BaseGraph.onBeginDrag
 
@@ -3192,6 +3227,57 @@ public static void SetBackground(Image background, Background imageStyle)
 
 public static void SetColorOpacity(ref Color32 color, float opacity)  
 
+## ChartJson
+
+class in XCharts.Runtime
+
+## ChartJsonDeserializer
+
+class in XCharts.Runtime
+
+Imports a ChartJson (v1.0) into an existing BaseChart instance or creates a new chart.
+
+### ChartJsonDeserializer.ConvertEscapedDataStringToRawObject
+
+public static string ConvertEscapedDataStringToRawObject(string json)  
+
+### ChartJsonDeserializer.ConvertRawObjectDataToEscapedString
+
+public static string ConvertRawObjectDataToEscapedString(string json)  
+
+### ChartJsonDeserializer.Deserialize
+
+public static void Deserialize(string json, BaseChart chart)  
+Deserialize <paramref name="json"/> and apply the configuration to <paramref name="chart"/>. Existing components/series are updated or replaced. Calls Refresh at the end.
+
+### ChartJsonDeserializer.PruneDefaults
+
+public static string PruneDefaults(string currentJson, string defaultJson)  
+
+### ChartJsonDeserializer.PruneParsedDefaults
+
+public static object PruneParsedDefaults(object currentObj, object defaultObj)  
+
+### ChartJsonDeserializer.Stringify
+
+public static string Stringify(object obj, bool pretty)  
+
+
+### ChartJsonDeserializer.TryParse
+
+public static bool TryParse(string json, out object result)  
+
+## ChartJsonSerializer
+
+class in XCharts.Runtime
+
+Exports a BaseChart instance to a portable JSON string (ChartJson schema v1.0). Only serialized fields are exported; runtime-only / [NonSerialized] fields are skipped.
+
+### ChartJsonSerializer.Serialize
+
+public static string Serialize(BaseChart chart, bool prettyPrint = true)  
+Serialize <paramref name="chart"/> to a JSON string.
+
 ## ChartLabel
 
 class in XCharts.Runtime / Inherits from: [Image](https://docs.unity3d.com/ScriptReference/30_search.html?q=image)
@@ -3311,6 +3397,10 @@ class in XCharts.Runtime
 ### ChartObject.Destroy
 
 public virtual void Destroy()  
+
+## ChartSettingsJson
+
+class in XCharts.Runtime
 
 ## ChartText
 
@@ -3609,6 +3699,10 @@ public static float GetYAxisOnZeroOffset(List&lt;MainComponent&gt; components, Y
 
 public static bool IsAnyCategoryOfYAxis(List&lt;MainComponent&gt; components)  
 
+## ComponentJson
+
+class in XCharts.Runtime
+
 ## ComponentTheme
 
 class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent) / Subclasses: [BaseAxisTheme](#baseaxistheme),[DataZoomTheme](#datazoomtheme),[LegendTheme](#legendtheme),[SubTitleTheme](#subtitletheme),[TitleTheme](#titletheme),[TooltipTheme](#tooltiptheme),[VisualMapTheme](#visualmaptheme) 
@@ -3652,11 +3746,27 @@ Coordinate system component.
 
 class in XCharts.Runtime
 
+### DataHelper.BuildSampleSumPrefix
+
+public static List&lt;double&gt; BuildSampleSumPrefix(ref List&lt;SerieData&gt; showData, int maxCount, bool inverse)  
+
+### DataHelper.IsAnyDataChanged
+
+public static bool IsAnyDataChanged(ref List&lt;SerieData&gt; showData, int minCount, int maxCount)  
+
 ## DataZoom
 
 class in XCharts.Runtime / Inherits from: [MainComponent](#maincomponent),[IUpdateRuntimeData](#iupdateruntimedata)
 
 DataZoom component is used for zooming a specific area, which enables user to investigate data in detail, or get an overview of the data, or get rid of outlier points.
+
+### DataZoom.onStartEndChanged
+
+public Action&lt;float, float&gt; onStartEndChanged  
+
+> Since `v3.16.0`
+
+start和end变更回调。
 
 ### DataZoom.realtime
 
@@ -3720,6 +3830,10 @@ public bool IsInZoom(Vector2 pos)
 ### DataZoom.SetDefaultValue
 
 public override void SetDefaultValue()  
+
+### DataZoom.SetStartEndWithoutCallback
+
+public void SetStartEndWithoutCallback(float start, float end)  
 
 ### DataZoom.UpdateRuntimeData
 
@@ -3989,6 +4103,10 @@ class in XCharts.Runtime
 ### FormatterHelper.NeedFormat
 
 public static bool NeedFormat(string content)  
+
+### FormatterHelper.NeedTotalContent
+
+public static bool NeedTotalContent(string content)  
 
 ### FormatterHelper.ReplaceAxisLabelContent
 
@@ -4807,6 +4925,30 @@ Options:
 - `Start`: the start of line.
 - `Middle`: the middle of line.
 - `End`: the end of line.
+
+## LabelStyle.ShowCondition
+
+class in XCharts.Runtime
+
+The value-based condition for showing label. Controls visibility based on threshold comparison.
+
+Options:
+
+- `Always`: Always show label.
+- `GreaterThan`: Show label when value is greater than showThreshold.
+- `LessThan`: Show label when value is less than showThreshold.
+
+## LabelStyle.ShowFilter
+
+class in XCharts.Runtime
+
+The data-pattern-based filter for showing label. Controls visibility based on data topology.
+
+Options:
+
+- `All`: All data points show label.
+- `Peak`: Show label when value is at a peak.
+- `Valley`: Show label when value is at a valley.
 
 ## Lang
 
@@ -6445,6 +6587,66 @@ public RequireChartComponentAttribute(Type requiredComponent, Type requiredCompo
 public RequireChartComponentAttribute(Type requiredComponent, Type requiredComponent2, Type requiredComponent3)  
 
 
+## ResourceRef
+
+class in XCharts.Runtime
+
+Portable resource reference that supports a multi-level lookup strategy: GUID → path → name → fallbackName → null/default
+
+### ResourceRef.IsEmpty
+
+public bool IsEmpty()  
+
+### ResourceRef.ToString
+
+public override string ToString()  
+
+## ResourceRefHandler
+
+class in XCharts.Runtime
+
+Handles serialization and resolution of Unity asset references for chart JSON export/import. Supports Font, TMP_FontAsset, Sprite, Material, Texture2D.
+
+### ResourceRefHandler.Serialize
+
+public static ResourceRef Serialize(UnityEngine.Object asset, bool includeBase64 = false)  
+Serializes a Unity Object into a portable ResourceRef.
+
+### ResourceRefHandler.SerializeFont
+
+public static ResourceRef SerializeFont(Font font, string fallbackName = null)  
+Serializes a Font with a fallback name hint.
+
+### ResourceRefHandler.SerializeTMPFont
+
+public static ResourceRef SerializeTMPFont(TMP_FontAsset font, string fallbackName = null)  
+Serializes a TMP_FontAsset with a fallback name hint.
+
+### ResourceRefHandler.TryResolve&lt;T&gt;
+
+public static T TryResolve&lt;T&gt;(ResourceRef refData) where T : UnityEngine.Object  
+Attempts to resolve a ResourceRef back to a Unity asset using the fallback chain:<br/> GUID → path → name → fallbackName → null
+
+### ResourceRefHandler.TryResolveFont
+
+public static Font TryResolveFont(ResourceRef refData)  
+
+### ResourceRefHandler.TryResolveMaterial
+
+public static Material TryResolveMaterial(ResourceRef refData)  
+
+### ResourceRefHandler.TryResolveSprite
+
+public static Sprite TryResolveSprite(ResourceRef refData)  
+
+### ResourceRefHandler.TryResolveTexture
+
+public static Texture2D TryResolveTexture(ResourceRef refData)  
+
+### ResourceRefHandler.TryResolveTMPFont
+
+public static TMP_FontAsset TryResolveTMPFont(ResourceRef refData)  
+
 ## Ring
 
 class in XCharts.Runtime / Inherits from: [Serie](#serie)
@@ -6913,6 +7115,14 @@ public bool IsSerieLegendName(string legendName)
 ### Serie.IsUseCoord&lt;T&gt;
 
 public bool IsUseCoord&lt;T&gt;() where T : CoordSystem  
+
+### Serie.LoadData
+
+public void LoadData(List&lt;double&gt; xValues, List&lt;double&gt; yValues)  
+
+> Since `3.16.0`
+
+批量加载 (x, y) 数据。 与逐点 AddYData 不同，此方法在内部紧凑循环中创建 SerieData， 跳过每点的 SetVerticesDirty、InvalidateTotalCache 等开销， 仅在最后统一标记脏数据。适合大数据量初始化场景。
 
 ### Serie.RemoveAllComponents
 
@@ -7859,7 +8069,7 @@ public static LineStyle GetLineStyle(Serie serie, SerieData serieData)
 
 ### SerieHelper.GetMaxData
 
-public static double GetMaxData(Serie serie, int dimension = 1, DataZoom dataZoom = null)  
+public static double GetMaxData(Serie serie, int dimension = 1, DataZoom dataZoom = null, bool inverse = false)  
 
 ### SerieHelper.GetMaxSerieData
 
@@ -7871,11 +8081,11 @@ public static double GetMedianData(Serie serie, int dimension = 1, DataZoom data
 
 ### SerieHelper.GetMinData
 
-public static double GetMinData(Serie serie, int dimension = 1, DataZoom dataZoom = null)  
+public static double GetMinData(Serie serie, int dimension = 1, DataZoom dataZoom = null, bool inverse = false)  
 
 ### SerieHelper.GetMinMaxData
 
-public static void GetMinMaxData(Serie serie, out double min, out double max, DataZoom dataZoom = null, int dimension = 0)  
+public static void GetMinMaxData(Serie serie, out double min, out double max, DataZoom dataZoom = null)  
 Gets the maximum and minimum values of all data in the serie.
 
 ### SerieHelper.GetMinSerieData
@@ -7952,6 +8162,10 @@ public static void UpdateRect(Serie serie, Vector3 chartPosition, float chartWid
 ### SerieHelper.UpdateSerieRuntimeFilterData
 
 public static void UpdateSerieRuntimeFilterData(Serie serie, bool filterInvisible = true)  
+
+## SerieJson
+
+class in XCharts.Runtime
 
 ## SerieLabelHelper
 
@@ -8590,6 +8804,10 @@ public void SyncFontToSubComponent()
 
 public void SyncTMPFontToSubComponent()  
 
+## ThemeSnapshotJson
+
+class in XCharts.Runtime
+
 ## ThemeStyle
 
 class in XCharts.Runtime / Inherits from: [ChildComponent](#childcomponent)
@@ -8813,10 +9031,26 @@ Minimum width. If fixedWidth has a value, get fixedWidth first.
 public Vector2 offset  
 The position offset of tooltip relative to the mouse position.
 
+### Tooltip.onActive
+
+public System.Action&lt;bool&gt; onActive  
+
+> Since `v3.16.0`
+
+The callback when the tooltip becomes active.
+
 ### Tooltip.onClickIndex
 
 public System.Action&lt;int&gt; onClickIndex  
 the callback of tooltip click index.
+
+### Tooltip.onPosition
+
+public System.Action&lt;float, float, Vector3&gt; onPosition  
+
+> Since `v3.16.0`
+
+The callback when the tooltip position changes. The callback parameters are <width, height, position>.
 
 ### Tooltip.paddingLeftRight
 
@@ -8900,6 +9134,11 @@ public void SetActive(bool flag)
 
 public void SetContentActive(bool flag)  
 设置文本框是否显示
+
+### Tooltip.SetPosition
+
+public void SetPosition(Vector3 pos)  
+Sets the target position of the tooltip. Does not trigger the onPosition callback.
 
 ## Tooltip.Position
 
@@ -9016,6 +9255,11 @@ public void Refresh()
 
 public void SetActive(bool flag)  
 
+### TooltipView.SetPosition
+
+public void SetPosition(Vector3 pos)  
+Sets the target position of the tooltip. Does not trigger the onPosition callback.
+
 ### TooltipView.Update
 
 public void Update()  
@@ -9023,6 +9267,7 @@ public void Update()
 ### TooltipView.UpdatePosition
 
 public void UpdatePosition(Vector3 pos)  
+Updates the target position of the tooltip and triggers the onPosition callback.
 
 ## TooltipViewItem
 
@@ -9228,6 +9473,22 @@ public override HideFlags chartHideFlags
 
 public UIComponentTheme theme  
 
+### UIComponent.ExportToJson
+
+public string ExportToJson(bool prettyPrint = true)  
+
+> Since `v3.16.0`
+
+Export UI component configuration to JSON string.
+
+### UIComponent.ImportFromJson
+
+public void ImportFromJson(string json)  
+
+> Since `v3.16.0`
+
+Import JSON and update current UI component configuration.
+
 ### UIComponent.SetAllDirty
 
 public override void SetAllDirty()  
@@ -9247,6 +9508,26 @@ public override void SetVerticesDirty()
 
 public bool UpdateTheme(ThemeType theme)  
 Update chart theme.
+
+## UIComponentJson
+
+class in XCharts.Runtime
+
+## UIComponentJsonDeserializer
+
+class in XCharts.Runtime
+
+### UIComponentJsonDeserializer.Deserialize
+
+public static void Deserialize(string json, UIComponent target)  
+
+## UIComponentJsonSerializer
+
+class in XCharts.Runtime
+
+### UIComponentJsonSerializer.Serialize
+
+public static string Serialize(UIComponent component, bool prettyPrint = true)  
 
 ## UIComponentTheme
 

@@ -6,6 +6,7 @@ slug: /changelog
 # Changelog
 
 [master](#master)  
+[v3.16.0](#v3160)  
 [v3.15.0](#v3150)  
 [v3.14.0](#v3140)  
 [v3.13.0](#v3130)  
@@ -79,6 +80,10 @@ slug: /changelog
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.16.0
+
+* (2026.11.11) Release `v3.16.0` version
 
 ## v3.15.0
 

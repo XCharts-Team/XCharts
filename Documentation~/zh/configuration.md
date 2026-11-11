@@ -37,6 +37,7 @@ slug: /configuration
 - [SerieTheme](#serietheme)
 - [SubTitleTheme](#subtitletheme)
 - [Theme](#theme)
+- [ThemeSnapshotJson](#themesnapshotjson)
 - [ThemeStyle](#themestyle)
 - [TitleTheme](#titletheme)
 - [TooltipTheme](#tooltiptheme)
@@ -183,8 +184,11 @@ slug: /configuration
 - [AnimationInfo](#animationinfo)
 - [AnimationInteraction](#animationinteraction)
 - [BaseSerie](#baseserie)
+- [ChartJson](#chartjson)
+- [ChartSettingsJson](#chartsettingsjson)
 - [ChartText](#charttext)
 - [ChildComponent](#childcomponent)
+- [ComponentJson](#componentjson)
 - [DebugInfo](#debuginfo)
 - [Indicator](#indicator)
 - [INeedSerieContainer](#ineedseriecontainer)
@@ -198,6 +202,9 @@ slug: /configuration
 - [LangCandlestick](#langcandlestick)
 - [LangTime](#langtime)
 - [MainComponent](#maincomponent)
+- [ResourceRef](#resourceref)
+- [SerieJson](#seriejson)
+- [UIComponentJson](#uicomponentjson)
 - [Wrapper&lt;T&gt;](#wrappert)
 - [XCResourcesImporter](#xcresourcesimporter)
 - [XCSettings](#xcsettings)
@@ -1274,6 +1281,14 @@ class in XCharts.Runtime / 继承自: [CoordSystem](#coordsystem), [IUpdateRunti
 
 class in XCharts.Runtime / 继承自: [Serie](#serie), [INeedSerieContainer](#ineedseriecontainer)
 
+## ChartJson
+
+class in XCharts.Runtime
+
+## ChartSettingsJson
+
+class in XCharts.Runtime
+
 ## ChartText
 
 class in XCharts.Runtime
@@ -1385,6 +1400,10 @@ class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 
 是否显示当前注解项。
 
+## ComponentJson
+
+class in XCharts.Runtime
+
 ## ComponentTheme
 
 class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent) / 子类: [BaseAxisTheme](#baseaxistheme), [DataZoomTheme](#datazoomtheme), [LegendTheme](#legendtheme), [SubTitleTheme](#subtitletheme), [TitleTheme](#titletheme), [TooltipTheme](#tooltiptheme), [VisualMapTheme](#visualmaptheme)
@@ -1484,6 +1503,12 @@ DataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息�
 `Color32`
 
 数据区域颜色。
+
+### DataZoom.filterAxisRange
+
+`bool` `true` `v3.12.0`
+
+是否根据DataZoom的缩放窗口过滤坐标轴的最大最小值范围。为true时坐标轴范围随缩放窗口变化；为false时坐标轴始终显示全部数据范围。
 
 ### DataZoom.filterMode
 
@@ -2582,6 +2607,42 @@ class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent), [ISerie
 
 是否显示文本标签。
 
+### LabelStyle.showCondition
+
+[LabelStyle.ShowCondition](#labelstyleshowcondition) `v3.16.0`
+
+标签基于值的显示条件。默认为ShowCondition.Always，总是显示。 设为GreaterThan或LessThan时，只有满足showThreshold阈值条件的数据点才显示标签。
+
+可选：
+
+- `Always`: 总是显示标签。
+- `GreaterThan`: 大于showThreshold才显示标签。
+- `LessThan`: 小于showThreshold才显示标签。
+
+### LabelStyle.showFilter
+
+[LabelStyle.ShowFilter](#labelstyleshowfilter) `v3.16.0`
+
+标签基于数据形态的显示筛选。默认为ShowFilter.All，所有数据点都显示。 设为Peak或Valley时，只在局部波峰或波谷的数据点显示标签。
+
+可选：
+
+- `All`: 所有数据点都显示标签。
+- `Peak`: 波峰才显示标签。
+- `Valley`: 波谷才显示标签。
+
+### LabelStyle.showMinGap
+
+`float` `0` `v3.16.0`
+
+the gap between label and the previous label. When the distance to the previous label is less than this value, the label with smaller y value will be hidden. Default is 0, which means this function is turned off. 和上一个标签的最小间距。当和上一个标签的距离小于该值时，隐藏对应y值较小的标签。默认为0不开启该功能。
+
+### LabelStyle.showThreshold
+
+`double` `0` `v3.16.0`
+
+showCondition的阈值。当showCondition为GreaterThan或LessThan时生效，只有满足比较条件的值才显示标签。默认值为0。
+
 ### LabelStyle.textPadding
 
 [TextPadding](#textpadding)
@@ -2643,6 +2704,12 @@ class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent), [IPropert
 `string`
 
 不再使用，使用LabelStyle.formatter代替。
+
+### Legend.height
+
+`float` `0` `v3.16.0`
+
+图例组件的高。默认为0自适应。当设置0-1的值时，表示相对于图表宽高的比例。
 
 ### Legend.icons
 
@@ -2761,6 +2828,12 @@ class in XCharts.Runtime / 继承自: [MainComponent](#maincomponent), [IPropert
 [TextLimit](#textlimit) `v3.10.0`
 
 文本限制。
+
+### Legend.width
+
+`float` `0` `v3.16.0`
+
+图例组件的宽。默认为0自适应。当设置0-1的值时，表示相对于图表宽高的比例。
 
 ## LegendTheme
 
@@ -3232,7 +3305,7 @@ Marquee style. It can be used for the DataZoom component. 选取框样式。可�
 
 ### MarqueeStyle.apply
 
-`bool` `false` `v3.5.0`
+`bool` `true` `v3.5.0`
 
 选取框范围是否应用到DataZoom上。当为true时，框选结束后的范围即为DataZoom的选择范围。
 
@@ -3465,6 +3538,12 @@ class in XCharts.Runtime / 继承自: [Axis](#axis)
 ## RadiusAxisTheme
 
 class in XCharts.Runtime / 继承自: [BaseAxisTheme](#baseaxistheme)
+
+## ResourceRef
+
+class in XCharts.Runtime
+
+Portable resource reference that supports a multi-level lookup strategy: GUID → path → name → fallbackName → null/default
 
 ## Ring
 
@@ -4113,6 +4192,10 @@ class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
 `double`
 
 边的值。决定边的宽度。
+
+## SerieJson
+
+class in XCharts.Runtime
 
 ## SerieSymbol
 
@@ -4779,6 +4862,10 @@ class in XCharts.Runtime / 继承自: [ScriptableObject](https://docs.unity3d.co
 
 [VisualMapTheme](#visualmaptheme)
 
+## ThemeSnapshotJson
+
+class in XCharts.Runtime
+
 ## ThemeStyle
 
 class in XCharts.Runtime / 继承自: [ChildComponent](#childcomponent)
@@ -5158,6 +5245,10 @@ class in XCharts.Runtime / 继承自: [ComponentTheme](#componenttheme)
 `float` `1f`
 
 指示线线宽。
+
+## UIComponentJson
+
+class in XCharts.Runtime
 
 ## UIComponentTheme
 

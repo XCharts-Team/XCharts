@@ -92,6 +92,7 @@ namespace XCharts.Runtime
         [SerializeField][Since("v3.5.0")] private MarqueeStyle m_MarqueeStyle = new MarqueeStyle();
         [SerializeField][Since("v3.6.0")] private bool m_StartLock;
         [SerializeField][Since("v3.6.0")] private bool m_EndLock;
+        [SerializeField][Since("v3.12.0")] private bool m_FilterAxisRange = true;
 
         public DataZoomContext context = new DataZoomContext();
         private CustomDataZoomStartEndFunction m_StartEndFunction;
@@ -325,6 +326,16 @@ namespace XCharts.Runtime
             set { if (PropertyUtil.SetStruct(ref m_EndLock, value)) SetVerticesDirty(); }
         }
         /// <summary>
+        /// Whether dataZoom filters the axis min/max range. When true, the axis scale adapts to the current zoom window.
+        /// When false, the axis always shows the full data range regardless of the zoom position.
+        /// ||是否根据DataZoom的缩放窗口过滤坐标轴的最大最小值范围。为true时坐标轴范围随缩放窗口变化；为false时坐标轴始终显示全部数据范围。
+        /// </summary>
+        public bool filterAxisRange
+        {
+            get { return m_FilterAxisRange; }
+            set { if (PropertyUtil.SetStruct(ref m_FilterAxisRange, value)) SetVerticesDirty(); }
+        }
+        /// <summary>
         /// The end percentage of the window out of the data extent, in the range of 0 ~ 100.
         /// ||数据窗口范围的结束百分比。范围是：0 ~ 100。
         /// </summary>
@@ -408,6 +419,11 @@ namespace XCharts.Runtime
         /// start和end变更委托。
         /// </summary>
         public CustomDataZoomStartEndFunction startEndFunction { get { return m_StartEndFunction; } set { m_StartEndFunction = value; } }
+        /// <summary>
+        /// start和end变更回调。
+        /// </summary>
+        [Since("v3.16.0")]
+        public Action<float, float> onStartEndChanged { get; set; }
 
         class AxisIndexValueInfo
         {
@@ -415,6 +431,7 @@ namespace XCharts.Runtime
             public double rawMax;
             public double min;
             public double max;
+            public bool isInverse;
         }
         private Dictionary<int, AxisIndexValueInfo> m_XAxisIndexInfos = new Dictionary<int, AxisIndexValueInfo>();
         private Dictionary<int, AxisIndexValueInfo> m_YAxisIndexInfos = new Dictionary<int, AxisIndexValueInfo>();
@@ -688,7 +705,7 @@ namespace XCharts.Runtime
             context.height = chartHeight - runtimeTop - runtimeBottom;
         }
 
-        internal void SetXAxisIndexValueInfo(int xAxisIndex, ref double min, ref double max)
+        internal void SetXAxisIndexValueInfo(int xAxisIndex, ref double min, ref double max, bool isInverse = false)
         {
             AxisIndexValueInfo info;
             if (!m_XAxisIndexInfos.TryGetValue(xAxisIndex, out info))
@@ -698,13 +715,14 @@ namespace XCharts.Runtime
             }
             info.rawMin = min;
             info.rawMax = max;
+            info.isInverse = isInverse;
             info.min = min + (max - min) * start / 100;
             info.max = min + (max - min) * end / 100;
             min = info.min;
             max = info.max;
         }
 
-        internal void SetYAxisIndexValueInfo(int yAxisIndex, ref double min, ref double max)
+        internal void SetYAxisIndexValueInfo(int yAxisIndex, ref double min, ref double max, bool isInverse = false)
         {
             AxisIndexValueInfo info;
             if (!m_YAxisIndexInfos.TryGetValue(yAxisIndex, out info))
@@ -714,6 +732,7 @@ namespace XCharts.Runtime
             }
             info.rawMin = min;
             info.rawMax = max;
+            info.isInverse = isInverse;
             info.min = min + (max - min) * start / 100;
             info.max = min + (max - min) * end / 100;
             min = info.min;
@@ -738,6 +757,14 @@ namespace XCharts.Runtime
                 var range = info.rawMax - info.rawMin;
                 min = info.rawMin + range * m_Start / 100;
                 max = info.rawMin + range * m_End / 100;
+                if (info.isInverse)
+                {
+                    // Internal values are negated; convert back to original for data comparison
+                    var originalMin = -max;
+                    var originalMax = -min;
+                    min = originalMin;
+                    max = originalMax;
+                }
             }
             else
             {
@@ -753,12 +780,25 @@ namespace XCharts.Runtime
                 var range = info.rawMax - info.rawMin;
                 min = info.rawMin + range * m_Start / 100;
                 max = info.rawMin + range * m_End / 100;
+                if (info.isInverse)
+                {
+                    // Internal values are negated; convert back to original for data comparison
+                    var originalMin = -max;
+                    var originalMax = -min;
+                    min = originalMin;
+                    max = originalMax;
+                }
             }
             else
             {
                 min = 0;
                 max = 0;
             }
+        }
+
+        public void SetStartEndWithoutCallback(float start, float end)
+        {
+            (handler as DataZoomHandler).UpdateDataZoomRange(this, start, end, null, true);
         }
     }
 }

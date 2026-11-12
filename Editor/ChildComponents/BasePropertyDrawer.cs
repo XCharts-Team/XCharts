@@ -113,6 +113,15 @@ namespace XCharts.Editor
             }
         }
 
+        protected void PropertyFlagsField(SerializedProperty prop, string relativePropName, System.Type enumType)
+        {
+            if (IngorePropertys.Contains(relativePropName)) return;
+            if (!ChartEditorHelper.PropertyFlagsField(ref m_DrawRect, m_Heights, m_KeyName, prop, relativePropName, enumType))
+            {
+                Debug.LogError("PropertyFlagsField ERROR:" + prop.displayName + ", " + relativePropName);
+            }
+        }
+
         protected void PropertyFieldLimitMin(SerializedProperty prop, string relativePropName, float minValue)
         {
             if (IngorePropertys.Contains(relativePropName)) return;

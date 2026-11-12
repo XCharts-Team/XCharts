@@ -93,10 +93,23 @@ namespace XCharts.Runtime
             var startY = 0f;
             var legendMaxWidth = chartWidth - legend.location.runtimeLeft - legend.location.runtimeRight;
             var legendMaxHeight = chartHeight - legend.location.runtimeTop - legend.location.runtimeBottom;
+            var isVertical = legend.orient == Orient.Vertical;
+            var fixedWidth = legend.width <= 0 ? 0
+                : legend.width < 1 ? chartWidth * legend.width
+                : legend.width;
+            var fixedHeight = legend.height <= 0 ? 0
+                : legend.height < 1 ? chartHeight * legend.height
+                : legend.height;
+            // Horizonal: width constrains layout wrapping; Vertical: height constrains layout wrapping.
+            // The other axis only affects the background size, not the layout.
+            if (!isVertical && fixedWidth > 0) legendMaxWidth = fixedWidth;
+            if (isVertical && fixedHeight > 0) legendMaxHeight = fixedHeight;
             UpdateLegendWidthAndHeight(legend, legendMaxWidth, legendMaxHeight);
+            // Override context size for fixed dimensions (controls background rect size).
+            if (fixedWidth > 0) legend.context.width = fixedWidth;
+            if (fixedHeight > 0) legend.context.height = fixedHeight;
             var legendRuntimeWidth = legend.context.width;
             var legendRuntimeHeight = legend.context.height;
-            var isVertical = legend.orient == Orient.Vertical;
             switch (legend.location.align)
             {
                 case Location.Align.TopCenter:
@@ -198,11 +211,14 @@ namespace XCharts.Runtime
             legend.context.eachHeight = 0;
             if (legend.orient == Orient.Horizonal)
             {
+                var maxRowWidth = 0f;
                 foreach (var kv in legend.context.buttonList)
                 {
                     if (width + kv.Value.width > maxWidth)
                     {
                         realWidth = width - legend.itemGap;
+                        if (realWidth > maxRowWidth)
+                            maxRowWidth = realWidth;
                         realHeight += height + legend.itemGap;
                         if (legend.context.eachHeight < height + legend.itemGap)
                         {
@@ -216,8 +232,10 @@ namespace XCharts.Runtime
                         height = kv.Value.height;
                 }
                 width -= legend.itemGap;
+                if (width > maxRowWidth)
+                    maxRowWidth = width;
                 legend.context.height = realHeight + height;
-                legend.context.width = realWidth > 0 ? realWidth : width;
+                legend.context.width = maxRowWidth;
             }
             else
             {

@@ -95,6 +95,9 @@ namespace XCharts.Runtime
             else
             {
                 itemFormatter = itemFormatter.Replace("\\n", "\n");
+                var needTotal = itemFormatter.IndexOf("{d", System.StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    itemFormatter.IndexOf("{f", System.StringComparison.OrdinalIgnoreCase) >= 0;
+                var total = needTotal ? serie.yTotal : 0;
                 var temp = itemFormatter.Split('\n');
                 for (int i = 0; i < temp.Length; i++)
                 {
@@ -106,7 +109,7 @@ namespace XCharts.Runtime
                     param.serieData = serieData;
                     param.dataCount = serie.dataCount;
                     param.value = serieData.GetData(i);
-                    param.total = serie.yTotal;
+                    param.total = total;
                     param.color = color;
                     param.category = radar.GetIndicatorName(i);
                     param.marker = marker;

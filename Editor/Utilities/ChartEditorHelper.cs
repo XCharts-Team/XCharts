@@ -507,6 +507,28 @@ namespace XCharts.Editor
         {
             return PropertyField(ref drawRect, heights, key, parentProp.FindPropertyRelative(relativeName));
         }
+
+        public static bool PropertyFlagsField(ref Rect drawRect, Dictionary<string, float> heights, string key,
+            SerializedProperty parentProp, string relativeName, System.Type enumType)
+        {
+            return PropertyFlagsField(ref drawRect, heights, key, parentProp.FindPropertyRelative(relativeName), enumType);
+        }
+
+        public static bool PropertyFlagsField(ref Rect drawRect, Dictionary<string, float> heights, string key,
+            SerializedProperty prop, System.Type enumType)
+        {
+            if (prop == null) return false;
+            var label = GetContent(prop.displayName);
+            var enumValue = (System.Enum)System.Enum.ToObject(enumType, prop.intValue);
+            EditorGUI.BeginChangeCheck();
+            var newValue = EditorGUI.EnumFlagsField(drawRect, label, enumValue);
+            if (EditorGUI.EndChangeCheck())
+                prop.intValue = (int)(object)newValue;
+            var hig = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            drawRect.y += hig;
+            heights[key] += hig;
+            return true;
+        }
         public static bool PropertyFieldWithMinValue(ref Rect drawRect, Dictionary<string, float> heights, string key,
             SerializedProperty parentProp, string relativeName, float minValue)
         {

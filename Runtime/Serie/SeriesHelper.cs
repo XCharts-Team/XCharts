@@ -324,9 +324,9 @@ namespace XCharts.Runtime
         /// <param name="minValue"></param>
         /// <param name="maxValue"></param>
         public static void GetXMinMaxValue(BaseChart chart, int axisIndex, bool inverse, out double minValue,
-            out double maxValue, bool isPolar = false, bool filterByDataZoom = true, bool needAnimation = false)
+            out double maxValue, bool isPolar = false, bool needAnimation = false)
         {
-            GetMinMaxValue(chart, axisIndex, inverse, 0, out minValue, out maxValue, isPolar, filterByDataZoom, needAnimation);
+            GetMinMaxValue(chart, axisIndex, inverse, 0, out minValue, out maxValue, isPolar, needAnimation);
         }
 
         /// <summary>
@@ -337,9 +337,9 @@ namespace XCharts.Runtime
         /// <param name="minValue"></param>
         /// <param name="maxValue"></param>
         public static void GetYMinMaxValue(BaseChart chart, int axisIndex, bool inverse, out double minValue,
-            out double maxValue, bool isPolar = false, bool filterByDataZoom = true, bool needAnimation = false)
+            out double maxValue, bool isPolar = false, bool needAnimation = false)
         {
-            GetMinMaxValue(chart, axisIndex, inverse, 1, out minValue, out maxValue, isPolar, filterByDataZoom, needAnimation);
+            GetMinMaxValue(chart, axisIndex, inverse, 1, out minValue, out maxValue, isPolar, needAnimation);
         }
 
         /// <summary>
@@ -350,16 +350,16 @@ namespace XCharts.Runtime
         /// <param name="minValue"></param>
         /// <param name="maxValue"></param>
         public static void GetZMinMaxValue(BaseChart chart, int axisIndex, bool inverse, out double minValue,
-            out double maxValue, bool isPolar = false, bool filterByDataZoom = true, bool needAnimation = false)
+            out double maxValue, bool isPolar = false, bool needAnimation = false)
         {
-            GetMinMaxValue(chart, axisIndex, inverse, 2, out minValue, out maxValue, isPolar, filterByDataZoom, needAnimation);
+            GetMinMaxValue(chart, axisIndex, inverse, 2, out minValue, out maxValue, isPolar, needAnimation);
         }
 
         private static Dictionary<int, List<Serie>> _stackSeriesForMinMax = new Dictionary<int, List<Serie>>();
         private static Dictionary<int, double> _serieTotalValueForMinMax = new Dictionary<int, double>();
         public static void GetMinMaxValue(BaseChart chart, int axisIndex,
             bool inverse, int dimension, out double minValue, out double maxValue, bool isPolar = false,
-            bool filterByDataZoom = true, bool needAnimation = false)
+            bool needAnimation = false)
         {
             double min = double.MaxValue;
             double max = double.MinValue;
@@ -376,22 +376,48 @@ namespace XCharts.Runtime
                     var updateDuration = needAnimation ? serie.animation.GetChangeDuration() : 0;
                     var dataAddDuration = needAnimation ? serie.animation.GetAdditionDuration() : 0;
                     var unscaledTime = serie.animation.unscaledTime;
+
+                    // determine whether DataZoom filtering applies for this serie
+                    var dz = chart.GetXDataZoomOfSerie(serie);
+                    // Only apply DataZoom filter for non-X dimensions (dimension > 0, e.g. Y axis
+                    // scaling to visible data). For dimension=0 (X axis whose range is controlled
+                    // by DataZoom), using filtered X data would create a circular dependency:
+                    // rawMin/rawMax would be set from filtered data, making the filter boundary
+                    // relative to an already-filtered range instead of the full data range.
+                    bool useDataZoomFilter = dimension > 0 && dz != null && dz.enable && dz.filterAxisRange;
+
+                    // try per-serie cache when not filtering by dataZoom and not in animation mode
+                    if (!useDataZoomFilter && !needAnimation)
+                    {
+                        double cmin, cmax;
+                        if (serie.context.TryGetCachedMinMax(dimension, out cmin, out cmax))
+                        {
+                            if (cmax > max) max = cmax;
+                            if (cmin < min) min = cmin;
+                            continue;
+                        }
+                    }
+
+                    double smin = double.MaxValue;
+                    double smax = double.MinValue;
+
                     if (isPercentStack && SeriesHelper.IsPercentStack<Bar>(series, serie.serieName))
                     {
-                        if (100 > max) max = 100;
-                        if (0 < min) min = 0;
+                        // percent stack per-serie considered as full range
+                        smin = 0;
+                        smax = 100;
                     }
                     else
                     {
-                        var showData = serie.GetDataList(filterByDataZoom ? chart.GetXDataZoomOfSerie(serie) : null);
+                        var showData = serie.GetDataList(useDataZoomFilter ? dz : null);
                         if (dimension > 0 && (serie is Candlestick || serie is SimplifiedCandlestick))
                         {
                             foreach (var data in showData)
                             {
                                 double dataMin, dataMax;
                                 data.GetMinMaxData(1, inverse, out dataMin, out dataMax);
-                                if (dataMax > max) max = dataMax;
-                                if (dataMin < min) min = dataMin;
+                                if (dataMax > smax) smax = dataMax;
+                                if (dataMin < smin) smin = dataMin;
                             }
                         }
                         else
@@ -403,12 +429,25 @@ namespace XCharts.Runtime
                                     data.GetCurrData(dimension, dataAddDuration, updateDuration, unscaledTime, inverse);
                                 if (!serie.IsIgnoreValue(data, currData))
                                 {
-                                    if (currData > max) max = currData;
-                                    if (currData < min) min = currData;
+                                    if (currData > smax) smax = currData;
+                                    if (currData < smin) smin = currData;
                                 }
                             }
                         }
                     }
+
+                    // if no data found for this serie, skip
+                    if (smax == double.MinValue && smin == double.MaxValue)
+                        continue;
+
+                    // cache per-serie result for future calls
+                    if (!needAnimation && !useDataZoomFilter)
+                    {
+                        serie.context.SetCachedMinMax(dimension, smin == double.MaxValue ? 0 : smin, smax == double.MinValue ? 0 : smax);
+                    }
+
+                    if (smax > max) max = smax;
+                    if (smin < min) min = smin;
                 }
             }
             else
@@ -423,7 +462,10 @@ namespace XCharts.Runtime
                         if ((isPolar && serie.polarIndex != axisIndex) ||
                             (!isPolar && serie.yAxisIndex != axisIndex) ||
                             !serie.show) continue;
-                        var showData = serie.GetDataList(filterByDataZoom ? chart.GetXDataZoomOfSerie(serie) : null);
+                        var stackDz = chart.GetXDataZoomOfSerie(serie);
+                        // Same rule as non-stack: don't use filtered data for dimension=0 (X axis).
+                        if (stackDz != null && (dimension == 0 || !stackDz.filterAxisRange || !stackDz.enable)) stackDz = null;
+                        var showData = serie.GetDataList(stackDz);
                         if (SeriesHelper.IsPercentStack<Bar>(series, serie.stack))
                         {
                             for (int j = 0; j < showData.Count; j++)

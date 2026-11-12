@@ -11,8 +11,8 @@ namespace XCharts.Runtime
     [Since("v3.5.0")]
     [System.Serializable]
     public class MarqueeStyle : ChildComponent
-    {
-        [SerializeField][Since("v3.5.0")] private bool m_Apply = false;
+    {       
+        [SerializeField][Since("v3.5.0")] private bool m_Apply = true;
         [SerializeField][Since("v3.5.0")] private bool m_RealRect = false;
         [SerializeField][Since("v3.5.0")] private AreaStyle m_AreaStyle = new AreaStyle();
         [SerializeField][Since("v3.5.0")] private LineStyle m_LineStyle = new LineStyle();
@@ -52,7 +52,7 @@ namespace XCharts.Runtime
         /// Custom checkboxes select ongoing callbacks.
         /// ||自定义选取框选取进行时的回调。
         /// </summary>
-        public Action<DataZoom> onGoing { set { m_OnStart = value; } get { return m_OnStart; } }
+        public Action<DataZoom> onGoing { set { m_OnGoing = value; } get { return m_OnGoing; } }
         /// <summary>
         /// Customize the callback at the end of the selection.
         /// ||自定义选取框结束选取时的回调。

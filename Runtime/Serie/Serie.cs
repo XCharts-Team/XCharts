@@ -323,6 +323,10 @@ namespace XCharts.Runtime
         [NonSerialized] internal bool m_NeedUpdateFilterData;
         [NonSerialized] public List<SerieData> m_FilterData = new List<SerieData>();
         [NonSerialized] private bool m_NameDirty;
+        [NonSerialized] private int m_YTotalCacheFrame = -1;
+        [NonSerialized] private double m_YTotalCacheValue = 0;
+        [NonSerialized] internal int m_DataVersion = 0;
+        
 
         /// <summary>
         /// event callback when click serie.
@@ -1239,6 +1243,9 @@ namespace XCharts.Runtime
         {
             get
             {
+                if (m_YTotalCacheFrame == Time.frameCount)
+                    return m_YTotalCacheValue;
+
                 double total = 0;
                 if (IsPerformanceMode())
                 {
@@ -1259,6 +1266,8 @@ namespace XCharts.Runtime
                             total += sdata.GetCurrData(1, dataAddDuration, duration, unscaledTime);
                     }
                 }
+                m_YTotalCacheFrame = Time.frameCount;
+                m_YTotalCacheValue = total;
                 return total;
             }
         }
@@ -1309,6 +1318,7 @@ namespace XCharts.Runtime
         /// </summary>
         public override void ClearData()
         {
+            InvalidateTotalCache();
             while (m_Data.Count > 0)
             {
                 RemoveData(0);
@@ -1336,6 +1346,7 @@ namespace XCharts.Runtime
         {
             if (index >= 0 && index < m_Data.Count)
             {
+                InvalidateTotalCache();
                 if (!string.IsNullOrEmpty(m_Data[index].name))
                 {
                     SetSerieNameDirty();
@@ -1384,6 +1395,7 @@ namespace XCharts.Runtime
 
         public virtual void AddSerieData(SerieData serieData)
         {
+            InvalidateTotalCache();
             if (m_InsertDataToHead)
                 m_Data.Insert(0, serieData);
             else
@@ -1397,12 +1409,50 @@ namespace XCharts.Runtime
             m_NeedUpdateFilterData = true;
         }
 
+        /// <summary>
+        /// 批量加载 (x, y) 数据。
+        /// 与逐点 AddYData 不同，此方法在内部紧凑循环中创建 SerieData，
+        /// 跳过每点的 SetVerticesDirty、InvalidateTotalCache 等开销，
+        /// 仅在最后统一标记脏数据。适合大数据量初始化场景。
+        /// </summary>
+        /// <param name="xValues">X 轴值列表</param>
+        /// <param name="yValues">Y 轴值列表（需与 xValues 等长）</param>
+        [Since("3.16.0")]
+        public void LoadData(List<double> xValues, List<double> yValues)
+        {
+            if (xValues == null || yValues == null || xValues.Count != yValues.Count)
+                return;
+
+            int count = xValues.Count;
+            m_Data.Clear();
+            if (m_Data.Capacity < count)
+                m_Data.Capacity = count;
+
+            for (int i = 0; i < count; i++)
+            {
+                var sd = new SerieData();
+                sd.data.Add(xValues[i]);
+                sd.data.Add(yValues[i]);
+                sd.index = i;
+                m_Data.Add(sd);
+            }
+
+            m_ShowDataDimension = 2;
+            InvalidateTotalCache();
+            SetAllDirty();
+            labelDirty = true;
+            titleDirty = true;
+            dataDirty = true;
+            m_NeedUpdateFilterData = true;
+        }
+
         private void CheckDataName(string dataName)
         {
-            if (string.IsNullOrEmpty(dataName))
+            if (!string.IsNullOrEmpty(dataName))
+            {
                 SetSerieNameDirty();
-            else
                 m_ShowDataName = true;
+            }
         }
 
         /// <summary>
@@ -1824,6 +1874,7 @@ namespace XCharts.Runtime
                 var flag = m_Data[index].UpdateData(dimension, value, animationOpen, unscaledTime, animationDuration);
                 if (flag)
                 {
+                    InvalidateTotalCache();
                     SetVerticesDirty();
                     dataDirty = true;
                     titleDirty = true;
@@ -1845,6 +1896,7 @@ namespace XCharts.Runtime
         {
             if (index >= 0 && index < m_Data.Count && values != null)
             {
+                InvalidateTotalCache();
                 var serieData = m_Data[index];
                 var animationOpen = animation.enable;
                 var animationDuration = animation.GetChangeDuration();
@@ -1856,6 +1908,19 @@ namespace XCharts.Runtime
                 return true;
             }
             return false;
+        }
+
+        private void InvalidateTotalCache()
+        {
+            m_YTotalCacheFrame = -1;
+            m_YTotalCacheValue = 0;
+            m_DataVersion++;
+            InvalidateMinMaxCache();
+        }
+
+        private void InvalidateMinMaxCache()
+        {
+            context.InvalidateMinMaxCache();
         }
 
         public bool UpdateDataName(int index, string name)
@@ -1939,7 +2004,12 @@ namespace XCharts.Runtime
 
         public bool IsIgnoreValue(double value)
         {
-            return m_Ignore && MathUtil.Approximately(value, m_IgnoreValue);
+            if (!m_Ignore) return false;
+            // fast path: for the common default case ignoreValue == 0,
+            // Approximately(value, 0) is equivalent to a simple zero check
+            // but without the overhead of 3x Abs + 2x Max + multiply
+            if (m_IgnoreValue == 0) return value == 0;
+            return MathUtil.Approximately(value, m_IgnoreValue);
         }
 
         public bool IsIgnoreValue(SerieData serieData, double value)

@@ -23,7 +23,7 @@ namespace XCharts.Runtime
                 {
                     element = CreateSerieLabel(name, parent, label, color, iconWidth, iconHeight, theme);
                 }
-                m_ReleaseDic.Remove(element.GetInstanceID());
+                m_ReleaseDic.Remove(GetId(element));
                 element.name = name;
                 element.transform.SetParent(parent);
                 var text = new ChartText(element);
@@ -40,10 +40,10 @@ namespace XCharts.Runtime
             if (element == null) return;
             ChartHelper.SetActive(element, false);
             if (!Application.isPlaying) return;
-            if (!m_ReleaseDic.ContainsKey(element.GetInstanceID()))
+            if (!m_ReleaseDic.ContainsKey(GetId(element)))
             {
                 m_Stack.Push(element);
-                m_ReleaseDic.Add(element.GetInstanceID(), true);
+                m_ReleaseDic.Add(GetId(element), true);
             }
         }
 
@@ -55,6 +55,12 @@ namespace XCharts.Runtime
                 Release(parent.GetChild(i).gameObject);
             }
         }
+
+#if UNITY_6000_0_OR_NEWER
+        private static int GetId(GameObject obj) { return obj.GetEntityId(); }
+#else
+        private static int GetId(GameObject obj) { return obj.GetInstanceID(); }
+#endif
 
         public static void ClearAll()
         {

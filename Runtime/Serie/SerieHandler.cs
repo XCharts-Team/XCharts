@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -68,6 +69,7 @@ namespace XCharts.Runtime
         protected bool m_ForceUpdateSerieContext = false;
         protected int m_LegendEnterIndex;
         protected ChartLabel m_EndLabel;
+        private HashSet<int> m_DataIndexsSet = new HashSet<int>();
 
         private float[] m_LastRadius = new float[2] { 0, 0 };
         private float[] m_LastCenter = new float[2] { 0, 0 };
@@ -505,15 +507,24 @@ namespace XCharts.Runtime
             var dataAddDuration = serie.animation.GetAdditionDuration();
             var unscaledTime = serie.animation.unscaledTime;
             var needCheck = serie.context.dataIndexs.Count > 0;
+            if (needCheck)
+            {
+                m_DataIndexsSet.Clear();
+                foreach (var idx in serie.context.dataIndexs)
+                    m_DataIndexsSet.Add(idx);
+            }
             var allLabelZeroPosition = true;
             var anyLabelActive = false;
+            SerieData lastActiveLabelSerieData = null;
+            var lastActiveLabelPos = Vector3.zero;
+            double lastActiveLabelValue = 0;
             foreach (var serieData in serie.data)
             {
                 if (serieData.labelObject == null && serieData.context.dataLabels.Count <= 0)
                 {
                     continue;
                 }
-                if (needCheck && !serie.context.dataIndexs.Contains(serieData.index))
+                if (needCheck && !m_DataIndexsSet.Contains(serieData.index))
                 {
                     serieData.SetLabelActive(false);
                     continue;
@@ -529,7 +540,7 @@ namespace XCharts.Runtime
                 {
                     if (serie.multiDimensionLabel)
                     {
-                        var total = serieData.GetTotalData();
+                        var total = FormatterHelper.NeedTotalContent(currLabel.formatter) ? serieData.GetTotalData() : 0;
                         var color = chart.GetItemColor(serie, serieData);
                         for (int i = 0; i < serieData.context.dataLabels.Count; i++)
                         {
@@ -542,6 +553,7 @@ namespace XCharts.Runtime
                                     currLabel, color, chart);
                             var offset = GetSerieDataLabelOffset(serieData, currLabel);
                             var active = currLabel.show && !isIgnore && !serie.IsMinShowLabelValue(value);
+                            if (active) active = CheckLabelVisible(currLabel, serieData.index, value, i);
                             if (active)
                             {
                                 anyLabelActive = true;
@@ -565,7 +577,7 @@ namespace XCharts.Runtime
                     else
                     {
                         var value = serieData.GetCurrData(defaultDimension, dataAddDuration, dataChangeDuration, unscaledTime);
-                        var total = serie.GetDataTotal(defaultDimension, serieData);
+                        var total = FormatterHelper.NeedTotalContent(currLabel.formatter) ? serie.GetDataTotal(defaultDimension, serieData) : 0;
                         var color = chart.GetItemColor(serie, serieData);
                         var content = string.IsNullOrEmpty(currLabel.formatter) ?
                             ChartCached.NumberToStr(value, currLabel.numericFormatter) :
@@ -573,6 +585,38 @@ namespace XCharts.Runtime
                                 currLabel, color, chart);
                         var labelPos = UpdateLabelPosition(serieData, currLabel);
                         var active = currLabel.show && !isIgnore && !serie.IsMinShowLabelValue(value);
+                        if (active) active = CheckLabelVisible(currLabel, serieData.index, value, defaultDimension);
+                        if (active && currLabel.showMinGap > 0 && lastActiveLabelSerieData != null)
+                        {
+                            var dist = Mathf.Abs(labelPos.x - lastActiveLabelPos.x);
+                            if (dist < currLabel.showMinGap)
+                            {
+                                var currValue = serieData.GetData(1);
+                                if (Math.Abs(currValue) >= Math.Abs(lastActiveLabelValue))
+                                {
+                                    lastActiveLabelSerieData.SetLabelActive(false);
+                                    lastActiveLabelSerieData = serieData;
+                                    lastActiveLabelPos = labelPos;
+                                    lastActiveLabelValue = currValue;
+                                }
+                                else
+                                {
+                                    active = false;
+                                }
+                            }
+                            else
+                            {
+                                lastActiveLabelSerieData = serieData;
+                                lastActiveLabelPos = labelPos;
+                                lastActiveLabelValue = serieData.GetData(1);
+                            }
+                        }
+                        else if (active)
+                        {
+                            lastActiveLabelSerieData = serieData;
+                            lastActiveLabelPos = labelPos;
+                            lastActiveLabelValue = serieData.GetData(1);
+                        }
                         if (active)
                         {
                             anyLabelActive = true;
@@ -603,6 +647,66 @@ namespace XCharts.Runtime
                 {
                     serieData.SetLabelActive(false);
                 }
+            }
+        }
+
+        private bool CheckLabelVisible(LabelStyle label, int dataIndex, double value, int dimension)
+        {
+            // showCondition: 基于阈值的条件检查（AND showFilter）
+            bool conditionResult;
+            switch (label.showCondition)
+            {
+                case LabelStyle.ShowCondition.GreaterThan:
+                    conditionResult = value > label.showThreshold;
+                    break;
+                case LabelStyle.ShowCondition.LessThan:
+                    conditionResult = value < label.showThreshold;
+                    break;
+                default: // Always
+                    conditionResult = true;
+                    break;
+            }
+
+            if (!conditionResult)
+                return false;
+
+            // showFilter: 基于数据形态的过滤检查
+            switch (label.showFilter)
+            {
+                case LabelStyle.ShowFilter.Peak:
+                {
+                    bool isPeak = true;
+                    bool hasNeighbor = false;
+                    if (dataIndex > 0)
+                    {
+                        hasNeighbor = true;
+                        isPeak &= value > serie.data[dataIndex - 1].GetData(dimension);
+                    }
+                    if (dataIndex < serie.dataCount - 1)
+                    {
+                        hasNeighbor = true;
+                        isPeak &= value > serie.data[dataIndex + 1].GetData(dimension);
+                    }
+                    return isPeak && hasNeighbor;
+                }
+                case LabelStyle.ShowFilter.Valley:
+                {
+                    bool isValley = true;
+                    bool hasNeighbor = false;
+                    if (dataIndex > 0)
+                    {
+                        hasNeighbor = true;
+                        isValley &= value < serie.data[dataIndex - 1].GetData(dimension);
+                    }
+                    if (dataIndex < serie.dataCount - 1)
+                    {
+                        hasNeighbor = true;
+                        isValley &= value < serie.data[dataIndex + 1].GetData(dimension);
+                    }
+                    return isValley && hasNeighbor;
+                }
+                default: // All
+                    return true;
             }
         }
 
@@ -694,11 +798,14 @@ namespace XCharts.Runtime
             if (itemFormatter == null) itemFormatter = "";
             var newItemFormatter = itemFormatter.Replace("\\n", "\n");
             var newNumericFormatter = SerieHelper.GetNumericFormatter(serie, serieData, numericFormatter);
-            var temp = newItemFormatter.Split('\n');
-            for (int i = 0; i < temp.Length; i++)
+            var needTotal = newItemFormatter.IndexOf("{d", System.StringComparison.OrdinalIgnoreCase) >= 0 ||
+                newItemFormatter.IndexOf("{f", System.StringComparison.OrdinalIgnoreCase) >= 0;
+            var total = needTotal ? serie.yTotal : 0;
+            int newLinePos = newItemFormatter.IndexOf('\n');
+            if (newLinePos < 0)
             {
-                var formatter = temp[i];
-                var param = i == 0 ? serie.context.param : new SerieParams();
+                var formatter = newItemFormatter;
+                var param = serie.context.param;
                 param.serieName = serie.serieName;
                 param.serieIndex = serie.index;
                 param.category = category;
@@ -707,7 +814,7 @@ namespace XCharts.Runtime
                 param.dataCount = serie.dataCount;
                 param.value = serieData.GetData(dimension);
                 param.ignore = ignore;
-                param.total = serie.yTotal;
+                param.total = total;
                 param.color = chart.GetMarkColor(serie, serieData);
                 param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
                 param.itemFormatter = formatter;
@@ -719,6 +826,35 @@ namespace XCharts.Runtime
                 param.columns.Add(ignore ? ignoreDataDefaultContent : ChartCached.NumberToStr(param.value, param.numericFormatter));
 
                 paramList.Add(param);
+            }
+            else
+            {
+                var temp = newItemFormatter.Split('\n');
+                for (int i = 0; i < temp.Length; i++)
+                {
+                    var formatter = temp[i];
+                    var param = i == 0 ? serie.context.param : new SerieParams();
+                    param.serieName = serie.serieName;
+                    param.serieIndex = serie.index;
+                    param.category = category;
+                    param.dimension = dimension;
+                    param.serieData = serieData;
+                    param.dataCount = serie.dataCount;
+                    param.value = serieData.GetData(dimension);
+                    param.ignore = ignore;
+                    param.total = total;
+                    param.color = chart.GetMarkColor(serie, serieData);
+                    param.marker = SerieHelper.GetItemMarker(serie, serieData, marker);
+                    param.itemFormatter = formatter;
+                    param.numericFormatter = newNumericFormatter;
+                    param.columns.Clear();
+
+                    param.columns.Add(param.marker);
+                    param.columns.Add(showCategory ? category : serie.serieName);
+                    param.columns.Add(ignore ? ignoreDataDefaultContent : ChartCached.NumberToStr(param.value, param.numericFormatter));
+
+                    paramList.Add(param);
+                }
             }
         }
 

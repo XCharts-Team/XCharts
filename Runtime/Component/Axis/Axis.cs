@@ -987,5 +987,28 @@ namespace XCharts.Runtime
                 return Vector3.zero;
             }
         }
+
+        internal float GetMinTickWidth(DataZoom dataZoom = null)
+        {
+            if (minCategorySpacing > 0)
+                return minCategorySpacing;
+
+            var fontSize = axisLabel.textStyle.fontSize > 0 ? axisLabel.textStyle.fontSize : 12;
+            var dataList = GetDataList(dataZoom);
+            if (dataList == null || dataList.Count == 0)
+                return Mathf.Max(fontSize * 2f, 20);
+
+            var maxLen = 0;
+            var sampleCount = Mathf.Min(dataList.Count, 5);
+            for (int i = 0; i < sampleCount; i++)
+            {
+                var idx = sampleCount <= 1 ? 0 : i * (dataList.Count - 1) / (sampleCount - 1);
+                var len = string.IsNullOrEmpty(dataList[idx]) ? 0 : dataList[idx].Length;
+                if (len > maxLen) maxLen = len;
+            }
+
+            if (maxLen <= 0) maxLen = 2;
+            return Mathf.Max(maxLen * fontSize * 0.85f + axisLabel.textPadding.left + axisLabel.textPadding.right, 20);
+        }
     }
 }

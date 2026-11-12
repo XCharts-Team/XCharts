@@ -154,5 +154,25 @@ namespace XCharts.Runtime
         }
 
         protected virtual void OnThemeChanged() { }
+
+        /// <summary>
+        /// Export UI component configuration to JSON string.
+        /// </summary>
+        [Since("v3.16.0")]
+        public string ExportToJson(bool prettyPrint = true)
+        {
+            return UIComponentJsonSerializer.Serialize(this, prettyPrint);
+        }
+
+        /// <summary>
+        /// Import JSON and update current UI component configuration.
+        /// </summary>
+        [Since("v3.16.0")]
+        public void ImportFromJson(string json)
+        {
+            UIComponentJsonDeserializer.Deserialize(json, this);
+            RefreshAllComponent();
+            RefreshGraph();
+        }
     }
 }

@@ -140,19 +140,26 @@ namespace XUGL
 
         public static void DrawLine(VertexHelper vh, List<Vector3> points, float width, Color32 color, bool smooth, bool closepath = false)
         {
-            for (int i = points.Count - 1; i >= 1; i--)
+            if (points == null || points.Count < 2) return;
+
+            // Compact duplicate consecutive points into a reusable buffer to avoid repeated RemoveAt (O(n^2)).
+            s_CurvesPosList.Clear();
+            s_CurvesPosList.Add(points[0]);
+            for (int i = 1; i < points.Count; i++)
             {
-                if (UGLHelper.IsValueEqualsVector3(points[i], points[i - 1]))
-                    points.RemoveAt(i);
+                if (!UGLHelper.IsValueEqualsVector3(points[i], points[i - 1]))
+                    s_CurvesPosList.Add(points[i]);
             }
-            if (points.Count < 2) return;
-            else if (points.Count <= 2)
+
+            var pts = s_CurvesPosList;
+            if (pts.Count < 2) return;
+            else if (pts.Count == 2)
             {
-                DrawLine(vh, points[0], points[1], width, color);
+                DrawLine(vh, pts[0], pts[1], width, color);
             }
             else if (smooth)
             {
-                DrawCurves(vh, points, width, color, 2, 2, Direction.XAxis, float.NaN, closepath);
+                DrawCurves(vh, pts, width, color, 2, 2, Direction.XAxis, float.NaN, closepath);
             }
             else
             {
@@ -164,14 +171,14 @@ namespace XUGL
                 var ibp = Vector3.zero;
                 var ctp = Vector3.zero;
                 var cbp = Vector3.zero;
-                if (closepath && !UGLHelper.IsValueEqualsVector3(points[points.Count - 1], points[0]))
+                if (closepath && !UGLHelper.IsValueEqualsVector3(pts[pts.Count - 1], pts[0]))
                 {
-                    points.Add(points[0]);
+                    pts.Add(pts[0]);
                 }
-                for (int i = 1; i < points.Count - 1; i++)
+                for (int i = 1; i < pts.Count - 1; i++)
                 {
                     bool bitp = true, bibp = true;
-                    UGLHelper.GetLinePoints(points[i - 1], points[i], points[i + 1], width,
+                    UGLHelper.GetLinePoints(pts[i - 1], pts[i], pts[i + 1], width,
                         ref ltp, ref lbp,
                         ref ntp, ref nbp,
                         ref itp, ref ibp,

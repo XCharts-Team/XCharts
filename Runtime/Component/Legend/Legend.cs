@@ -80,6 +80,8 @@ namespace XCharts.Runtime
         [SerializeField] private bool m_ItemAutoColor = true;
         [SerializeField] private float m_ItemOpacity = 1;
         [SerializeField][Since("v3.15.0")] private float m_ItemInactiveOpacity = 1;
+        [SerializeField][Since("v3.16.0")] private float m_Width = 0;
+        [SerializeField][Since("v3.16.0")] private float m_Height = 0;
         [SerializeField] private string m_Formatter;
         [SerializeField] private LabelStyle m_LabelStyle = new LabelStyle();
         [SerializeField][Since("v3.10.0")] private TextLimit m_TextLimit = new TextLimit();
@@ -200,6 +202,25 @@ namespace XCharts.Runtime
         {
             get { return m_Formatter; }
             set { if (PropertyUtil.SetClass(ref m_Formatter, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// the width of legend component. Default is 0 for auto adapt. When set a value between 0 and 1, it means the percentage relative to chart width and height.
+        /// ||图例组件的宽。默认为0自适应。当设置0-1的值时，表示相对于图表宽高的比例。
+        /// </summary>
+        public float width
+        {
+            get { return m_Width; }
+            set { if (PropertyUtil.SetStruct(ref m_Width, value)) SetComponentDirty(); }
+        }
+        /// <summary>
+        /// the height of legend component. Default is 0 for auto adapt. When set a value between 0 and 1, it means the percentage relative to chart width and height.
+        /// ||图例组件的高。默认为0自适应。当设置0-1的值时，表示相对于图表宽高的比例。
+        /// </summary>
+        /// <value></value>
+        public float height
+        {
+            get { return m_Height; }
+            set { if (PropertyUtil.SetStruct(ref m_Height, value)) SetComponentDirty(); }
         }
         /// <summary>
         /// the style of text.

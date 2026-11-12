@@ -5,6 +5,9 @@ namespace XCharts.Runtime
 {
     public static class MathUtil
     {
+        // pre-compute the minimum threshold to avoid repeated Mathf.Epsilon * 8 calculation
+        private static readonly double k_MinApproxThreshold = Mathf.Epsilon * 8;
+
         public static double Abs(double d)
         {
             return d > 0 ? d : -d;
@@ -19,7 +22,14 @@ namespace XCharts.Runtime
 
         public static bool Approximately(double a, double b)
         {
-            return Math.Abs(b - a) < Math.Max(0.000001f * Math.Max(Math.Abs(a), Math.Abs(b)), Mathf.Epsilon * 8);
+            var diff = b - a;
+            if (diff < 0) diff = -diff;
+            var absA = a < 0 ? -a : a;
+            var absB = b < 0 ? -b : b;
+            var maxAbs = absA > absB ? absA : absB;
+            var threshold = 0.000001f * maxAbs;
+            if (threshold < k_MinApproxThreshold) threshold = k_MinApproxThreshold;
+            return diff < threshold;
         }
 
         public static double Clamp01(double value)

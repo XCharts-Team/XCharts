@@ -28,10 +28,11 @@ namespace XCharts.Editor
             PropertyField("m_ScrollSensitivity");
             PropertyField("m_RangeMode");
             PropertyField(m_Start);
-            PropertyField(m_End);
             PropertyField("m_StartLock");
+            PropertyField(m_End);
             PropertyField("m_EndLock");
             PropertyField(m_MinZoomRatio);
+            PropertyField("m_FilterAxisRange");
             if (m_Start.floatValue < 0) m_Start.floatValue = 0;
             if (m_End.floatValue > 100) m_End.floatValue = 100;
             if (m_MinZoomRatio.floatValue < 0) m_MinZoomRatio.floatValue = 0;

@@ -29,6 +29,40 @@ namespace XCharts.Runtime
 
     public class SerieContext
     {
+        [System.NonSerialized] internal double[] cachedMin = new double[3] { double.MaxValue, double.MaxValue, double.MaxValue };
+        [System.NonSerialized] internal double[] cachedMax = new double[3] { double.MinValue, double.MinValue, double.MinValue };
+        [System.NonSerialized] internal bool[] cacheValid = new bool[3] { false, false, false };
+
+        internal void InvalidateMinMaxCache()
+        {
+            for (int i = 0; i < cacheValid.Length; i++)
+                cacheValid[i] = false;
+            cachedMin[0] = cachedMin[1] = cachedMin[2] = double.MaxValue;
+            cachedMax[0] = cachedMax[1] = cachedMax[2] = double.MinValue;
+        }
+
+        internal bool TryGetCachedMinMax(int dimension, out double minValue, out double maxValue)
+        {
+            minValue = 0; maxValue = 0;
+            if (dimension < 0 || dimension > 2) return false;
+            if (cacheValid[dimension])
+            {
+                minValue = cachedMin[dimension];
+                maxValue = cachedMax[dimension];
+                return true;
+            }
+            return false;
+        }
+
+        internal void SetCachedMinMax(int dimension, double minValue, double maxValue)
+        {
+            if (dimension < 0 || dimension > 2) return;
+            cachedMin[dimension] = minValue;
+            cachedMax[dimension] = maxValue;
+            cacheValid[dimension] = true;
+        }
+
+
         /// <summary>
         /// 鼠标是否进入serie
         /// </summary>

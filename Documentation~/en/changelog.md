@@ -6,6 +6,7 @@ slug: /changelog
 # Changelog
 
 [master](#master)  
+[v3.16.0](#v3160)  
 [v3.15.0](#v3150)  
 [v3.14.0](#v3140)  
 [v3.13.0](#v3130)  
@@ -79,6 +80,36 @@ slug: /changelog
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.16.0
+
+* (2026.11.11) Released version `v3.16.0`
+* (2026.11.07) Optimized the `TriggerTooltip` interface
+* (2026.07.17) Fixed the issue where `GetInstanceID` caused compilation errors in Unity 6.5, migrated to `GetEntityId` (#367)
+* (2026.07.17) Fixed the issue where `Legend` displayed abnormally after clearing data with `ClearData` and then adding it again (#366)
+* (2026.07.12) Optimized the automatic splitting strategy of `Axis`
+* (2026.07.12) Added the `LoadData` interface for `Serie`
+* (2026.07.09) Added the `onStartEndChanged` callback for `DataZoom`
+* (2026.07.06) Added the `onActive` and `onPosition` callbacks for `Tooltip`
+* (2026.07.06) Optimized the `TriggerTooltip` interface to prevent abnormal behavior on charts with ignored data
+* (2026.06.15) Fixed the issue where `GetMinMaxData` returned abnormal results when `showDataDimension` was not initialized (#365)
+* (2026.06.03) Added support for setting the title alignment of `Tooltip` via the `Alignment` of `TextStyle` in `TitleLabelStyle` (#363)
+* (2026.05.25) Added `filterAxisRange` for `DataZoom` to set whether the axis range calculation is affected by `DataZoom`
+* (2026.05.23) Optimized the `Marquee` box-selection feature of `DataZoom`
+* (2026.05.23) Fixed the issue where line charts drawn within `DataZoom` could go out of range
+* (2026.05.23) Fixed the issue where the `inverse` of `Axis` did not reverse correctly
+* (2026.05.23) Added `showCondition`, `showFilter`, and `showThreshold` to `LabelStyle` to control the display and hiding of `label`
+* (2026.05.22) Added `minGap` to `LabelStyle` to avoid `label` being too densely packed
+* (2026.05.17) Fixed the issue where the indicated area was inaccurate when clicking on `DataZoom`
+* (2026.05.17) Added `Width` and `Height` to `Legend` to set a fixed width and height
+* (2026.05.17) Fixed the issue where the value displayed by `EndLabel` of `Serie` was incorrect when the `Y` axis was of `MinMax` type
+* (2026.05.16) Fixed the issue where `Candlestick` displayed incorrect rise/fall colors based on the previous close, and incorrect display for limit-up/limit-down with no price movement (#362)
+* (2026.03.29) Fixed the issue where the `Background` area of `Legend` was incorrect in `Horizonal` mode
+* (2026.03.25) Added `Json` export and import for `Chart`
+* (2026.03.10) Added tooltip trigger display for `Sankey` lines
+* (2026.03.10) Added sorting support for `UITable`
+* (2026.03.07) Fixed the issue where the background of `UITable` was not refreshed in real time when the size changed
+* (2026.03.06) Optimized `UITable` to support over ten thousand data entries without lag
 
 ## v3.15.0
 

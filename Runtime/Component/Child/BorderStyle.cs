@@ -15,7 +15,7 @@ namespace XCharts.Runtime
         [SerializeField] private float m_BorderWidth;
         [SerializeField] private Color32 m_BorderColor;
         [SerializeField] private bool m_RoundedCorner = true;
-        [SerializeField] private float[] m_CornerRadius = new float[] { 0, 0, 0, 0 };
+        [SerializeField] private float[] m_CornerRadius = new float[] { 10, 10, 10, 10 };
 
         /// <summary>
         /// whether the border is visible.

@@ -122,10 +122,9 @@ namespace XCharts
                 {
                     if (axis is YAxis)
                     {
-                        var yRate = axis.context.minMaxRange / grid.context.height;
-                        var yValue = yRate * (chart.pointerPos.y - grid.context.y - axis.context.offset);
-                        if (axis.context.minValue > 0)
-                            yValue += axis.context.minValue;
+                        var yValue = axis.context.minValue + (chart.pointerPos.y - grid.context.y) / grid.context.height * axis.context.minMaxRange;
+                        if (axis.inverse)
+                            yValue = -yValue;
 
                         var labelX = axis.GetLabelObjectPosition(0).x;
                         axis.context.pointerValue = yValue;
@@ -150,10 +149,9 @@ namespace XCharts
                         }
                         else
                         {
-                            var xRate = axis.context.minMaxRange / grid.context.width;
-                            xValue = xRate * (chart.pointerPos.x - grid.context.x - axis.context.offset);
-                            if (axis.context.minValue > 0)
-                                xValue += axis.context.minValue;
+                            xValue = axis.context.minValue + (chart.pointerPos.x - grid.context.x) / grid.context.width * axis.context.minMaxRange;
+                            if (axis.inverse)
+                                xValue = -xValue;
                         }
                         var labelY = axis.GetLabelObjectPosition(0).y;
                         axis.context.pointerValue = xValue;
@@ -188,15 +186,20 @@ namespace XCharts
             double tempMinValue;
             double tempMaxValue;
             axis.context.needAnimation = Application.isPlaying && axis.animation.show;
+            if (axis.inverse != axis.context.lastCheckInverse)
+            {
+                foreach (var serie in chart.series)
+                    serie.context.InvalidateMinMaxCache();
+            }
             chart.GetSeriesMinMaxValue(axis, axisIndex, out tempMinValue, out tempMaxValue);
 
             var dataZoom = chart.GetDataZoomOfAxis(axis);
             if (dataZoom != null && dataZoom.enable)
             {
                 if (axis is XAxis)
-                    dataZoom.SetXAxisIndexValueInfo(axisIndex, ref tempMinValue, ref tempMaxValue);
+                    dataZoom.SetXAxisIndexValueInfo(axisIndex, ref tempMinValue, ref tempMaxValue, axis.inverse);
                 else
-                    dataZoom.SetYAxisIndexValueInfo(axisIndex, ref tempMinValue, ref tempMaxValue);
+                    dataZoom.SetYAxisIndexValueInfo(axisIndex, ref tempMinValue, ref tempMaxValue, axis.inverse);
             }
 
             if (tempMinValue != axis.context.destMinValue ||
@@ -393,14 +396,14 @@ namespace XCharts
                     }
                     else
                     {
-                        var each = GetTick(range);
-                        tick = each;
-                        if (range / 4 % each == 0)
-                            tick = range / 4;
-                        else if (range / tick > 8)
-                            tick = 2 * each;
-                        else if (range / tick < 4)
-                            tick = each / 2;
+                        var axisLength = axis.context.length <= 0 ? 240f : axis.context.length;
+                        var spacing = axis is YAxis ? 40f : 60f;
+                        var targetSplit = Mathf.Clamp(Mathf.RoundToInt(axisLength / spacing), 4, 8);
+                        tick = GetNiceTick(range / targetSplit);
+                    }
+                    if (tick <= 0)
+                    {
+                        tick = range / 4;
                     }
                 }
                 var value = 0d;
@@ -434,17 +437,31 @@ namespace XCharts
             }
         }
 
-        private static double GetTick(double max)
+        private static readonly double[] s_NiceFractions = { 1, 1.5, 2, 2.5, 3, 4, 5, 10 };
+
+        private static double GetNiceTick(double rawStep)
         {
-            if (max <= 1) return max / 5;
-            if (max > 1 && max < 10) return 1;
-            var bigger = Math.Ceiling(Math.Abs(max));
-            int n = 1;
-            while (bigger / (Mathf.Pow(10, n)) > 10)
+            if (rawStep <= 0)
+                return 0;
+
+            var exponent = Math.Floor(Math.Log10(rawStep));
+            var magnitude = Math.Pow(10, exponent);
+            var fraction = rawStep / magnitude;
+
+            double best = s_NiceFractions[0];
+            double bestDiff = Math.Abs(fraction - best);
+            for (int i = 1; i < s_NiceFractions.Length; i++)
             {
-                n++;
+                var diff = Math.Abs(fraction - s_NiceFractions[i]);
+                if (diff <= bestDiff) { bestDiff = diff; best = s_NiceFractions[i]; }
             }
-            return Math.Pow(10, n);
+
+            var tick = best * magnitude;
+            if (tick <= 0 || double.IsNaN(tick) || double.IsInfinity(tick))
+            {
+                return rawStep;
+            }
+            return tick;
         }
 
         internal void CheckValueLabelActive(Axis axis, int i, ChartLabel label, Vector3 pos, string content = null)
@@ -875,7 +892,8 @@ namespace XCharts
                 {
                     var scaleWidth = AxisHelper.GetScaleWidth(axis, axisLength, i + 1, dataZoom);
                     var hideTick = (i == 0 && (!axis.axisTick.showStartTick || axis.axisTick.alignWithLabel)) ||
-                        (i == size - 1 && !axis.axisTick.showEndTick);
+                        (i == size - 1 && !axis.axisTick.showEndTick) ||
+                        (i == size - 2 && NeedHidePenultimateTick(axis, size, scaleWidth, tickWidth));
                     if (axis.axisTick.show)
                     {
                         if (orient == Orient.Horizonal)
@@ -1075,6 +1093,15 @@ namespace XCharts
                     }
                 }
             }
+        }
+
+        private static bool NeedHidePenultimateTick(Axis axis, int size, float distanceToLastTick, float tickWidth)
+        {
+            if (size < 2 || !axis.IsCategory() || !axis.axisTick.showEndTick)
+                return false;
+
+            var minDistance = Mathf.Max(2f, tickWidth * 2f);
+            return distanceToLastTick <= minDistance;
         }
 
         protected void DrawAxisSplit(VertexHelper vh, AxisTheme theme, DataZoom dataZoom,

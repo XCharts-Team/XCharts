@@ -718,22 +718,26 @@ namespace XCharts.Runtime
         {
             var serie = GetSerie(serieIndex);
             if (serie == null) return false;
-            var dataPoints = serie.context.dataPoints;
-            var dataPoint = Vector3.zero;
-            if (dataPoints.Count == 0)
-            {
-                if (serie.dataCount == 0) return false;
-                dataIndex = dataIndex % serie.dataCount;
-                var serieData = serie.GetSerieData(dataIndex);
-                if (serieData == null) return false;
-                dataPoint = serie.GetSerieData(dataIndex).context.position;
-            }
-            else
-            {
-                dataIndex = dataIndex % dataPoints.Count;
-                dataPoint = dataPoints[dataIndex];
-            }
-            return TriggerTooltip(dataPoint);
+            if (serie.dataCount == 0) return false;
+            if (dataIndex < 0 || dataIndex >= serie.dataCount) return false;
+
+            DataZoom xDataZoom, yDataZoom;
+            GetDataZoomOfSerie(serie, out xDataZoom, out yDataZoom);
+            var serieData = serie.GetSerieData(dataIndex, xDataZoom);
+            if (serieData == null) return false;
+
+            var screenPoint = LocalPointToScreenPoint(serieData.context.position);
+            var eventData = new PointerEventData(EventSystem.current);
+            eventData.position = screenPoint;
+
+            isTriggerByCode = true;
+            serie.context.pointerEnter = true;
+            serie.context.pointerItemDataIndex = dataIndex;
+            pointerMoveEventData = eventData;
+            pointerPos = (Vector2)serieData.context.position;
+
+            OnPointerEnter(eventData);
+            return true;
         }
 
         /// <summary>
@@ -749,6 +753,7 @@ namespace XCharts.Runtime
             var eventData = new PointerEventData(EventSystem.current);
             eventData.position = screenPoint;
             OnPointerEnter(eventData);
+            isTriggerByCode = true;
             return true;
         }
 
@@ -759,6 +764,7 @@ namespace XCharts.Runtime
         [Since("v3.7.0")]
         public void CancelTooltip()
         {
+            isTriggerByCode = false;
             pointerMoveEventData = null;
             pointerClickEventData = null;
             var tooltip = GetChartComponent<Tooltip>();
@@ -777,6 +783,28 @@ namespace XCharts.Runtime
         {
             foreach (var component in m_Components) component.ResetStatus();
             foreach (var handler in m_SerieHandlers) handler.ForceUpdateSerieContext();
+        }
+
+        /// <summary>
+        /// Export chart configuration and data to JSON string.
+        /// ||导出图表配置和数据为JSON字符串。
+        /// </summary>
+        [Since("v3.16.0")]
+        public string ExportToJson(bool prettyPrint = true)
+        {
+            return XCharts.Runtime.ChartJsonSerializer.Serialize(this, prettyPrint);
+        }
+
+        /// <summary>
+        /// Import JSON and update current chart configuration.
+        /// ||导入JSON并更新当前图表配置。
+        /// </summary>
+        [Since("v3.16.0")]
+        public void ImportFromJson(string json)
+        {
+            XCharts.Runtime.ChartJsonDeserializer.Deserialize(json, this);
+            RefreshAllComponent();
+            RefreshChart();
         }
     }
 }

@@ -10,6 +10,8 @@ namespace XCharts.Editor
         {
             ++EditorGUI.indentLevel;
             PropertyField("m_IconType");
+            PropertyField("m_Width");
+            PropertyField("m_Height");
             PropertyField("m_ItemWidth");
             PropertyField("m_ItemHeight");
             PropertyField("m_ItemGap");

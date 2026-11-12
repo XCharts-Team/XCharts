@@ -7,7 +7,7 @@ namespace XCharts.Runtime
 {
     public static partial class SerieHelper
     {
-        public static double GetMinData(Serie serie, int dimension = 1, DataZoom dataZoom = null)
+        public static double GetMinData(Serie serie, int dimension = 1, DataZoom dataZoom = null, bool inverse = false)
         {
             double min = double.MaxValue;
             var dataList = serie.GetDataList(dataZoom);
@@ -16,7 +16,7 @@ namespace XCharts.Runtime
                 var serieData = dataList[i];
                 if (serieData.show && serieData.data.Count > dimension)
                 {
-                    var value = serieData.data[dimension];
+                    var value = serieData.GetData(dimension, inverse);
                     if (value < min && !serie.IsIgnoreValue(serieData, value)) min = value;
                 }
             }
@@ -42,7 +42,7 @@ namespace XCharts.Runtime
             }
             return minData;
         }
-        public static double GetMaxData(Serie serie, int dimension = 1, DataZoom dataZoom = null)
+        public static double GetMaxData(Serie serie, int dimension = 1, DataZoom dataZoom = null, bool inverse = false)
         {
             double max = double.MinValue;
             var dataList = serie.GetDataList(dataZoom);
@@ -51,7 +51,7 @@ namespace XCharts.Runtime
                 var serieData = dataList[i];
                 if (serieData.show && serieData.data.Count > dimension)
                 {
-                    var value = serieData.data[dimension];
+                    var value = serieData.GetData(dimension, inverse);
                     if (value > max && !serie.IsIgnoreValue(serieData, value)) max = value;
                 }
             }
@@ -159,7 +159,7 @@ namespace XCharts.Runtime
         /// <param name="min"></param>
         /// <param name="max"></param>
         /// <param name="dataZoom"></param>
-        public static void GetMinMaxData(Serie serie, out double min, out double max, DataZoom dataZoom = null, int dimension = 0)
+        public static void GetMinMaxData(Serie serie, out double min, out double max, DataZoom dataZoom = null)
         {
             max = double.MinValue;
             min = double.MaxValue;
@@ -169,11 +169,9 @@ namespace XCharts.Runtime
                 var serieData = dataList[i];
                 if (serieData.show)
                 {
-                    var count = 0;
-                    if (dimension > 0) count = dimension;
-                    else count = serie.showDataDimension > serieData.data.Count ?
-                        serieData.data.Count :
-                        serie.showDataDimension;
+                    var count = serie.showDataDimension > 0 && serie.showDataDimension < serieData.data.Count ?
+                        serie.showDataDimension :
+                        serieData.data.Count;
                     for (int j = 0; j < count; j++)
                     {
                         var value = serieData.data[j];
@@ -869,21 +867,36 @@ namespace XCharts.Runtime
         private static void UpdateFilterData_Category(Serie serie, DataZoom dataZoom)
         {
             var data = serie.data;
-            var range = Mathf.RoundToInt(data.Count * (dataZoom.end - dataZoom.start) / 100);
-            if (range <= 0) range = 1;
-            int start = 0, end = 0;
-            if (dataZoom.context.invert)
+            // Use (N-1) intervals so that data point i maps to exactly i/(N-1)*100% of the
+            // DataZoom width — matching how the shadow draws data via scaleWid = width/(N-1).
+            // CeilToInt for start ensures we never include a point that lies before the filler.
+            // FloorToInt for end ensures we never include a point that lies after the filler.
+            int n = data.Count - 1;
+            int startIndex, endIndex;
+            if (n > 0)
             {
-                end = Mathf.RoundToInt(data.Count * dataZoom.end / 100);
-                start = end - range;
-                if (start < 0) start = 0;
+                if (dataZoom.context.invert)
+                {
+                    startIndex = Mathf.CeilToInt((float)n * (100 - dataZoom.end) / 100);
+                    endIndex = Mathf.FloorToInt((float)n * (100 - dataZoom.start) / 100);
+                }
+                else
+                {
+                    startIndex = Mathf.CeilToInt((float)n * dataZoom.start / 100);
+                    endIndex = Mathf.FloorToInt((float)n * dataZoom.end / 100);
+                }
             }
             else
             {
-                start = Mathf.RoundToInt(data.Count * dataZoom.start / 100);
-                end = start + range;
-                if (end > data.Count) end = data.Count;
+                startIndex = 0;
+                endIndex = 0;
             }
+            var range = endIndex - startIndex + 1;
+            if (range <= 0) range = 1;
+            int start = startIndex;
+            if (start < 0) start = 0;
+            int end = start + range;
+            if (end > data.Count) end = data.Count;
             var minZoomRatio = (int)(data.Count * dataZoom.minZoomRatio);
             if (start != serie.m_FilterStart || end != serie.m_FilterEnd ||
                 minZoomRatio != serie.m_FilterMinShow || serie.m_NeedUpdateFilterData)

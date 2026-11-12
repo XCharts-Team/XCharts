@@ -6,6 +6,7 @@ slug: /changelog
 # 更新日志
 
 [master](#master)  
+[v3.16.0](#v3160)  
 [v3.15.0](#v3150)  
 [v3.14.0](#v3140)  
 [v3.13.0](#v3130)  
@@ -80,6 +81,36 @@ slug: /changelog
 [v0.1.0](#v010)  
 
 ## master
+
+## v3.16.0
+
+* (2026.11.11) 发布`v3.16.0`版本
+* (2026.11.07) 优化`TriggerTooltip`接口
+* (2026.07.17) 修复`GetInstanceID`在Unity 6.5编译报错的问题，迁移至`GetEntityId` (#367)
+* (2026.07.17) 修复`ClearData`清空数据后再添加`Legend`显示异常的问题 (#366)
+* (2026.07.12) 优化`Axis`的自动分割策略
+* (2026.07.12) 增加`Serie`的`LoadData`接口
+* (2026.07.09) 增加`DataZoom`的`onStartEndChanged`回调
+* (2026.07.06) 增加`Tooltip`的`onActive`和`onPosition`回调
+* (2026.07.06) 优化`TriggerTooltip`接口，防止在有忽略数据的图表上表现异常
+* (2026.06.15) 修复`GetMinMaxData`在`showDataDimension`未初始化时返回异常的问题 (#365)
+* (2026.06.03) 增加`Tooltip`通过`TitleLabelStyle`的`TextStyle`的`Alignment`设置标题的对齐方式 (#363)
+* (2026.05.25) 增加`DataZoom`的`filterAxisRange`设置坐标轴的范围计算是否受`DataZoom`的影响
+* (2026.05.23) 优化`DataZoom`的`Marquee`框选功能
+* (2026.05.23) 修复`DataZoom`内绘制的折线图可能会超出范围的问题
+* (2026.05.23) 修复`Axis`的`inverse`没能正确反转的问题
+* (2026.05.23) 增加`LabelStyle`的`showCondition`,`showFilter`,`showThreshold`可控制`label`显示和隐藏
+* (2026.05.22) 增加`LabelStyle`的`minGap`可避免`label`过于密集
+* (2026.05.17) 修复`DataZoom`点击时指示区域不准的问题
+* (2026.05.17) 增加`Legend`的`Width`和`Height`可设置固定宽高
+* (2026.05.17) 修复`Serie`的`EndLabel`在`Y`轴是`MinMax`类型时显示的数值不对的问题
+* (2026.05.16) 修复`Candlestick`按昨收判断涨跌颜色，一字涨停/跌停显示不对的问题 (#362)
+* (2026.03.29) 修复`Legend`的`Background`区域在`Horizonal`模式下不对的问题
+* (2026.03.25) 增加`Chart`的`Json`导出导入
+* (2026.03.10) 增加`Sankey`的线条tooltip触发显示
+* (2026.03.10) 增加`UITable`的排序功能支持
+* (2026.03.07) 修复`UITable`在尺寸变化时背景没有实时刷新的问题
+* (2026.03.06) 优化`UITable`支持万级以上数据量不卡顿
 
 ## v3.15.0
 

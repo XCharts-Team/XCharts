@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -19,6 +20,9 @@ namespace XCharts.Runtime
         private float m_DataZoomLastEndIndex;
         private float m_LastStart;
         private float m_LastEnd;
+        private List<double> _sampleSumPrefixCache;
+        private int _sampleSumPrefixMaxCount = 0;
+        private bool _sampleSumPrefixInverse = false;
 
         public override void InitComponent()
         {
@@ -113,7 +117,7 @@ namespace XCharts.Runtime
                     dataZoom.context.isCoordinateDrag = true;
                 }
             }
-            if (dataZoom.supportMarquee)
+            if (dataZoom.supportMarquee && grid.Contains(pos))
             {
                 dataZoom.context.isMarqueeDrag = true;
                 dataZoom.context.marqueeStartPos = pos;
@@ -163,7 +167,7 @@ namespace XCharts.Runtime
 
             var dataZoom = component;
             var grid = chart.GetGridOfDataZoom(dataZoom);
-            if (dataZoom.supportMarquee)
+            if (dataZoom.supportMarquee && dataZoom.context.isMarqueeDrag)
             {
                 Vector2 pos;
                 if (!chart.ScreenPointToChartPoint(eventData.position, out pos))
@@ -207,16 +211,38 @@ namespace XCharts.Runtime
 
             var dataZoom = component;
 
-            if (dataZoom.supportMarquee)
+            if (dataZoom.supportMarquee && dataZoom.context.isMarqueeDrag)
             {
                 dataZoom.context.isMarqueeDrag = false;
                 if (dataZoom.marqueeStyle.apply)
                 {
                     var grid = chart.GetGridOfDataZoom(dataZoom);
-                    var start = (dataZoom.context.marqueeRect.x - grid.context.x) / grid.context.width * 100;
-                    var end = (dataZoom.context.marqueeRect.x - grid.context.x + dataZoom.context.marqueeRect.width) / grid.context.width * 100;
-                    UpdateDataZoomRange(dataZoom, start, end, grid);
+                    var currentRange = dataZoom.end - dataZoom.start;
+                    var startRatio = (dataZoom.context.marqueeRect.x - grid.context.x) / grid.context.width;
+                    var endRatio = (dataZoom.context.marqueeRect.x - grid.context.x + dataZoom.context.marqueeRect.width) / grid.context.width;
+                    var start = dataZoom.start + startRatio * currentRange;
+                    var end = dataZoom.start + endRatio * currentRange;
+                    if (start > end)
+                    {
+                        var temp = start;
+                        start = end;
+                        end = temp;
+                    }
+                    if (start < 0) start = 0;
+                    if (end > 100) end = 100;
+                    if (end - start >= 1)
+                    {
+                        // Bypass minZoomRatio for marquee: the user explicitly selected this region.
+                        if (!dataZoom.startLock) dataZoom.start = start;
+                        if (!dataZoom.endLock) dataZoom.end = end;
+                        m_LastStart = dataZoom.start;
+                        m_LastEnd = dataZoom.end;
+                        chart.OnDataZoomRangeChanged(dataZoom);
+                        chart.RefreshChart();
+                    }
                 }
+                dataZoom.context.marqueeRect = Rect.zero;
+                dataZoom.SetVerticesDirty();
                 if (dataZoom.marqueeStyle.onEnd != null)
                 {
                     dataZoom.marqueeStyle.onEnd(dataZoom);
@@ -247,30 +273,55 @@ namespace XCharts.Runtime
             var dataZoom = component;
             var grid = chart.GetGridOfDataZoom(dataZoom);
             if (dataZoom.IsInStartZoom(localPos) ||
-                dataZoom.IsInEndZoom(localPos))
+                dataZoom.IsInEndZoom(localPos) ||
+                dataZoom.IsInSelectedZoom(localPos))
             {
                 return;
             }
 
-            if (dataZoom.IsInZoom(localPos) &&
-                !dataZoom.IsInSelectedZoom(localPos))
+            if (dataZoom.IsInZoom(localPos))
             {
-                var pointerX = localPos.x;
-                var selectWidth = grid.context.width * (dataZoom.end - dataZoom.start) / 100;
-                var startX = pointerX - selectWidth / 2;
-                var endX = pointerX + selectWidth / 2;
-                if (startX < grid.context.x)
+                var start = dataZoom.start;
+                var end = dataZoom.end;
+                switch (dataZoom.orient)
                 {
-                    startX = grid.context.x;
-                    endX = grid.context.x + selectWidth;
+                    case Orient.Horizonal:
+                        var pointerX = localPos.x;
+                        var selectWidth = dataZoom.context.width * (dataZoom.end - dataZoom.start) / 100;
+                        var startX = pointerX - selectWidth / 2;
+                        var endX = pointerX + selectWidth / 2;
+                        if (startX < dataZoom.context.x)
+                        {
+                            startX = dataZoom.context.x;
+                            endX = dataZoom.context.x + selectWidth;
+                        }
+                        else if (endX > dataZoom.context.x + dataZoom.context.width)
+                        {
+                            endX = dataZoom.context.x + dataZoom.context.width;
+                            startX = dataZoom.context.x + dataZoom.context.width - selectWidth;
+                        }
+                        start = (startX - dataZoom.context.x) / dataZoom.context.width * 100;
+                        end = (endX - dataZoom.context.x) / dataZoom.context.width * 100;
+                        break;
+                    case Orient.Vertical:
+                        var pointerY = localPos.y;
+                        var selectHeight = dataZoom.context.height * (dataZoom.end - dataZoom.start) / 100;
+                        var startY = pointerY - selectHeight / 2;
+                        var endY = pointerY + selectHeight / 2;
+                        if (startY < dataZoom.context.y)
+                        {
+                            startY = dataZoom.context.y;
+                            endY = dataZoom.context.y + selectHeight;
+                        }
+                        else if (endY > dataZoom.context.y + dataZoom.context.height)
+                        {
+                            endY = dataZoom.context.y + dataZoom.context.height;
+                            startY = dataZoom.context.y + dataZoom.context.height - selectHeight;
+                        }
+                        start = (startY - dataZoom.context.y) / dataZoom.context.height * 100;
+                        end = (endY - dataZoom.context.y) / dataZoom.context.height * 100;
+                        break;
                 }
-                else if (endX > grid.context.x + grid.context.width)
-                {
-                    endX = grid.context.x + grid.context.width;
-                    startX = grid.context.x + grid.context.width - selectWidth;
-                }
-                var start = (startX - grid.context.x) / grid.context.width * 100;
-                var end = (endX - grid.context.x) / grid.context.width * 100;
                 UpdateDataZoomRange(dataZoom, start, end, grid);
             }
         }
@@ -294,7 +345,7 @@ namespace XCharts.Runtime
             if ((dataZoom.supportInside && dataZoom.supportInsideScroll && grid.Contains(pos)) ||
                 dataZoom.IsInZoom(pos))
             {
-                ScaleDataZoom(dataZoom, eventData.scrollDelta.y * dataZoom.scrollSensitivity, grid);
+                ScaleDataZoom(dataZoom, eventData.scrollDelta.y * dataZoom.scrollSensitivity, grid, pos);
             }
         }
 
@@ -375,27 +426,65 @@ namespace XCharts.Runtime
             }
         }
 
-        private void ScaleDataZoom(DataZoom dataZoom, float delta, GridCoord grid = null)
+        private void ScaleDataZoom(DataZoom dataZoom, float delta, GridCoord grid = null, Vector2? mousePos = null)
         {
             if (grid == null) grid = chart.GetGridOfDataZoom(dataZoom);
-            var range = dataZoom.orient == Orient.Horizonal ? grid.context.width : grid.context.height;
-            var deltaPercent = Mathf.Abs(delta / range * 100);
-            float start, end;
-            if (delta > 0)
+            var gridRange = dataZoom.orient == Orient.Horizonal ? grid.context.width : grid.context.height;
+            var currentRange = dataZoom.end - dataZoom.start;
+            if (delta > 0 && currentRange <= 0) return;
+
+            // Mouse position as a fraction [0,1] within the grid.
+            // The grid always maps the current [start,end] window onto its full pixel width,
+            // so this fraction directly equals the mouse's relative position inside the data window.
+            float fraction = 0.5f;
+            if (mousePos.HasValue && gridRange > 0)
             {
-                if (dataZoom.end <= dataZoom.start) return;
-                start = dataZoom.start + deltaPercent;
-                end = dataZoom.end - deltaPercent;
+                float raw = dataZoom.orient == Orient.Horizonal
+                    ? (mousePos.Value.x - grid.context.x) / gridRange
+                    : (mousePos.Value.y - grid.context.y) / gridRange;
+
+                bool isInverse = false;
+                if (dataZoom.orient == Orient.Horizonal && dataZoom.xAxisIndexs.Count > 0)
+                {
+                    var xAxis = chart.GetChartComponent<XAxis>(dataZoom.xAxisIndexs[0]);
+                    isInverse = xAxis != null && xAxis.inverse;
+                }
+                else if (dataZoom.orient == Orient.Vertical && dataZoom.yAxisIndexs.Count > 0)
+                {
+                    var yAxis = chart.GetChartComponent<YAxis>(dataZoom.yAxisIndexs[0]);
+                    isInverse = yAxis != null && yAxis.inverse;
+                }
+                fraction = Mathf.Clamp01(isInverse ? 1f - raw : raw);
             }
-            else
+
+            // The data-space anchor (0~100) under the mouse — must stay at the same fraction after zoom.
+            var anchorPercent = dataZoom.start + fraction * currentRange;
+
+            // New range: proportional to current range for consistent zoom feel at any zoom level.
+            var deltaPercent = Mathf.Abs(delta / gridRange * currentRange);
+            var newRange = delta > 0 ? currentRange - deltaPercent : currentRange + deltaPercent;
+
+            // Place the new window so that anchorPercent stays under the mouse.
+            var start = anchorPercent - fraction * newRange;
+            var end = anchorPercent + (1f - fraction) * newRange;
+
+            // If the window goes out of [0,100], slide it to the boundary while keeping its size,
+            // so the zoom always feels consistent and the window never shrinks on one side only.
+            if (start < 0f)
             {
-                start = dataZoom.start - deltaPercent;
-                end = dataZoom.end + deltaPercent;
+                end = Mathf.Min(100f, newRange);
+                start = 0f;
             }
+            else if (end > 100f)
+            {
+                start = Mathf.Max(0f, 100f - newRange);
+                end = 100f;
+            }
+
             UpdateDataZoomRange(dataZoom, start, end, grid);
         }
 
-        public void UpdateDataZoomRange(DataZoom dataZoom, float start, float end, GridCoord grid = null)
+        public void UpdateDataZoomRange(DataZoom dataZoom, float start, float end, GridCoord grid = null, bool noCallback = false)
         {
             if (end > 100)
                 end = 100;
@@ -406,32 +495,42 @@ namespace XCharts.Runtime
             if (end < start)
                 end = start;
 
-            if(dataZoom.minZoomRatio > 0)
+            if (dataZoom.minZoomRatio > 0)
             {
-                if(grid == null) grid = chart.GetGridOfDataZoom(dataZoom);
+                if (grid == null) grid = chart.GetGridOfDataZoom(dataZoom);
                 var range = dataZoom.orient == Orient.Horizonal ? grid.context.width : grid.context.height;
                 var minRange = dataZoom.minZoomRatio * range;
-                if (end - start < minRange / range * 100)
+                var newRange = end - start;
+                var currentRange = dataZoom.end - dataZoom.start;
+                // Only block when shrinking the range; always allow expansion so the chart
+                // cannot get permanently locked after a marquee selects a narrow region.
+                if (newRange < minRange / range * 100 && newRange <= currentRange)
                 {
                     return;
                 }
             }
 
-            if (!dataZoom.startLock)
-                dataZoom.start = start;
-            if (!dataZoom.endLock)
-                dataZoom.end = end;
-
             if (dataZoom.startEndFunction != null)
                 dataZoom.startEndFunction(ref start, ref end);
 
+            if (m_LastStart != start || m_LastEnd != end)
+            {
+                if (!dataZoom.startLock)
+                    dataZoom.start = start;
+                if (!dataZoom.endLock)
+                    dataZoom.end = end;
+                if (!noCallback && dataZoom.onStartEndChanged != null)
+                {
+                    dataZoom.onStartEndChanged(dataZoom.start, dataZoom.end);
+                }
+                if (dataZoom.realtime)
+                {
+                    chart.OnDataZoomRangeChanged(dataZoom);
+                    chart.RefreshChart();
+                }
+            }
             m_LastStart = dataZoom.start;
             m_LastEnd = dataZoom.end;
-            if (dataZoom.realtime)
-            {
-                chart.OnDataZoomRangeChanged(dataZoom);
-                chart.RefreshChart();
-            }
         }
 
         public void RefreshDataZoomLabel()
@@ -546,13 +645,26 @@ namespace XCharts.Runtime
                 Serie serie = chart.series[0];
                 Axis axis = chart.GetChartComponent<YAxis>(0);
                 var showData = serie.GetDataList(null);
-                float scaleWid = dataZoom.context.width / (showData.Count - 1);
+                float scaleWid = showData.Count > 1 ? dataZoom.context.width / (showData.Count - 1) : dataZoom.context.width;
                 Vector3 lp = Vector3.zero;
                 Vector3 np = Vector3.zero;
-                double minValue = 0;
-                double maxValue = 0;
-                SeriesHelper.GetYMinMaxValue(chart, 0, axis.inverse, out minValue, out maxValue, false, false);
-                AxisHelper.AdjustMinMaxValue(axis, ref minValue, ref maxValue, true);
+                // shadow always shows the full data range, independent of DataZoom window
+                double minValue = SerieHelper.GetMinData(serie, 1, null, axis.inverse);
+                double maxValue = SerieHelper.GetMaxData(serie, 1, null, axis.inverse);
+                minValue = ChartHelper.GetMinDivisibleValue(minValue, 0);
+                maxValue = ChartHelper.GetMaxDivisibleValue(maxValue, 0);
+                double xMinValue = 0;
+                double xMaxValue = 0;
+                bool useXValueForShadow = false;
+                var xAxisIndex = dataZoom.xAxisIndexs.Count > 0 ? dataZoom.xAxisIndexs[0] : 0;
+                var xAxis = chart.GetChartComponent<XAxis>(xAxisIndex);
+                if (xAxis != null && (xAxis.IsValue() || xAxis.IsTime()))
+                {
+                    xMinValue = SerieHelper.GetMinData(serie, 0, null, xAxis.inverse);
+                    xMaxValue = SerieHelper.GetMaxData(serie, 0, null, xAxis.inverse);
+                    AxisHelper.AdjustMinMaxValue(xAxis, ref xMinValue, ref xMaxValue, true);
+                    useXValueForShadow = (xMaxValue - xMinValue) > 0;
+                }
 
                 int rate = 1;
                 var sampleDist = serie.sampleDist < 2 ? 2 : serie.sampleDist;
@@ -568,12 +680,41 @@ namespace XCharts.Runtime
                 var animationDuration = serie.animation.GetChangeDuration();
                 var dataAddDuration = serie.animation.GetAdditionDuration();
                 var unscaledTime = serie.animation.unscaledTime;
+                var useCurrentData = false;
+                List<double> sampleSumPrefix = null;
+                if (serie.animation.enable)
+                {
+                    useCurrentData = DataHelper.IsAnyDataChanged(ref showData, serie.minShow, maxCount);
+                    dataChanging = useCurrentData;
+                }
+                if (!useCurrentData && rate > 1 &&
+                    (serie.sampleType == SampleType.Sum || serie.sampleType == SampleType.Average))
+                {
+                    if (_sampleSumPrefixCache == null || _sampleSumPrefixMaxCount != maxCount || _sampleSumPrefixInverse != axis.inverse)
+                    {
+                        _sampleSumPrefixCache = DataHelper.BuildSampleSumPrefix(ref showData, maxCount,
+                            axis.inverse, _sampleSumPrefixCache);
+                        _sampleSumPrefixMaxCount = maxCount;
+                        _sampleSumPrefixInverse = axis.inverse;
+                    }
+                    sampleSumPrefix = _sampleSumPrefixCache;
+                }
 
-                for (int i = 0; i < maxCount; i += rate)
+                for (int i = serie.minShow; i < maxCount; i += rate)
                 {
                     double value = DataHelper.SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
-                        dataAddDuration, animationDuration, ref dataChanging, axis, unscaledTime);
-                    float pX = dataZoom.context.x + i * scaleWid;
+                        dataAddDuration, animationDuration, ref dataChanging, axis, unscaledTime,
+                        useCurrentData, false, sampleSumPrefix);
+                    float pX;
+                    if (useXValueForShadow && i < showData.Count && showData[i].data.Count > 0)
+                    {
+                        var xVal = (xAxis != null && xAxis.inverse) ? -showData[i].data[0] : showData[i].data[0];
+                        pX = dataZoom.context.x + (float)((xVal - xMinValue) / (xMaxValue - xMinValue)) * dataZoom.context.width;
+                    }
+                    else
+                    {
+                        pX = dataZoom.context.x + i * scaleWid;
+                    }
                     float dataHig = (float)((maxValue - minValue) == 0 ? 0 :
                         (value - minValue) / (maxValue - minValue) * dataZoom.context.height);
                     np = new Vector3(pX, chart.chartY + dataZoom.bottom + dataHig);
@@ -641,11 +782,11 @@ namespace XCharts.Runtime
                 float scaleWid = dataZoom.context.height / (showData.Count - 1);
                 Vector3 lp = Vector3.zero;
                 Vector3 np = Vector3.zero;
-                double minValue = 0;
-                double maxValue = 0;
+                double minValue;
+                double maxValue;
                 SeriesHelper.GetYMinMaxValue(chart, 0, axis.inverse, out minValue, out maxValue);
-                AxisHelper.AdjustMinMaxValue(axis, ref minValue, ref maxValue, true);
-
+                minValue = ChartHelper.GetMinDivisibleValue(minValue, 0);
+                maxValue = ChartHelper.GetMaxDivisibleValue(maxValue, 0);
                 int rate = 1;
                 var sampleDist = serie.sampleDist < 2 ? 2 : serie.sampleDist;
                 var maxCount = showData.Count;
@@ -660,11 +801,31 @@ namespace XCharts.Runtime
                 var animationDuration = serie.animation.GetChangeDuration();
                 var dataAddDuration = serie.animation.GetAdditionDuration();
                 var unscaledTime = serie.animation.unscaledTime;
+                var useCurrentData = false;
+                List<double> sampleSumPrefix = null;
+                if (serie.animation.enable)
+                {
+                    useCurrentData = DataHelper.IsAnyDataChanged(ref showData, serie.minShow, maxCount);
+                    dataChanging = useCurrentData;
+                }
+                if (!useCurrentData && rate > 1 &&
+                    (serie.sampleType == SampleType.Sum || serie.sampleType == SampleType.Average))
+                {
+                    if (_sampleSumPrefixCache == null || _sampleSumPrefixMaxCount != maxCount || _sampleSumPrefixInverse != axis.inverse)
+                    {
+                        _sampleSumPrefixCache = DataHelper.BuildSampleSumPrefix(ref showData, maxCount,
+                            axis.inverse, _sampleSumPrefixCache);
+                        _sampleSumPrefixMaxCount = maxCount;
+                        _sampleSumPrefixInverse = axis.inverse;
+                    }
+                    sampleSumPrefix = _sampleSumPrefixCache;
+                }
 
-                for (int i = 0; i < maxCount; i += rate)
+                for (int i = serie.minShow; i < maxCount; i += rate)
                 {
                     double value = DataHelper.SampleValue(ref showData, serie.sampleType, rate, serie.minShow, maxCount, totalAverage, i,
-                        dataAddDuration, animationDuration, ref dataChanging, axis, unscaledTime);
+                        dataAddDuration, animationDuration, ref dataChanging, axis, unscaledTime,
+                        useCurrentData, false, sampleSumPrefix);
                     float pY = dataZoom.context.y + i * scaleWid;
                     float dataHig = (maxValue - minValue) == 0 ? 0 :
                         (float)((value - minValue) / (maxValue - minValue) * dataZoom.context.width);
@@ -706,7 +867,7 @@ namespace XCharts.Runtime
 
         private void DrawMarquee(VertexHelper vh, DataZoom dataZoom)
         {
-            if (!dataZoom.enable || !dataZoom.supportMarquee)
+            if (!dataZoom.enable || !dataZoom.supportMarquee || !dataZoom.context.isMarqueeDrag)
                 return;
             var areaColor = dataZoom.marqueeStyle.areaStyle.GetColor(chart.theme.dataZoom.dataAreaColor);
             UGL.DrawRectangle(vh, dataZoom.context.marqueeRect, areaColor);

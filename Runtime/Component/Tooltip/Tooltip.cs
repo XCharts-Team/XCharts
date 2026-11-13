@@ -176,7 +176,7 @@ namespace XCharts.Runtime
         public System.Action<bool> onActive { internal get; set; }
         /// <summary>
         /// The callback when the tooltip position changes. The callback parameters are <width, height, position>.
-        /// ||当提示框位置变化时的回调。回调参数为<宽度，高度，位置>。
+        /// ||当提示框位置变化时的回调。回调参数为：宽度，高度，位置。
         /// </summary>
         [Since("v3.16.0")]
         public System.Action<float, float, Vector3> onPosition { internal get; set; }
